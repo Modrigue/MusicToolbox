@@ -7,7 +7,7 @@
     <script src="script.js"></script>
   </head>
   <body>
-    Please choose your tonality:<br>
+    Choose your tonality:<br>
 
     <!-- NOTES -->
     <select name="notes" id="note" onchange="onNoteChanged()">
@@ -28,13 +28,13 @@
     <!-- SCALES / MODES -->
     <select name="scales" id="scale" onchange="onScaleChanged()">
       <option value="major_nat,1">Major</option>
-      <!--option value="major_nat,6">Minor</option>
+      <option value="major_nat,6">Minor</option>
       <option value="major_nat,2">Dorian</option>
       <option value="major_nat,3">Phrygian</option>
       <option value="major_nat,4">Lydian</option>
       <option value="major_nat,5">Mixolydian</option>
       <option value="major_nat,7">Locrian</option>
-      <option disabled>-------------</option>
+      <!--option disabled>-------------</option>
       <option value="minor_harm,1">Harmonic minor</option>
       <option disabled>-------------</option>
       <option value="minor_mel,1">Melodic minor</option>
@@ -47,6 +47,7 @@
   <script>
 
     onNoteChanged();
+    getScaleNotesValues(0, scale_major_nat);
 
   </script>
 
