@@ -1,2 +1,2 @@
 # WebMusicScaleGenerator
-Simple onlin music scale generator
+Simple online music scale generator
