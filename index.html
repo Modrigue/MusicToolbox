@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Music scale calculator</title>
+    <!--link rel="stylesheet" href="style.css"-->
+    <script src="script.js"></script>
+  </head>
+  <body>
+    Choose your tonality:<br>
+
+    <!-- NOTES -->
+    <select name="notes" id="note" onchange="onNoteChanged()">
+      <option value=0>A</option>
+      <option value=1>A#</option>
+      <option value=2>B</option>
+      <option value=3>C</option>
+      <option value=4>C#</option>
+      <option value=5> D</option>
+      <option value=6>D#</option>
+      <option value=7>E</option>
+      <option value=8>F</option>
+      <option value=9>F# / Gb</option>
+      <option value=10>G</option>
+      <option value=11>G#</option>
+    </select>
+
+    <!-- SCALES / MODES -->
+    <select name="scales" id="scale" onchange="onScaleChanged()">
+      <option value="major_nat,1">Major</option>
+      <!--option value="major_nat,6">Minor</option>
+      <option value="major_nat,2">Dorian</option>
+      <option value="major_nat,3">Phrygian</option>
+      <option value="major_nat,4">Lydian</option>
+      <option value="major_nat,5">Mixolydian</option>
+      <option value="major_nat,7">Locrian</option>
+      <option disabled>-------------</option>
+      <option value="minor_harm,1">Harmonic minor</option>
+      <option disabled>-------------</option>
+      <option value="minor_mel,1">Melodic minor</option>
+      <option disabled>-------------</option>
+      <option value="major_2harm,1">Double harmonic major (Byzantine)</option-->
+    </select>
+
+  <p id='scale_result'>?</p>
+
+  <script>
+
+    onNoteChanged();
+
+  </script>
+
+  </body>
+</html>
