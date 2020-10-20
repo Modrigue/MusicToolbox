@@ -1,11 +1,12 @@
 //////////////////////////////// MUSIC FUNCTIONS //////////////////////////////
 
-
+// add interval to note value
 function addToNoteValue(noteValue, interval)
 {
   return ((noteValue + interval) % 12);
 }
 
+// get scale notes values given tonic and scale
 function getScaleNotesValues(noteValue, scaleValues)
 {
   var scaleNotesValues = [];
@@ -20,6 +21,7 @@ function getScaleNotesValues(noteValue, scaleValues)
   return scaleNotesValues;
 }
 
+// get mode notes values given scale and mode number
 function getModeNotesValues(scaleValues, modeNumber)
 {
   var modeNotesValues = [];
@@ -56,6 +58,7 @@ function onScaleChanged()
   update()
 }
 
+// compute and update results
 function update()
 {
   // get selected note
@@ -70,21 +73,29 @@ function update()
   var scaleValues = getModeNotesValues(scale_major_nat, modeValue);
   
   // build scale notes list
-  var notesScaleResult = "";
+  var notesScaleResult = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes</div><div id=\"resp-table-body\">";
+  notesScaleResult = notesScaleResult.concat("<div class=\"resp-table-row\">");
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
   {
     newNote = notesDict[noteValue];
-    notesScaleResult = notesScaleResult.concat(newNote.toString() + "&nbsp;&nbsp;&nbsp;&nbsp;");
+    notesScaleResult = notesScaleResult.concat("<div class=\"table-body-cell\">");
+    notesScaleResult = notesScaleResult.concat(newNote.toString());
+    notesScaleResult = notesScaleResult.concat("</div>");
   });
-  document.getElementById('scale_result').innerHTML = notesScaleResult;
+  notesScaleResult = notesScaleResult.concat("</div>");
 
   // build intervals list
-  var intervalsResult = "";
+  notesScaleResult = notesScaleResult.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
   scaleValues.forEach(function (intervalValue, index)
   {
     newInterval = intervalsDict[intervalValue];
-    intervalsResult = intervalsResult.concat(newInterval.toString() + "&nbsp;&nbsp;&nbsp;&nbsp");
+    notesScaleResult = notesScaleResult.concat("<div class=\"table-body-cell\">");
+    notesScaleResult = notesScaleResult.concat(newInterval.toString());
+    notesScaleResult = notesScaleResult.concat("</div>");
   });
-  document.getElementById('interval_result').innerHTML = intervalsResult;
+  notesScaleResult = notesScaleResult.concat("</div>");
+
+  notesScaleResult = notesScaleResult.concat("</div>");
+  document.getElementById('scale_result').innerHTML = notesScaleResult;
 }
