@@ -39,7 +39,6 @@ function getModeNotesValues(scaleValues, modeNumber)
     modeNotesValues[i] = (modeNotesValues[i] - firstInterval + 12) % 12;
   } 
 
-  //alert(modeNotesValues);
   return modeNotesValues;
 }
 
@@ -100,6 +99,38 @@ function getRomanChord(pos, chordName, nbNotesInChords)
   return romanPos;
 }
 
+
+/////////////////////////////// HTML FUNCTIONS ////////////////////////////////
+
+function getScaleNotes(noteValue, scaleValues)
+{
+  // build scale notes list
+  var notesScaleTablesHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes</div><div id=\"resp-table-body\">";
+  notesScaleTablesHTML = notesScaleTablesHTML.concat("<div class=\"resp-table-row\">");
+  var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+  scaleNotesValues.forEach(function (noteValue, index)
+  {
+    noteName = notesDict[noteValue];
+    notesScaleTablesHTML = notesScaleTablesHTML.concat("<div class=\"table-body-cell\">");
+    notesScaleTablesHTML = notesScaleTablesHTML.concat(noteName.toString());
+    notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+  });
+  notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+
+  // build intervals list
+  notesScaleTablesHTML = notesScaleTablesHTML.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
+  scaleValues.forEach(function (intervalValue, index)
+  {
+    intervalName = intervalsDict[intervalValue];
+    notesScaleTablesHTML = notesScaleTablesHTML.concat("<div class=\"table-body-cell\">");
+    notesScaleTablesHTML = notesScaleTablesHTML.concat(intervalName.toString());
+    notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+  });
+  notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+
+  notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+  return notesScaleTablesHTML;
+}
 
 function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
 {

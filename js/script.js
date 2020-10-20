@@ -22,41 +22,16 @@ function update()
   var scaleMode = scaleSelected.split(",");
   var scaleName = scaleMode[0];
   var modeValue = parseInt(scaleMode[1]);
-  var scaleFamily = scaleFamilies7Dict[scaleName];
+  var scaleFamily = scaleFamiliesDict[scaleName];
   var scaleValues = getModeNotesValues(scaleFamily, modeValue);
+
+  var nbNotesInScale = scaleFamily.length;
   
-  // SCALE NOTES
-
   // build scale notes list
-  var notesScaleResult = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes</div><div id=\"resp-table-body\">";
-  notesScaleResult = notesScaleResult.concat("<div class=\"resp-table-row\">");
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-  scaleNotesValues.forEach(function (noteValue, index)
-  {
-    noteName = notesDict[noteValue];
-    notesScaleResult = notesScaleResult.concat("<div class=\"table-body-cell\">");
-    notesScaleResult = notesScaleResult.concat(noteName.toString());
-    notesScaleResult = notesScaleResult.concat("</div>");
-  });
-  notesScaleResult = notesScaleResult.concat("</div>");
+  document.getElementById('scale_result').innerHTML = getScaleNotes(noteValue, scaleValues);
 
-  // build intervals list
-  notesScaleResult = notesScaleResult.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
-  scaleValues.forEach(function (intervalValue, index)
-  {
-    intervalName = intervalsDict[intervalValue];
-    notesScaleResult = notesScaleResult.concat("<div class=\"table-body-cell\">");
-    notesScaleResult = notesScaleResult.concat(intervalName.toString());
-    notesScaleResult = notesScaleResult.concat("</div>");
-  });
-  notesScaleResult = notesScaleResult.concat("</div>");
-
-  notesScaleResult = notesScaleResult.concat("</div>");
-  document.getElementById('scale_result').innerHTML = notesScaleResult;
-
-
-  // CHORDS WITH 3,4 NOTES HARMONIZATION
-
+  // build chords 3,4 notes harmonization tables
   document.getElementById('chords3_result').innerHTML = getChordsTable(scaleValues, scaleNotesValues, 3);
   document.getElementById('chords4_result').innerHTML = getChordsTable(scaleValues, scaleNotesValues, 4);
 }

@@ -51,3 +51,11 @@
 {
     font-family:"Arial Black"
 }
+
+.header-bolden
+{
+    text-align: center;
+    text-align-last: center;
+    -moz-text-align-last: center;
+    font-family:"Arial Black";
+}
