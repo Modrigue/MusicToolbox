@@ -1,52 +1,4 @@
-//////////////////////////////// MUSIC FUNCTIONS //////////////////////////////
-
-// add interval to note value
-function addToNoteValue(noteValue, interval)
-{
-  return ((noteValue + interval) % 12);
-}
-
-// get scale notes values given tonic and scale
-function getScaleNotesValues(noteValue, scaleValues)
-{
-  var scaleNotesValues = [];
-
-  scaleValues.forEach(function (interval, index)
-  {
-    newNoteValue = addToNoteValue(noteValue, interval);
-    scaleNotesValues.push(newNoteValue);
-  });
-
-  //alert(scaleNotesValues);
-  return scaleNotesValues;
-}
-
-// get mode notes values given scale and mode number
-function getModeNotesValues(scaleValues, modeNumber)
-{
-  var modeNotesValues = [];
-
-  var nbNotes = scaleValues.length;
-  for (i = 0; i < nbNotes; i++)
-  {
-    var index = (i + (modeNumber - 1)) % nbNotes;
-    var noteValue = scaleValues[index];
-    //alert(index + " " + noteValue);
-    modeNotesValues.push(noteValue);
-  }
-
-  var firstInterval = scaleValues[modeNumber - 1];
-  for (i = 0; i < nbNotes; i++)
-  {
-    modeNotesValues[i] = (modeNotesValues[i] - firstInterval + 12) % 12;
-  } 
-
-  //alert(modeNotesValues);
-  return modeNotesValues;
-}
-
 //////////////////////////////////// EVENTS ///////////////////////////////////
-
 
 function onNoteChanged()
 {
@@ -70,18 +22,20 @@ function update()
   var scaleMode = scaleSelected.split(",");
   var scaleName = scaleMode[0];
   var modeValue = parseInt(scaleMode[1]);
-  var scaleFamily = scalesDict[scaleName];
+  var scaleFamily = scaleFamiliesDict[scaleName];
   var scaleValues = getModeNotesValues(scaleFamily, modeValue);
   
+  // SCALE NOTES
+
   // build scale notes list
   var notesScaleResult = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes</div><div id=\"resp-table-body\">";
   notesScaleResult = notesScaleResult.concat("<div class=\"resp-table-row\">");
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
   {
-    newNote = notesDict[noteValue];
+    noteName = notesDict[noteValue];
     notesScaleResult = notesScaleResult.concat("<div class=\"table-body-cell\">");
-    notesScaleResult = notesScaleResult.concat(newNote.toString());
+    notesScaleResult = notesScaleResult.concat(noteName.toString());
     notesScaleResult = notesScaleResult.concat("</div>");
   });
   notesScaleResult = notesScaleResult.concat("</div>");
@@ -90,13 +44,101 @@ function update()
   notesScaleResult = notesScaleResult.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
   scaleValues.forEach(function (intervalValue, index)
   {
-    newInterval = intervalsDict[intervalValue];
+    intervalName = intervalsDict[intervalValue];
     notesScaleResult = notesScaleResult.concat("<div class=\"table-body-cell\">");
-    notesScaleResult = notesScaleResult.concat(newInterval.toString());
+    notesScaleResult = notesScaleResult.concat(intervalName.toString());
     notesScaleResult = notesScaleResult.concat("</div>");
   });
   notesScaleResult = notesScaleResult.concat("</div>");
 
   notesScaleResult = notesScaleResult.concat("</div>");
   document.getElementById('scale_result').innerHTML = notesScaleResult;
+
+
+  // CHORDS HARMONIZATION
+
+  var chordValuesArray = [];
+
+  var chordsResult = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Chords with 3 notes</div><div id=\"resp-table-body\">";
+  scaleValues.forEach(function (noteValue, index)
+  {
+    var chordValues = getChordNumberInScale(scaleValues, index, 3);
+    chordValuesArray.push(chordValues);
+  });
+  
+  // chords
+  chordsResult = chordsResult.concat("<div class=\"resp-table-row\">");
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    var noteValue = scaleNotesValues[index];
+    var noteName = notesDict[noteValue];
+
+    var chordName = getKeyFromValue(chords3Dict, chordValues);
+    var chordNoteName = getNoteNameChord(noteName, chordName);
+
+    chordsResult = chordsResult.concat("<div class=\"table-body-cell\">");
+    chordsResult = chordsResult.concat(chordNoteName);
+    chordsResult = chordsResult.concat("</div>");
+  });
+  chordsResult = chordsResult.concat("</div>");
+
+  // roman chord representation
+  chordsResult = chordsResult.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    var chordName = getKeyFromValue(chords3Dict, chordValues);
+    var romanChord = getRomanChord(index, chordName);
+
+    chordsResult = chordsResult.concat("<div class=\"table-body-cell\">");
+    chordsResult = chordsResult.concat(romanChord);
+    chordsResult = chordsResult.concat("</div>");
+  });
+  chordsResult = chordsResult.concat("</div>");
+  
+  // chords notes
+  chordsResult = chordsResult.concat("<div class=\"resp-table-row\">");
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    var noteFondamental = scaleNotesValues[index];
+
+    var chordNotesStr = "";
+    chordValues.forEach(function (intervalValue)
+    {
+      newNoteValue = addToNoteValue(noteFondamental, intervalValue);
+      noteName = notesDict[newNoteValue];
+      chordNotesStr = chordNotesStr.concat(noteName + ",&nbsp;")
+    });
+    chordNotesStr = chordNotesStr.slice(0, -7);
+
+    chordsResult = chordsResult.concat("<div class=\"table-body-cell\">");
+    chordsResult = chordsResult.concat(chordNotesStr);
+    chordsResult = chordsResult.concat("</div>");
+  });
+  chordsResult = chordsResult.concat("</div>");
+
+  // chords intervals
+  chordsResult = chordsResult.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    //var noteFondamental = scaleNotesValues[index];
+
+    var chordIntervalsStr = "";
+    chordValues.forEach(function (intervalValue)
+    {
+      intervalName = intervalsDict[intervalValue];
+      if (intervalName == "T")
+        intervalName = "F";
+
+      chordIntervalsStr = chordIntervalsStr.concat(intervalName + ",&nbsp;")
+    });
+    chordIntervalsStr = chordIntervalsStr.slice(0, -7);
+
+    chordsResult = chordsResult.concat("<div class=\"table-body-cell\">");
+    chordsResult = chordsResult.concat(chordIntervalsStr);
+    chordsResult = chordsResult.concat("</div>");
+  });
+  chordsResult = chordsResult.concat("</div>");
+
+  chordsResult = chordsResult.concat("</div>");
+  document.getElementById('chords_result').innerHTML = chordsResult;
 }
