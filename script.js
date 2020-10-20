@@ -70,7 +70,8 @@ function update()
   var scaleMode = scaleSelected.split(",");
   var scaleName = scaleMode[0];
   var modeValue = parseInt(scaleMode[1]);
-  var scaleValues = getModeNotesValues(scale_major_nat, modeValue);
+  var scaleFamily = scalesDict[scaleName];
+  var scaleValues = getModeNotesValues(scaleFamily, modeValue);
   
   // build scale notes list
   var notesScaleResult = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes</div><div id=\"resp-table-body\">";
