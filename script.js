@@ -1,37 +1,3 @@
-// notes dictionnary
-var notesDict = {};
-notesDict[0] = "A";
-notesDict[1] = "A#";
-notesDict[2] = "B";
-notesDict[3] = "C";
-notesDict[4] = "C#";
-notesDict[5] = "D";
-notesDict[6] = "D#";
-notesDict[7] = "E";
-notesDict[8] = "F";
-notesDict[9] = "F#";
-notesDict[10] = "G";
-notesDict[11] = "G#";
-
-// interval dictionnary
-var intervalsDict = {};
-intervalsDict[0] = "T";
-intervalsDict[1] = "b2";
-intervalsDict[2] = "2";
-intervalsDict[3] = "b3";
-intervalsDict[4] = "3";
-intervalsDict[5] = "4";
-intervalsDict[6] = "b5";
-intervalsDict[7] = "5";
-intervalsDict[8] = "b6";
-intervalsDict[9] = "6";
-intervalsDict[10] = "b7";
-intervalsDict[11] = "7";
-
-// scales
-const scale_major_nat = [0, 2, 4, 5, 7, 9, 11];
-
-
 //////////////////////////////// MUSIC FUNCTIONS //////////////////////////////
 
 
