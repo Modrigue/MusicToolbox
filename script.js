@@ -22,7 +22,7 @@ function update()
   var scaleMode = scaleSelected.split(",");
   var scaleName = scaleMode[0];
   var modeValue = parseInt(scaleMode[1]);
-  var scaleFamily = scaleFamiliesDict[scaleName];
+  var scaleFamily = scaleFamilies7Dict[scaleName];
   var scaleValues = getModeNotesValues(scaleFamily, modeValue);
   
   // SCALE NOTES
