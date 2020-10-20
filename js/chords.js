@@ -7,7 +7,14 @@ chords3Dict["m"]  = [0, 3, 7];
 chords3Dict["°"]  = [0, 3, 6];
 chords3Dict["+"]  = [0, 4, 8];
 chords3Dict["b5"] = [0, 4, 6];
+chords3Dict["sus2"]   = [0, 2, 7];
 chords3Dict["sus2b5"] = [0, 2, 6];
+chords3Dict["sus4"]   = [0, 5, 7];
+chords3Dict["sus4#5"]     = [0, 5, 8];
+chords3Dict["m#5"]        = [0, 3, 8];
+chords3Dict["6M(no5)"]    = [0, 4, 9];
+chords3Dict["m7sus4(no5)"] = [0, 5, 10];
+chords3Dict["6sus4(no5)"]  = [0, 5, 9];
 
 // chords with 4 notes
 var chords4Dict = {};
