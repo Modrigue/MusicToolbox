@@ -17,7 +17,6 @@ function getScaleNotesValues(noteValue, scaleValues)
     scaleNotesValues.push(newNoteValue);
   });
 
-  //alert(scaleNotesValues);
   return scaleNotesValues;
 }
 
@@ -31,7 +30,6 @@ function getModeNotesValues(scaleValues, modeNumber)
   {
     var index = (i + (modeNumber - 1)) % nbNotes;
     var noteValue = scaleValues[index];
-    //alert(index + " " + noteValue);
     modeNotesValues.push(noteValue);
   }
 
@@ -79,16 +77,19 @@ function getNoteNameChord(noteName, chordName)
 }
 
 // get roman representation of chord position
-function getRomanChord(pos, chordName)
+function getRomanChord(pos, chordName, nbNotesInChords)
 {
   var romanPos = romanDigits[pos + 1];
   
   // write minor chords in lower case
-  var chordValues = chords3Dict[chordName];
-  //if (chordName.startsWith("m") || chordName.includes("°"))
-  var isMinorChord = (chordValues[1] == 3);
-  if (isMinorChord)
-    romanPos = romanPos.toLowerCase();
+  var chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
+  var chordValues = chordsDict[chordName];
+  if (chordValues != null && chordValues.length > 1)
+  {
+    var isMinorChord = (chordValues[1] == 3);
+    if (isMinorChord)
+      romanPos = romanPos.toLowerCase();
+  }
 
   // do not display 3-notes minor and major chord notation
   if (chordName == "m" || chordName == "M")
@@ -100,6 +101,94 @@ function getRomanChord(pos, chordName)
 }
 
 
+function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
+{
+  var chordValuesArray = [];
+  var chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
+
+  var chordsTableHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Chords with " + nbNotesInChords + " notes</div><div id=\"resp-table-body\">";
+  scaleValues.forEach(function (noteValue, index)
+  {
+    var chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+    chordValuesArray.push(chordValues);
+  });
+  
+  // chords
+  chordsTableHTML = chordsTableHTML.concat("<div class=\"resp-table-row\">");
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    var noteValue = scaleNotesValues[index];
+    var noteName = notesDict[noteValue];
+
+    var chordName = getKeyFromValue(chordsDict, chordValues);
+    var chordNoteName = getNoteNameChord(noteName, chordName);
+
+    chordsTableHTML = chordsTableHTML.concat("<div class=\"table-body-cell\">");
+    chordsTableHTML = chordsTableHTML.concat(chordNoteName);
+    chordsTableHTML = chordsTableHTML.concat("</div>");
+  });
+  chordsTableHTML = chordsTableHTML.concat("</div>");
+
+  // roman chord representation
+  chordsTableHTML = chordsTableHTML.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    var chordName = getKeyFromValue(chordsDict, chordValues);
+    var romanChord = getRomanChord(index, chordName, nbNotesInChords);
+
+    chordsTableHTML = chordsTableHTML.concat("<div class=\"table-body-cell\">");
+    chordsTableHTML = chordsTableHTML.concat(romanChord);
+    chordsTableHTML = chordsTableHTML.concat("</div>");
+  });
+  chordsTableHTML = chordsTableHTML.concat("</div>");
+  
+  // chords notes
+  chordsTableHTML = chordsTableHTML.concat("<div class=\"resp-table-row\">");
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    var noteFondamental = scaleNotesValues[index];
+
+    var chordNotesStr = "";
+    chordValues.forEach(function (intervalValue)
+    {
+      newNoteValue = addToNoteValue(noteFondamental, intervalValue);
+      noteName = notesDict[newNoteValue];
+      chordNotesStr = chordNotesStr.concat(noteName + ",&nbsp;")
+    });
+    chordNotesStr = chordNotesStr.slice(0, -7);
+
+    chordsTableHTML = chordsTableHTML.concat("<div class=\"table-body-cell\">");
+    chordsTableHTML = chordsTableHTML.concat(chordNotesStr);
+    chordsTableHTML = chordsTableHTML.concat("</div>");
+  });
+  chordsTableHTML = chordsTableHTML.concat("</div>");
+
+  // chords intervals
+  chordsTableHTML = chordsTableHTML.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    var chordIntervalsStr = "";
+    chordValues.forEach(function (intervalValue)
+    {
+      intervalName = intervalsDict[intervalValue];
+      if (intervalName == "T")
+        intervalName = "F"; // fondamental
+
+      chordIntervalsStr = chordIntervalsStr.concat(intervalName + ",&nbsp;")
+    });
+    chordIntervalsStr = chordIntervalsStr.slice(0, -7);
+
+    chordsTableHTML = chordsTableHTML.concat("<div class=\"table-body-cell\">");
+    chordsTableHTML = chordsTableHTML.concat(chordIntervalsStr);
+    chordsTableHTML = chordsTableHTML.concat("</div>");
+  });
+  chordsTableHTML = chordsTableHTML.concat("</div>");
+
+  chordsTableHTML = chordsTableHTML.concat("</div>");
+
+  return chordsTableHTML;
+}
+
 /////////////////////////////// GENERIC FUNCTIONS /////////////////////////////
 
 function getKeyFromValue(dict, value)
@@ -110,25 +199,26 @@ function getKeyFromValue(dict, value)
     for(var key in dict)
     {
       var valueCur = dict[key];
-      //alert(valueCur + value);
       if (arraysEqual(valueCur, value))
         return key;
     }
     return "?";
 }
 
-function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length !== b.length) return false;
+function arraysEqual(a, b)
+{
+  if (a === b)
+    return true;
+  if (a == null || b == null)
+    return false;
+  if (a.length !== b.length)
+    return false;
 
-  // If you don't care about the order of the elements inside
-  // the array, you should sort both arrays here.
-  // Please note that calling sort on an array will modify that array.
-  // you might want to clone your array first.
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
+  for (var i = 0; i < a.length; ++i)
+  {
+    if (a[i] !== b[i])
+      return false;
   }
+
   return true;
 }
