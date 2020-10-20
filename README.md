@@ -1,2 +1,3 @@
 # WebMusicScaleGenerator
-Simple online music scale generator
+Simple online music scale and chords generator.
+Multiple scales included.
