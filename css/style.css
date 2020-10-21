@@ -2,9 +2,11 @@
 
 #resp-table
 {
-    width: 80%;
+    width: 100%;
     display: table;
     table-layout: fixed;
+    border: 1px solid black;
+    border-collapse: collapse;
 }
     
 #resp-table-caption
@@ -49,6 +51,7 @@
     display: table-cell;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    border: 1px solid grey;
 }
 
 .bolden
