@@ -106,28 +106,30 @@ function getScaleNotes(noteValue, scaleValues)
 {
   // build scale notes list
   var notesScaleTablesHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes</div><div id=\"resp-table-body\">";
-  notesScaleTablesHTML = notesScaleTablesHTML.concat("<div class=\"resp-table-row\">");
+  var notesScaleRowHTML = "<div class=\"resp-table-row\">";
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
   {
     noteName = notesDict[noteValue];
-    notesScaleTablesHTML = notesScaleTablesHTML.concat("<div class=\"table-body-cell\">");
-    notesScaleTablesHTML = notesScaleTablesHTML.concat(noteName.toString());
-    notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+    notesScaleRowHTML = notesScaleRowHTML.concat("<div class=\"table-body-cell\">");
+    notesScaleRowHTML = notesScaleRowHTML.concat(noteName.toString());
+    notesScaleRowHTML = notesScaleRowHTML.concat("</div>");
   });
-  notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+  notesScaleRowHTML = notesScaleRowHTML.concat("</div>");
 
   // build intervals list
-  notesScaleTablesHTML = notesScaleTablesHTML.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
+  var intervalsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   scaleValues.forEach(function (intervalValue, index)
   {
     intervalName = intervalsDict[intervalValue];
-    notesScaleTablesHTML = notesScaleTablesHTML.concat("<div class=\"table-body-cell\">");
-    notesScaleTablesHTML = notesScaleTablesHTML.concat(intervalName.toString());
-    notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+    intervalsScaleRowHTML = intervalsScaleRowHTML.concat("<div class=\"table-body-cell\">");
+    intervalsScaleRowHTML = intervalsScaleRowHTML.concat(intervalName.toString());
+    intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
   });
-  notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+  intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
 
+  notesScaleTablesHTML = notesScaleTablesHTML.concat(notesScaleRowHTML);
+  notesScaleTablesHTML = notesScaleTablesHTML.concat(intervalsScaleRowHTML);
   notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
   return notesScaleTablesHTML;
 }
@@ -145,7 +147,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   });
   
   // chords
-  chordsTableHTML = chordsTableHTML.concat("<div class=\"resp-table-row\">");
+  chordsRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     var noteValue = scaleNotesValues[index];
@@ -154,27 +156,27 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     var chordName = getKeyFromValue(chordsDict, chordValues);
     var chordNoteName = getNoteNameChord(noteName, chordName);
 
-    chordsTableHTML = chordsTableHTML.concat("<div class=\"table-body-cell\">");
-    chordsTableHTML = chordsTableHTML.concat(chordNoteName);
-    chordsTableHTML = chordsTableHTML.concat("</div>");
+    chordsRowHTML = chordsRowHTML.concat("<div class=\"table-body-cell\">");
+    chordsRowHTML = chordsRowHTML.concat(chordNoteName);
+    chordsRowHTML = chordsRowHTML.concat("</div>");
   });
-  chordsTableHTML = chordsTableHTML.concat("</div>");
+  chordsRowHTML = chordsRowHTML.concat("</div>");
 
   // roman chord representation
-  chordsTableHTML = chordsTableHTML.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
+  chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     var chordName = getKeyFromValue(chordsDict, chordValues);
     var romanChord = getRomanChord(index, chordName, nbNotesInChords);
 
-    chordsTableHTML = chordsTableHTML.concat("<div class=\"table-body-cell\">");
-    chordsTableHTML = chordsTableHTML.concat(romanChord);
-    chordsTableHTML = chordsTableHTML.concat("</div>");
+    chordsRomanRowHTML = chordsRomanRowHTML.concat("<div class=\"table-body-cell\">");
+    chordsRomanRowHTML = chordsRomanRowHTML.concat(romanChord);
+    chordsRomanRowHTML = chordsRomanRowHTML.concat("</div>");
   });
-  chordsTableHTML = chordsTableHTML.concat("</div>");
+  chordsRomanRowHTML = chordsRomanRowHTML.concat("</div>");
   
   // chords notes
-  chordsTableHTML = chordsTableHTML.concat("<div class=\"resp-table-row\">");
+  chordsNotesRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     var noteFondamental = scaleNotesValues[index];
@@ -188,14 +190,14 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     });
     chordNotesStr = chordNotesStr.slice(0, -7);
 
-    chordsTableHTML = chordsTableHTML.concat("<div class=\"table-body-cell\">");
-    chordsTableHTML = chordsTableHTML.concat(chordNotesStr);
-    chordsTableHTML = chordsTableHTML.concat("</div>");
+    chordsNotesRowHTML = chordsNotesRowHTML.concat("<div class=\"table-body-cell\">");
+    chordsNotesRowHTML = chordsNotesRowHTML.concat(chordNotesStr);
+    chordsNotesRowHTML = chordsNotesRowHTML.concat("</div>");
   });
-  chordsTableHTML = chordsTableHTML.concat("</div>");
+  chordsNotesRowHTML = chordsNotesRowHTML.concat("</div>");
 
   // chords intervals
-  chordsTableHTML = chordsTableHTML.concat("<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">");
+  chordsIntervalsRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     var chordIntervalsStr = "";
@@ -209,12 +211,16 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     });
     chordIntervalsStr = chordIntervalsStr.slice(0, -7);
 
-    chordsTableHTML = chordsTableHTML.concat("<div class=\"table-body-cell\">");
-    chordsTableHTML = chordsTableHTML.concat(chordIntervalsStr);
-    chordsTableHTML = chordsTableHTML.concat("</div>");
+    chordsIntervalsRowHTML = chordsIntervalsRowHTML.concat("<div class=\"table-body-cell\">");
+    chordsIntervalsRowHTML = chordsIntervalsRowHTML.concat(chordIntervalsStr);
+    chordsIntervalsRowHTML = chordsIntervalsRowHTML.concat("</div>");
   });
-  chordsTableHTML = chordsTableHTML.concat("</div>");
+  chordsIntervalsRowHTML = chordsIntervalsRowHTML.concat("</div>");
 
+  chordsTableHTML = chordsTableHTML.concat(chordsRowHTML);
+  chordsTableHTML = chordsTableHTML.concat(chordsRomanRowHTML);
+  chordsTableHTML = chordsTableHTML.concat(chordsNotesRowHTML);
+  chordsTableHTML = chordsTableHTML.concat(chordsIntervalsRowHTML);
   chordsTableHTML = chordsTableHTML.concat("</div>");
 
   return chordsTableHTML;
