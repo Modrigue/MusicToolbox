@@ -1,4 +1,4 @@
-//////////////////////////////// MUSIC FUNCTIONS //////////////////////////////
+//////////////////////////////// NOTES FUNCTIONS //////////////////////////////
 
 // add interval to note value
 function addToNoteValue(noteValue, interval)
@@ -41,6 +41,68 @@ function getModeNotesValues(scaleValues, modeNumber)
 
   return modeNotesValues;
 }
+
+function getAltIntervalNotation(intervalValue, index)
+{
+  index += 1;
+
+  // tonic: nop
+  if (index == 1)
+    return "T";
+
+  var exactInterval = getKeyFromValue(intervalsDict, index.toString());
+  var res = index.toString();
+
+  // exact interval: nop
+  if (intervalValue == exactInterval)
+  {
+    return intervalsDict[intervalValue];
+  }
+  // b's
+  else if (intervalValue < exactInterval)
+  {
+    for (var i = 0; i < exactInterval - intervalValue; i++)
+    {
+      res = "b" + res;
+    }
+    return res;
+  }
+  // #'s
+  else if (intervalValue > exactInterval)
+  {
+    for (var i = 0; i < intervalValue - exactInterval; i++)
+    {
+      res = "#" + res;
+    }
+    return res;
+  }
+
+  return "?";
+}
+
+function getIntervalString(intervalName, intervalNameAlt)
+{
+  if (intervalName == intervalNameAlt)
+    return intervalName;
+
+  var index =  getIndexFromInterval(intervalName);
+  var indexAlt =  getIndexFromInterval(intervalNameAlt);
+
+  if (index <= indexAlt)
+    return intervalName + " / " + intervalNameAlt;
+  else
+    return intervalNameAlt + " / " + intervalName;
+}
+
+function getIndexFromInterval(intervalName)
+{
+  var indexString = intervalName.replace(/b/gi, "").replace(/#/gi, "");
+  return parseInt(indexString);
+}
+
+
+//////////////////////////////// CHORDS FUNCTIONS /////////////////////////////
+
 
 // get chord position given scale values and number of notes
 function getChordNumberInScale(scaleValues, pos, nbNotes)
@@ -104,6 +166,8 @@ function getRomanChord(pos, chordName, nbNotesInChords)
 
 function getScaleNotes(noteValue, scaleValues)
 {
+  var nbNotesInScale = scaleValues.length;
+
   // build scale notes list
   var notesScaleTablesHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes</div><div id=\"resp-table-body\">";
   var notesScaleRowHTML = "<div class=\"resp-table-row\">";
@@ -122,8 +186,14 @@ function getScaleNotes(noteValue, scaleValues)
   scaleValues.forEach(function (intervalValue, index)
   {
     intervalName = intervalsDict[intervalValue];
+    var intervalNameAlt = getAltIntervalNotation(intervalValue, index);
+
+    // display alternate notation if 7-notes cale
+    var intervalString = (nbNotesInScale == 7) ?
+      getIntervalString(intervalName, intervalNameAlt) : intervalName;
+
     intervalsScaleRowHTML = intervalsScaleRowHTML.concat("<div class=\"table-body-cell\">");
-    intervalsScaleRowHTML = intervalsScaleRowHTML.concat(intervalName.toString());
+    intervalsScaleRowHTML = intervalsScaleRowHTML.concat(intervalString);
     intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
   });
   intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
@@ -131,6 +201,7 @@ function getScaleNotes(noteValue, scaleValues)
   notesScaleTablesHTML = notesScaleTablesHTML.concat(notesScaleRowHTML);
   notesScaleTablesHTML = notesScaleTablesHTML.concat(intervalsScaleRowHTML);
   notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+
   return notesScaleTablesHTML;
 }
 
