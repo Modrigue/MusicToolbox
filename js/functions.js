@@ -58,12 +58,12 @@ function getAltIntervalNotation(intervalValue, index)
   {
     return intervalsDict[intervalValue];
   }
-  // b's
+  // ♭'s
   else if (intervalValue < exactInterval)
   {
     for (var i = 0; i < exactInterval - intervalValue; i++)
     {
-      res = "b" + res;
+      res = "♭" + res;
     }
     return res;
   }
@@ -96,7 +96,7 @@ function getIntervalString(intervalName, intervalNameAlt)
 
 function getIndexFromInterval(intervalName)
 {
-  var indexString = intervalName.replace(/b/gi, "").replace(/#/gi, "");
+  var indexString = intervalName.replace(/♭/gi, "").replace(/#/gi, "");
   return parseInt(indexString);
 }
 
@@ -155,6 +155,8 @@ function getRomanChord(pos, chordName, nbNotesInChords)
   // do not display 3-notes minor and major chord notation
   if (chordName == "m" || chordName == "M")
     romanPos = romanPos;
+  else if (isMinorChord && chordName.startsWith('m'))
+    romanPos += chordName.substring(1);
   else
     romanPos += chordName;
 
