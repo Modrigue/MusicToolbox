@@ -34,6 +34,7 @@ chords4Dict["6M"]   = [0, 4, 7, 9];
 chords4Dict["6b5"]  = [0, 4, 6, 9];
 chords4Dict["m6M"]  = [0, 3, 7, 9];
 chords4Dict["m°7"]  = [0, 3, 6, 9];
+chords4Dict["m6b5"] = [0, 3, 6, 8];
 chords4Dict["sus2add6b5"] = [0, 2, 6, 9];
 chords4Dict["6Msus2add4(no5)"]  = [0, 2, 5, 9];
 chords4Dict["7sus2b5"]  = [0, 2, 6, 10];
