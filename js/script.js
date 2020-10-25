@@ -13,19 +13,18 @@ function onScaleChanged()
 // compute and update results
 function update()
 {
-  // get selected note
-  noteSelected = document.getElementById("note").value;
-  var noteValue = parseInt(noteSelected);
+  // get selected note value
+  var noteValue = getSelectedNoteValue();
   
   // get selected scale and mode
-  scaleSelected = document.getElementById("scale").value;
+  /*scaleSelected = document.getElementById("scale").value;
   var scaleMode = scaleSelected.split(",");
   var scaleName = scaleMode[0];
   var modeValue = parseInt(scaleMode[1]);
-  var scaleFamily = scaleFamiliesDict[scaleName];
-  var scaleValues = getModeNotesValues(scaleFamily, modeValue);
+  var scaleFamily = scaleFamiliesDict[scaleName];*/
+  var scaleValues = getSelectedScaleValues();
 
-  var nbNotesInScale = scaleFamily.length;
+  var nbNotesInScale = scaleValues.length;
   
   // build scale notes list
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);

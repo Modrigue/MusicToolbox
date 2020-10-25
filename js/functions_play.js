@@ -30,45 +30,36 @@ function playChord(noteValue, chordValues, duration)
     });
 }
 
+function playChords(noteValue, scaleValues, chordValuesArray, duration)
+{
+    chordValuesArray.forEach(function(chordValues, index)
+    {
+        var noteCurrent = noteValue + scaleValues[index];
+        playChord(noteCurrent, chordValues, (index + 1)*duration);    
+    });
+    var nbNotesInScale = scaleValues.length;
+    playChord(noteValue + 12, chordValuesArray[0], (nbNotesInScale + 1)*duration);
+}
+
 /////////////////////////////////// CALLBACKS /////////////////////////////////
 
 
 function onPlayScale()
 {
-    // get selected note
-    noteSelected = document.getElementById("note").value;
-    var noteValue = parseInt(noteSelected);
-    
-    // get selected scale and mode
-    scaleSelected = document.getElementById("scale").value;
-    var scaleMode = scaleSelected.split(",");
-    var scaleName = scaleMode[0];
-    var modeValue = parseInt(scaleMode[1]);
-    var scaleFamily = scaleFamiliesDict[scaleName];
-    var scaleValues = getModeNotesValues(scaleFamily, modeValue);
-
-    //var nbNotesInScale = scaleFamily.length;
+    // get selected note and scale values
+    var noteValue = getSelectedNoteValue();
+    var scaleValues = getSelectedScaleValues();
 
     playScale(noteValue, scaleValues);
 }
 
 function onPlayChords(nbNotesInChords)
 {
-    // get selected note
-    noteSelected = document.getElementById("note").value;
-    var noteValue = parseInt(noteSelected);
-    
-    // get selected scale and mode
-    scaleSelected = document.getElementById("scale").value;
-    var scaleMode = scaleSelected.split(",");
-    var scaleName = scaleMode[0];
-    var modeValue = parseInt(scaleMode[1]);
-    var scaleFamily = scaleFamiliesDict[scaleName];
-    var scaleValues = getModeNotesValues(scaleFamily, modeValue);
+    // get selected note and scale values
+    var noteValue = getSelectedNoteValue();
+    var scaleValues = getSelectedScaleValues();
 
-    var chordValuesArray = [];
-    var chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
-  
+    var chordValuesArray = [];  
     scaleValues.forEach(function (noteValue, index)
     {
       var chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
@@ -76,11 +67,5 @@ function onPlayChords(nbNotesInChords)
     });
 
     var duration = 1;
-    chordValuesArray.forEach(function(chordValues, index)
-    {
-        var noteCurrent = noteValue + scaleValues[index];
-        playChord(noteCurrent, chordValues, (index + 1)*duration);    
-    });
-    var nbNotesInScale = scaleFamily.length;
-    playChord(noteValue + 12, chordValuesArray[0], (nbNotesInScale + 1)*duration);
+    playChords(noteValue, scaleValues, chordValuesArray, duration);
 }

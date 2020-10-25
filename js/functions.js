@@ -1,3 +1,24 @@
+////////////////////////////// SELECTORS FUNCTIONS ////////////////////////////
+
+// get selected note
+function getSelectedNoteValue()
+{
+  noteSelected = document.getElementById("note").value;
+  return parseInt(noteSelected);
+}
+
+// get selected scale and mode
+function getSelectedScaleValues()
+{
+  scaleSelected = document.getElementById("scale").value;
+  var scaleMode = scaleSelected.split(",");
+  var scaleName = scaleMode[0];
+  var modeValue = parseInt(scaleMode[1]);
+  var scaleFamily = scaleFamiliesDict[scaleName];
+  
+  return getModeNotesValues(scaleFamily, modeValue);
+}
+
 //////////////////////////////// NOTES FUNCTIONS //////////////////////////////
 
 // add interval to note value
