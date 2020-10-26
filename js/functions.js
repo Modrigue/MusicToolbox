@@ -187,7 +187,7 @@ function getRomanChord(pos, chordName, nbNotesInChords)
 
 /////////////////////////////// HTML FUNCTIONS ////////////////////////////////
 
-function getScaleNotes(noteValue, scaleValues)
+function getScaleNotesTable(noteValue, scaleValues)
 {
   var nbNotesInScale = scaleValues.length;
 

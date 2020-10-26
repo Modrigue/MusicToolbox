@@ -28,7 +28,7 @@ function update()
   
   // build scale notes list
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-  document.getElementById('scale_result').innerHTML = getScaleNotes(noteValue, scaleValues);
+  document.getElementById('scale_result').innerHTML = getScaleNotesTable(noteValue, scaleValues);
 
   // build chords 3,4 notes harmonization tables
   document.getElementById('chords3_result').innerHTML = (nbNotesInScale >= 6) ? getChordsTable(scaleValues, scaleNotesValues, 3) : "";
