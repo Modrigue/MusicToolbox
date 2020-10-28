@@ -7,17 +7,47 @@ function getSelectedNoteValue()
   return parseInt(noteSelected);
 }
 
-// get selected scale and mode
+// get selected scale and mode notes values
 function getSelectedScaleValues()
 {
   scaleSelected = document.getElementById("scale").value;
-  var scaleMode = scaleSelected.split(",");
-  var scaleName = scaleMode[0];
-  var modeValue = parseInt(scaleMode[1]);
+  var scaleAttributes = scaleSelected.split(",");
+  var scaleName = scaleAttributes[0];
+  var modeValue = parseInt(scaleAttributes[1]);
   var scaleFamily = scaleFamiliesDict[scaleName];
   
   return getModeNotesValues(scaleFamily, modeValue);
 }
+
+// get selected scale and mode characteristic interval(s)
+function getSelectedScaleCharIntervals()
+{
+  scaleSelected = document.getElementById("scale").value;
+  var refScaleAttributes = scaleSelected.split(",");
+
+  // no characterisitic notes
+  if (refScaleAttributes.length < 3)
+    return "";
+  
+  // parse reference scale attribute
+  var diffString = refScaleAttributes[2];
+  var diffAttributes = scaleSelected.split(":");
+  if (diffAttributes.length < 2)
+    return "";
+  var refScaleString = diffAttributes[1];
+  var refScaleAttributes = refScaleString.split(";");
+  var refScaleName = refScaleAttributes[0];
+  var refModeValue = parseInt(refScaleAttributes[1]);
+  var refScaleFamily = scaleFamiliesDict[refScaleName];
+  
+  // get selected and reference scale values
+  var refScaleValues = getModeNotesValues(refScaleFamily, refModeValue);
+  var scaleValues = getSelectedScaleValues();
+  
+  // compute differences between selected and reference scale values
+  return arraysDiff(scaleValues, refScaleValues);
+}
+
 
 //////////////////////////////// NOTES FUNCTIONS //////////////////////////////
 
@@ -187,7 +217,7 @@ function getRomanChord(pos, chordName, nbNotesInChords)
 
 /////////////////////////////// HTML FUNCTIONS ////////////////////////////////
 
-function getScaleNotesTable(noteValue, scaleValues)
+function getScaleNotesTable(noteValue, scaleValues, charIntervals)
 {
   var nbNotesInScale = scaleValues.length;
 
@@ -197,8 +227,13 @@ function getScaleNotesTable(noteValue, scaleValues)
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
   {
+    // highlight if characteristic note
+    var colorStyle = "";
+    if (charIntervals != null && charIntervals.includes(index))
+      colorStyle = ' style=\"color:dodgerblue;\"';
+
     noteName = notesDict[noteValue];
-    notesScaleRowHTML = notesScaleRowHTML.concat("<div class=\"table-body-cell\">");
+    notesScaleRowHTML = notesScaleRowHTML.concat("<div class=\"table-body-cell\"" + colorStyle + ">");
     notesScaleRowHTML = notesScaleRowHTML.concat(noteName.toString());
     notesScaleRowHTML = notesScaleRowHTML.concat("</div>");
   });
@@ -211,11 +246,16 @@ function getScaleNotesTable(noteValue, scaleValues)
     intervalName = intervalsDict[intervalValue];
     var intervalNameAlt = getAltIntervalNotation(intervalValue, index);
 
+    // highlight if characteristic interval
+    var colorStyle = "";
+    if (charIntervals != null && charIntervals.includes(index))
+      colorStyle = ' style=\"color:dodgerblue;\"';
+
     // display alternate notation if 7-notes cale
     var intervalString = (nbNotesInScale == 7) ?
       getIntervalString(intervalName, intervalNameAlt) : intervalName;
 
-    intervalsScaleRowHTML = intervalsScaleRowHTML.concat("<div class=\"table-body-cell\">");
+    intervalsScaleRowHTML = intervalsScaleRowHTML.concat("<div class=\"table-body-cell\"" + colorStyle + ">");
     intervalsScaleRowHTML = intervalsScaleRowHTML.concat(intervalString);
     intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
   });
@@ -352,4 +392,22 @@ function arraysEqual(a, b)
   }
 
   return true;
+}
+
+function arraysDiff(a, b)
+{
+  var diffArray = [];
+
+  if (a == null || b == null)
+    return null;
+  if (a.length != b.length)
+    return null;
+
+  for (var i = 0; i < a.length; i++)
+  {
+    if (a[i] !== b[i])
+      diffArray.push(i);
+  }
+
+  return diffArray;
 }

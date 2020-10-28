@@ -13,22 +13,16 @@ function onScaleChanged()
 // compute and update results
 function update()
 {
-  // get selected note value
+  // get selected note and scale/mode values
   var noteValue = getSelectedNoteValue();
-  
-  // get selected scale and mode
-  /*scaleSelected = document.getElementById("scale").value;
-  var scaleMode = scaleSelected.split(",");
-  var scaleName = scaleMode[0];
-  var modeValue = parseInt(scaleMode[1]);
-  var scaleFamily = scaleFamiliesDict[scaleName];*/
   var scaleValues = getSelectedScaleValues();
+  var charIntervals = getSelectedScaleCharIntervals();
 
   var nbNotesInScale = scaleValues.length;
   
   // build scale notes list
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-  document.getElementById('scale_result').innerHTML = getScaleNotesTable(noteValue, scaleValues);
+  document.getElementById('scale_result').innerHTML = getScaleNotesTable(noteValue, scaleValues, charIntervals);
 
   // build chords 3,4 notes harmonization tables
   document.getElementById('chords3_result').innerHTML = (nbNotesInScale >= 6) ? getChordsTable(scaleValues, scaleNotesValues, 3) : "";
