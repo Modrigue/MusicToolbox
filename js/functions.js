@@ -398,15 +398,37 @@ function arraysDiff(a, b)
 {
   var diffArray = [];
 
-  if (a == null || b == null)
-    return null;
-  if (a.length != b.length)
-    return null;
+  if (a == null && b != null)
+    return b;
+  if (a != null && b == null)
+    return a;
 
-  for (var i = 0; i < a.length; i++)
+  if (a.length == b.length)
   {
-    if (a[i] !== b[i])
-      diffArray.push(i);
+    for (var i = 0; i < a.length; i++)
+    {
+      if (a[i] !== b[i])
+        diffArray.push(i);
+    }
+  }
+  else
+  {
+    // different lengths
+    var A = a;
+    var B = b;
+    if (a.length < b.length)
+    {
+      // ensure A is the biggest array
+      A = b;
+      B = a;
+    }
+    
+    // find A elements non included in B
+    for (var i = 0; i < A.length; i++)
+    {
+      if (!B.includes(A[i]))
+        diffArray.push(i);
+    }
   }
 
   return diffArray;
