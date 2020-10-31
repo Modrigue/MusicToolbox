@@ -25,8 +25,14 @@ function update()
   document.getElementById('scale_result').innerHTML = getScaleNotesTable(noteValue, scaleValues, charIntervals);
 
   // build chords 3,4 notes harmonization tables
-  document.getElementById('chords3_result').innerHTML = (nbNotesInScale >= 6) ? getChordsTable(scaleValues, scaleNotesValues, 3) : "";
-  document.getElementById('chords4_result').innerHTML = (nbNotesInScale >= 7) ? getChordsTable(scaleValues, scaleNotesValues, 4) : "";
+  var showChords3 = (nbNotesInScale >= 6);
+  var showChords4 = (nbNotesInScale >= 7);
+  document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTable(scaleValues, scaleNotesValues, 3) : "";
+  document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTable(scaleValues, scaleNotesValues, 4) : "";
+
+  // checkboxes
+  setEnabledStatus("checkboxChords3", showChords3);
+  setEnabledStatus("checkboxChords4", showChords4);
 
   // update fretboard
   updateFretboard(noteValue, scaleValues, charIntervals);
@@ -49,4 +55,10 @@ function toggleDisplay(id)
     x.style.display = "block";
   else
     x.style.display = "none";
+}
+
+function setEnabledStatus(id, status)
+{
+  var x = document.getElementById(id);
+  x.disabled = !status;
 }
