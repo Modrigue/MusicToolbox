@@ -27,4 +27,8 @@ function update()
   // build chords 3,4 notes harmonization tables
   document.getElementById('chords3_result').innerHTML = (nbNotesInScale >= 6) ? getChordsTable(scaleValues, scaleNotesValues, 3) : "";
   document.getElementById('chords4_result').innerHTML = (nbNotesInScale >= 7) ? getChordsTable(scaleValues, scaleNotesValues, 4) : "";
+
+  // update fretboard
+  updateFretboard(noteValue, scaleValues, charIntervals);
+  updateFretboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
 }

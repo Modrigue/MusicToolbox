@@ -14,6 +14,7 @@
     <script src="js/chords.js"></script>
     <script src="js/roman.js"></script>
     <script src="js/functions.js"></script>
+    <script src="js/fretboard.js"></script>
     <script src="js/script.js"></script>
 
     <!-- //////////////////////////////// MIDI //////////////////////////// -->
@@ -37,7 +38,7 @@
     
     <script src="js/functions_play.js" type="text/javascript"></script>
   </head>
-  <body>
+  <body onresize="resizeCanvas()">
     <center>
       <p style="font-family:Arial, Helvetica, sans-serif;">
       Choose your tonality:
@@ -163,32 +164,35 @@
     </center>
 
     <p id='scale_result'>?</p>
-    <br>
+    
     <p id='chords3_result'>?</p>
-    <br>
+    
     <p id='chords4_result'>?</p>
+
+    <canvas id="canvas" width="600" height="200">
+      Your browser does not support the canvas element.
+    </canvas>
 
     <script>
       // init
+      resizeCanvas();
       onNoteChanged();
     </script>
 
-<script>
+    <script>
 
-  window.onload = function () {
-    MIDI.loadPlugin({
-      soundfontUrl: "./soundfont/",
-      instrument: "acoustic_grand_piano",
-      onprogress: function(state, progress) {
-        //console.log(state, progress);
-      },
-      onsuccess: function() {
-        //
-      }
-    });
-  };
-  
-  </script>
-
+      window.onload = function () {
+        MIDI.loadPlugin({
+          soundfontUrl: "./soundfont/",
+          instrument: "acoustic_grand_piano",
+          onprogress: function(state, progress) {
+            //console.log(state, progress);
+          },
+          onsuccess: function() {
+            //
+          }
+        });
+      };
+    </script>
   </body>
 </html>
