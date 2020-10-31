@@ -3,7 +3,7 @@ var tuning = [7, 0, 5, 10, 2, 7];
 var nbStrings = tuning.length;
 var xMargin = 40;
 var yMargin = 20;
-var xStep = 50;
+var xStep = 60;
 
 // colors
 var colorFretsStrings = "lightgrey";
@@ -11,6 +11,7 @@ var colorFretsOctave = "dimgrey";
 var colorNoteTonic = "firebrick";
 var colorNoteNormal = "dimgrey";
 var colorNoteChar = "dodgerblue";
+var colorHintFret = "whitesmoke";
 
 function getCaseNoteValue(i, j)
 {
@@ -32,6 +33,8 @@ function displayNoteOnFretboard(i, j, text, color)
 
         // position
         var x = xMargin + (j - 1) * xStep + xStep / 2 - 1;
+        if (j == 0)
+            x = xMargin + (j - 1) * 40 + 40 / 2 - 1;
         var y = yMargin + (nbStrings - i) * yStep - 1;
         if (x > canvas.width - xMargin)
             return;
@@ -74,6 +77,24 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         // clear
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // hint frets
+        var hintFrets = [0, 3, 5, 7, 9];
+        var indexFret = 0;
+        for (j = xMargin; j < canvas.width - xMargin; j += xStep) 
+        {
+            indexFret++;
+
+            if (!hintFrets.includes(indexFret % 12))
+                continue;
+
+            // fill hint fret
+            ctx.beginPath();
+            ctx.strokeStyle = ((indexFret % 12) == 0) ? colorFretsOctave : colorFretsStrings;
+            ctx.fillStyle = colorHintFret;
+            ctx.fillRect(j, yMargin, xStep, canvas.height - 2*yMargin);
+            ctx.closePath();
+        }
+
         // horizontal lines (strings)
         var yStep = (canvas.height - 2 * yMargin) / (nbStrings - 1);
         for (i = 0; i < nbStrings; i++) 
@@ -86,10 +107,12 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
 
         // vertical lines
         var indexFret = 0;
-        for (j = xMargin; j < canvas.width - xMargin; j += 50) 
+        for (j = xMargin; j < canvas.width - xMargin; j += xStep) 
         {
+            var isFretOctave = ((indexFret == 0) || ((indexFret + 1)% 12) == 0);
+
             ctx.beginPath();
-            ctx.strokeStyle = ((indexFret % 12) == 0) ? colorFretsOctave : colorFretsStrings;
+            ctx.strokeStyle = isFretOctave ? colorFretsOctave : colorFretsStrings;
             ctx.moveTo(j, yMargin);
             ctx.lineTo(j, canvas.height - yMargin);
             ctx.stroke();
