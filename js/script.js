@@ -32,3 +32,21 @@ function update()
   updateFretboard(noteValue, scaleValues, charIntervals);
   updateFretboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
 }
+
+function onResize()
+{
+    canvas = document.getElementById("canvas_guitar");
+    canvas.width = window.innerWidth - 30;
+    //updateFretboardFromTonality();
+    onNoteChanged();
+}
+
+function toggleDisplay(id)
+{
+  var x = document.getElementById(id);
+  
+  if (x.style.display === "none")
+    x.style.display = "block";
+  else
+    x.style.display = "none";
+}

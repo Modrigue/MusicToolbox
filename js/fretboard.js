@@ -20,7 +20,7 @@ function getCaseNoteValue(i, j)
 // <i> has offset 1
 function displayNoteOnFretboard(i, j, text, color)
 {
-    canvas = document.getElementById("canvas");
+    canvas = document.getElementById("canvas_guitar");
     if (canvas.getContext) 
     {
         var ctx = canvas.getContext("2d");
@@ -63,7 +63,7 @@ function updateFretboardFromTonality()
 
 function updateFretboard(noteValue, scaleValues, charIntervals)
 {
-    var canvas = document.getElementById("canvas");
+    var canvas = document.getElementById("canvas_guitar");
 
     // fretboard
     if (canvas.getContext) 
@@ -124,12 +124,4 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
             displayNoteOnFretboard(i, j, currentNote, colorNote);
         }
     }
-}
-
-function resizeCanvas()
-{
-    canvas = document.getElementById("canvas");
-    canvas.width = window.innerWidth - 30;
-    //updateFretboardFromTonality();
-    onNoteChanged();
 }
