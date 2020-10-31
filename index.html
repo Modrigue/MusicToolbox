@@ -15,6 +15,7 @@
     <script src="js/roman.js"></script>
     <script src="js/functions.js"></script>
     <script src="js/fretboard.js"></script>
+    <script src="js/keyboard.js"></script>
     <script src="js/script.js"></script>
 
     <!-- //////////////////////////////// MIDI //////////////////////////// -->
@@ -174,6 +175,9 @@
 
       <input type="checkbox" id="checkboxGuitar" name="checkboxGuitar" checked onchange="toggleDisplay('canvas_guitar')" style="cursor: pointer;">
       <label for="checkboxGuitar" style="cursor: pointer;">Guitar</label>
+
+      <input type="checkbox" id="checkboxKeyboard" name="checkboxKeyboard" checked onchange="toggleDisplay('canvas_keyboard')" style="cursor: pointer;">
+      <label for="checkboxKeyboard" style="cursor: pointer;">Keyboard</label>
       
     </p>
     </center>
@@ -185,6 +189,10 @@
     <p id='chords4_result'>?</p>
 
     <canvas id="canvas_guitar" width="600" height="200">
+      Your browser does not support the canvas element.
+    </canvas>
+
+    <canvas id="canvas_keyboard" width="600" height="200">
       Your browser does not support the canvas element.
     </canvas>
 

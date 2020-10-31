@@ -37,13 +37,22 @@ function update()
   // update fretboard
   updateFretboard(noteValue, scaleValues, charIntervals);
   updateFretboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
+
+  // update keyboard
+  updateKeyboard(noteValue, scaleValues, charIntervals);
+  updateKeyboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
 }
 
 function onResize()
 {
-    canvas = document.getElementById("canvas_guitar");
-    canvas.width = window.innerWidth - 30;
+    var canvasGuitar = document.getElementById("canvas_guitar");
+    canvasGuitar.width = window.innerWidth - 30;
     //updateFretboardFromTonality();
+
+    var canvasKeyboard = document.getElementById("canvas_keyboard");
+    canvasKeyboard.width = window.innerWidth - 30;
+    //updateKeyboardFromTonality();
+
     onNoteChanged();
 }
 

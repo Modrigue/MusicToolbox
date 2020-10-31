@@ -1,9 +1,9 @@
 // parameters
 var tuning = [7, 0, 5, 10, 2, 7];
 var nbStrings = tuning.length;
-var xMargin = 40;
-var yMargin = 20;
-var xStep = 60;
+var xFretMargin = 40;
+var yFretMargin = 20;
+var xFretStep = 60;
 
 // colors
 var colorFretsStrings = "lightgrey";
@@ -25,18 +25,18 @@ function displayNoteOnFretboard(i, j, text, color)
     if (canvas.getContext) 
     {
         var ctx = canvas.getContext("2d");
-        var yStep = (canvas.height - 2* yMargin) / (nbStrings - 1);
-        var radius = Math.min(xStep, yStep) / 2 - 2;
+        var yStep = (canvas.height - 2* yFretMargin) / (nbStrings - 1);
+        var radius = Math.min(xFretStep, yStep) / 2 - 2;
 
         if ( i > nbStrings)
             return;
 
         // position
-        var x = xMargin + (j - 1) * xStep + xStep / 2 - 1;
+        var x = xFretMargin + (j - 1) * xFretStep + xFretStep / 2 - 1;
         if (j == 0)
-            x = xMargin + (j - 1) * 40 + 40 / 2 - 1;
-        var y = yMargin + (nbStrings - i) * yStep - 1;
-        if (x > canvas.width - xMargin)
+            x = xFretMargin + (j - 1) * 40 + 40 / 2 - 1;
+        var y = yFretMargin + (nbStrings - i) * yStep - 1;
+        if (x > canvas.width - xFretMargin)
             return;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
@@ -80,7 +80,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         // hint frets
         var hintFrets = [0, 3, 5, 7, 9];
         var indexFret = 0;
-        for (j = xMargin; j < canvas.width - xMargin; j += xStep) 
+        for (x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
         {
             indexFret++;
 
@@ -91,30 +91,30 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
             ctx.beginPath();
             ctx.strokeStyle = ((indexFret % 12) == 0) ? colorFretsOctave : colorFretsStrings;
             ctx.fillStyle = colorHintFret;
-            ctx.fillRect(j, yMargin, xStep, canvas.height - 2*yMargin);
+            ctx.fillRect(x, yFretMargin, xFretStep, canvas.height - 2*yFretMargin);
             ctx.closePath();
         }
 
         // horizontal lines (strings)
-        var yStep = (canvas.height - 2 * yMargin) / (nbStrings - 1);
+        var yStep = (canvas.height - 2 * yFretMargin) / (nbStrings - 1);
         for (i = 0; i < nbStrings; i++) 
         {
-            var y = yMargin + i*yStep;
-            ctx.moveTo(xMargin, y);
-            ctx.lineTo(canvas.width - xMargin, y);
+            var y = yFretMargin + i*yStep;
+            ctx.moveTo(xFretMargin, y);
+            ctx.lineTo(canvas.width - xFretMargin, y);
             ctx.stroke();
         }
 
         // vertical lines
         var indexFret = 0;
-        for (j = xMargin; j < canvas.width - xMargin; j += xStep) 
+        for (x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
         {
-            var isFretOctave = ((indexFret == 0) || ((indexFret + 1)% 12) == 0);
+            var isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
 
             ctx.beginPath();
             ctx.strokeStyle = isFretOctave ? colorFretsOctave : colorFretsStrings;
-            ctx.moveTo(j, yMargin);
-            ctx.lineTo(j, canvas.height - yMargin);
+            ctx.moveTo(x, yFretMargin);
+            ctx.lineTo(x, canvas.height - yFretMargin);
             ctx.stroke();
             ctx.closePath();
 
