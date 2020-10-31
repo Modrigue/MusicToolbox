@@ -35,4 +35,3 @@ scaleFamiliesDict["5major_penta"] = [0, 2, 4, 7, 9];
 scaleFamiliesDict["5javanese"]    = [0, 4, 5, 7, 11];
 scaleFamiliesDict["5jap_in"]      = [0, 1, 5, 7, 8];
 scaleFamiliesDict["5jap_insen"]   = [0, 1, 5, 7, 10];
-scaleFamiliesDict["5jap_yo"]      = [0, 3, 5, 7, 10];
