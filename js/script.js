@@ -31,8 +31,9 @@ function update()
   document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTable(scaleValues, scaleNotesValues, 4) : "";
 
   // checkboxes
-  setEnabledStatus("checkboxChords3", showChords3);
-  setEnabledStatus("checkboxChords4", showChords4);
+  //setEnabledStatus("checkboxChords3", showChords3);
+  //setEnabledStatus("checkboxChords4", showChords4);
+  setEnabledStatus("checkboxChords", showChords3);
 
   // update fretboard
   updateFretboard(noteValue, scaleValues, charIntervals);

@@ -42,7 +42,7 @@
   <body onresize="onResize()">
     <center>
       <p style="font-family:Arial, Helvetica, sans-serif;">
-      Choose your tonality:
+      Select your key:
 
       <!-- NOTES -->
       <select name="notes" id="note" onchange="onNoteChanged()" style="cursor: pointer;">
@@ -55,7 +55,7 @@
         <option value=6>D#</option>
         <option value=7>E</option>
         <option value=8>F</option>
-        <option value=9>F# / Gb</option>
+        <option value=9>F#</option>
         <option value=10>G</option>
         <option value=11>G#</option>
       </select>
@@ -163,13 +163,16 @@
       <!-- Checkboxes -->
 
       <!--input type="checkbox" id="checkboxNotes" name="checkboxNotes" checked onchange="toggleDisplay('scale_result')" style="cursor: pointer;">
-      <label for="checkboxNotes" style="cursor: pointer;">Notes</label-->
-
+      <label for="checkboxNotes" style="cursor: pointer;">Notes</label>
+      
       <input type="checkbox" id="checkboxChords3" name="checkboxChords3" checked onchange="toggleDisplay('chords3_result')" style="cursor: pointer;">
       <label for="checkboxChords3" style="cursor: pointer;">3-Chords</label>
 
       <input type="checkbox" id="checkboxChords4" name="checkboxChords4" checked onchange="toggleDisplay('chords4_result')" style="cursor: pointer;">
-      <label for="checkboxChords4" style="cursor: pointer;">4-Chords</label>
+      <label for="checkboxChords4" style="cursor: pointer;">4-Chords</label-->
+
+      <input type="checkbox" id="checkboxChords" name="checkboxChords" checked onchange="toggleDisplay('chords3_result');toggleDisplay('chords4_result');" style="cursor: pointer;">
+      <label for="checkboxChords" style="cursor: pointer;">Chords</label>
 
       <input type="checkbox" id="checkboxGuitar" name="checkboxGuitar" checked onchange="toggleDisplay('canvas_guitar')" style="cursor: pointer;">
       <label for="checkboxGuitar" style="cursor: pointer;">Guitar</label>
