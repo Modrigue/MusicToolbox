@@ -77,6 +77,12 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         // clear
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // fill background
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.closePath();
+
         // hint frets
         var hintFrets = [0, 3, 5, 7, 9];
         var indexFret = 0;
@@ -147,4 +153,30 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
             displayNoteOnFretboard(i, j, currentNote, colorNote);
         }
     }
+}
+
+function saveFretboardImage()
+{
+    let canvasImage = document.getElementById('canvas_guitar').toDataURL('image/png');
+    var noteSelectedText = getSelectorText("note");
+    var scaleSelectedText = getSelectorText("scale");
+    scaleSelectedText = scaleSelectedText.replaceAll(" / ", ' ');
+    scaleSelectedText = scaleSelectedText.replaceAll(' ', '_');
+    scaleSelectedText = scaleSelectedText.replaceAll('♭', 'b');
+
+    // this can be used to download any image from webpage to local disk
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = function () {
+        let a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response);
+        a.download = 'Fretboard-' + noteSelectedText + '-' + scaleSelectedText + '.png';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        a.remove()
+      };
+
+    xhr.open('GET', canvasImage); // This is to download the canvas Image
+    xhr.send();
 }

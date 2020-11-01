@@ -72,3 +72,11 @@ function setEnabledStatus(id, status)
   var x = document.getElementById(id);
   x.disabled = !status;
 }
+
+// get selected text from selector
+function getSelectorText(id)
+{
+  var selector = document.getElementById(id);
+  var selectedIndex = selector.selectedIndex;
+  return selector.options[selectedIndex].text;
+}

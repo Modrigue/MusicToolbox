@@ -73,11 +73,18 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
     if (canvas.getContext) 
     {
         var ctx = canvas.getContext("2d");
-        ctx.strokeStyle = "black";
-        ctx.fillStyle = "black";
 
         // clear
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // fill background
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.closePath();
+
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "black";
 
         // horizontal lines
         var yStep = (canvas.height - 2 * yKeyMargin);
@@ -136,4 +143,30 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
 
         displayNoteOnKeyboard(i, currentNote, colorNote);
     }
+}
+
+function saveKeyboardImage()
+{
+    let canvasImage = document.getElementById('canvas_keyboard').toDataURL('image/png');
+    var noteSelectedText = getSelectorText("note");
+    var scaleSelectedText = getSelectorText("scale");
+    scaleSelectedText = scaleSelectedText.replaceAll(" / ", ' ');
+    scaleSelectedText = scaleSelectedText.replaceAll(' ', '_');
+    scaleSelectedText = scaleSelectedText.replaceAll('♭', 'b');
+
+    // this can be used to download any image from webpage to local disk
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = function () {
+        let a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response);
+        a.download = 'Keyboard-' + noteSelectedText + '-' + scaleSelectedText + '.png';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        a.remove()
+      };
+
+    xhr.open('GET', canvasImage); // This is to download the canvas Image
+    xhr.send();
 }
