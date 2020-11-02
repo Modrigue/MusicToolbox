@@ -17,9 +17,9 @@ function playScale(noteValue, scaleValues)
     var duration = 1;
     scaleValues.forEach(function (intervalValue, index)
     {
-        playNote(noteValue + intervalValue, duration*(index+1));
+        playNote(noteValue + intervalValue, duration*index);
     });
-    playNote(noteValue + 12, duration*(scaleValues.length+1));
+    playNote(noteValue + 12, duration*(scaleValues.length));
 }
 
 function playChord(noteValue, chordValues, duration)
@@ -35,10 +35,10 @@ function playChords(noteValue, scaleValues, chordValuesArray, duration)
     chordValuesArray.forEach(function(chordValues, index)
     {
         var noteCurrent = noteValue + scaleValues[index];
-        playChord(noteCurrent, chordValues, (index + 1)*duration);    
+        playChord(noteCurrent, chordValues, index*duration);    
     });
     var nbNotesInScale = scaleValues.length;
-    playChord(noteValue + 12, chordValuesArray[0], (nbNotesInScale + 1)*duration);
+    playChord(noteValue + 12, chordValuesArray[0], nbNotesInScale*duration);
 }
 
 /////////////////////////////////// CALLBACKS /////////////////////////////////
@@ -51,6 +51,18 @@ function onPlayScale()
     var scaleValues = getSelectedScaleValues();
 
     playScale(noteValue, scaleValues);
+}
+
+function onPlayNoteInScale(index)
+{
+    var duration = 0;
+
+    // get selected note and scale values
+    var noteValue = getSelectedNoteValue();
+    var scaleValues = getSelectedScaleValues();
+    var intervalValue = scaleValues[index];
+
+    playNote(noteValue + intervalValue, duration);
 }
 
 function onPlayChords(nbNotesInChords)
@@ -68,4 +80,16 @@ function onPlayChords(nbNotesInChords)
 
     var duration = 1;
     playChords(noteValue, scaleValues, chordValuesArray, duration);
+}
+
+function onPlayChordInScale(nbNotesInChords, index)
+{
+    // get selected note and scale values
+    var noteValue = getSelectedNoteValue();
+    var scaleValues = getSelectedScaleValues();
+    var chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+
+    var duration = 0;
+    var noteCurrent = noteValue + scaleValues[index];
+    playChord(noteCurrent, chordValues, duration);   
 }

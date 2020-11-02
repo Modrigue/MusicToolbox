@@ -228,12 +228,16 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
   scaleNotesValues.forEach(function (noteValue, index)
   {
     // highlight if characteristic note
-    var colorStyle = "";
-    if (charIntervals != null && charIntervals.includes(index))
-      colorStyle = ' style=\"color:dodgerblue;\"';
+    var classString = "table-body-cell-interactive";
+    if (index == 0)
+      classString = "table-body-cell-tonic-interactive";
+    else if (charIntervals != null && charIntervals.includes(index))
+      classString = "table-body-cell-char-interactive";
+
+    var callbackString = "onPlayNoteInScale(" + index + ")";
 
     noteName = notesDict[noteValue];
-    notesScaleRowHTML = notesScaleRowHTML.concat("<div class=\"table-body-cell\"" + colorStyle + ">");
+    notesScaleRowHTML = notesScaleRowHTML.concat("<div class=" + classString + " onclick=" + callbackString + ">");
     notesScaleRowHTML = notesScaleRowHTML.concat(noteName.toString());
     notesScaleRowHTML = notesScaleRowHTML.concat("</div>");
   });
@@ -247,15 +251,17 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
     var intervalNameAlt = getAltIntervalNotation(intervalValue, index);
 
     // highlight if characteristic interval
-    var colorStyle = "";
-    if (charIntervals != null && charIntervals.includes(index))
-      colorStyle = ' style=\"color:dodgerblue;\"';
+    var classString = "table-body-cell";
+    if (index == 0)
+      classString = "table-body-cell-tonic";
+    else if (charIntervals != null && charIntervals.includes(index))
+      classString = "table-body-cell-char";
 
     // display alternate notation if 7-notes cale
     var intervalString = (nbNotesInScale == 7) ?
       getIntervalString(intervalName, intervalNameAlt) : intervalName;
 
-    intervalsScaleRowHTML = intervalsScaleRowHTML.concat("<div class=\"table-body-cell\"" + colorStyle + ">");
+    intervalsScaleRowHTML = intervalsScaleRowHTML.concat("<div class=" + classString + ">");
     intervalsScaleRowHTML = intervalsScaleRowHTML.concat(intervalString);
     intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
   });
@@ -290,7 +296,9 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     var chordName = getKeyFromValue(chordsDict, chordValues);
     var chordNoteName = getNoteNameChord(noteName, chordName);
 
-    chordsRowHTML = chordsRowHTML.concat("<div class=\"table-body-cell\">");
+    var callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ")";
+
+    chordsRowHTML = chordsRowHTML.concat("<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">");
     chordsRowHTML = chordsRowHTML.concat(chordNoteName);
     chordsRowHTML = chordsRowHTML.concat("</div>");
   });
@@ -324,7 +332,9 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     });
     chordNotesStr = chordNotesStr.slice(0, -7);
 
-    chordsNotesRowHTML = chordsNotesRowHTML.concat("<div class=\"table-body-cell\">");
+    var callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ")";
+
+    chordsNotesRowHTML = chordsNotesRowHTML.concat("<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">");
     chordsNotesRowHTML = chordsNotesRowHTML.concat(chordNotesStr);
     chordsNotesRowHTML = chordsNotesRowHTML.concat("</div>");
   });

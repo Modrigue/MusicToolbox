@@ -95,6 +95,71 @@ button:active
     border: 1px solid grey;
 }
 
+.table-body-cell-interactive
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    cursor: pointer;
+}
+
+.table-body-cell-interactive:hover
+{
+    background-color: grey;
+    color: white;
+}
+
+.table-body-cell-tonic
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    color: firebrick;
+}
+
+.table-body-cell-tonic-interactive
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    color: firebrick;
+    cursor: pointer;
+}
+
+.table-body-cell-tonic-interactive:hover
+{
+    background-color: firebrick;
+    color: white;
+}
+
+.table-body-cell-char
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    color: dodgerblue;
+}
+
+.table-body-cell-char-interactive
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    color: dodgerblue;
+    cursor: pointer;
+}
+
+.table-body-cell-char-interactive:hover
+{
+    background-color: dodgerblue;
+    color: white;
+}
+
 .bolden
 {
     font-family:"Arial Black"
