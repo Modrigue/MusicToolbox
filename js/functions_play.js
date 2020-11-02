@@ -22,11 +22,11 @@ function playScale(noteValue, scaleValues)
     playNote(noteValue + 12, duration*(scaleValues.length));
 }
 
-function playChord(noteValue, chordValues, duration)
+function playChord(noteValue, chordValues, duration, delay = 0)
 {
     chordValues.forEach(function (intervalValue, index)
     {
-        playNote(noteValue + intervalValue, duration);
+        playNote(noteValue + intervalValue, duration + index*delay);
     });
 }
 
@@ -82,7 +82,7 @@ function onPlayChords(nbNotesInChords)
     playChords(noteValue, scaleValues, chordValuesArray, duration);
 }
 
-function onPlayChordInScale(nbNotesInChords, index)
+function onPlayChordInScale(nbNotesInChords, index, delay = 0)
 {
     // get selected note and scale values
     var noteValue = getSelectedNoteValue();
@@ -91,5 +91,5 @@ function onPlayChordInScale(nbNotesInChords, index)
 
     var duration = 0;
     var noteCurrent = noteValue + scaleValues[index];
-    playChord(noteCurrent, chordValues, duration);   
+    playChord(noteCurrent, chordValues, duration, delay);   
 }

@@ -332,7 +332,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     });
     chordNotesStr = chordNotesStr.slice(0, -7);
 
-    var callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ")";
+    var callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ",0.25)";
 
     chordsNotesRowHTML = chordsNotesRowHTML.concat("<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">");
     chordsNotesRowHTML = chordsNotesRowHTML.concat(chordNotesStr);
