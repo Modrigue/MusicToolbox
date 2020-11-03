@@ -17,6 +17,7 @@ button
     padding: 5px;
     border-radius: 5px;
     padding-right: 5px;
+    cursor: pointer;
 }
 
 button:focus
@@ -171,4 +172,14 @@ button:active
     text-align-last: center;
     -moz-text-align-last: center;
     font-family:"Arial Black";
+}
+
+select
+{
+    cursor: pointer;
+}
+
+input
+{
+    cursor: pointer;
 }
