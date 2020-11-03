@@ -46,18 +46,6 @@
 
       <!-- NOTES -->
       <select name="notes" id="note" onchange="onNoteChanged()">
-        <option value=0>A</option>
-        <option value=1>A#</option>
-        <option value=2>B</option>
-        <option value=3 selected>C</option>
-        <option value=4>C#</option>
-        <option value=5>D</option>
-        <option value=6>D#</option>
-        <option value=7>E</option>
-        <option value=8>F</option>
-        <option value=9>F#</option>
-        <option value=10>G</option>
-        <option value=11>G#</option>
       </select>
 
       <!-- SCALES / MODES -->
@@ -199,6 +187,7 @@
 
     <script>
       // init
+      updateSelectors();
       onResize();
       onNoteChanged();
     </script>

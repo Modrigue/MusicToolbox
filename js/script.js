@@ -1,3 +1,21 @@
+////////////////////////////////// SELECTORS //////////////////////////////////
+
+function updateSelectors()
+{
+  // fill note selector
+  var select = document.getElementById('note');
+  for (var key in notesDict)
+  {
+    var option = document.createElement('option');
+    option.value = key;
+    option.innerHTML = notesDict[key];
+    if (key == 3) // C
+      option.selected = true;
+    select.appendChild(option);
+  }
+}
+
+
 //////////////////////////////////// EVENTS ///////////////////////////////////
 
 function onNoteChanged()
