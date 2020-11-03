@@ -183,7 +183,7 @@ function saveFretboardImage()
     xhr.onload = function () {
         let a = document.createElement('a');
         a.href = window.URL.createObjectURL(xhr.response);
-        a.download = 'Fretboard-' + noteSelectedText + '-' + scaleSelectedText + '.png';
+        a.download = getString("fretboard") + '-' + noteSelectedText + '-' + scaleSelectedText + '.png';
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();

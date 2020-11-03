@@ -130,6 +130,18 @@ function updateLanguage()
 {
   var culture = getSelectedCulture();
 
+  var textSelectKey = document.getElementById("select_key_text");
+  textSelectKey.innerText = getString("select_key");
+
+  // update checkboxes
+  var checkboxChordsLabel = document.getElementById("checkboxChordsLabel");
+  checkboxChordsLabel.innerText = getString("chords");
+  var checkboxGuitarLabel = document.getElementById("checkboxGuitarLabel");
+  checkboxGuitarLabel.innerText = getString("guitar");
+  var checkboxKeyboardLabel = document.getElementById("checkboxKeyboardLabel");
+  checkboxKeyboardLabel.innerText = getString("keyboard");
+
+  // update computed data
   updateSelectors();
   onNoteChanged();
 }

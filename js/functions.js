@@ -231,7 +231,7 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
   var nbNotesInScale = scaleValues.length;
 
   // build scale notes list
-  var notesScaleTablesHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes&nbsp;<button onclick=\"onPlayScale()\">Play ♪</button></div><div id=\"resp-table-body\">";
+  var notesScaleTablesHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes&nbsp;<button onclick=\"onPlayScale()\">" + getString("play") + " ♪</button></div><div id=\"resp-table-body\">";
   var notesScaleRowHTML = "<div class=\"resp-table-row\">";
   var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
@@ -288,7 +288,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   var chordValuesArray = [];
   var chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
 
-  var chordsTableHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Chords with " + nbNotesInChords + " notes&nbsp;<button onclick=\"onPlayChords(" + nbNotesInChords + ")\">Play ♪</button></div><div id=\"resp-table-body\">";
+  var chordsTableHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">" + getString("chords_" + nbNotesInChords + "_notes") + "&nbsp;<button onclick=\"onPlayChords(" + nbNotesInChords + ")\">" + getString("play") + " ♪</button></div><div id=\"resp-table-body\">";
   scaleValues.forEach(function (noteValue, index)
   {
     var chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
