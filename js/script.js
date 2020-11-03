@@ -2,17 +2,45 @@
 
 function updateSelectors()
 {
-  // fill note selector
   var select = document.getElementById('note');
-  for (var key in notesDict)
+  var initialized = (select.options != null && select.options.length > 0);
+
+  // get selected culture
+  var lang = getSelectedCulture(); 
+  var notesDict = notesDicts[lang];
+
+  // fill note selector
+  if (!initialized)
   {
-    var option = document.createElement('option');
-    option.value = key;
-    option.innerHTML = notesDict[key];
-    if (key == 3) // C
-      option.selected = true;
-    select.appendChild(option);
+    // init
+    for (var key in notesDict)
+    {
+      var option = document.createElement('option');
+      option.value = key;
+      option.innerHTML = notesDict[key];
+      if (key == 3) // C
+        option.selected = true;
+      select.appendChild(option);
+    }
   }
+  else
+  {
+    // update
+    var noteValue = 0;
+    for (var key in notesDict)
+    {
+      select.options[noteValue].innerHTML = notesDict[key];
+      noteValue++;
+    }
+  }
+}
+
+// get selected text from selector
+function getSelectorText(id)
+{
+  var selector = document.getElementById(id);
+  var selectedIndex = selector.selectedIndex;
+  return selector.options[selectedIndex].text;
 }
 
 
@@ -91,10 +119,17 @@ function setEnabledStatus(id, status)
   x.disabled = !status;
 }
 
-// get selected text from selector
-function getSelectorText(id)
+function getSelectedCulture()
 {
-  var selector = document.getElementById(id);
-  var selectedIndex = selector.selectedIndex;
-  return selector.options[selectedIndex].text;
+  var checkboxLanguage = document.getElementById("checkboxLanguage");
+  var culture = checkboxLanguage.checked ? "fr" : "int";
+  return culture;
+}
+
+function updateLanguage()
+{
+  var culture = getSelectedCulture();
+
+  updateSelectors();
+  onNoteChanged();
 }

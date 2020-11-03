@@ -45,10 +45,23 @@ function displayNoteOnFretboard(i, j, text, color)
         ctx.closePath();
 
         // text
-        ctx.font = "18px Arial";
+        var lang = getSelectedCulture();
+        switch (lang)
+        {
+            case "fr":
+                ctx.font = "14px Arial";
+                var xShift = -9 - 2*(text.length - 2);
+                var yShift = 4; //6;
+                break;
+
+            case "int":
+            default:
+                ctx.font = "18px Arial";
+                var xShift = (text.length == 2) ? -12 : -6;
+                var yShift = 6;
+                break;
+        }
         ctx.fillStyle = "white";
-        var xShift = (text.length == 2) ? -12 : -6;
-        var yShift = 6;
         ctx.fillText(text, x + xShift, y + yShift); 
     }
 }
@@ -140,7 +153,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
 
             // display note
 
-            var currentNote = notesDict[currentNoteValue];
+            var currentNote = getNoteName(currentNoteValue);
 
             var colorNote = colorNoteNormal;
             if (currentNoteValue == noteValue)

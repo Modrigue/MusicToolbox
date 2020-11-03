@@ -151,6 +151,15 @@ function getIndexFromInterval(intervalName)
   return parseInt(indexString);
 }
 
+function getNoteName(noteValue)
+{
+  // get selected culture
+  var lang = getSelectedCulture(); 
+  var notesDict = notesDicts[lang];
+
+  return notesDict[noteValue];
+}
+
 
 //////////////////////////////// CHORDS FUNCTIONS /////////////////////////////
 
@@ -236,7 +245,7 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
 
     var callbackString = "onPlayNoteInScale(" + index + ")";
 
-    noteName = notesDict[noteValue];
+    noteName = getNoteName(noteValue);
     notesScaleRowHTML = notesScaleRowHTML.concat("<div class=" + classString + " onclick=" + callbackString + ">");
     notesScaleRowHTML = notesScaleRowHTML.concat(noteName.toString());
     notesScaleRowHTML = notesScaleRowHTML.concat("</div>");
@@ -291,7 +300,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   chordValuesArray.forEach(function (chordValues, index)
   {
     var noteValue = scaleNotesValues[index];
-    var noteName = notesDict[noteValue];
+    var noteName = getNoteName(noteValue);
 
     var chordName = getKeyFromValue(chordsDict, chordValues);
     var chordNoteName = getNoteNameChord(noteName, chordName);
@@ -327,7 +336,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     chordValues.forEach(function (intervalValue)
     {
       newNoteValue = addToNoteValue(noteFondamental, intervalValue);
-      noteName = notesDict[newNoteValue];
+      noteName = getNoteName(newNoteValue);
       chordNotesStr = chordNotesStr.concat(noteName + ",&nbsp;")
     });
     chordNotesStr = chordNotesStr.slice(0, -7);
