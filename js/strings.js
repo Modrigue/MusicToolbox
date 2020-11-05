@@ -30,5 +30,8 @@ function getString(id)
     var lang = getSelectedCulture();
     var stringsDict = stringsDicts[lang];
 
-    return stringsDict[id];
+    if (stringsDict.hasOwnProperty(id))
+        return stringsDict[id];
+    else
+        return stringsDict_int[id];
 }
