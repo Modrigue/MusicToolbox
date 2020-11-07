@@ -35,3 +35,14 @@ function getString(id)
     else
         return stringsDict_int[id];
 }
+
+function getScaleString(id)
+{
+    var lang = getSelectedCulture();
+    var scalesDict = scalesDicts[lang];
+
+    if (scalesDict.hasOwnProperty(id))
+        return scalesDict[id];
+    else
+        return scalesDict_int[id];
+}

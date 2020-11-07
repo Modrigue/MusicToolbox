@@ -2,8 +2,8 @@
 
 function updateSelectors()
 {
-  var select = document.getElementById('note');
-  var initialized = (select.options != null && select.options.length > 0);
+  var noteSelect = document.getElementById('note');
+  var initialized = (noteSelect.options != null && noteSelect.options.length > 0);
 
   // get selected culture
   var lang = getSelectedCulture(); 
@@ -20,7 +20,7 @@ function updateSelectors()
       option.innerHTML = notesDict[key];
       if (key == 3) // C
         option.selected = true;
-      select.appendChild(option);
+      noteSelect.appendChild(option);
     }
   }
   else
@@ -29,8 +29,54 @@ function updateSelectors()
     var noteValue = 0;
     for (var key in notesDict)
     {
-      select.options[noteValue].innerHTML = notesDict[key];
+      noteSelect.options[noteValue].innerHTML = notesDict[key];
       noteValue++;
+    }
+  }
+
+  // fill scale selector
+
+  var scaleSelect = document.getElementById('scale');
+  var initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
+
+  var regexNbNotes = /(\d+)notes/;
+
+  if (!initialized)
+  {
+    // init
+    for (var key in scalesDict_int)
+    {
+      var option = document.createElement('option');
+      option.value = key;
+      var scaleName = getScaleString(key);
+      option.innerHTML = scaleName;
+      
+      // scale to highlight
+      if (hightlightScale(key))
+        option.classList.add('bolden');
+
+      // notes seperator
+      if (key.match(regexNbNotes))
+      {
+        option.classList.add('bolden');
+        option.disabled = true;
+      }
+
+      // simple separator
+      if (scaleName == "")
+        option.disabled = true;
+
+      scaleSelect.appendChild(option);
+    }
+  }
+  else
+  {
+    // update
+    var scaleValue = 0;
+    for (var key in scalesDict_int)
+    {
+      scaleSelect.options[scaleValue].innerHTML = getScaleString(key);
+      scaleValue++;
     }
   }
 }
