@@ -142,7 +142,7 @@ scalesDict_int["5javanese,2"] = "Balinese (2nd mode)";
 
 var scalesDict_fr = {};
 
-scalesDict_fr["7major_nat,1"] = "Majeur naturelle / Ionien";
+scalesDict_fr["7major_nat,1"] = "Majeure naturelle / Ionien";
 scalesDict_fr["7major_nat,6"] = "Mineure naturelle / Eolien (6e mode)";
 scalesDict_fr["7major_nat,2,diff:7major_nat;6"] = "Dorien (2e mode)";
 scalesDict_fr["7major_nat,3,diff:7major_nat;6"] = "Phrygien (3e mode)";
