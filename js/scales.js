@@ -122,7 +122,7 @@ scalesDict_int["6istrian,1"] = "Istrian";
 scalesDict_int["6others,sep"] = "";
 
 scalesDict_int["5notes"] = "------------------------ 5 NOTES ------------------------";
-scalesDict_int["5major_penta,1"] = "Pentatonic major";
+scalesDict_int["5major_penta,1"] = "Pentatonic major / Mongolian";
 scalesDict_int["5major_penta,5"] = "Pentatonic minor / Yo (5th mode)";
 scalesDict_int["5major_penta,2"] = "Egyptian / Suspended (2nd mode)";
 scalesDict_int["5major_penta,3"] = "Blues minor / Man gong (3rd mode)";
@@ -136,7 +136,7 @@ scalesDict_int["5jap_insen,1"] = "Insen";
 scalesDict_int["5jap_insen,5"] = "Kumoi (5th mode)";
 scalesDict_int["5jap_insen,sep"] = "";
 scalesDict_int["5javanese,1"] = "Javanese";
-scalesDict_int["5javanese,2"] = "Balinese (2nd mode)";
+scalesDict_int["5javanese,2"] = "Balinese / Pelog (2nd mode)";
 
 // french
 
@@ -166,7 +166,7 @@ scalesDict_fr["7minor_melo,5,diff:7major_nat;5"] = "Mixolydien ♭6 (5e mode)";
 scalesDict_fr["7minor_melo,6,diff:7major_nat;7"] = "Semi-diminuée / Locrien ♮2 (6e mode)";
 scalesDict_fr["7minor_melo,7,diff:7major_nat;7"] = "Super Locrien / Altérée (7e mode)";
 
-scalesDict_fr["7major_2harm,1,diff:7major_nat;1"] = "Majeure double harm. / Byzantine / Gitane";
+scalesDict_fr["7major_2harm,1,diff:7major_nat;1"] = "Double majeure harm. / Byzantine / Gitane";
 scalesDict_fr["7major_2harm,2,diff:7major_nat;4"] = "Lydien #2 #6 (2e mode)";
 scalesDict_fr["7major_2harm,3,diff:7major_nat;3"] = "Ultra phrygien (3e mode)";
 scalesDict_fr["7major_2harm,4,diff:7major_nat;6"] = "Hongroise mineure (4e mode)";
@@ -212,7 +212,7 @@ scalesDict_fr["6tritone,1"] = "Triton / Petrouchka";
 scalesDict_fr["6tritone_semi,1"] = "2 semi-tons triton";
 scalesDict_fr["6istrian,1"] = "Istrien";
 
-scalesDict_fr["5major_penta,1"] = "Pentatonique majeure";
+scalesDict_fr["5major_penta,1"] = "Pentatonique majeure / Mongolienne";
 scalesDict_fr["5major_penta,5"] = "Pentatonique mineure / Yo (5e mode)";
 scalesDict_fr["5major_penta,2"] = "Egyptienne / Suspendue (2e mode)";
 scalesDict_fr["5major_penta,3"] = "Blues mineur / Man gong (3e mode)";
@@ -226,7 +226,7 @@ scalesDict_fr["5jap_insen,1"] = "Insen";
 scalesDict_fr["5jap_insen,5"] = "Kumoi (5e mode)";
 
 scalesDict_fr["5javanese,1"] = "Javanaise";
-scalesDict_fr["5javanese,2"] = "Balinaise (2e mode)";
+scalesDict_fr["5javanese,2"] = "Balinaise / Pelog (2e mode)";
 
 
 // global dictionary
