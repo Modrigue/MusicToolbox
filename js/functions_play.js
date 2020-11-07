@@ -1,10 +1,10 @@
 function playNote(noteValue, delay)
 {
     // delay: play one note every quarter second
-    var note = 48 + noteValue; // the MIDI note
-    var velocity = 96; // how hard the note hits
-    var volume = 60; // volume
-    var length = 0.75;
+    const note = 48 + noteValue; // the MIDI note
+    const velocity = 96; // how hard the note hits
+    const volume = 60; // volume
+    const length = 0.75;
 
     // play the note
     MIDI.setVolume(0, volume);
@@ -14,7 +14,7 @@ function playNote(noteValue, delay)
 
 function playScale(noteValue, scaleValues)
 {
-    var duration = 1;
+    const duration = 1;
     scaleValues.forEach(function (intervalValue, index)
     {
         playNote(noteValue + intervalValue, duration*index);
@@ -34,10 +34,11 @@ function playChords(noteValue, scaleValues, chordValuesArray, duration)
 {
     chordValuesArray.forEach(function(chordValues, index)
     {
-        var noteCurrent = noteValue + scaleValues[index];
+        const noteCurrent = noteValue + scaleValues[index];
         playChord(noteCurrent, chordValues, index*duration);    
     });
-    var nbNotesInScale = scaleValues.length;
+
+    const nbNotesInScale = scaleValues.length;
     playChord(noteValue + 12, chordValuesArray[0], nbNotesInScale*duration);
 }
 
@@ -47,20 +48,20 @@ function playChords(noteValue, scaleValues, chordValuesArray, duration)
 function onPlayScale()
 {
     // get selected note and scale values
-    var noteValue = getSelectedNoteValue();
-    var scaleValues = getSelectedScaleValues();
+    const noteValue = getSelectedNoteValue();
+    const scaleValues = getSelectedScaleValues();
 
     playScale(noteValue, scaleValues);
 }
 
 function onPlayNoteInScale(index)
 {
-    var duration = 0;
+    const duration = 0;
 
     // get selected note and scale values
-    var noteValue = getSelectedNoteValue();
-    var scaleValues = getSelectedScaleValues();
-    var intervalValue = scaleValues[index];
+    const noteValue = getSelectedNoteValue();
+    const scaleValues = getSelectedScaleValues();
+    const intervalValue = scaleValues[index];
 
     playNote(noteValue + intervalValue, duration);
 }
@@ -68,28 +69,28 @@ function onPlayNoteInScale(index)
 function onPlayChords(nbNotesInChords)
 {
     // get selected note and scale values
-    var noteValue = getSelectedNoteValue();
-    var scaleValues = getSelectedScaleValues();
+    const noteValue = getSelectedNoteValue();
+    const scaleValues = getSelectedScaleValues();
 
-    var chordValuesArray = [];  
+    let chordValuesArray = [];  
     scaleValues.forEach(function (noteValue, index)
     {
-      var chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+      const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
       chordValuesArray.push(chordValues);
     });
 
-    var duration = 1;
+    const duration = 1;
     playChords(noteValue, scaleValues, chordValuesArray, duration);
 }
 
 function onPlayChordInScale(nbNotesInChords, index, delay = 0)
 {
     // get selected note and scale values
-    var noteValue = getSelectedNoteValue();
-    var scaleValues = getSelectedScaleValues();
-    var chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+    const noteValue = getSelectedNoteValue();
+    const scaleValues = getSelectedScaleValues();
+    const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
 
-    var duration = 0;
-    var noteCurrent = noteValue + scaleValues[index];
+    const duration = 0;
+    const noteCurrent = noteValue + scaleValues[index];
     playChord(noteCurrent, chordValues, duration, delay);   
 }

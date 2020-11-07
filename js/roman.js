@@ -1,5 +1,5 @@
 // /roman digits
-var romanDigits = {};
+const romanDigits = {};
 romanDigits[1]  = "I";
 romanDigits[2]  = "II";
 romanDigits[3]  = "III";

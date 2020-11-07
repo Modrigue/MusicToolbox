@@ -2,20 +2,20 @@
 
 function updateSelectors()
 {
-  var noteSelect = document.getElementById('note');
-  var initialized = (noteSelect.options != null && noteSelect.options.length > 0);
+  const noteSelect = document.getElementById('note');
+  let initialized = (noteSelect.options != null && noteSelect.options.length > 0);
 
   // get selected culture
-  var lang = getSelectedCulture(); 
-  var notesDict = notesDicts[lang];
+  const lang = getSelectedCulture(); 
+  const notesDict = notesDicts[lang];
 
   // fill note selector
   if (!initialized)
   {
     // init
-    for (var key in notesDict)
+    for (const key in notesDict)
     {
-      var option = document.createElement('option');
+      let option = document.createElement('option');
       option.value = key;
       option.innerHTML = notesDict[key];
       if (key == 3) // C
@@ -26,8 +26,8 @@ function updateSelectors()
   else
   {
     // update
-    var noteValue = 0;
-    for (var key in notesDict)
+    let noteValue = 0;
+    for (const key in notesDict)
     {
       noteSelect.options[noteValue].innerHTML = notesDict[key];
       noteValue++;
@@ -36,19 +36,19 @@ function updateSelectors()
 
   // fill scale selector
 
-  var scaleSelect = document.getElementById('scale');
-  var initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
+  const scaleSelect = document.getElementById('scale');
+  initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
 
-  var regexNbNotes = /(\d+)notes/;
+  const regexNbNotes = /(\d+)notes/;
 
   if (!initialized)
   {
     // init
-    for (var key in scalesDict_int)
+    for (const key in scalesDict_int)
     {
-      var option = document.createElement('option');
+      let option = document.createElement('option');
       option.value = key;
-      var scaleName = getScaleString(key);
+      const scaleName = getScaleString(key);
       option.innerHTML = scaleName;
       
       // scale to highlight
@@ -72,8 +72,8 @@ function updateSelectors()
   else
   {
     // update
-    var scaleValue = 0;
-    for (var key in scalesDict_int)
+    let scaleValue = 0;
+    for (const key in scalesDict_int)
     {
       scaleSelect.options[scaleValue].innerHTML = getScaleString(key);
       scaleValue++;
@@ -84,8 +84,8 @@ function updateSelectors()
 // get selected text from selector
 function getSelectorText(id)
 {
-  var selector = document.getElementById(id);
-  var selectedIndex = selector.selectedIndex;
+  const selector = document.getElementById(id);
+  const selectedIndex = selector.selectedIndex;
   return selector.options[selectedIndex].text;
 }
 
@@ -106,19 +106,19 @@ function onScaleChanged()
 function update()
 {
   // get selected note and scale/mode values
-  var noteValue = getSelectedNoteValue();
-  var scaleValues = getSelectedScaleValues();
-  var charIntervals = getSelectedScaleCharIntervals();
+  const noteValue = getSelectedNoteValue();
+  const scaleValues = getSelectedScaleValues();
+  const charIntervals = getSelectedScaleCharIntervals();
 
-  var nbNotesInScale = scaleValues.length;
+  const nbNotesInScale = scaleValues.length;
   
   // build scale notes list
-  var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+  const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
   document.getElementById('scale_result').innerHTML = getScaleNotesTable(noteValue, scaleValues, charIntervals);
 
   // build chords 3,4 notes harmonization tables
-  var showChords3 = (nbNotesInScale >= 6);
-  var showChords4 = (nbNotesInScale >= 7);
+  const showChords3 = (nbNotesInScale >= 6);
+  const showChords4 = (nbNotesInScale >= 7);
   document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTable(scaleValues, scaleNotesValues, 3) : "";
   document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTable(scaleValues, scaleNotesValues, 4) : "";
 
@@ -138,11 +138,11 @@ function update()
 
 function onResize()
 {
-    var canvasGuitar = document.getElementById("canvas_guitar");
+    let canvasGuitar = document.getElementById("canvas_guitar");
     canvasGuitar.width = window.innerWidth - 30;
     //updateFretboardFromTonality();
 
-    var canvasKeyboard = document.getElementById("canvas_keyboard");
+    let canvasKeyboard = document.getElementById("canvas_keyboard");
     canvasKeyboard.width = window.innerWidth - 30;
     //updateKeyboardFromTonality();
 
@@ -151,7 +151,7 @@ function onResize()
 
 function toggleDisplay(id)
 {
-  var x = document.getElementById(id);
+  let x = document.getElementById(id);
   
   if (x.style.display === "none")
     x.style.display = "block";
@@ -161,30 +161,30 @@ function toggleDisplay(id)
 
 function setEnabledStatus(id, status)
 {
-  var x = document.getElementById(id);
+  let x = document.getElementById(id);
   x.disabled = !status;
 }
 
 function getSelectedCulture()
 {
-  var checkboxLanguage = document.getElementById("checkboxLanguage");
-  var culture = checkboxLanguage.checked ? "fr" : "int";
+  const checkboxLanguage = document.getElementById("checkboxLanguage");
+  const culture = checkboxLanguage.checked ? "fr" : "int";
   return culture;
 }
 
 function updateLanguage()
 {
-  var culture = getSelectedCulture();
+  const culture = getSelectedCulture();
 
-  var textSelectKey = document.getElementById("select_key_text");
+  let textSelectKey = document.getElementById("select_key_text");
   textSelectKey.innerText = getString("select_key");
 
   // update checkboxes
-  var checkboxChordsLabel = document.getElementById("checkboxChordsLabel");
+  let checkboxChordsLabel = document.getElementById("checkboxChordsLabel");
   checkboxChordsLabel.innerText = getString("chords");
-  var checkboxGuitarLabel = document.getElementById("checkboxGuitarLabel");
+  let checkboxGuitarLabel = document.getElementById("checkboxGuitarLabel");
   checkboxGuitarLabel.innerText = getString("guitar");
-  var checkboxKeyboardLabel = document.getElementById("checkboxKeyboardLabel");
+  let checkboxKeyboardLabel = document.getElementById("checkboxKeyboardLabel");
   checkboxKeyboardLabel.innerText = getString("keyboard");
 
   // update computed data

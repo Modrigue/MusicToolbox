@@ -1,17 +1,17 @@
 // parameters
-var tuning = [7, 0, 5, 10, 2, 7];
-var nbStrings = tuning.length;
-var xFretMargin = 40;
-var yFretMargin = 20;
-var xFretStep = 60;
+let tuning = [7, 0, 5, 10, 2, 7];
+let nbStrings = tuning.length;
+let xFretMargin = 40;
+let yFretMargin = 20;
+let xFretStep = 60;
 
 // colors
-var colorFretsStrings = "lightgrey";
-var colorFretsOctave = "dimgrey";
-var colorNoteTonic = "firebrick";
-var colorNoteNormal = "dimgrey";
-var colorNoteChar = "dodgerblue";
-var colorHintFret = "whitesmoke";
+const colorFretsStrings = "lightgrey";
+const colorFretsOctave = "dimgrey";
+const colorNoteTonic = "firebrick";
+const colorNoteNormal = "dimgrey";
+const colorNoteChar = "dodgerblue";
+const colorHintFret = "whitesmoke";
 
 function getCaseNoteValue(i, j)
 {
@@ -24,18 +24,18 @@ function displayNoteOnFretboard(i, j, text, color)
     canvas = document.getElementById("canvas_guitar");
     if (canvas.getContext) 
     {
-        var ctx = canvas.getContext("2d");
-        var yStep = (canvas.height - 2* yFretMargin) / (nbStrings - 1);
-        var radius = Math.min(xFretStep, yStep) / 2 - 2;
+        let ctx = canvas.getContext("2d");
+        const yStep = (canvas.height - 2* yFretMargin) / (nbStrings - 1);
+        const radius = Math.min(xFretStep, yStep) / 2 - 2;
 
         if ( i > nbStrings)
             return;
 
         // position
-        var x = xFretMargin + (j - 1) * xFretStep + xFretStep / 2 - 1;
+        let x = xFretMargin + (j - 1) * xFretStep + xFretStep / 2 - 1;
         if (j == 0)
             x = xFretMargin + (j - 1) * 40 + 40 / 2 - 1;
-        var y = yFretMargin + (nbStrings - i) * yStep - 1;
+        let y = yFretMargin + (nbStrings - i) * yStep - 1;
         if (x > canvas.width - xFretMargin)
             return;
         ctx.beginPath();
@@ -45,20 +45,22 @@ function displayNoteOnFretboard(i, j, text, color)
         ctx.closePath();
 
         // text
-        var lang = getSelectedCulture();
+        const lang = getSelectedCulture();
+        let xShift = 0;
+        let yShift = 0;
         switch (lang)
         {
             case "fr":
                 ctx.font = "14px Arial";
-                var xShift = -9 - 2*(text.length - 2);
-                var yShift = 4; //6;
+                xShift = -9 - 2*(text.length - 2);
+                yShift = 4; //6;
                 break;
 
             case "int":
             default:
                 ctx.font = "18px Arial";
-                var xShift = (text.length == 2) ? -12 : -6;
-                var yShift = 6;
+                xShift = (text.length == 2) ? -12 : -6;
+                yShift = 6;
                 break;
         }
         ctx.fillStyle = "white";
@@ -69,9 +71,9 @@ function displayNoteOnFretboard(i, j, text, color)
 function updateFretboardFromTonality()
 {
   // get selected note and scale/mode values
-  var noteValue = getSelectedNoteValue();
-  var scaleValues = getSelectedScaleValues();
-  var charIntervals = getSelectedScaleCharIntervals();
+  const noteValue = getSelectedNoteValue();
+  const scaleValues = getSelectedScaleValues();
+  const charIntervals = getSelectedScaleCharIntervals();
 
   // update fretboard
   updateFretboard(noteValue, scaleValues, charIntervals);
@@ -79,12 +81,12 @@ function updateFretboardFromTonality()
 
 function updateFretboard(noteValue, scaleValues, charIntervals)
 {
-    var canvas = document.getElementById("canvas_guitar");
+    let canvas = document.getElementById("canvas_guitar");
 
     // fretboard
     if (canvas.getContext) 
     {
-        var ctx = canvas.getContext("2d");
+        let ctx = canvas.getContext("2d");
         ctx.strokeStyle = colorFretsStrings;
 
         // clear
@@ -97,8 +99,8 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         ctx.closePath();
 
         // hint frets
-        var hintFrets = [0, 3, 5, 7, 9];
-        var indexFret = 0;
+        const hintFrets = [0, 3, 5, 7, 9];
+        let indexFret = 0;
         for (x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
         {
             indexFret++;
@@ -115,20 +117,20 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         }
 
         // horizontal lines (strings)
-        var yStep = (canvas.height - 2 * yFretMargin) / (nbStrings - 1);
+        let yStep = (canvas.height - 2 * yFretMargin) / (nbStrings - 1);
         for (i = 0; i < nbStrings; i++) 
         {
-            var y = yFretMargin + i*yStep;
+            let y = yFretMargin + i*yStep;
             ctx.moveTo(xFretMargin, y);
             ctx.lineTo(canvas.width - xFretMargin, y);
             ctx.stroke();
         }
 
         // vertical lines
-        var indexFret = 0;
+        indexFret = 0;
         for (x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
         {
-            var isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
+            let isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
 
             ctx.beginPath();
             ctx.strokeStyle = isFretOctave ? colorFretsOctave : colorFretsStrings;
@@ -142,24 +144,24 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
     }
 
     // display notes
-    var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+    const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     for (i = 1; i <= nbStrings; i++)
     {
         for (j = 0; j <3*12; j++)
         {
-            var currentNoteValue = getCaseNoteValue(i, j);
+            const currentNoteValue = getCaseNoteValue(i, j);
             if (!scaleNotesValues.includes(currentNoteValue))
                 continue;
 
             // display note
 
-            var currentNote = getNoteName(currentNoteValue);
+            const currentNote = getNoteName(currentNoteValue);
 
-            var colorNote = colorNoteNormal;
+            let colorNote = colorNoteNormal;
             if (currentNoteValue == noteValue)
                 colorNote = colorNoteTonic;
 
-            var indexNote = scaleNotesValues.indexOf(currentNoteValue);
+                const indexNote = scaleNotesValues.indexOf(currentNoteValue);
             if (charIntervals != null && charIntervals.includes(indexNote))
                 colorNote = colorNoteChar; // characteristic note
 
@@ -171,8 +173,8 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
 function saveFretboardImage()
 {
     let canvasImage = document.getElementById('canvas_guitar').toDataURL('image/png');
-    var noteSelectedText = getSelectorText("note");
-    var scaleSelectedText = getSelectorText("scale");
+    const noteSelectedText = getSelectorText("note");
+    let scaleSelectedText = getSelectorText("scale");
     scaleSelectedText = scaleSelectedText.replaceAll(" / ", ' ');
     scaleSelectedText = scaleSelectedText.replaceAll(' ', '_');
     scaleSelectedText = scaleSelectedText.replaceAll('♭', 'b');

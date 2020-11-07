@@ -3,7 +3,7 @@
 // get selected note
 function getSelectedNoteValue()
 {
-  noteSelected = document.getElementById("note").value;
+  const noteSelected = document.getElementById("note").value;
   return parseInt(noteSelected);
 }
 
@@ -11,10 +11,10 @@ function getSelectedNoteValue()
 function getSelectedScaleValues()
 {
   scaleSelected = document.getElementById("scale").value;
-  var scaleAttributes = scaleSelected.split(",");
-  var scaleName = scaleAttributes[0];
-  var modeValue = parseInt(scaleAttributes[1]);
-  var scaleFamily = scaleFamiliesDict[scaleName];
+  const scaleAttributes = scaleSelected.split(",");
+  const scaleName = scaleAttributes[0];
+  const modeValue = parseInt(scaleAttributes[1]);
+  const scaleFamily = scaleFamiliesDict[scaleName];
   
   return getModeNotesValues(scaleFamily, modeValue);
 }
@@ -23,26 +23,26 @@ function getSelectedScaleValues()
 function getSelectedScaleCharIntervals()
 {
   scaleSelected = document.getElementById("scale").value;
-  var refScaleAttributes = scaleSelected.split(",");
+  let refScaleAttributes = scaleSelected.split(",");
 
   // no characterisitic notes
   if (refScaleAttributes.length < 3)
     return "";
   
   // parse reference scale attribute
-  var diffString = refScaleAttributes[2];
-  var diffAttributes = scaleSelected.split(":");
+  const diffString = refScaleAttributes[2];
+  const diffAttributes = scaleSelected.split(":");
   if (diffAttributes.length < 2)
     return "";
-  var refScaleString = diffAttributes[1];
-  var refScaleAttributes = refScaleString.split(";");
-  var refScaleName = refScaleAttributes[0];
-  var refModeValue = parseInt(refScaleAttributes[1]);
-  var refScaleFamily = scaleFamiliesDict[refScaleName];
+  const refScaleString = diffAttributes[1];
+  refScaleAttributes = refScaleString.split(";");
+  const refScaleName = refScaleAttributes[0];
+  const refModeValue = parseInt(refScaleAttributes[1]);
+  const refScaleFamily = scaleFamiliesDict[refScaleName];
   
   // get selected and reference scale values
-  var refScaleValues = getModeNotesValues(refScaleFamily, refModeValue);
-  var scaleValues = getSelectedScaleValues();
+  const refScaleValues = getModeNotesValues(refScaleFamily, refModeValue);
+  const scaleValues = getSelectedScaleValues();
   
   // compute differences between selected and reference scale values
   return arraysDiff(scaleValues, refScaleValues);
@@ -60,7 +60,7 @@ function addToNoteValue(noteValue, interval)
 // get scale notes values given tonic and scale
 function getScaleNotesValues(noteValue, scaleValues)
 {
-  var scaleNotesValues = [];
+  let scaleNotesValues = [];
 
   scaleValues.forEach(function (interval, index)
   {
@@ -74,17 +74,17 @@ function getScaleNotesValues(noteValue, scaleValues)
 // get mode notes values given scale and mode number
 function getModeNotesValues(scaleValues, modeNumber)
 {
-  var modeNotesValues = [];
+  let modeNotesValues = [];
 
-  var nbNotes = scaleValues.length;
+  const nbNotes = scaleValues.length;
   for (i = 0; i < nbNotes; i++)
   {
-    var index = (i + (modeNumber - 1)) % nbNotes;
-    var noteValue = scaleValues[index];
+    const index = (i + (modeNumber - 1)) % nbNotes;
+    const noteValue = scaleValues[index];
     modeNotesValues.push(noteValue);
   }
 
-  var firstInterval = scaleValues[modeNumber - 1];
+  const firstInterval = scaleValues[modeNumber - 1];
   for (i = 0; i < nbNotes; i++)
   {
     modeNotesValues[i] = (modeNotesValues[i] - firstInterval + 12) % 12;
@@ -101,8 +101,8 @@ function getAltIntervalNotation(intervalValue, index)
   if (index == 1)
     return "T";
 
-  var exactInterval = getKeyFromValue(intervalsDict, index.toString());
-  var res = index.toString();
+  const exactInterval = getKeyFromValue(intervalsDict, index.toString());
+  let res = index.toString();
 
   // exact interval: nop
   if (intervalValue == exactInterval)
@@ -112,7 +112,7 @@ function getAltIntervalNotation(intervalValue, index)
   // ♭'s
   else if (intervalValue < exactInterval)
   {
-    for (var i = 0; i < exactInterval - intervalValue; i++)
+    for (let i = 0; i < exactInterval - intervalValue; i++)
     {
       res = "♭" + res;
     }
@@ -121,7 +121,7 @@ function getAltIntervalNotation(intervalValue, index)
   // #'s
   else if (intervalValue > exactInterval)
   {
-    for (var i = 0; i < intervalValue - exactInterval; i++)
+    for (let i = 0; i < intervalValue - exactInterval; i++)
     {
       res = "#" + res;
     }
@@ -136,8 +136,8 @@ function getIntervalString(intervalName, intervalNameAlt)
   if (intervalName == intervalNameAlt)
     return intervalName;
 
-  var index =  getIndexFromInterval(intervalName);
-  var indexAlt =  getIndexFromInterval(intervalNameAlt);
+  const index =  getIndexFromInterval(intervalName);
+  const indexAlt =  getIndexFromInterval(intervalNameAlt);
 
   if (index <= indexAlt)
     return intervalName + " / " + intervalNameAlt;
@@ -147,17 +147,8 @@ function getIntervalString(intervalName, intervalNameAlt)
 
 function getIndexFromInterval(intervalName)
 {
-  var indexString = intervalName.replace(/♭/gi, "").replace(/#/gi, "");
+  const indexString = intervalName.replace(/♭/gi, "").replace(/#/gi, "");
   return parseInt(indexString);
-}
-
-function getNoteName(noteValue)
-{
-  // get selected culture
-  var lang = getSelectedCulture(); 
-  var notesDict = notesDicts[lang];
-
-  return notesDict[noteValue];
 }
 
 
@@ -167,18 +158,18 @@ function getNoteName(noteValue)
 // get chord position given scale values and number of notes
 function getChordNumberInScale(scaleValues, pos, nbNotes)
 {
-  var chordValues = [];
+  let chordValues = [];
 
-  var posCur = pos;
-  var nbNotesInScale = scaleValues.length;
-  var firstNoteValue = -1;
+  let posCur = pos;
+  const nbNotesInScale = scaleValues.length;
+  let firstNoteValue = -1;
   for (i = 0; i < nbNotes; i++)
   {
-    var value = scaleValues[posCur];
+    const value = scaleValues[posCur];
     if (i == 0)
       firstNoteValue = value;
 
-    var finalValue = (value - firstNoteValue + 12) % 12;
+    const finalValue = (value - firstNoteValue + 12) % 12;
     chordValues.push(finalValue);
 
     posCur = (posCur + 2) % nbNotesInScale;
@@ -200,14 +191,15 @@ function getNoteNameChord(noteName, chordName)
 // get roman representation of chord position
 function getRomanChord(pos, chordName, nbNotesInChords)
 {
-  var romanPos = romanDigits[pos + 1];
+  let romanPos = romanDigits[pos + 1];
   
   // write minor chords in lower case
-  var chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
-  var chordValues = chordsDict[chordName];
+  const chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
+  const chordValues = chordsDict[chordName];
+  let isMinorChord = false;
   if (chordValues != null && chordValues.length > 1)
   {
-    var isMinorChord = (chordValues[1] == 3);
+    isMinorChord = (chordValues[1] == 3);
     if (isMinorChord)
       romanPos = romanPos.toLowerCase();
   }
@@ -228,22 +220,22 @@ function getRomanChord(pos, chordName, nbNotesInChords)
 
 function getScaleNotesTable(noteValue, scaleValues, charIntervals)
 {
-  var nbNotesInScale = scaleValues.length;
+  const nbNotesInScale = scaleValues.length;
 
   // build scale notes list
-  var notesScaleTablesHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes&nbsp;<button onclick=\"onPlayScale()\">" + getString("play") + " ♪</button></div><div id=\"resp-table-body\">";
-  var notesScaleRowHTML = "<div class=\"resp-table-row\">";
-  var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+  let notesScaleTablesHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes&nbsp;<button onclick=\"onPlayScale()\">" + getString("play") + " ♪</button></div><div id=\"resp-table-body\">";
+  let notesScaleRowHTML = "<div class=\"resp-table-row\">";
+  const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
   {
     // highlight if characteristic note
-    var classString = "table-body-cell-interactive";
+    let classString = "table-body-cell-interactive";
     if (index == 0)
       classString = "table-body-cell-tonic-interactive";
     else if (charIntervals != null && charIntervals.includes(index))
       classString = "table-body-cell-char-interactive";
 
-    var callbackString = "onPlayNoteInScale(" + index + ")";
+    const callbackString = "onPlayNoteInScale(" + index + ")";
 
     noteName = getNoteName(noteValue);
     notesScaleRowHTML = notesScaleRowHTML.concat("<div class=" + classString + " onclick=" + callbackString + ">");
@@ -253,21 +245,21 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
   notesScaleRowHTML = notesScaleRowHTML.concat("</div>");
 
   // build intervals list
-  var intervalsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
+  let intervalsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   scaleValues.forEach(function (intervalValue, index)
   {
     intervalName = intervalsDict[intervalValue];
-    var intervalNameAlt = getAltIntervalNotation(intervalValue, index);
+    const intervalNameAlt = getAltIntervalNotation(intervalValue, index);
 
     // highlight if characteristic interval
-    var classString = "table-body-cell";
+    let classString = "table-body-cell";
     if (index == 0)
       classString = "table-body-cell-tonic";
     else if (charIntervals != null && charIntervals.includes(index))
       classString = "table-body-cell-char";
 
     // display alternate notation if 7-notes cale
-    var intervalString = (nbNotesInScale == 7) ?
+    const intervalString = (nbNotesInScale == 7) ?
       getIntervalString(intervalName, intervalNameAlt) : intervalName;
 
     intervalsScaleRowHTML = intervalsScaleRowHTML.concat("<div class=" + classString + ">");
@@ -285,13 +277,13 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
 
 function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
 {
-  var chordValuesArray = [];
-  var chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
+  let chordValuesArray = [];
+  const chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
 
-  var chordsTableHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">" + getString("chords_" + nbNotesInChords + "_notes") + "&nbsp;<button onclick=\"onPlayChords(" + nbNotesInChords + ")\">" + getString("play") + " ♪</button></div><div id=\"resp-table-body\">";
+  let chordsTableHTML = "<div id=\"resp-table\"><div id=\"resp-table-caption\">" + getString("chords_" + nbNotesInChords + "_notes") + "&nbsp;<button onclick=\"onPlayChords(" + nbNotesInChords + ")\">" + getString("play") + " ♪</button></div><div id=\"resp-table-body\">";
   scaleValues.forEach(function (noteValue, index)
   {
-    var chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+    const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
     chordValuesArray.push(chordValues);
   });
   
@@ -299,13 +291,13 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
-    var noteValue = scaleNotesValues[index];
-    var noteName = getNoteName(noteValue);
+    const noteValue = scaleNotesValues[index];
+    const noteName = getNoteName(noteValue);
 
-    var chordName = getKeyFromValue(chordsDict, chordValues);
-    var chordNoteName = getNoteNameChord(noteName, chordName);
+    const chordName = getKeyFromValue(chordsDict, chordValues);
+    const chordNoteName = getNoteNameChord(noteName, chordName);
 
-    var callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ")";
+    const callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ")";
 
     chordsRowHTML = chordsRowHTML.concat("<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">");
     chordsRowHTML = chordsRowHTML.concat(chordNoteName);
@@ -317,8 +309,8 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
-    var chordName = getKeyFromValue(chordsDict, chordValues);
-    var romanChord = getRomanChord(index, chordName, nbNotesInChords);
+    const chordName = getKeyFromValue(chordsDict, chordValues);
+    const romanChord = getRomanChord(index, chordName, nbNotesInChords);
 
     chordsRomanRowHTML = chordsRomanRowHTML.concat("<div class=\"table-body-cell\">");
     chordsRomanRowHTML = chordsRomanRowHTML.concat(romanChord);
@@ -330,9 +322,9 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsNotesRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
-    var noteFondamental = scaleNotesValues[index];
+    const noteFondamental = scaleNotesValues[index];
 
-    var chordNotesStr = "";
+    let chordNotesStr = "";
     chordValues.forEach(function (intervalValue)
     {
       newNoteValue = addToNoteValue(noteFondamental, intervalValue);
@@ -341,7 +333,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     });
     chordNotesStr = chordNotesStr.slice(0, -7);
 
-    var callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ",0.25)";
+    const callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ",0.25)";
 
     chordsNotesRowHTML = chordsNotesRowHTML.concat("<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">");
     chordsNotesRowHTML = chordsNotesRowHTML.concat(chordNotesStr);
@@ -353,7 +345,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsIntervalsRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
-    var chordIntervalsStr = "";
+    let chordIntervalsStr = "";
     chordValues.forEach(function (intervalValue)
     {
       intervalName = intervalsDict[intervalValue];
@@ -386,9 +378,9 @@ function getKeyFromValue(dict, value)
   if (dict == null)
     return null;
 
-    for(var key in dict)
+    for(const key in dict)
     {
-      var valueCur = dict[key];
+      const valueCur = dict[key];
       if (arraysEqual(valueCur, value))
         return key;
     }
@@ -404,7 +396,7 @@ function arraysEqual(a, b)
   if (a.length !== b.length)
     return false;
 
-  for (var i = 0; i < a.length; ++i)
+  for (let i = 0; i < a.length; ++i)
   {
     if (a[i] !== b[i])
       return false;
@@ -415,7 +407,7 @@ function arraysEqual(a, b)
 
 function arraysDiff(a, b)
 {
-  var diffArray = [];
+  let diffArray = [];
 
   if (a == null && b != null)
     return b;
@@ -424,7 +416,7 @@ function arraysDiff(a, b)
 
   if (a.length == b.length)
   {
-    for (var i = 0; i < a.length; i++)
+    for (let i = 0; i < a.length; i++)
     {
       if (a[i] !== b[i])
         diffArray.push(i);
@@ -433,8 +425,8 @@ function arraysDiff(a, b)
   else
   {
     // different lengths
-    var A = a;
-    var B = b;
+    let A = a;
+    let B = b;
     if (a.length < b.length)
     {
       // ensure A is the biggest array
@@ -443,7 +435,7 @@ function arraysDiff(a, b)
     }
     
     // find A elements non included in B
-    for (var i = 0; i < A.length; i++)
+    for (let i = 0; i < A.length; i++)
     {
       if (!B.includes(A[i]))
         diffArray.push(i);

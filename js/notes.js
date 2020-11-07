@@ -1,5 +1,5 @@
 // notes dictionnary (international notation)
-var notesDict_int = {};
+const notesDict_int = {};
 notesDict_int[0] = "A";
 notesDict_int[1] = "A#";
 notesDict_int[2] = "B";
@@ -14,7 +14,7 @@ notesDict_int[10] = "G";
 notesDict_int[11] = "G#";
 
 // notes dictionnary (french notation)
-var notesDict_fr = {};
+const notesDict_fr = {};
 notesDict_fr[0] = "La";
 notesDict_fr[1] = "La#";
 notesDict_fr[2] = "Si";
@@ -29,6 +29,6 @@ notesDict_fr[10] = "Sol";
 notesDict_fr[11] = "Sol#";
 
 // global dictionary
-var notesDicts = {};
+const notesDicts = {};
 notesDicts["int"] = notesDict_int;
 notesDicts["fr"] = notesDict_fr;

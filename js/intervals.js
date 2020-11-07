@@ -1,5 +1,5 @@
 // intervals dictionnary
-var intervalsDict = {};
+const intervalsDict = {};
 intervalsDict[0] = "T";
 intervalsDict[1] = "♭2";
 intervalsDict[2] = "2";

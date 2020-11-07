@@ -1,9 +1,9 @@
 // parameters
-var xKeyMargin = 40;
-var yKeyMargin = 20;
-var xKeyStep = 60;
-var wFactorBlackKey = 0.6;
-var hFactorBlackKey = 0.7;
+let xKeyMargin = 40;
+let yKeyMargin = 20;
+let xKeyStep = 60;
+const wFactorBlackKey = 0.6;
+const hFactorBlackKey = 0.7;
 
 // <i> has offset 0
 function displayNoteOnKeyboard(i, text, color)
@@ -11,21 +11,21 @@ function displayNoteOnKeyboard(i, text, color)
     canvas = document.getElementById("canvas_keyboard");
     if (canvas.getContext) 
     {
-        var ctx = canvas.getContext("2d");
-        var yStep = (canvas.height - 2* yKeyMargin) / (nbStrings - 1);
-        var radius = Math.min(xKeyStep, yStep) / 2 - 2;
+        let ctx = canvas.getContext("2d");
+        const yStep = (canvas.height - 2* yKeyMargin) / (nbStrings - 1);
+        const radius = Math.min(xKeyStep, yStep) / 2 - 2;
 
-        var notesBlackKeys = [1, 4, 6, 9, 11];
+        const notesBlackKeys = [1, 4, 6, 9, 11];
 
         // position
-        var xFirstKey = xKeyMargin + xKeyStep / 2 - 1;
-        var x = xFirstKey;
+        const xFirstKey = xKeyMargin + xKeyStep / 2 - 1;
+        let x = xFirstKey;
         if (i > 3)
         {
             for (noteValue = 4; noteValue <= i; noteValue++)
             {
-                var noteValueRel = noteValue % 12;
-                var noteValuePrev = (noteValue - 1) % 12;
+                const noteValueRel = noteValue % 12;
+                const noteValuePrev = (noteValue - 1) % 12;
 
                 if (notesBlackKeys.includes(noteValueRel))
                     x += xKeyStep/2;
@@ -36,7 +36,7 @@ function displayNoteOnKeyboard(i, text, color)
             }
         }
 
-        var y = (notesBlackKeys.includes(i % 12)) ? wFactorBlackKey * canvas.height - radius/2 - 5: 0.8 * canvas.height;
+        const y = (notesBlackKeys.includes(i % 12)) ? wFactorBlackKey * canvas.height - radius/2 - 5: 0.8 * canvas.height;
         if (x > canvas.width - xKeyStep)
             return;
         ctx.beginPath();
@@ -46,20 +46,22 @@ function displayNoteOnKeyboard(i, text, color)
         ctx.closePath();
 
         // text
-        var lang = getSelectedCulture();
+        const lang = getSelectedCulture();
+        let xShift = 0;
+        let yShift = 0;
         switch (lang)
         {
             case "fr":
                 ctx.font = "14px Arial";
-                var xShift = -9 - 2*(text.length - 2);
-                var yShift = 4; //6;
+                xShift = -9 - 2*(text.length - 2);
+                yShift = 4; //6;
                 break;
 
             case "int":
             default:
                 ctx.font = "18px Arial";
-                var xShift = (text.length == 2) ? -12 : -6;
-                var yShift = 6;
+                xShift = (text.length == 2) ? -12 : -6;
+                yShift = 6;
                 break;
         }
         ctx.fillStyle = "white";
@@ -70,9 +72,9 @@ function displayNoteOnKeyboard(i, text, color)
 function updateKeyboardFromTonality()
 {
   // get selected note and scale/mode values
-  var noteValue = getSelectedNoteValue();
-  var scaleValues = getSelectedScaleValues();
-  var charIntervals = getSelectedScaleCharIntervals();
+  const noteValue = getSelectedNoteValue();
+  const scaleValues = getSelectedScaleValues();
+  const charIntervals = getSelectedScaleCharIntervals();
 
   // update keyboard
   updateKeyboard(noteValue, scaleValues, charIntervals);
@@ -80,12 +82,12 @@ function updateKeyboardFromTonality()
 
 function updateKeyboard(noteValue, scaleValues, charIntervals)
 {
-    var canvas = document.getElementById("canvas_keyboard");
+    let canvas = document.getElementById("canvas_keyboard");
 
     // keyboard
     if (canvas.getContext) 
     {
-        var ctx = canvas.getContext("2d");
+        let ctx = canvas.getContext("2d");
 
         // clear
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -100,10 +102,10 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
         ctx.fillStyle = "black";
 
         // horizontal lines
-        var yStep = (canvas.height - 2 * yKeyMargin);
+        const yStep = (canvas.height - 2 * yKeyMargin);
         for (i = 0; i < 2; i++) 
         {
-            var y = yKeyMargin + i*yStep;
+            const y = yKeyMargin + i*yStep;
             ctx.moveTo(xKeyMargin, y);
             ctx.lineTo(canvas.width - xKeyMargin, y);
             ctx.stroke();
@@ -120,8 +122,8 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
         }
 
         // black keys
-        var indexBlackKeys = [1, 2, 4, 5, 6];
-        var index = 0;
+        const indexBlackKeys = [1, 2, 4, 5, 6];
+        let index = 0;
         for (x = xKeyMargin + xKeyStep; x < canvas.width - xKeyMargin; x += xKeyStep) 
         {
             index++;
@@ -135,22 +137,22 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
     }
 
     // display notes
-    var scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+    const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     for (i = 3; i <= 3 + 4*12; i++)
     {
-        var currentNoteValue = (i % 12);
+        const currentNoteValue = (i % 12);
         if (!scaleNotesValues.includes(currentNoteValue))
             continue;
 
         // display note
         
-        var currentNote = getNoteName(currentNoteValue);
+        const currentNote = getNoteName(currentNoteValue);
 
-        var colorNote = colorNoteNormal;
+        let colorNote = colorNoteNormal;
         if (currentNoteValue == noteValue)
             colorNote = colorNoteTonic;
 
-        var indexNote = scaleNotesValues.indexOf(currentNoteValue);
+        const indexNote = scaleNotesValues.indexOf(currentNoteValue);
         if (charIntervals != null && charIntervals.includes(indexNote))
             colorNote = colorNoteChar; // characteristic note
 
@@ -161,8 +163,8 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
 function saveKeyboardImage()
 {
     let canvasImage = document.getElementById('canvas_keyboard').toDataURL('image/png');
-    var noteSelectedText = getSelectorText("note");
-    var scaleSelectedText = getSelectorText("scale");
+    const noteSelectedText = getSelectorText("note");
+    let scaleSelectedText = getSelectorText("scale");
     scaleSelectedText = scaleSelectedText.replaceAll(" / ", ' ');
     scaleSelectedText = scaleSelectedText.replaceAll(' ', '_');
     scaleSelectedText = scaleSelectedText.replaceAll('♭', 'b');

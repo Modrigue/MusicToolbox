@@ -1,7 +1,7 @@
 // chords dictionaries
 
 // chords with 3 notes
-var chords3Dict = {};
+const chords3Dict = {};
 chords3Dict["M"]  = [0, 4, 7];
 chords3Dict["m"]  = [0, 3, 7];
 chords3Dict["°"]  = [0, 3, 6];
@@ -21,7 +21,7 @@ chords3Dict["madd4(no5)"]  = [0, 3, 5];
 chords3Dict["sus2add4(no5)"]  = [0, 2, 5];
 
 // chords with 4 notes
-var chords4Dict = {};
+const chords4Dict = {};
 chords4Dict["7M"]     = [0, 4, 7, 11];
 chords4Dict["7"]      = [0, 4, 7, 10];
 chords4Dict["m7"]     = [0, 3, 7, 10];

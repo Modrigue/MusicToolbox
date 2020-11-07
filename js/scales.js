@@ -1,5 +1,5 @@
 // scales families dictionary
-var scaleFamiliesDict = {};
+const scaleFamiliesDict = {};
 
 // 8 notes
 scaleFamiliesDict["8bebop_dom"]      = [0, 2, 4, 5, 7, 9, 10, 11];
@@ -41,7 +41,7 @@ scaleFamiliesDict["5jap_insen"]   = [0, 1, 5, 7, 10];
 
 // international
 
-var scalesDict_int = {};
+const scalesDict_int = {};
 
 scalesDict_int["7notes"] = "------------------------ 7 NOTES ------------------------";
 
@@ -140,7 +140,7 @@ scalesDict_int["5javanese,2"] = "Balinese (2nd mode)";
 
 // french
 
-var scalesDict_fr = {};
+const scalesDict_fr = {};
 
 scalesDict_fr["7major_nat,1"] = "Majeure naturelle / Ionien";
 scalesDict_fr["7major_nat,6"] = "Mineure naturelle / Eolien (6e mode)";
@@ -230,12 +230,12 @@ scalesDict_fr["5javanese,2"] = "Balinaise (2e mode)";
 
 
 // global dictionary
-var scalesDicts = {};
+const scalesDicts = {};
 scalesDicts["int"] = scalesDict_int;
 scalesDicts["fr"] = scalesDict_fr;
 
 
-var scalesToHighlight = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
+const scalesToHighlight = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1",
     "8bebop_dom,1", "8dim,1",
     "6blues,1", "6strange,1",
@@ -246,7 +246,7 @@ function hightlightScale(id)
     if (scalesToHighlight.includes(id))
         return true;
 
-    var found = false;
+    let found = false;
     scalesToHighlight.forEach(function (idScale, index)
     {
         if (id.startsWith(idScale))
