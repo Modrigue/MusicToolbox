@@ -307,12 +307,14 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
   {
     const stepNotation = getStepNotation(stepValue);
 
-    // highlight semi-tones and salient steps?
-     let classString = "table-body-cell";
-    // if (stepValue == 1)
-    //   classString = "table-body-cell-XXX";
-    // else if (stepValue > 2)
-    //   classString = "table-body-cell-XXX";
+    // highlight semi-tones and big steps
+    let classString = "table-body-cell";
+    if (stepValue == 1)
+       classString = "table-body-cell-step-1";
+    else if (stepValue == 3)
+       classString = "table-body-cell-step-3";
+    else if (stepValue >= 4)
+       classString = "table-body-cell-step-4";
 
     stepsScaleRowHTML = stepsScaleRowHTML.concat("<div class=" + classString + ">");
     stepsScaleRowHTML = stepsScaleRowHTML.concat(stepNotation);

@@ -161,6 +161,33 @@ button:active
     color: white;
 }
 
+.table-body-cell-step-1
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    color: sienna;
+}
+
+.table-body-cell-step-3
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    color: DarkOrchid;
+}
+
+.table-body-cell-step-4
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    color: DarkViolet;
+}
+
 .bolden
 {
     font-family:"Arial Black"
