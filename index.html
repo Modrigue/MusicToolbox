@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta content="scale generator,chord generator,music,scales,scales,chord,chords,note,notes,mode,modes,harmonization,guitar,fretboard,keyboard" name=keywords>
-    <title>Music Scale Generator</title>
+    <title>Music Companion</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="img/G_clef.png">
     <link rel="icon" href="img/G_clef.png">
@@ -104,14 +104,18 @@
 
     <script>
 
-      window.onload = function () {
-        MIDI.loadPlugin({
+      window.onload = function ()
+      {
+        MIDI.loadPlugin(
+        {
           soundfontUrl: "./soundfont/",
           instrument: "acoustic_grand_piano",
-          onprogress: function(state, progress) {
+          onprogress: function(state, progress)
+          {
             //console.log(state, progress);
           },
-          onsuccess: function() {
+          onsuccess: function()
+          {
             //
           }
         });
