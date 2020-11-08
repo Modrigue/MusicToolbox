@@ -179,6 +179,9 @@ function updateLanguage()
   let textSelectKey = document.getElementById("select_key_text");
   textSelectKey.innerText = getString("select_key");
 
+  let headerTitle = document.getElementById("header_title");
+  headerTitle.innerText = getString("header_title");
+
   // update checkboxes
   let checkboxChordsLabel = document.getElementById("checkboxChordsLabel");
   checkboxChordsLabel.innerText = getString("chords");

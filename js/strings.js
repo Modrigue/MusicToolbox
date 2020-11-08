@@ -1,5 +1,6 @@
 // international
 const stringsDict_int = {};
+stringsDict_int["header_title"] = "Music Scale Generator";
 stringsDict_int["select_key"] = "Select your key:";
 stringsDict_int["chords"] = "Chords";
 stringsDict_int["guitar"] = "Guitar";
@@ -11,6 +12,7 @@ stringsDict_int["play"] = "Play";
 
 // french notation
 const stringsDict_fr = {};
+stringsDict_fr["header_title"] = "Gammes musicales";
 stringsDict_fr["select_key"] = "Tonalité :";
 stringsDict_fr["chords"] = "Accords";
 stringsDict_fr["guitar"] = "Guitare";
