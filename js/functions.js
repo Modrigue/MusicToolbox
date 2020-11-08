@@ -215,6 +215,38 @@ function getRomanChord(pos, chordName, nbNotesInChords)
   return romanPos;
 }
 
+// get scale inner steps values
+function getScaleSteps(scaleValues)
+{
+  if (scaleValues == null)
+    return null;
+
+  if (scaleValues.length < 2)
+    return scaleValues;
+
+  let stepsValues = [];
+  let nbNotes = scaleValues.length;
+  for (let i = 0; i < nbNotes - 1; i++)
+  {
+    let stepValue = scaleValues[i+1] - scaleValues[i];
+    stepsValues.push(stepValue);
+  }
+
+  stepsValues.push(scaleValues[0] + 12 - scaleValues[nbNotes - 1]); // last step with octave
+
+  return stepsValues;
+}
+
+// get scale inner step notation
+function getStepNotation(stepValue)
+{
+  const nbTones = Math.floor(stepValue / 2);
+  let nbTonesString = nbTones.toString();
+  if (stepValue == 1)
+    nbTonesString = "";
+
+  return ((stepValue % 2 == 0) ? nbTonesString : nbTonesString + "½");
+}
 
 /////////////////////////////// HTML FUNCTIONS ////////////////////////////////
 
@@ -268,8 +300,29 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
   });
   intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
 
+  // build steps list
+  const stepsScaleValues = getScaleSteps(scaleValues);
+  let stepsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;\">";
+  stepsScaleValues.forEach(function (stepValue, index)
+  {
+    const stepNotation = getStepNotation(stepValue);
+
+    // highlight semi-tones and salient steps?
+     let classString = "table-body-cell";
+    // if (stepValue == 1)
+    //   classString = "table-body-cell-XXX";
+    // else if (stepValue > 2)
+    //   classString = "table-body-cell-XXX";
+
+    stepsScaleRowHTML = stepsScaleRowHTML.concat("<div class=" + classString + ">");
+    stepsScaleRowHTML = stepsScaleRowHTML.concat(stepNotation);
+    stepsScaleRowHTML = stepsScaleRowHTML.concat("</div>");
+  });
+  stepsScaleRowHTML = stepsScaleRowHTML.concat("</div>");
+
   notesScaleTablesHTML = notesScaleTablesHTML.concat(notesScaleRowHTML);
   notesScaleTablesHTML = notesScaleTablesHTML.concat(intervalsScaleRowHTML);
+  notesScaleTablesHTML = notesScaleTablesHTML.concat(stepsScaleRowHTML);
   notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
 
   return notesScaleTablesHTML;
