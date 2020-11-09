@@ -43,7 +43,10 @@
     <script src="js/strings.js" type="text/javascript"></script>
   </head>
   <body onresize="onResize()">
+    
     <h3>&#x1d11e;&nbsp;&nbsp;<span id="header_title">Music Scale Explorer</span>&nbsp;&nbsp;&#x1d11e;</h3>
+    
+    <div id="scale_explorer_section">
     <center>
       <p style="font-family:Arial, Helvetica, sans-serif;">
       <span id="select_key_text">Select your key:</span>
@@ -95,18 +98,20 @@
     <canvas id="canvas_keyboard" width="600" height="200" style="cursor: pointer;" onclick="saveKeyboardImage()">
       Your browser does not support the canvas element.
     </canvas>
+    
+  </div>
 
-    <p id='relative_scales'style="text-align: center;">?</p>
+  <div id='relative_scales_section'>
+    <p id='relative_scales' style="text-align: center;">?</p>
+  </div>
 
     <script>
       // init
       updateSelectors();
       onResize();
       onNoteChanged();
-    </script>
 
-    <script>
-
+      // init MIDI plugins
       window.onload = function ()
       {
         MIDI.loadPlugin(
