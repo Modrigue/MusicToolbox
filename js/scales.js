@@ -5,7 +5,6 @@ const scaleFamiliesDict = {};
 scaleFamiliesDict["8bebop_dom"]      = [0, 2, 4, 5, 7, 9, 10, 11];
 scaleFamiliesDict["8bebop_maj"]      = [0, 2, 4, 5, 7, 8, 9, 11];
 scaleFamiliesDict["8bebop_min_melo"] = [0, 2, 3, 5, 7, 8, 9, 11];
-scaleFamiliesDict["8bebop_min_harm"] = [0, 2, 3, 5, 7, 8, 10, 11];
 scaleFamiliesDict["8spanish"]        = [0, 1, 3, 4, 5, 6, 8, 10];
 scaleFamiliesDict["8dim"]            = [0, 2, 3, 5, 6, 8, 9, 11];
 
@@ -31,7 +30,6 @@ scaleFamiliesDict["6prom"]         = [0, 2, 4, 6, 9, 10];
 scaleFamiliesDict["6prom_nap"]     = [0, 1, 4, 6, 9, 10];
 scaleFamiliesDict["6tritone"]      = [0, 1, 4, 6, 7, 10];
 scaleFamiliesDict["6tritone_semi"] = [0, 1, 2, 6, 7, 8];
-scaleFamiliesDict["6tone_sym"]     = [0, 1, 4, 5, 8, 9];
 scaleFamiliesDict["6istrian"]      = [0, 1, 3, 4, 6, 7];
 
 // 5 notes
@@ -112,9 +110,10 @@ scalesDict_int["8bebop_dom,4"] = "Ichikosucho (4th mode)";
 scalesDict_int["8bebop_dom,5,diff:7major_nat;2"] = "Bebop Dorian / Bebop minor (5th mode)";
 scalesDict_int["8bebop_dom,sep"] = "";
 scalesDict_int["8bebop_maj,1,diff:7major_nat;1"] = "Bebop major";
-scalesDict_int["8bebop_min_harm,1,diff:7minor_harm;1"] = "Bebop harmonic minor";
-scalesDict_int["8bebop_min_melo,1,diff:7minor_melo;1"] = "Bebop melodic minor";
+scalesDict_int["8bebop_maj,7,diff:7minor_harm;1"] = "Bebop harmonic minor (7th mode)";
 scalesDict_int["8bebop_maj,sep"] = "";
+scalesDict_int["8bebop_min_melo,1,diff:7minor_melo;1"] = "Bebop melodic minor";
+scalesDict_int["8bebop_min_melo,sep"] = "";
 scalesDict_int["8spanish,1"] = "Spanish";
 scalesDict_int["8spanish,sep"] = "";
 scalesDict_int["8dim,1"] = "Diminished";
@@ -124,13 +123,15 @@ scalesDict_int["8others,sep"] = "";
 scalesDict_int["6notes"] = "------------------------ 6 NOTES ------------------------";
 scalesDict_int["6blues,1,diff:5major_penta;5"] = "Blues / Penta. minor + blue note";
 scalesDict_int["6strange,1"] = "Whole tone / Strange / Debussy";
-scalesDict_int["6major_hexa,1"] = "Hexatonic major";
+scalesDict_int["6main,sep"] = "";
 scalesDict_int["6aug,1"] = "Augmented / Irish / Scottish";
+scalesDict_int["6aug,2"] = "Six-tone symmetrical (2nd mode)";
+scalesDict_int["6aug,sep"] = "";
+scalesDict_int["6major_hexa,1"] = "Hexatonic major";
 scalesDict_int["6prom,1"] = "Prometheus";
 scalesDict_int["6prom_nap,1"] = "Prometheus neapolitan";
 scalesDict_int["6tritone,1"] = "Tritone / Petrushka";
 scalesDict_int["6tritone_semi,1"] = "Two-semitone tritone";
-scalesDict_int["6tone_sym,1"] = "Six-tone symmetrical";
 scalesDict_int["6istrian,1"] = "Istrian";
 scalesDict_int["6others,sep"] = "";
 
@@ -214,7 +215,8 @@ scalesDict_fr["8bebop_dom,1,diff:7major_nat;1"] = "Bebop dominant";
 scalesDict_fr["8bebop_dom,5,diff:7major_nat;2"] = "Bebop dorien / Bebop mineur (5e mode)";
 
 scalesDict_fr["8bebop_maj,1,diff:7major_nat;1"] = "Bebop majeur";
-scalesDict_fr["8bebop_min_harm,1,diff:7minor_harm;1"] = "Bebop mineur harmonique";
+scalesDict_fr["8bebop_maj,7,diff:7minor_harm;1"] = "Bebop mineur harmonique (7e mode)";
+
 scalesDict_fr["8bebop_min_melo,1,diff:7minor_melo;1"] = "Bebop mineur mélodique";
 
 scalesDict_fr["8spanish,1"] = "Espagnole";
@@ -224,13 +226,15 @@ scalesDict_fr["8dim,2"] = "Dominant diminué / Dom-dim (2e mode)";
 
 scalesDict_fr["6blues,1,diff:5major_penta;5"] = "Blues / Penta. mineur + blue note";
 scalesDict_fr["6strange,1"] = "Tons / Etrange / Debussy";
-scalesDict_fr["6major_hexa,1"] = "Hexatonique majeur";
+
 scalesDict_fr["6aug,1"] = "Augmenté / Irlandais / Ecossais";
+scalesDict_fr["6aug,2"] = "6 tons symétrique (2e mode)";
+
+scalesDict_fr["6major_hexa,1"] = "Hexatonique majeur";
 scalesDict_fr["6prom,1"] = "Prométhée";
 scalesDict_fr["6prom_nap,1"] = "Prométhée napolitain";
 scalesDict_fr["6tritone,1"] = "Triton / Petrouchka";
 scalesDict_fr["6tritone_semi,1"] = "2 semi-tons triton";
-scalesDict_fr["6tone_sym,1"] = "6 tons symétrique";
 scalesDict_fr["6istrian,1"] = "Istrien";
 
 scalesDict_fr["5major_penta,1"] = "Pentatonique majeur / Mongolien";
@@ -259,8 +263,8 @@ scalesDicts["fr"] = scalesDict_fr;
 
 const scalesToHighlight = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
-    "8bebop_dom,1", "8dim,1",
-    "6blues,1", "6strange,1",
+    "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
+    "6blues,1", "6strange,1", "6aug,1",
     "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1"];
 
 function hightlightScale(id)
