@@ -84,7 +84,12 @@ function getRelativeScalesHTML(noteValue, scaleValues)
 
         const text = tonic + " " + scaleName;
 
-        relativeScalesHTML = relativeScalesHTML.concat(text); 
+        // hightlight scale
+        let styleString = "";
+        if (hightlightScale(scaleKey))
+            styleString = "style=\"font-weight:bold;\" ";
+
+        relativeScalesHTML = relativeScalesHTML.concat("<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"); 
         relativeScalesHTML = relativeScalesHTML.concat("&nbsp;");
 
         nbRelativeScales++;

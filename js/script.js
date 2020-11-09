@@ -92,6 +92,21 @@ function getSelectorText(id)
 
 //////////////////////////////////// EVENTS ///////////////////////////////////
 
+function selectNoteAndScale(scaleId)
+{
+  const scaleAttributes = scaleId.split("|");
+  const tonicValue = parseInt(scaleAttributes[0]);
+  const scaleKey = scaleAttributes[1];
+
+  const noteSelect = document.getElementById('note');
+  const scaleSelect = document.getElementById('scale');
+
+  // select note and scale
+  noteSelect.selectedIndex = tonicValue;
+  scaleSelect.selectedIndex = getSelectorIndexFromValue(scaleSelect, scaleKey);
+  update();
+}
+
 function onNoteChanged()
 {
   update()
@@ -198,4 +213,19 @@ function updateLanguage()
   // update computed data
   updateSelectors();
   onNoteChanged();
+}
+
+function getSelectorIndexFromValue(selector, value)
+{
+  const options = selector.options;
+  const nbOptions = options.length;
+
+  let index = -1;
+  for(index = 0; index < nbOptions; index++)
+  {
+    if(options[index].value === value)
+      return index;
+  }
+
+  return index;
 }
