@@ -77,7 +77,8 @@ function getRelativeScalesHTML(noteValue, scaleValues)
         const tonic = getNoteName(tonicValue);
 
         const scaleKey = scaleAttributes[1];
-        if (scaleKey == document.getElementById("scale").value)
+        if (tonicValue == document.getElementById("note").value
+         && scaleKey == document.getElementById("scale").value)
             continue; // skip selected scale
         
         const scaleName = getScaleString(scaleKey);
