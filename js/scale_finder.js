@@ -58,3 +58,40 @@ function findScales(notesValues, sameNbNotes = false)
 
     return scalesIds;
 }
+
+function getRelativeScalesHTML(noteValue, scaleValues)
+{
+   let relativeScalesHTML = getString("relative_scales") + " ";
+   
+   const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+   const relativeScales = findScales(scaleNotesValues, true);
+
+   let nbRelativeScales = 0;
+   for (let scaleId of relativeScales)
+   {
+       // get tonic and scale key
+
+        const scaleAttributes = scaleId.split("|");
+
+        const tonicValue = parseInt(scaleAttributes[0]);
+        const tonic = getNoteName(tonicValue);
+
+        const scaleKey = scaleAttributes[1];
+        if (scaleKey == document.getElementById("scale").value)
+            continue; // skip selected scale
+        
+        const scaleName = getScaleString(scaleKey);
+
+        const text = tonic + " " + scaleName;
+
+        relativeScalesHTML = relativeScalesHTML.concat(text); 
+        relativeScalesHTML = relativeScalesHTML.concat("&nbsp;");
+
+        nbRelativeScales++;
+    }
+
+    if (nbRelativeScales == 0)
+        relativeScalesHTML = relativeScalesHTML.concat(getString("no_result"));
+
+   return relativeScalesHTML;
+}

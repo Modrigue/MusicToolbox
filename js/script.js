@@ -134,6 +134,9 @@ function update()
   // update keyboard
   updateKeyboard(noteValue, scaleValues, charIntervals);
   updateKeyboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
+
+  // update relative scales
+  document.getElementById('relative_scales').innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
 }
 
 function onResize()
@@ -175,6 +178,8 @@ function getSelectedCulture()
 function updateLanguage()
 {
   const culture = getSelectedCulture();
+
+  document.title = getString("title");
 
   let textSelectKey = document.getElementById("select_key_text");
   textSelectKey.innerText = getString("select_key");

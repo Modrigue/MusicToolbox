@@ -221,9 +221,16 @@ h3
     font-family: 'Times New Roman', Times, serif;
     text-align: center;
     font-size: 24px;
+    /*font-style: italic;*/
 }
 
 footer
 {
     text-align: center;
+}
+
+p
+{
+    word-break: break-all;
+    white-space: normal;
 }
