@@ -18,6 +18,7 @@
     <script src="js/fretboard.js"></script>
     <script src="js/keyboard.js"></script>
     <script src="js/scale_finder.js"></script>
+    <script src="js/url_parameters.js"></script>
     <script src="js/interface.js"></script>
 
     <!-- //////////////////////////////// MIDI //////////////////////////// -->
@@ -44,9 +45,15 @@
   </head>
   <body onresize="onResize()">
     
-    <h3>&#x1d11e;&nbsp;&nbsp;<span id="header_title">Music Scale Explorer</span>&nbsp;&nbsp;&#x1d11e;</h3>
+    <h3>
+      &#x1d11e;&nbsp;&nbsp;
+      <!--span id="header_title">Music Scale Explorer</span-->
+      <select name="page" id="page" class="select-page" onchange="onPageChanged()">
+      </select>
+      &nbsp;&nbsp;&#x1d11e;
+    </h3>
     
-    <div id="scale_explorer_section">
+    <div id="page_scale_explorer">
     <center>
       <p style="font-family:Arial, Helvetica, sans-serif;">
       <span id="select_key_text">Select your key:</span>
@@ -101,15 +108,20 @@
     
   </div>
 
-  <div id='relative_scales_section'>
+  <div id ='page_scale_finder'>
+    FINDER
+  </div>
+
+  <div id='section_relative_scales'>
     <p id='relative_scales' style="text-align: center;">?</p>
   </div>
 
     <script>
       // init
+      initLanguage();
       updateSelectors();
       onResize();
-      onNoteChanged();
+      onPageChanged();
 
       // init MIDI plugins
       window.onload = function ()

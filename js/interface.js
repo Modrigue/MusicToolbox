@@ -1,13 +1,63 @@
+function initLanguage()
+{
+  const defaultLang = parseCultureParameter();
+  const checkboxLanguage = document.getElementById('checkboxLanguage');
+
+  checkboxLanguage.checked = (defaultLang == "fr");
+
+  document.title = getString("title"); // force update
+}
+
+
 ////////////////////////////////// SELECTORS //////////////////////////////////
 
 function updateSelectors()
 {
-  const noteSelect = document.getElementById('note');
-  let initialized = (noteSelect.options != null && noteSelect.options.length > 0);
-
   // get selected culture
-  const lang = getSelectedCulture(); 
+  const lang = getSelectedCulture();
+
+  // update page selector
+
+  const pageSelect = document.getElementById('page');
+  let initialized = (pageSelect.options != null && pageSelect.options.length > 0);
+  const pagesArray = ["page_scale_explorer"/*, "page_scale_finder"*/];
+
+  // fill page selector
+  if (!initialized)
+  {
+    // init
+    for (const key of pagesArray)
+    {
+      let option = document.createElement('option');
+      option.value = key;
+      option.innerHTML = getString(key);
+      if (key == "page_scale_explorer") // default
+        option.selected = true;
+      pageSelect.appendChild(option);
+    }
+  }
+  else
+  {
+    // update
+    let indexPage = 0;
+    for (const key of pagesArray)
+    {
+      pageSelect.options[indexPage].innerHTML = getString(key);
+      indexPage++;
+    }
+  }
+  
+  // update note selector
+
+  const noteSelect = document.getElementById('note');
+  initialized = (noteSelect.options != null && noteSelect.options.length > 0);
   const notesDict = notesDicts[lang];
+
+  let defaultNoteValue = 3; // C
+  
+  const noteParamValue = parseNoteParameter();
+  if (noteParamValue >= 0)
+    defaultNoteValue = noteParamValue;
 
   // fill note selector
   if (!initialized)
@@ -18,7 +68,7 @@ function updateSelectors()
       let option = document.createElement('option');
       option.value = key;
       option.innerHTML = notesDict[key];
-      if (key == 3) // C
+      if (key == defaultNoteValue)
         option.selected = true;
       noteSelect.appendChild(option);
     }
@@ -38,8 +88,13 @@ function updateSelectors()
 
   const scaleSelect = document.getElementById('scale');
   initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
-
   const regexNbNotes = /(\d+)notes/;
+
+  let defaultScaleId = "7major_nat,1";
+  
+  const scaleParamValue = parseScaleParameter();
+  if (scaleParamValue != "")
+    defaultScaleId = scaleParamValue;
 
   if (!initialized)
   {
@@ -65,6 +120,10 @@ function updateSelectors()
       // simple separator
       if (scaleName == "")
         option.disabled = true;
+
+      // default scale
+      if (key == defaultScaleId)
+        option.selected = true;
 
       scaleSelect.appendChild(option);
     }
@@ -107,6 +166,11 @@ function selectNoteAndScale(scaleId)
   update();
 }
 
+function onPageChanged()
+{
+  update();
+}
+
 function onNoteChanged()
 {
   update()
@@ -120,6 +184,12 @@ function onScaleChanged()
 // compute and update results
 function update()
 {
+  // get selected page
+  const pageSelected = document.getElementById("page").value;
+  const pagesArray = ["page_scale_explorer", "page_scale_finder"];
+  for (let pageId of pagesArray)
+    setVisible(pageId, (pageId == pageSelected));
+
   // get selected note and scale/mode values
   const noteValue = getSelectedNoteValue();
   const scaleValues = getSelectedScaleValues();
@@ -177,6 +247,12 @@ function toggleDisplay(id)
     x.style.display = "none";
 }
 
+function setVisible(id, status)
+{
+  let x = document.getElementById(id);
+  x.style.display = status ? "block" : "none";
+}
+
 function setEnabledStatus(id, status)
 {
   let x = document.getElementById(id);
@@ -192,15 +268,10 @@ function getSelectedCulture()
 
 function updateLanguage()
 {
-  const culture = getSelectedCulture();
-
   document.title = getString("title");
 
   let textSelectKey = document.getElementById("select_key_text");
   textSelectKey.innerText = getString("select_key");
-
-  let headerTitle = document.getElementById("header_title");
-  headerTitle.innerText = getString("header_title");
 
   // update checkboxes
   let checkboxChordsLabel = document.getElementById("checkboxChordsLabel");

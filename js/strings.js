@@ -1,7 +1,8 @@
 // international
 const stringsDict_int = {};
 stringsDict_int["title"] = "Music Companion";
-stringsDict_int["header_title"] = "Music Scale Explorer";
+stringsDict_int["page_scale_explorer"] = "Music Scale Explorer";
+stringsDict_int["page_scale_finder"] = "Music Scale Finder";
 stringsDict_int["select_key"] = "Select your key:";
 stringsDict_int["chords"] = "Chords";
 stringsDict_int["guitar"] = "Guitar";
@@ -16,7 +17,8 @@ stringsDict_int["no_result"] = "Not found";
 // french notation
 const stringsDict_fr = {};
 stringsDict_fr["title"] = "Le compagnon musical";
-stringsDict_fr["header_title"] = "Explorateur de gammes musicales";
+stringsDict_fr["page_scale_explorer"] = "Explorateur de gammes musicales";
+stringsDict_fr["page_scale_finder"] = "Chercheur de gammes musicales";
 stringsDict_fr["select_key"] = "Tonalité :";
 stringsDict_fr["chords"] = "Accords";
 stringsDict_fr["guitar"] = "Guitare";

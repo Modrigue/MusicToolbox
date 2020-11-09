@@ -90,7 +90,18 @@ function getRelativeScalesHTML(noteValue, scaleValues)
         if (hightlightScale(scaleKey))
             styleString = "style=\"font-weight:bold;\" ";
 
-        relativeScalesHTML = relativeScalesHTML.concat("<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"); 
+        const culture = getSelectedCulture();
+
+        // build URL
+        let url = window.location.pathname;
+        url = url.concat("?note=" + tonicValue.toString());
+        url = url.concat("&scale=" + scaleKey);
+        url = url.concat("&lang=" + culture);
+
+        // disabled: update same page
+        //relativeScalesHTML = relativeScalesHTML.concat("<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"); 
+        
+        relativeScalesHTML = relativeScalesHTML.concat("<button " + styleString + "onclick=\'openNewTab(\"" + url + "\")\' >" + text + "</button>"); 
         relativeScalesHTML = relativeScalesHTML.concat("&nbsp;");
 
         nbRelativeScales++;
