@@ -51,6 +51,11 @@
       <select name="page" id="page" class="select-page" onchange="onPageChanged()">
       </select>
       &nbsp;&nbsp;&#x1d11e;
+
+      <span style='float: right;'>
+        <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLanguage()">
+        <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
+      </span>
     </h3>
     
     <div id="page_scale_explorer">
@@ -86,9 +91,6 @@
       <input type="checkbox" id="checkboxKeyboard" name="checkboxKeyboard" checked onchange="toggleDisplay('canvas_keyboard')">
       <label class="input-label" id="checkboxKeyboardLabel" for="checkboxKeyboard">Keyboard</label>
 
-      <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLanguage()">
-      <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
-      
     </p>
     </center>
 
