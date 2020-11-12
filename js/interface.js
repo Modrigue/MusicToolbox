@@ -48,41 +48,7 @@ function updateSelectors()
   }
   
   // update note selector
-
-  const noteSelect = document.getElementById('note');
-  initialized = (noteSelect.options != null && noteSelect.options.length > 0);
-  const notesDict = notesDicts[lang];
-
-  let defaultNoteValue = 3; // C
-  
-  const noteParamValue = parseNoteParameter();
-  if (noteParamValue >= 0)
-    defaultNoteValue = noteParamValue;
-
-  // fill note selector
-  if (!initialized)
-  {
-    // init
-    for (const key in notesDict)
-    {
-      let option = document.createElement('option');
-      option.value = key;
-      option.innerHTML = notesDict[key];
-      if (key == defaultNoteValue)
-        option.selected = true;
-      noteSelect.appendChild(option);
-    }
-  }
-  else
-  {
-    // update
-    let noteValue = 0;
-    for (const key in notesDict)
-    {
-      noteSelect.options[noteValue].innerHTML = notesDict[key];
-      noteValue++;
-    }
-  }
+  updateNoteSelector('note', 3, false);
 
   // fill scale selector
 

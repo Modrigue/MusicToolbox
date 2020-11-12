@@ -1,3 +1,5 @@
+//////////////////////////////////// STRINGS //////////////////////////////////
+
 // notes dictionnary (international notation)
 const notesDict_int = {};
 notesDict_int[0] = "A";
@@ -32,3 +34,60 @@ notesDict_fr[11] = "Sol#";
 const notesDicts = {};
 notesDicts["int"] = notesDict_int;
 notesDicts["fr"] = notesDict_fr;
+
+
+/////////////////////////////////// FUNCTIONS /////////////////////////////////
+
+function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false)
+{
+// get selected culture
+    const lang = getSelectedCulture();
+
+    // get note selecor
+    const noteSelect = document.getElementById(id);
+    initialized = (noteSelect.options != null && noteSelect.options.length > 0);
+    const notesDict = notesDicts[lang];
+
+    const noteParamValue = parseNoteParameter();
+    if (noteParamValue >= 0)
+        defaultNoteValue = noteParamValue;
+
+    // fill note selector
+    if (!initialized)
+    {
+        if (firstNoteEmpty)
+        {
+            let option = document.createElement('option');
+            option.value = -1;
+            option.innerHTML = "";
+            if (defaultNoteValue == -1)
+                option.selected = true;
+            noteSelect.appendChild(option);
+        }
+
+        // init
+        for (const key in notesDict)
+        {
+            let option = document.createElement('option');
+            option.value = key;
+            option.innerHTML = notesDict[key];
+            if (key == defaultNoteValue)
+                option.selected = true;
+            noteSelect.appendChild(option);
+        }
+    }
+    else
+    {
+        // update
+        let noteValue = 0;
+        for (const key in notesDict)
+        {
+            // if empty note, nop
+            if (key == -1)
+                continue;
+
+            noteSelect.options[noteValue].innerHTML = notesDict[key];
+            noteValue++;
+        }
+    }
+}
