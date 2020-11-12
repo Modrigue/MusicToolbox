@@ -39,7 +39,7 @@ scaleFamiliesDict["5jap_in"]      = [0, 1, 5, 7, 8];
 scaleFamiliesDict["5jap_insen"]   = [0, 1, 5, 7, 10];
 
 
-// scales translation dictionaries
+//////////////////////////////////// STRINGS //////////////////////////////////
 
 // international
 
@@ -261,6 +261,8 @@ scalesDicts["int"] = scalesDict_int;
 scalesDicts["fr"] = scalesDict_fr;
 
 
+/////////////////////////////////// FUNCTIONS /////////////////////////////////
+
 const scalesToHighlight = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
@@ -280,4 +282,60 @@ function hightlightScale(id)
     });
 
     return found;
+}
+
+// update scale selector
+function updateScaleSelector(id, defaultScaleId)
+{
+    const scaleSelect = document.getElementById(id);
+    initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
+    const regexNbNotes = /(\d+)notes/;
+
+    
+    const scaleParamValue = parseScaleParameter();
+    if (scaleParamValue != "")
+      defaultScaleId = scaleParamValue;
+  
+    if (!initialized)
+    {
+        // init
+        for (const key in scalesDict_int)
+        {
+            let option = document.createElement('option');
+            option.value = key;
+            const scaleName = getScaleString(key);
+            option.innerHTML = scaleName;
+            
+            // scale to highlight
+            if (hightlightScale(key))
+                option.classList.add('bolden');
+    
+            // notes seperator
+            if (key.match(regexNbNotes))
+            {
+                option.classList.add('bolden');
+                option.disabled = true;
+            }
+    
+            // simple separator
+            if (scaleName == "")
+                option.disabled = true;
+    
+            // default scale
+            if (key == defaultScaleId)
+                option.selected = true;
+    
+            scaleSelect.appendChild(option);
+        }
+    }
+    else
+    {
+        // update
+        let scaleValue = 0;
+        for (const key in scalesDict_int)
+        {
+            scaleSelect.options[scaleValue].innerHTML = getScaleString(key);
+            scaleValue++;
+        }
+    }
 }
