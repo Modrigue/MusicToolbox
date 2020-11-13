@@ -88,7 +88,10 @@ button:active
     display: table-row;
 }
     
-.table-body-cell
+.table-body-cell, .table-body-cell-interactive,
+.table-body-cell-tonic, .table-body-cell-tonic-interactive,
+.table-body-cell-char, .table-body-cell-char-interactive,
+.table-body-cell-step-1, .table-body-cell-step-3, .table-body-cell-step-4
 {
     display: table-cell;
     font-family: Arial, Helvetica, sans-serif;
@@ -98,10 +101,6 @@ button:active
 
 .table-body-cell-interactive
 {
-    display: table-cell;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    border: 1px solid grey;
     cursor: pointer;
 }
 
@@ -111,22 +110,13 @@ button:active
     color: white;
 }
 
-.table-body-cell-tonic
+.table-body-cell-tonic, .table-body-cell-tonic-interactive
 {
-    display: table-cell;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    border: 1px solid grey;
     color: firebrick;
 }
 
 .table-body-cell-tonic-interactive
 {
-    display: table-cell;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    border: 1px solid grey;
-    color: firebrick;
     cursor: pointer;
 }
 
@@ -136,22 +126,13 @@ button:active
     color: white;
 }
 
-.table-body-cell-char
+.table-body-cell-char, .table-body-cell-char-interactive
 {
-    display: table-cell;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    border: 1px solid grey;
     color: dodgerblue;
 }
 
 .table-body-cell-char-interactive
 {
-    display: table-cell;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    border: 1px solid grey;
-    color: dodgerblue;
     cursor: pointer;
 }
 
@@ -163,28 +144,16 @@ button:active
 
 .table-body-cell-step-1
 {
-    display: table-cell;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    border: 1px solid grey;
     color: sienna;
 }
 
 .table-body-cell-step-3
 {
-    display: table-cell;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    border: 1px solid grey;
     color: DarkOrchid;
 }
 
 .table-body-cell-step-4
 {
-    display: table-cell;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    border: 1px solid grey;
     color: DarkViolet;
 }
 
