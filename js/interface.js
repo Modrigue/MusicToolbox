@@ -20,7 +20,7 @@ function updateSelectors()
 
     const pageSelect = document.getElementById('page');
     let initialized = (pageSelect.options != null && pageSelect.options.length > 0);
-    const pagesArray = ["page_scale_explorer"/*, "page_scale_finder"*/];
+    const pagesArray = ["page_scale_explorer", "page_scale_finder"];
 
     // fill page selector
     if (!initialized)
@@ -47,9 +47,15 @@ function updateSelectors()
         }
     }
   
-    // update selectors
+    // update scale explorer selectors
     updateNoteSelector('note', 3, false);
     updateScaleSelector('scale', "7major_nat,1");
+
+    // update scale finder selectors
+    for (let i = 1; i <= 8; i++)
+    {
+        updateNoteSelector('note_finder' + i.toString(), -1, true);
+    }
 }
 
 // get selected text from selector
@@ -132,8 +138,17 @@ function update()
     updateKeyboard(noteValue, scaleValues, charIntervals);
     updateKeyboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
 
-    // update relative scales
-    document.getElementById('relative_scales').innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
+    // update relative scales given selected page
+    switch (pageSelected)
+    {
+        case "page_scale_explorer":
+            document.getElementById('relative_scales').innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
+            break;
+
+        case "page_scale_finder":
+            document.getElementById('relative_scales').innerHTML = findScalesFromNotesHTML();
+            break;
+    }
 }
 
 function onResize()

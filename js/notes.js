@@ -79,15 +79,15 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false)
     else
     {
         // update
-        let noteValue = 0;
+        let index = firstNoteEmpty ? 1 : 0;
         for (const key in notesDict)
         {
             // if empty note, nop
             if (key == -1)
                 continue;
 
-            noteSelect.options[noteValue].innerHTML = notesDict[key];
-            noteValue++;
+            noteSelect.options[index].innerHTML = notesDict[key];
+            index++;
         }
     }
 }

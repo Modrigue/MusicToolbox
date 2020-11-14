@@ -59,15 +59,16 @@ function findScales(notesValues, sameNbNotes = false)
     return scalesIds;
 }
 
-function getRelativeScalesHTML(noteValue, scaleValues)
+// build found scales HTML
+function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1, excludedScale = "")
 {
-   let relativeScalesHTML = getString("relative_scales") + " ";
+    let foundScalesHTML = "";
+    const foundScales = findScales(notesValues, sameNbNotes);
+    if (foundScales == null)
+        return getString("min_2_notes");
    
-   const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-   const relativeScales = findScales(scaleNotesValues, true);
-
-   let nbRelativeScales = 0;
-   for (let scaleId of relativeScales)
+   let nbScales = 0;
+   for (let scaleId of foundScales)
    {
        // get tonic and scale key
 
@@ -77,12 +78,14 @@ function getRelativeScalesHTML(noteValue, scaleValues)
         const tonic = getNoteName(tonicValue);
 
         const scaleKey = scaleAttributes[1];
-        if (tonicValue == document.getElementById("note").value
-         && scaleKey == document.getElementById("scale").value)
-            continue; // skip selected scale
+
+        // exclude defined note, scale if defined
+        if (excludedNote >= 0 && excludedScale != "")
+            if (tonicValue == excludedNote && scaleKey == excludedScale)
+                continue;   
         
         const scaleName = getScaleString(scaleKey);
-
+        
         const text = tonic + " " + scaleName;
 
         // hightlight scale
@@ -99,16 +102,65 @@ function getRelativeScalesHTML(noteValue, scaleValues)
         url = url.concat("&lang=" + culture);
 
         // disabled: update same page
-        //relativeScalesHTML = relativeScalesHTML.concat("<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"); 
+        //foundScalesHTML = foundScalesHTML.concat("<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"); 
         
-        relativeScalesHTML = relativeScalesHTML.concat("<button " + styleString + "onclick=\'openNewTab(\"" + url + "\")\' >" + text + "</button>"); 
-        relativeScalesHTML = relativeScalesHTML.concat("&nbsp;");
+        foundScalesHTML = foundScalesHTML.concat("<button " + styleString + "onclick=\'openNewTab(\"" + url + "\")\' >" + text + "</button>"); 
+        foundScalesHTML = foundScalesHTML.concat("&nbsp;");
 
-        nbRelativeScales++;
+        nbScales++;
     }
 
-    if (nbRelativeScales == 0)
-        relativeScalesHTML = relativeScalesHTML.concat(getString("no_result"));
+    if (nbScales == 0)
+        foundScalesHTML = foundScalesHTML.concat(getString("no_result"));
 
-   return relativeScalesHTML;
+   return foundScalesHTML;
+}
+
+// scale explorer mode: find relative scales
+function getRelativeScalesHTML(noteValue, scaleValues)
+{
+    let relScalesHTML = getString("relative_scales") + " ";
+   
+    // get selected scale
+    const selectedScale = document.getElementById("scale").value;
+
+    // find scales from notes
+    const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+    const foundScalesHTML =  getFoundScalesHTML(scaleNotesValues, true, noteValue, selectedScale);
+
+    relScalesHTML = relScalesHTML.concat(foundScalesHTML);
+    return relScalesHTML;
+}
+
+// scale finder mode: find scales containing notes
+function findScalesFromNotesHTML()
+{
+    let finderScalesHTML = getString("scales") + " ";
+
+    let notesValues = getSelectedNotesFinderValues();
+
+    const foundScalesHTML =  getFoundScalesHTML(notesValues);
+    finderScalesHTML = finderScalesHTML.concat(foundScalesHTML);
+
+    return finderScalesHTML;
+}
+
+// get selected notes from finder selectors
+function getSelectedNotesFinderValues()
+{
+    let notesValues = [];
+
+    for (let i = 1; i <= 8; i++)
+    {
+        const noteSelected = document.getElementById('note_finder' + i.toString()).value;
+        const noteValue = parseInt(noteSelected);
+
+        if (noteValue < 0)
+            continue;
+
+        if (!notesValues.includes(noteValue))
+            notesValues.push(noteValue);
+    }
+
+    return notesValues;
 }
