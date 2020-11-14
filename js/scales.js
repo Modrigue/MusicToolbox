@@ -290,8 +290,7 @@ function updateScaleSelector(id, defaultScaleId)
     const scaleSelect = document.getElementById(id);
     initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
     const regexNbNotes = /(\d+)notes/;
-
-    
+ 
     const scaleParamValue = parseScaleParameter();
     if (scaleParamValue != "")
       defaultScaleId = scaleParamValue;

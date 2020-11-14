@@ -54,7 +54,9 @@ function updateSelectors()
     // update scale finder selectors
     for (let i = 1; i <= 8; i++)
     {
-        updateNoteSelector('note_finder' + i.toString(), -1, true);
+        const id = i.toString();
+        updateNoteSelector('note_finder' + id, -1, true);   
+        initChordSelector('chord_finder' + id, -1, true);   
     }
 }
 
@@ -138,15 +140,30 @@ function update()
     updateKeyboard(noteValue, scaleValues, charIntervals);
     updateKeyboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
 
-    // update relative scales given selected page
+    // update scale finder chords selectors
+    for (let i = 1; i <= 8; i++)
+    {
+        const id = i.toString();
+
+        const noteSelected = document.getElementById('note_finder' + id).value;
+        const noteValue = parseInt(noteSelected);
+        const hasNoteSelected = (noteValue >= 0);
+
+        if (!hasNoteSelected)
+            document.getElementById('chord_finder' + id).selectedIndex = 0;
+
+        setEnabledStatus('chord_finder' + id, hasNoteSelected);
+    }
+
+    // update found scales given selected page
     switch (pageSelected)
     {
         case "page_scale_explorer":
-            document.getElementById('relative_scales').innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
+            document.getElementById('found_scales').innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
             break;
 
         case "page_scale_finder":
-            document.getElementById('relative_scales').innerHTML = findScalesFromNotesHTML();
+            document.getElementById('found_scales').innerHTML = findScalesFromNotesHTML();
             break;
     }
 }

@@ -137,7 +137,7 @@ function findScalesFromNotesHTML()
 {
     let finderScalesHTML = getString("scales") + " ";
 
-    let notesValues = getSelectedNotesFinderValues();
+    let notesValues = getSelectedNotesChordsFinderValues();
 
     const foundScalesHTML =  getFoundScalesHTML(notesValues);
     finderScalesHTML = finderScalesHTML.concat(foundScalesHTML);
@@ -145,21 +145,40 @@ function findScalesFromNotesHTML()
     return finderScalesHTML;
 }
 
-// get selected notes from finder selectors
-function getSelectedNotesFinderValues()
+// get selected notes and chords from finder selectors
+function getSelectedNotesChordsFinderValues()
 {
     let notesValues = [];
 
     for (let i = 1; i <= 8; i++)
     {
-        const noteSelected = document.getElementById('note_finder' + i.toString()).value;
-        const noteValue = parseInt(noteSelected);
+        const tonicSelected = document.getElementById('note_finder' + i.toString()).value;
+        const tonicValue = parseInt(tonicSelected);
 
-        if (noteValue < 0)
+        if (tonicValue < 0)
             continue;
 
-        if (!notesValues.includes(noteValue))
-            notesValues.push(noteValue);
+        const chordSelector = document.getElementById('chord_finder' + i.toString());
+        let notesToAdd = [];
+        if (!chordSelector.disabled && chordSelector.value != -1)
+        {
+            // add chord notes
+            const chordValues = getChordValues(chordSelector.value);
+            for (const interval of chordValues)
+            {
+                const noteValue = addToNoteValue(tonicValue, interval);
+                notesToAdd.push(noteValue);
+            } 
+        }
+        else
+        {
+            // add only tonic note
+            notesToAdd.push(tonicValue);
+        }
+
+        for (const noteValue of notesToAdd)
+            if (!notesValues.includes(noteValue))
+                notesValues.push(noteValue);
     }
 
     return notesValues;
