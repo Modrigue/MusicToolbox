@@ -69,6 +69,9 @@ function initChordSelector(id, defaultChordValue = -1, firstChordEmpty = false)
 {
     // get chord selecor
     const chordSelect = document.getElementById(id);
+    const initialized = (chordSelect.options != null && chordSelect.options.length > 0);
+    if (initialized) // nop if already initialized
+        return;
 
     // fill chord selector
     if (firstChordEmpty)
