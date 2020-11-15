@@ -58,6 +58,7 @@ function updateSelectors()
         updateNoteSelector('note_finder' + id, -1, true);   
         initChordSelector('chord_finder' + id, -1, true);   
     }
+    updateNoteSelector('note_finder_tonic', -1, true);  
 }
 
 // get selected text from selector
@@ -227,6 +228,10 @@ function updateLanguage()
     let resetElements = document.getElementsByClassName("reset");
     for (let resetEelem of resetElements)
         resetEelem.innerText = getString("reset");
+
+    let tonicElements = document.getElementsByClassName("tonic");
+    for (let tonicEelem of tonicElements)
+        tonicEelem.innerText = getString("tonic");
 
     // update checkboxes
     let checkboxChordsLabel = document.getElementById("checkboxChordsLabel");

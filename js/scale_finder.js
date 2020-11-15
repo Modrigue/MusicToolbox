@@ -1,4 +1,4 @@
-function findScales(notesValues, sameNbNotes = false)
+function findScales(notesValues, sameNbNotes = false, refTonicValue = -1)
 {
     // at least 2 notes needed
     if (notesValues == null || notesValues.length < 2)
@@ -31,6 +31,10 @@ function findScales(notesValues, sameNbNotes = false)
 
         for (let tonicValue = noteValue1; tonicValue < 12 + noteValue1; tonicValue++)
         {
+            // only take ref tonic if specified
+            if (refTonicValue >= 0 && (tonicValue % 12) != refTonicValue)
+                continue;
+
             let includesAllNotes = true;
 
             // compute scale values given tonic
@@ -60,10 +64,10 @@ function findScales(notesValues, sameNbNotes = false)
 }
 
 // build found scales HTML
-function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1, excludedScale = "")
+function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1, excludedScale = "", tonicValue = -1)
 {
     let foundScalesHTML = "";
-    const foundScales = findScales(notesValues, sameNbNotes);
+    const foundScales = findScales(notesValues, sameNbNotes, tonicValue);
     if (foundScales == null)
         return "";
    
@@ -138,8 +142,9 @@ function findScalesFromNotesHTML()
     let finderScalesHTML = getString("scales") + " ";
 
     let notesValues = getSelectedNotesChordsFinderValues();
+    const tonicValue = getSelectedTonicValue();
 
-    const foundScalesHTML = getFoundScalesHTML(notesValues);
+    const foundScalesHTML = getFoundScalesHTML(notesValues, false, -1, "", tonicValue);
     if (foundScalesHTML == "")
         return getString("min_2_notes");
 
@@ -185,6 +190,12 @@ function getSelectedNotesChordsFinderValues()
     }
 
     return notesValues;
+}
+
+// get selected tonic note
+function getSelectedTonicValue()
+{
+    return document.getElementById('note_finder_tonic').value;
 }
 
 function resetScaleFinder()

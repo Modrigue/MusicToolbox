@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="scale generator,chord generator,music,scales,scales,chord,chords,note,notes,mode,modes,harmonization,guitar,fretboard,keyboard" name=keywords>
     <title>Music Companion</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -139,7 +140,13 @@
       &nbsp;&nbsp;
       <select name="notes_finder8" id="note_finder8" onchange="update()"></select>
       <select name="chords_finder8" id="chord_finder8" onchange="update()"></select>
-      <p><button id="reset_scale_finder" onclick='resetScaleFinder()'><span class="reset">Reset</span></button></p>
+
+      <p>
+        <span class="tonic">Tonic:</span>
+        <select name="notes_finder_tonic" id="note_finder_tonic" onchange="update()"></select>
+        &nbsp;&nbsp;
+        <button id="reset_scale_finder" onclick='resetScaleFinder()'><span class="reset">Reset</span></button>
+      </p>
     </center>
   </div>
 
