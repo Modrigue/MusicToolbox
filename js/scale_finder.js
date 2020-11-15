@@ -208,5 +208,8 @@ function resetScaleFinder()
         noteSelect.selectedIndex = 0;
     }
 
+    let noteSelect = document.getElementById('note_finder_tonic');
+    noteSelect.selectedIndex = 0;
+
     update();
 }
