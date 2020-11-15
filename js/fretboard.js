@@ -31,12 +31,15 @@ function displayNoteOnFretboard(i, j, text, color)
         if ( i > nbStrings)
             return;
 
+        // get last fret x
+        let xFretLast = getLastFretX();
+
         // position
         let x = xFretMargin + (j - 1) * xFretStep + xFretStep / 2 - 1;
         if (j == 0)
             x = xFretMargin + (j - 1) * 40 + 40 / 2 - 1;
         let y = yFretMargin + (nbStrings - i) * yStep - 1;
-        if (x > canvas.width - xFretMargin)
+        if (x > xFretLast)
             return;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
@@ -98,10 +101,13 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.closePath();
 
+        // get last fret x
+        let xFretLast = getLastFretX();
+
         // hint frets
         const hintFrets = [0, 3, 5, 7, 9];
         let indexFret = 0;
-        for (x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
+        for (x = xFretMargin; x < xFretLast; x += xFretStep) 
         {
             indexFret++;
 
@@ -121,14 +127,17 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         for (i = 0; i < nbStrings; i++) 
         {
             let y = yFretMargin + i*yStep;
+
+            ctx.beginPath();
+            ctx.strokeStyle = colorFretsStrings;
             ctx.moveTo(xFretMargin, y);
-            ctx.lineTo(canvas.width - xFretMargin, y);
+            ctx.lineTo(xFretLast, y);
             ctx.stroke();
         }
 
         // vertical lines
         indexFret = 0;
-        for (x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
+        for (x = xFretMargin; x <= xFretLast; x += xFretStep) 
         {
             let isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
 
@@ -168,6 +177,18 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
             displayNoteOnFretboard(i, j, currentNote, colorNote);
         }
     }
+}
+
+// get last fret x position
+function getLastFretX()
+{
+    let canvas = document.getElementById("canvas_guitar");
+
+    let xFretLast = 0;
+    for (x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
+        xFretLast = x;
+
+    return xFretLast;
 }
 
 function saveFretboardImage()
