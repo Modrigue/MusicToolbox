@@ -186,3 +186,16 @@ function getSelectedNotesChordsFinderValues()
 
     return notesValues;
 }
+
+function resetScaleFinder()
+{
+    // reset scale finder note selectors
+    for (let i = 1; i <= 8; i++)
+    {
+        const id = i.toString();
+        let noteSelect = document.getElementById('note_finder' + id);
+        noteSelect.selectedIndex = 0;
+    }
+
+    update();
+}

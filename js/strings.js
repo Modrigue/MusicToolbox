@@ -16,6 +16,7 @@ stringsDict_int["scales"] = "Scales:";
 stringsDict_int["relative_scales"] = "Relative scales:";
 stringsDict_int["no_result"] = "Not found";
 stringsDict_int["min_2_notes"] = "At least 2 notes needed";
+stringsDict_int["reset"] = "Reset";
 
 // french notation
 const stringsDict_fr = {};
@@ -35,6 +36,7 @@ stringsDict_fr["scales"] = "Gammes :";
 stringsDict_fr["relative_scales"] = "Gammes relatives :";
 stringsDict_fr["no_result"] = "Pas de résultats";
 stringsDict_fr["min_2_notes"] = "Au moins 2 notes requises";
+stringsDict_fr["reset"] = "Réinitialiser";
 
 // global dictionary
 const stringsDicts = {};

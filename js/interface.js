@@ -141,6 +141,7 @@ function update()
     updateKeyboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
 
     // update scale finder chords selectors
+    let has1NoteSelected = false;
     for (let i = 1; i <= 8; i++)
     {
         const id = i.toString();
@@ -151,9 +152,12 @@ function update()
 
         if (!hasNoteSelected)
             document.getElementById('chord_finder' + id).selectedIndex = 0;
+        else
+            has1NoteSelected = true;
 
         setEnabledStatus('chord_finder' + id, hasNoteSelected);
     }
+    setEnabledStatus('reset_scale_finder', has1NoteSelected);
 
     // update found scales given selected page
     switch (pageSelected)
@@ -219,6 +223,10 @@ function updateLanguage()
 
     let headerScaleFinder = document.getElementById("header_scale_finder");
     headerScaleFinder.innerText = getString("header_scale_finder");
+
+    let resetElements = document.getElementsByClassName("reset");
+    for (let resetEelem of resetElements)
+        resetEelem.innerText = getString("reset");
 
     // update checkboxes
     let checkboxChordsLabel = document.getElementById("checkboxChordsLabel");
