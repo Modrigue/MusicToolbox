@@ -65,7 +65,7 @@ function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1,
     let foundScalesHTML = "";
     const foundScales = findScales(notesValues, sameNbNotes);
     if (foundScales == null)
-        return getString("min_2_notes");
+        return "";
    
    let nbScales = 0;
    for (let scaleId of foundScales)
@@ -139,7 +139,10 @@ function findScalesFromNotesHTML()
 
     let notesValues = getSelectedNotesChordsFinderValues();
 
-    const foundScalesHTML =  getFoundScalesHTML(notesValues);
+    const foundScalesHTML = getFoundScalesHTML(notesValues);
+    if (foundScalesHTML == "")
+        return getString("min_2_notes");
+
     finderScalesHTML = finderScalesHTML.concat(foundScalesHTML);
 
     return finderScalesHTML;
