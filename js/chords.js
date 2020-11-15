@@ -23,6 +23,9 @@ chords3Dict["6sus4(no5)"]       = [0, 5, 9];
 chords3Dict["6♭5(no3)"]         = [0, 6, 9];
 chords3Dict["madd4(no5)"]       = [0, 3, 5];
 chords3Dict["sus2add4(no5)"]    = [0, 2, 5];
+chords3Dict["phryg"]            = [0, 1, 7]; // phrygian
+chords3Dict["lyd"]              = [0, 6, 7]; // lydian
+chords3Dict["loc"]              = [0, 5, 6]; // locrian
 
 // chords with 4 notes
 const chords4Dict = {};
@@ -57,11 +60,20 @@ chords4Dict["madd4/#5"]         = [0, 3, 5, 8];
 chords4Dict["m7add4(no5)"]      = [0, 3, 5, 10];
 chords4Dict["m6Madd4(no5)"]     = [0, 3, 5, 9];
 
+// chords with 5 notes
+const chords5Dict = {};
+chords5Dict["9M"]               = [0, 4, 7, 11, 14];
+chords5Dict["9"]                = [0, 4, 7, 10, 14];
+chords5Dict["m9"]               = [0, 3, 7, 10, 14];
+chords5Dict["m9M"]              = [0, 3, 7, 11, 14];
+
+
 // global chords array
 const chordsDicts = {};
 chordsDicts[2] = chords2Dict;
 chordsDicts[3] = chords3Dict;
 chordsDicts[4] = chords4Dict;
+chordsDicts[5] = chords5Dict;
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 
@@ -109,7 +121,7 @@ function initChordSelector(id, defaultChordValue = -1, firstChordEmpty = false)
         }
 
         // add separator
-        if (nbNotesInChord < 4) // TEMP
+        if (nbNotesInChord < 5) // TEMP
         {
             let separator = document.createElement('option');
             separator.value = nbNotesInChord;
