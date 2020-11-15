@@ -217,6 +217,9 @@ function updateLanguage()
     let textSelectKey = document.getElementById("select_key_text");
     textSelectKey.innerText = getString("select_key");
 
+    let headerScaleFinder = document.getElementById("header_scale_finder");
+    headerScaleFinder.innerText = getString("header_scale_finder");
+
     // update checkboxes
     let checkboxChordsLabel = document.getElementById("checkboxChordsLabel");
     checkboxChordsLabel.innerText = getString("chords");
