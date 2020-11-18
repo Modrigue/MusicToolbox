@@ -27,26 +27,24 @@ function generateChords(notesValues)
     let chordsPositions = [];
     const fundamental = notesValues[0];
 
+    const nbStrings = tuning.length;
+    const nbNotes = notesValues.length;
 
-    //////////////////////// FUNDAMENTAL ON 6TH STRING ////////////////////////
+    for (let startString = 0; startString <= nbStrings - nbNotes; startString++)
+    {
+        const positionsString0 = getNotesPositionsOnString(fundamental, tuning[startString], 0, 11);
+        for (let p0 of positionsString0)
+        {
+            // get start positions
+            let startPositions = [];
+            for (let i = 0; i < startString; i++)
+                startPositions.push(-1);
+            startPositions.push(p0);
 
-    const positionsString0 = getNotesPositionsOnString(fundamental, tuning[0], 0, 12);
-    for (let p0 of positionsString0)
-        addChordNoteOnString(notesValues, 0, 1, [p0], chordsPositions);
-
-
-    //////////////////////// FUNDAMENTAL ON 5TH STRING ////////////////////////
-
-    const positionsString1 = getNotesPositionsOnString(fundamental, tuning[1], 0, 12);
-    for (let p1 of positionsString1)
-        addChordNoteOnString(notesValues, 1, 2, [-1, p1], chordsPositions);
-
-
-    //////////////////////// FUNDAMENTAL ON 4TH STRING ////////////////////////
-
-    const positionsString2 = getNotesPositionsOnString(fundamental, tuning[2], 0, 12);
-    for (let p2 of positionsString2)
-        addChordNoteOnString(notesValues, 2, 3, [-1, -1, p2], chordsPositions);
+            // init algorithm
+            addChordNoteOnString(notesValues, startString, startString + 1, startPositions, chordsPositions);
+        }
+    }
 
     return chordsPositions;
 }
@@ -64,9 +62,9 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
     {
         const range = getSearchRange(positionsCur);
 
-        // if 2nd search string, exclude fundamental
-        if (stringIndex == startIndex + 1)
-            if (noteValue == notesValues[0])
+        // exclude note from previous string
+        if (stringIndex > startIndex && positionsCur != null)
+            if (noteValue == (positionsCur[positionsCur.length - 1] + tuning[stringIndex - 1]) % 12)
                 continue;
 
         const positionsOnString = getNotesPositionsOnString(noteValue, tuning[stringIndex], range[0], range[1]);
@@ -77,7 +75,14 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
             positionsCandidate.push(pos);
             
             if (chordPositionsValid(notesValues, positionsCandidate))
-                chordsPositions.push(positionsCandidate);
+            {
+                // complete positions with remaining not hit strings
+                let positionsCandidateComplete = [...positionsCandidate];
+                for (let i = 0; i < nbStrings - stringIndex - 1; i++)
+                    positionsCandidateComplete.push(-1);
+
+                chordsPositions.push(positionsCandidateComplete);
+            }
 
             // find notes on next string
             if (stringIndex + 1 < nbStrings)
@@ -105,6 +110,8 @@ function chordPositionsValid(notesValues, positionsCandidate)
     }
 
     // check finger positions
+
+    // sort chord by score
     
     return true;
 }
