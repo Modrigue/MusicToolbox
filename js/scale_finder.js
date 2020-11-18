@@ -101,21 +101,21 @@ function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1,
 
         // build URL
         let url = window.location.pathname;
-        url = url.concat("?note=" + tonicValue.toString());
-        url = url.concat("&scale=" + scaleKey);
-        url = url.concat("&lang=" + culture);
+        url += "?note=" + tonicValue.toString();
+        url += "&scale=" + scaleKey;
+        url += "&lang=" + culture;
 
         // disabled: update same page
-        //foundScalesHTML = foundScalesHTML.concat("<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"); 
+        //foundScalesHTML += "<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"; 
         
-        foundScalesHTML = foundScalesHTML.concat("<button " + styleString + "onclick=\'openNewTab(\"" + url + "\")\' >" + text + "</button>"); 
-        foundScalesHTML = foundScalesHTML.concat("&nbsp;");
+        foundScalesHTML += "<button " + styleString + "onclick=\'openNewTab(\"" + url + "\")\' >" + text + "</button>"; 
+        foundScalesHTML += "&nbsp;";
 
         nbScales++;
     }
 
     if (nbScales == 0)
-        foundScalesHTML = foundScalesHTML.concat(getString("no_result"));
+        foundScalesHTML += getString("no_result");
 
    return foundScalesHTML;
 }
@@ -132,7 +132,7 @@ function getRelativeScalesHTML(noteValue, scaleValues)
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     const foundScalesHTML =  getFoundScalesHTML(scaleNotesValues, true, noteValue, selectedScale);
 
-    relScalesHTML = relScalesHTML.concat(foundScalesHTML);
+    relScalesHTML += foundScalesHTML;
     return relScalesHTML;
 }
 
@@ -148,7 +148,7 @@ function findScalesFromNotesHTML()
     if (foundScalesHTML == "")
         return getString("min_2_notes");
 
-    finderScalesHTML = finderScalesHTML.concat(foundScalesHTML);
+    finderScalesHTML += foundScalesHTML;
 
     return finderScalesHTML;
 }

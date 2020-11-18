@@ -270,11 +270,11 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
     const callbackString = "onPlayNoteInScale(" + index + ")";
 
     noteName = getNoteName(noteValue);
-    notesScaleRowHTML = notesScaleRowHTML.concat("<div class=" + classString + " onclick=" + callbackString + ">");
-    notesScaleRowHTML = notesScaleRowHTML.concat(noteName.toString());
-    notesScaleRowHTML = notesScaleRowHTML.concat("</div>");
+    notesScaleRowHTML += "<div class=" + classString + " onclick=" + callbackString + ">";
+    notesScaleRowHTML += noteName.toString();
+    notesScaleRowHTML += "</div>";
   });
-  notesScaleRowHTML = notesScaleRowHTML.concat("</div>");
+  notesScaleRowHTML += "</div>";
 
   // build intervals list
   let intervalsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
@@ -294,11 +294,11 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
     const intervalString = (nbNotesInScale == 7) ?
       getIntervalString(intervalName, intervalNameAlt) : intervalName;
 
-    intervalsScaleRowHTML = intervalsScaleRowHTML.concat("<div class=" + classString + ">");
-    intervalsScaleRowHTML = intervalsScaleRowHTML.concat(intervalString);
-    intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
+    intervalsScaleRowHTML += "<div class=" + classString + ">";
+    intervalsScaleRowHTML += intervalString;
+    intervalsScaleRowHTML += "</div>";
   });
-  intervalsScaleRowHTML = intervalsScaleRowHTML.concat("</div>");
+  intervalsScaleRowHTML += "</div>";
 
   // build steps list
   const stepsScaleValues = getScaleSteps(scaleValues);
@@ -316,16 +316,16 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
     else if (stepValue >= 4)
        classString = "table-body-cell-step-4";
 
-    stepsScaleRowHTML = stepsScaleRowHTML.concat("<div class=" + classString + ">");
-    stepsScaleRowHTML = stepsScaleRowHTML.concat(stepNotation);
-    stepsScaleRowHTML = stepsScaleRowHTML.concat("</div>");
+    stepsScaleRowHTML += "<div class=" + classString + ">";
+    stepsScaleRowHTML += stepNotation;
+    stepsScaleRowHTML += "</div>";
   });
-  stepsScaleRowHTML = stepsScaleRowHTML.concat("</div>");
+  stepsScaleRowHTML += "</div>";
 
-  notesScaleTablesHTML = notesScaleTablesHTML.concat(notesScaleRowHTML);
-  notesScaleTablesHTML = notesScaleTablesHTML.concat(intervalsScaleRowHTML);
-  notesScaleTablesHTML = notesScaleTablesHTML.concat(stepsScaleRowHTML);
-  notesScaleTablesHTML = notesScaleTablesHTML.concat("</div>");
+  notesScaleTablesHTML += notesScaleRowHTML;
+  notesScaleTablesHTML += intervalsScaleRowHTML;
+  notesScaleTablesHTML += stepsScaleRowHTML;
+  notesScaleTablesHTML += "</div>";
 
   return notesScaleTablesHTML;
 }
@@ -354,11 +354,11 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
 
     const callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ")";
 
-    chordsRowHTML = chordsRowHTML.concat("<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">");
-    chordsRowHTML = chordsRowHTML.concat(chordNoteName);
-    chordsRowHTML = chordsRowHTML.concat("</div>");
+    chordsRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
+    chordsRowHTML += chordNoteName;
+    chordsRowHTML += "</div>";
   });
-  chordsRowHTML = chordsRowHTML.concat("</div>");
+  chordsRowHTML += "</div>";
 
   // roman chord representation
   chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
@@ -367,11 +367,11 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     const chordName = getKeyFromValue(chordsDict, chordValues);
     const romanChord = getRomanChord(index, chordName, nbNotesInChords);
 
-    chordsRomanRowHTML = chordsRomanRowHTML.concat("<div class=\"table-body-cell\">");
-    chordsRomanRowHTML = chordsRomanRowHTML.concat(romanChord);
-    chordsRomanRowHTML = chordsRomanRowHTML.concat("</div>");
+    chordsRomanRowHTML += "<div class=\"table-body-cell\">";
+    chordsRomanRowHTML += romanChord;
+    chordsRomanRowHTML += "</div>";
   });
-  chordsRomanRowHTML = chordsRomanRowHTML.concat("</div>");
+  chordsRomanRowHTML += "</div>";
   
   // chords notes
   chordsNotesRowHTML = "<div class=\"resp-table-row\">";
@@ -384,17 +384,17 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     {
       newNoteValue = addToNoteValue(noteFondamental, intervalValue);
       noteName = getNoteName(newNoteValue);
-      chordNotesStr = chordNotesStr.concat(noteName + ",&nbsp;")
+      chordNotesStr += noteName + ",&nbsp;";
     });
     chordNotesStr = chordNotesStr.slice(0, -7);
 
     const callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ",0.25)";
 
-    chordsNotesRowHTML = chordsNotesRowHTML.concat("<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">");
-    chordsNotesRowHTML = chordsNotesRowHTML.concat(chordNotesStr);
-    chordsNotesRowHTML = chordsNotesRowHTML.concat("</div>");
+    chordsNotesRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
+    chordsNotesRowHTML += chordNotesStr;
+    chordsNotesRowHTML += "</div>";
   });
-  chordsNotesRowHTML = chordsNotesRowHTML.concat("</div>");
+  chordsNotesRowHTML += "</div>";
 
   // chords intervals
   chordsIntervalsRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
@@ -407,21 +407,21 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
       if (intervalName == "T")
         intervalName = "F"; // fondamental
 
-      chordIntervalsStr = chordIntervalsStr.concat(intervalName + ",&nbsp;")
+      chordIntervalsStr += intervalName + ",&nbsp;";
     });
     chordIntervalsStr = chordIntervalsStr.slice(0, -7);
 
-    chordsIntervalsRowHTML = chordsIntervalsRowHTML.concat("<div class=\"table-body-cell\">");
-    chordsIntervalsRowHTML = chordsIntervalsRowHTML.concat(chordIntervalsStr);
-    chordsIntervalsRowHTML = chordsIntervalsRowHTML.concat("</div>");
+    chordsIntervalsRowHTML += "<div class=\"table-body-cell\">";
+    chordsIntervalsRowHTML += chordIntervalsStr;
+    chordsIntervalsRowHTML += "</div>";
   });
-  chordsIntervalsRowHTML = chordsIntervalsRowHTML.concat("</div>");
+  chordsIntervalsRowHTML += "</div>";
 
-  chordsTableHTML = chordsTableHTML.concat(chordsRowHTML);
-  chordsTableHTML = chordsTableHTML.concat(chordsRomanRowHTML);
-  chordsTableHTML = chordsTableHTML.concat(chordsNotesRowHTML);
-  chordsTableHTML = chordsTableHTML.concat(chordsIntervalsRowHTML);
-  chordsTableHTML = chordsTableHTML.concat("</div>");
+  chordsTableHTML += chordsRowHTML;
+  chordsTableHTML += chordsRomanRowHTML;
+  chordsTableHTML += chordsNotesRowHTML;
+  chordsTableHTML += chordsIntervalsRowHTML;
+  chordsTableHTML += "</div>";
 
   return chordsTableHTML;
 }
