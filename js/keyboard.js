@@ -8,7 +8,7 @@ const hFactorBlackKey = 0.7;
 // <i> has offset 0
 function displayNoteOnKeyboard(i, text, color)
 {
-    canvas = document.getElementById("canvas_keyboard");
+    let canvas = document.getElementById("canvas_keyboard");
     if (canvas.getContext) 
     {
         let ctx = canvas.getContext("2d");
@@ -22,7 +22,7 @@ function displayNoteOnKeyboard(i, text, color)
         let x = xFirstKey;
         if (i > 3)
         {
-            for (noteValue = 4; noteValue <= i; noteValue++)
+            for (let noteValue = 4; noteValue <= i; noteValue++)
             {
                 const noteValueRel = noteValue % 12;
                 const noteValuePrev = (noteValue - 1) % 12;
@@ -103,7 +103,7 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
 
         // horizontal lines
         const yStep = (canvas.height - 2 * yKeyMargin);
-        for (i = 0; i < 2; i++) 
+        for (let i = 0; i < 2; i++) 
         {
             const y = yKeyMargin + i*yStep;
             ctx.moveTo(xKeyMargin, y);
@@ -112,7 +112,7 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
         }
 
         // white keys
-        for (x = xKeyMargin; x < canvas.width - xKeyMargin; x += xKeyStep) 
+        for (let x = xKeyMargin; x < canvas.width - xKeyMargin; x += xKeyStep) 
         {
             ctx.beginPath();
             ctx.moveTo(x, yKeyMargin);
@@ -124,7 +124,7 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
         // black keys
         const indexBlackKeys = [1, 2, 4, 5, 6];
         let index = 0;
-        for (x = xKeyMargin + xKeyStep; x < canvas.width - xKeyMargin; x += xKeyStep) 
+        for (let x = xKeyMargin + xKeyStep; x < canvas.width - xKeyMargin; x += xKeyStep) 
         {
             index++;
             if (!indexBlackKeys.includes(index % 7))
@@ -138,7 +138,7 @@ function updateKeyboard(noteValue, scaleValues, charIntervals)
 
     // display notes
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-    for (i = 3; i <= 3 + 4*12; i++)
+    for (let i = 3; i <= 3 + 4*12; i++)
     {
         const currentNoteValue = (i % 12);
         if (!scaleNotesValues.includes(currentNoteValue))

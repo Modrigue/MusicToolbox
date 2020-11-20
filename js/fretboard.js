@@ -21,7 +21,7 @@ function getCaseNoteValue(i, j)
 // <i> has offset 1
 function displayNoteOnFretboard(i, j, text, color)
 {
-    canvas = document.getElementById("canvas_guitar");
+    let canvas = document.getElementById("canvas_guitar");
     if (canvas.getContext) 
     {
         let ctx = canvas.getContext("2d");
@@ -107,7 +107,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         // hint frets
         const hintFrets = [0, 3, 5, 7, 9];
         let indexFret = 0;
-        for (x = xFretMargin; x < xFretLast; x += xFretStep) 
+        for (let x = xFretMargin; x < xFretLast; x += xFretStep) 
         {
             indexFret++;
 
@@ -124,7 +124,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
 
         // horizontal lines (strings)
         let yStep = (canvas.height - 2 * yFretMargin) / (nbStrings - 1);
-        for (i = 0; i < nbStrings; i++) 
+        for (let i = 0; i < nbStrings; i++) 
         {
             let y = yFretMargin + i*yStep;
 
@@ -137,7 +137,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
 
         // vertical lines
         indexFret = 0;
-        for (x = xFretMargin; x <= xFretLast; x += xFretStep) 
+        for (let x = xFretMargin; x <= xFretLast; x += xFretStep) 
         {
             let isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
 
@@ -154,7 +154,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
 
     // display notes
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-    for (i = 1; i <= nbStrings; i++)
+    for (let i = 1; i <= nbStrings; i++)
     {
         for (j = 0; j <3*12; j++)
         {
@@ -185,7 +185,7 @@ function getLastFretX()
     let canvas = document.getElementById("canvas_guitar");
 
     let xFretLast = 0;
-    for (x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
+    for (let x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
         xFretLast = x;
 
     return xFretLast;

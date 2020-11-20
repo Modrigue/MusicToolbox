@@ -343,7 +343,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   });
   
   // chords
-  chordsRowHTML = "<div class=\"resp-table-row\">";
+  let chordsRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     const noteValue = scaleNotesValues[index];
@@ -361,7 +361,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsRowHTML += "</div>";
 
   // roman chord representation
-  chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
+  let chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     const chordName = getKeyFromValue(chordsDict, chordValues);
@@ -374,7 +374,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsRomanRowHTML += "</div>";
   
   // chords notes
-  chordsNotesRowHTML = "<div class=\"resp-table-row\">";
+  let chordsNotesRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     const noteFondamental = scaleNotesValues[index];
@@ -382,8 +382,8 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     let chordNotesStr = "";
     chordValues.forEach(function (intervalValue)
     {
-      newNoteValue = addToNoteValue(noteFondamental, intervalValue);
-      noteName = getNoteName(newNoteValue);
+      const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
+      const noteName = getNoteName(newNoteValue);
       chordNotesStr += noteName + ",&nbsp;";
     });
     chordNotesStr = chordNotesStr.slice(0, -7);
@@ -397,13 +397,13 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsNotesRowHTML += "</div>";
 
   // chords intervals
-  chordsIntervalsRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
+  let chordsIntervalsRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     let chordIntervalsStr = "";
     chordValues.forEach(function (intervalValue)
     {
-      intervalName = intervalsDict[intervalValue];
+      let intervalName = intervalsDict[intervalValue];
       if (intervalName == "T")
         intervalName = "F"; // fondamental
 
