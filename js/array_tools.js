@@ -55,3 +55,11 @@ function arraysDiff(a, b)
 
   return diffArray;
 }
+
+function arrayRemoveValue(array, value)
+{
+    if (array == null || array.length == 0)
+        return array;
+
+    return array.filter(function(element){ return element != value; });
+}

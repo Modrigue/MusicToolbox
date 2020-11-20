@@ -30,6 +30,7 @@ function generateChords(notesValues)
     const nbStrings = tuning.length;
     const nbNotes = notesValues.length;
 
+    // generate all valid chord positions
     for (let startString = 0; startString <= nbStrings - nbNotes; startString++)
     {
         const positionsString0 = getNotesPositionsOnString(fundamental, tuning[startString], 0, 11);
@@ -46,7 +47,21 @@ function generateChords(notesValues)
         }
     }
 
-    return chordsPositions;
+    // sort positions
+
+    let propertiesArray = [];
+    for (let pos of chordsPositions)
+    {
+        let prop = new ChordPositionsProperties(pos)
+        propertiesArray.push(prop);
+    }
+    propertiesArray.sort(compareChordPositionsProperties);
+
+    let sortedChordsPositions = [];
+    for (let prop of propertiesArray)
+        sortedChordsPositions.push(prop.positions);
+
+    return sortedChordsPositions;
 }
 
 // recurse on strings
@@ -98,9 +113,7 @@ function chordPositionsValid(notesValues, positionsCandidate)
         return false;
     
     // check positions range
-    let positionsNotEmpty = [...positionsCandidate];
-    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, 0);
-    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, -1);
+    let positionsNotEmpty = removePositionsEmpty(positionsCandidate);
     if (positionsNotEmpty != null && positionsNotEmpty > 1)
     {
         const posMax = Math.min(...positionsNotEmpty);
@@ -111,7 +124,6 @@ function chordPositionsValid(notesValues, positionsCandidate)
 
     // check finger positions
 
-    // sort chord by score
     
     return true;
 }
@@ -155,9 +167,7 @@ function chordPositionsIncludeNotes(notesValues, positionsCandidate)
 function getSearchRange(positions)
 {
     // do not count empty strings
-    let positionsNotEmpty = [...positions];
-    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, 0); // empty position
-    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, -1); // no position
+    let positionsNotEmpty = removePositionsEmpty(positions);
     if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
         return [0, 12];
 
@@ -167,7 +177,85 @@ function getSearchRange(positions)
     return [posMin, posMax];
 }
 
-function arrayRemoveValue(array, value)
+function getChordPositionsRange(positions)
 {
-    return array.filter(function(element){ return element != value; });
+    // do not count empty strings
+    let positionsNotEmpty = removePositionsEmpty(positions);
+    if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
+        return 0;
+
+    const posMax = Math.max(...positionsNotEmpty);
+    const posMin = Math.min(...positionsNotEmpty);
+    
+    return (posMax - posMin + 1);
+}
+
+function getChordPositionNbHitStrings(positions)
+{
+    return positions.filter(function(pos){ return pos >= 0; }).length;
+}
+
+// remove empty and not hit strings
+function removePositionsEmpty(positions)
+{
+    if (positions == null || positions.length == 0)
+        return positions;
+
+    let positionsNotEmpty = [...positions];
+    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, 0); // empty position
+    if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
+        return positionsNotEmpty;
+
+    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, -1); // not hit
+
+    return positionsNotEmpty;
+}
+
+
+class ChordPositionsProperties
+{
+    constructor(positions)
+    {
+      this.positions = positions;
+      this.computeScores();
+    }
+
+    // compute all scores
+    computeScores()
+    {
+        this.maxPosition = Math.max(...this.positions);
+        this.range = getChordPositionsRange(this.positions);
+        this.nbStringsHit = getChordPositionNbHitStrings(this.positions);
+    }
+}
+
+function compareChordPositionsProperties(a, b)
+{
+    // min max position
+    if (a.maxPosition < b.maxPosition)
+        return -1;
+    if (a.maxPosition > b.maxPosition)
+        return 1;
+
+    //  min range
+    if (a.range < b.range)
+        return -1;
+    if (a.range > b.range)
+        return 1;
+
+    // max nb. of hit strings
+    if (a.nbStringsHit > b.nbStringsHit)
+        return -1;
+    if (a.nbStringsHit < b.nbStringsHit)
+        return 1;
+
+    return 0;
+}
+
+function chordGeneratorTest()
+{
+    //const positions = generateChords([5, 9, 0]); // D
+    //const positions = generateChords([7, 11, 2]); // E
+    const positions = generateChords([10, 2, 5]); // G
+    console.log("positions", positions)
 }
