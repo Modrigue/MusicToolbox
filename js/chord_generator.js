@@ -65,7 +65,7 @@ function generateChords(notesValues)
 }
 
 // recurse on strings
-function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur, chordsPositions)
+function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur, chordsPositions, chordAddedArray = [])
 {
     // secure
     const nbStrings = tuning.length;
@@ -73,6 +73,7 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
         return;
 
     // find notes on current string
+    const isLastString = (stringIndex + 1 == nbStrings);
     for (let noteValue of notesValues)
     {
         const range = getSearchRange(positionsCur);
@@ -89,7 +90,20 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
             let positionsCandidate = [...positionsCur];
             positionsCandidate.push(pos);
             
-            if (chordPositionsValid(notesValues, positionsCandidate))
+            const valid = chordPositionsValid(notesValues, positionsCandidate);
+
+            // find notes on next string
+            let chordAddedArrayCurrent = [];
+            if (!isLastString)
+                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, chordAddedArrayCurrent);
+
+            // update added chord positions array
+            for (let chordPos in chordAddedArrayCurrent)
+                chordAddedArray.push(chordPos);
+            
+            // add chord position if not more complete position has been found
+            const addCurrentChord = valid && (isLastString || chordAddedArrayCurrent.length == 0);
+            if (addCurrentChord)
             {
                 // complete positions with remaining not hit strings
                 let positionsCandidateComplete = [...positionsCandidate];
@@ -97,11 +111,8 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
                     positionsCandidateComplete.push(-1);
 
                 chordsPositions.push(positionsCandidateComplete);
+                chordAddedArray.push(positionsCandidateComplete);
             }
-
-            // find notes on next string
-            if (stringIndex + 1 < nbStrings)
-                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions);
         }
     }
 }
@@ -177,6 +188,26 @@ function getSearchRange(positions)
     return [posMin, posMax];
 }
 
+// remove empty and not hit strings
+function removePositionsEmpty(positions)
+{
+    if (positions == null || positions.length == 0)
+        return positions;
+
+    let positionsNotEmpty = [...positions];
+    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, 0); // empty position
+    if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
+        return positionsNotEmpty;
+
+    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, -1); // not hit
+
+    return positionsNotEmpty;
+}
+
+
+//////////////////////////////// SCORE FUNCTIONS //////////////////////////////
+
+
 function getChordPositionsRange(positions)
 {
     // do not count empty strings
@@ -195,21 +226,35 @@ function getChordPositionNbHitStrings(positions)
     return positions.filter(function(pos){ return pos >= 0; }).length;
 }
 
-// remove empty and not hit strings
-function removePositionsEmpty(positions)
+function getChordPositionStretch(positions)
 {
-    if (positions == null || positions.length == 0)
-        return positions;
+    let dist = 0;
+    let posLast = -1;
+    let stringLast = -1;
+    const nbPos = positions.length;
 
-    let positionsNotEmpty = [...positions];
-    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, 0); // empty position
-    if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
-        return positionsNotEmpty;
+    // compute sum of distances between positions
+    for (let i = 0; i < nbPos; i++)
+    {
+        const posCur = positions[i];
 
-    positionsNotEmpty = arrayRemoveValue(positionsNotEmpty, -1); // not hit
+        // skip if empty
+        if (posCur <= 0)
+            continue;
+        
+        // add distance
+        if (posLast >= 0 && stringLast >= 0)
+            dist += Math.sqrt((posCur - posLast)*(posCur - posLast) + (i - stringLast)*(i - stringLast));
 
-    return positionsNotEmpty;
+        // update last non-empty position
+        posLast = posCur;
+        stringLast = i;
+    }
+    
+    return dist;
 }
+
+/////////////////////////////// PROPERTIES CLASS //////////////////////////////
 
 
 class ChordPositionsProperties
@@ -225,6 +270,7 @@ class ChordPositionsProperties
     {
         this.maxPosition = Math.max(...this.positions);
         this.range = getChordPositionsRange(this.positions);
+        this.stretch = getChordPositionStretch(this.positions);
         this.nbStringsHit = getChordPositionNbHitStrings(this.positions);
     }
 }
@@ -235,6 +281,12 @@ function compareChordPositionsProperties(a, b)
     if (a.maxPosition < b.maxPosition)
         return -1;
     if (a.maxPosition > b.maxPosition)
+        return 1;
+
+    // stretch
+    if (a.stretch < b.stretch)
+        return -1;
+    if (a.stretch > b.stretch)
         return 1;
 
     //  min range
@@ -253,9 +305,21 @@ function compareChordPositionsProperties(a, b)
 }
 
 function chordGeneratorTest()
-{
-    //const positions = generateChords([5, 9, 0]); // D
-    //const positions = generateChords([7, 11, 2]); // E
-    const positions = generateChords([10, 2, 5]); // G
-    console.log("positions", positions)
+{    
+    //const positionsA = generateChords([0 , 4 , 7 ]); // A
+    //const positionsB = generateChords([2 , 6 , 9 ]); // B
+    //const positionsC = generateChords([3 , 7 , 10]); // C
+    //const positionsD = generateChords([5 , 9 , 0 ]); // D
+    //const positionsE = generateChords([7 , 11, 2 ]); // E
+    //const positionsF = generateChords([8 , 0 , 3 ]); // F
+    //const positionsG = generateChords([10, 2 , 5 ]); // G
+
+    //console.log("A MAJ  ->", (arraysDiff(positionsA[0], [-1, 0,2,2,2,0]).length == 0) ? "OK" : "NOT OK");
+    //console.log("B MAJ  ->", (arraysDiff(positionsB[0], [-1, 2,4,4,3,2]).length == 0) ? "OK" : "NOT OK");
+    //console.log("C MAJ  ->", (arraysDiff(positionsC[0], [-1, 3,2,0,1,0]).length == 0) ? "OK" : "NOT OK");
+    //console.log("D MAJ  ->", (arraysDiff(positionsD[0], [-1,-1,0,2,3,2]).length == 0) ? "OK" : "NOT OK");
+    //console.log("E MAJ  ->", (arraysDiff(positionsE[0], [ 0, 2,2,1,0,0]).length == 0) ? "OK" : "NOT OK");
+    //console.log("F MAJ  ->", (arraysDiff(positionsF[0], [ 1, 3,3,2,1,1]).length == 0) ? "OK" : "NOT OK");
+    //console.log("G MAJ1 ->", (arraysDiff(positionsG[1], [ 3, 2,0,0,3,3]).length == 0) ? "OK" : "NOT OK");
+    //console.log("G MAJ2 ->", (arraysDiff(positionsG[0], [ 3, 2,0,0,0,3]).length == 0) ? "OK" : "NOT OK");
 }
