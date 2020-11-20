@@ -205,7 +205,7 @@ function removePositionsEmpty(positions)
 }
 
 
-//////////////////////////////// SCORE FUNCTIONS //////////////////////////////
+//////////////////////////////// METRIC FUNCTIONS /////////////////////////////
 
 
 function getChordPositionsRange(positions)
@@ -277,49 +277,53 @@ class ChordPositionsProperties
 
 function compareChordPositionsProperties(a, b)
 {
-    // min max position
-    if (a.maxPosition < b.maxPosition)
-        return -1;
-    if (a.maxPosition > b.maxPosition)
-        return 1;
+    const maxPosA = a.maxPosition;
+    const maxPosB = b.maxPosition;
 
-    // stretch
-    if (a.stretch < b.stretch)
-        return -1;
-    if (a.stretch > b.stretch)
-        return 1;
+    const stretchA = a.stretch;
+    const stretchB = b.stretch;
+
+    const rangeA = a.range;
+    const rangeB = b.range;
+
+    const nbStringsHitA = a.nbStringsHit;
+    const nbStringsHitB = b.nbStringsHit;
+
+    // min max position
+    if (maxPosA != maxPosB)
+        return maxPosA - maxPosB;
+
+    // min stretch
+    if (stretchA != stretchB)
+        return stretchA - stretchB;
 
     //  min range
-    if (a.range < b.range)
-        return -1;
-    if (a.range > b.range)
-        return 1;
+    if (rangeA != rangeB)
+        return rangeA - rangeB;
 
     // max nb. of hit strings
-    if (a.nbStringsHit > b.nbStringsHit)
-        return -1;
-    if (a.nbStringsHit < b.nbStringsHit)
-        return 1;
+    if (nbStringsHitA != nbStringsHitB)
+        return nbStringsHitB - nbStringsHitA;
 
     return 0;
 }
 
 function chordGeneratorTest()
 {    
-    //const positionsA = generateChords([0 , 4 , 7 ]); // A
-    //const positionsB = generateChords([2 , 6 , 9 ]); // B
-    //const positionsC = generateChords([3 , 7 , 10]); // C
-    //const positionsD = generateChords([5 , 9 , 0 ]); // D
-    //const positionsE = generateChords([7 , 11, 2 ]); // E
-    //const positionsF = generateChords([8 , 0 , 3 ]); // F
-    //const positionsG = generateChords([10, 2 , 5 ]); // G
+    //const positionsAMAJ = generateChords([0 , 4 , 7 ]); // A MAJ
+    //const positionsBMAJ = generateChords([2 , 6 , 9 ]); // B MAJ
+    //const positionsCMAJ = generateChords([3 , 7 , 10]); // C MAJ
+    //const positionsDMAJ = generateChords([5 , 9 , 0 ]); // D MAJ
+    //const positionsEMAJ = generateChords([7 , 11, 2 ]); // E MAJ
+    //const positionsFMAJ = generateChords([8 , 0 , 3 ]); // F MAJ
+    //const positionsGMAJ = generateChords([10, 2 , 5 ]); // G MAJ
 
-    //console.log("A MAJ  ->", (arraysDiff(positionsA[0], [-1, 0,2,2,2,0]).length == 0) ? "OK" : "NOT OK");
-    //console.log("B MAJ  ->", (arraysDiff(positionsB[0], [-1, 2,4,4,3,2]).length == 0) ? "OK" : "NOT OK");
-    //console.log("C MAJ  ->", (arraysDiff(positionsC[0], [-1, 3,2,0,1,0]).length == 0) ? "OK" : "NOT OK");
-    //console.log("D MAJ  ->", (arraysDiff(positionsD[0], [-1,-1,0,2,3,2]).length == 0) ? "OK" : "NOT OK");
-    //console.log("E MAJ  ->", (arraysDiff(positionsE[0], [ 0, 2,2,1,0,0]).length == 0) ? "OK" : "NOT OK");
-    //console.log("F MAJ  ->", (arraysDiff(positionsF[0], [ 1, 3,3,2,1,1]).length == 0) ? "OK" : "NOT OK");
-    //console.log("G MAJ1 ->", (arraysDiff(positionsG[1], [ 3, 2,0,0,3,3]).length == 0) ? "OK" : "NOT OK");
-    //console.log("G MAJ2 ->", (arraysDiff(positionsG[0], [ 3, 2,0,0,0,3]).length == 0) ? "OK" : "NOT OK");
+    //console.log("A MAJ  ->", (arraysDiff(positionsAMAJ[0], [-1, 0,2,2,2,0]).length == 0) ? "OK" : "NOT OK");
+    //console.log("B MAJ  ->", (arraysDiff(positionsBMAJ[0], [-1, 2,4,4,3,2]).length == 0) ? "OK" : "NOT OK");
+    //console.log("C MAJ  ->", (arraysDiff(positionsCMAJ[0], [-1, 3,2,0,1,0]).length == 0) ? "OK" : "NOT OK");
+    //console.log("D MAJ  ->", (arraysDiff(positionsDMAJ[0], [-1,-1,0,2,3,2]).length == 0) ? "OK" : "NOT OK");
+    //console.log("E MAJ  ->", (arraysDiff(positionsEMAJ[0], [ 0, 2,2,1,0,0]).length == 0) ? "OK" : "NOT OK");
+    //console.log("F MAJ  ->", (arraysDiff(positionsFMAJ[0], [ 1, 3,3,2,1,1]).length == 0) ? "OK" : "NOT OK");
+    //console.log("G MAJ1 ->", (arraysDiff(positionsGMAJ[0], [ 3, 2,0,0,0,3]).length == 0) ? "OK" : "NOT OK");
+    //console.log("G MAJ2 ->", (arraysDiff(positionsGMAJ[1], [ 3, 2,0,0,3,3]).length == 0) ? "OK" : "NOT OK");
 }
