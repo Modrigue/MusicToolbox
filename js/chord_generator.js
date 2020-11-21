@@ -1,5 +1,10 @@
 const MAX_CHORD_FRET_RANGE = 4;
 
+let cMaxPos = 1;
+let cStretch = 2;
+let cRange = 0;
+let cEmptyStrings = 4;
+
 function getNotesPositionsOnString(noteValue, stringValue, posMin, posMax, includeEmptyString = true)
 {
     let positions = [];
@@ -221,9 +226,9 @@ function getChordPositionsRange(positions)
     return (posMax - posMin + 1);
 }
 
-function getChordPositionNbHitStrings(positions)
+function getChordPositionNbEmptyStrings(positions)
 {
-    return positions.filter(function(pos){ return pos >= 0; }).length;
+    return positions.filter(function(pos){ return pos < 0; }).length;
 }
 
 function getChordPositionStretch(positions)
@@ -262,68 +267,160 @@ class ChordPositionsProperties
     constructor(positions)
     {
       this.positions = positions;
-      this.computeScores();
+      this.computeMetrics();
     }
 
-    // compute all scores
-    computeScores()
+    // compute all metrics
+    computeMetrics()
     {
         this.maxPosition = Math.max(...this.positions);
         this.range = getChordPositionsRange(this.positions);
         this.stretch = getChordPositionStretch(this.positions);
-        this.nbStringsHit = getChordPositionNbHitStrings(this.positions);
+        this.nbEmptyStrings = getChordPositionNbEmptyStrings(this.positions);
     }
+}
+
+function getChordPositionsScore(pos)
+{
+    const maxPos = pos.maxPosition;
+    const stretch = pos.stretch;
+    const range = pos.range;
+    const nbEmptyStrings = pos.nbEmptyStrings;  
+
+    return cMaxPos*maxPos + cStretch*stretch + +cRange*range + cEmptyStrings*nbEmptyStrings;
 }
 
 function compareChordPositionsProperties(a, b)
 {
-    const maxPosA = a.maxPosition;
-    const maxPosB = b.maxPosition;
+    const scoreA = getChordPositionsScore(a);
+    const scoreB = getChordPositionsScore(b);
 
-    const stretchA = a.stretch;
-    const stretchB = b.stretch;
-
-    const rangeA = a.range;
-    const rangeB = b.range;
-
-    const nbStringsHitA = a.nbStringsHit;
-    const nbStringsHitB = b.nbStringsHit;
-
-    // min max position
-    if (maxPosA != maxPosB)
-        return maxPosA - maxPosB;
-
-    // min stretch
-    if (stretchA != stretchB)
-        return stretchA - stretchB;
-
-    //  min range
-    if (rangeA != rangeB)
-        return rangeA - rangeB;
-
-    // max nb. of hit strings
-    if (nbStringsHitA != nbStringsHitB)
-        return nbStringsHitB - nbStringsHitA;
-
-    return 0;
+    return scoreA - scoreB;
 }
 
-function chordGeneratorTest()
-{    
-    //const positionsAMAJ = generateChords([0 , 4 , 7 ]); // A MAJ
-    //const positionsBMAJ = generateChords([2 , 6 , 9 ]); // B MAJ
-    //const positionsCMAJ = generateChords([3 , 7 , 10]); // C MAJ
-    //const positionsDMAJ = generateChords([5 , 9 , 0 ]); // D MAJ
-    //const positionsEMAJ = generateChords([7 , 11, 2 ]); // E MAJ
-    //const positionsFMAJ = generateChords([8 , 0 , 3 ]); // F MAJ
-    //const positionsGMAJ = generateChords([10, 2 , 5 ]); // G MAJ
+function testGenerateChordPositions()
+{
+    // coefs start values
+    const cMaxPosStart = 0;
+    const cStretchStart = 0;
+    const cRangeStart = 0;
+    const cNbEmptyStringsStart = 0;
 
-    //console.log("A MAJ  ->", (arraysDiff(positionsAMAJ[0], [-1, 0,2,2,2,0]).length == 0) ? "OK" : "NOT OK");
-    //console.log("B MAJ  ->", (arraysDiff(positionsBMAJ[0], [-1, 2,4,4,3,2]).length == 0) ? "OK" : "NOT OK");
-    //console.log("C MAJ  ->", (arraysDiff(positionsCMAJ[0], [-1, 3,2,0,1,0]).length == 0) ? "OK" : "NOT OK");
-    //console.log("D MAJ  ->", (arraysDiff(positionsDMAJ[0], [-1,-1,0,2,3,2]).length == 0) ? "OK" : "NOT OK");
-    //console.log("E MAJ  ->", (arraysDiff(positionsEMAJ[0], [ 0, 2,2,1,0,0]).length == 0) ? "OK" : "NOT OK");
-    //console.log("F MAJ  ->", (arraysDiff(positionsFMAJ[0], [ 1, 3,3,2,1,1]).length == 0) ? "OK" : "NOT OK");
-    //console.log("G MAJ1 ->", (arraysDiff(positionsGMAJ[0], [ 3, 2,0,0,0,3]).length == 0) ? "OK" : "NOT OK");
-    //console.log("G MAJ2 ->", (arraysDiff(positionsGMAJ[1], [ 3, 2,0,0,3,3]).length == 0) ? "OK" : "NOT OK");
+    // search parameters
+    const stepMaxPos = 1;
+    const stepStretch = 1;
+    const stepRange = 0;
+    const stepNbEmptyStrings = 1;
+    const nbSteps = 10;
+    let coefsBest = [];
+    let errMin = -1;
+
+    // search
+    cMaxPos = cMaxPosStart;
+    for (let i = 0; i < nbSteps; i++, cMaxPos += stepMaxPos)
+    {
+        if (stepMaxPos == 0 && i > 0)
+            continue;
+
+        cStretch = cStretchStart;
+        for (let j = 0; j < nbSteps; j++, cStretch += stepStretch)
+        {
+            if (stepStretch == 0 && j > 0)
+                continue;
+
+            cRange = cRangeStart;
+            for (let k = 0; k < nbSteps; k++, cRange += stepRange)
+            {
+                if (stepRange == 0 && k > 0)
+                    continue;
+
+                cEmptyStrings = cNbEmptyStringsStart;
+                for (let l = 0; l < nbSteps; l++, cEmptyStrings += stepNbEmptyStrings)
+                {
+                    if (stepNbEmptyStrings == 0 && l > 0)
+                        continue;
+
+                    const coefsCur = [cMaxPos, cStretch, cRange, cEmptyStrings];
+                    const errTotal = testGenerateChordPositionsError();
+                    //console.log(`${cMaxPos}, ${cStretch}, ${cRange}, ${cEmptyStrings} -> ${errTotal.toFixed(3)}`);
+
+                    if (errMin < 0 || errTotal < errMin)
+                    {
+                        errMin = errTotal;
+                        coefsBest = []; // init/reset best coefs
+                        coefsBest.push(coefsCur);
+                    }
+                    else if (errTotal == errMin)
+                        coefsBest.push(coefsCur); // add coefs
+                }
+            }
+        }
+    }
+
+    console.log("coefsBest", coefsBest);
+    console.log("errMin", errMin);
+}
+
+function testGenerateChordPositionsError()
+{    
+    let errTotal = 0;
+
+    errTotal += testChordPositionsError(generateChords([0 , 4 , 7 ]), [-1, 0,2,2,2,0]); // A MAJ
+    errTotal += testChordPositionsError(generateChords([2 , 6 , 9 ]), [-1, 2,4,4,4,2]); // B MAJ
+    errTotal += testChordPositionsError(generateChords([3 , 7 , 10]), [-1, 3,2,0,1,0]); // C MAJ
+    errTotal += testChordPositionsError(generateChords([5 , 9 , 0 ]), [-1,-1,0,2,3,2]); // D MAJ
+    errTotal += testChordPositionsError(generateChords([7 , 11, 2 ]), [ 0, 2,2,1,0,0]); // E MAJ
+    errTotal += testChordPositionsError(generateChords([8 , 0 , 3 ]), [ 1, 3,3,2,1,1]); // F MAJ
+    errTotal += testChordPositionsError(generateChords([10, 2 , 5 ]), [ 3, 2,0,0,0,3]); // G MAJ1
+    errTotal += testChordPositionsError(generateChords([10, 2 , 5 ]), [ 3, 2,0,0,3,3], 1); // G MAJ2
+
+    errTotal += testChordPositionsError(generateChords([0 , 3 , 7 ]), [-1, 0,2,2,1,0]); // A min
+    errTotal += testChordPositionsError(generateChords([2 , 5 , 9 ]), [-1, 2,4,4,3,2]); // B min
+    errTotal += testChordPositionsError(generateChords([5 , 8 , 0 ]), [-1,-1,0,2,3,1]); // D min
+    errTotal += testChordPositionsError(generateChords([7 , 10, 2 ]), [ 0, 2,2,0,0,0]); // E min
+    errTotal += testChordPositionsError(generateChords([8 , 11, 3 ]), [ 1, 3,3,1,1,1]); // F min
+
+    errTotal += testChordPositionsError(generateChords([0 , 3,  7, 10]), [-1,0,2,0,1,0]); // A min7
+    errTotal += testChordPositionsError(generateChords([5 , 10, 0 ]), [-1,-1,0,2,3,3]); // D sus4
+    errTotal += testChordPositionsError(generateChords([5 , 7 , 0 ]), [-1,-1,0,2,3,0]); // D sus2
+    errTotal += testChordPositionsError(generateChords([7 , 11, 2,9 ]), [0,2,4,1,0,0]); // E add9
+    errTotal += testChordPositionsError(generateChords([7 , 10, 2,9 ]), [0,2,4,0,0,0]); // E madd9
+
+    errTotal = Math.sqrt(errTotal);
+    return errTotal;
+}
+
+function testChordPositionsError(positions, positionRef, indexPositionRef = 0)
+{
+    const index = getArrayArrayItemIndex(positions, positionRef);
+    if (index < 0) // not found
+        return 100;
+
+    const err = index - indexPositionRef;
+
+    return err*err;
+}
+
+function testChordPositionsLog()
+{
+    console.log("A MAJ  ->", getArrayArrayItemIndex(generateChords([0 , 4 , 7 ]), [-1, 0,2,2,2,0]));
+    console.log("B MAJ  ->", getArrayArrayItemIndex(generateChords([2 , 6 , 9 ]), [-1, 2,4,4,4,2]));
+    console.log("C MAJ  ->", getArrayArrayItemIndex(generateChords([3 , 7 , 10]), [-1, 3,2,0,1,0]));
+    console.log("D MAJ  ->", getArrayArrayItemIndex(generateChords([5 , 9 , 0 ]), [-1,-1,0,2,3,2]));//
+    console.log("E MAJ  ->", getArrayArrayItemIndex(generateChords([7 , 11, 2 ]), [ 0, 2,2,1,0,0]));//
+    console.log("F MAJ  ->", getArrayArrayItemIndex(generateChords([8 , 0 , 3 ]), [ 1, 3,3,2,1,1]));//
+    console.log("G MAJ1 ->", getArrayArrayItemIndex(generateChords([10, 2 , 5 ]), [ 3, 2,0,0,0,3]));//
+    console.log("G MAJ2 ->", getArrayArrayItemIndex(generateChords([10, 2 , 5 ]), [ 3, 2,0,0,3,3]))////;
+
+    console.log("A min  ->", getArrayArrayItemIndex(generateChords([0 , 3 , 7 ]), [-1, 0,2,2,1,0]));
+    console.log("B min  ->", getArrayArrayItemIndex(generateChords([2 , 5 , 9 ]), [-1, 2,4,4,3,2]));
+    console.log("D min  ->", getArrayArrayItemIndex(generateChords([5 , 8 , 0 ]), [-1,-1,0,2,3,1]));
+    console.log("E min  ->", getArrayArrayItemIndex(generateChords([7 , 10, 2 ]), [ 0, 2,2,0,0,0]));
+    console.log("F min  ->", getArrayArrayItemIndex(generateChords([8 , 11, 3 ]), [ 1, 3,3,1,1,1]));
+    
+    console.log("A min7 ->", getArrayArrayItemIndex(generateChords([0 , 3,  7, 10]), [-1,0,2,0,1,0]));
+    console.log("D sus4 ->", getArrayArrayItemIndex(generateChords([5 , 10, 0 ]), [-1,-1,0,2,3,3]));
+    console.log("D sus2 ->", getArrayArrayItemIndex(generateChords([5 , 7 , 0 ]), [-1,-1,0,2,3,0]));
+    console.log("E add9 ->", getArrayArrayItemIndex(generateChords([7 , 11, 2,9 ]), [0,2,4,1,0,0]));
+    console.log("Emadd9 ->", getArrayArrayItemIndex(generateChords([7 , 10, 2,9 ]), [0,2,4,0,0,0]));
 }

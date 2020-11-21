@@ -56,6 +56,33 @@ function arraysDiff(a, b)
   return diffArray;
 }
 
+function getArrayItemIndex(array, value)
+{
+  if(array == null)
+    return -1;
+
+  const length = array.length;
+  for (let i = 0; i < length; i++)
+    if (array[i] === value)
+      return i;
+
+  return -1;
+}
+
+function getArrayArrayItemIndex(arrayOfArrays, arrayValue)
+{
+  if(arrayOfArrays == null)
+    return -1;
+
+  const length = arrayOfArrays.length;
+  for (let i = 0; i < length; i++)
+    if (arraysDiff(arrayOfArrays[i], arrayValue).length == 0)
+      return i;
+
+  return -1;
+}
+
+
 function arrayRemoveValue(array, value)
 {
     if (array == null || array.length == 0)
