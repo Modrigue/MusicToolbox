@@ -438,6 +438,7 @@ function testChordPositionsLog()
     console.log("F min  ->", getArrayArrayItemIndex(generateChords([8 , 11, 3 ]), [ 1, 3,3,1,1,1]));
     
     console.log("A min7 ->", getArrayArrayItemIndex(generateChords([0 , 3,  7, 10]), [-1,0,2,0,1,0]));
+    console.log("B dim  ->", getArrayArrayItemIndex(generateChords([2 , 5,  8]), [-1,2,3,4,3,-1]));
     console.log("D sus4 ->", getArrayArrayItemIndex(generateChords([5 , 10, 0 ]), [-1,-1,0,2,3,3]));
     console.log("D sus2 ->", getArrayArrayItemIndex(generateChords([5 , 7 , 0 ]), [-1,-1,0,2,3,0]));
     console.log("E add9 ->", getArrayArrayItemIndex(generateChords([7 , 11, 2,9 ]), [0,2,4,1,0,0]));
