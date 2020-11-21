@@ -20,7 +20,7 @@ function updateSelectors()
 
     const pageSelect = document.getElementById('page');
     let initialized = (pageSelect.options != null && pageSelect.options.length > 0);
-    const pagesArray = ["page_scale_explorer", "page_scale_finder"];
+    const pagesArray = ["page_scale_explorer", "page_scale_finder"/*, "page_chord_explorer"*/];
 
     // fill page selector
     if (!initialized)
@@ -58,7 +58,11 @@ function updateSelectors()
         updateNoteSelector('note_finder' + id, -1, true);   
         initChordSelector('chord_finder' + id, -1, true);   
     }
-    updateNoteSelector('note_finder_tonic', -1, true);  
+    updateNoteSelector('note_finder_tonic', -1, true); 
+    
+    // update chord explorer selectors
+    updateNoteSelector('note_explorer_chord', 3, false);
+    initChordSelector('chord_explorer_chord', "M", false); 
 }
 
 // get selected text from selector
@@ -107,7 +111,7 @@ function update()
 {
     // get selected page
     const pageSelected = document.getElementById("page").value;
-    const pagesArray = ["page_scale_explorer", "page_scale_finder"];
+    const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
     for (let pageId of pagesArray)
         setVisible(pageId, (pageId == pageSelected));
 
@@ -161,14 +165,21 @@ function update()
     setEnabledStatus('reset_scale_finder', has1NoteSelected);
 
     // update found scales given selected page
-    switch (pageSelected)
+    const foundScales = document.getElementById('found_scales');
+    switch (pageSelected) 
     {
         case "page_scale_explorer":
-            document.getElementById('found_scales').innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
+            foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
+            setVisible('found_scales', true);
             break;
 
         case "page_scale_finder":
-            document.getElementById('found_scales').innerHTML = findScalesFromNotesHTML();
+            foundScales.innerHTML = findScalesFromNotesHTML();
+            setVisible('found_scales', true);
+            break;
+
+        case "page_chord_explorer":
+            setVisible('found_scales', false);
             break;
     }
 }
@@ -224,6 +235,9 @@ function updateLanguage()
 
     let headerScaleFinder = document.getElementById("header_scale_finder");
     headerScaleFinder.innerText = getString("header_scale_finder");
+
+    let headerChordExplorer = document.getElementById("header_chord_explorer");
+    headerChordExplorer.innerText = getString("header_chord_explorer");
 
     let resetElements = document.getElementsByClassName("reset");
     for (let resetEelem of resetElements)

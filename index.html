@@ -155,12 +155,31 @@
     <p id='found_scales' style="text-align: center;">?</p>
   </div>
 
+  <!----------------------------- CHORDS EXPLORER ---------------------------->
+
+  <div id ='page_chord_explorer'>
+    <center>
+      <span id="header_chord_explorer">Select your note and chord:</span>
+      <select name="notes_explorer_chord" id="note_explorer_chord" onchange="update()"></select>
+      <select name="chords_explorer_chord" id="chord_explorer_chord" onchange="update()"></select>
+      &nbsp;&nbsp;
+    </center>
+
+    <div id='section_guitar_chords'>
+      <p id='found_guitar_chords' style="text-align: center;">?</p>
+    </div>
+  </div>
+
     <script>
       // init
       initLanguage();
       updateSelectors();
       onResize();
       onPageChanged();
+
+      // test chord positions finder algorithms
+      //testGenerateChordPositions();
+      //testChordPositionsLog();
 
       // init MIDI plugins
       window.onload = function ()
