@@ -95,7 +95,7 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
             let positionsCandidate = [...positionsCur];
             positionsCandidate.push(pos);
             
-            const valid = chordPositionsValid(notesValues, positionsCandidate);
+            let valid = chordPositionsValid(notesValues, positionsCandidate);
 
             // find notes on next string
             let chordAddedArrayCurrent = [];
@@ -115,7 +115,15 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
                 for (let i = 0; i < nbStrings - stringIndex - 1; i++)
                     positionsCandidateComplete.push(-1);
 
-                chordsPositions.push(positionsCandidateComplete);
+                // check again
+                valid = chordPositionsValid(notesValues, positionsCandidateComplete);
+
+                if (valid)
+                {
+                    chordsPositions.push(positionsCandidateComplete);
+                    //console.log("positionsCandidateComplete", positionsCandidateComplete)
+                }
+
                 chordAddedArray.push(positionsCandidateComplete);
             }
         }
@@ -138,9 +146,20 @@ function chordPositionsValid(notesValues, positionsCandidate)
             return false;
     }
 
-    // check finger positions
+    // check not hit strings
+    for (let i = 2; i < nbStrings; i++)
+    {
+        if (positionsCandidate[i] < 0)
+        {
+            // requires at least one hit string after or before
+            const indexPrev = Math.max(i - 1, 0);
+            const indexNext = Math.min(i + 1, nbStrings - 1);
+            const canBeBlocked = (positionsCandidate[indexPrev] > 0) || (positionsCandidate[indexNext] > 0);
+            if (!canBeBlocked)
+                return false;
+        }
+    }
 
-    
     return true;
 }
 
