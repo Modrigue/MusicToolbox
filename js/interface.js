@@ -127,13 +127,13 @@ function update()
     
     // build scale notes list
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-    document.getElementById('scale_result').innerHTML = getScaleNotesTable(noteValue, scaleValues, charIntervals);
+    document.getElementById('scale_result').innerHTML = getScaleNotesTableHTML(noteValue, scaleValues, charIntervals);
 
     // build chords 3,4 notes harmonization tables
     const showChords3 = (nbNotesInScale >= 6);
     const showChords4 = (nbNotesInScale >= 7);
-    document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTable(scaleValues, scaleNotesValues, 3) : "";
-    document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTable(scaleValues, scaleNotesValues, 4) : "";
+    document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, 3) : "";
+    document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, 4) : "";
 
     // checkboxes
     //setEnabledStatus("checkboxChords3", showChords3);

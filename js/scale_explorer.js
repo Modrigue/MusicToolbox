@@ -242,7 +242,7 @@ function getStepNotation(stepValue)
 
 /////////////////////////////// HTML FUNCTIONS ////////////////////////////////
 
-function getScaleNotesTable(noteValue, scaleValues, charIntervals)
+function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals)
 {
   const nbNotesInScale = scaleValues.length;
 
@@ -327,10 +327,12 @@ function getScaleNotesTable(noteValue, scaleValues, charIntervals)
   return notesScaleTablesHTML;
 }
 
-function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
+function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
 {
   let chordValuesArray = [];
   const chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
+
+  const culture = getSelectedCulture();
 
   // create play button
   let button = document.createElement('button');
@@ -420,10 +422,32 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
   });
   chordsIntervalsRowHTML += "</div>";
 
+  // chords details
+  let chordsDetailsRowHTML = "<div class=\"resp-table-row\">";
+  chordValuesArray.forEach(function (chordValues, index)
+  {
+    const chordId = getKeyFromValue(chordsDict, chordValues);
+
+    // build URL
+    let url = window.location.pathname;
+    const noteValue = scaleNotesValues[index];
+    url += "?note=" + noteValue.toString();
+    url += "&chord=" + chordId;
+    url += "&lang=" + culture;
+    
+    const callbackString = `openNewTab(\"${url}\")`;
+
+    chordsDetailsRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
+    chordsDetailsRowHTML += "&#x1f50d;";
+    chordsDetailsRowHTML += "</div>";
+  });
+  chordsDetailsRowHTML += "</div>";
+
   chordsTableHTML += chordsRowHTML;
   chordsTableHTML += chordsRomanRowHTML;
   chordsTableHTML += chordsNotesRowHTML;
   chordsTableHTML += chordsIntervalsRowHTML;
+  chordsTableHTML += chordsDetailsRowHTML;
   chordsTableHTML += "</div>";
 
   return chordsTableHTML;
