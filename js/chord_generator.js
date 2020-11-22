@@ -422,7 +422,7 @@ function testGenerateChordPositions()
     let coefsBest = [];
     let errMin = -1;
 
-    // search
+    // brute-force search
     cMaxPos = cMaxPosStart;
     for (let i = 0; i < nbSteps; i++, cMaxPos += stepMaxPos)
     {

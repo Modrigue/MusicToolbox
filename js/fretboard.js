@@ -252,8 +252,10 @@ function initChordsFretboardHTML(nbPositions)
 
         let canvas = document.createElement('canvas');
         canvas.id = "generated_chords_fretboard" + i.toString();
+        //canvas.className = "canvas_generated_chords_fretboard";
         canvas.width = xFretMargin + 5*xFretStep;
         canvas.height = 200 + yFretMarginChordBottom;
+        //canvas.style.border = '1px solid grey';
 
         chordsFretboardHTML += canvas.outerHTML;
     }
