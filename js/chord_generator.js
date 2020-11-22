@@ -228,6 +228,40 @@ function removePositionsEmpty(positions)
     return positionsNotEmpty;
 }
 
+function getFretWidth(pos)
+{
+    if (pos < 0)
+        return -1;
+
+    // fret "0" width = 1
+    return Math.pow(2, - pos / 12.0);
+}
+
+function getPositionX(pos)
+{
+    if (pos < 0)
+        return -1;
+    
+    let x = 0;
+    for (let i = 1; i <= pos; i++)
+        x += getFretWidth(i);
+
+    return x;
+}
+
+function getStringY(index)
+{
+    return 1 / 5.0 * index;
+}
+
+function getDistanceXY(pos1, index1, pos2, index2)
+{
+    return Math.sqrt(
+        (getPositionX(pos2) - getPositionX(pos1))*(getPositionX(pos2) - getPositionX(pos1))
+      + (getStringY(index2) - getStringY(index1))*(getStringY(index2) - getStringY(index1))
+    );
+}
+
 
 //////////////////////////////// METRIC FUNCTIONS /////////////////////////////
 
@@ -268,6 +302,7 @@ function getChordPositionStretch(positions)
         
         // add distance
         if (posLast >= 0 && stringLast >= 0)
+            //dist += getDistanceXY(posCur, i, posLast, stringLast);
             dist += Math.sqrt((posCur - posLast)*(posCur - posLast) + (i - stringLast)*(i - stringLast));
 
         // update last non-empty position
