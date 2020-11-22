@@ -180,6 +180,7 @@ function update()
 
         case "page_chord_explorer":
             updateChordDecomposedNotes();
+            updateGeneratedChordsOnFretboard();
             setVisible('found_scales', false);
             break;
     }

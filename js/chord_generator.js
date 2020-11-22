@@ -146,19 +146,19 @@ function chordPositionsValid(notesValues, positionsCandidate)
             return false;
     }
 
-    // check not hit strings
-    for (let i = 2; i < nbStrings; i++)
-    {
-        if (positionsCandidate[i] < 0)
-        {
-            // requires at least one hit string after or before
-            const indexPrev = Math.max(i - 1, 0);
-            const indexNext = Math.min(i + 1, nbStrings - 1);
-            const canBeBlocked = (positionsCandidate[indexPrev] > 0) || (positionsCandidate[indexNext] > 0);
-            if (!canBeBlocked)
-                return false;
-        }
-    }
+    // disabled for now: check not hit strings
+    // for (let i = 2; i < nbStrings; i++)
+    // {
+    //     if (positionsCandidate[i] < 0)
+    //     {
+    //         // requires at least one hit string after or before
+    //         const indexPrev = Math.max(i - 1, 0);
+    //         const indexNext = Math.min(i + 1, nbStrings - 1);
+    //         const canBeBlocked = (positionsCandidate[indexPrev] > 0) || (positionsCandidate[indexNext] > 0);
+    //         if (!canBeBlocked)
+    //             return false;
+    //     }
+    // }
 
     return true;
 }
@@ -363,7 +363,6 @@ function updateChordDecomposedNotes()
     const notesDecomposed = document.getElementById('chord_explorer_notes_decomposed');
 
     const noteFondamental = parseInt(noteSelected);
-
     const chordValues = getChordValues(chordSelected);
 
     let chordNotesStr = "";
@@ -376,6 +375,30 @@ function updateChordDecomposedNotes()
 
     chordNotesStr = chordNotesStr.slice(0, -7);
     notesDecomposed.innerHTML = chordNotesStr;
+}
+
+function updateGeneratedChordsOnFretboard()
+{
+    const generatedGuitarChords = document.getElementById('generated_guitar_chords');
+
+    // get selected chord notes values
+    const noteSelected = document.getElementById('note_explorer_chord').value;
+    const chordSelected = document.getElementById('chord_explorer_chord').value;
+    const noteFondamental = parseInt(noteSelected);
+    const chordValues = getChordValues(chordSelected);
+    let chordNotesValues = [];
+    for (let interval of chordValues)
+    {
+        newNoteValue = addToNoteValue(noteFondamental, interval);
+        chordNotesValues.push(newNoteValue);
+    }
+
+    // compute chord positions
+    const positionsArray = generateChords(chordNotesValues);
+
+    // generate fretboard images
+    generatedGuitarChords.innerHTML = initChordsFretboardHTML(positionsArray.length);
+    updateChordFretboard(positionsArray);
 }
 
 
