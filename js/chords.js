@@ -56,7 +56,7 @@ chords4Dict["7Msus2"]             = [0, 2, 7, 11];
 chords4Dict["7Msus4"]             = [0, 5, 7, 11];
 chords4Dict["7Msus4sharp5"]       = [0, 5, 8, 11];
 chords4Dict["7Msus4sharpsharp5"]  = [0, 5, 9, 11];
-chords4Dict["madd4/sharp5"]       = [0, 3, 5, 8];
+chords4Dict["madd4"]              = [0, 3, 5, 8];
 chords4Dict["m7add4(no5)"]        = [0, 3, 5, 10];
 chords4Dict["m6Madd4(no5)"]       = [0, 3, 5, 9];
 
