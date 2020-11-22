@@ -8,19 +8,19 @@ chords2Dict["5"]  = [0, 7];
 const chords3Dict = {};
 chords3Dict["M"]                = [0, 4, 7];
 chords3Dict["m"]                = [0, 3, 7];
-chords3Dict["°"]                = [0, 3, 6];
-chords3Dict["+"]                = [0, 4, 8];
-chords3Dict["♭5"]               = [0, 4, 6];
+chords3Dict["dim"]              = [0, 3, 6];
+chords3Dict["aug"]              = [0, 4, 8];
+chords3Dict["flat5"]            = [0, 4, 6];
 chords3Dict["sus2"]             = [0, 2, 7];
-chords3Dict["sus2♭5"]           = [0, 2, 6];
+chords3Dict["sus2flat5"]        = [0, 2, 6];
 chords3Dict["sus4"]             = [0, 5, 7];
-chords3Dict["sus4#5"]           = [0, 5, 8];
-chords3Dict["m#5"]              = [0, 3, 8];
+chords3Dict["sus4sharp5"]           = [0, 5, 8];
+chords3Dict["msharp5"]              = [0, 3, 8];
 chords3Dict["6M(no5)"]          = [0, 4, 9];
 chords3Dict["6(no5)"]           = [0, 3, 9];
 chords3Dict["m7sus4(no5)"]      = [0, 5, 10];
 chords3Dict["6sus4(no5)"]       = [0, 5, 9];
-chords3Dict["6♭5(no3)"]         = [0, 6, 9];
+chords3Dict["6flat5(no3)"]      = [0, 6, 9];
 chords3Dict["madd4(no5)"]       = [0, 3, 5];
 chords3Dict["sus2add4(no5)"]    = [0, 2, 5];
 chords3Dict["phryg"]            = [0, 1, 7]; // phrygian
@@ -29,36 +29,36 @@ chords3Dict["loc"]              = [0, 5, 6]; // locrian
 
 // chords with 4 notes
 const chords4Dict = {};
-chords4Dict["7M"]               = [0, 4, 7, 11];
-chords4Dict["7"]                = [0, 4, 7, 10];
-chords4Dict["m7"]               = [0, 3, 7, 10];
-chords4Dict["m7M"]              = [0, 3, 7, 11];
-chords4Dict["7♭5"]              = [0, 4, 6, 10];
-chords4Dict["m7♭5"]             = [0, 3, 6, 10];
-chords4Dict["m7M♭5"]            = [0, 3, 6, 11];
-chords4Dict["m7M#5"]            = [0, 3, 8, 11];
-chords4Dict["7#5"]              = [0, 4, 8, 10];
-chords4Dict["7M#5"]             = [0, 4, 8, 11];
-chords4Dict["7M♭5"]             = [0, 4, 6, 11];
-chords4Dict["add9"]             = [0, 4, 7, 14];
-chords4Dict["madd9"]            = [0, 3, 7, 14];
-chords4Dict["6M"]               = [0, 4, 7, 9];
-chords4Dict["6♭5"]              = [0, 4, 6, 9];
-chords4Dict["m6M"]              = [0, 3, 7, 9];
-chords4Dict["m°7"]              = [0, 3, 6, 9];
-chords4Dict["m6♭5"]             = [0, 3, 6, 8];
-chords4Dict["sus2add6♭5"]       = [0, 2, 6, 9];
-chords4Dict["sus2add4#5"]       = [0, 2, 5, 8];
-chords4Dict["6Msus2add4(no5)"]  = [0, 2, 5, 9];
-chords4Dict["7sus2♭5"]          = [0, 2, 6, 10];
-chords4Dict["6sus2"]            = [0, 2, 7, 9];
-chords4Dict["7Msus2"]           = [0, 2, 7, 11];
-chords4Dict["7Msus4"]           = [0, 5, 7, 11];
-chords4Dict["7Msus4#5"]         = [0, 5, 8, 11];
-chords4Dict["7Msus4##5"]        = [0, 5, 9, 11];
-chords4Dict["madd4/#5"]         = [0, 3, 5, 8];
-chords4Dict["m7add4(no5)"]      = [0, 3, 5, 10];
-chords4Dict["m6Madd4(no5)"]     = [0, 3, 5, 9];
+chords4Dict["7M"]                 = [0, 4, 7, 11];
+chords4Dict["7"]                  = [0, 4, 7, 10];
+chords4Dict["m7"]                 = [0, 3, 7, 10];
+chords4Dict["m7M"]                = [0, 3, 7, 11];
+chords4Dict["7flat5"]             = [0, 4, 6, 10];
+chords4Dict["m7flat5"]            = [0, 3, 6, 10];
+chords4Dict["m7Mflat5"]           = [0, 3, 6, 11];
+chords4Dict["m7Msharp5"]          = [0, 3, 8, 11];
+chords4Dict["7sharp5"]            = [0, 4, 8, 10];
+chords4Dict["7Msharp5"]           = [0, 4, 8, 11];
+chords4Dict["7Mflat5"]            = [0, 4, 6, 11];
+chords4Dict["add9"]               = [0, 4, 7, 14];
+chords4Dict["madd9"]              = [0, 3, 7, 14];
+chords4Dict["6M"]                 = [0, 4, 7, 9];
+chords4Dict["6flat5"]             = [0, 4, 6, 9];
+chords4Dict["m6M"]                = [0, 3, 7, 9];
+chords4Dict["mdim7"]              = [0, 3, 6, 9];
+chords4Dict["m6flat5"]            = [0, 3, 6, 8];
+chords4Dict["sus2add6flat5"]      = [0, 2, 6, 9];
+chords4Dict["sus2add4sharp5"]     = [0, 2, 5, 8];
+chords4Dict["6Msus2add4(no5)"]    = [0, 2, 5, 9];
+chords4Dict["7sus2flat5"]         = [0, 2, 6, 10];
+chords4Dict["6sus2"]              = [0, 2, 7, 9];
+chords4Dict["7Msus2"]             = [0, 2, 7, 11];
+chords4Dict["7Msus4"]             = [0, 5, 7, 11];
+chords4Dict["7Msus4sharp5"]       = [0, 5, 8, 11];
+chords4Dict["7Msus4sharpsharp5"]  = [0, 5, 9, 11];
+chords4Dict["madd4/sharp5"]       = [0, 3, 5, 8];
+chords4Dict["m7add4(no5)"]        = [0, 3, 5, 10];
+chords4Dict["m6Madd4(no5)"]       = [0, 3, 5, 9];
 
 // chords with 5 notes
 const chords5Dict = {};
@@ -77,7 +77,7 @@ chordsDicts[5] = chords5Dict;
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 
-function initChordSelector(id, defaultChordValue = -1, firstChordEmpty = false)
+function initChordSelector(id, defaultChordId = -1, firstChordEmpty = false)
 {
     // get chord selecor
     const chordSelect = document.getElementById(id);
@@ -85,13 +85,20 @@ function initChordSelector(id, defaultChordValue = -1, firstChordEmpty = false)
     if (initialized) // nop if already initialized
         return;
 
+    // get chord parameter if existing
+    const chordParamValue = parseParameterById("chord");
+    console.log("chordParamValue", chordParamValue);
+
+    if (chordParamValue != "")
+        defaultChordId = chordParamValue;
+
     // fill chord selector
     if (firstChordEmpty)
     {
         let option = document.createElement('option');
         option.value = -1;
         option.innerHTML = "";
-        if (defaultChordValue == -1)
+        if (defaultChordId == -1)
             option.selected = true;
         chordSelect.appendChild(option);
     }
@@ -115,7 +122,7 @@ function initChordSelector(id, defaultChordValue = -1, firstChordEmpty = false)
             let option = document.createElement('option');
             option.value = key;
             option.innerHTML = getAltChordNotation(key);
-            if (key == defaultChordValue)
+            if (key == defaultChordId)
                 option.selected = true;
             chordSelect.appendChild(option);
         }
@@ -143,10 +150,33 @@ function getChordValues(id)
     }
 }
 
-function getAltChordNotation(chord)
+////////////////////////////// CHORDS NOTATIONS ///////////////////////////////
+
+
+// get chord compact representation (for tables)
+function getCompactChordNotation(text, chordID)
 {
-    // alternate notations
-    switch (chord)
+  let suffix = chordID; // default
+  switch (chordID)
+  {
+    case "M":
+      suffix = "";
+      break;
+  }
+  
+  suffix = suffix.replaceAll("sharp", "#");
+  suffix = suffix.replaceAll("flat", "♭");
+  suffix = suffix.replaceAll("dim", "°");
+  suffix = suffix.replaceAll("aug", "+");
+
+  return text + suffix;
+}
+
+// get alternate chord notations (for selectors)
+function getAltChordNotation(chordId)
+{
+    let notation = chordId;
+    switch (chordId)
     {
         case "M":
             return "MAJ";
@@ -154,12 +184,17 @@ function getAltChordNotation(chord)
         case "m":
             return "min";
 
-        case "°":
+        case "dim":
             return "dim, °";
 
-        case "+":
-            return "aug, °";
+        case "aug":
+            return "aug, +";
     }
 
-    return chord;
+    notation = notation.replaceAll("sharp", "#");
+    notation = notation.replaceAll("flat", "♭");
+    notation = notation.replaceAll("dim", "°");
+    notation = notation.replaceAll("aug", "+");
+
+    return notation;
 }

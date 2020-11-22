@@ -8,7 +8,6 @@ function initLanguage()
   document.title = getString("title"); // force update
 }
 
-
 ////////////////////////////////// SELECTORS //////////////////////////////////
 
 function updateSelectors()
@@ -25,13 +24,17 @@ function updateSelectors()
     // fill page selector
     if (!initialized)
     {
+        const chord = parseParameterById("chord");
+        const chordSpecified = (chord != null && chord != "");
+        const defaultPage = chordSpecified ? "page_chord_explorer" : "page_scale_explorer";
+
         // init
         for (const key of pagesArray)
         {
           let option = document.createElement('option');
           option.value = key;
           option.innerHTML = getString(key);
-          if (key == "page_scale_explorer") // default
+          if (key == defaultPage) // default
               option.selected = true;
           pageSelect.appendChild(option);
         }

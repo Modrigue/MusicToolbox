@@ -32,15 +32,15 @@ function parseNoteParameter()
   return noteValue;
 }
 
-// get scale parameter
-function parseScaleParameter()
+// get parameter by id
+function parseParameterById(id)
 {
   const paramsDict = parseParameters();
 
-  if (paramsDict == null || !paramsDict.hasOwnProperty("scale"))
+  if (paramsDict == null || !paramsDict.hasOwnProperty(id))
     return "";
 
-  const value = paramsDict["scale"];
+  const value = paramsDict[id];
   return value;
 }
 

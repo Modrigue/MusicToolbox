@@ -291,7 +291,7 @@ function updateScaleSelector(id, defaultScaleId)
     initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
     const regexNbNotes = /(\d+)notes/;
  
-    const scaleParamValue = parseScaleParameter();
+    const scaleParamValue = parseParameterById("scale");
     if (scaleParamValue != "")
       defaultScaleId = scaleParamValue;
   

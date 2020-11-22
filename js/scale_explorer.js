@@ -179,23 +179,14 @@ function getChordNumberInScale(scaleValues, pos, nbNotes)
   return chordValues;
 }
 
-// get chord representation from note and chrod name
-function getNoteNameChord(noteName, chordName)
-{
-  if (chordName == "M")
-    return noteName;
-  else
-    return noteName + chordName;
-}
-
 // get roman representation of chord position
-function getRomanChord(pos, chordName, nbNotesInChords)
+function getRomanChord(pos, chordId, nbNotesInChords)
 {
   let romanPos = romanDigits[pos + 1];
   
   // write minor chords in lower case
   const chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
-  const chordValues = chordsDict[chordName];
+  const chordValues = chordsDict[chordId];
   let isMinorChord = false;
   if (chordValues != null && chordValues.length > 1)
   {
@@ -205,12 +196,13 @@ function getRomanChord(pos, chordName, nbNotesInChords)
   }
 
   // do not display 3-notes minor and major chord notation
-  if (chordName == "m" || chordName == "M")
+  if (chordId == "m" || chordId == "M")
     romanPos = romanPos;
-  else if (isMinorChord && chordName.startsWith('m'))
-    romanPos += chordName.substring(1);
+  else if (isMinorChord && chordId.startsWith('m'))
+    //romanPos += chordId.substring(1);
+    romanPos = getCompactChordNotation(romanPos, chordId.substring(1));
   else
-    romanPos += chordName;
+    romanPos = getCompactChordNotation(romanPos, chordId);
 
   return romanPos;
 }
@@ -361,7 +353,7 @@ function getChordsTable(scaleValues, scaleNotesValues, nbNotesInChords)
     const noteName = getNoteName(noteValue);
 
     const chordName = getKeyFromValue(chordsDict, chordValues);
-    const chordNoteName = getNoteNameChord(noteName, chordName);
+    const chordNoteName = getCompactChordNotation(noteName, chordName);
 
     const callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ")";
 
