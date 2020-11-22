@@ -20,7 +20,7 @@ function updateSelectors()
 
     const pageSelect = document.getElementById('page');
     let initialized = (pageSelect.options != null && pageSelect.options.length > 0);
-    const pagesArray = ["page_scale_explorer", "page_scale_finder"/*, "page_chord_explorer"*/];
+    const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
 
     // fill page selector
     if (!initialized)
@@ -179,6 +179,7 @@ function update()
             break;
 
         case "page_chord_explorer":
+            updateChordDecomposedNotes();
             setVisible('found_scales', false);
             break;
     }

@@ -194,6 +194,13 @@ input
     cursor: pointer;
 }
 
+#chord_explorer_notes_decomposed
+{
+    font-family: Arial, Helvetica, sans-serif;
+    color: gray;
+    font-style:italic;
+}
+
 h3
 {
     font-family: 'Times New Roman', Times, serif;

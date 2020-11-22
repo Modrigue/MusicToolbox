@@ -352,6 +352,36 @@ function compareChordPositionsProperties(a, b)
     return scoreA - scoreB;
 }
 
+
+///////////////////////////////// GUI FUNCTIONS ///////////////////////////////
+
+
+function updateChordDecomposedNotes()
+{
+    const noteSelected = document.getElementById('note_explorer_chord').value;
+    const chordSelected = document.getElementById('chord_explorer_chord').value;
+    const notesDecomposed = document.getElementById('chord_explorer_notes_decomposed');
+
+    const noteFondamental = parseInt(noteSelected);
+
+    const chordValues = getChordValues(chordSelected);
+
+    let chordNotesStr = "";
+    chordValues.forEach(function (intervalValue)
+    {
+      const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
+      const noteName = getNoteName(newNoteValue);
+      chordNotesStr += noteName + ",&nbsp;";
+    });
+
+    chordNotesStr = chordNotesStr.slice(0, -7);
+    notesDecomposed.innerHTML = chordNotesStr;
+}
+
+
+//////////////////////////////// TEST FUNCTIONS ///////////////////////////////
+
+
 function testGenerateChordPositions()
 {
     // coefs start values
