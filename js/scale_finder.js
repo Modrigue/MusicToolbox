@@ -108,7 +108,11 @@ function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1,
         // disabled: update same page
         //foundScalesHTML += "<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"; 
         
-        foundScalesHTML += "<button " + styleString + "onclick=\'openNewTab(\"" + url + "\")\' >" + text + "</button>"; 
+        let button = document.createElement('button');
+        button.innerText = text;
+        button.setAttribute("onClick", `openNewTab(\"${url}\")`);
+
+        foundScalesHTML += button.outerHTML; 
         foundScalesHTML += "&nbsp;";
 
         nbScales++;
