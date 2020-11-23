@@ -446,6 +446,67 @@ function updateGeneratedChordsOnFretboard()
 }
 
 
+/////////////////////////////// BARRES FUNCIONS ///////////////////////////////
+
+
+function computeBarres(positions)
+{
+    if (positions == null || positions.length == 0)
+        return [];
+
+    let barres = [];
+
+    // 1st pass: search for identical frets
+    let barresCandidatesDict = {};
+    let stringIndex = 0;
+    for (let pos of positions)
+    {
+        if (!barresCandidatesDict.hasOwnProperty(pos))
+            barresCandidatesDict[pos] = [stringIndex];
+        else
+            barresCandidatesDict[pos].push(stringIndex);
+
+        stringIndex++;
+    }
+
+    // 2nd pass: check barres candidates
+    for (let pos in barresCandidatesDict)
+    {
+        const stringArray = barresCandidatesDict[pos];
+
+        if (stringArray.length < 2) // no barre
+            continue; 
+
+        // compute extremities
+        const stringMin = Math.min(...stringArray);
+        const stringMax = Math.max(...stringArray);
+
+        if (stringMax - stringMin < 2) // no barre
+            continue;
+
+        // check left positions presence between barre candidate extremities
+        let isBarre = true;
+        for (let stringCur = stringMin; stringCur < stringMax; stringCur++)
+        {
+            let posCur = positions[stringCur];
+            if (posCur < pos)
+            {
+                isBarre = false; 
+                break;
+            }
+        }
+        if (!isBarre)
+            continue;
+        
+        // ok, add barre
+        barres.push([stringMin, stringMax]);
+    }
+
+    return barres;
+}
+
+
+
 //////////////////////////////// TEST FUNCTIONS ///////////////////////////////
 
 
