@@ -87,7 +87,6 @@ function initChordSelector(id, defaultChordId = -1, firstChordEmpty = false)
 
     // get chord parameter if existing
     const chordParamValue = parseParameterById("chord");
-    console.log("chordParamValue", chordParamValue);
 
     if (chordParamValue != "")
         defaultChordId = chordParamValue;
