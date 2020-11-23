@@ -146,6 +146,10 @@ function chordPositionsValid(notesValues, positionsCandidate)
             return false;
     }
 
+    // check number of used frets
+    if (getNbFretsUsed(positionsCandidate) > 4)
+        return false;
+
     // disabled for now: check not hit strings
     // for (let i = 2; i < nbStrings; i++)
     // {
@@ -227,6 +231,27 @@ function removePositionsEmpty(positions)
 
     return positionsNotEmpty;
 }
+
+function getNbFretsUsed(positions)
+{
+    // do not count empty strings
+    let positionsNotEmpty = removePositionsEmpty(positions);
+    if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
+        return 0;
+
+    let fretsUsed = [];
+    for (let pos of positionsNotEmpty)
+    {
+        if (!fretsUsed.includes(pos))
+            fretsUsed.push(pos);
+    }
+    
+    return fretsUsed.length;
+}
+
+
+///////////////////////////////// EXPERIMENTAL ////////////////////////////////
+
 
 function getFretWidth(pos)
 {
