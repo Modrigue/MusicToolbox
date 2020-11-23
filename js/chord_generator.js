@@ -454,13 +454,20 @@ function computeBarres(positions)
     if (positions == null || positions.length == 0)
         return [];
 
-    let barres = [];
+    let barres = {};
+    const nbStrings = positions.length;
 
     // 1st pass: search for identical frets
     let barresCandidatesDict = {};
     let stringIndex = 0;
     for (let pos of positions)
     {
+        if (pos <= 0)
+        {
+            stringIndex++;
+            continue;
+        }
+
         if (!barresCandidatesDict.hasOwnProperty(pos))
             barresCandidatesDict[pos] = [stringIndex];
         else
@@ -480,8 +487,9 @@ function computeBarres(positions)
         // compute extremities
         const stringMin = Math.min(...stringArray);
         const stringMax = Math.max(...stringArray);
+        const barreLength = stringMax - stringMin + 1;
 
-        if (stringMax - stringMin < 2) // no barre
+        if (barreLength < 3) // no barre
             continue;
 
         // check left positions presence between barre candidate extremities
@@ -497,9 +505,14 @@ function computeBarres(positions)
         }
         if (!isBarre)
             continue;
+
+        // check if barre is too difficult
+        // >=4 strings => must include highest string
+        if (barreLength >= 4 && stringMax != nbStrings - 1)
+            continue;
         
         // ok, add barre
-        barres.push([stringMin, stringMax]);
+        barres[pos] = [stringMin, stringMax];
     }
 
     return barres;
