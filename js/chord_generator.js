@@ -381,7 +381,7 @@ function compareChordPositionsProperties(a, b)
 ///////////////////////////////// GUI FUNCTIONS ///////////////////////////////
 
 
-function updateChordDecomposedNotes()
+function updateFoundChordElements()
 {
     const noteSelected = document.getElementById('note_explorer_chord').value;
     const chordSelected = document.getElementById('chord_explorer_chord').value;
@@ -390,6 +390,7 @@ function updateChordDecomposedNotes()
     const noteFondamental = parseInt(noteSelected);
     const chordValues = getChordValues(chordSelected);
 
+    // update arpeggio text
     let chordNotesStr = "";
     chordValues.forEach(function (intervalValue)
     {
@@ -397,9 +398,27 @@ function updateChordDecomposedNotes()
       const noteName = getNoteName(newNoteValue);
       chordNotesStr += noteName + ",&nbsp;";
     });
-
     chordNotesStr = chordNotesStr.slice(0, -7);
     notesDecomposed.innerHTML = chordNotesStr;
+
+    // update play chord button callback
+    let buttonPlayChord = document.getElementById("play_found_chord");
+    let chordValuesStr = "[";
+    let index = 0;
+    for (let interval of chordValues)
+    {
+        if (index > 0)
+        chordValuesStr += ", ";
+
+        chordValuesStr += interval.toString();
+        index++;
+    }
+    chordValuesStr += "]";
+    buttonPlayChord.setAttribute("onClick", `playChord(${noteSelected}, ${chordValuesStr}, 0)`);
+
+    // update play arpeggio button callback
+    let buttonPlayArpeggio = document.getElementById("play_found_arpeggio");
+    buttonPlayArpeggio.setAttribute("onClick", `playChord(${noteSelected}, ${chordValuesStr}, 0, 0.25)`);
 }
 
 function updateGeneratedChordsOnFretboard()

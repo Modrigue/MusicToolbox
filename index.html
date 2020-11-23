@@ -55,7 +55,7 @@
       &nbsp;&nbsp;&#x1d11e;
 
       <span style='float: right;'>
-        <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLanguage()">
+        <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
         <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
       </span>
     </h3>
@@ -165,6 +165,13 @@
       <span id="chord_explorer_notes_decomposed">?</span>
       &nbsp;&nbsp;
     </center>
+
+    <div id='options_chord_explorer'>
+      <p>
+        <button id="play_found_chord">Play ♪</button>
+        <button id="play_found_arpeggio">Play arpeggio ♪</button>
+      </p>
+    </div>
 
     <div id='section_guitar_chords'>
       <p id='generated_guitar_chords' style="text-align: center;">?</p>

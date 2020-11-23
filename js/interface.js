@@ -182,7 +182,7 @@ function update()
             break;
 
         case "page_chord_explorer":
-            updateChordDecomposedNotes();
+            updateFoundChordElements();
             updateGeneratedChordsOnFretboard();
             setVisible('found_scales', false);
             break;
@@ -231,18 +231,19 @@ function getSelectedCulture()
     return culture;
 }
 
-function updateLanguage()
+function updateLocales()
 {
     document.title = getString("title");
 
-    let textSelectKey = document.getElementById("select_key_text");
-    textSelectKey.innerText = getString("select_key");
+    // scale explorer
+    document.getElementById("select_key_text").innerText = getString("select_key");
+    document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");
+    document.getElementById("header_chord_explorer").innerText = getString("header_chord_explorer");
+    document.getElementById("checkboxChordsLabel").innerText = getString("chords");
+    document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");
+    document.getElementById("checkboxKeyboardLabel").innerText = getString("keyboard");
 
-    let headerScaleFinder = document.getElementById("header_scale_finder");
-    headerScaleFinder.innerText = getString("header_scale_finder");
-
-    let headerChordExplorer = document.getElementById("header_chord_explorer");
-    headerChordExplorer.innerText = getString("header_chord_explorer");
+    // scale finder
 
     let resetElements = document.getElementsByClassName("reset");
     for (let resetEelem of resetElements)
@@ -252,13 +253,9 @@ function updateLanguage()
     for (let tonicEelem of tonicElements)
         tonicEelem.innerText = getString("tonic");
 
-    // update checkboxes
-    let checkboxChordsLabel = document.getElementById("checkboxChordsLabel");
-    checkboxChordsLabel.innerText = getString("chords");
-    let checkboxGuitarLabel = document.getElementById("checkboxGuitarLabel");
-    checkboxGuitarLabel.innerText = getString("guitar");
-    let checkboxKeyboardLabel = document.getElementById("checkboxKeyboardLabel");
-    checkboxKeyboardLabel.innerText = getString("keyboard");
+    // chord explorer
+    document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
+    document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
 
     // update computed data
     updateSelectors();
