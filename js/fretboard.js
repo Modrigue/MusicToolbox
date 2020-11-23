@@ -3,8 +3,9 @@ let tuning = [7, 0, 5, 10, 2, 7];
 let nbStrings = tuning.length;
 let xFretMargin = 40;
 let yFretMargin = 20;
-let xFretStep = 60;
-const yFretMarginChordBottom = 30;
+let xFretScaleStep = 60;    // used for scale explorer
+let xFretChordStep = 50;    // used for chord explorer
+const yFretMarginChordBottom = 20;
 
 // colors
 const colorFretsStrings = "lightgrey";
@@ -24,7 +25,7 @@ function getCaseNoteValue(i, j)
 }
 
 // <i> has offset 1
-function displayNoteOnFretboard(id, i, j, text, color, marginBottom = 0, startFret = 0)
+function displayNoteOnFretboard(id, i, j, text, color, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0)
 {
     let canvas = document.getElementById(id);
     if (canvas.getContext) 
@@ -127,7 +128,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
         // hint frets
         const hintFrets = [0, 3, 5, 7, 9];
         let indexFret = 0;
-        for (let x = xFretMargin; x < xFretLast; x += xFretStep) 
+        for (let x = xFretMargin; x < xFretLast; x += xFretScaleStep) 
         {
             indexFret++;
 
@@ -138,7 +139,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
             ctx.beginPath();
             ctx.strokeStyle = ((indexFret % 12) == 0) ? colorFretsOctave : colorFretsStrings;
             ctx.fillStyle = colorHintFret;
-            ctx.fillRect(x, yFretMargin, xFretStep, canvas.height - 2*yFretMargin);
+            ctx.fillRect(x, yFretMargin, xFretScaleStep, canvas.height - 2*yFretMargin);
             ctx.closePath();
         }
 
@@ -157,7 +158,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals)
 
         // vertical lines
         indexFret = 0;
-        for (let x = xFretMargin; x <= xFretLast; x += xFretStep) 
+        for (let x = xFretMargin; x <= xFretLast; x += xFretScaleStep) 
         {
             let isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
 
@@ -205,7 +206,7 @@ function getLastFretX()
     let canvas = document.getElementById("canvas_guitar");
 
     let xFretLast = 0;
-    for (let x = xFretMargin; x < canvas.width - xFretMargin; x += xFretStep) 
+    for (let x = xFretMargin; x < canvas.width - xFretMargin; x += xFretScaleStep) 
         xFretLast = x;
 
     return xFretLast;
@@ -241,7 +242,7 @@ function saveFretboardImage()
 /////////////////////////////////// CHORDS ////////////////////////////////////
 
 
-function initChordsFretboardHTML(nbPositions)
+function initChordsFretboardHTML(noteFondamental, chordSelected, nbPositions)
 {
     let chordsFretboardHTML = "";
 
@@ -251,11 +252,13 @@ function initChordsFretboardHTML(nbPositions)
             chordsFretboardHTML += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 
         let canvas = document.createElement('canvas');
-        canvas.id = "generated_chords_fretboard" + i.toString();
+        const idText = "generated_chords_fretboard" + i.toString();
+        canvas.id = idText;
         //canvas.className = "canvas_generated_chords_fretboard";
-        canvas.width = xFretMargin + 5*xFretStep;
+        canvas.width = xFretMargin + 5*xFretChordStep;
         canvas.height = 200 + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
+        canvas.setAttribute("onclick", `saveFretboardChordImage(\"${idText}\", ${noteFondamental}, \"${chordSelected}\")`);
 
         chordsFretboardHTML += canvas.outerHTML;
     }
@@ -293,8 +296,8 @@ function updateChordFretboard(positionsArray)
 
             // hint frets
             const hintFrets = [0, 3, 5, 7, 9];
-            let indexFret = 0;
-            for (let x = xFretMargin; x < xFretLast; x += xFretStep) 
+            let indexFret = (startFret > 0) ? startFret - 1 : 0;
+            for (let x = xFretMargin; x < xFretLast; x += xFretChordStep) 
             {
                 indexFret++;
 
@@ -305,7 +308,7 @@ function updateChordFretboard(positionsArray)
                 ctx.beginPath();
                 ctx.strokeStyle = ((indexFret % 12) == 0) ? colorFretsOctave : colorFretsStrings;
                 ctx.fillStyle = colorHintFret;
-                ctx.fillRect(x, yFretMargin, xFretStep, canvas.height  - yFretMarginChordBottom - 2*yFretMargin);
+                ctx.fillRect(x, yFretMargin, xFretChordStep, canvas.height  - yFretMarginChordBottom - 2*yFretMargin);
                 ctx.closePath();
             }
 
@@ -327,7 +330,7 @@ function updateChordFretboard(positionsArray)
 
             // vertical lines
             indexFret = 0;
-            for (let x = xFretMargin; x <= xFretLast; x += xFretStep) 
+            for (let x = xFretMargin; x <= xFretLast; x += xFretChordStep) 
             {
                 let isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
 
@@ -369,7 +372,7 @@ function updateChordFretboard(positionsArray)
             if (currentNoteValue == noteFondamental)
                 colorNote = colorNoteTonic;
 
-            displayNoteOnFretboard("generated_chords_fretboard" + index.toString(), i, j, currentNote, colorNote, yFretMarginChordBottom, startFret);
+            displayNoteOnFretboard("generated_chords_fretboard" + index.toString(), i, j, currentNote, colorNote, xFretChordStep, yFretMarginChordBottom, startFret);
         }
     }
 }
@@ -388,4 +391,39 @@ function getStartFret(positions)
     const startFret = (posMax > 5) ? posMin : 0;
 
     return startFret;
+}
+
+function saveFretboardChordImage(id, noteValue, chordId)
+{
+    console.log("id = ", id, id.length);
+    
+    let canvasImage = document.getElementById(id).toDataURL('image/png');
+
+    let noteText = getNoteName(noteValue);
+
+    let chordText = chordId;
+    chordText = chordText.replaceAll("sharp", "#");
+    chordText = chordText.replaceAll("flat", "b");
+    //chordText = chordText.replaceAll("dim", "°");
+    //chordText = chordText.replaceAll("aug", "+");
+    if (chordId == "M")
+        chordText = "MAJ";
+    else if (chordId == "m")
+        chordText = "min";
+
+    // this can be used to download any image from webpage to local disk
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = 'blob';
+    xhr.onload = function () {
+        let a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response);
+        a.download = getString("fretboard") + '-' + noteText + '-' + chordText + '.png';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        a.remove()
+      };
+
+    xhr.open('GET', canvasImage); // This is to download the canvas Image
+    xhr.send();
 }

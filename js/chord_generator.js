@@ -441,7 +441,7 @@ function updateGeneratedChordsOnFretboard()
     const positionsArray = generateChords(chordNotesValues);
 
     // generate fretboard images
-    generatedGuitarChords.innerHTML = initChordsFretboardHTML(positionsArray.length);
+    generatedGuitarChords.innerHTML = initChordsFretboardHTML(noteFondamental, chordSelected, positionsArray.length);
     updateChordFretboard(positionsArray);
 }
 
