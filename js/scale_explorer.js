@@ -378,49 +378,28 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
   });
   chordsRomanRowHTML += "</div>";
   
-  // chords notes
-  let chordsNotesRowHTML = "<div class=\"resp-table-row\">";
+  // arpeggios notes
+  let arpeggiosNotesRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     const noteFondamental = scaleNotesValues[index];
-
-    let chordNotesStr = "";
-    chordValues.forEach(function (intervalValue)
-    {
-      const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
-      const noteName = getNoteName(newNoteValue);
-      chordNotesStr += noteName + ",&nbsp;";
-    });
-    chordNotesStr = chordNotesStr.slice(0, -7);
-
     const callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ",0.25)";
 
-    chordsNotesRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
-    chordsNotesRowHTML += chordNotesStr;
-    chordsNotesRowHTML += "</div>";
+    arpeggiosNotesRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
+    arpeggiosNotesRowHTML += getArpeggioNotes(noteFondamental, chordValues);;
+    arpeggiosNotesRowHTML += "</div>";
   });
-  chordsNotesRowHTML += "</div>";
+  arpeggiosNotesRowHTML += "</div>";
 
-  // chords intervals
-  let chordsIntervalsRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
+  // arpeggios intervals
+  let arpeggiosIntervalsRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
-    let chordIntervalsStr = "";
-    chordValues.forEach(function (intervalValue)
-    {
-      let intervalName = intervalsDict[intervalValue];
-      if (intervalName == "T")
-        intervalName = "F"; // fondamental
-
-      chordIntervalsStr += intervalName + ",&nbsp;";
-    });
-    chordIntervalsStr = chordIntervalsStr.slice(0, -7);
-
-    chordsIntervalsRowHTML += "<div class=\"table-body-cell\">";
-    chordsIntervalsRowHTML += chordIntervalsStr;
-    chordsIntervalsRowHTML += "</div>";
+    arpeggiosIntervalsRowHTML += "<div class=\"table-body-cell\">";
+    arpeggiosIntervalsRowHTML += getArpeggioIntervals(chordValues);
+    arpeggiosIntervalsRowHTML += "</div>";
   });
-  chordsIntervalsRowHTML += "</div>";
+  arpeggiosIntervalsRowHTML += "</div>";
 
   // chords details
   const imgMagnifier = new Image();
@@ -449,8 +428,8 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
 
   chordsTableHTML += chordsRowHTML;
   chordsTableHTML += chordsRomanRowHTML;
-  chordsTableHTML += chordsNotesRowHTML;
-  chordsTableHTML += chordsIntervalsRowHTML;
+  chordsTableHTML += arpeggiosNotesRowHTML;
+  chordsTableHTML += arpeggiosIntervalsRowHTML;
   chordsTableHTML += chordsDetailsRowHTML;
   chordsTableHTML += "</div>";
 

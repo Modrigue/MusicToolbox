@@ -197,3 +197,37 @@ function getAltChordNotation(chordId)
 
     return notation;
 }
+
+
+////////////////////////////////// ARPEGGIOS //////////////////////////////////
+
+
+function getArpeggioNotes(noteFondamental, chordValues)
+{
+    let arpeggioNotesStr = "";
+    chordValues.forEach(function (intervalValue)
+    {
+      const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
+      const noteName = getNoteName(newNoteValue);
+      arpeggioNotesStr += noteName + ",&nbsp;";
+    });
+    arpeggioNotesStr = arpeggioNotesStr.slice(0, -7);
+    
+    return arpeggioNotesStr;
+}
+
+function getArpeggioIntervals(chordValues)
+{
+    let arpeggioIntervalsStr = "";
+    chordValues.forEach(function (intervalValue)
+    {
+      let intervalName = intervalsDict[intervalValue];
+      if (intervalName == "T")
+        intervalName = "F"; // fondamental
+
+      arpeggioIntervalsStr += intervalName + ",&nbsp;";
+    });
+    arpeggioIntervalsStr = arpeggioIntervalsStr.slice(0, -7);
+
+    return arpeggioIntervalsStr;
+}

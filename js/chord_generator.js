@@ -407,21 +407,13 @@ function updateFoundChordElements()
 {
     const noteSelected = document.getElementById('note_explorer_chord').value;
     const chordSelected = document.getElementById('chord_explorer_chord').value;
-    const notesDecomposed = document.getElementById('chord_explorer_notes_decomposed');
+    const notesArpeggio = document.getElementById('chord_explorer_notes_decomposed');
 
     const noteFondamental = parseInt(noteSelected);
     const chordValues = getChordValues(chordSelected);
 
     // update arpeggio text
-    let chordNotesStr = "";
-    chordValues.forEach(function (intervalValue)
-    {
-      const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
-      const noteName = getNoteName(newNoteValue);
-      chordNotesStr += noteName + ",&nbsp;";
-    });
-    chordNotesStr = chordNotesStr.slice(0, -7);
-    notesDecomposed.innerHTML = chordNotesStr;
+    notesArpeggio.innerHTML = getArpeggioNotes(noteFondamental, chordValues);
 
     // update play chord button callback
     let buttonPlayChord = document.getElementById("play_found_chord");
