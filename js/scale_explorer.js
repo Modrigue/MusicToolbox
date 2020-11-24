@@ -423,6 +423,9 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsIntervalsRowHTML += "</div>";
 
   // chords details
+  const imgMagnifier = new Image();
+  imgMagnifier.src = 'img/magnifier_16.png';
+  imgMagnifier.alt = "MAG";
   let chordsDetailsRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
@@ -438,7 +441,8 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
     const callbackString = `openNewTab(\"${url}\")`;
 
     chordsDetailsRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
-    chordsDetailsRowHTML += "&#x1f50d;";
+    //chordsDetailsRowHTML += "&#x1f50d";
+    chordsDetailsRowHTML += imgMagnifier.outerHTML;
     chordsDetailsRowHTML += "</div>";
   });
   chordsDetailsRowHTML += "</div>";
