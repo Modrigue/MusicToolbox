@@ -6,6 +6,8 @@ function initLanguage()
   checkboxLanguage.checked = (defaultLang == "fr");
 
   document.title = getString("title"); // force update
+
+  updateLocales();
 }
 
 ////////////////////////////////// SELECTORS //////////////////////////////////

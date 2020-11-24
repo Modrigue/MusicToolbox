@@ -20,7 +20,7 @@ stringsDict_int["relative_scales"] = "Relative scales:";
 stringsDict_int["no_result"] = "Not found";
 stringsDict_int["min_2_notes"] = "At least 2 notes needed";
 stringsDict_int["reset"] = "Reset";
-stringsDict_int["show_barres"] = "Show barres";
+stringsDict_int["show_barres"] = "Barres";
 stringsDict_int["tonic"] = "Tonic:";
 
 // french notation
