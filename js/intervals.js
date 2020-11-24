@@ -12,3 +12,8 @@ intervalsDict[8] = "♭6";
 intervalsDict[9] = "6";
 intervalsDict[10] = "♭7";
 intervalsDict[11] = "7";
+
+// >= 1 octave
+intervalsDict[12] = "8";
+intervalsDict[13] = "♭9";
+intervalsDict[14] = "9";
