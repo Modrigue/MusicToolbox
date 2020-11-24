@@ -24,7 +24,7 @@ function getNotesPositionsOnString(noteValue, stringValue, posMin, posMax, inclu
     return positions;
 }
 
-function generateChords(notesValues)
+function generateChords(notesValues, nbStrings = 99)
 {
     if (notesValues == null || notesValues.length < 2)
         return null;
@@ -32,11 +32,11 @@ function generateChords(notesValues)
     let chordsPositions = [];
     const fundamental = notesValues[0];
 
-    const nbStrings = tuning.length;
+    const nbStringsTotal = tuning.length;
     const nbNotes = notesValues.length;
 
     // generate all valid chord positions
-    for (let startString = 0; startString <= nbStrings - nbNotes; startString++)
+    for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++)
     {
         const positionsString0 = getNotesPositionsOnString(fundamental, tuning[startString], 0, 11);
         for (let p0 of positionsString0)
@@ -48,7 +48,7 @@ function generateChords(notesValues)
             startPositions.push(p0);
 
             // init algorithm
-            addChordNoteOnString(notesValues, startString, startString + 1, startPositions, chordsPositions);
+            addChordNoteOnString(notesValues, startString, startString + 1, startPositions, chordsPositions, nbStrings);
         }
     }
 
@@ -70,15 +70,15 @@ function generateChords(notesValues)
 }
 
 // recurse on strings
-function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur, chordsPositions, chordAddedArray = [])
+function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur, chordsPositions, nbStrings = 99, chordAddedArray = [])
 {
     // secure
-    const nbStrings = tuning.length;
-    if (stringIndex >= nbStrings)
+    const nbStringsTotal = tuning.length;
+    if (stringIndex >= nbStringsTotal)
         return;
 
     // find notes on current string
-    const isLastString = (stringIndex + 1 == nbStrings);
+    const isLastString = (stringIndex + 1 == nbStringsTotal);
     for (let noteValue of notesValues)
     {
         const range = getSearchRange(positionsCur);
@@ -95,28 +95,41 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
             let positionsCandidate = [...positionsCur];
             positionsCandidate.push(pos);
             
-            let valid = chordPositionsValid(notesValues, positionsCandidate);
+            let valid = chordPositionsValid(notesValues, positionsCandidate, nbStrings);
+
+            // fixed number of strings?
+            const fixedNbString = (nbStrings >= 0 && nbStrings <= nbStringsTotal);
+
+            // continue search condition
+            let continueSearch = !isLastString;
+            if (fixedNbString)
+            {
+                let positionsNotHit = [...positionsCandidate];
+                positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
+                if (positionsNotHit != null)
+                    continueSearch = (positionsNotHit.length != nbStrings);
+            }
 
             // find notes on next string
             let chordAddedArrayCurrent = [];
-            if (!isLastString)
-                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, chordAddedArrayCurrent);
+            if (continueSearch)
+                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, nbStrings, chordAddedArrayCurrent);
 
             // update added chord positions array
             for (let chordPos in chordAddedArrayCurrent)
                 chordAddedArray.push(chordPos);
             
             // add chord position if not more complete position has been found
-            const addCurrentChord = valid && (isLastString || chordAddedArrayCurrent.length == 0);
+            const addCurrentChord = valid && (!continueSearch || chordAddedArrayCurrent.length == 0);
             if (addCurrentChord)
             {
                 // complete positions with remaining not hit strings
                 let positionsCandidateComplete = [...positionsCandidate];
-                for (let i = 0; i < nbStrings - stringIndex - 1; i++)
+                for (let i = 0; i < nbStringsTotal - stringIndex - 1; i++)
                     positionsCandidateComplete.push(-1);
 
                 // check again
-                valid = chordPositionsValid(notesValues, positionsCandidateComplete);
+                valid = chordPositionsValid(notesValues, positionsCandidateComplete, nbStrings);
 
                 if (valid)
                 {
@@ -130,7 +143,7 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
     }
 }
 
-function chordPositionsValid(notesValues, positionsCandidate)
+function chordPositionsValid(notesValues, positionsCandidate, nbStrings = 99)
 {
     // check if all notes are included
     if (!chordPositionsIncludeNotes(notesValues, positionsCandidate))
@@ -149,6 +162,15 @@ function chordPositionsValid(notesValues, positionsCandidate)
     // check number of used frets
     if (getNbFretsUsed(positionsCandidate) > 4)
         return false;
+
+    // check number of strings used if specified
+    if (nbStrings >= 0 && nbStrings <= tuning.length)
+    {
+        let positionsNotHit = [...positionsCandidate];
+        positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
+        if (positionsNotHit.length != nbStrings)
+            return false;
+    }
 
     // disabled for now: check not hit strings
     // for (let i = 2; i < nbStrings; i++)
