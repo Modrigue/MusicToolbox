@@ -421,7 +421,7 @@ function updateFoundChordElements()
     buttonPlayArpeggio.setAttribute("onClick", `playChord(${noteSelected}, ${chordValuesStr}, 0, 0.25)`);
 }
 
-function updateGeneratedChordsOnFretboard()
+function updateGeneratedChordsOnFretboard(showBarres = true)
 {
     const generatedGuitarChords = document.getElementById('generated_guitar_chords');
 
@@ -442,7 +442,7 @@ function updateGeneratedChordsOnFretboard()
 
     // generate fretboard images
     generatedGuitarChords.innerHTML = initChordsFretboardHTML(noteFondamental, chordSelected, positionsArray.length);
-    updateChordFretboard(positionsArray);
+    updateChordFretboard(positionsArray, showBarres);
 }
 
 

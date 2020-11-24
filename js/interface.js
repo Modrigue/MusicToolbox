@@ -182,10 +182,14 @@ function update()
             break;
 
         case "page_chord_explorer":
+        {
+            const checkboxBarres = document.getElementById("checkboxBarres");
+            
             updateFoundChordElements();
-            updateGeneratedChordsOnFretboard();
+            updateGeneratedChordsOnFretboard(checkboxBarres.checked);
             setVisible('found_scales', false);
             break;
+        }
     }
 }
 
@@ -224,6 +228,10 @@ function setEnabledStatus(id, status)
     x.disabled = !status;
 }
 
+
+//////////////////////////////////// LOCALES //////////////////////////////////
+
+
 function getSelectedCulture()
 {
     const checkboxLanguage = document.getElementById("checkboxLanguage");
@@ -242,6 +250,7 @@ function updateLocales()
     document.getElementById("checkboxChordsLabel").innerText = getString("chords");
     document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");
     document.getElementById("checkboxKeyboardLabel").innerText = getString("keyboard");
+    document.getElementById("checkboxBarresLabel").innerText = getString("show_barres");
 
     // scale finder
 

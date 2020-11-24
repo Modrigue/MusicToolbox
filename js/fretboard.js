@@ -266,7 +266,7 @@ function initChordsFretboardHTML(noteFondamental, chordSelected, nbPositions)
     return chordsFretboardHTML;
 }
 
-function updateChordFretboard(positionsArray)
+function updateChordFretboard(positionsArray, showBarres = true)
 {
     const nbPositions = positionsArray.length;
 
@@ -355,27 +355,30 @@ function updateChordFretboard(positionsArray)
             }
 
             // display barres if existing and option set
-            const barres = computeBarres(positions);
-            for (let pos in barres)
+            if (showBarres)
             {
-                const stringMin = barres[pos][0];
-                const stringMax = barres[pos][1];
-                let posBarre = pos;
-                if (startFret > 0)
-                    posBarre -= startFret - 1;
-                
-                // position
-                const yStep = (canvas.height - yFretMarginChordBottom - 2* yFretMargin) / (nbStrings - 1);
-                const radius = Math.min(xFretChordStep, yStep) / 2 - 2;
-                let x = xFretMargin + (posBarre - 1) * xFretChordStep + xFretChordStep / 2 - 1;
-                let yMin = yFretMargin + (nbStrings - stringMin - 1) * yStep - 1;
-                let yMax = yFretMargin + (nbStrings - stringMax - 1) * yStep - 1;
+                const barres = computeBarres(positions);
+                for (let pos in barres)
+                {
+                    const stringMin = barres[pos][0];
+                    const stringMax = barres[pos][1];
+                    let posBarre = pos;
+                    if (startFret > 0)
+                        posBarre -= startFret - 1;
+                    
+                    // position
+                    const yStep = (canvas.height - yFretMarginChordBottom - 2* yFretMargin) / (nbStrings - 1);
+                    const radius = Math.min(xFretChordStep, yStep) / 2 - 2;
+                    let x = xFretMargin + (posBarre - 1) * xFretChordStep + xFretChordStep / 2 - 1;
+                    let yMin = yFretMargin + (nbStrings - stringMin - 1) * yStep - 1;
+                    let yMax = yFretMargin + (nbStrings - stringMax - 1) * yStep - 1;
 
-                // fill barre
-                ctx.beginPath();
-                ctx.fillStyle = colorNoteNormal;
-                ctx.fillRect(x - radius, yMax, 2*radius, yMin - yMax);
-                ctx.closePath();
+                    // fill barre
+                    ctx.beginPath();
+                    ctx.fillStyle = colorNoteNormal;
+                    ctx.fillRect(x - radius, yMax, 2*radius, yMin - yMax);
+                    ctx.closePath();
+                }
             }
         }
 
