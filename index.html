@@ -173,8 +173,22 @@
       <p><center>
         <button id="play_found_chord">Play ♪</button>
         <button id="play_found_arpeggio">Play arpeggio ♪</button>
+
         <input type="checkbox" id="checkboxBarres" name="checkboxBarres" checked onchange="update()">
         <label class="input-label" id="checkboxBarresLabel" for="checkboxBarres">Barres</label>
+
+        <span style='float: right;'>
+          <select name="chord_explorer_nb_strings" id="chord_explorer_nb_strings" onchange="update()">
+            <option value=99 id="chord_explorer_nb_strings_option_max">Max</option>
+            <option value=6 id="chord_explorer_nb_strings_option_6">6</option>
+            <option value=5 id="chord_explorer_nb_strings_option_5">5</option>
+            <option value=4 id="chord_explorer_nb_strings_option_4">4</option>
+            <option value=3 id="chord_explorer_nb_strings_option_3">3</option>
+            <option value=2 id="chord_explorer_nb_strings_option_2">2</option>
+            <option value=0 id="chord_explorer_nb_strings_option_min">Min</option>
+          </select>
+          <span id="chord_explorer_nb_strings_text">strings played</span>
+        </span>
       </p></center>
     </div>
 

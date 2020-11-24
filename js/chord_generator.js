@@ -70,6 +70,8 @@ function generateChords(notesValues, nbStrings = 99)
 }
 
 // recurse on strings
+//    nbStrings = 99 => recurse until valid max. number of strings reached
+//    nbStrings = 0  => recurse until valid min. number of strings reached
 function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur, chordsPositions, nbStrings = 99, chordAddedArray = [])
 {
     // secure
@@ -98,7 +100,7 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
             let valid = chordPositionsValid(notesValues, positionsCandidate, nbStrings);
 
             // fixed number of strings?
-            const fixedNbString = (nbStrings >= 0 && nbStrings <= nbStringsTotal);
+            const fixedNbString = (nbStrings > 0 && nbStrings <= nbStringsTotal);
 
             // continue search condition
             let continueSearch = !isLastString;
@@ -108,6 +110,11 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
                 positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
                 if (positionsNotHit != null)
                     continueSearch = (positionsNotHit.length != nbStrings);
+            }
+            else if (nbStrings <= 0)
+            {
+                if (valid)
+                    continueSearch = false;
             }
 
             // find notes on next string
@@ -164,7 +171,7 @@ function chordPositionsValid(notesValues, positionsCandidate, nbStrings = 99)
         return false;
 
     // check number of strings used if specified
-    if (nbStrings >= 0 && nbStrings <= tuning.length)
+    if (nbStrings > 0 && nbStrings <= tuning.length)
     {
         let positionsNotHit = [...positionsCandidate];
         positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
@@ -441,11 +448,13 @@ function updateGeneratedChordsOnFretboard(showBarres = true)
 {
     const generatedGuitarChords = document.getElementById('generated_guitar_chords');
 
-    // get selected chord notes values
+    // get selected parameters
     const noteSelected = document.getElementById('note_explorer_chord').value;
     const chordSelected = document.getElementById('chord_explorer_chord').value;
     const noteFondamental = parseInt(noteSelected);
     const chordValues = getChordValues(chordSelected);
+    const nbStringsSelected = document.getElementById('chord_explorer_nb_strings').value;
+
     let chordNotesValues = [];
     for (let interval of chordValues)
     {
@@ -454,13 +463,31 @@ function updateGeneratedChordsOnFretboard(showBarres = true)
     }
 
     // compute chord positions
-    const positionsArray = generateChords(chordNotesValues);
+    const positionsArray = generateChords(chordNotesValues, nbStringsSelected);
+    if (positionsArray == 0)
+    {
+        generatedGuitarChords.innerHTML = getString("no_result");
+        return;
+    }
 
     // generate fretboard images
     generatedGuitarChords.innerHTML = initChordsFretboardHTML(noteFondamental, chordSelected, positionsArray.length);
     updateChordFretboard(positionsArray, showBarres);
 }
 
+// disable incoherent number of strings options
+function updateNbStringsSelector()
+{
+    const chordSelected = document.getElementById('chord_explorer_chord').value;
+    const chordValues = getChordValues(chordSelected);
+    const nbNotesInChord = chordValues.length;
+    
+    for (let i = 2; i <= 6; i++)
+    {
+        let option = document.getElementById(`chord_explorer_nb_strings_option_${i}`);
+        option.disabled = (i < nbNotesInChord);        
+    }
+}
 
 /////////////////////////////// BARRES FUNCIONS ///////////////////////////////
 

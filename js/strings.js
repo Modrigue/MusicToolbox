@@ -1,5 +1,6 @@
 // international
 const stringsDict_int = {};
+stringsDict_int["chord_explorer_nb_strings_text"] = "strings played";
 stringsDict_int["title"] = "Music Companion";
 stringsDict_int["page_scale_explorer"] = "Music Scale Explorer";
 stringsDict_int["page_scale_finder"] = "Music Scale Finder";
@@ -25,6 +26,7 @@ stringsDict_int["tonic"] = "Tonic:";
 
 // french notation
 const stringsDict_fr = {};
+stringsDict_fr["chord_explorer_nb_strings_text"] = "cordes jouées";
 stringsDict_fr["title"] = "Le compagnon musical";
 stringsDict_fr["page_scale_explorer"] = "Explorateur de gammes";
 stringsDict_fr["page_scale_finder"] = "Chercheur de gammes";

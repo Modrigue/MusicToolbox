@@ -67,7 +67,8 @@ function updateSelectors()
     
     // update chord explorer selectors
     updateNoteSelector('note_explorer_chord', 3, false);
-    initChordSelector('chord_explorer_chord', "M", false); 
+    initChordSelector('chord_explorer_chord', "M", false);
+    updateNbStringsSelector();
 }
 
 // get selected text from selector
@@ -187,6 +188,7 @@ function update()
         {
             const checkboxBarres = document.getElementById("checkboxBarres");
             
+            updateNbStringsSelector();
             updateFoundChordElements();
             updateGeneratedChordsOnFretboard(checkboxBarres.checked);
             setVisible('found_scales', false);
@@ -267,7 +269,8 @@ function updateLocales()
     // chord explorer
     document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
     document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
-
+    document.getElementById("chord_explorer_nb_strings_text").innerText = getString("chord_explorer_nb_strings_text");
+    
     // update computed data
     updateSelectors();
     onNoteChanged();
