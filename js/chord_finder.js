@@ -1,5 +1,5 @@
 // find chords from notes
-function findChord(notesValues, onlyFirstNoteAsFundamental = false)
+function findChords(notesValues, onlyFirstNoteAsFundamental = false)
 {
     if (notesValues == null || notesValues.length < 2  || notesValues.length > 5)
         return [];

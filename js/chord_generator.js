@@ -435,6 +435,7 @@ function updateChordGeneratorMode()
     setVisible("chord_explorer_arpeggio_texts", nameMode);
 
     // notes mode
+    setVisible("chord_explorer_found_chords_texts", !nameMode);
     for (let i = 1; i <= 5; i++)
         setEnabled(`chord_explorer_note${i}`, !nameMode);
 }
@@ -462,12 +463,12 @@ function updateFoundChordElements()
     let selectedMode = getSelectedChordGeneratorMode();
     if (selectedMode == "name")
     {
+        // update arpeggios texts
         noteSelected = document.getElementById('note_explorer_chord').value;
         noteFondamental = parseInt(noteSelected);
         const chordSelected = document.getElementById('chord_explorer_chord').value;
         intervalValues = getChordValues(chordSelected);
 
-        // update arpeggio texts
         const notesArpeggio = document.getElementById('chord_explorer_arpeggio_notes');
         const intervalsArpeggio = document.getElementById('chord_explorer_arpeggio_intervals');
         notesArpeggio.innerHTML = getArpeggioNotes(noteFondamental, intervalValues);
@@ -484,8 +485,42 @@ function updateFoundChordElements()
         for (let noteValue of selectedNotesValues)
             intervalValues.push((noteValue - noteFondamental) % 12);
 
-        // TODO: update found chords text
-        
+        const culture = getSelectedCulture();
+
+        // update found chords text
+        const foundChordsTexts = document.getElementById('chord_explorer_found_chords_texts');
+        const foundChords = findChords(selectedNotesValues);
+        let foundChordsStr = "";
+        let index = 0;
+        for (let noteChord of foundChords)
+        {
+            const noteValue = noteChord[0];
+            const chordId = noteChord[1];
+
+            const noteName = getNoteName(noteValue);
+            const chordNoteName = getCompactChordNotation(noteName, chordId);
+
+            // build button
+            let button = document.createElement('button');
+            button.innerText = chordNoteName;
+
+            // build URL
+            let url = window.location.pathname;
+            url += "?note=" + noteValue.toString();
+            url += "&chord=" + chordId;
+            url += "&lang=" + culture;
+            
+            const callbackString = `openNewTab(\"${url}\")`;
+            button.setAttribute("onClick", callbackString);
+
+            if (index > 0)
+                foundChordsStr += " ";
+            foundChordsStr += button.outerHTML;
+            
+            index++;
+        }
+
+        foundChordsTexts.innerHTML = foundChordsStr;
     }
 
     // update play chord button callback
