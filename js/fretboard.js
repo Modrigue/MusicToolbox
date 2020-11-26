@@ -382,10 +382,21 @@ function updateChordFretboard(positionsArray, showBarres = true)
             }
         }
 
-        // display notes positions
+        // get fundamental given mode
+        let noteFondamental = -1;
+        let selectedMode = getSelectedChordGeneratorMode();
+        if (selectedMode == "name")
+        {
+            const noteSelected = document.getElementById('note_explorer_chord').value;
+            noteFondamental = parseInt(noteSelected);
+        }
+        else
+        {
+            const selectedNotesValues = getSelectedChordExplorerNotes();
+            noteFondamental = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
+        }
 
-        const noteSelected = document.getElementById('note_explorer_chord').value;
-        const noteFondamental = parseInt(noteSelected);
+        // display notes positions
         for (let i = 1; i <= nbStrings; i++)
         {
             const j = positions[i - 1];
