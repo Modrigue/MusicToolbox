@@ -158,40 +158,52 @@
   <!----------------------------- CHORDS EXPLORER ---------------------------->
 
   <div id ='page_chord_explorer'>
-    <center>
-      <span id="header_chord_explorer">Select your note and chord:</span>
+    <div>
+      <input type="radio"  id="radioChordExplorerName" name="chord_explorer_mode" value="name" checked onchange="update()"></input>
+      <label class="input-label" id="radioChordExplorerNameLabel" for="radioChordExplorerName">Name:</label>
       <select name="notes_explorer_chord" id="note_explorer_chord" onchange="update()"></select>
       <select name="chords_explorer_chord" id="chord_explorer_chord" onchange="update()"></select>
-      <span class="chord_explorer_arpeggio">
+      <span class="chord_explorer_arpeggio" id="chord_explorer_arpeggio_texts" span style='float: right;'>
         <span id="chord_explorer_arpeggio_notes">?</span>
         &nbsp;/&nbsp;
         <span id="chord_explorer_arpeggio_intervals">?</span>
       </span>
-    </center>
-
-    <div id='options_chord_explorer'>
-      <p><center>
-        <button id="play_found_chord">Play ♪</button>
-        <button id="play_found_arpeggio">Play arpeggio ♪</button>
-
-        <input type="checkbox" id="checkboxBarres" name="checkboxBarres" checked onchange="update()">
-        <label class="input-label" id="checkboxBarresLabel" for="checkboxBarres">Barres</label>
-
-        <span style='float: right;'>
-          <select name="chord_explorer_nb_strings" id="chord_explorer_nb_strings" onchange="update()">
-            <option value=99 id="chord_explorer_nb_strings_option_max">Max</option>
-            <option value=6 id="chord_explorer_nb_strings_option_6">6</option>
-            <option value=5 id="chord_explorer_nb_strings_option_5">5</option>
-            <option value=4 id="chord_explorer_nb_strings_option_4">4</option>
-            <option value=3 id="chord_explorer_nb_strings_option_3">3</option>
-            <option value=2 id="chord_explorer_nb_strings_option_2">2</option>
-            <option value=0 id="chord_explorer_nb_strings_option_min">Min</option>
-          </select>
-          <span id="chord_explorer_nb_strings_text">strings played</span>
-        </span>
-      </p></center>
     </div>
 
+    <div>
+      <input type="radio" id="radioChordExplorerNotes" name="chord_explorer_mode" value="notes" onchange="update()">
+      <label class="input-label" id="radioChordExplorerNotesLabel" for="radioChordExplorerNotes">Notes:</label>
+      <select name="chord_explorer_note1" id="chord_explorer_note1" disabled onchange="update()"></select>
+      <select name="chord_explorer_note2" id="chord_explorer_note2" disabled onchange="update()"></select>
+      <select name="chord_explorer_note3" id="chord_explorer_note3" disabled onchange="update()"></select>
+      <select name="chord_explorer_note4" id="chord_explorer_note4" disabled onchange="update()"></select>
+      <select name="chord_explorer_note5" id="chord_explorer_note5" disabled onchange="update()"></select>
+    </div>
+
+    <br>
+    <div id='options_chord_explorer'>
+      <span style='float: center;'>
+        <button id="play_found_chord">Play ♪</button>
+        <button id="play_found_arpeggio">Play arpeggio ♪</button>
+      </span>
+      <span style='float: right;'>
+        <input type="checkbox" id="checkboxBarres" name="checkboxBarres" checked onchange="update()">
+        <label class="input-label" id="checkboxBarresLabel" for="checkboxBarres">Barres</label>
+      
+        <select name="chord_explorer_nb_strings" id="chord_explorer_nb_strings" onchange="update()">
+          <option value=99 id="chord_explorer_nb_strings_option_max">Max</option>
+          <option value=6 id="chord_explorer_nb_strings_option_6">6</option>
+          <option value=5 id="chord_explorer_nb_strings_option_5">5</option>
+          <option value=4 id="chord_explorer_nb_strings_option_4">4</option>
+          <option value=3 id="chord_explorer_nb_strings_option_3">3</option>
+          <option value=2 id="chord_explorer_nb_strings_option_2">2</option>
+          <option value=0 id="chord_explorer_nb_strings_option_min">Min</option>
+        </select>
+        <span id="chord_explorer_nb_strings_text">strings played</span>
+      </span>
+    </div>
+
+    <br>
     <div id='section_guitar_chords'>
       <p id='generated_guitar_chords' style="text-align: center;">?</p>
     </div>

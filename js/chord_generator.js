@@ -409,79 +409,157 @@ function compareChordPositionsProperties(a, b)
 
 ///////////////////////////////// GUI FUNCTIONS ///////////////////////////////
 
+function getSelectedChordGeneratorMode()
+{
+    // get selected mode
+    const radiosMode = document.querySelectorAll('input[name="chord_explorer_mode"]');
+    for (const radioMode of radiosMode)
+        if (radioMode.checked)
+            return radioMode.value;
+
+    // not found
+    return null;
+}
+
+function updateChordGeneratorMode()
+{
+    // get selected mode
+    let selectedMode = getSelectedChordGeneratorMode();
+    const nameMode = (selectedMode == "name");
+    
+    // name mode
+    setEnabled("note_explorer_chord", nameMode);
+    setEnabled("chord_explorer_chord", nameMode);
+    setEnabled("chord_explorer_arpeggio_notes", nameMode);
+    setEnabled("chord_explorer_arpeggio_intervals", nameMode);
+    setVisible("chord_explorer_arpeggio_texts", nameMode);
+
+    // notes mode
+    for (let i = 1; i <= 5; i++)
+        setEnabled(`chord_explorer_note${i}`, !nameMode);
+}
+
+function getSelectedChordExplorerNotes()
+{
+    let noteValues = [];
+    for (let i = 1; i <= 5; i++)
+    {
+        const value = parseInt(document.getElementById(`chord_explorer_note${i}`).value);
+        if (value >= 0 && !noteValues.includes(value))
+            noteValues.push(value);
+    }
+
+    return noteValues;
+}
+
 
 function updateFoundChordElements()
 {
-    const noteSelected = document.getElementById('note_explorer_chord').value;
-    const chordSelected = document.getElementById('chord_explorer_chord').value;
-    const notesArpeggio = document.getElementById('chord_explorer_arpeggio_notes');
-    const intervalsArpeggio = document.getElementById('chord_explorer_arpeggio_intervals');
+    let noteFondamental = -1;
+    let noteSelected = "";
+    let intervalValues = [];
 
-    const noteFondamental = parseInt(noteSelected);
-    const chordValues = getChordValues(chordSelected);
+    let selectedMode = getSelectedChordGeneratorMode();
+    if (selectedMode == "name")
+    {
+        noteSelected = document.getElementById('note_explorer_chord').value;
+        noteFondamental = parseInt(noteSelected);
+        const chordSelected = document.getElementById('chord_explorer_chord').value;
+        intervalValues = getChordValues(chordSelected);
 
-    // update arpeggio texts
-    notesArpeggio.innerHTML = getArpeggioNotes(noteFondamental, chordValues);
-    intervalsArpeggio.innerHTML = getArpeggioIntervals(chordValues);
+        // update arpeggio texts
+        const notesArpeggio = document.getElementById('chord_explorer_arpeggio_notes');
+        const intervalsArpeggio = document.getElementById('chord_explorer_arpeggio_intervals');
+        notesArpeggio.innerHTML = getArpeggioNotes(noteFondamental, intervalValues);
+        intervalsArpeggio.innerHTML = getArpeggioIntervals(intervalValues);
+    }
+    else
+    {
+        // take 1st selected note as fundamental
+        const selectedNotesValues = getSelectedChordExplorerNotes();
+        noteFondamental = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
+        noteSelected = noteFondamental.toString();
+
+        // compute chord relative values given fundamental
+        for (let noteValue of selectedNotesValues)
+            intervalValues.push((noteValue - noteFondamental) % 12);
+
+        // TODO: update found chords text
+        
+    }
 
     // update play chord button callback
     let buttonPlayChord = document.getElementById("play_found_chord");
-    let chordValuesStr = "[";
-    let index = 0;
-    for (let interval of chordValues)
-    {
-        if (index > 0)
-        chordValuesStr += ", ";
-
-        chordValuesStr += interval.toString();
-        index++;
-    }
-    chordValuesStr += "]";
-    buttonPlayChord.setAttribute("onClick", `playChord(${noteSelected}, ${chordValuesStr}, 0)`);
+    buttonPlayChord.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0)`);
 
     // update play arpeggio button callback
     let buttonPlayArpeggio = document.getElementById("play_found_arpeggio");
-    buttonPlayArpeggio.setAttribute("onClick", `playChord(${noteSelected}, ${chordValuesStr}, 0, 0.25)`);
+    buttonPlayArpeggio.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0, 0.25)`);
 }
 
 function updateGeneratedChordsOnFretboard(showBarres = true)
 {
     const generatedGuitarChords = document.getElementById('generated_guitar_chords');
-
-    // get selected parameters
-    const noteSelected = document.getElementById('note_explorer_chord').value;
-    const chordSelected = document.getElementById('chord_explorer_chord').value;
-    const noteFondamental = parseInt(noteSelected);
-    const chordValues = getChordValues(chordSelected);
-    const nbStringsSelected = document.getElementById('chord_explorer_nb_strings').value;
-
     let chordNotesValues = [];
-    for (let interval of chordValues)
+    let noteFondamental = -1;
+    let chordSelected = "";
+    let freeNotesValues = [];
+
+    // get selected parameters given mode
+    let selectedMode = getSelectedChordGeneratorMode();
+    if (selectedMode == "name")
     {
-        newNoteValue = addToNoteValue(noteFondamental, interval);
-        chordNotesValues.push(newNoteValue);
+        const noteSelected = document.getElementById('note_explorer_chord').value;
+        chordSelected = document.getElementById('chord_explorer_chord').value;
+        noteFondamental = parseInt(noteSelected);
+        const chordValues = getChordValues(chordSelected);
+
+        for (let interval of chordValues)
+        {
+            newNoteValue = addToNoteValue(noteFondamental, interval);
+            chordNotesValues.push(newNoteValue);            
+        }
+    }
+    else
+    {
+        chordNotesValues = getSelectedChordExplorerNotes();
+        freeNotesValues = [...chordNotesValues];
+        noteFondamental = (chordNotesValues.length > 0) ? chordNotesValues[0] : -1;
     }
 
     // compute chord positions
+    const nbStringsSelected = document.getElementById('chord_explorer_nb_strings').value;
     const positionsArray = generateChords(chordNotesValues, nbStringsSelected);
-    if (positionsArray == 0)
+    if (positionsArray == null || positionsArray == 0)
     {
         generatedGuitarChords.innerHTML = getString("no_result");
         return;
     }
 
     // generate fretboard images
-    generatedGuitarChords.innerHTML = initChordsFretboardHTML(noteFondamental, chordSelected, positionsArray.length);
+    generatedGuitarChords.innerHTML = initChordsFretboardHTML(noteFondamental, chordSelected, freeNotesValues, positionsArray.length);
     updateChordFretboard(positionsArray, showBarres);
 }
 
 // disable incoherent number of strings options
 function updateNbStringsSelector()
 {
-    const chordSelected = document.getElementById('chord_explorer_chord').value;
-    const chordValues = getChordValues(chordSelected);
-    const nbNotesInChord = chordValues.length;
+    let nbNotesInChord = -1;
+
+    let selectedMode = getSelectedChordGeneratorMode();
+    if (selectedMode == "name")
+    {
+        const chordSelected = document.getElementById('chord_explorer_chord').value;
+        const chordValues = getChordValues(chordSelected);
+        nbNotesInChord = chordValues.length;
+    }
+    else
+    {
+        const selectedFreeNotes = getSelectedChordExplorerNotes();
+        nbNotesInChord = selectedFreeNotes.length;
+    }
     
+    // enable values given nb. of notes
     for (let i = 2; i <= 6; i++)
     {
         let option = document.getElementById(`chord_explorer_nb_strings_option_${i}`);

@@ -52,8 +52,9 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false)
     if (noteParamValue >= 0)
         defaultNoteValue = noteParamValue;
 
-    // do not set default values for scale finder notes selectors
-    if (id.startsWith("note_finder") && id != "note_finder_tonic")
+    // do not set default values for scale finder / chord finder notes selectors
+    if ((id.startsWith("note_finder") && id != "note_finder_tonic")
+      || id.startsWith("chord_explorer_note"))
         defaultNoteValue = -1;
 
     // fill note selector

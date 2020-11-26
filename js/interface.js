@@ -69,6 +69,8 @@ function updateSelectors()
     updateNoteSelector('note_explorer_chord', 3, false);
     initChordSelector('chord_explorer_chord', "M", false);
     updateNbStringsSelector();
+    for (let i = 1; i <= 5; i++)
+        updateNoteSelector(`chord_explorer_note${i}`, -1, true); 
 }
 
 // get selected text from selector
@@ -139,9 +141,9 @@ function update()
     document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, 4) : "";
 
     // checkboxes
-    //setEnabledStatus("checkboxChords3", showChords3);
-    //setEnabledStatus("checkboxChords4", showChords4);
-    setEnabledStatus("checkboxChords", showChords3);
+    //setEnabled("checkboxChords3", showChords3);
+    //setEnabled("checkboxChords4", showChords4);
+    setEnabled("checkboxChords", showChords3);
 
     // update fretboard
     updateFretboard(noteValue, scaleValues, charIntervals);
@@ -166,9 +168,9 @@ function update()
         else
             has1NoteSelected = true;
 
-        setEnabledStatus('chord_finder' + id, hasNoteSelected);
+        setEnabled('chord_finder' + id, hasNoteSelected);
     }
-    setEnabledStatus('reset_scale_finder', has1NoteSelected);
+    setEnabled('reset_scale_finder', has1NoteSelected);
 
     // update found scales given selected page
     const foundScales = document.getElementById('found_scales');
@@ -188,6 +190,7 @@ function update()
         {
             const checkboxBarres = document.getElementById("checkboxBarres");
             
+            updateChordGeneratorMode();
             updateNbStringsSelector();
             updateFoundChordElements();
             updateGeneratedChordsOnFretboard(checkboxBarres.checked);
@@ -226,7 +229,7 @@ function setVisible(id, status)
     x.style.display = status ? "block" : "none";
 }
 
-function setEnabledStatus(id, status)
+function setEnabled(id, status)
 {
     let x = document.getElementById(id);
     x.disabled = !status;
@@ -250,7 +253,6 @@ function updateLocales()
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");
-    document.getElementById("header_chord_explorer").innerText = getString("header_chord_explorer");
     document.getElementById("checkboxChordsLabel").innerText = getString("chords");
     document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");
     document.getElementById("checkboxKeyboardLabel").innerText = getString("keyboard");
@@ -267,6 +269,8 @@ function updateLocales()
         tonicEelem.innerText = getString("tonic");
 
     // chord explorer
+    document.getElementById("radioChordExplorerNameLabel").innerText = getString("name");
+    document.getElementById("radioChordExplorerNotesLabel").innerText = getString("notes");
     document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
     document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
     document.getElementById("chord_explorer_nb_strings_text").innerText = getString("chord_explorer_nb_strings_text");

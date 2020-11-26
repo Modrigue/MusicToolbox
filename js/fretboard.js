@@ -242,7 +242,7 @@ function saveFretboardImage()
 /////////////////////////////////// CHORDS ////////////////////////////////////
 
 
-function initChordsFretboardHTML(noteFondamental, chordSelected, nbPositions)
+function initChordsFretboardHTML(noteFondamental, chordSelected, freeNotesSelected, nbPositions)
 {
     let chordsFretboardHTML = "";
 
@@ -258,7 +258,7 @@ function initChordsFretboardHTML(noteFondamental, chordSelected, nbPositions)
         canvas.width = xFretMargin + 5*xFretChordStep;
         canvas.height = 200 + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
-        canvas.setAttribute("onclick", `saveFretboardChordImage(\"${idText}\", ${noteFondamental}, \"${chordSelected}\")`);
+        canvas.setAttribute("onclick", `saveFretboardChordImage(\"${idText}\", ${noteFondamental},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`);
 
         chordsFretboardHTML += canvas.outerHTML;
     }
@@ -420,23 +420,47 @@ function getStartFret(positions)
     return startFret;
 }
 
-function saveFretboardChordImage(id, noteValue, chordId)
-{
-    console.log("id = ", id, id.length);
-    
+function saveFretboardChordImage(id, noteValue, chordId, freeNotesStr)
+{    
     let canvasImage = document.getElementById(id).toDataURL('image/png');
+    let filename = "";
 
-    let noteText = getNoteName(noteValue);
+    if (freeNotesStr == null || freeNotesStr.length == 0)
+    {
+        // chord name mode
+        let noteText = getNoteName(noteValue);
 
-    let chordText = chordId;
-    chordText = chordText.replaceAll("sharp", "#");
-    chordText = chordText.replaceAll("flat", "b");
-    //chordText = chordText.replaceAll("dim", "°");
-    //chordText = chordText.replaceAll("aug", "+");
-    if (chordId == "M")
-        chordText = "MAJ";
-    else if (chordId == "m")
-        chordText = "min";
+        let chordText = chordId;
+        chordText = chordText.replaceAll("sharp", "#");
+        chordText = chordText.replaceAll("flat", "b");
+        //chordText = chordText.replaceAll("dim", "°");
+        //chordText = chordText.replaceAll("aug", "+");
+        if (chordId == "M")
+            chordText = "MAJ";
+        else if (chordId == "m")
+            chordText = "min";
+
+        filename = `${getString("fretboard")}-${noteText}-${chordText}.png`;
+    }
+    else
+    {
+        // free notes mode
+        let notesStr = "";
+        const freeNotesValues = freeNotesStr.split(",");
+        let index = 0;
+        for (let noteStr of freeNotesValues)
+        {
+            if (index > 0)
+                notesStr += "-";
+
+            const noteValue = parseInt(noteStr);
+            const note = getNoteName(noteValue);
+            notesStr += note;
+            index++;
+        }
+
+        filename = `${getString("fretboard")}-${notesStr}.png`;
+    }
 
     // this can be used to download any image from webpage to local disk
     let xhr = new XMLHttpRequest();
@@ -444,7 +468,7 @@ function saveFretboardChordImage(id, noteValue, chordId)
     xhr.onload = function () {
         let a = document.createElement('a');
         a.href = window.URL.createObjectURL(xhr.response);
-        a.download = getString("fretboard") + '-' + noteText + '-' + chordText + '.png';
+        a.download = filename;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
