@@ -45,6 +45,33 @@ button[disabled]
   cursor: default;
 }
 
+.button-page
+{
+    border: 0;
+    border-radius: 0px;
+    font-size: 0.7em;
+}
+
+.button-page:hover
+{
+    border: 0;
+    border-bottom:1pt solid lightgray;
+    border-radius: 0px;
+    background-color: white;
+    color: black;
+    font-size: 0.7em;    
+}
+
+.button-page-selected, .button-page-selected:hover
+{
+    border: 0;
+    border-bottom:1pt solid black;
+    border-radius: 0px;
+    background-color: white;
+    color: black;
+    font-size: 0.7em;
+}
+
 canvas
 {
     cursor: pointer;

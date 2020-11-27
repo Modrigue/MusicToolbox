@@ -49,17 +49,17 @@
   <body onresize="onResize()">
     
     <h3>
-      &#x1d11e;&nbsp;&nbsp;
-      <!--span id="header_title">Music Scale Explorer</span-->
-      <select name="page" id="page" class="select-page" onchange="onPageChanged()">
-      </select>
-      &nbsp;&nbsp;&#x1d11e;
+      <button class="button-page" id="button_page_chord_explorer" onclick='selectPage("page_chord_explorer")'>Find chords</button>
+      <button class="button-page" id="button_page_scale_explorer" onclick='selectPage("page_scale_explorer")'>Explore scales</button>
+      <button class="button-page" id="button_page_scale_finder" onclick='selectPage("page_scale_finder")'>Find scales</button>      
 
       <span style='float: right;'>
         <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
         <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
       </span>
     </h3>
+
+    <br><br>
     
     <div id="page_scale_explorer">
     <center>
@@ -220,7 +220,7 @@
       initLanguage();
       updateSelectors();
       onResize();
-      onPageChanged();
+      initPagefromURLParams();
 
       // test chord positions finder algorithms
       //testGenerateChordPositions();

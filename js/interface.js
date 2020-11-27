@@ -1,3 +1,6 @@
+const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
+let pageSelected = "";
+
 function initLanguage()
 {
   const defaultLang = parseCultureParameter();
@@ -16,41 +19,6 @@ function updateSelectors()
 {
     // get selected culture
     const lang = getSelectedCulture();
-
-    // update page selector
-
-    const pageSelect = document.getElementById('page');
-    let initialized = (pageSelect.options != null && pageSelect.options.length > 0);
-    const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
-
-    // fill page selector
-    if (!initialized)
-    {
-        const chord = parseParameterById("chord");
-        const chordSpecified = (chord != null && chord != "");
-        const defaultPage = chordSpecified ? "page_chord_explorer" : "page_scale_explorer";
-
-        // init
-        for (const key of pagesArray)
-        {
-          let option = document.createElement('option');
-          option.value = key;
-          option.innerHTML = getString(key);
-          if (key == defaultPage) // default
-              option.selected = true;
-          pageSelect.appendChild(option);
-        }
-    }
-    else
-    {
-        // update
-        let indexPage = 0;
-        for (const key of pagesArray)
-        {
-            pageSelect.options[indexPage].innerHTML = getString(key);
-            indexPage++;
-        }
-    }
   
     // update scale explorer selectors
     updateNoteSelector('note', 3, false);
@@ -70,7 +38,7 @@ function updateSelectors()
     initChordSelector('chord_explorer_chord', "M", false);
     updateNbStringsSelector();
     for (let i = 1; i <= 5; i++)
-        updateNoteSelector(`chord_explorer_note${i}`, -1, true); 
+        updateNoteSelector(`chord_explorer_note${i}`, -1, true);
 }
 
 // get selected text from selector
@@ -99,8 +67,25 @@ function selectNoteAndScale(scaleId)
     update();
 }
 
-function onPageChanged()
+function initPagefromURLParams()
 {
+    // parse URL parameters
+    const chord = parseParameterById("chord");
+    const chordSpecified = (chord != null && chord != "");
+    const specifedPage = chordSpecified ? "page_chord_explorer" : "page_scale_explorer";
+    selectPage(specifedPage);
+}
+
+function selectPage(pageId = "")
+{
+   for (let id of pagesArray)
+    {
+        let button = document.getElementById(`button_${id}`);
+        const buttonSelected = (id == pageId);
+        button.className = buttonSelected ? "button-page-selected" :  "button-page";
+    }
+    pageSelected = pageId;
+
     update();
 }
 
@@ -117,9 +102,7 @@ function onScaleChanged()
 // compute and update results
 function update()
 {
-    // get selected page
-    const pageSelected = document.getElementById("page").value;
-    const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
+    // display selected page
     for (let pageId of pagesArray)
         setVisible(pageId, (pageId == pageSelected));
 
@@ -171,6 +154,9 @@ function update()
         setEnabled(`chord_finder${id}`, hasNoteSelected);
     }
     setEnabled('reset_scale_finder', has1NoteSelected);
+    setEnabled('note_finder_tonic', has1NoteSelected);
+    if (!has1NoteSelected)
+        document.getElementById("note_finder_tonic").selectedIndex = 0;
 
     // update found scales given selected page
     const foundScales = document.getElementById('found_scales');
@@ -249,6 +235,11 @@ function getSelectedCulture()
 function updateLocales()
 {
     document.title = getString("title");
+
+    // pages buttons
+    document.getElementById("button_page_chord_explorer").innerText = getString("page_chord_explorer");
+    document.getElementById("button_page_scale_explorer").innerText = getString("page_scale_explorer");
+    document.getElementById("button_page_scale_finder").innerText = getString("page_scale_finder");
 
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
