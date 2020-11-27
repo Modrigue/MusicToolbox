@@ -238,6 +238,7 @@ h3
     font-family: 'Times New Roman', Times, serif;
     text-align: center;
     font-size: 24px;
+    margin-top: 0px;
     /*font-style: italic;*/
 }
 
@@ -258,4 +259,14 @@ p
 {
     word-break: break-all;
     white-space: normal;
+}
+
+.align-left
+{
+    float:left;
+}
+
+.align-right
+{
+    float:right;
 }
