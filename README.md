@@ -1,5 +1,10 @@
 # WebMusicScaleGenerator
-Easy to use online music scale and chords generator and player.
-More than 70 scales / modes included, scale finder, with possibility to hear scales and chords, and visualization on guitar and keyboard.
+Easy to use online music scale and chords generator, finder and player.
 
-Uses MIDI.js to play notes.
+* Scale explorer with more than 70 scales / modes included,
+* Scale finder,
+* Chord explorer and finder,
+* Possibility to hear scales and chords,
+* Scales and chords visualization on guitar and keyboard.
+
+_Uses MIDI.js to play notes._
