@@ -49,18 +49,23 @@
   <body onresize="onResize()">
     
     <h3>
-      <span style='float: left;'>
-        <a href="https://github.com/Modrigue/WebMusicScaleGenerator" target="_blank"><img src="img/GitHub-Mark-24px.png" alt="GitHub"/></a>
-      </span>
-    
-      <button class="button-page" id="button_page_chord_explorer" onclick='selectPage("page_chord_explorer")'>Find chords</button>
-      <button class="button-page" id="button_page_scale_explorer" onclick='selectPage("page_scale_explorer")'>Explore scales</button>
-      <button class="button-page" id="button_page_scale_finder" onclick='selectPage("page_scale_finder")'>Find scales</button>      
-
-      <span style='float: right;'>
-        <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
-        <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
-      </span>
+      <table style='width: 100%;text-align: center;'>
+        <tr>
+          <td>
+            <span style='float: left;'>
+              <a href="https://github.com/Modrigue/WebMusicScaleGenerator" target="_blank"><img src="img/GitHub-Mark-24px.png" alt="GitHub"/></a>
+            </span>
+          </td>
+          <td><button class="button-page" id="button_page_chord_explorer" onclick='selectPage("page_chord_explorer")'>Find chords</button></td>
+          <td><button class="button-page" id="button_page_scale_explorer" onclick='selectPage("page_scale_explorer")'>Explore scales</button></td>
+          <td><button class="button-page" id="button_page_scale_finder" onclick='selectPage("page_scale_finder")'>Find scales</button></td>
+          <td>
+            <span style='float: right;'>
+              <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
+              <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
+            </span>
+          </td>
+      </table>
     </h3>
 
     <br>
