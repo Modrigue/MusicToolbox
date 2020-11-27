@@ -193,6 +193,10 @@ function chordPositionsValid(notesValues, positionsCandidate, nbStrings = 99)
     //     }
     // }
 
+    // check number of placed fingers with barres
+    if (getNbFingersPlaced(positionsCandidate) > 4)
+        return false;
+
     return true;
 }
 
@@ -365,6 +369,40 @@ function getChordPositionStretch(positions)
     }
     
     return dist;
+}
+
+function getNbFingersPlaced(positions)
+{
+    let nbFingers = 0;
+    let stringsPlaced = [];
+
+    // browse barres positions
+    const barres = computeBarres(positions);
+    for (let pos in barres)
+    {
+        const barre = barres[pos];
+        const minString = barre[0];
+        const maxString = barre[1];
+
+        for (let curString = minString; curString <= maxString; curString++)
+        {
+            if (positions[curString] == pos)
+                stringsPlaced.push(curString);
+        }
+
+        nbFingers++;
+    }
+
+    // browse remaining positions
+    const nbString = positions.length;
+    for (let i = 0; i < nbStrings; i++)
+    {
+        const position = positions[i];
+        if (position > 0 && !stringsPlaced.includes(i))
+            nbFingers++;
+    }
+
+    return nbFingers;
 }
 
 /////////////////////////////// PROPERTIES CLASS //////////////////////////////
