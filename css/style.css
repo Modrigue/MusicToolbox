@@ -199,7 +199,7 @@ input
     cursor: pointer;
 }
 
-.chord_explorer_arpeggio
+.chord_explorer_arpeggio, .scale_finder_found_notes
 {
     font-family: Arial, Helvetica, sans-serif;
     color: gray;

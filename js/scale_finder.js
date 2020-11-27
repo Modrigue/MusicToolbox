@@ -148,6 +148,35 @@ function findScalesFromNotesHTML()
     let notesValues = getSelectedNotesChordsFinderValues();
     const tonicValue = getSelectedTonicValue();
 
+    // update found notes label
+    const foundNotesLabel = document.getElementById("scale_finder_found_notes_text");
+    if (notesValues == null || notesValues.length == 0)
+        foundNotesLabel.innerHTML = "&nbsp;";
+    else
+    {
+        let notesValuesSorted = [];
+        for (let note of notesValues)
+        {
+            const noteValue = parseInt(note);
+            notesValuesSorted.push(noteValue);
+        }
+        notesValuesSorted.sort((a, b) => a - b);
+
+        let foundNotesStr = "";
+        let index = 0;
+        for (let noteValue of notesValuesSorted)
+        {
+            if (index > 0)
+                foundNotesStr += ", ";
+
+            foundNotesStr += getNoteName(noteValue);
+            index++;
+        }
+
+        foundNotesLabel.innerHTML = foundNotesStr;
+    }
+
+    // update found scales
     const foundScalesHTML = getFoundScalesHTML(notesValues, false, -1, "", tonicValue);
     if (foundScalesHTML == "")
         return getString("min_2_notes");
