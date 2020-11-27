@@ -29,7 +29,7 @@ function findChords(notesValues, onlyFirstNoteAsFundamental = false)
         }
         
         // sort intervals
-        intervalsValues.sort();
+        intervalsValues.sort((a, b) => a - b);
 
         // search corresponding chord in dictionary
         const chordId = getKeyFromValue(chordsDict, intervalsValues);
