@@ -227,7 +227,7 @@ function saveFretboardImage()
     xhr.onload = function () {
         let a = document.createElement('a');
         a.href = window.URL.createObjectURL(xhr.response);
-        a.download = getString("fretboard") + '-' + noteSelectedText + '-' + scaleSelectedText + '.png';
+        a.download = `${getString("fretboard")}-${noteSelectedText}-${scaleSelectedText}.png`;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
@@ -276,7 +276,7 @@ function updateChordFretboard(positionsArray, showBarres = true)
         const positions = positionsArray[index];
         const startFret = getStartFret(positions);
 
-        let canvas = document.getElementById('generated_chords_fretboard' + index.toString());
+        let canvas = document.getElementById(`generated_chords_fretboard${index.toString()}`);
         if (canvas.getContext) 
         {
             let ctx = canvas.getContext("2d");
@@ -410,7 +410,7 @@ function updateChordFretboard(positionsArray, showBarres = true)
             if (currentNoteValue == noteFondamental)
                 colorNote = colorNoteTonic;
 
-            displayNoteOnFretboard("generated_chords_fretboard" + index.toString(), i, j, currentNote, colorNote, xFretChordStep, yFretMarginChordBottom, startFret);
+            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote, xFretChordStep, yFretMarginChordBottom, startFret);
         }
     }
 }

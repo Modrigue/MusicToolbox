@@ -248,7 +248,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals)
 
   // create play button
   let button = document.createElement('button');
-  button.innerText = getString("play") + " ♪";
+  button.innerText = `${getString("play")} ♪`;
   button.setAttribute("onClick", "onPlayScale()");
 
   // build scale notes list
@@ -264,10 +264,10 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals)
     else if (charIntervals != null && charIntervals.includes(index))
       classString = "table-body-cell-char-interactive";
 
-    const callbackString = "onPlayNoteInScale(" + index + ")";
+    const callbackString = `onPlayNoteInScale(${index})`;
 
     noteName = getNoteName(noteValue);
-    notesScaleRowHTML += "<div class=" + classString + " onclick=" + callbackString + ">";
+    notesScaleRowHTML += `<div class=${classString} onclick=${callbackString}>`;
     notesScaleRowHTML += noteName.toString();
     notesScaleRowHTML += "</div>";
   });
@@ -291,7 +291,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals)
     const intervalString = (nbNotesInScale == 7) ?
       getIntervalString(intervalName, intervalNameAlt) : intervalName;
 
-    intervalsScaleRowHTML += "<div class=" + classString + ">";
+    intervalsScaleRowHTML += `<div class=${classString}>`;
     intervalsScaleRowHTML += intervalString;
     intervalsScaleRowHTML += "</div>";
   });
@@ -313,7 +313,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals)
     else if (stepValue >= 4)
        classString = "table-body-cell-step-4";
 
-    stepsScaleRowHTML += "<div class=" + classString + ">";
+    stepsScaleRowHTML += `<div class=${classString}>`;
     stepsScaleRowHTML += stepNotation;
     stepsScaleRowHTML += "</div>";
   });
@@ -336,7 +336,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
 
   // create play button
   let button = document.createElement('button');
-  button.innerText = getString("play") + " ♪";
+  button.innerText = `${getString("play")} ♪`;
   button.setAttribute("onClick", `onPlayChords(${nbNotesInChords})`);
 
   // header
@@ -357,9 +357,9 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
     const chordName = getKeyFromValue(chordsDict, chordValues);
     const chordNoteName = getCompactChordNotation(noteName, chordName);
 
-    const callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ")";
+    const callbackString = `onPlayChordInScale(${nbNotesInChords},${index})`;
 
-    chordsRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
+    chordsRowHTML += `<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
     chordsRowHTML += chordNoteName;
     chordsRowHTML += "</div>";
   });
@@ -383,9 +383,9 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
   chordValuesArray.forEach(function (chordValues, index)
   {
     const noteFondamental = scaleNotesValues[index];
-    const callbackString = "onPlayChordInScale(" + nbNotesInChords + "," + index + ",0.25)";
+    const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},0.25)`;
 
-    arpeggiosNotesRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
+    arpeggiosNotesRowHTML += `<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
     arpeggiosNotesRowHTML += getArpeggioNotes(noteFondamental, chordValues);;
     arpeggiosNotesRowHTML += "</div>";
   });

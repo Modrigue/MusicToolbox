@@ -164,13 +164,13 @@ function getSelectedNotesChordsFinderValues()
 
     for (let i = 1; i <= 8; i++)
     {
-        const tonicSelected = document.getElementById('note_finder' + i.toString()).value;
+        const tonicSelected = document.getElementById(`note_finder${i.toString()}`).value;
         const tonicValue = parseInt(tonicSelected);
 
         if (tonicValue < 0)
             continue;
 
-        const chordSelector = document.getElementById('chord_finder' + i.toString());
+        const chordSelector = document.getElementById(`chord_finder${i.toString()}`);
         let notesToAdd = [];
         if (!chordSelector.disabled && chordSelector.value != -1)
         {
@@ -208,7 +208,7 @@ function resetScaleFinder()
     for (let i = 1; i <= 8; i++)
     {
         const id = i.toString();
-        let noteSelect = document.getElementById('note_finder' + id);
+        let noteSelect = document.getElementById(`note_finder${id}`);
         noteSelect.selectedIndex = 0;
     }
 

@@ -110,7 +110,7 @@ function initChordSelector(id, defaultChordId = -1, firstChordEmpty = false)
         // add header
         let header = document.createElement('option');
         header.value = nbNotesInChord;
-        header.innerHTML = "-- " + nbNotesInChord.toString() + " NOTES --";
+        header.innerHTML = `-- ${nbNotesInChord.toString()} NOTES --`;
         header.classList.add('bolden');
         header.disabled = true;
         chordSelect.appendChild(header);

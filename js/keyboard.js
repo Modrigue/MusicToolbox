@@ -175,7 +175,7 @@ function saveKeyboardImage()
     xhr.onload = function () {
         let a = document.createElement('a');
         a.href = window.URL.createObjectURL(xhr.response);
-        a.download = getString("keyboard") + '-' + noteSelectedText + '-' + scaleSelectedText + '.png';
+        a.download = `${getString("keyboard")}-${noteSelectedText}-${scaleSelectedText}.png`;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();

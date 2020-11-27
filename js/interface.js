@@ -60,8 +60,8 @@ function updateSelectors()
     for (let i = 1; i <= 8; i++)
     {
         const id = i.toString();
-        updateNoteSelector('note_finder' + id, -1, true);   
-        initChordSelector('chord_finder' + id, -1, true);   
+        updateNoteSelector(`note_finder${id}`, -1, true);   
+        initChordSelector(`chord_finder${id}`, -1, true);   
     }
     updateNoteSelector('note_finder_tonic', -1, true); 
     
@@ -159,16 +159,16 @@ function update()
     {
         const id = i.toString();
 
-        const noteSelected = document.getElementById('note_finder' + id).value;
+        const noteSelected = document.getElementById(`note_finder${id}`).value;
         const noteValue = parseInt(noteSelected);
         const hasNoteSelected = (noteValue >= 0);
 
         if (!hasNoteSelected)
-            document.getElementById('chord_finder' + id).selectedIndex = 0;
+            document.getElementById(`chord_finder${id}`).selectedIndex = 0;
         else
             has1NoteSelected = true;
 
-        setEnabled('chord_finder' + id, hasNoteSelected);
+        setEnabled(`chord_finder${id}`, hasNoteSelected);
     }
     setEnabled('reset_scale_finder', has1NoteSelected);
 
