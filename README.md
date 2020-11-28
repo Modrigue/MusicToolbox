@@ -7,4 +7,6 @@ Easy to use online music scale and chords generator, finder and player.
 * Possibility to hear scales and chords,
 * Scales and chords visualization on guitar and keyboard.
 
+[Try it here](https://github.com/Modrigue/WebMusicScaleGenerator)
+
 _Uses MIDI.js to play notes._
