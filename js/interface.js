@@ -72,8 +72,8 @@ function initPagefromURLParams()
     // parse URL parameters
     const chord = parseParameterById("chord");
     const chordSpecified = (chord != null && chord != "");
-    const specifedPage = chordSpecified ? "page_chord_explorer" : "page_scale_explorer";
-    selectPage(specifedPage);
+    const specifiedPage = chordSpecified ? "page_chord_explorer" : "page_scale_explorer";
+    selectPage(specifiedPage);
 }
 
 function selectPage(pageId = "")
