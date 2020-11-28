@@ -54,6 +54,7 @@
           <td>
             <span style='float: left;'>
               <a href="https://github.com/Modrigue/WebMusicScaleGenerator" target="_blank"><img src="img/GitHub-Mark-24px.png" alt="GitHub"/></a>
+              &nbsp;&nbsp;&nbsp;
             </span>
           </td>
           <td><button class="button-page" id="button_page_chord_explorer" onclick='selectPage("page_chord_explorer")'>Find chords</button></td>
@@ -69,7 +70,20 @@
     </h3>
 
     <br>
+
+    <!--------------------------------- WELCOME ------------------------------>
+
+    <div id="page_welcome">
+      <center>
+        <br><br>
+        <h2 id="welcome_title">Welcome</h2>
+        <h3 id="welcome_subtitle" style="font-size: 18px;">What do want to do?</h3>
+        <br><br><br><br><br><br>
+      </center>
+    </div>
   
+    <!---------------------------- SCALES EXPLORER --------------------------->
+
     <div id="page_scale_explorer">
     <center>
       <p style="font-family:Arial, Helvetica, sans-serif;">
@@ -168,7 +182,7 @@
   <!----------------------------- RELATIVE SCALES ---------------------------->
 
   <div id='section_found_scales'>
-    <p id='found_scales'>?</p>
+    <p id='found_scales'></p>
   </div>
 
   <!------------------------- FOUND CHORDS FROM SCALE ------------------------>

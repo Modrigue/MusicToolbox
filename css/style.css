@@ -48,6 +48,7 @@ button[disabled]
 .button-page
 {
     border: 0;
+    border-bottom:1pt solid transparent;
     border-radius: 0px;
     font-size: 0.7em;
 }
@@ -235,7 +236,7 @@ input
 
 h3
 {
-    font-family: 'Times New Roman', Times, serif;
+    /*font-family: 'Times New Roman', Times, serif;*/
     text-align: center;
     font-size: 24px;
     margin-top: 0px;

@@ -70,9 +70,17 @@ function selectNoteAndScale(scaleId)
 function initPagefromURLParams()
 {
     // parse URL parameters
-    const chord = parseParameterById("chord");
-    const chordSpecified = (chord != null && chord != "");
-    const specifiedPage = chordSpecified ? "page_chord_explorer" : "page_scale_explorer";
+    const chordParam = parseParameterById("chord");
+    const scaleParam = parseParameterById("scale");
+    const chordSpecified = (chordParam != null && chordParam != "");
+    const scaleSpecified = (scaleParam != null && scaleParam != "");
+
+    let specifiedPage = "";
+    if (scaleSpecified)
+        specifiedPage = "page_scale_explorer";
+    else if (chordSpecified)
+        specifiedPage = "page_chord_explorer";
+
     selectPage(specifiedPage);
 }
 
@@ -157,6 +165,10 @@ function update()
     setEnabled('note_finder_tonic', has1NoteSelected);
     if (!has1NoteSelected)
         document.getElementById("note_finder_tonic").selectedIndex = 0;
+
+    // hide welcome page
+    if (pageSelected != null && pageSelected != "")
+        setVisible('page_welcome', false);
 
     // update found scales given selected page
     const foundScales = document.getElementById('found_scales');
@@ -246,6 +258,10 @@ function updateLocales()
     document.getElementById("button_page_chord_explorer").innerText = getString("page_chord_explorer");
     document.getElementById("button_page_scale_explorer").innerText = getString("page_scale_explorer");
     document.getElementById("button_page_scale_finder").innerText = getString("page_scale_finder");
+
+    // welcome
+    document.getElementById("welcome_title").innerText = getString("welcome_title");
+    document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
 
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");

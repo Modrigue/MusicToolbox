@@ -25,6 +25,8 @@ stringsDict_int["relative_scales"] = "Relative scales:";
 stringsDict_int["reset"] = "Reset";
 stringsDict_int["show_barres"] = "Barres";
 stringsDict_int["tonic"] = "Tonic:";
+stringsDict_int["welcome_title"] = "Welcome to the Music Companion";
+stringsDict_int["welcome_subtitle"] = "What do you want to do?";
 
 // french notation
 const stringsDict_fr = {};
@@ -53,6 +55,8 @@ stringsDict_fr["relative_scales"] = "Gammes relatives :";
 stringsDict_fr["reset"] = "Réinitialiser";
 stringsDict_fr["show_barres"] = "Barrés";
 stringsDict_fr["tonic"] = "Tonique :";
+stringsDict_fr["welcome_title"] = "Bienvenue chez le Compagnon Musical";
+stringsDict_fr["welcome_subtitle"] = "Que voulez-vous faire ?";
 
 // global dictionary
 const stringsDicts = {};
