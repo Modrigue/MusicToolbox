@@ -90,3 +90,34 @@ function arrayRemoveValue(array, value)
 
     return array.filter(function(element){ return element != value; });
 }
+
+function arrayArrayFilterWithItemLength(array, lengthMin)
+{
+  for (let j = array.length - 1; j >= 0; j--)
+  {
+    if (array[j].length < lengthMin)
+      array.splice(j, 1);
+  }
+}
+
+function cloneArrayArrayWithItemLength(array, length)
+{
+  let arrayCloned = [];
+  for (let item of array)
+  {
+    if (item.length == length)
+      arrayCloned.push(item)
+;  }
+
+  return arrayCloned;
+}
+
+function cloneIntegerArray(array)
+{
+  let arrayCloned = [];
+
+  for (let value of array)
+    arrayCloned.push(parseInt(value));
+  
+  return arrayCloned;
+}
