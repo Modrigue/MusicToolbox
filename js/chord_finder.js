@@ -6,13 +6,7 @@ function findChords(notesValues, onlyFirstNoteAsFundamental = false)
 
     let chordsArray = [];
     const nbNotesInChord = notesValues.length;
-    let chordsDict = chords2Dict;
-    if (nbNotesInChord == 3)
-        chordsDict = chords3Dict;
-    if (nbNotesInChord == 4)
-        chordsDict = chords4Dict;
-    else if (nbNotesInChord == 5)
-        chordsDict = chords5Dict;
+    const chordsDict = getChordDictionary(nbNotesInChord);
 
     // switch fundamental and compute intervals
     for (let i = 0; i < nbNotesInChord; i++)
@@ -49,13 +43,7 @@ function getChordsIdsWithOctave(intervalsValues)
     let intervalsValuesArray = [];
 
     const nbNotesInChord = intervalsValues.length;
-    let chordsDict = chords2Dict;
-    if (nbNotesInChord == 3)
-        chordsDict = chords3Dict;
-    if (nbNotesInChord == 4)
-        chordsDict = chords4Dict;
-    else if (nbNotesInChord == 5)
-        chordsDict = chords5Dict;
+    const chordsDict = getChordDictionary(nbNotesInChord);
 
     // compute all intervals combinations with octave
     getIntervalsWithOctave(intervalsValues, intervalsValuesArray);
@@ -86,7 +74,7 @@ function getIntervalsWithOctave(intervalsValues, intervalsValuesArray, intervalI
         let nbTries = 0;
         let intervalsValuesArrayCur = cloneArrayArrayWithItemLength(intervalsValuesArray, intervalIndex);
         for (let intervalsValueBuild of intervalsValuesArrayCur)
-        {   
+        {
             const intervalsBuildCurrent = cloneIntegerArray(intervalsValueBuild);
             const intervalsBuildOctave = cloneIntegerArray(intervalsValueBuild);
             
@@ -114,6 +102,96 @@ function getIntervalsWithOctave(intervalsValues, intervalsValuesArray, intervalI
         for (let intervals of intervalsValuesArray)
         {
             intervals.sort((a, b) => a - b);
+        }
+    }
+}
+
+
+//////////////////////////////// CHORDS IN SCALE //////////////////////////////
+
+function findChordInScales(scaleValues, nbNotesMax)
+{
+    let chordsArray = [];
+    const nbNotesInScale = scaleValues.length;
+
+    for (let i = 0; i < nbNotesInScale; i++)
+    {
+        // build scale values starting from cycling fundamental
+        let scaleValuesCur = [];
+        for (let j = 0; j < nbNotesInScale; j++)
+        {
+            const value = scaleValues[(i + j) % nbNotesInScale];
+            scaleValuesCur.push(value);
+        }
+
+        let fundamental = scaleValuesCur[0];
+
+        // compute all intervals
+        let intervalsValuesArray = [];
+        getIntervalsInScale(scaleValuesCur, nbNotesMax, intervalsValuesArray);
+
+        // search corresponding chord ids
+        for (let intervalsValuesFound of intervalsValuesArray)
+        {
+            const nbNotes = intervalsValuesFound.length;
+            if (nbNotes < 2)
+                continue;
+
+            let chordsFound = findChords(intervalsValuesFound, true);
+            for (let chordFound of chordsFound)
+            {
+                if (chordFound[0] == fundamental)
+                    chordsArray.push(chordFound);
+            }
+        }
+    }
+
+    // sort given number of notes in chords
+    let foundChordsDict = {}
+    for (let nbNotesInChord = 2; nbNotesInChord <= 5; nbNotesInChord++)
+    {
+        let foundChordsNbNotes = [];
+        for (let foundChord of chordsArray)
+        {
+            const chordId = foundChord[1];
+            const chordValues = getChordValues(chordId);
+            if (chordValues.length == nbNotesInChord)
+                foundChordsNbNotes.push(foundChord);
+        }
+
+        foundChordsDict[nbNotesInChord] = foundChordsNbNotes;
+    }
+
+    return foundChordsDict;
+}
+
+
+function getIntervalsInScale(scaleValues, nbNotesMax, intervalsValuesArray, onlyFirstNoteAsFundamental = false, intervalsValuesCur = [], startIndexCur = 0, nbNotesCur = 0)
+{
+    let nbNotesInScale = scaleValues.length;
+    
+    if (nbNotesCur < nbNotesMax)
+    {
+        let intervalsValuesArrayCur = cloneArrayArrayWithItemLength(intervalsValuesArray, nbNotesCur);
+
+        let nbTries = 0;
+        for (let i = startIndexCur; i < nbNotesInScale; i++)
+        {
+            // only first note as fundamental if option set
+            if (onlyFirstNoteAsFundamental && nbNotesCur == 0 && i > startIndexCur)
+                continue;
+
+            const intervalsBuildCurrent = cloneIntegerArray(intervalsValuesCur);
+            intervalsBuildCurrent.push(scaleValues[i]);
+            
+            if (!intervalsValuesArray.includes(intervalsBuildCurrent))
+                intervalsValuesArray.push(intervalsBuildCurrent);
+            getIntervalsInScale(scaleValues, nbNotesMax, intervalsValuesArray, onlyFirstNoteAsFundamental, intervalsBuildCurrent, i + 1, nbNotesCur + 1);
+
+            // secure
+            nbTries++;
+            if (nbTries > 16)
+                break;
         }
     }
 }

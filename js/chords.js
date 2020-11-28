@@ -231,3 +231,24 @@ function getArpeggioIntervals(chordValues)
 
     return arpeggioIntervalsStr;
 }
+
+function getChordDictionary(nbNotes)
+{
+    let chordsDict = chords2Dict;
+    switch (nbNotes)
+    {
+        case 3:
+            chordsDict = chords3Dict;
+            break;
+
+        case 4:
+            chordsDict = chords4Dict;
+            break;
+
+        case 5:
+            chordsDict = chords5Dict;
+            break;
+    }
+
+    return chordsDict;
+}

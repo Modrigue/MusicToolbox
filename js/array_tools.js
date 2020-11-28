@@ -114,6 +114,9 @@ function cloneArrayArrayWithItemLength(array, length)
 
 function cloneIntegerArray(array)
 {
+  //if (array == null || array.length == 0)
+  //  return []; 
+
   let arrayCloned = [];
 
   for (let value of array)
