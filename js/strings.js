@@ -12,8 +12,7 @@ stringsDict_int["chords"] = "Chords";
 stringsDict_int["guitar"] = "Guitar";
 stringsDict_int["fretboard"] = "Fretboard";
 stringsDict_int["keyboard"] = "Keyboard";
-stringsDict_int["chords_3_notes"] = "Chords with 3 notes";
-stringsDict_int["chords_4_notes"] = "Chords with 4 notes";
+stringsDict_int["chords_N_notes"] = "Chords with {%1} notes";
 stringsDict_int["min_2_notes"] = "At least 2 notes needed";
 stringsDict_int["name"] = "Name:";
 stringsDict_int["no_result"] = "Not found";
@@ -40,8 +39,7 @@ stringsDict_fr["chords"] = "Accords";
 stringsDict_fr["guitar"] = "Guitare";
 stringsDict_fr["fretboard"] = "Guitare";
 stringsDict_fr["keyboard"] = "Piano";
-stringsDict_fr["chords_3_notes"] = "Accords de 3 notes";
-stringsDict_fr["chords_4_notes"] = "Accords de 4 notes";
+stringsDict_fr["chords_N_notes"] = "Accords de {%1} notes";
 stringsDict_fr["min_2_notes"] = "Au moins 2 notes requises";
 stringsDict_fr["name"] = "Nom :";
 stringsDict_fr["no_result"] = "Pas de résultats";
@@ -59,15 +57,19 @@ const stringsDicts = {};
 stringsDicts["int"] = stringsDict_int;
 stringsDicts["fr"] = stringsDict_fr;
 
-function getString(id)
+function getString(id, param = "")
 {
     const lang = getSelectedCulture();
     const stringsDict = stringsDicts[lang];
 
+    let text = stringsDict_int[id]; // fallback
     if (stringsDict.hasOwnProperty(id))
-        return stringsDict[id];
-    else
-        return stringsDict_int[id];
+        text = stringsDict[id];
+
+    if (param != null)
+        text = text.replaceAll("{%1}", param);
+    
+    return text;
 }
 
 function getNoteName(noteValue)

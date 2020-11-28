@@ -340,7 +340,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
   button.setAttribute("onClick", `onPlayChords(${nbNotesInChords})`);
 
   // header
-  let chordsTableHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">${getString("chords_" + nbNotesInChords + "_notes")}&nbsp;${button.outerHTML}</div><div id=\"resp-table-body\">`;
+  let chordsTableHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">${getString("chords_N_notes", nbNotesInChords)}&nbsp;${button.outerHTML}</div><div id=\"resp-table-body\">`;
   scaleValues.forEach(function (noteValue, index)
   {
     const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
