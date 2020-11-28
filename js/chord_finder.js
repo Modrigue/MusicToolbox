@@ -109,6 +109,68 @@ function getIntervalsWithOctave(intervalsValues, intervalsValuesArray, intervalI
 
 //////////////////////////////// CHORDS IN SCALE //////////////////////////////
 
+
+function findChordsFromScaleScalesHTML(noteValue, scaleValues)
+{
+    let foundChordsHTML = "<br>";
+
+    const nbNotesMax = 5;
+    let noteValues = [];
+    const culture = getSelectedCulture();
+
+    // compute scale note values
+    for (let intervalValue of scaleValues)
+        noteValues.push((noteValue + intervalValue) % 12);
+
+    // find all chords
+    const foundChordsDict = findChordInScales(noteValues, nbNotesMax);
+
+    // build buttons
+    for (let nbNotes = 2; nbNotes <= nbNotesMax; nbNotes++)
+    {
+        let paragraph = document.createElement('p');
+        paragraph.innerHTML = getString("chords_N_notes_all", nbNotes);
+
+        const foundChordsNbNotes = foundChordsDict[nbNotes];
+
+        let foundChordsNbNotesHTML = "";
+        if (foundChordsNbNotes == null || foundChordsNbNotes.length == 0)
+            foundChordsNbNotesHTML = "&nbsp;" + getString("no_result");
+        else
+        {
+            for (let noteChord of foundChordsNbNotes)
+            {
+                const noteValue = noteChord[0];
+                const chordId = noteChord[1];
+    
+                const noteName = getNoteName(noteValue);
+                const chordNoteName = getCompactChordNotation(noteName, chordId);
+
+                // build button
+                let button = document.createElement('button');
+                button.innerText = chordNoteName;
+
+                // build URL
+                let url = window.location.pathname;
+                url += "?note=" + noteValue.toString();
+                url += "&chord=" + chordId;
+                url += "&lang=" + culture;
+
+                const callbackString = `openNewTab(\"${url}\")`;
+                button.setAttribute("onClick", callbackString);
+
+                foundChordsNbNotesHTML += "&nbsp;";
+                foundChordsNbNotesHTML += button.outerHTML;
+            }
+        }
+
+        paragraph.innerHTML += foundChordsNbNotesHTML;
+        foundChordsHTML += paragraph.outerHTML;
+    }
+
+    return foundChordsHTML;
+}
+
 function findChordInScales(scaleValues, nbNotesMax)
 {
     let chordsArray = [];

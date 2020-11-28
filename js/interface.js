@@ -160,16 +160,20 @@ function update()
 
     // update found scales given selected page
     const foundScales = document.getElementById('found_scales');
+    const foundChordsFromScale = document.getElementById('section_found_chords_from_scale');
     switch (pageSelected) 
     {
         case "page_scale_explorer":
             foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
+            foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues);
             setVisible('found_scales', true);
+            setVisible("section_found_chords_from_scale", true);
             break;
 
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();
             setVisible('found_scales', true);
+            setVisible("section_found_chords_from_scale", false);
             break;
 
         case "page_chord_explorer":
@@ -180,7 +184,9 @@ function update()
             updateNbStringsSelector();
             updateFoundChordElements();
             updateGeneratedChordsOnFretboard(checkboxBarres.checked);
+
             setVisible('found_scales', false);
+            setVisible("section_found_chords_from_scale", false);
             break;
         }
     }
