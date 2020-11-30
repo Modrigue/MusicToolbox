@@ -9,4 +9,4 @@ Easy to use online music scale and chords generator, finder and player.
 
 [Try it here](http://ngourier.free.fr/musiccompanion/)
 
-_Uses MIDI.js to play notes._
+_Uses [MIDI.js](https://github.com/mudcube/MIDI.js/) to play notes._
