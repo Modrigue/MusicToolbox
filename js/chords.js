@@ -29,10 +29,18 @@ chords3Dict["loc"]              = [0, 5, 6]; // locrian
 
 // chords with 4 notes
 const chords4Dict = {};
+chords4Dict["add9"]               = [0, 4, 7, 14];
+chords4Dict["madd9"]              = [0, 3, 7, 14];
+chords4Dict["add4"]               = [0, 4, 5, 8];
+chords4Dict["madd4"]              = [0, 3, 5, 8];
 chords4Dict["7M"]                 = [0, 4, 7, 11];
 chords4Dict["7"]                  = [0, 4, 7, 10];
 chords4Dict["m7"]                 = [0, 3, 7, 10];
 chords4Dict["m7M"]                = [0, 3, 7, 11];
+chords4Dict["7Msus2"]             = [0, 2, 7, 11];
+chords4Dict["7Msus4"]             = [0, 5, 7, 11];
+chords4Dict["m7sus2"]             = [0, 2, 7, 10];
+chords4Dict["m7sus4"]             = [0, 5, 7, 10];
 chords4Dict["7flat5"]             = [0, 4, 6, 10];
 chords4Dict["m7flat5"]            = [0, 3, 6, 10];
 chords4Dict["m7Mflat5"]           = [0, 3, 6, 11];
@@ -40,11 +48,11 @@ chords4Dict["m7Msharp5"]          = [0, 3, 8, 11];
 chords4Dict["7sharp5"]            = [0, 4, 8, 10];
 chords4Dict["7Msharp5"]           = [0, 4, 8, 11];
 chords4Dict["7Mflat5"]            = [0, 4, 6, 11];
-chords4Dict["add9"]               = [0, 4, 7, 14];
-chords4Dict["madd9"]              = [0, 3, 7, 14];
 chords4Dict["6M"]                 = [0, 4, 7, 9];
-chords4Dict["6flat5"]             = [0, 4, 6, 9];
+chords4Dict["6"]                  = [0, 4, 7, 8];
+chords4Dict["m6"]                 = [0, 3, 7, 8];
 chords4Dict["m6M"]                = [0, 3, 7, 9];
+chords4Dict["6flat5"]             = [0, 4, 6, 9];
 chords4Dict["mdim7"]              = [0, 3, 6, 9];
 chords4Dict["m6flat5"]            = [0, 3, 6, 8];
 chords4Dict["sus2add6flat5"]      = [0, 2, 6, 9];
@@ -52,11 +60,8 @@ chords4Dict["sus2add4sharp5"]     = [0, 2, 5, 8];
 chords4Dict["6Msus2add4(no5)"]    = [0, 2, 5, 9];
 chords4Dict["7sus2flat5"]         = [0, 2, 6, 10];
 chords4Dict["6sus2"]              = [0, 2, 7, 9];
-chords4Dict["7Msus2"]             = [0, 2, 7, 11];
-chords4Dict["7Msus4"]             = [0, 5, 7, 11];
 chords4Dict["7Msus4sharp5"]       = [0, 5, 8, 11];
 chords4Dict["7Msus4sharpsharp5"]  = [0, 5, 9, 11];
-chords4Dict["madd4"]              = [0, 3, 5, 8];
 chords4Dict["m7add4(no5)"]        = [0, 3, 5, 10];
 chords4Dict["m6Madd4(no5)"]       = [0, 3, 5, 9];
 
@@ -66,6 +71,8 @@ chords5Dict["9M"]               = [0, 4, 7, 11, 14];
 chords5Dict["9"]                = [0, 4, 7, 10, 14];
 chords5Dict["m9"]               = [0, 3, 7, 10, 14];
 chords5Dict["m9M"]              = [0, 3, 7, 11, 14];
+chords5Dict["9Msus4"]           = [0, 5, 7, 11, 14];
+chords5Dict["m9sus4"]           = [0, 5, 7, 10, 14];
 
 
 // global chords array
