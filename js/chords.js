@@ -74,6 +74,13 @@ chords5Dict["m9M"]              = [0, 3, 7, 11, 14];
 chords5Dict["9Msus4"]           = [0, 5, 7, 11, 14];
 chords5Dict["m9sus4"]           = [0, 5, 7, 10, 14];
 
+// chords with 6 notes
+const chords6Dict = {};
+chords6Dict["11M"]               = [0, 4, 7, 11, 14, 17];
+chords6Dict["11"]                = [0, 4, 7, 10, 14, 17];
+chords6Dict["m11"]               = [0, 3, 7, 10, 14, 17];
+chords6Dict["m11M"]              = [0, 3, 7, 11, 14, 17];
+
 
 // global chords array
 const chordsDicts = {};
@@ -81,6 +88,7 @@ chordsDicts[2] = chords2Dict;
 chordsDicts[3] = chords3Dict;
 chordsDicts[4] = chords4Dict;
 chordsDicts[5] = chords5Dict;
+chordsDicts[6] = chords6Dict;
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 
@@ -134,7 +142,7 @@ function initChordSelector(id, defaultChordId = -1, firstChordEmpty = false)
         }
 
         // add separator
-        if (nbNotesInChord < 5) // TEMP
+        if (nbNotesInChord < 6) // TEMP
         {
             let separator = document.createElement('option');
             separator.value = nbNotesInChord;
@@ -254,6 +262,10 @@ function getChordDictionary(nbNotes)
 
         case 5:
             chordsDict = chords5Dict;
+            break;
+
+        case 6:
+            chordsDict = chords6Dict;
             break;
     }
 

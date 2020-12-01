@@ -37,7 +37,7 @@ function updateSelectors()
     updateNoteSelector('note_explorer_chord', 3, false);
     initChordSelector('chord_explorer_chord', "M", false);
     updateNbStringsSelector();
-    for (let i = 1; i <= 5; i++)
+    for (let i = 1; i <= 6; i++)
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
 }
 

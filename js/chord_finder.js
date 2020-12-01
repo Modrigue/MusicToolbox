@@ -1,7 +1,7 @@
 // find chords from notes
 function findChords(notesValues, onlyFirstNoteAsFundamental = false)
 {
-    if (notesValues == null || notesValues.length < 2  || notesValues.length > 5)
+    if (notesValues == null || notesValues.length < 2  || notesValues.length > 6)
         return [];
 
     let chordsArray = [];
@@ -114,7 +114,7 @@ function findChordsFromScaleScalesHTML(noteValue, scaleValues)
 {
     let foundChordsHTML = "<br>";
 
-    const nbNotesMax = 5;
+    const nbNotesMax = 6;
     let noteValues = [];
     const culture = getSelectedCulture();
 
@@ -210,7 +210,7 @@ function findChordInScales(scaleValues, nbNotesMax)
 
     // sort given number of notes in chords
     let foundChordsDict = {}
-    for (let nbNotesInChord = 2; nbNotesInChord <= 5; nbNotesInChord++)
+    for (let nbNotesInChord = 2; nbNotesInChord <= 6; nbNotesInChord++)
     {
         let foundChordsNbNotes = [];
         for (let foundChord of chordsArray)

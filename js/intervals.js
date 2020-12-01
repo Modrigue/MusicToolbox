@@ -17,3 +17,4 @@ intervalsDict[11] = "7";
 intervalsDict[12] = "8";
 intervalsDict[13] = "♭9";
 intervalsDict[14] = "9";
+intervalsDict[17] = "11";

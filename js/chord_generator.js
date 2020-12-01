@@ -474,14 +474,14 @@ function updateChordGeneratorMode()
 
     // notes mode
     setVisible("chord_explorer_found_chords_texts", !nameMode);
-    for (let i = 1; i <= 5; i++)
+    for (let i = 1; i <= 6; i++)
         setEnabled(`chord_explorer_note${i}`, !nameMode);
 }
 
 function getSelectedChordExplorerNotes()
 {
     let noteValues = [];
-    for (let i = 1; i <= 5; i++)
+    for (let i = 1; i <= 6; i++)
     {
         const value = parseInt(document.getElementById(`chord_explorer_note${i}`).value);
         if (value >= 0 && !noteValues.includes(value))
