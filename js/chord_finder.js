@@ -51,7 +51,7 @@ function getChordsIdsWithOctave(intervalsValues)
     // serach corresponding chord ids
     for (let intervalsValuesFound of intervalsValuesArray)
     {
-        const chordId = getKeyFromValue(chordsDict, intervalsValuesFound);
+        const chordId = getKeyFromArrayValue(chordsDict, intervalsValuesFound);
         if (chordId !=  null && chordId !=  "" && chordId !=  "?")
             chordsIdsArray.push(chordId);
     }

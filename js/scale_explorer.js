@@ -290,7 +290,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
     const noteValue = scaleNotesValues[index];
     const noteName = getNoteName(noteValue);
 
-    const chordName = getKeyFromValue(chordsDict, chordValues);
+    const chordName = getKeyFromArrayValue(chordsDict, chordValues);
     const chordNoteName = getCompactChordNotation(noteName, chordName);
 
     const callbackString = `onPlayChordInScale(${nbNotesInChords},${index})`;
@@ -305,7 +305,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
   let chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
-    const chordName = getKeyFromValue(chordsDict, chordValues);
+    const chordName = getKeyFromArrayValue(chordsDict, chordValues);
     const romanChord = getRomanChord(index, chordName, nbNotesInChords);
 
     chordsRomanRowHTML += "<div class=\"table-body-cell\">";
@@ -344,7 +344,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
   let chordsDetailsRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
-    const chordId = getKeyFromValue(chordsDict, chordValues);
+    const chordId = getKeyFromArrayValue(chordsDict, chordValues);
 
     // build URL
     let url = window.location.pathname;
@@ -370,21 +370,4 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords)
   chordsTableHTML += "</div>";
 
   return chordsTableHTML;
-}
-
-/////////////////////////////// GENERIC FUNCTIONS /////////////////////////////
-
-function getKeyFromValue(dict, value)
-{
-  if (dict == null)
-    return null;
-
-    for(const [key, valueCur] of dict)
-    {
-      if (arraysEqual(valueCur, value))
-        return key;
-    }
-
-    // not found
-    return "?";
 }
