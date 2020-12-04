@@ -182,7 +182,7 @@ function getChordNumberInScale(scaleValues, pos, nbNotes)
 // get roman representation of chord position
 function getRomanChord(pos, chordId, nbNotesInChords)
 {
-  let romanPos = romanDigits[pos + 1];
+  let romanPos = romanDigits.get(pos + 1);
   
   // write minor chords in lower case
   const chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;

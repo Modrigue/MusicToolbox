@@ -1,0 +1,18 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "module": "es6",
+        "target": "ES6",
+        "outDir": "./js",
+        "rootDir": "./ts",
+        "noEmitOnError": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "noImplicitThis": false,
+        "sourceMap": true,      /*for ts debug */
+        "pretty": true
+    },
+    "exclude": ["node-modules"]
+}
+
+/* tsc -w */

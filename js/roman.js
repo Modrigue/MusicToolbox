@@ -1,14 +1,16 @@
+"use strict";
 // /roman digits
-const romanDigits = {};
-romanDigits[1]  = "I";
-romanDigits[2]  = "II";
-romanDigits[3]  = "III";
-romanDigits[4]  = "IV";
-romanDigits[5]  = "V";
-romanDigits[6]  = "VI";
-romanDigits[7]  = "VII";
-romanDigits[8]  = "VIII";
-romanDigits[9]  = "IX";
-romanDigits[10] = "X";
-romanDigits[11] = "XI";
-romanDigits[12] = "XII";
+const romanDigits = new Map();
+romanDigits.set(1, "I");
+romanDigits.set(2, "II");
+romanDigits.set(3, "III");
+romanDigits.set(4, "IV");
+romanDigits.set(5, "V");
+romanDigits.set(6, "VI");
+romanDigits.set(7, "VII");
+romanDigits.set(8, "VIII");
+romanDigits.set(9, "IX");
+romanDigits.set(10, "X");
+romanDigits.set(11, "XI");
+romanDigits.set(12, "XII");
+//# sourceMappingURL=roman.js.map
