@@ -278,4 +278,13 @@ function updateScaleSelector(id, defaultScaleId) {
         }
     }
 }
+// get scale notes values given tonic and scale
+function getScaleNotesValues(noteValue, scaleValues) {
+    let scaleNotesValues = new Array();
+    scaleValues.forEach(function (interval, index) {
+        const newNoteValue = addToNoteValue(noteValue, interval);
+        scaleNotesValues.push(newNoteValue);
+    });
+    return scaleNotesValues;
+}
 //# sourceMappingURL=scales.js.map

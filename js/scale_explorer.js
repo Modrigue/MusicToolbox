@@ -51,20 +51,6 @@ function getSelectedScaleCharIntervals()
 
 //////////////////////////////// NOTES FUNCTIONS //////////////////////////////
 
-// get scale notes values given tonic and scale
-function getScaleNotesValues(noteValue, scaleValues)
-{
-  let scaleNotesValues = [];
-
-  scaleValues.forEach(function (interval, index)
-  {
-    newNoteValue = addToNoteValue(noteValue, interval);
-    scaleNotesValues.push(newNoteValue);
-  });
-
-  return scaleNotesValues;
-}
-
 // get mode notes values given scale and mode number
 function getModeNotesValues(scaleValues, modeNumber)
 {

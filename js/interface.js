@@ -131,6 +131,8 @@ function update()
     document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, 3) : "";
     document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, 4) : "";
 
+    const scaleName = getSelectorText("scale");
+
     // checkboxes
     //setEnabled("checkboxChords3", showChords3);
     //setEnabled("checkboxChords4", showChords4);
@@ -141,8 +143,8 @@ function update()
     updateFretboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
 
     // update keyboard
-    updateKeyboard(noteValue, scaleValues, charIntervals);
-    updateKeyboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
+    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName);
+    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName); // HACK to ensure correct drawing
 
     // update scale finder chords selectors
     let has1NoteSelected = false;

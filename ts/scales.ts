@@ -338,3 +338,17 @@ function updateScaleSelector(id: string, defaultScaleId: string): void
         }
     }
 }
+
+// get scale notes values given tonic and scale
+function getScaleNotesValues(noteValue: number, scaleValues: Array<number>): Array<number>
+{
+  let scaleNotesValues: Array<number> = new Array<number>();
+
+  scaleValues.forEach(function (interval, index)
+  {
+    const newNoteValue: number = addToNoteValue(noteValue, interval);
+    scaleNotesValues.push(newNoteValue);
+  });
+
+  return scaleNotesValues;
+}
