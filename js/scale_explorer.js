@@ -93,64 +93,6 @@ function getModeNotesValues(scaleValues, modeNumber)
   return modeNotesValues;
 }
 
-function getAltIntervalNotation(intervalValue, index)
-{
-  index += 1;
-
-  // tonic: nop
-  if (index == 1)
-    return "T";
-
-  const exactInterval = getKeyFromValue(intervalsDict, index.toString());
-  let res = index.toString();
-
-  // exact interval: nop
-  if (intervalValue == exactInterval)
-  {
-    return intervalsDict[intervalValue];
-  }
-  // ♭'s
-  else if (intervalValue < exactInterval)
-  {
-    for (let i = 0; i < exactInterval - intervalValue; i++)
-    {
-      res = "♭" + res;
-    }
-    return res;
-  }
-  // #'s
-  else if (intervalValue > exactInterval)
-  {
-    for (let i = 0; i < intervalValue - exactInterval; i++)
-    {
-      res = "#" + res;
-    }
-    return res;
-  }
-
-  return "?";
-}
-
-function getIntervalString(intervalName, intervalNameAlt)
-{
-  if (intervalName == intervalNameAlt)
-    return intervalName;
-
-  const index =  getIndexFromInterval(intervalName);
-  const indexAlt =  getIndexFromInterval(intervalNameAlt);
-
-  if (index <= indexAlt)
-    return intervalName + " / " + intervalNameAlt;
-  else
-    return intervalNameAlt + " / " + intervalName;
-}
-
-function getIndexFromInterval(intervalName)
-{
-  const indexString = intervalName.replace(/♭/gi, "").replace(/#/gi, "");
-  return parseInt(indexString);
-}
-
 
 //////////////////////////////// CHORDS FUNCTIONS /////////////////////////////
 
@@ -277,7 +219,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals)
   let intervalsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   scaleValues.forEach(function (intervalValue, index)
   {
-    intervalName = intervalsDict[intervalValue];
+    intervalName = intervalsDict.get(intervalValue);
     const intervalNameAlt = getAltIntervalNotation(intervalValue, index);
 
     // highlight if characteristic interval
@@ -442,6 +384,13 @@ function getKeyFromValue(dict, value)
 {
   if (dict == null)
     return null;
+
+    // for (const [key, valueCur] of dict)
+    // {
+    //   if (arraysEqual(valueCur, value))
+    //     return key;
+    //   //console.log(`${key} = ${value}`);
+    // }
 
     for(const key in dict)
     {

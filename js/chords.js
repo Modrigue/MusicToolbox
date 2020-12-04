@@ -236,7 +236,7 @@ function getArpeggioIntervals(chordValues)
     let arpeggioIntervalsStr = "";
     chordValues.forEach(function (intervalValue)
     {
-      let intervalName = intervalsDict[intervalValue];
+      let intervalName = intervalsDict.get(intervalValue);
       if (intervalName == "T")
         intervalName = "F"; // fondamental
 
