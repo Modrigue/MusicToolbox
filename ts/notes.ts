@@ -38,6 +38,12 @@ notesDicts.set("fr", notesDict_fr);
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 
+// add interval to note value
+function addToNoteValue(noteValue: number, interval: number): number
+{
+  return ((noteValue + interval) % 12);
+}
+
 function updateNoteSelector(id: string, defaultNoteValue: number = -1, firstNoteEmpty: boolean = false): void
 {
 // get selected culture

@@ -51,12 +51,6 @@ function getSelectedScaleCharIntervals()
 
 //////////////////////////////// NOTES FUNCTIONS //////////////////////////////
 
-// add interval to note value
-function addToNoteValue(noteValue, interval)
-{
-  return ((noteValue + interval) % 12);
-}
-
 // get scale notes values given tonic and scale
 function getScaleNotesValues(noteValue, scaleValues)
 {
@@ -385,18 +379,12 @@ function getKeyFromValue(dict, value)
   if (dict == null)
     return null;
 
-    // for (const [key, valueCur] of dict)
-    // {
-    //   if (arraysEqual(valueCur, value))
-    //     return key;
-    //   //console.log(`${key} = ${value}`);
-    // }
-
-    for(const key in dict)
+    for(const [key, valueCur] of dict)
     {
-      const valueCur = dict[key];
       if (arraysEqual(valueCur, value))
         return key;
     }
+
+    // not found
     return "?";
 }

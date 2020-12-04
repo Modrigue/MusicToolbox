@@ -33,6 +33,10 @@ const notesDicts = new Map();
 notesDicts.set("int", notesDict_int);
 notesDicts.set("fr", notesDict_fr);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
+// add interval to note value
+function addToNoteValue(noteValue, interval) {
+    return ((noteValue + interval) % 12);
+}
 function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false) {
     // get selected culture
     const lang = getSelectedCulture();
