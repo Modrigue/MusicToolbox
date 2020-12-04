@@ -14,7 +14,7 @@ function getSelectedScaleValues()
   const scaleAttributes = scaleSelected.split(",");
   const scaleName = scaleAttributes[0];
   const modeValue = parseInt(scaleAttributes[1]);
-  const scaleFamily = scaleFamiliesDict[scaleName];
+  const scaleFamily = scaleFamiliesDict.get(scaleName);
   
   return getModeNotesValues(scaleFamily, modeValue);
 }
@@ -38,7 +38,7 @@ function getSelectedScaleCharIntervals()
   refScaleAttributes = refScaleString.split(";");
   const refScaleName = refScaleAttributes[0];
   const refModeValue = parseInt(refScaleAttributes[1]);
-  const refScaleFamily = scaleFamiliesDict[refScaleName];
+  const refScaleFamily = scaleFamiliesDict.get(refScaleName);
   
   // get selected and reference scale values
   const refScaleValues = getModeNotesValues(refScaleFamily, refModeValue);
@@ -80,7 +80,7 @@ function getModeNotesValues(scaleValues, modeNumber)
   for (i = 0; i < nbNotes; i++)
   {
     const index = (i + (modeNumber - 1)) % nbNotes;
-    const noteValue = scaleValues[index];
+    const noteValue = parseInt(scaleValues[index]);
     modeNotesValues.push(noteValue);
   }
 

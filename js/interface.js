@@ -243,13 +243,6 @@ function setEnabled(id, status)
 //////////////////////////////////// LOCALES //////////////////////////////////
 
 
-function getSelectedCulture()
-{
-    const checkboxLanguage = document.getElementById("checkboxLanguage");
-    const culture = checkboxLanguage.checked ? "fr" : "int";
-    return culture;
-}
-
 function updateLocales()
 {
     document.title = getString("title");

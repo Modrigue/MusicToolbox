@@ -1,6 +1,5 @@
-"use strict";
 // international
-const stringsDict_int = new Map();
+const stringsDict_int: Map<string, string> = new Map<string, string>();
 stringsDict_int.set("chord_explorer_nb_strings_text", "strings played");
 stringsDict_int.set("title", "Music Companion");
 stringsDict_int.set("page_scale_explorer", "Explore scales");
@@ -28,8 +27,9 @@ stringsDict_int.set("show_barres", "Barres");
 stringsDict_int.set("tonic", "Tonic:");
 stringsDict_int.set("welcome_title", "Welcome to the Music Companion");
 stringsDict_int.set("welcome_subtitle", "What do you want to do?");
+
 // french notation
-const stringsDict_fr = new Map();
+const stringsDict_fr: Map<string, string> = new Map<string, string>();
 stringsDict_fr.set("chord_explorer_nb_strings_text", "cordes jouées");
 stringsDict_fr.set("title", "Le compagnon musical");
 stringsDict_fr.set("page_scale_explorer", "Explorer des gammes");
@@ -57,41 +57,54 @@ stringsDict_fr.set("show_barres", "Barrés");
 stringsDict_fr.set("tonic", "Tonique :");
 stringsDict_fr.set("welcome_title", "Bienvenue chez le Compagnon Musical");
 stringsDict_fr.set("welcome_subtitle", "Que voulez-vous faire ?");
+
 // global dictionary
-const stringsDicts = new Map();
+const stringsDicts: Map<string, Map<string, string>> = new Map<string,Map<string, string>>();
 stringsDicts.set("int", stringsDict_int);
 stringsDicts.set("fr", stringsDict_fr);
-function getString(id, param = "") {
+
+function getString(id: string, param: string = ""): string
+{
     const lang = getSelectedCulture();
-    const stringsDict = stringsDicts.get(lang);
-    let text = stringsDict_int.get(id); // fallback
+    const stringsDict = stringsDicts.get(lang) as Map<string, string>;
+
+    let text: string = stringsDict_int.get(id) as string; // fallback
     if (stringsDict.has(id))
-        text = stringsDict.get(id);
+        text = stringsDict.get(id) as string;
+
     if (param != null)
         //text = text.replaceAll("{%1}", param); // not supported yet
         text = text.replace(/{%1}/g, param);
+    
     return text;
 }
-function getNoteName(noteValue) {
-    // get selected culture
-    const lang = getSelectedCulture();
-    const notesDict = notesDicts.get(lang);
-    if (notesDict.has(noteValue))
-        return notesDict.get(noteValue);
-    else
-        return notesDict_int.get(noteValue);
+
+function getNoteName(noteValue: number): string
+{
+  // get selected culture
+  const lang = getSelectedCulture(); 
+  const notesDict = <Map<number, string>>notesDicts.get(lang);
+
+  if (notesDict.has(noteValue))
+    return <string>notesDict.get(noteValue);
+  else
+    return <string>notesDict_int.get(noteValue);
 }
-function getScaleString(id) {
-    const lang = getSelectedCulture();
-    const scalesDict = scalesDicts.get(lang);
+
+function getScaleString(id: string): string
+{
+    const lang: string = getSelectedCulture();
+    const scalesDict: Map<string, string> = <Map<string, string>>scalesDicts.get(lang);
+
     if (scalesDict.has(id))
-        return scalesDict.get(id);
+        return <string>scalesDict.get(id);
     else
-        return scalesDict_int.get(id);
+        return <string>scalesDict_int.get(id);
 }
-function getSelectedCulture() {
-    const checkboxLanguage = document.getElementById("checkboxLanguage");
-    const culture = checkboxLanguage.checked ? "fr" : "int";
+
+function getSelectedCulture(): string
+{
+    const checkboxLanguage: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxLanguage");
+    const culture: string = checkboxLanguage.checked ? "fr" : "int";
     return culture;
 }
-//# sourceMappingURL=strings.js.map

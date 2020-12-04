@@ -9,7 +9,7 @@ function findScales(notesValues, sameNbNotes = false, refTonicValue = -1)
 
     let scalesIds = [];
 
-    for (const key in scalesDict_int)
+    for (const [key, value] of scalesDict_int)
     {
         // parse scale id
 
@@ -23,7 +23,7 @@ function findScales(notesValues, sameNbNotes = false, refTonicValue = -1)
             continue;
 
         const modeValue = parseInt(mode);
-        const scaleFamily = scaleFamiliesDict[scaleName];
+        const scaleFamily = scaleFamiliesDict.get(scaleName);
         const scaleValues = getModeNotesValues(scaleFamily, modeValue);
         
         if (sameNbNotes && scaleValues.length != nbNotes)
@@ -228,7 +228,8 @@ function getSelectedNotesChordsFinderValues()
 // get selected tonic note
 function getSelectedTonicValue()
 {
-    return document.getElementById('note_finder_tonic').value;
+    const note = document.getElementById('note_finder_tonic').value;
+    return parseInt(note);
 }
 
 function resetScaleFinder()
