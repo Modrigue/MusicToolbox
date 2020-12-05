@@ -1,5 +1,5 @@
 // for MIDI.js usage
-declare var MIDI: any;
+declare let MIDI: any;
 
 
 function playNote(noteValue: number, delay: number): void
