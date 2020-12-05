@@ -1,6 +1,13 @@
 "use strict";
 const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
 let pageSelected = "";
+////////////////////////////////// INITIALIZATION /////////////////////////////
+window.onload = function () {
+    // test chord positions finder algorithms
+    //testGenerateChordPositions();
+    //testChordPositionsLog();
+    initalizePlay();
+};
 function initLanguage() {
     const defaultLang = parseCultureParameter();
     const checkboxLanguage = document.getElementById('checkboxLanguage');

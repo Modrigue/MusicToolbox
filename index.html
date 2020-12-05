@@ -248,34 +248,11 @@
   </div>
 
     <script>
-      // init
+      // init: ensure immediate selected page display
       initLanguage();
       updateSelectors();
       onResize();
       initPagefromURLParams();
-
-      // test chord positions finder algorithms
-      //testGenerateChordPositions();
-      //testChordPositionsLog();
-
-      // init MIDI plugins
-      window.onload = function ()
-      {
-        MIDI.loadPlugin(
-        {
-          soundfontUrl: "./soundfont/",
-          instrument: "acoustic_grand_piano",
-          onprogress: function(state, progress)
-          {
-            //console.log(state, progress);
-          },
-          onsuccess: function()
-          {
-            //
-          }
-        });
-      };
-
     </script>
 
     <br>

@@ -1,6 +1,20 @@
 const pagesArray: Array<string> = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
 let pageSelected: string = "";
 
+
+////////////////////////////////// INITIALIZATION /////////////////////////////
+
+window.onload = function()
+{
+    // test chord positions finder algorithms
+    //testGenerateChordPositions();
+    //testChordPositionsLog();
+
+    initalizePlay();
+}
+
+
+
 function initLanguage(): void
 {
   const defaultLang: string = <string>parseCultureParameter();

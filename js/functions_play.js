@@ -1,4 +1,17 @@
 "use strict";
+function initalizePlay() {
+    // init MIDI plugins
+    MIDI.loadPlugin({
+        soundfontUrl: "./soundfont/",
+        instrument: "acoustic_grand_piano",
+        onprogress: function (state, progress) {
+            //console.log(state, progress);
+        },
+        onsuccess: function () {
+            //
+        }
+    });
+}
 function playNote(noteValue, delay) {
     // delay: play one note every quarter second
     const note = 48 + noteValue; // the MIDI note

@@ -2,6 +2,25 @@
 declare let MIDI: any;
 
 
+function initalizePlay(): void
+{
+    // init MIDI plugins
+    MIDI.loadPlugin(
+    {
+        soundfontUrl: "./soundfont/",
+        instrument: "acoustic_grand_piano",
+        onprogress: function(state: any, progress: any)
+        {
+                    //console.log(state, progress);
+        },
+        onsuccess: function()
+        {
+            //
+        }
+    });
+}
+
+
 function playNote(noteValue: number, delay: number): void
 {
     // delay: play one note every quarter second
