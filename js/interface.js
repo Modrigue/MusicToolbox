@@ -139,8 +139,8 @@ function update()
     setEnabled("checkboxChords", showChords3);
 
     // update fretboard
-    updateFretboard(noteValue, scaleValues, charIntervals);
-    updateFretboard(noteValue, scaleValues, charIntervals); // HACK to ensure correct drawing
+    updateFretboard(noteValue, scaleValues, charIntervals, scaleName);
+    updateFretboard(noteValue, scaleValues, charIntervals, scaleName); // HACK to ensure correct drawing
 
     // update keyboard
     updateKeyboard(noteValue, scaleValues, charIntervals, scaleName);
@@ -210,11 +210,9 @@ function onResize()
 {
     let canvasGuitar = document.getElementById("canvas_guitar");
     canvasGuitar.width = window.innerWidth - 30;
-    //updateFretboardFromTonality();
 
     let canvasKeyboard = document.getElementById("canvas_keyboard");
     canvasKeyboard.width = window.innerWidth - 30;
-    //updateKeyboardFromTonality();
 
     onNoteChanged();
 }
@@ -241,6 +239,24 @@ function setEnabled(id, status)
     x.disabled = !status;
 }
 
+function updateChordGeneratorMode()
+{
+    // get selected mode
+    let selectedMode = getSelectedChordGeneratorMode();
+    const nameMode = (selectedMode == "name");
+    
+    // name mode
+    setEnabled("note_explorer_chord", nameMode);
+    setEnabled("chord_explorer_chord", nameMode);
+    setEnabled("chord_explorer_arpeggio_notes", nameMode);
+    setEnabled("chord_explorer_arpeggio_intervals", nameMode);
+    setVisible("chord_explorer_arpeggio_texts", nameMode);
+
+    // notes mode
+    setVisible("chord_explorer_found_chords_texts", !nameMode);
+    for (let i = 1; i <= 6; i++)
+        setEnabled(`chord_explorer_note${i}`, !nameMode);
+}
 
 //////////////////////////////////// LOCALES //////////////////////////////////
 

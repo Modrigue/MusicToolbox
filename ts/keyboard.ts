@@ -6,9 +6,9 @@ const wFactorBlackKey : number= 0.6;
 const hFactorBlackKey: number = 0.7;
 
 // colors
-const colorPianoNoteTonic = "firebrick";
-const colorPianoNoteNormal = "dimgrey";
-const colorPianoNoteChar = "dodgerblue";
+const colorPianoNoteTonic: string = "firebrick";
+const colorPianoNoteNormal: string = "dimgrey";
+const colorPianoNoteChar: string = "dodgerblue";
 
 // <i> has offset 0
 function displayNoteOnKeyboard(i: number, text: string, color: string): void
@@ -73,17 +73,6 @@ function displayNoteOnKeyboard(i: number, text: string, color: string): void
         ctx.fillText(text, x + xShift, y + yShift); 
     }
 }
-
-// function updateKeyboardFromTonality()
-// {
-//   // get selected note and scale/mode values
-//   const noteValue = getSelectedNoteValue();
-//   const scaleValues = getSelectedScaleValues();
-//   const charIntervals = getSelectedScaleCharIntervals();
-
-//   // update keyboard
-//   updateKeyboard(noteValue, scaleValues, charIntervals);
-// }
 
 function updateKeyboard(noteValue: number, scaleValues: Array<number>, charIntervals: Array<number>, scaleName: string): void
 {

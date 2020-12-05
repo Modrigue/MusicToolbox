@@ -61,15 +61,6 @@ function displayNoteOnKeyboard(i, text, color) {
         ctx.fillText(text, x + xShift, y + yShift);
     }
 }
-// function updateKeyboardFromTonality()
-// {
-//   // get selected note and scale/mode values
-//   const noteValue = getSelectedNoteValue();
-//   const scaleValues = getSelectedScaleValues();
-//   const charIntervals = getSelectedScaleCharIntervals();
-//   // update keyboard
-//   updateKeyboard(noteValue, scaleValues, charIntervals);
-// }
 function updateKeyboard(noteValue, scaleValues, charIntervals, scaleName) {
     let canvas = document.getElementById("canvas_keyboard");
     // keyboard
