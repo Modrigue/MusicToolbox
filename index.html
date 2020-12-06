@@ -46,7 +46,7 @@
     <script src="js/functions_play.js" type="text/javascript"></script>
     <script src="js/strings.js" type="text/javascript"></script>
   </head>
-  <body onresize="onResize()">
+  <body>
     
     <h3>
       <table style='width: 100%;text-align: center;'>
@@ -58,9 +58,9 @@
               &nbsp;&nbsp;&nbsp;
             </span>
           </td>
-          <td><button class="button-page" id="button_page_chord_explorer" onclick='selectPage("page_chord_explorer")'>Find chords</button></td>
-          <td><button class="button-page" id="button_page_scale_explorer" onclick='selectPage("page_scale_explorer")'>Explore scales</button></td>
-          <td><button class="button-page" id="button_page_scale_finder" onclick='selectPage("page_scale_finder")'>Find scales</button></td>
+          <td><button class="button-page" id="button_page_chord_explorer">Find chords</button></td>
+          <td><button class="button-page" id="button_page_scale_explorer">Explore scales</button></td>
+          <td><button class="button-page" id="button_page_scale_finder">Find scales</button></td>
           <td>
             <span style='float: right;'>
               <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
@@ -86,56 +86,56 @@
     <!---------------------------- SCALES EXPLORER --------------------------->
 
     <div id="page_scale_explorer">
-    <center>
-      <p style="font-family:Arial, Helvetica, sans-serif;">
-      <span id="select_key_text">Select your key:</span>
-
-      <!-- NOTES -->
-      <select name="notes" id="note" onchange="onNoteChanged()">
-      </select>
-
-      <!-- SCALES / MODES -->
-      <select name="scales" id="scale" onchange="onScaleChanged()">
-      </select>
-
-      <!-- Checkboxes -->
-
-      <!--input type="checkbox" id="checkboxNotes" name="checkboxNotes" checked onchange="toggleDisplay('scale_result')">
-      <label class="input-label" for="checkboxNotes">Notes</label>
+      <center>
+        <p style="font-family:Arial, Helvetica, sans-serif;">
+        <span id="select_key_text">Select your key:</span>
+  
+        <!-- NOTES -->
+        <select name="notes" id="note">
+        </select>
+  
+        <!-- SCALES / MODES -->
+        <select name="scales" id="scale">
+        </select>
+  
+        <!-- Checkboxes -->
+  
+        <!--input type="checkbox" id="checkboxNotes" name="checkboxNotes" checked onchange="toggleDisplay('scale_result')">
+        <label class="input-label" for="checkboxNotes">Notes</label>
+        
+        <input type="checkbox" id="checkboxChords3" name="checkboxChords3" checked onchange="toggleDisplay('chords3_result')">
+        <label class="input-label" for="checkboxChords3">3-Chords</label>
+  
+        <input type="checkbox" id="checkboxChords4" name="checkboxChords4" checked onchange="toggleDisplay('chords4_result')">
+        <label class="input-label" for="checkboxChords4">4-Chords</label-->
+  
+        <input type="checkbox" id="checkboxChords" name="checkboxChords" checked>
+        <label class="input-label" id="checkboxChordsLabel" for="checkboxChords">Chords</label>
+  
+        <input type="checkbox" id="checkboxGuitar" name="checkboxGuitar" checked>
+        <label class="input-label" id="checkboxGuitarLabel" for="checkboxGuitar">Guitar</label>
+  
+        <input type="checkbox" id="checkboxKeyboard" name="checkboxKeyboard" checked>
+        <label class="input-label" id="checkboxKeyboardLabel" for="checkboxKeyboard">Keyboard</label>
+  
+      </p>
+      </center>
+  
+      <p id='scale_result'>?</p>
       
-      <input type="checkbox" id="checkboxChords3" name="checkboxChords3" checked onchange="toggleDisplay('chords3_result')">
-      <label class="input-label" for="checkboxChords3">3-Chords</label>
-
-      <input type="checkbox" id="checkboxChords4" name="checkboxChords4" checked onchange="toggleDisplay('chords4_result')">
-      <label class="input-label" for="checkboxChords4">4-Chords</label-->
-
-      <input type="checkbox" id="checkboxChords" name="checkboxChords" checked onchange="toggleDisplay('chords3_result');toggleDisplay('chords4_result');">
-      <label class="input-label" id="checkboxChordsLabel" for="checkboxChords">Chords</label>
-
-      <input type="checkbox" id="checkboxGuitar" name="checkboxGuitar" checked onchange="toggleDisplay('canvas_guitar')">
-      <label class="input-label" id="checkboxGuitarLabel" for="checkboxGuitar">Guitar</label>
-
-      <input type="checkbox" id="checkboxKeyboard" name="checkboxKeyboard" checked onchange="toggleDisplay('canvas_keyboard')">
-      <label class="input-label" id="checkboxKeyboardLabel" for="checkboxKeyboard">Keyboard</label>
-
-    </p>
-    </center>
-
-    <p id='scale_result'>?</p>
-    
-    <p id='chords3_result'>?</p>
-    
-    <p id='chords4_result'>?</p>
-
-    <canvas id="canvas_guitar" width="600" height="200">
-      Your browser does not support the canvas element.
-    </canvas>
-
-    <canvas id="canvas_keyboard" width="600" height="200">
-      Your browser does not support the canvas element.
-    </canvas>
-    
-  </div>
+      <p id='chords3_result'>?</p>
+      
+      <p id='chords4_result'>?</p>
+  
+      <canvas id="canvas_guitar" width="600" height="200">
+        Your browser does not support the canvas element.
+      </canvas>
+  
+      <canvas id="canvas_keyboard" width="600" height="200">
+        Your browser does not support the canvas element.
+      </canvas>
+      
+    </div>
 
   <!------------------------------ SCALES FINDER ----------------------------->
 
@@ -143,29 +143,29 @@
     <center>
       <p><span id="header_scale_finder">Select your notes and chords:</span></p>
 
-      <select name="notes_finder1" id="note_finder1" onchange="update()"></select>
-      <select name="chords_finder1" id="chord_finder1" onchange="update()"></select>
+      <select name="notes_finder1" id="note_finder1"></select>
+      <select name="chords_finder1" id="chord_finder1"></select>
       &nbsp;&nbsp;
-      <select name="notes_finder2" id="note_finder2" onchange="update()"></select>
-      <select name="chords_finder2" id="chord_finder2" onchange="update()"></select>
+      <select name="notes_finder2" id="note_finder2"></select>
+      <select name="chords_finder2" id="chord_finder2"></select>
       &nbsp;&nbsp;
-      <select name="notes_finder3" id="note_finder3" onchange="update()"></select>
-      <select name="chords_finder3" id="chord_finder3" onchange="update()"></select>
+      <select name="notes_finder3" id="note_finder3"></select>
+      <select name="chords_finder3" id="chord_finder3"></select>
       &nbsp;&nbsp;
-      <select name="notes_finder4" id="note_finder4" onchange="update()"></select>
-      <select name="chords_finder4" id="chord_finder4" onchange="update()"></select>
+      <select name="notes_finder4" id="note_finder4"></select>
+      <select name="chords_finder4" id="chord_finder4"></select>
       <br><br>
-      <select name="notes_finder5" id="note_finder5" onchange="update()"></select>
-      <select name="chords_finder5" id="chord_finder5" onchange="update()"></select>
+      <select name="notes_finder5" id="note_finder5"></select>
+      <select name="chords_finder5" id="chord_finder5"></select>
       &nbsp;&nbsp;
-      <select name="notes_finder6" id="note_finder6" onchange="update()"></select>
-      <select name="chords_finder6" id="chord_finder6" onchange="update()"></select>
+      <select name="notes_finder6" id="note_finder6"></select>
+      <select name="chords_finder6" id="chord_finder6"></select>
       &nbsp;&nbsp;
-      <select name="notes_finder7" id="note_finder7" onchange="update()"></select>
-      <select name="chords_finder7" id="chord_finder7" onchange="update()"></select>
+      <select name="notes_finder7" id="note_finder7"></select>
+      <select name="chords_finder7" id="chord_finder7"></select>
       &nbsp;&nbsp;
-      <select name="notes_finder8" id="note_finder8" onchange="update()"></select>
-      <select name="chords_finder8" id="chord_finder8" onchange="update()"></select>
+      <select name="notes_finder8" id="note_finder8"></select>
+      <select name="chords_finder8" id="chord_finder8"></select>
 
       <p>
         <span class="scale_finder_found_notes" id="scale_finder_found_notes_text"></span>
@@ -173,9 +173,9 @@
 
       <p>
         <span class="tonic">Tonic:</span>
-        <select name="notes_finder_tonic" id="note_finder_tonic" onchange="update()"></select>
+        <select name="notes_finder_tonic" id="note_finder_tonic"></select>
         &nbsp;&nbsp;
-        <button id="reset_scale_finder" onclick='resetScaleFinder()'><span class="reset">Reset</span></button>
+        <button id="reset_scale_finder"><span class="reset">Reset</span></button>
       </p>
     </center>
   </div>
@@ -197,8 +197,8 @@
     <div>
       <input type="radio"  id="radioChordExplorerName" name="chord_explorer_mode" value="name" checked onchange="update()"></input>
       <label class="input-label" id="radioChordExplorerNameLabel" for="radioChordExplorerName">Name:</label>
-      <select name="notes_explorer_chord" id="note_explorer_chord" onchange="update()"></select>
-      <select name="chords_explorer_chord" id="chord_explorer_chord" onchange="update()"></select>
+      <select name="notes_explorer_chord" id="note_explorer_chord"></select>
+      <select name="chords_explorer_chord" id="chord_explorer_chord"></select>
       <span class="chord_explorer_arpeggio" id="chord_explorer_arpeggio_texts" span style='float: right;'>
         <span id="chord_explorer_arpeggio_notes">?</span>
         &nbsp;/&nbsp;
@@ -209,12 +209,12 @@
     <div>
       <input type="radio" id="radioChordExplorerNotes" name="chord_explorer_mode" value="notes" onchange="update()">
       <label class="input-label" id="radioChordExplorerNotesLabel" for="radioChordExplorerNotes">Notes:</label>
-      <select name="chord_explorer_note1" id="chord_explorer_note1" disabled onchange="update()"></select>
-      <select name="chord_explorer_note2" id="chord_explorer_note2" disabled onchange="update()"></select>
-      <select name="chord_explorer_note3" id="chord_explorer_note3" disabled onchange="update()"></select>
-      <select name="chord_explorer_note4" id="chord_explorer_note4" disabled onchange="update()"></select>
-      <select name="chord_explorer_note5" id="chord_explorer_note5" disabled onchange="update()"></select>
-      <select name="chord_explorer_note6" id="chord_explorer_note6" disabled onchange="update()"></select>
+      <select name="chord_explorer_note1" id="chord_explorer_note1" disabled></select>
+      <select name="chord_explorer_note2" id="chord_explorer_note2" disabled></select>
+      <select name="chord_explorer_note3" id="chord_explorer_note3" disabled></select>
+      <select name="chord_explorer_note4" id="chord_explorer_note4" disabled></select>
+      <select name="chord_explorer_note5" id="chord_explorer_note5" disabled></select>
+      <select name="chord_explorer_note6" id="chord_explorer_note6" disabled></select>
       <span class="chord_explorer_found_chords" id="chord_explorer_found_chords_texts" span style='float: right;'></span>
     </div>
 
@@ -225,10 +225,10 @@
         <button id="play_found_arpeggio">Play arpeggio ♪</button>
       </span>
       <span style='float: right;'>
-        <input type="checkbox" id="checkboxBarres" name="checkboxBarres" checked onchange="update()">
+        <input type="checkbox" id="checkboxBarres" name="checkboxBarres" checked>
         <label class="input-label" id="checkboxBarresLabel" for="checkboxBarres">Barres</label>
       
-        <select name="chord_explorer_nb_strings" id="chord_explorer_nb_strings" onchange="update()">
+        <select name="chord_explorer_nb_strings" id="chord_explorer_nb_strings">
           <option value=99 id="chord_explorer_nb_strings_option_max">Max</option>
           <option value=6 id="chord_explorer_nb_strings_option_6">6</option>
           <option value=5 id="chord_explorer_nb_strings_option_5">5</option>

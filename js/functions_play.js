@@ -1,5 +1,5 @@
 "use strict";
-function initalizePlay() {
+function initializePlay() {
     // init MIDI plugins
     MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",

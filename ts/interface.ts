@@ -2,7 +2,7 @@ const pagesArray: Array<string> = ["page_scale_explorer", "page_scale_finder", "
 let pageSelected: string = "";
 
 
-////////////////////////////////// INITIALIZATION /////////////////////////////
+///////////////////////////////// INITIALIZATION //////////////////////////////
 
 window.onload = function()
 {
@@ -10,10 +10,47 @@ window.onload = function()
     //testGenerateChordPositions();
     //testChordPositionsLog();
 
-    initalizePlay();
+    // add events callbacks to HTML elements
+
+    initializePlay();
+
+    window.addEventListener("resize", onResize);
+    //document.body.addEventListener("resize", onResize); // not working?
+
+    // header
+    (<HTMLButtonElement>document.getElementById("button_page_chord_explorer")).addEventListener("click", () => { selectPage("page_chord_explorer"); });
+    (<HTMLButtonElement>document.getElementById("button_page_scale_explorer")).addEventListener("click", () => { selectPage("page_scale_explorer"); });
+    (<HTMLButtonElement>document.getElementById("button_page_scale_finder")).addEventListener("click", () => selectPage("page_scale_finder"));
+    (<HTMLButtonElement>document.getElementById("checkboxLanguage")).addEventListener("change", updateLocales);
+
+    // scale explorer
+    (<HTMLSelectElement>document.getElementById("note")).addEventListener("change", onNoteChanged);
+    (<HTMLSelectElement>document.getElementById("scale")).addEventListener("change", onScaleChanged);
+    (<HTMLInputElement>document.getElementById("checkboxChords")).addEventListener("change", () => { toggleDisplay('chords3_result');toggleDisplay('chords4_result'); });
+    (<HTMLInputElement>document.getElementById("checkboxGuitar")).addEventListener("change", () => toggleDisplay('canvas_guitar'));
+    (<HTMLInputElement>document.getElementById("checkboxKeyboard")).addEventListener("change", () => toggleDisplay('canvas_keyboard'));
+
+    // scale finder
+    for (let i = 1; i <= 8; i++)
+    {
+        const id: string = i.toString();
+        (<HTMLSelectElement>document.getElementById(`note_finder${id}`)).addEventListener("change", update);
+        (<HTMLSelectElement>document.getElementById(`chord_finder${id}`)).addEventListener("change", update);
+    }
+    (<HTMLSelectElement>document.getElementById('note_finder_tonic')).addEventListener("change", update);
+    (<HTMLButtonElement>document.getElementById('reset_scale_finder')).addEventListener("click", resetScaleFinder);
+
+    // chord explorer
+    (<HTMLSelectElement>document.getElementById('note_explorer_chord')).addEventListener("change", update);
+    (<HTMLSelectElement>document.getElementById('chord_explorer_chord')).addEventListener("change", update);
+    for (let i = 1; i <= 6; i++)
+    {
+        const id: string = i.toString();
+        (<HTMLSelectElement>document.getElementById(`chord_explorer_note${id}`)).addEventListener("change", update);
+    }
+    (<HTMLInputElement>document.getElementById("checkboxBarres")).addEventListener("change", update);
+    (<HTMLInputElement>document.getElementById("chord_explorer_nb_strings")).addEventListener("change", update);
 }
-
-
 
 function initLanguage(): void
 {

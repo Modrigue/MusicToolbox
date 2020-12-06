@@ -1,12 +1,43 @@
 "use strict";
 const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
 let pageSelected = "";
-////////////////////////////////// INITIALIZATION /////////////////////////////
+///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms
     //testGenerateChordPositions();
     //testChordPositionsLog();
-    initalizePlay();
+    // add events callbacks to HTML elements
+    initializePlay();
+    window.addEventListener("resize", onResize);
+    //document.body.addEventListener("resize", onResize); // not working?
+    // header
+    document.getElementById("button_page_chord_explorer").addEventListener("click", () => { selectPage("page_chord_explorer"); });
+    document.getElementById("button_page_scale_explorer").addEventListener("click", () => { selectPage("page_scale_explorer"); });
+    document.getElementById("button_page_scale_finder").addEventListener("click", () => selectPage("page_scale_finder"));
+    document.getElementById("checkboxLanguage").addEventListener("change", updateLocales);
+    // scale explorer
+    document.getElementById("note").addEventListener("change", onNoteChanged);
+    document.getElementById("scale").addEventListener("change", onScaleChanged);
+    document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); });
+    document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('canvas_guitar'));
+    document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('canvas_keyboard'));
+    // scale finder
+    for (let i = 1; i <= 8; i++) {
+        const id = i.toString();
+        document.getElementById(`note_finder${id}`).addEventListener("change", update);
+        document.getElementById(`chord_finder${id}`).addEventListener("change", update);
+    }
+    document.getElementById('note_finder_tonic').addEventListener("change", update);
+    document.getElementById('reset_scale_finder').addEventListener("click", resetScaleFinder);
+    // chord explorer
+    document.getElementById('note_explorer_chord').addEventListener("change", update);
+    document.getElementById('chord_explorer_chord').addEventListener("change", update);
+    for (let i = 1; i <= 6; i++) {
+        const id = i.toString();
+        document.getElementById(`chord_explorer_note${id}`).addEventListener("change", update);
+    }
+    document.getElementById("checkboxBarres").addEventListener("change", update);
+    document.getElementById("chord_explorer_nb_strings").addEventListener("change", update);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();

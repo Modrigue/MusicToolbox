@@ -2,7 +2,7 @@
 declare let MIDI: any;
 
 
-function initalizePlay(): void
+function initializePlay(): void
 {
     // init MIDI plugins
     MIDI.loadPlugin(
