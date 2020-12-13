@@ -45,6 +45,11 @@ button[disabled]
   cursor: default;
 }
 
+#page_welcome, #page_scale_explorer_params, #page_scale_finder
+{
+    text-align: center;
+}
+
 .button-page
 {
     border: 0;
@@ -234,7 +239,7 @@ input
     font-style:italic;
 }
 
-h3
+h3, #header_buttons
 {
     /*font-family: 'Times New Roman', Times, serif;*/
     text-align: center;

@@ -27,28 +27,28 @@
     <!-- //////////////////////////////// MIDI //////////////////////////// -->
 
     <!-- shims -->
-    <script src="js/midi/Base64.js" type="text/javascript"></script>
-    <script src="js/midi/Base64binary.js" type="text/javascript"></script>
-    <script src="js/midi/WebAudioAPI.js" type="text/javascript"></script>
+    <script src="js/midi/Base64.js"></script>
+    <script src="js/midi/Base64binary.js"></script>
+    <script src="js/midi/WebAudioAPI.js"></script>
     <!-- midi.js -->
-    <script src="js/midi/audioDetect.js" type="text/javascript"></script>
-    <script src="js/midi/gm.js" type="text/javascript"></script>
-    <script src="js/midi/loader.js" type="text/javascript"></script>
-    <script src="js/midi/plugin.audiotag.js" type="text/javascript"></script>
-    <script src="js/midi/plugin.webaudio.js" type="text/javascript"></script>
-    <script src="js/midi/plugin.webmidi.js" type="text/javascript"></script>
+    <script src="js/midi/audioDetect.js"></script>
+    <script src="js/midi/gm.js"></script>
+    <script src="js/midi/loader.js"></script>
+    <script src="js/midi/plugin.audiotag.js"></script>
+    <script src="js/midi/plugin.webaudio.js"></script>
+    <script src="js/midi/plugin.webmidi.js"></script>
     <!-- utils -->
-    <script src="js/midi/dom_request_xhr.js" type="text/javascript"></script>
-    <script src="js/midi/dom_request_script.js" type="text/javascript"></script>
+    <script src="js/midi/dom_request_xhr.js"></script>
+    <script src="js/midi/dom_request_script.js"></script>
     <!-- soundfonts -->
-    <script src="js/midi/soundfonts/acoustic_grand_piano-ogg.js" type="text/javascript"></script>
+    <script src="js/midi/soundfonts/acoustic_grand_piano-ogg.js"></script>
     
-    <script src="js/functions_play.js" type="text/javascript"></script>
-    <script src="js/strings.js" type="text/javascript"></script>
+    <script src="js/functions_play.js"></script>
+    <script src="js/strings.js"></script>
   </head>
   <body>
     
-    <h3>
+    <div id="header_buttons">
       <table style='width: 100%;text-align: center;'>
         <tr>
           <td>
@@ -67,26 +67,24 @@
             </span>
           </td>
       </table>
-    </h3>
+    </div>
 
     <br>
 
-    <!--------------------------------- WELCOME ------------------------------>
+    <!-- ############################ WELCOME ############################# -->
 
     <div id="page_welcome">
-      <center>
-        <br><br>
-        <h2 id="welcome_title">Welcome</h2>
-        <h3 id="welcome_subtitle" style="font-size: 18px;">What do want to do?</h3>
-        <br><br><br><br><br><br>
-      </center>
+      <br><br>
+      <h2 id="welcome_title">Welcome</h2>
+      <h3 id="welcome_subtitle" style="font-size: 18px;">What do want to do?</h3>
+      <br><br><br><br><br><br>
     </div>
   
-    <!---------------------------- SCALES EXPLORER --------------------------->
+    <!-- ######################### SCALES EXPLORER ######################## -->
 
     <div id="page_scale_explorer">
-      <center>
-        <p style="font-family:Arial, Helvetica, sans-serif;">
+
+      <p id="page_scale_explorer_params" style="font-family:Arial, Helvetica, sans-serif;">
         <span id="select_key_text">Select your key:</span>
   
         <!-- NOTES -->
@@ -118,7 +116,6 @@
         <label class="input-label" id="checkboxKeyboardLabel" for="checkboxKeyboard">Keyboard</label>
   
       </p>
-      </center>
   
       <p id='scale_result'>?</p>
       
@@ -136,69 +133,67 @@
       
     </div>
 
-  <!------------------------------ SCALES FINDER ----------------------------->
+  <!-- ########################### SCALES FINDER ########################## -->
 
   <div id ='page_scale_finder'>
-    <center>
-      <p><span id="header_scale_finder">Select your notes and chords:</span></p>
+    <p><span id="header_scale_finder">Select your notes and chords:</span></p>
 
-      <select name="notes_finder1" id="note_finder1"></select>
-      <select name="chords_finder1" id="chord_finder1"></select>
-      &nbsp;&nbsp;
-      <select name="notes_finder2" id="note_finder2"></select>
-      <select name="chords_finder2" id="chord_finder2"></select>
-      &nbsp;&nbsp;
-      <select name="notes_finder3" id="note_finder3"></select>
-      <select name="chords_finder3" id="chord_finder3"></select>
-      &nbsp;&nbsp;
-      <select name="notes_finder4" id="note_finder4"></select>
-      <select name="chords_finder4" id="chord_finder4"></select>
-      <br><br>
-      <select name="notes_finder5" id="note_finder5"></select>
-      <select name="chords_finder5" id="chord_finder5"></select>
-      &nbsp;&nbsp;
-      <select name="notes_finder6" id="note_finder6"></select>
-      <select name="chords_finder6" id="chord_finder6"></select>
-      &nbsp;&nbsp;
-      <select name="notes_finder7" id="note_finder7"></select>
-      <select name="chords_finder7" id="chord_finder7"></select>
-      &nbsp;&nbsp;
-      <select name="notes_finder8" id="note_finder8"></select>
-      <select name="chords_finder8" id="chord_finder8"></select>
+    <select name="notes_finder1" id="note_finder1"></select>
+    <select name="chords_finder1" id="chord_finder1"></select>
+    &nbsp;&nbsp;
+    <select name="notes_finder2" id="note_finder2"></select>
+    <select name="chords_finder2" id="chord_finder2"></select>
+    &nbsp;&nbsp;
+    <select name="notes_finder3" id="note_finder3"></select>
+    <select name="chords_finder3" id="chord_finder3"></select>
+    &nbsp;&nbsp;
+    <select name="notes_finder4" id="note_finder4"></select>
+    <select name="chords_finder4" id="chord_finder4"></select>
+    <br><br>
+    <select name="notes_finder5" id="note_finder5"></select>
+    <select name="chords_finder5" id="chord_finder5"></select>
+    &nbsp;&nbsp;
+    <select name="notes_finder6" id="note_finder6"></select>
+    <select name="chords_finder6" id="chord_finder6"></select>
+    &nbsp;&nbsp;
+    <select name="notes_finder7" id="note_finder7"></select>
+    <select name="chords_finder7" id="chord_finder7"></select>
+    &nbsp;&nbsp;
+    <select name="notes_finder8" id="note_finder8"></select>
+    <select name="chords_finder8" id="chord_finder8"></select>
 
-      <p>
-        <span class="scale_finder_found_notes" id="scale_finder_found_notes_text"></span>
-      </p>
+    <p>
+      <span class="scale_finder_found_notes" id="scale_finder_found_notes_text"></span>
+    </p>
 
-      <p>
-        <span class="tonic">Tonic:</span>
-        <select name="notes_finder_tonic" id="note_finder_tonic"></select>
-        &nbsp;&nbsp;
-        <button id="reset_scale_finder"><span class="reset">Reset</span></button>
-      </p>
-    </center>
+    <p>
+      <span class="tonic">Tonic:</span>
+      <select name="notes_finder_tonic" id="note_finder_tonic"></select>
+      &nbsp;&nbsp;
+      <button id="reset_scale_finder"><span class="reset">Reset</span></button>
+    </p>
   </div>
 
-  <!----------------------------- RELATIVE SCALES ---------------------------->
+  <!-- ########################## RELATIVE SCALES ######################### -->
 
   <div id='section_found_scales'>
     <p id='found_scales'></p>
   </div>
 
-  <!------------------------- FOUND CHORDS FROM SCALE ------------------------>
+  <!-- ###################### FOUND CHORDS FROM SCALE ##################### -->
 
   <div id='section_found_chords_from_scale'>
   </div>
 
-  <!----------------------------- CHORDS EXPLORER ---------------------------->
+  <!-- ########################## CHORDS EXPLORER ######################### -->
 
   <div id ='page_chord_explorer'>
     <div>
-      <input type="radio"  id="radioChordExplorerName" name="chord_explorer_mode" value="name" checked onchange="update()"></input>
+      <input type="radio" id="radioChordExplorerName" name="chord_explorer_mode" value="name" checked onchange="update()">
       <label class="input-label" id="radioChordExplorerNameLabel" for="radioChordExplorerName">Name:</label>
       <select name="notes_explorer_chord" id="note_explorer_chord"></select>
       <select name="chords_explorer_chord" id="chord_explorer_chord"></select>
-      <span class="chord_explorer_arpeggio" id="chord_explorer_arpeggio_texts" span style='float: right;'>
+      <span class="chord_explorer_arpeggio" id="chord_explorer_arpeggio_texts" style='float: right;'>
         <span id="chord_explorer_arpeggio_notes">?</span>
         &nbsp;/&nbsp;
         <span id="chord_explorer_arpeggio_intervals">?</span>
@@ -214,15 +209,13 @@
       <select name="chord_explorer_note4" id="chord_explorer_note4" disabled></select>
       <select name="chord_explorer_note5" id="chord_explorer_note5" disabled></select>
       <select name="chord_explorer_note6" id="chord_explorer_note6" disabled></select>
-      <span class="chord_explorer_found_chords" id="chord_explorer_found_chords_texts" span style='float: right;'></span>
+      <span class="chord_explorer_found_chords" id="chord_explorer_found_chords_texts" style='float: right;'></span>
     </div>
 
     <br>
     <div id='options_chord_explorer'>
-      <span style='float: center;'>
-        <button id="play_found_chord">Play ♪</button>
-        <button id="play_found_arpeggio">Play arpeggio ♪</button>
-      </span>
+      <button id="play_found_chord">Play ♪</button>
+      <button id="play_found_arpeggio">Play arpeggio ♪</button>
       <span style='float: right;'>
         <input type="checkbox" id="checkboxBarres" name="checkboxBarres" checked>
         <label class="input-label" id="checkboxBarresLabel" for="checkboxBarres">Barres</label>
