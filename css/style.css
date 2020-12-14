@@ -239,13 +239,12 @@ input
     font-style:italic;
 }
 
-h3, #header_buttons
+h3, header
 {
     /*font-family: 'Times New Roman', Times, serif;*/
     text-align: center;
     font-size: 24px;
     margin-top: 0px;
-    /*font-style: italic;*/
 }
 
 .select-page
@@ -253,7 +252,6 @@ h3, #header_buttons
     font-family: 'Times New Roman', Times, serif;
     text-align: center;
     font-size: 24px;
-    /*font-style: italic;*/
 }
 
 footer
