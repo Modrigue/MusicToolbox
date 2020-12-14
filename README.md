@@ -1,4 +1,5 @@
-# WebMusicScaleGenerator
+# Music Companion
+
 Easy to use online music scale and chords generator, finder and player.
 
 * Scale explorer with more than 70 scales / modes included,
