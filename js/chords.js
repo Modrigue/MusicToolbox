@@ -62,6 +62,7 @@ chords4Dict.set("7Msus4sharp5", [0, 5, 8, 11]);
 chords4Dict.set("7Msus4sharpsharp5", [0, 5, 9, 11]);
 chords4Dict.set("m7add4(no5)", [0, 3, 5, 10]);
 chords4Dict.set("m6Madd4(no5)", [0, 3, 5, 9]);
+chords4Dict.set("tristan", [0, 6, 10, 15]);
 // chords with 5 notes
 const chords5Dict = new Map();
 chords5Dict.set("9M", [0, 4, 7, 11, 14]);
@@ -70,12 +71,14 @@ chords5Dict.set("m9", [0, 3, 7, 10, 14]);
 chords5Dict.set("m9M", [0, 3, 7, 11, 14]);
 chords5Dict.set("9Msus4", [0, 5, 7, 11, 14]);
 chords5Dict.set("m9sus4", [0, 5, 7, 10, 14]);
+chords5Dict.set("elektra", [0, 7, 9, 13, 16]);
 // chords with 6 notes
 const chords6Dict = new Map();
 chords6Dict.set("11M", [0, 4, 7, 11, 14, 17]);
 chords6Dict.set("11", [0, 4, 7, 10, 14, 17]);
 chords6Dict.set("m11", [0, 3, 7, 10, 14, 17]);
 chords6Dict.set("m11M", [0, 3, 7, 11, 14, 17]);
+chords6Dict.set("mystic", [0, 4, 6, 9, 10, 14]);
 // global chords array
 const chordsDicts = new Map();
 chordsDicts.set(2, chords2Dict);
@@ -172,6 +175,8 @@ function getAltChordNotation(chordId) {
             return "aug, +";
         case "m6M":
             return "m6M, dor";
+        case "mystic":
+            return "mystic, prom";
     }
     // notation = notation.replaceAll("sharp", "#");
     // notation = notation.replaceAll("flat", "♭");

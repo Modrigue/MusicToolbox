@@ -17,6 +17,8 @@ intervalsDict.set(11, "7");
 intervalsDict.set(12, "8");
 intervalsDict.set(13, "♭9");
 intervalsDict.set(14, "9");
+intervalsDict.set(15, "#9");
+intervalsDict.set(16, "♭11");
 intervalsDict.set(17, "11");
 
 function getAltIntervalNotation(intervalValue: number, index: number): string
