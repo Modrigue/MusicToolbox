@@ -170,6 +170,8 @@ function getAltChordNotation(chordId) {
             return "dim, °";
         case "aug":
             return "aug, +";
+        case "m6M":
+            return "m6M, dor";
     }
     // notation = notation.replaceAll("sharp", "#");
     // notation = notation.replaceAll("flat", "♭");

@@ -204,6 +204,9 @@ function getAltChordNotation(chordId: string): string
 
         case "aug":
             return "aug, +";
+
+        case "m6M":
+            return "m6M, dor";
     }
 
     // notation = notation.replaceAll("sharp", "#");
