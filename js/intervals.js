@@ -20,6 +20,7 @@ intervalsDict.set(14, "9");
 intervalsDict.set(15, "#9");
 intervalsDict.set(16, "♭11");
 intervalsDict.set(17, "11");
+intervalsDict.set(21, "13");
 function getAltIntervalNotation(intervalValue, index) {
     index += 1;
     // tonic: nop

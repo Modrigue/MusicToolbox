@@ -74,6 +74,14 @@ chords5Dict.set("m9",               [0, 3, 7, 10, 14]);
 chords5Dict.set("m9M",              [0, 3, 7, 11, 14]);
 chords5Dict.set("9Msus4",           [0, 5, 7, 11, 14]);
 chords5Dict.set("m9sus4",           [0, 5, 7, 10, 14]);
+chords5Dict.set("7Madd6",           [0, 4, 7, 9 , 11]);
+chords5Dict.set("7add6",            [0, 4, 7, 8 , 11]);
+chords5Dict.set("m7add6",           [0, 3, 7, 8 , 11]);
+chords5Dict.set("m7Madd6",          [0, 3, 7, 9 , 11]);
+chords5Dict.set("7Madd11",          [0, 4, 7, 9 , 14]);
+chords5Dict.set("7add11",           [0, 4, 7, 8 , 14]);
+chords5Dict.set("m7add11",          [0, 3, 7, 8 , 14]);
+chords5Dict.set("m7Madd11",         [0, 3, 7, 9 , 14]);
 chords5Dict.set("elektra",          [0, 7, 9, 13, 16]);
 
 // chords with 6 notes
@@ -82,6 +90,20 @@ chords6Dict.set("11M",               [0, 4, 7, 11, 14, 17]);
 chords6Dict.set("11",                [0, 4, 7, 10, 14, 17]);
 chords6Dict.set("m11",               [0, 3, 7, 10, 14, 17]);
 chords6Dict.set("m11M",              [0, 3, 7, 11, 14, 17]);
+chords6Dict.set("11Mflat9",          [0, 4, 7, 11, 13, 17]);
+chords6Dict.set("11flat9",           [0, 4, 7, 10, 13, 17]);
+chords6Dict.set("m11flat9",          [0, 3, 7, 10, 13, 17]);
+chords6Dict.set("m11Mflat9",         [0, 3, 7, 11, 13, 17]);
+chords6Dict.set("13M",               [0, 4, 7, 11, 14, 21]);
+chords6Dict.set("13",                [0, 4, 7, 10, 14, 21]);
+chords6Dict.set("m13",               [0, 3, 7, 10, 14, 21]);
+chords6Dict.set("m13M",              [0, 3, 7, 11, 14, 21]);
+chords6Dict.set("13Msus",            [0, 5, 7, 11, 14, 21]); // sus4
+chords6Dict.set("m13sus",            [0, 5, 7, 10, 14, 21]); // sus4
+chords6Dict.set("13Mflat9",          [0, 4, 7, 11, 13, 21]);
+chords6Dict.set("13flat9",           [0, 4, 7, 10, 13, 21]);
+chords6Dict.set("m13flat9",          [0, 3, 7, 10, 13, 21]);
+chords6Dict.set("m13Mflat9",         [0, 3, 7, 11, 13, 21]);
 chords6Dict.set("mystic",            [0, 4, 6, 9 , 10, 14]);
 
 
