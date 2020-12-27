@@ -8,6 +8,25 @@ body
     color: black;
 }
 
+header
+{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+/* responsive header */
+@media (max-width: 500px)
+{
+    header
+    {
+        flex-direction: column;
+        height: auto;
+    }
+}
+
 button
 {
     border: 1;
