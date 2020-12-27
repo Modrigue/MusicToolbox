@@ -107,7 +107,7 @@ chords6Dict.set("m13Mflat9",         [0, 3, 7, 11, 13, 21]);
 chords6Dict.set("mystic",            [0, 4, 6, 9 , 10, 14]);
 
 
-// global chords array
+// global chords dictionary
 const chordsDicts: Map<number, Map<string, Array<number>>> = new Map<number, Map<string, Array<number>>>();
 chordsDicts.set(2, chords2Dict);
 chordsDicts.set(3, chords3Dict);
@@ -260,9 +260,9 @@ function getArpeggioNotes(noteFondamental: number, chordValues: Array<number>): 
     {
       const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
       const noteName = getNoteName(newNoteValue);
-      arpeggioNotesStr += noteName + ",&nbsp;";
+      arpeggioNotesStr += `${noteName}, `;
     });
-    arpeggioNotesStr = arpeggioNotesStr.slice(0, -7);
+    arpeggioNotesStr = arpeggioNotesStr.slice(0, -2);
     
     return arpeggioNotesStr;
 }
@@ -276,9 +276,9 @@ function getArpeggioIntervals(chordValues: Array<number>): string
       if (intervalName == "T")
         intervalName = "F"; // fondamental
 
-      arpeggioIntervalsStr += intervalName + ",&nbsp;";
+      arpeggioIntervalsStr += `${intervalName}, `;
     });
-    arpeggioIntervalsStr = arpeggioIntervalsStr.slice(0, -7);
+    arpeggioIntervalsStr = arpeggioIntervalsStr.slice(0, -2);
 
     return arpeggioIntervalsStr;
 }

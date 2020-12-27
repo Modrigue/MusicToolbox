@@ -175,7 +175,7 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
   button.setAttribute("onClick", "onPlayScale()");
 
   // build scale notes list
-  let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes&nbsp;${button.outerHTML}</div><div id=\"resp-table-body\">`;
+  let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${button.outerHTML}</div><div id=\"resp-table-body\">`;
   let notesScaleRowHTML = "<div class=\"resp-table-row\">";
   const scaleNotesValues: Array<number> = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
@@ -260,7 +260,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
   button.setAttribute("onClick", `onPlayChords(${nbNotesInChords})`);
 
   // header
-  let chordsTableHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">${getString("chords_N_notes", nbNotesInChords.toString())}&nbsp;${button.outerHTML}</div><div id=\"resp-table-body\">`;
+  let chordsTableHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">${getString("chords_N_notes", nbNotesInChords.toString())} ${button.outerHTML}</div><div id=\"resp-table-body\">`;
   scaleValues.forEach(function (noteValue, index)
   {
     const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);

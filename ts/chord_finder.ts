@@ -131,13 +131,13 @@ function findChordsFromScaleScalesHTML(noteValue: number, scaleValues: Array<num
     for (let nbNotes = 2; nbNotes <= nbNotesMax; nbNotes++)
     {
         let paragraph = document.createElement('p');
-        paragraph.innerHTML = getString("chords_N_notes_all", nbNotes.toString());
+        paragraph.innerHTML = `${getString("chords_N_notes_all", nbNotes.toString())} `;
 
         const foundChordsNbNotes = foundChordsDict.get(nbNotes);
 
         let foundChordsNbNotesHTML = "";
         if (foundChordsNbNotes == null || foundChordsNbNotes.length == 0)
-            foundChordsNbNotesHTML = "&nbsp;" + getString("no_result");
+            foundChordsNbNotesHTML = getString("no_result");
         else
         {
             for (let noteChord of foundChordsNbNotes)
@@ -161,8 +161,7 @@ function findChordsFromScaleScalesHTML(noteValue: number, scaleValues: Array<num
                 const callbackString = `openNewTab(\"${url}\")`;
                 button.setAttribute("onClick", callbackString);
 
-                foundChordsNbNotesHTML += "&nbsp;";
-                foundChordsNbNotesHTML += button.outerHTML;
+                foundChordsNbNotesHTML += `${button.outerHTML}\r\n`;
             }
         }
 

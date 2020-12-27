@@ -114,9 +114,7 @@ function getFoundScalesHTML(notesValues: Array<number>, sameNbNotes: boolean = f
         button.innerText = text;
         button.setAttribute("onClick", `openNewTab(\"${url}\")`);
 
-        foundScalesHTML += button.outerHTML; 
-        foundScalesHTML += "&nbsp;";
-
+        foundScalesHTML += `${button.outerHTML}\r\n`; 
         nbScales++;
     }
 
@@ -129,7 +127,7 @@ function getFoundScalesHTML(notesValues: Array<number>, sameNbNotes: boolean = f
 // scale explorer mode: find relative scales
 function getRelativeScalesHTML(noteValue: number, scaleValues: Array<number>): string
 {
-    let relScalesHTML = getString("relative_scales") + " ";
+    let relScalesHTML = `${getString("relative_scales")} `;
    
     // get selected scale
     const selectedScale: string = (<HTMLSelectElement>document.getElementById("scale")).value;
