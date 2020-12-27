@@ -246,7 +246,7 @@ function initChordsFretboardHTML(noteFondamental: number, chordSelected: string,
     for (let i = 0; i < nbPositions; i++)
     {
         if (i > 0)
-            chordsFretboardHTML += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            chordsFretboardHTML += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
         let canvas = document.createElement('canvas');
         const idText = "generated_chords_fretboard" + i.toString();
@@ -257,6 +257,7 @@ function initChordsFretboardHTML(noteFondamental: number, chordSelected: string,
         //canvas.style.border = '1px solid grey';
         canvas.setAttribute("onclick", `saveFretboardChordImage(\"${idText}\", ${noteFondamental},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`);
 
+        //chordsFretboardHTML += `${canvas.outerHTML}\r\n`;
         chordsFretboardHTML += canvas.outerHTML;
     }
 

@@ -71,6 +71,10 @@ button[disabled]
 .is-grouped > .button:not(:last-child) {
     margin-right: 10px;
 }
+/* does not work for canvases? */
+.is-grouped > .canvas:not(:last-child) {
+    margin-right: 50px;
+}
 
 #page_welcome, #page_scale_explorer_params, #page_scale_finder
 {

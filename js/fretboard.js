@@ -196,6 +196,7 @@ function initChordsFretboardHTML(noteFondamental, chordSelected, freeNotesSelect
         canvas.height = 200 + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
         canvas.setAttribute("onclick", `saveFretboardChordImage(\"${idText}\", ${noteFondamental},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`);
+        //chordsFretboardHTML += `${canvas.outerHTML}\r\n`;
         chordsFretboardHTML += canvas.outerHTML;
     }
     return chordsFretboardHTML;
