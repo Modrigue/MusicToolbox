@@ -76,7 +76,7 @@ button[disabled]
     margin-right: 50px;
 }
 
-#page_welcome, #page_scale_explorer_params, #page_scale_finder
+.center
 {
     text-align: center;
 }
