@@ -27,8 +27,9 @@ window.onload = function()
     (<HTMLSelectElement>document.getElementById("note")).addEventListener("change", onNoteChanged);
     (<HTMLSelectElement>document.getElementById("scale")).addEventListener("change", onScaleChanged);
     (<HTMLInputElement>document.getElementById("checkboxChords")).addEventListener("change", () => { toggleDisplay('chords3_result');toggleDisplay('chords4_result'); });
-    (<HTMLInputElement>document.getElementById("checkboxGuitar")).addEventListener("change", () => toggleDisplay('canvas_guitar'));
+    (<HTMLInputElement>document.getElementById("checkboxGuitar")).addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     (<HTMLInputElement>document.getElementById("checkboxKeyboard")).addEventListener("change", () => toggleDisplay('canvas_keyboard'));
+    (<HTMLSelectElement>document.getElementById("scale_explorer_guitar_tuning")).addEventListener("change", update);
 
     // scale finder
     for (let i = 1; i <= 8; i++)
@@ -75,6 +76,7 @@ function updateSelectors(): void
     // update scale explorer selectors
     updateNoteSelector('note', 3, false);
     updateScaleSelector('scale', "7major_nat,1");
+    initGuitarTuningSelector('scale_explorer_guitar_tuning');
 
     // update scale finder selectors
     for (let i = 1; i <= 8; i++)
@@ -236,13 +238,14 @@ function update(): void
             negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues);
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues);
             setVisible('found_scales', true);
+            setVisible('negative_scale', true);
             setVisible("section_found_chords_from_scale", true);
             break;
 
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();
-            negativeScale.innerHTML = "";
             setVisible('found_scales', true);
+            setVisible('negative_scale', false);
             setVisible("section_found_chords_from_scale", false);
             break;
 
@@ -256,6 +259,7 @@ function update(): void
             updateGeneratedChordsOnFretboard(checkboxBarres.checked);
 
             setVisible('found_scales', false);
+            setVisible('negative_scale', false);
             setVisible("section_found_chords_from_scale", false);
             break;
         }
@@ -353,6 +357,7 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("checkboxGuitarLabel")).innerText = getString("guitar");
     (<HTMLLabelElement>document.getElementById("checkboxKeyboardLabel")).innerText = getString("keyboard");
     (<HTMLLabelElement>document.getElementById("checkboxBarresLabel")).innerText = getString("show_barres");
+    (<HTMLSpanElement>document.getElementById("scale_explorer_guitar_tuning_text")).innerText = getString("tuning");
 
     // scale finder
 

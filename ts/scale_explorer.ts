@@ -336,6 +336,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     url += "?note=" + noteValue.toString();
     url += "&chord=" + chordId;
     url += "&lang=" + culture;
+    url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
     
     const callbackString = `openNewTab(\"${url}\")`;
 

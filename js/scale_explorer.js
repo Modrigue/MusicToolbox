@@ -248,6 +248,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords) {
         url += "?note=" + noteValue.toString();
         url += "&chord=" + chordId;
         url += "&lang=" + culture;
+        url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
         const callbackString = `openNewTab(\"${url}\")`;
         chordsDetailsRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
         //chordsDetailsRowHTML += "&#x1f50d";

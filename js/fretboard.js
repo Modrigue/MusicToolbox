@@ -131,7 +131,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName) {
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     for (let i = 1; i <= nbStrings; i++) {
         for (let j = 0; j < 3 * 12; j++) {
-            const currentNoteValue = getCaseNoteValue("chord_explorer_guitar_tuning", i, j);
+            const currentNoteValue = getCaseNoteValue("scale_explorer_guitar_tuning", i, j);
             if (scaleNotesValues.indexOf(currentNoteValue) < 0)
                 continue;
             // display note

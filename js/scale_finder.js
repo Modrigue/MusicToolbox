@@ -73,6 +73,8 @@ function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1,
         url += "?note=" + tonicValue.toString();
         url += "&scale=" + scaleKey;
         url += "&lang=" + culture;
+        if (pageSelected == "page_scale_explorer")
+            url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
         // disabled: update same page
         //foundScalesHTML += "<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"; 
         let button = document.createElement('button');
@@ -114,6 +116,8 @@ function getNegativeFoundScaleHTML(notesValues, tonicValue = -1) {
         url += "?note=" + tonicValue.toString();
         url += "&scale=" + scaleKey;
         url += "&lang=" + culture;
+        if (pageSelected == "page_scale_explorer")
+            url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
         // disabled: update same page
         //foundScalesHTML += "<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"; 
         let button = document.createElement('button');

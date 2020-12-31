@@ -157,6 +157,8 @@ function findChordsFromScaleScalesHTML(noteValue: number, scaleValues: Array<num
                 url += "?note=" + noteValue.toString();
                 url += "&chord=" + chordId;
                 url += "&lang=" + culture;
+                if (pageSelected == "page_scale_explorer")
+                    url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
 
                 const callbackString = `openNewTab(\"${url}\")`;
                 button.setAttribute("onClick", callbackString);
