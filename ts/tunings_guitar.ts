@@ -1,22 +1,22 @@
 // guitar tunings with 4 notes (bass)
 const guitarTunings4Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-guitarTunings4Dict.set("Standard" , [7, 0, 5, 10]);
-guitarTunings4Dict.set("Dropped D", [5, 0, 5, 10]);
+guitarTunings4Dict.set("standard" , [7, 0, 5, 10]);
+guitarTunings4Dict.set("dropped_d", [5, 0, 5, 10]);
 
 // guitar tunings with 7 notes -bass / mandolin)
 const guitarTunings5Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-guitarTunings5Dict.set("Standard", [2, 7, 0, 5, 10]);
+guitarTunings5Dict.set("standard", [2, 7, 0, 5, 10]);
 
 // guitar tunings with 6 notes
 const guitarTunings6Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-guitarTunings6Dict.set("Standard" , [7 , 0, 5, 10, 2, 7]);
-guitarTunings6Dict.set("Dropped D", [5 , 0, 5, 10, 2, 7]);
-guitarTunings6Dict.set("Open G"   , [10, 2, 5, 10, 2, 5]);
-guitarTunings6Dict.set("DADGAD"   , [5 , 0, 5, 10, 0, 5]);
+guitarTunings6Dict.set("standard" , [7 , 0, 5, 10, 2, 7]);
+guitarTunings6Dict.set("dropped_d", [5 , 0, 5, 10, 2, 7]);
+guitarTunings6Dict.set("open_g"   , [10, 2, 5, 10, 2, 5]);
+guitarTunings6Dict.set("dadgad"   , [5 , 0, 5, 10, 0, 5]);
 
 // guitar tunings with 7 notes
 const guitarTunings7Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-guitarTunings7Dict.set("Standard", [2, 7, 0, 5, 10, 2, 7]);
+guitarTunings7Dict.set("standard", [2, 7, 0, 5, 10, 2, 7]);
 
 // global guitar tunings dictionary
 const guitarTuningsDict: Map<number, Map<string, Array<number>>> = new Map<number, Map<string, Array<number>>>();
@@ -55,12 +55,32 @@ function initGuitarTuningSelector(id: string, defaultNbStrings = 6, defaultTunin
         {
             let option = document.createElement('option');
             option.value = key;
-            option.innerHTML = key;
+            option.innerHTML = getGuitarTuningNotation(key);
             if (key == defaultTuningId)
                 option.selected = true;
             tuningSelect.appendChild(option);
         }
     }
+}
+
+function getGuitarTuningNotation(tuningId: string): string
+{
+    // specific
+    if (tuningId.toUpperCase() == "DADGAD")
+        return "DADGAD";
+
+    let tuning = tuningId.replace(/_/g, " ");
+    tuning = toTitleCase(tuning);
+
+    return tuning;
+}
+
+function getSelectedGuitarTuningId(id: string): string
+{
+    const tuningSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    let tuningId = tuningSelect.value;
+
+    return tuningId;
 }
 
 function getSelectedGuitarTuningValue(id: string): Array<number>

@@ -381,6 +381,7 @@ function updateFoundChordElements() {
             url += "?note=" + noteValue.toString();
             url += "&chord=" + chordId;
             url += "&lang=" + culture;
+            url += "&guitar_tuning=" + getSelectedGuitarTuningId("chord_explorer_guitar_tuning");
             const callbackString = `openNewTab(\"${url}\")`;
             button.setAttribute("onClick", callbackString);
             if (index > 0)

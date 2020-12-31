@@ -96,4 +96,8 @@ function getSelectedCulture() {
     const culture = checkboxLanguage.checked ? "fr" : "int";
     return culture;
 }
+// from https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript/196991#196991
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, (text) => { return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase(); });
+}
 //# sourceMappingURL=strings.js.map
