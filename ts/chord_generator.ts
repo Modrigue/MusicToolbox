@@ -32,13 +32,14 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99): Arr
     let chordsPositions: Array<Array<number>> = new Array<Array<number>>();
     const fundamental: number = notesValues[0];
 
-    const nbStringsTotal: number = tuning.length;
+    const tuningValues: Array<number> = getSelectedGuitarTuningValue("chord_explorer_guitar_tuning");
+    const nbStringsTotal: number = tuningValues.length;
     const nbNotes: number = notesValues.length;
 
     // generate all valid chord positions
     for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++)
     {
-        const positionsString0 = getNotesPositionsOnString(fundamental, tuning[startString], 0, 11);
+        const positionsString0 = getNotesPositionsOnString(fundamental, tuningValues[startString], 0, 11);
         for (let p0 of positionsString0)
         {
             // get start positions
@@ -48,7 +49,7 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99): Arr
             startPositions.push(p0);
 
             // init algorithm
-            addChordNoteOnString(notesValues, startString, startString + 1, startPositions, chordsPositions, nbStrings);
+            addChordNoteOnString(notesValues, startString, startString + 1, startPositions, chordsPositions, tuningValues, nbStrings);
         }
     }
 
@@ -74,10 +75,11 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99): Arr
 //    nbStrings = 0  => recurse until valid min. number of strings reached
 function addChordNoteOnString(notesValues: Array<number>, startIndex: number, stringIndex: number,
     positionsCur: Array<number>, chordsPositions: Array<Array<number>>,
-    nbStrings: number = 99, chordAddedArray: Array<Array<number>> = [])
+    tuningValues: Array<number>, nbStrings: number = 99,
+    chordAddedArray: Array<Array<number>> = [])
 {
     // secure
-    const nbStringsTotal: number = tuning.length;
+    const nbStringsTotal: number = tuningValues.length;
     if (stringIndex >= nbStringsTotal)
         return;
 
@@ -89,17 +91,17 @@ function addChordNoteOnString(notesValues: Array<number>, startIndex: number, st
 
         // exclude note from previous string
         if (stringIndex > startIndex && positionsCur != null)
-            if (noteValue == (positionsCur[positionsCur.length - 1] + tuning[stringIndex - 1]) % 12)
+            if (noteValue == (positionsCur[positionsCur.length - 1] + tuningValues[stringIndex - 1]) % 12)
                 continue;
 
-        const positionsOnString = getNotesPositionsOnString(noteValue, tuning[stringIndex], range[0], range[1]);
+        const positionsOnString = getNotesPositionsOnString(noteValue, tuningValues[stringIndex], range[0], range[1]);
 
         for (let pos of positionsOnString)
         {
             let positionsCandidate = [...positionsCur];
             positionsCandidate.push(pos);
             
-            let valid = chordPositionsValid(notesValues, positionsCandidate, nbStrings);
+            let valid = chordPositionsValid(notesValues, positionsCandidate, tuningValues, nbStrings);
 
             // fixed number of strings?
             const fixedNbString = (nbStrings > 0 && nbStrings <= nbStringsTotal);
@@ -122,7 +124,7 @@ function addChordNoteOnString(notesValues: Array<number>, startIndex: number, st
             // find notes on next string
             let chordAddedArrayCurrent: Array<Array<number>> = new Array<Array<number>>();
             if (continueSearch)
-                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, nbStrings, chordAddedArrayCurrent);
+                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, tuningValues, nbStrings, chordAddedArrayCurrent);
 
             // update added chord positions array
             for (let chordPos of chordAddedArrayCurrent)
@@ -138,7 +140,7 @@ function addChordNoteOnString(notesValues: Array<number>, startIndex: number, st
                     positionsCandidateComplete.push(-1);
 
                 // check again
-                valid = chordPositionsValid(notesValues, positionsCandidateComplete, nbStrings);
+                valid = chordPositionsValid(notesValues, positionsCandidateComplete, tuningValues, nbStrings);
 
                 if (valid)
                 {
@@ -153,10 +155,10 @@ function addChordNoteOnString(notesValues: Array<number>, startIndex: number, st
 }
 
 function chordPositionsValid(notesValues: Array<number>,
-    positionsCandidate: Array<number>, nbStrings: number = 99): boolean
+    positionsCandidate: Array<number>, tuningValues: Array<number>, nbStrings: number = 99): boolean
 {
     // check if all notes are included
-    if (!chordPositionsIncludeNotes(notesValues, positionsCandidate))
+    if (!chordPositionsIncludeNotes(notesValues, tuningValues, positionsCandidate))
         return false;
     
     // check positions range
@@ -174,7 +176,7 @@ function chordPositionsValid(notesValues: Array<number>,
         return false;
 
     // check number of strings used if specified
-    if (nbStrings > 0 && nbStrings <= tuning.length)
+    if (nbStrings > 0 && nbStrings <= tuningValues.length)
     {
         let positionsNotHit = [...positionsCandidate];
         positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
@@ -203,7 +205,7 @@ function chordPositionsValid(notesValues: Array<number>,
     return true;
 }
 
-function chordPositionsIncludeNotes(notesValues: Array<number>, positionsCandidate: Array<number>): boolean
+function chordPositionsIncludeNotes(notesValues: Array<number>, tuningValues: Array<number>, positionsCandidate: Array<number>): boolean
 {
     if (notesValues == null || notesValues.length < 2)
         return false;
@@ -224,7 +226,7 @@ function chordPositionsIncludeNotes(notesValues: Array<number>, positionsCandida
             continue;
         }
 
-        const curStringValue = tuning[stringIndex];
+        const curStringValue = tuningValues[stringIndex];
         const curNoteValue = (pos + curStringValue) % 12;
 
         if (notesValues.indexOf(curNoteValue) < 0)

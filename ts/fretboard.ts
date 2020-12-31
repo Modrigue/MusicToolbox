@@ -1,6 +1,5 @@
 // parameters
-let tuning: Array<number>= [7, 0, 5, 10, 2, 7];
-let nbStrings: number = tuning.length;
+let nbStrings: number = 6;
 let xFretMargin: number = 40;
 let yFretMargin: number= 20;
 let xFretScaleStep: number = 60;    // used for scale explorer
@@ -15,13 +14,15 @@ const colorNoteNormal: string = "dimgrey";
 const colorNoteChar: string = "dodgerblue";
 const colorHintFret: string = "whitesmoke";
 
-function getCaseNoteValue(i: number, j: number): number
+function getCaseNoteValue(tuningSelectorId: string, i: number, j: number): number
 {
     // handle not hit string
     if (j < 0)
         return -1;
 
-    return ((tuning[i - 1] + j) % 12);
+    const tuningvalues: Array<number> = getSelectedGuitarTuningValue(tuningSelectorId);
+
+    return ((tuningvalues[i - 1] + j) % 12);
 }
 
 // <i> has offset 1
@@ -169,7 +170,7 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
     {
         for (let j: number = 0; j <3*12; j++)
         {
-            const currentNoteValue = getCaseNoteValue(i, j);
+            const currentNoteValue = getCaseNoteValue("chord_explorer_guitar_tuning", i, j);
             if (scaleNotesValues.indexOf(currentNoteValue) < 0)
                 continue;
 
@@ -398,7 +399,7 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
         for (let i = 1; i <= nbStrings; i++)
         {
             const j = positions[i - 1];
-            const currentNoteValue = getCaseNoteValue(i, j);
+            const currentNoteValue = getCaseNoteValue("chord_explorer_guitar_tuning", i, j);
             
             // display note
 

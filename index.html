@@ -21,7 +21,9 @@
     <script src="js/scale_finder.js"></script>
     <script src="js/chord_finder.js"></script>
     <script src="js/chord_generator.js"></script>
+    <script src="js/tunings_guitar.js"></script>
     <script src="js/url_parameters.js"></script>
+    <!--script src="js/negative_harmony.js"></script-->
     <script src="js/interface.js"></script>
 
     <!-- //////////////////////////////// MIDI //////////////////////////// -->
@@ -208,10 +210,15 @@
     <div id='options_chord_explorer'>
       <button id="play_found_chord">Play ♪</button>
       <button id="play_found_arpeggio">Play arpeggio ♪</button>
+
       <span style='float: right;'>
+
+        <span id="chord_explorer_guitar_tuning_text">Tuning:</span>
+        <select name="chord_explorer_guitar_tuning" id="chord_explorer_guitar_tuning"></select>
+
         <input type="checkbox" id="checkboxBarres" name="checkboxBarres" checked>
         <label class="input-label" id="checkboxBarresLabel" for="checkboxBarres">Barres</label>
-      
+
         <select name="chord_explorer_nb_strings" id="chord_explorer_nb_strings">
           <option value=99 id="chord_explorer_nb_strings_option_max">Max</option>
           <option value=6 id="chord_explorer_nb_strings_option_6">6</option>

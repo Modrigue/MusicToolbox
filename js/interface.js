@@ -36,6 +36,7 @@ window.onload = function () {
         const id = i.toString();
         document.getElementById(`chord_explorer_note${id}`).addEventListener("change", update);
     }
+    document.getElementById("chord_explorer_guitar_tuning").addEventListener("change", update);
     document.getElementById("checkboxBarres").addEventListener("change", update);
     document.getElementById("chord_explorer_nb_strings").addEventListener("change", update);
 };
@@ -63,6 +64,7 @@ function updateSelectors() {
     // update chord explorer selectors
     updateNoteSelector('note_explorer_chord', 3, false);
     initChordSelector('chord_explorer_chord', "M", false);
+    initGuitarTuningSelector('chord_explorer_guitar_tuning');
     updateNbStringsSelector();
     for (let i = 1; i <= 6; i++)
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
@@ -267,6 +269,7 @@ function updateLocales() {
     document.getElementById("radioChordExplorerNotesLabel").innerText = getString("notes");
     document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
     document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
+    document.getElementById("chord_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("chord_explorer_nb_strings_text").innerText = getString("chord_explorer_nb_strings_text");
     // update computed data
     updateSelectors();

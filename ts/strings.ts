@@ -25,6 +25,7 @@ stringsDict_int.set("relative_scales", "Relative scales:");
 stringsDict_int.set("reset", "Reset");
 stringsDict_int.set("show_barres", "Barres");
 stringsDict_int.set("tonic", "Tonic:");
+stringsDict_int.set("tuning", "Tuning:");
 stringsDict_int.set("welcome_title", "Welcome to the Music Companion");
 stringsDict_int.set("welcome_subtitle", "What do you want to do?");
 
@@ -55,6 +56,7 @@ stringsDict_fr.set("relative_scales", "Gammes relatives :");
 stringsDict_fr.set("reset", "Réinitialiser");
 stringsDict_fr.set("show_barres", "Barrés");
 stringsDict_fr.set("tonic", "Tonique :");
+stringsDict_fr.set("tuning", "Accordage :");
 stringsDict_fr.set("welcome_title", "Bienvenue chez le Compagnon Musical");
 stringsDict_fr.set("welcome_subtitle", "Que voulez-vous faire ?");
 
