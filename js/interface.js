@@ -166,16 +166,19 @@ function update() {
         setVisible('page_welcome', false);
     // update found scales given selected page
     const foundScales = document.getElementById('found_scales');
+    const negativeScale = document.getElementById('negative_scale');
     const foundChordsFromScale = document.getElementById('section_found_chords_from_scale');
     switch (pageSelected) {
         case "page_scale_explorer":
             foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
+            negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues);
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues);
             setVisible('found_scales', true);
             setVisible("section_found_chords_from_scale", true);
             break;
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();
+            negativeScale.innerHTML = "";
             setVisible('found_scales', true);
             setVisible("section_found_chords_from_scale", false);
             break;

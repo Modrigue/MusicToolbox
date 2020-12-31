@@ -124,6 +124,65 @@ function getFoundScalesHTML(notesValues: Array<number>, sameNbNotes: boolean = f
    return foundScalesHTML;
 }
 
+// build negative scale HTML
+function getNegativeFoundScaleHTML(notesValues: Array<number>, tonicValue: number = -1): string
+{
+    let negScalesHTML = "";
+    const negScaleValues = getNegativeScaleValues(notesValues);
+    if (negScaleValues == null || negScaleValues.length == 0)
+        return "";
+
+    const refTonicValue = (tonicValue >= 0) ? tonicValue : negScaleValues[0];
+    const foundScales: Array<string> = findScales(negScaleValues, true, refTonicValue);
+    if (foundScales == null)
+        return "";
+   
+   let nbScales = 0;
+   for (let scaleId of foundScales)
+   {
+       // get tonic and scale key
+
+        const scaleAttributes: Array<string> = scaleId.split("|");
+
+        const tonicValue: number = parseInt(scaleAttributes[0]);
+        const tonic: string = getNoteName(tonicValue);
+
+        const scaleKey = scaleAttributes[1]; 
+        
+        const scaleName: string = getScaleString(scaleKey);
+        
+        const text: string = tonic + " " + scaleName;
+
+        // hightlight scale
+        let styleString: string = "";
+        if (hightlightScale(scaleKey))
+            styleString = "style=\"font-weight:bold;\" ";
+
+        const culture = getSelectedCulture();
+
+        // build URL
+        let url: string = window.location.pathname;
+        url += "?note=" + tonicValue.toString();
+        url += "&scale=" + scaleKey;
+        url += "&lang=" + culture;
+
+        // disabled: update same page
+        //foundScalesHTML += "<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"; 
+        
+        let button: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+        button.innerText = text;
+        button.setAttribute("onClick", `openNewTab(\"${url}\")`);
+
+        negScalesHTML += `${button.outerHTML}\r\n`; 
+        nbScales++;
+    }
+
+    if (nbScales == 0)
+        negScalesHTML += getString("no_result");
+
+   return negScalesHTML;
+}
+
 // scale explorer mode: find relative scales
 function getRelativeScalesHTML(noteValue: number, scaleValues: Array<number>): string
 {
@@ -138,6 +197,22 @@ function getRelativeScalesHTML(noteValue: number, scaleValues: Array<number>): s
 
     relScalesHTML += foundScalesHTML;
     return relScalesHTML;
+}
+
+// scale explorer mode: find negative scale
+function getNegativeScaleHTML(noteValue: number, scaleValues: Array<number>): string
+{
+    let negScaleHTML = `${getString("negative_scale")} `;
+   
+    // get selected scale
+    const selectedScale: string = (<HTMLSelectElement>document.getElementById("scale")).value;
+
+    // find scale from notes
+    const scaleNotesValues: Array<number> = getScaleNotesValues(noteValue, scaleValues);
+    const negFoundScaleHTML: string =  getNegativeFoundScaleHTML(scaleNotesValues);
+
+    negScaleHTML += negFoundScaleHTML;
+    return negScaleHTML;
 }
 
 // scale finder mode: find scales containing notes

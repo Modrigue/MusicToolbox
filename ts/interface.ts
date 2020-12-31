@@ -227,11 +227,13 @@ function update(): void
 
     // update found scales given selected page
     const foundScales: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('found_scales');
+    const negativeScale: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('negative_scale');
     const foundChordsFromScale: HTMLDivElement = <HTMLDivElement>document.getElementById('section_found_chords_from_scale');
     switch (pageSelected) 
     {
         case "page_scale_explorer":
             foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
+            negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues);
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues);
             setVisible('found_scales', true);
             setVisible("section_found_chords_from_scale", true);
@@ -239,6 +241,7 @@ function update(): void
 
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();
+            negativeScale.innerHTML = "";
             setVisible('found_scales', true);
             setVisible("section_found_chords_from_scale", false);
             break;
