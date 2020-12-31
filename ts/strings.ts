@@ -1,6 +1,6 @@
 // international
 const stringsDict_int: Map<string, string> = new Map<string, string>();
-stringsDict_int.set("chord_explorer_nb_strings_text", "strings played");
+stringsDict_int.set("chord_explorer_nb_strings_max_text", "strings played");
 stringsDict_int.set("title", "Music Companion");
 stringsDict_int.set("page_scale_explorer", "Explore scales");
 stringsDict_int.set("page_scale_finder", "Find scales");
@@ -32,7 +32,7 @@ stringsDict_int.set("welcome_subtitle", "What do you want to do?");
 
 // french notation
 const stringsDict_fr: Map<string, string> = new Map<string, string>();
-stringsDict_fr.set("chord_explorer_nb_strings_text", "cordes jouées");
+stringsDict_fr.set("chord_explorer_nb_strings_max_text", "cordes jouées");
 stringsDict_fr.set("title", "Le compagnon musical");
 stringsDict_fr.set("page_scale_explorer", "Explorer des gammes");
 stringsDict_fr.set("page_scale_finder", "Trouver des gammes");

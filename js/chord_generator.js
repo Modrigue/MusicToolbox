@@ -424,7 +424,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true) {
         noteFondamental = (chordNotesValues.length > 0) ? chordNotesValues[0] : -1;
     }
     // compute chord positions
-    const nbStringsSelectedStr = document.getElementById('chord_explorer_nb_strings').value;
+    const nbStringsSelectedStr = document.getElementById('chord_explorer_nb_strings_max').value;
     const nbStringsSelected = parseInt(nbStringsSelectedStr);
     const positionsArray = generateChords(chordNotesValues, nbStringsSelected);
     if (positionsArray == null || positionsArray.length == 0) {
@@ -450,7 +450,7 @@ function updateNbStringsSelector() {
     }
     // enable values given nb. of notes
     for (let i = 2; i <= 6; i++) {
-        let option = document.getElementById(`chord_explorer_nb_strings_option_${i}`);
+        let option = document.getElementById(`chord_explorer_nb_strings_max_option_${i}`);
         option.disabled = (i < nbNotesInChord);
     }
 }

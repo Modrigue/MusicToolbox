@@ -39,7 +39,7 @@ window.onload = function () {
     }
     document.getElementById("chord_explorer_guitar_tuning").addEventListener("change", update);
     document.getElementById("checkboxBarres").addEventListener("change", update);
-    document.getElementById("chord_explorer_nb_strings").addEventListener("change", update);
+    document.getElementById("chord_explorer_nb_strings_max").addEventListener("change", update);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -278,7 +278,7 @@ function updateLocales() {
     document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
     document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
     document.getElementById("chord_explorer_guitar_tuning_text").innerText = getString("tuning");
-    document.getElementById("chord_explorer_nb_strings_text").innerText = getString("chord_explorer_nb_strings_text");
+    document.getElementById("chord_explorer_nb_strings_max_text").innerText = getString("chord_explorer_nb_strings_max_text");
     // update computed data
     updateSelectors();
     onNoteChanged();
