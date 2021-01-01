@@ -21,6 +21,7 @@ window.onload = function () {
     document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); });
     document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('canvas_keyboard'));
+    document.getElementById("scale_explorer_guitar_nb_strings").addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     document.getElementById("scale_explorer_guitar_tuning").addEventListener("change", update);
     // scale finder
     for (let i = 1; i <= 8; i++) {
@@ -37,6 +38,7 @@ window.onload = function () {
         const id = i.toString();
         document.getElementById(`chord_explorer_note${id}`).addEventListener("change", update);
     }
+    //(<HTMLSelectElement>document.getElementById("chord_explorer_guitar_nb_strings")).addEventListener("change", () => onNbStringsChanged('chords_explorer'));
     document.getElementById("chord_explorer_guitar_tuning").addEventListener("change", update);
     document.getElementById("checkboxBarres").addEventListener("change", update);
     document.getElementById("chord_explorer_nb_strings_max").addEventListener("change", update);
@@ -55,6 +57,7 @@ function updateSelectors() {
     // update scale explorer selectors
     updateNoteSelector('note', 3, false);
     updateScaleSelector('scale', "7major_nat,1");
+    initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
     // update scale finder selectors
     for (let i = 1; i <= 8; i++) {
@@ -115,6 +118,21 @@ function onNoteChanged() {
     update();
 }
 function onScaleChanged() {
+    update();
+}
+function onNbStringsChanged(id) {
+    let nbStrings = -1;
+    // update corresponding guitar tuning selector
+    switch (id) {
+        case 'scale_explorer':
+            nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
+            updateGuitarTuningGivenNbStrings('scale_explorer_guitar_tuning', nbStrings);
+            break;
+        case 'chord_explorer':
+            nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
+            updateGuitarTuningGivenNbStrings('chord_explorer_guitar_tuning', nbStrings);
+            break;
+    }
     update();
 }
 // compute and update results
@@ -264,6 +282,7 @@ function updateLocales() {
     document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");
     document.getElementById("checkboxKeyboardLabel").innerText = getString("keyboard");
     document.getElementById("checkboxBarresLabel").innerText = getString("show_barres");
+    document.getElementById("scale_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("scale_explorer_guitar_tuning_text").innerText = getString("tuning");
     // scale finder
     let resetElements = document.getElementsByClassName("reset");
@@ -277,6 +296,7 @@ function updateLocales() {
     document.getElementById("radioChordExplorerNotesLabel").innerText = getString("notes");
     document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
     document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
+    //(<HTMLSpanElement>document.getElementById("chord_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
     document.getElementById("chord_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("chord_explorer_nb_strings_max_text").innerText = getString("chord_explorer_nb_strings_max_text");
     // update computed data

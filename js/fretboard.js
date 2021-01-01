@@ -1,8 +1,8 @@
 "use strict";
 // parameters
-let nbStrings = 6;
 let xFretMargin = 40;
 let yFretMargin = 20;
+let yFretStep = 32;
 let xFretScaleStep = 60; // used for scale explorer
 let xFretChordStep = 50; // used for chord explorer
 const yFretMarginChordBottom = 20;
@@ -13,20 +13,20 @@ const colorNoteTonic = "firebrick";
 const colorNoteNormal = "dimgrey";
 const colorNoteChar = "dodgerblue";
 const colorHintFret = "whitesmoke";
-function getCaseNoteValue(tuningSelectorId, i, j) {
+function getCaseNoteValue(tuningValues, i, j) {
     // handle not hit string
     if (j < 0)
         return -1;
-    const tuningvalues = getSelectedGuitarTuningValue(tuningSelectorId);
-    return ((tuningvalues[i - 1] + j) % 12);
+    return ((tuningValues[i - 1] + j) % 12);
 }
 // <i> has offset 1
 function displayNoteOnFretboard(id, i, j, text, color, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0) {
+    const nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
     let canvas = document.getElementById(id);
     if (canvas.getContext) {
         let ctx = canvas.getContext("2d");
         const yStep = (canvas.height - marginBottom - 2 * yFretMargin) / (nbStrings - 1);
-        const radius = Math.min(xFretStep, yStep) / 2 - 2;
+        const radius = Math.min(xFretStep, yFretStep) / 2 - 2;
         if (i > nbStrings)
             return;
         // get last fret x
@@ -76,9 +76,10 @@ function displayNoteOnFretboard(id, i, j, text, color, xFretStep = xFretScaleSte
     }
 }
 function updateFretboard(noteValue, scaleValues, charIntervals, scaleName) {
+    const nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
     let canvas = document.getElementById("canvas_guitar");
-    // fretboard
     if (canvas.getContext) {
+        canvas.height = 8 + yFretStep * nbStrings;
         let ctx = canvas.getContext("2d");
         ctx.strokeStyle = colorFretsStrings;
         // clear
@@ -104,10 +105,9 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName) {
             ctx.fillRect(x, yFretMargin, xFretScaleStep, canvas.height - 2 * yFretMargin);
             ctx.closePath();
         }
-        // horizontal lines (strings)
-        let yStep = (canvas.height - 2 * yFretMargin) / (nbStrings - 1);
+        // horizontal lines (strings)      
         for (let i = 0; i < nbStrings; i++) {
-            let y = yFretMargin + i * yStep;
+            let y = yFretMargin + i * yFretStep;
             ctx.beginPath();
             ctx.strokeStyle = colorFretsStrings;
             ctx.moveTo(xFretMargin, y);
@@ -128,10 +128,11 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName) {
         }
     }
     // display notes
+    const tuningValues = getSelectedGuitarTuningValue("scale_explorer_guitar_tuning");
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     for (let i = 1; i <= nbStrings; i++) {
         for (let j = 0; j < 3 * 12; j++) {
-            const currentNoteValue = getCaseNoteValue("scale_explorer_guitar_tuning", i, j);
+            const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
             if (scaleNotesValues.indexOf(currentNoteValue) < 0)
                 continue;
             // display note
@@ -202,6 +203,8 @@ function initChordsFretboardHTML(noteFondamental, chordSelected, freeNotesSelect
     return chordsFretboardHTML;
 }
 function updateChordFretboard(positionsArray, showBarres = true) {
+    const nbStrings = 6; //getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
+    const tuningValues = getSelectedGuitarTuningValue("chord_explorer_guitar_tuning");
     const nbPositions = positionsArray.length;
     for (let index = 0; index < nbPositions; index++) {
         // get start fret index
@@ -304,7 +307,7 @@ function updateChordFretboard(positionsArray, showBarres = true) {
         // display notes positions
         for (let i = 1; i <= nbStrings; i++) {
             const j = positions[i - 1];
-            const currentNoteValue = getCaseNoteValue("chord_explorer_guitar_tuning", i, j);
+            const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
             // display note
             let currentNote = (currentNoteValue >= 0) ? getNoteName(currentNoteValue) : "X";
             let colorNote = colorNoteNormal;

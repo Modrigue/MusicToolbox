@@ -1,7 +1,7 @@
 // parameters
-let nbStrings: number = 6;
 let xFretMargin: number = 40;
-let yFretMargin: number= 20;
+let yFretMargin: number = 20;
+let yFretStep: number = 32;
 let xFretScaleStep: number = 60;    // used for scale explorer
 let xFretChordStep: number = 50;    // used for chord explorer
 const yFretMarginChordBottom: number = 20;
@@ -14,27 +14,27 @@ const colorNoteNormal: string = "dimgrey";
 const colorNoteChar: string = "dodgerblue";
 const colorHintFret: string = "whitesmoke";
 
-function getCaseNoteValue(tuningSelectorId: string, i: number, j: number): number
+function getCaseNoteValue(tuningValues: Array<number>, i: number, j: number): number
 {
     // handle not hit string
     if (j < 0)
         return -1;
 
-    const tuningvalues: Array<number> = getSelectedGuitarTuningValue(tuningSelectorId);
-
-    return ((tuningvalues[i - 1] + j) % 12);
+    return ((tuningValues[i - 1] + j) % 12);
 }
 
 // <i> has offset 1
 function displayNoteOnFretboard(id: string, i: number, j: number, text: string, color: string, xFretStep: number = xFretScaleStep, marginBottom: number = 0, startFret: number = 0): void
 {
+    const nbStrings: number = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
+
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id);
     if (canvas.getContext) 
     {
         let ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
         const yStep = (canvas.height - marginBottom - 2* yFretMargin) / (nbStrings - 1);
-        const radius = Math.min(xFretStep, yStep) / 2 - 2;
-
+        const radius = Math.min(xFretStep, yFretStep) / 2 - 2;
+        
         if ( i > nbStrings)
             return;
 
@@ -96,11 +96,13 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string, 
 function updateFretboard(noteValue: number, scaleValues: Array<number>,
     charIntervals: Array<number>, scaleName: string): void
 {
-    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas_guitar");
+    const nbStrings: number = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
 
-    // fretboard
+    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas_guitar");
     if (canvas.getContext) 
     {
+        canvas.height = 8 + yFretStep*nbStrings;
+
         let ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
         ctx.strokeStyle = colorFretsStrings;
 
@@ -134,11 +136,10 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
             ctx.closePath();
         }
 
-        // horizontal lines (strings)
-        let yStep = (canvas.height - 2 * yFretMargin) / (nbStrings - 1);
+        // horizontal lines (strings)      
         for (let i = 0; i < nbStrings; i++) 
         {
-            let y = yFretMargin + i*yStep;
+            let y = yFretMargin + i*yFretStep;
 
             ctx.beginPath();
             ctx.strokeStyle = colorFretsStrings;
@@ -165,12 +166,13 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
     }
 
     // display notes
+    const tuningValues: Array<number> = getSelectedGuitarTuningValue("scale_explorer_guitar_tuning");
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     for (let i: number = 1; i <= nbStrings; i++)
     {
         for (let j: number = 0; j <3*12; j++)
         {
-            const currentNoteValue = getCaseNoteValue("scale_explorer_guitar_tuning", i, j);
+            const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
             if (scaleNotesValues.indexOf(currentNoteValue) < 0)
                 continue;
 
@@ -267,6 +269,9 @@ function initChordsFretboardHTML(noteFondamental: number, chordSelected: string,
 
 function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres = true)
 {
+    const nbStrings: number = 6; //getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
+    const tuningValues: Array<number> = getSelectedGuitarTuningValue("chord_explorer_guitar_tuning");
+
     const nbPositions = positionsArray.length;
     for (let index = 0; index < nbPositions; index++)
     {
@@ -399,7 +404,7 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
         for (let i = 1; i <= nbStrings; i++)
         {
             const j = positions[i - 1];
-            const currentNoteValue = getCaseNoteValue("chord_explorer_guitar_tuning", i, j);
+            const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
             
             // display note
 

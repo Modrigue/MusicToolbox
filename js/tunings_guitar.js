@@ -21,8 +21,8 @@ guitarTuningsDict.set(4, guitarTunings4Dict);
 guitarTuningsDict.set(5, guitarTunings5Dict);
 guitarTuningsDict.set(6, guitarTunings6Dict);
 guitarTuningsDict.set(7, guitarTunings7Dict);
-/////////////////////////////////// FUNCTIONS /////////////////////////////////
-function initGuitarTuningSelector(id, defaultNbStrings = 6, defaultTuningId = "Standard") {
+///////////////////////////////// GUITAR TUNING ///////////////////////////////
+function initGuitarTuningSelector(id, useURLParams = true, nbStrings = 6, tuningId = "Standard") {
     // get chord selecor
     //const nbStringsSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const tuningSelect = document.getElementById(id);
@@ -30,25 +30,41 @@ function initGuitarTuningSelector(id, defaultNbStrings = 6, defaultTuningId = "S
     if (initialized) // nop if already initialized
         return;
     // get nb. strings and tuning parameter if existing
-    const nbStringsParamValue = parseParameterById("nb_strings");
-    const tuningParamValue = parseParameterById("guitar_tuning");
-    if (nbStringsParamValue != "")
-        defaultNbStrings = parseInt(nbStringsParamValue);
-    if (tuningParamValue != "")
-        defaultTuningId = tuningParamValue;
+    if (useURLParams) {
+        const nbStringsParamValue = parseParameterById("nb_strings");
+        const tuningParamValue = parseParameterById("guitar_tuning");
+        if (nbStringsParamValue != "")
+            nbStrings = parseInt(nbStringsParamValue);
+        if (tuningParamValue != "")
+            tuningId = tuningParamValue;
+    }
     // init
-    let guitarTuningDict = guitarTunings6Dict;
+    let guitarTuningDict = guitarTuningsDict.get(nbStrings);
     {
         // add tunings
         for (const [key, value] of guitarTuningDict) {
             let option = document.createElement('option');
             option.value = key;
             option.innerHTML = getGuitarTuningNotation(key);
-            if (key == defaultTuningId)
+            if (key == tuningId)
                 option.selected = true;
             tuningSelect.appendChild(option);
         }
     }
+    // disable if only 1 option
+    tuningSelect.disabled = (tuningSelect.options.length <= 1);
+}
+function updateGuitarTuningGivenNbStrings(id, nbStrings) {
+    const tuningSelect = document.getElementById(id);
+    const tuningIdFormer = getSelectedGuitarTuningId(id);
+    // get corresponding guitar tunings
+    if (!guitarTuningsDict.has(nbStrings))
+        return;
+    const guitarTuningDict = guitarTuningsDict.get(nbStrings);
+    // replace selector options and try to select former corresponding guitar tuning
+    removeAllChildNodes(tuningSelect);
+    const tuningId = guitarTuningDict.has(tuningIdFormer) ? tuningIdFormer : "standard";
+    initGuitarTuningSelector(id, false, nbStrings, tuningId);
 }
 function getGuitarTuningNotation(tuningId) {
     // specific
@@ -66,10 +82,45 @@ function getSelectedGuitarTuningId(id) {
 function getSelectedGuitarTuningValue(id) {
     const tuningSelect = document.getElementById(id);
     let tuningId = tuningSelect.value;
-    // TODO: get tunings dict corresponding to selected nb. strings
-    const guitarTuningDict = guitarTunings6Dict;
+    // get tunings dict corresponding to selected nb. strings
+    const nbStringsSelectId = id.replace('guitar_tuning', 'guitar_nb_strings');
+    const nbStrings = getSelectedGuitarNbStrings(nbStringsSelectId);
+    const guitarTuningDict = guitarTuningsDict.get(nbStrings);
     if (!guitarTuningDict.has(tuningId))
         tuningId = "Standard"; // fallback
     return guitarTuningDict.get(tuningId);
+}
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+////////////////////////////// NUMBER OF STRINGS //////////////////////////////
+function initGuitarNbStringsSelector(id, minNbStrings = 4, maxNbStrings = 7, defaultNbStrings = 6) {
+    // get chord selecor
+    const nbStringsSelect = document.getElementById(id);
+    const initialized = (nbStringsSelect.options != null && nbStringsSelect.options.length > 0);
+    if (initialized) // nop if already initialized
+        return;
+    // get nb. strings and tuning parameter if existing
+    const nbStringsParamValue = parseParameterById("nb_strings");
+    if (nbStringsParamValue != "")
+        defaultNbStrings = parseInt(nbStringsParamValue);
+    // add tunings
+    for (let i = minNbStrings; i <= maxNbStrings; i++) {
+        let option = document.createElement('option');
+        option.value = i.toString();
+        option.innerHTML = i.toString();
+        if (i == defaultNbStrings)
+            option.selected = true;
+        nbStringsSelect.appendChild(option);
+    }
+}
+function getSelectedGuitarNbStrings(id) {
+    if (id.startsWith('chord_explorer'))
+        return 6;
+    const nbStringsSelect = document.getElementById(id);
+    let nbStrings = parseInt(nbStringsSelect.value);
+    return nbStrings;
 }
 //# sourceMappingURL=tunings_guitar.js.map

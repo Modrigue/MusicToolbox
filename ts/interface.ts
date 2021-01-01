@@ -29,6 +29,7 @@ window.onload = function()
     (<HTMLInputElement>document.getElementById("checkboxChords")).addEventListener("change", () => { toggleDisplay('chords3_result');toggleDisplay('chords4_result'); });
     (<HTMLInputElement>document.getElementById("checkboxGuitar")).addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     (<HTMLInputElement>document.getElementById("checkboxKeyboard")).addEventListener("change", () => toggleDisplay('canvas_keyboard'));
+    (<HTMLSelectElement>document.getElementById("scale_explorer_guitar_nb_strings")).addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     (<HTMLSelectElement>document.getElementById("scale_explorer_guitar_tuning")).addEventListener("change", update);
 
     // scale finder
@@ -49,6 +50,7 @@ window.onload = function()
         const id: string = i.toString();
         (<HTMLSelectElement>document.getElementById(`chord_explorer_note${id}`)).addEventListener("change", update);
     }
+    //(<HTMLSelectElement>document.getElementById("chord_explorer_guitar_nb_strings")).addEventListener("change", () => onNbStringsChanged('chords_explorer'));
     (<HTMLSelectElement>document.getElementById("chord_explorer_guitar_tuning")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("checkboxBarres")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("chord_explorer_nb_strings_max")).addEventListener("change", update);
@@ -76,6 +78,7 @@ function updateSelectors(): void
     // update scale explorer selectors
     updateNoteSelector('note', 3, false);
     updateScaleSelector('scale', "7major_nat,1");
+    initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
 
     // update scale finder selectors
@@ -159,6 +162,27 @@ function onNoteChanged(): void
 
 function onScaleChanged(): void
 {
+    update();
+}
+
+function onNbStringsChanged(id: string): void
+{
+    let nbStrings: number = -1;
+
+    // update corresponding guitar tuning selector
+    switch(id)
+    {
+        case 'scale_explorer':
+            nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
+            updateGuitarTuningGivenNbStrings('scale_explorer_guitar_tuning', nbStrings);
+            break;
+
+        case 'chord_explorer':
+            nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
+            updateGuitarTuningGivenNbStrings('chord_explorer_guitar_tuning', nbStrings);
+            break;
+    }
+
     update();
 }
 
@@ -357,6 +381,7 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("checkboxGuitarLabel")).innerText = getString("guitar");
     (<HTMLLabelElement>document.getElementById("checkboxKeyboardLabel")).innerText = getString("keyboard");
     (<HTMLLabelElement>document.getElementById("checkboxBarresLabel")).innerText = getString("show_barres");
+    (<HTMLSpanElement>document.getElementById("scale_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
     (<HTMLSpanElement>document.getElementById("scale_explorer_guitar_tuning_text")).innerText = getString("tuning");
 
     // scale finder
@@ -374,6 +399,7 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("radioChordExplorerNotesLabel")).innerText = getString("notes");
     (<HTMLButtonElement>document.getElementById("play_found_chord")).innerText = `${getString("play")} ♪`;
     (<HTMLButtonElement>document.getElementById("play_found_arpeggio")).innerText = `${getString("play_arpeggio")} ♪`;
+    //(<HTMLSpanElement>document.getElementById("chord_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_tuning_text")).innerText = getString("tuning");
     (<HTMLSpanElement>document.getElementById("chord_explorer_nb_strings_max_text")).innerText = getString("chord_explorer_nb_strings_max_text");
     
