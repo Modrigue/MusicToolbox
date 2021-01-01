@@ -93,6 +93,7 @@ function updateSelectors(): void
     // update chord explorer selectors
     updateNoteSelector('note_explorer_chord', 3, false);
     initChordSelector('chord_explorer_chord', "M", false);
+    //initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');
     updateNbStringsSelector();
     for (let i = 1; i <= 6; i++)

@@ -24,32 +24,28 @@ guitarTuningsDict.set(7, guitarTunings7Dict);
 ///////////////////////////////// GUITAR TUNING ///////////////////////////////
 function initGuitarTuningSelector(id, useURLParams = true, nbStrings = 6, tuningId = "Standard") {
     // get chord selecor
-    //const nbStringsSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const tuningSelect = document.getElementById(id);
     const initialized = (tuningSelect.options != null && tuningSelect.options.length > 0);
     if (initialized) // nop if already initialized
         return;
     // get nb. strings and tuning parameter if existing
     if (useURLParams) {
-        const nbStringsParamValue = parseParameterById("nb_strings");
+        const nbStringsParamValue = parseParameterById("guitar_nb_strings");
         const tuningParamValue = parseParameterById("guitar_tuning");
         if (nbStringsParamValue != "")
             nbStrings = parseInt(nbStringsParamValue);
         if (tuningParamValue != "")
             tuningId = tuningParamValue;
     }
-    // init
+    // add tunings
     let guitarTuningDict = guitarTuningsDict.get(nbStrings);
-    {
-        // add tunings
-        for (const [key, value] of guitarTuningDict) {
-            let option = document.createElement('option');
-            option.value = key;
-            option.innerHTML = getGuitarTuningNotation(key);
-            if (key == tuningId)
-                option.selected = true;
-            tuningSelect.appendChild(option);
-        }
+    for (const [key, value] of guitarTuningDict) {
+        let option = document.createElement('option');
+        option.value = key;
+        option.innerHTML = getGuitarTuningNotation(key);
+        if (key == tuningId)
+            option.selected = true;
+        tuningSelect.appendChild(option);
     }
     // disable if only 1 option
     tuningSelect.disabled = (tuningSelect.options.length <= 1);
@@ -103,7 +99,7 @@ function initGuitarNbStringsSelector(id, minNbStrings = 4, maxNbStrings = 7, def
     if (initialized) // nop if already initialized
         return;
     // get nb. strings and tuning parameter if existing
-    const nbStringsParamValue = parseParameterById("nb_strings");
+    const nbStringsParamValue = parseParameterById("guitar_nb_strings");
     if (nbStringsParamValue != "")
         defaultNbStrings = parseInt(nbStringsParamValue);
     // add tunings

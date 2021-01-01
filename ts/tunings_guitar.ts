@@ -31,7 +31,6 @@ guitarTuningsDict.set(7, guitarTunings7Dict);
 function initGuitarTuningSelector(id: string, useURLParams: boolean = true, nbStrings: number = 6, tuningId: string = "Standard"): void
 {
     // get chord selecor
-    //const nbStringsSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const tuningSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const initialized = (tuningSelect.options != null && tuningSelect.options.length > 0);
     if (initialized) // nop if already initialized
@@ -40,7 +39,7 @@ function initGuitarTuningSelector(id: string, useURLParams: boolean = true, nbSt
     // get nb. strings and tuning parameter if existing
     if (useURLParams)
     {
-        const nbStringsParamValue = parseParameterById("nb_strings");
+        const nbStringsParamValue = parseParameterById("guitar_nb_strings");
         const tuningParamValue = parseParameterById("guitar_tuning");
 
         if (nbStringsParamValue != "")
@@ -49,20 +48,16 @@ function initGuitarTuningSelector(id: string, useURLParams: boolean = true, nbSt
             tuningId = tuningParamValue;
     }
 
-    // init
+    // add tunings
     let guitarTuningDict: Map<string, Array<number>> = <Map<string, Array<number>>>guitarTuningsDict.get(nbStrings);
-
+    for (const [key, value] of guitarTuningDict)
     {
-        // add tunings
-        for (const [key, value] of guitarTuningDict)
-        {
-            let option = document.createElement('option');
-            option.value = key;
-            option.innerHTML = getGuitarTuningNotation(key);
-            if (key == tuningId)
-                option.selected = true;
-            tuningSelect.appendChild(option);
-        }
+        let option = document.createElement('option');
+        option.value = key;
+        option.innerHTML = getGuitarTuningNotation(key);
+        if (key == tuningId)
+            option.selected = true;
+        tuningSelect.appendChild(option);
     }
 
     // disable if only 1 option
@@ -141,7 +136,7 @@ function initGuitarNbStringsSelector(id: string, minNbStrings: number = 4, maxNb
         return;
 
     // get nb. strings and tuning parameter if existing
-    const nbStringsParamValue = parseParameterById("nb_strings");
+    const nbStringsParamValue = parseParameterById("guitar_nb_strings");
 
     if (nbStringsParamValue != "")
         defaultNbStrings = parseInt(nbStringsParamValue);
