@@ -2,8 +2,7 @@
 
 // chords with 2 notes
 const chords2Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-chords2Dict.set("5",  [0, 7]);
-chords2Dict.set("b5", [0, 6]);
+chords2Dict.set("5", [0, 7]);
 
 // chords with 3 notes
 const chords3Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
@@ -204,7 +203,7 @@ function updateChordSelectorGivenNbStrings(id: string): void
 
         option.disabled = (nbNotesInChord > nbStrings);
         if (option.selected && option.disabled)
-            chordSelect.selectedIndex = 5; // default chord
+            chordSelect.selectedIndex = 4; // default chord
     }
 }
 

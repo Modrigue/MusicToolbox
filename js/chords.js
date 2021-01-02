@@ -3,7 +3,6 @@
 // chords with 2 notes
 const chords2Dict = new Map();
 chords2Dict.set("5", [0, 7]);
-chords2Dict.set("b5", [0, 6]);
 // chords with 3 notes
 const chords3Dict = new Map();
 chords3Dict.set("M", [0, 4, 7]);
@@ -180,7 +179,7 @@ function updateChordSelectorGivenNbStrings(id) {
             continue;
         option.disabled = (nbNotesInChord > nbStrings);
         if (option.selected && option.disabled)
-            chordSelect.selectedIndex = 5; // default chord
+            chordSelect.selectedIndex = 4; // default chord
     }
 }
 function getChordValues(id) {
