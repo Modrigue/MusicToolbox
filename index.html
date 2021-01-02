@@ -217,16 +217,19 @@
 
     <br>
     <div id='options_chord_explorer'>
-      <button id="play_found_chord">Play ♪</button>
-      <button id="play_found_arpeggio">Play arpeggio ♪</button>
+      <p class='align-left'>
+        <button id="play_found_chord">Play ♪</button>
+        <button id="play_found_arpeggio">Play arpeggio ♪</button>
+      </p>
 
-      <span style='float: right;'>
-
+      <p class='align-center'>
         <span id="chord_explorer_guitar_nb_strings_text">Nb. of strings:</span>
         <select name="chord_explorer_guitar_nb_strings" id="chord_explorer_guitar_nb_strings"></select>
         <span id="chord_explorer_guitar_tuning_text">Tuning:</span>
         <select name="chord_explorer_guitar_tuning" id="chord_explorer_guitar_tuning"></select>
+      </p>
 
+      <p class='align-right'>
         <input type="checkbox" id="checkboxBarres" name="checkboxBarres" checked>
         <label class="input-label" id="checkboxBarresLabel" for="checkboxBarres">Barres</label>
 
@@ -241,7 +244,7 @@
           <option value=0 id="chord_explorer_nb_strings_max_option_min">Min</option>
         </select>
         <span id="chord_explorer_nb_strings_max_text">strings played</span>
-      </span>
+      </p>
     </div>
 
     <br>

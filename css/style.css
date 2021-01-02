@@ -296,12 +296,22 @@ p
     white-space: normal;
 }
 
-.align-left
+/* from https://stackoverflow.com/questions/13694062/css-left-center-right-align-text-on-same-line */
+
+#options_chord_explorer
 {
-    float:left;
+    display: flex;
 }
 
-.align-right
-{
-    float:right;
+.align-left {
+    flex: 1;
+    text-align: left;
+}
+.align-center {
+    flex: 1;
+    text-align: center;
+}
+.align-right {
+    flex: 1;
+    text-align: right;
 }
