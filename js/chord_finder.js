@@ -108,8 +108,11 @@ function findChordsFromScaleScalesHTML(noteValue, scaleValues) {
                 url += "?note=" + noteValue.toString();
                 url += "&chord=" + chordId;
                 url += "&lang=" + culture;
-                if (pageSelected == "page_scale_explorer")
+                if (pageSelected == "page_scale_explorer") {
+                    const nbStrings = Math.max(getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings"), nbNotes);
+                    url += "&guitar_nb_strings=" + nbStrings;
                     url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
+                }
                 const callbackString = `openNewTab(\"${url}\")`;
                 button.setAttribute("onClick", callbackString);
                 foundChordsNbNotesHTML += `${button.outerHTML}\r\n`;
