@@ -484,7 +484,7 @@ function getSelectedChordExplorerNotes(): Array<number>
     {
         const chordExplorerNoteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${i}`);
         const value = parseInt(chordExplorerNoteSelector.value);
-        if (value >= 0 && noteValues.indexOf(value) < 0)
+        if (value >= 0 && noteValues.indexOf(value) < 0 && !chordExplorerNoteSelector.disabled)
             noteValues.push(value);
     }
 
@@ -621,9 +621,10 @@ function updateGeneratedChordsOnFretboard(showBarres = true)
 }
 
 // disable incoherent number of strings options
-function updateNbStringsSelector()
+function updateNbStringsForChordSelector()
 {
     let nbNotesInChord = -1;
+    const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
 
     let selectedMode = getSelectedChordGeneratorMode();
     if (selectedMode == "name")
@@ -639,10 +640,21 @@ function updateNbStringsSelector()
     }
     
     // enable values given nb. of notes
-    for (let i = 2; i <= 6; i++)
+    let setDefaultValue: boolean = false;
+    for (let i = 2; i <= 7; i++)
     {
         let option: HTMLOptionElement = <HTMLOptionElement>document.getElementById(`chord_explorer_nb_strings_max_option_${i}`);
-        option.disabled = (i < nbNotesInChord);        
+        option.disabled = (i < nbNotesInChord) || (i > nbStrings);
+
+        if (option.selected && option.disabled) // incoherent
+            setDefaultValue = true;
+    }
+
+    // set default value if needed
+    if (setDefaultValue)
+    {
+        let option: HTMLOptionElement = <HTMLOptionElement>document.getElementById('chord_explorer_nb_strings_max_option_max');
+        option.selected = true;
     }
 }
 

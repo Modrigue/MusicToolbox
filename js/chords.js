@@ -110,7 +110,7 @@ chordsDicts.set(5, chords5Dict);
 chordsDicts.set(6, chords6Dict);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 function initChordSelector(id, defaultChordId = "-1", firstChordEmpty = false) {
-    // get chord selecor
+    // get chord selector
     const chordSelect = document.getElementById(id);
     const initialized = (chordSelect.options != null && chordSelect.options.length > 0);
     if (initialized) // nop if already initialized
@@ -128,6 +128,8 @@ function initChordSelector(id, defaultChordId = "-1", firstChordEmpty = false) {
             option.selected = true;
         chordSelect.appendChild(option);
     }
+    // disable chords options given selected nb. of strings
+    const nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     // init
     for (const [nbNotesInChord, chordsDict] of chordsDicts) {
         // add header
@@ -142,7 +144,8 @@ function initChordSelector(id, defaultChordId = "-1", firstChordEmpty = false) {
             let option = document.createElement('option');
             option.value = key;
             option.innerHTML = getAltChordNotation(key);
-            if (key == defaultChordId)
+            option.disabled = (nbNotesInChord > nbStrings);
+            if (key == defaultChordId && !option.disabled)
                 option.selected = true;
             chordSelect.appendChild(option);
         }
@@ -155,6 +158,25 @@ function initChordSelector(id, defaultChordId = "-1", firstChordEmpty = false) {
             separator.disabled = true;
             chordSelect.appendChild(separator);
         }
+    }
+}
+function updateChordSelectorGivenNbStrings(id) {
+    // get chord selector
+    const chordSelect = document.getElementById(id);
+    const initialized = (chordSelect.options != null && chordSelect.options.length > 0);
+    if (!initialized) // nop if not initialized
+        return;
+    // disable chords options given selected nb. of strings
+    const nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
+    for (let option of chordSelect.options) {
+        const id = option.value;
+        const chordValues = getChordValues(id);
+        const nbNotesInChord = chordValues.length;
+        if (nbNotesInChord == 0)
+            continue;
+        option.disabled = (nbNotesInChord > nbStrings);
+        if (option.selected && option.disabled)
+            chordSelect.selectedIndex = 4; // default chord
     }
 }
 function getChordValues(id) {

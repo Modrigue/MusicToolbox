@@ -113,8 +113,6 @@ function initGuitarNbStringsSelector(id, minNbStrings = 4, maxNbStrings = 7, def
     }
 }
 function getSelectedGuitarNbStrings(id) {
-    if (id.startsWith('chord_explorer'))
-        return 6;
     const nbStringsSelect = document.getElementById(id);
     let nbStrings = parseInt(nbStringsSelect.value);
     return nbStrings;

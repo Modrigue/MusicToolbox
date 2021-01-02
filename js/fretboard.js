@@ -20,8 +20,7 @@ function getCaseNoteValue(tuningValues, i, j) {
     return ((tuningValues[i - 1] + j) % 12);
 }
 // <i> has offset 1
-function displayNoteOnFretboard(id, i, j, text, color, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0) {
-    const nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
+function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0) {
     let canvas = document.getElementById(id);
     if (canvas.getContext) {
         let ctx = canvas.getContext("2d");
@@ -79,7 +78,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName) {
     const nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
     let canvas = document.getElementById("canvas_guitar");
     if (canvas.getContext) {
-        canvas.height = 8 + yFretStep * nbStrings;
+        canvas.height = getCanvasHeight(nbStrings);
         let ctx = canvas.getContext("2d");
         ctx.strokeStyle = colorFretsStrings;
         // clear
@@ -143,7 +142,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName) {
             const indexNote = scaleNotesValues.indexOf(currentNoteValue);
             if (charIntervals.indexOf(indexNote) >= 0)
                 colorNote = colorNoteChar; // characteristic note
-            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote);
+            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings);
         }
     }
     // update save callback
@@ -185,6 +184,7 @@ function saveFretboardImage(noteValue, scaleName) {
 }
 /////////////////////////////////// CHORDS ////////////////////////////////////
 function initChordsFretboardHTML(noteFondamental, chordSelected, freeNotesSelected, nbPositions) {
+    const nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     let chordsFretboardHTML = "";
     for (let i = 0; i < nbPositions; i++) {
         if (i > 0)
@@ -194,7 +194,7 @@ function initChordsFretboardHTML(noteFondamental, chordSelected, freeNotesSelect
         canvas.id = idText;
         //canvas.className = "canvas_generated_chords_fretboard";
         canvas.width = xFretMargin + 5 * xFretChordStep;
-        canvas.height = 200 + yFretMarginChordBottom;
+        canvas.height = getCanvasHeight(nbStrings) + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
         canvas.setAttribute("onclick", `saveFretboardChordImage(\"${idText}\", ${noteFondamental},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`);
         //chordsFretboardHTML += `${canvas.outerHTML}\r\n`;
@@ -203,7 +203,7 @@ function initChordsFretboardHTML(noteFondamental, chordSelected, freeNotesSelect
     return chordsFretboardHTML;
 }
 function updateChordFretboard(positionsArray, showBarres = true) {
-    const nbStrings = 6; //getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
+    const nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     const tuningValues = getSelectedGuitarTuningValue("chord_explorer_guitar_tuning");
     const nbPositions = positionsArray.length;
     for (let index = 0; index < nbPositions; index++) {
@@ -238,10 +238,9 @@ function updateChordFretboard(positionsArray, showBarres = true) {
                 ctx.closePath();
             }
             // horizontal lines (strings)
-            let yStep = (canvas.height - yFretMarginChordBottom - 2 * yFretMargin) / (nbStrings - 1);
             let yFretLast = 0;
             for (let i = 0; i < nbStrings; i++) {
-                let y = yFretMargin + i * yStep;
+                let y = yFretMargin + i * yFretStep;
                 ctx.beginPath();
                 ctx.strokeStyle = colorFretsStrings;
                 ctx.moveTo(xFretMargin, y);
@@ -313,7 +312,7 @@ function updateChordFretboard(positionsArray, showBarres = true) {
             let colorNote = colorNoteNormal;
             if (currentNoteValue == noteFondamental)
                 colorNote = colorNoteTonic;
-            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote, xFretChordStep, yFretMarginChordBottom, startFret);
+            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote, nbStrings, xFretChordStep, yFretMarginChordBottom, startFret);
         }
     }
 }
@@ -377,5 +376,8 @@ function saveFretboardChordImage(id, noteValue, chordId, freeNotesStr) {
     };
     xhr.open('GET', canvasImage); // This is to download the canvas Image
     xhr.send();
+}
+function getCanvasHeight(nbStrings = 6) {
+    return 8 + yFretStep * nbStrings;
 }
 //# sourceMappingURL=fretboard.js.map

@@ -24,10 +24,8 @@ function getCaseNoteValue(tuningValues: Array<number>, i: number, j: number): nu
 }
 
 // <i> has offset 1
-function displayNoteOnFretboard(id: string, i: number, j: number, text: string, color: string, xFretStep: number = xFretScaleStep, marginBottom: number = 0, startFret: number = 0): void
+function displayNoteOnFretboard(id: string, i: number, j: number, text: string, color: string, nbStrings: number, xFretStep: number = xFretScaleStep, marginBottom: number = 0, startFret: number = 0): void
 {
-    const nbStrings: number = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
-
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id);
     if (canvas.getContext) 
     {
@@ -101,7 +99,7 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas_guitar");
     if (canvas.getContext) 
     {
-        canvas.height = 8 + yFretStep*nbStrings;
+        canvas.height = getCanvasHeight(nbStrings);
 
         let ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
         ctx.strokeStyle = colorFretsStrings;
@@ -188,7 +186,7 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
             if (charIntervals.indexOf(indexNote) >= 0)
                 colorNote = colorNoteChar; // characteristic note
 
-            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote);
+            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings);
         }
     }
 
@@ -244,6 +242,7 @@ function saveFretboardImage(noteValue: number, scaleName: string)
 
 function initChordsFretboardHTML(noteFondamental: number, chordSelected: string, freeNotesSelected: Array<number>, nbPositions: number): string
 {
+    const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     let chordsFretboardHTML = "";
 
     for (let i = 0; i < nbPositions; i++)
@@ -256,7 +255,7 @@ function initChordsFretboardHTML(noteFondamental: number, chordSelected: string,
         canvas.id = idText;
         //canvas.className = "canvas_generated_chords_fretboard";
         canvas.width = xFretMargin + 5*xFretChordStep;
-        canvas.height = 200 + yFretMarginChordBottom;
+        canvas.height = getCanvasHeight(nbStrings) + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
         canvas.setAttribute("onclick", `saveFretboardChordImage(\"${idText}\", ${noteFondamental},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`);
 
@@ -269,7 +268,7 @@ function initChordsFretboardHTML(noteFondamental: number, chordSelected: string,
 
 function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres = true)
 {
-    const nbStrings: number = 6; //getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
+    const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     const tuningValues: Array<number> = getSelectedGuitarTuningValue("chord_explorer_guitar_tuning");
 
     const nbPositions = positionsArray.length;
@@ -316,11 +315,10 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
             }
 
             // horizontal lines (strings)
-            let yStep = (canvas.height - yFretMarginChordBottom - 2 * yFretMargin) / (nbStrings - 1);
             let yFretLast = 0;
             for (let i = 0; i < nbStrings; i++) 
             {
-                let y = yFretMargin + i*yStep;
+                let y = yFretMargin + i*yFretStep;
 
                 ctx.beginPath();
                 ctx.strokeStyle = colorFretsStrings;
@@ -414,7 +412,7 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
             if (currentNoteValue == noteFondamental)
                 colorNote = colorNoteTonic;
 
-            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote, xFretChordStep, yFretMarginChordBottom, startFret);
+            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote, nbStrings, xFretChordStep, yFretMarginChordBottom, startFret);
         }
     }
 }
@@ -495,4 +493,9 @@ function saveFretboardChordImage(id: string, noteValue: number, chordId: string,
 
     xhr.open('GET', canvasImage); // This is to download the canvas Image
     xhr.send();
+}
+
+function getCanvasHeight(nbStrings: number = 6): number
+{
+    return 8 + yFretStep*nbStrings;
 }

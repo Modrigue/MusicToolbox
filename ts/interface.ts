@@ -50,7 +50,7 @@ window.onload = function()
         const id: string = i.toString();
         (<HTMLSelectElement>document.getElementById(`chord_explorer_note${id}`)).addEventListener("change", update);
     }
-    //(<HTMLSelectElement>document.getElementById("chord_explorer_guitar_nb_strings")).addEventListener("change", () => onNbStringsChanged('chords_explorer'));
+    (<HTMLSelectElement>document.getElementById("chord_explorer_guitar_nb_strings")).addEventListener("change", () => onNbStringsChanged('chord_explorer'));
     (<HTMLSelectElement>document.getElementById("chord_explorer_guitar_tuning")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("checkboxBarres")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("chord_explorer_nb_strings_max")).addEventListener("change", update);
@@ -93,9 +93,9 @@ function updateSelectors(): void
     // update chord explorer selectors
     updateNoteSelector('note_explorer_chord', 3, false);
     initChordSelector('chord_explorer_chord', "M", false);
-    //initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
+    initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');
-    updateNbStringsSelector();
+    updateNbStringsForChordSelector();
     for (let i = 1; i <= 6; i++)
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
 }
@@ -171,18 +171,8 @@ function onNbStringsChanged(id: string): void
     let nbStrings: number = -1;
 
     // update corresponding guitar tuning selector
-    switch(id)
-    {
-        case 'scale_explorer':
-            nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
-            updateGuitarTuningGivenNbStrings('scale_explorer_guitar_tuning', nbStrings);
-            break;
-
-        case 'chord_explorer':
-            nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
-            updateGuitarTuningGivenNbStrings('chord_explorer_guitar_tuning', nbStrings);
-            break;
-    }
+    nbStrings = getSelectedGuitarNbStrings(`${id}_guitar_nb_strings`);
+    updateGuitarTuningGivenNbStrings(`${id}_guitar_tuning`, nbStrings);
 
     update();
 }
@@ -279,7 +269,8 @@ function update(): void
             const checkboxBarres: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxBarres");
             
             updateChordGeneratorMode();
-            updateNbStringsSelector();
+            updateChordSelectorGivenNbStrings('chord_explorer_chord');
+            updateNbStringsForChordSelector();
             updateFoundChordElements();
             updateGeneratedChordsOnFretboard(checkboxBarres.checked);
 
@@ -329,6 +320,9 @@ function updateChordGeneratorMode(): void
     // get selected mode
     let selectedMode: string = getSelectedChordGeneratorMode();
     const nameMode: boolean = (selectedMode == "name");
+
+    // get select nb. of strings
+    const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     
     // name mode
     setEnabled("note_explorer_chord", nameMode);
@@ -340,7 +334,17 @@ function updateChordGeneratorMode(): void
     // notes mode
     setVisible("chord_explorer_found_chords_texts", !nameMode);
     for (let i = 1; i <= 6; i++)
-        setEnabled(`chord_explorer_note${i}`, !nameMode);
+    {
+        const enableSelector: boolean = !nameMode && (i <= nbStrings);
+        setEnabled(`chord_explorer_note${i}`, enableSelector);
+
+        // if note index exceeds nb. of strings, reset note
+        if (i > nbStrings)
+        {
+            let noteSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${i}`);
+            noteSelect.selectedIndex = 0;
+        }
+    }
 }
 
 function resetScaleFinder(): void
@@ -400,7 +404,7 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("radioChordExplorerNotesLabel")).innerText = getString("notes");
     (<HTMLButtonElement>document.getElementById("play_found_chord")).innerText = `${getString("play")} ♪`;
     (<HTMLButtonElement>document.getElementById("play_found_arpeggio")).innerText = `${getString("play_arpeggio")} ♪`;
-    //(<HTMLSpanElement>document.getElementById("chord_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
+    (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_tuning_text")).innerText = getString("tuning");
     (<HTMLSpanElement>document.getElementById("chord_explorer_nb_strings_max_text")).innerText = getString("chord_explorer_nb_strings_max_text");
     

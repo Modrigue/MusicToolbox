@@ -117,9 +117,9 @@ chordsDicts.set(6, chords6Dict);
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 
-function initChordSelector(id: string, defaultChordId: string = "-1", firstChordEmpty: boolean = false)
+function initChordSelector(id: string, defaultChordId: string = "-1", firstChordEmpty: boolean = false): void
 {
-    // get chord selecor
+    // get chord selector
     const chordSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const initialized = (chordSelect.options != null && chordSelect.options.length > 0);
     if (initialized) // nop if already initialized
@@ -127,7 +127,6 @@ function initChordSelector(id: string, defaultChordId: string = "-1", firstChord
 
     // get chord parameter if existing
     const chordParamValue = parseParameterById("chord");
-
     if (chordParamValue != "")
         defaultChordId = chordParamValue;
 
@@ -141,6 +140,9 @@ function initChordSelector(id: string, defaultChordId: string = "-1", firstChord
             option.selected = true;
         chordSelect.appendChild(option);
     }
+
+    // disable chords options given selected nb. of strings
+    const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
 
     // init
     for (const [nbNotesInChord, chordsDict] of chordsDicts)
@@ -159,7 +161,8 @@ function initChordSelector(id: string, defaultChordId: string = "-1", firstChord
             let option = document.createElement('option');
             option.value = key;
             option.innerHTML = getAltChordNotation(key);
-            if (key == defaultChordId)
+            option.disabled = (nbNotesInChord > nbStrings);
+            if (key == defaultChordId && !option.disabled)
                 option.selected = true;
             chordSelect.appendChild(option);
         }
@@ -173,6 +176,31 @@ function initChordSelector(id: string, defaultChordId: string = "-1", firstChord
             separator.disabled = true;
             chordSelect.appendChild(separator);
         }
+    }
+}
+
+function updateChordSelectorGivenNbStrings(id: string): void
+{
+    // get chord selector
+    const chordSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    const initialized = (chordSelect.options != null && chordSelect.options.length > 0);
+    if (!initialized) // nop if not initialized
+        return;
+
+    // disable chords options given selected nb. of strings
+    const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
+
+    for (let option of chordSelect.options)
+    {
+        const id = option.value;
+        const chordValues: Array<number> = getChordValues(id);
+        const nbNotesInChord: number = chordValues.length;
+        if (nbNotesInChord == 0)
+            continue;
+
+        option.disabled = (nbNotesInChord > nbStrings);
+        if (option.selected && option.disabled)
+            chordSelect.selectedIndex = 4; // default chord
     }
 }
 
