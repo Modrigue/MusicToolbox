@@ -3,6 +3,7 @@
 // chords with 2 notes
 const chords2Dict = new Map();
 chords2Dict.set("5", [0, 7]);
+chords2Dict.set("b5", [0, 6]);
 // chords with 3 notes
 const chords3Dict = new Map();
 chords3Dict.set("M", [0, 4, 7]);
@@ -12,7 +13,9 @@ chords3Dict.set("aug", [0, 4, 8]);
 chords3Dict.set("flat5", [0, 4, 6]);
 chords3Dict.set("sus2", [0, 2, 7]);
 chords3Dict.set("sus2flat5", [0, 2, 6]);
+chords3Dict.set("sus2sharp5", [0, 2, 8]);
 chords3Dict.set("sus4", [0, 5, 7]);
+chords3Dict.set("sus4flat5", [0, 5, 6]);
 chords3Dict.set("sus4sharp5", [0, 5, 8]);
 chords3Dict.set("msharp5", [0, 3, 8]);
 chords3Dict.set("6M(no5)", [0, 4, 9]);
@@ -25,6 +28,7 @@ chords3Dict.set("sus2add4(no5)", [0, 2, 5]);
 chords3Dict.set("phryg", [0, 1, 7]); // phrygian
 chords3Dict.set("lyd", [0, 6, 7]); // lydian
 chords3Dict.set("loc", [0, 5, 6]); // locrian
+chords3Dict.set("It+6", [0, 4, 10]);
 // chords with 4 notes
 const chords4Dict = new Map();
 chords4Dict.set("add9", [0, 4, 7, 14]);
@@ -176,7 +180,7 @@ function updateChordSelectorGivenNbStrings(id) {
             continue;
         option.disabled = (nbNotesInChord > nbStrings);
         if (option.selected && option.disabled)
-            chordSelect.selectedIndex = 4; // default chord
+            chordSelect.selectedIndex = 5; // default chord
     }
 }
 function getChordValues(id) {
