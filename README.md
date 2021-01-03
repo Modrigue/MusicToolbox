@@ -6,7 +6,8 @@ Easy to use online music scale and chords generator, finder and player.
 * Scale finder,
 * Chord explorer and finder,
 * Possibility to hear scales and chords,
-* Scales and chords visualization on guitar and keyboard.
+* Scales and chords visualization on guitar and keyboard,
+* Adjustable guitar nb. of strings and tuning.
 
 [Try it here](http://ngourier.free.fr/musiccompanion/)
 
