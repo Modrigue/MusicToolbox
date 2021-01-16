@@ -33,10 +33,11 @@ scaleFamiliesDict.set("6tritone_semi", [0, 1, 2, 6, 7, 8]);
 scaleFamiliesDict.set("6istrian",      [0, 1, 3, 4, 6, 7]);
 
 // 5 notes
-scaleFamiliesDict.set("5major_penta", [0, 2, 4, 7, 9]);
-scaleFamiliesDict.set("5javanese",    [0, 4, 5, 7, 11]);
-scaleFamiliesDict.set("5jap_in",      [0, 1, 5, 7, 8]);
-scaleFamiliesDict.set("5jap_insen",   [0, 1, 5, 7, 10]);
+scaleFamiliesDict.set("5major_penta",  [0, 2, 4, 7, 9]);
+scaleFamiliesDict.set("5javanese",     [0, 4, 5, 7, 11]);
+scaleFamiliesDict.set("5jap_in",       [0, 1, 5, 7, 8]);
+scaleFamiliesDict.set("5jap_insen",    [0, 1, 5, 7, 10]);
+scaleFamiliesDict.set("5bartok_penta", [0, 3, 6, 7, 10]);
 
 
 //////////////////////////////////// STRINGS //////////////////////////////////
@@ -152,6 +153,8 @@ scalesDict_int.set("5jap_insen,5", "Kumoi (5th mode)");
 scalesDict_int.set("5jap_insen,sep", "");
 scalesDict_int.set("5javanese,1", "Javanese");
 scalesDict_int.set("5javanese,2", "Balinese / Pelog (2nd mode)");
+scalesDict_int.set("5javanese_sep", "");
+scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonic Bartok");
 
 // french
 
@@ -253,6 +256,8 @@ scalesDict_fr.set("5jap_insen,5", "Kumoi (5e mode)");
 
 scalesDict_fr.set("5javanese,1", "Javanais");
 scalesDict_fr.set("5javanese,2", "Balinais / Pelog (2e mode)");
+
+scalesDict_fr.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonique Bartok");
 
 
 // global dictionary
