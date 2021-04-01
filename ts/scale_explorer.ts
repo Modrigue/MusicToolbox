@@ -195,7 +195,7 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
   notesScaleRowHTML += "</div>";
 
   // build intervals list
-  let intervalsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
+  let intervalsScaleRowHTML = /*html*/`<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">`;
   scaleValues.forEach(function (intervalValue, index)
   {
     const intervalName: string = <string>intervalsDict.get(intervalValue);
@@ -205,9 +205,9 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
     let classString = "table-body-cell";
     if (index == 0)
       classString = "table-body-cell-tonic";
-    else if (charIntervals != null && charIntervals.indexOf(index) > 0)
+    else if (charIntervals != null && charIntervals.indexOf(index) >= 0)
       classString = "table-body-cell-char";
-
+    
     // display alternate notation if 7-notes cale
     const intervalString = (nbNotesInScale == 7) ?
       getIntervalString(intervalName, intervalNameAlt) : intervalName;
