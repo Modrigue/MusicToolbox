@@ -284,7 +284,8 @@ function getAltChordNotation(chordId: string): string
 ////////////////////////////////// ARPEGGIOS //////////////////////////////////
 
 
-function getArpeggioNotes(noteFondamental: number, chordValues: Array<number>, noteTonic: number = -1): string
+function getArpeggioNotes(noteFondamental: number, chordValues: Array<number>,
+    noteTonic: number = -1, charNotesValues: Array<number> = []): string
 {
     let arpeggioNotesStr = "";
     chordValues.forEach(function (intervalValue)
@@ -296,6 +297,8 @@ function getArpeggioNotes(noteFondamental: number, chordValues: Array<number>, n
       noteSpan.textContent = noteName;
       if (noteTonic >= 0 && newNoteValue == noteTonic)
         noteSpan.classList.add("span-tonic");
+      else if (charNotesValues.length > 0 && charNotesValues.indexOf(newNoteValue) >= 0)
+        noteSpan.classList.add("span-char");
 
       arpeggioNotesStr += noteSpan.outerHTML;
       arpeggioNotesStr += `, `;

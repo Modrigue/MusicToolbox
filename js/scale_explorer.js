@@ -179,7 +179,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     notesScaleTablesHTML += "</div>";
     return notesScaleTablesHTML;
 }
-function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords) {
+function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNotesInChords) {
     let chordValuesArray = new Array();
     const chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
     const culture = getSelectedCulture();
@@ -193,7 +193,13 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords) {
         const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
         chordValuesArray.push(chordValues);
     });
+    // get tonic and charcteristic notes values
     const tonicValue = scaleNotesValues[0];
+    const charNotesValues = new Array();
+    for (const index of charIntervals) {
+        const charNoteValue = scaleNotesValues[index];
+        charNotesValues.push(charNoteValue);
+    }
     // chords
     let chordsRowHTML = "<div class=\"resp-table-row\">";
     chordValuesArray.forEach(function (chordValues, index) {
@@ -231,7 +237,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords) {
         const noteFondamental = scaleNotesValues[index];
         const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},0.25)`;
         arpeggiosNotesRowHTML += /*html*/ `<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
-        arpeggiosNotesRowHTML += getArpeggioNotes(noteFondamental, chordValues, tonicValue);
+        arpeggiosNotesRowHTML += getArpeggioNotes(noteFondamental, chordValues, tonicValue, charNotesValues);
         arpeggiosNotesRowHTML += "</div>";
     });
     arpeggiosNotesRowHTML += "</div>";

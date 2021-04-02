@@ -236,7 +236,7 @@ function getAltChordNotation(chordId) {
     return notation;
 }
 ////////////////////////////////// ARPEGGIOS //////////////////////////////////
-function getArpeggioNotes(noteFondamental, chordValues, noteTonic = -1) {
+function getArpeggioNotes(noteFondamental, chordValues, noteTonic = -1, charNotesValues = []) {
     let arpeggioNotesStr = "";
     chordValues.forEach(function (intervalValue) {
         const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
@@ -245,6 +245,8 @@ function getArpeggioNotes(noteFondamental, chordValues, noteTonic = -1) {
         noteSpan.textContent = noteName;
         if (noteTonic >= 0 && newNoteValue == noteTonic)
             noteSpan.classList.add("span-tonic");
+        else if (charNotesValues.length > 0 && charNotesValues.indexOf(newNoteValue) >= 0)
+            noteSpan.classList.add("span-char");
         arpeggioNotesStr += noteSpan.outerHTML;
         arpeggioNotesStr += `, `;
     });

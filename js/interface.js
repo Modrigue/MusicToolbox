@@ -144,8 +144,8 @@ function update() {
     // build chords 3,4 notes harmonization tables
     const showChords3 = (nbNotesInScale >= 6);
     const showChords4 = (nbNotesInScale >= 7);
-    document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, 3) : "";
-    document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, 4) : "";
+    document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3) : "";
+    document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4) : "";
     const scaleName = getSelectorText("scale");
     // checkboxes
     //setEnabled("checkboxChords3", showChords3);

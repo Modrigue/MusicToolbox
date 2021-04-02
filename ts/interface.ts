@@ -198,8 +198,8 @@ function update(): void
     // build chords 3,4 notes harmonization tables
     const showChords3 = (nbNotesInScale >= 6);
     const showChords4 = (nbNotesInScale >= 7);
-    (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, 3) : "";
-    (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, 4) : "";
+    (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3) : "";
+    (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4) : "";
 
     const scaleName: string = getSelectorText("scale");
 
