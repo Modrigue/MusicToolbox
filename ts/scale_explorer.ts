@@ -292,6 +292,8 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     let classString = "table-body-cell-interactive";
     if (index == 0)
       classString = "table-body-cell-tonic-interactive";
+    else if (isCharacteristicChord(noteValue, chordValues, charNotesValues))
+      classString = "table-body-cell-char-interactive";
 
     chordsRowHTML += /*html*/`<div class=${classString} onclick=${callbackString}>`;
     chordsRowHTML += chordNoteName;
@@ -306,10 +308,14 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     const chordName = getKeyFromArrayValue(chordsDict, chordValues);
     const romanChord = getRomanChord(index, chordName, nbNotesInChords);
 
+    const noteValue = scaleNotesValues[index];
+
     // highlight if tonic degree
     let classString = "table-body-cell";
     if (index == 0)
       classString = "table-body-cell-tonic";
+    else if (isCharacteristicChord(noteValue, chordValues, charNotesValues))
+      classString = "table-body-cell-char-interactive";
 
     chordsRomanRowHTML += /*html*/`<div class=${classString}>`;
     chordsRomanRowHTML += romanChord;

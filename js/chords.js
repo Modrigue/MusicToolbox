@@ -264,6 +264,15 @@ function getArpeggioIntervals(chordValues) {
     arpeggioIntervalsStr = arpeggioIntervalsStr.slice(0, -2);
     return arpeggioIntervalsStr;
 }
+function isCharacteristicChord(noteFondamental, chordValues, charNotesValues = []) {
+    let isCharacteristic = false;
+    chordValues.forEach(function (intervalValue) {
+        const noteValue = addToNoteValue(noteFondamental, intervalValue);
+        if (charNotesValues.length > 0 && charNotesValues.indexOf(noteValue) >= 0)
+            isCharacteristic = true;
+    });
+    return isCharacteristic;
+}
 function getChordDictionary(nbNotes) {
     let chordsDict = chords2Dict;
     switch (nbNotes) {

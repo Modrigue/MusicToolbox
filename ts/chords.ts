@@ -324,6 +324,22 @@ function getArpeggioIntervals(chordValues: Array<number>): string
     return arpeggioIntervalsStr;
 }
 
+function isCharacteristicChord(noteFondamental: number, chordValues: Array<number>,
+    charNotesValues: Array<number> = []): boolean
+{
+    let isCharacteristic = false;
+
+    chordValues.forEach(function (intervalValue)
+    {
+      const noteValue = addToNoteValue(noteFondamental, intervalValue);
+
+      if (charNotesValues.length > 0 && charNotesValues.indexOf(noteValue) >= 0)
+        isCharacteristic = true
+    });
+
+    return isCharacteristic;
+}
+
 function getChordDictionary(nbNotes: number): Map<string, Array<number>>
 {
     let chordsDict = chords2Dict;
