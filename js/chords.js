@@ -236,12 +236,17 @@ function getAltChordNotation(chordId) {
     return notation;
 }
 ////////////////////////////////// ARPEGGIOS //////////////////////////////////
-function getArpeggioNotes(noteFondamental, chordValues) {
+function getArpeggioNotes(noteFondamental, chordValues, noteTonic = -1) {
     let arpeggioNotesStr = "";
     chordValues.forEach(function (intervalValue) {
         const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
         const noteName = getNoteName(newNoteValue);
-        arpeggioNotesStr += `${noteName}, `;
+        const noteSpan = document.createElement("span");
+        noteSpan.textContent = noteName;
+        if (noteTonic >= 0 && newNoteValue == noteTonic)
+            noteSpan.classList.add("span-tonic");
+        arpeggioNotesStr += noteSpan.outerHTML;
+        arpeggioNotesStr += `, `;
     });
     arpeggioNotesStr = arpeggioNotesStr.slice(0, -2);
     return arpeggioNotesStr;

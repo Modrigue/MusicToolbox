@@ -127,7 +127,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     let notesScaleRowHTML = "<div class=\"resp-table-row\">";
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     scaleNotesValues.forEach(function (noteValue, index) {
-        // highlight if characteristic note
+        // highlight if tonic / characteristic note
         let classString = "table-body-cell-interactive";
         if (index == 0)
             classString = "table-body-cell-tonic-interactive";
@@ -143,7 +143,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     scaleValues.forEach(function (intervalValue, index) {
         const intervalName = intervalsDict.get(intervalValue);
         const intervalNameAlt = getAltIntervalNotation(intervalValue, index);
-        // highlight if characteristic interval
+        // highlight if tonic / characteristic interval
         let classString = "table-body-cell";
         if (index == 0)
             classString = "table-body-cell-tonic";
@@ -193,6 +193,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords) {
         const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
         chordValuesArray.push(chordValues);
     });
+    const tonicValue = scaleNotesValues[0];
     // chords
     let chordsRowHTML = "<div class=\"resp-table-row\">";
     chordValuesArray.forEach(function (chordValues, index) {
@@ -201,17 +202,25 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords) {
         const chordName = getKeyFromArrayValue(chordsDict, chordValues);
         const chordNoteName = getCompactChordNotation(noteName, chordName);
         const callbackString = `onPlayChordInScale(${nbNotesInChords},${index})`;
-        chordsRowHTML += `<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
+        // highlight if tonic note
+        let classString = "table-body-cell-interactive";
+        if (index == 0)
+            classString = "table-body-cell-tonic-interactive";
+        chordsRowHTML += /*html*/ `<div class=${classString} onclick=${callbackString}>`;
         chordsRowHTML += chordNoteName;
         chordsRowHTML += "</div>";
     });
     chordsRowHTML += "</div>";
-    // roman chord representation
+    // degree roman chord representation
     let chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
     chordValuesArray.forEach(function (chordValues, index) {
         const chordName = getKeyFromArrayValue(chordsDict, chordValues);
         const romanChord = getRomanChord(index, chordName, nbNotesInChords);
-        chordsRomanRowHTML += "<div class=\"table-body-cell\">";
+        // highlight if tonic degree
+        let classString = "table-body-cell";
+        if (index == 0)
+            classString = "table-body-cell-tonic";
+        chordsRomanRowHTML += /*html*/ `<div class=${classString}>`;
         chordsRomanRowHTML += romanChord;
         chordsRomanRowHTML += "</div>";
     });
@@ -221,16 +230,19 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, nbNotesInChords) {
     chordValuesArray.forEach(function (chordValues, index) {
         const noteFondamental = scaleNotesValues[index];
         const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},0.25)`;
-        arpeggiosNotesRowHTML += `<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
-        arpeggiosNotesRowHTML += getArpeggioNotes(noteFondamental, chordValues);
-        ;
+        arpeggiosNotesRowHTML += /*html*/ `<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
+        arpeggiosNotesRowHTML += getArpeggioNotes(noteFondamental, chordValues, tonicValue);
         arpeggiosNotesRowHTML += "</div>";
     });
     arpeggiosNotesRowHTML += "</div>";
     // arpeggios intervals
     let arpeggiosIntervalsRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
     chordValuesArray.forEach(function (chordValues, index) {
-        arpeggiosIntervalsRowHTML += "<div class=\"table-body-cell\">";
+        // highlight if tonic degree
+        let classString = "table-body-cell";
+        if (index == 0)
+            classString = "table-body-cell-tonic";
+        arpeggiosIntervalsRowHTML += /*html*/ `<div class=${classString}>`;
         arpeggiosIntervalsRowHTML += getArpeggioIntervals(chordValues);
         arpeggiosIntervalsRowHTML += "</div>";
     });

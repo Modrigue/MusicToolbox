@@ -188,7 +188,7 @@ canvas
     color: white;
 }
 
-.table-body-cell-tonic, .table-body-cell-tonic-interactive
+.table-body-cell-tonic, .table-body-cell-tonic-interactive, .span-tonic
 {
     color: firebrick;
 }
@@ -204,7 +204,7 @@ canvas
     color: white;
 }
 
-.table-body-cell-char, .table-body-cell-char-interactive
+.table-body-cell-char, .table-body-cell-char-interactive, .span-char
 {
     color: dodgerblue;
 }
