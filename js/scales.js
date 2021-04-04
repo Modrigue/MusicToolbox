@@ -92,7 +92,7 @@ scalesDict_int.set("7persian,4", "Todi theta (4th mode)");
 scalesDict_int.set("7persian,sep", "");
 scalesDict_int.set("7major_hung,1", "Hungarian major");
 scalesDict_int.set("7verdi_enigm,1", "Verdi's Enigmatica");
-scalesDict_int.set("7theta_purvi,1", "Purvi theta");
+scalesDict_int.set("7theta_purvi,1", "Purvi theta / Kamavardhani");
 scalesDict_int.set("7others,sep", "");
 scalesDict_int.set("8notes", "------------------------ 8 NOTES ------------------------");
 scalesDict_int.set("8bebop_dom,1,diff:7major_nat;1", "Bebop dominant");
