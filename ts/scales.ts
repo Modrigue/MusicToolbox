@@ -96,7 +96,7 @@ scalesDict_int.set("7major_neap,sep", "");
 scalesDict_int.set("7minor_neap,1", "Neapolitan minor");
 scalesDict_int.set("7minor_neap,4", "Hungarian gypsy (4th mode)");
 scalesDict_int.set("7minor_neap,sep", "");
-scalesDict_int.set("7persian,1", "Persian");
+scalesDict_int.set("7persian,1,diff:7major_2harm;1", "Persian");
 scalesDict_int.set("7persian,4", "Todi theta (4th mode)");
 scalesDict_int.set("7persian,sep", "");
 scalesDict_int.set("7major_hung,1", "Hungarian major");
@@ -208,7 +208,7 @@ scalesDict_fr.set("7major_neap,5,diff:7major_nat;7", "Arabe / Locrien majeur (5e
 scalesDict_fr.set("7minor_neap,1", "Napolitain mineur");
 scalesDict_fr.set("7minor_neap,4", "Hongrois gitan (4e mode)");
 
-scalesDict_fr.set("7persian,1", "Persan");
+scalesDict_fr.set("7persian,1,diff:7major_2harm;1", "Persan");
 scalesDict_fr.set("7persian,4", "Todi theta (4e mode)");
 
 scalesDict_fr.set("7major_hung,1", "Hongrois majeur");
