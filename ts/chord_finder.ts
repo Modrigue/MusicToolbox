@@ -151,6 +151,7 @@ function findChordsFromScaleScalesHTML(noteValue: number, scaleValues: Array<num
                 // build button
                 let button = document.createElement('button');
                 button.innerText = chordNoteName;
+                button.classList.add("border-left-radius");
 
                 // build URL
                 let url = window.location.pathname;
@@ -173,6 +174,7 @@ function findChordsFromScaleScalesHTML(noteValue: number, scaleValues: Array<num
 
                 let buttonPlay = document.createElement('button');
                 buttonPlay.innerText = "♪";
+                buttonPlay.classList.add("border-right-radius");
 
                 const tonicValue = noteValues[0];
                 if (noteValue < tonicValue)

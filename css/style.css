@@ -64,6 +64,20 @@ button[disabled]
   cursor: default;
 }
 
+.border-left-radius
+{
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.border-right-radius
+{
+    border-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 /* handles spacing between buttons */
 .is-grouped {   
     display: inline-block;
