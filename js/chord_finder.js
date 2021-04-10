@@ -96,7 +96,7 @@ function findChordsFromScaleScalesHTML(noteValue, scaleValues) {
             foundChordsNbNotesHTML = getString("no_result");
         else {
             for (let noteChord of foundChordsNbNotes) {
-                const noteValue = noteChord[0];
+                let noteValue = noteChord[0];
                 const chordId = noteChord[1];
                 const noteName = getNoteName(noteValue);
                 const chordNoteName = getCompactChordNotation(noteName, chordId);
@@ -115,7 +115,16 @@ function findChordsFromScaleScalesHTML(noteValue, scaleValues) {
                 }
                 const callbackString = `openNewTab(\"${url}\")`;
                 button.setAttribute("onClick", callbackString);
-                foundChordsNbNotesHTML += `${button.outerHTML}\r\n`;
+                foundChordsNbNotesHTML += `${button.outerHTML}`;
+                // build play button
+                let buttonPlay = document.createElement('button');
+                buttonPlay.innerText = "♪";
+                const tonicValue = noteValues[0];
+                if (noteValue < tonicValue)
+                    noteValue += 12;
+                const chordValues = getChordValues(chordId);
+                buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
+                foundChordsNbNotesHTML += `${buttonPlay.outerHTML}\r\n`;
             }
         }
         paragraph.innerHTML += foundChordsNbNotesHTML;
