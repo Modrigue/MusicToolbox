@@ -218,7 +218,7 @@ canvas
     color: white;
 }
 
-.table-body-cell-char, .table-body-cell-char-interactive, .span-char
+.table-body-cell-char, .table-body-cell-char-interactive, .button-char-interactive, .span-char
 {
     color: dodgerblue;
 }
@@ -228,7 +228,7 @@ canvas
     cursor: pointer;
 }
 
-.table-body-cell-char-interactive:hover
+.table-body-cell-char-interactive:hover, .button-char-interactive:hover
 {
     background-color: dodgerblue;
     color: white;

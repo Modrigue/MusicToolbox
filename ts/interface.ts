@@ -251,7 +251,7 @@ function update(): void
         case "page_scale_explorer":
             foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
             negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues);
-            foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues);
+            foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
             setVisible('found_scales', true);
             setVisible('negative_scale', true);
             setVisible("section_found_chords_from_scale", true);

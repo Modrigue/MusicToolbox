@@ -76,7 +76,7 @@ function getIntervalsWithOctave(intervalsValues, intervalsValuesArray, intervalI
     }
 }
 //////////////////////////////// CHORDS IN SCALE //////////////////////////////
-function findChordsFromScaleScalesHTML(tonicValue, scaleValues) {
+function findChordsFromScaleScalesHTML(tonicValue, scaleValues, charIntervals = []) {
     let foundChordsHTML = "<br>";
     const nbNotesMax = 6;
     let noteValues = [];
@@ -84,6 +84,12 @@ function findChordsFromScaleScalesHTML(tonicValue, scaleValues) {
     // compute scale note values
     for (let intervalValue of scaleValues)
         noteValues.push((tonicValue + intervalValue) % 12);
+    // compute characteristic note values
+    const charNotesValues = new Array();
+    for (const index of charIntervals) {
+        const charNoteValue = noteValues[index];
+        charNotesValues.push(charNoteValue);
+    }
     // find all chords
     const foundChordsDict = findChordInScales(noteValues, nbNotesMax);
     // build buttons
@@ -98,7 +104,9 @@ function findChordsFromScaleScalesHTML(tonicValue, scaleValues) {
             for (let noteChord of foundChordsNbNotes) {
                 let noteValue = noteChord[0];
                 const chordId = noteChord[1];
+                const chordValues = getChordValues(chordId);
                 const isTonic = (noteValue % 12 == tonicValue % 12);
+                const isCharacteristic = isCharacteristicChord(noteValue, chordValues, charNotesValues);
                 const noteName = getNoteName(noteValue);
                 const chordNoteName = getCompactChordNotation(noteName, chordId);
                 // build button
@@ -107,6 +115,8 @@ function findChordsFromScaleScalesHTML(tonicValue, scaleValues) {
                 button.classList.add("border-left-radius");
                 if (isTonic)
                     button.classList.add("button-tonic-interactive");
+                else if (isCharacteristic)
+                    button.classList.add("button-char-interactive");
                 // build URL
                 let url = window.location.pathname;
                 url += "?note=" + noteValue.toString();
@@ -126,9 +136,10 @@ function findChordsFromScaleScalesHTML(tonicValue, scaleValues) {
                 buttonPlay.classList.add("border-right-radius");
                 if (isTonic)
                     buttonPlay.classList.add("button-tonic-interactive");
+                else if (isCharacteristic)
+                    buttonPlay.classList.add("button-char-interactive");
                 if (noteValue < tonicValue)
                     noteValue += 12;
-                const chordValues = getChordValues(chordId);
                 buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
                 foundChordsNbNotesHTML += `${buttonPlay.outerHTML}\r\n`;
             }
