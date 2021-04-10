@@ -202,7 +202,7 @@ canvas
     color: white;
 }
 
-.table-body-cell-tonic, .table-body-cell-tonic-interactive, .span-tonic
+.table-body-cell-tonic, .table-body-cell-tonic-interactive, .button-tonic-interactive, .span-tonic
 {
     color: firebrick;
 }
@@ -212,7 +212,7 @@ canvas
     cursor: pointer;
 }
 
-.table-body-cell-tonic-interactive:hover
+.table-body-cell-tonic-interactive:hover, .button-tonic-interactive:hover
 {
     background-color: firebrick;
     color: white;

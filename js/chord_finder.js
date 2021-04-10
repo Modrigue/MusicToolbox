@@ -76,14 +76,14 @@ function getIntervalsWithOctave(intervalsValues, intervalsValuesArray, intervalI
     }
 }
 //////////////////////////////// CHORDS IN SCALE //////////////////////////////
-function findChordsFromScaleScalesHTML(noteValue, scaleValues) {
+function findChordsFromScaleScalesHTML(tonicValue, scaleValues) {
     let foundChordsHTML = "<br>";
     const nbNotesMax = 6;
     let noteValues = [];
     const culture = getSelectedCulture();
     // compute scale note values
     for (let intervalValue of scaleValues)
-        noteValues.push((noteValue + intervalValue) % 12);
+        noteValues.push((tonicValue + intervalValue) % 12);
     // find all chords
     const foundChordsDict = findChordInScales(noteValues, nbNotesMax);
     // build buttons
@@ -98,12 +98,15 @@ function findChordsFromScaleScalesHTML(noteValue, scaleValues) {
             for (let noteChord of foundChordsNbNotes) {
                 let noteValue = noteChord[0];
                 const chordId = noteChord[1];
+                const isTonic = (noteValue % 12 == tonicValue % 12);
                 const noteName = getNoteName(noteValue);
                 const chordNoteName = getCompactChordNotation(noteName, chordId);
                 // build button
                 let button = document.createElement('button');
                 button.innerText = chordNoteName;
                 button.classList.add("border-left-radius");
+                if (isTonic)
+                    button.classList.add("button-tonic-interactive");
                 // build URL
                 let url = window.location.pathname;
                 url += "?note=" + noteValue.toString();
@@ -121,7 +124,8 @@ function findChordsFromScaleScalesHTML(noteValue, scaleValues) {
                 let buttonPlay = document.createElement('button');
                 buttonPlay.innerText = "♪";
                 buttonPlay.classList.add("border-right-radius");
-                const tonicValue = noteValues[0];
+                if (isTonic)
+                    buttonPlay.classList.add("button-tonic-interactive");
                 if (noteValue < tonicValue)
                     noteValue += 12;
                 const chordValues = getChordValues(chordId);
