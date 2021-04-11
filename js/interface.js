@@ -187,8 +187,8 @@ function update() {
             foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
             negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues);
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
-            setVisible('found_scales', !isMicrotonal);
-            setVisible('negative_scale', !isMicrotonal);
+            setVisible('found_scales', true);
+            setVisible('negative_scale', true);
             setVisible("section_found_chords_from_scale", !isMicrotonal);
             setEnabled("checkboxGuitar", !isMicrotonal);
             setEnabled("checkboxKeyboard", !isMicrotonal);
