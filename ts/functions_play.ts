@@ -24,14 +24,14 @@ function initializePlay(): void
 function playNote(noteValue: number, delay: number): void
 {
     // delay: play one note every quarter second
-    const note: number = 48 + noteValue; // the MIDI note
+    const note: number = Math.floor(48 + noteValue); // the MIDI note
     const velocity: number = 96; // how hard the note hits
     const volume: number = 60; // volume
     const length: number = 0.75;
 
-    // set pitch bend
-    let pitchBend = 0;
-    //
+    // compute pitch bend if non-integer value
+    let pitchBend = noteValue - Math.floor(noteValue);
+    pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
 
     // play the note
     MIDI.setVolume(0, volume);
@@ -44,7 +44,8 @@ function playScale(noteValue: number, scaleValues: Array<number>): void
     const duration: number = 1;
     scaleValues.forEach(function (intervalValue, index)
     {
-        playNote(noteValue + intervalValue, duration*index);
+        let noteCurValue = noteValue + intervalValue;
+        playNote(noteCurValue, duration*index);
     });
     playNote(noteValue + 12, duration*(scaleValues.length));
 }
