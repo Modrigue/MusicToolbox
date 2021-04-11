@@ -71,7 +71,7 @@
 
 		midi.pitchBend = function(channel, program, delay) { };
 
-		midi.noteOn = function(channel, note, velocity, delay) {
+		midi.noteOn = function(channel, note, velocity, delay, pitchBend = 0) {
 			var id = noteToKey[note];
 			if (notes[id]) {
 				if (delay) {

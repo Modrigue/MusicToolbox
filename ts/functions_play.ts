@@ -29,9 +29,13 @@ function playNote(noteValue: number, delay: number): void
     const volume: number = 60; // volume
     const length: number = 0.75;
 
+    // set pitch bend
+    let pitchBend = 0;
+    //
+
     // play the note
     MIDI.setVolume(0, volume);
-    MIDI.noteOn(0, note, velocity, delay);
+    MIDI.noteOn(0, note, velocity, delay, pitchBend);
     MIDI.noteOff(0, note, delay + length);
 }
 
