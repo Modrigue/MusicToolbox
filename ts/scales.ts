@@ -21,12 +21,6 @@ scaleFamiliesDict.set("7persian",     [0, 1, 4, 5, 6, 8, 11]);
 scaleFamiliesDict.set("7verdi_enigm", [0, 1, 4, 6, 8, 10, 11]);
 scaleFamiliesDict.set("7theta_purvi", [0, 1, 4, 6, 7, 8, 11]);
 
-// 7 notes with quarter tones
-scaleFamiliesDict.set("7maqam_bayati",         [0, 1.5, 4, 5, 7, 8, 10]);
-scaleFamiliesDict.set("7maqam_hardino",        [0, 1.5, 4, 5, 7, 8.5, 11]);
-scaleFamiliesDict.set("7maqam_rast",           [0, 2, 3.5, 5, 7, 9, 10.5]);
-scaleFamiliesDict.set("7neutral",              [0, 2, 3.5, 5, 7, 8.5, 10.5]);
-
 // 6 notes
 scaleFamiliesDict.set("6blues",        [0, 3, 5, 6, 7, 10]);
 scaleFamiliesDict.set("6strange",      [0, 2, 4, 6, 8, 10]);
@@ -44,6 +38,12 @@ scaleFamiliesDict.set("5javanese",     [0, 4, 5, 7, 11]);
 scaleFamiliesDict.set("5jap_in",       [0, 1, 5, 7, 8]);
 scaleFamiliesDict.set("5jap_insen",    [0, 1, 5, 7, 10]);
 scaleFamiliesDict.set("5bartok_penta", [0, 3, 6, 7, 10]);
+
+// 7 notes with quarter tones
+scaleFamiliesDict.set("7hardino",        [0, 1.5, 4, 5, 7, 8.5, 11]);
+scaleFamiliesDict.set("7maqam_bayati",   [0, 1.5, 3, 5, 7, 8, 10]);
+scaleFamiliesDict.set("7maqam_rast",     [0, 2, 3.5, 5, 7, 9, 10.5]);
+scaleFamiliesDict.set("7neutral",        [0, 2, 3.5, 5, 7, 8.5, 10.5]);
 
 
 //////////////////////////////////// STRINGS //////////////////////////////////
@@ -107,19 +107,8 @@ scalesDict_int.set("7persian,4", "Todi theta (4th mode)");
 scalesDict_int.set("7persian,sep", "");
 scalesDict_int.set("7major_hung,1", "Hungarian major");
 scalesDict_int.set("7verdi_enigm,1", "Verdi's Enigmatica");
-scalesDict_int.set("7theta_purvi,1", "Purvi theta / Kamavardhani");
+scalesDict_int.set("7theta_purvi,1,diff:7major_2harm;1", "Purvi theta / Kamavardhani");
 scalesDict_int.set("7others,sep", "");
-
-scalesDict_int.set("7notes_maqam", "--------------- 7 NOTES MAQAMS ----------------");
-
-scalesDict_int.set("7maqam_bayati,1,diff:7minor_harm;5", "Bayati");
-scalesDict_int.set("7maqam_hardino,1,diff:7major_nat;1", "Hardino");
-scalesDict_int.set("7maqam_rast,1,diff:7major_nat;2", "Rast");
-scalesDict_int.set("7maqam_rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5th mode)");
-scalesDict_int.set("7maqams,sep", "");
-
-scalesDict_int.set("7neutral,1", "Neutral");
-scalesDict_int.set("7quarter_others,sep", "");
 
 scalesDict_int.set("8notes", "------------------------ 8 NOTES ------------------------");
 
@@ -172,6 +161,17 @@ scalesDict_int.set("5javanese,1", "Javanese");
 scalesDict_int.set("5javanese,2", "Balinese / Pelog (2nd mode)");
 scalesDict_int.set("5javanese_sep", "");
 scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonic Bartok");
+scalesDict_int.set("5others,sep", "");
+
+scalesDict_int.set("7notes_quarter_tones", "---------------- 7 NOTES w ¼ TONES ----------------");
+
+scalesDict_int.set("7hardino,1,diff:7major_nat;1", "Hardino");
+scalesDict_int.set("7maqam_bayati,1,diff:7minor_harm;5", "Maqam Bayati");
+scalesDict_int.set("7maqam_rast,1,diff:7major_nat;2", "Maqam Rast");
+scalesDict_int.set("7maqam_rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5th mode)");
+scalesDict_int.set("notes_quarter_tones,sep", "");
+
+scalesDict_int.set("7neutral,1", "Neutral");
 
 // french
 
@@ -231,10 +231,6 @@ scalesDict_fr.set("7persian,4", "Todi theta (4e mode)");
 scalesDict_fr.set("7major_hung,1", "Hongrois majeur");
 scalesDict_fr.set("7verdi_enigm,1", "Enigmatique de Verdi");
 
-scalesDict_fr.set("7maqam_rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5e mode)");
-
-scalesDict_fr.set("7neutral,1", "Neutre");
-
 scalesDict_fr.set("8bebop_dom,1,diff:7major_nat;1", "Bebop dominant");
 scalesDict_fr.set("8bebop_dom,5,diff:7major_nat;2", "Bebop dorien / Bebop mineur (5e mode)");
 
@@ -280,6 +276,12 @@ scalesDict_fr.set("5javanese,2", "Balinais / Pelog (2e mode)");
 
 scalesDict_fr.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonique Bartok");
 
+scalesDict_fr.set("7notes_quarter_tones", "----------------- 7 NOTES ¼ TONS -----------------");
+
+scalesDict_fr.set("7maqam_rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5e mode)");
+
+scalesDict_fr.set("7neutral,1", "Neutre");
+
 
 // global dictionary
 const scalesDicts: Map<string, Map<string, string>> = new Map<string,Map<string, string>>();
@@ -291,7 +293,7 @@ scalesDicts.set("fr",  scalesDict_fr);
 
 const scalesToHighlight: Array<string> = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
-    "7maqam_bayati,1", "7maqam_hardino,1", "7maqam_rast,1",
+    "7hardino,1", "7maqam_bayati,1", "7maqam_rast,1",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
     "6blues,1", "6strange,1", "6aug,1",
     "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1"];
