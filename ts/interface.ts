@@ -190,14 +190,15 @@ function update(): void
     const charIntervals: Array<number> = getSelectedScaleCharIntervals();
 
     const nbNotesInScale: number = scaleValues.length;
+    const isMicrotonal: boolean = isMicrotonalScale(scaleValues);
     
     // build scale notes list
     const scaleNotesValues: Array<number> = getScaleNotesValues(noteValue, scaleValues);
     (<HTMLParagraphElement>document.getElementById('scale_result')).innerHTML = getScaleNotesTableHTML(noteValue, scaleValues, charIntervals);
 
     // build chords 3,4 notes harmonization tables
-    const showChords3 = (nbNotesInScale >= 6);
-    const showChords4 = (nbNotesInScale >= 7);
+    const showChords3 = (nbNotesInScale >= 6 && !isMicrotonal);
+    const showChords4 = (nbNotesInScale >= 7 && !isMicrotonal);
     (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3) : "";
     (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4) : "";
 
@@ -252,9 +253,18 @@ function update(): void
             foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
             negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues);
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
-            setVisible('found_scales', true);
-            setVisible('negative_scale', true);
-            setVisible("section_found_chords_from_scale", true);
+            setVisible('found_scales', !isMicrotonal);
+            setVisible('negative_scale', !isMicrotonal);
+            setVisible("section_found_chords_from_scale", !isMicrotonal);
+
+            setEnabled("checkboxGuitar", !isMicrotonal);
+            setEnabled("checkboxKeyboard", !isMicrotonal);
+
+            const checkboxGuitar = (<HTMLInputElement>document.getElementById("checkboxGuitar"));
+            const checkboxKeyboard = (<HTMLInputElement>document.getElementById("checkboxKeyboard"));
+            setVisible("scale_explorer_guitar_display", checkboxGuitar.checked && !isMicrotonal);
+            setVisible("canvas_keyboard", checkboxKeyboard.checked && !isMicrotonal);
+
             break;
 
         case "page_scale_finder":

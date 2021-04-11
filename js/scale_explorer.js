@@ -111,9 +111,16 @@ function getScaleSteps(scaleValues) {
 function getStepNotation(stepValue) {
     const nbTones = Math.floor(stepValue / 2);
     let nbTonesString = nbTones.toString();
-    if (stepValue == 1)
+    if (stepValue < 2)
         nbTonesString = "";
-    return ((stepValue % 2 == 0) ? nbTonesString : nbTonesString + "½");
+    let fractionString = "";
+    if (stepValue % 2 == 1 / 2)
+        fractionString = "¼";
+    else if (stepValue % 2 == 3 / 2)
+        fractionString = "¾";
+    else if (stepValue % 2 == 1)
+        fractionString = "½";
+    return (nbTonesString + fractionString);
 }
 /////////////////////////////// HTML FUNCTIONS ////////////////////////////////
 function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
@@ -150,7 +157,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
         else if (charIntervals != null && charIntervals.indexOf(index) >= 0)
             classString = "table-body-cell-char";
         // display alternate notation if 7-notes cale
-        const intervalString = (nbNotesInScale == 7) ?
+        const intervalString = (nbNotesInScale == 7 && !isMicrotonalInterval(intervalValue)) ?
             getIntervalString(intervalName, intervalNameAlt) : intervalName;
         intervalsScaleRowHTML += `<div class=${classString}>`;
         intervalsScaleRowHTML += intervalString;
@@ -162,11 +169,11 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     let stepsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;\">";
     stepsScaleValues.forEach(function (stepValue, index) {
         const stepNotation = getStepNotation(stepValue);
-        // highlight semi-tones and big steps
+        // highlight half/semi-tones and big steps
         let classString = "table-body-cell";
-        if (stepValue == 1)
+        if (stepValue <= 1.5)
             classString = "table-body-cell-step-1";
-        else if (stepValue == 3)
+        else if (2 < stepValue && stepValue < 4)
             classString = "table-body-cell-step-3";
         else if (stepValue >= 4)
             classString = "table-body-cell-step-4";

@@ -2,33 +2,57 @@
 
 // notes dictionnary (international notation)
 const notesDict_int: Map<number, string> = new Map<number, string>();
-notesDict_int.set(0, "A");
-notesDict_int.set(1, "A#");
-notesDict_int.set(2, "B");
-notesDict_int.set(3, "C");
-notesDict_int.set(4, "C#");
-notesDict_int.set(5, "D");
-notesDict_int.set(6, "D#");
-notesDict_int.set(7, "E");
-notesDict_int.set(8, "F");
-notesDict_int.set(9, "F#");
-notesDict_int.set(10, "G");
-notesDict_int.set(11, "G#");
+notesDict_int.set(0   , "A");
+notesDict_int.set(0.5 , "A‡");
+notesDict_int.set(1   , "A#");
+notesDict_int.set(1.5 , "A⧥"); // Bd
+notesDict_int.set(2   , "B");
+notesDict_int.set(2.5 , "B‡");
+notesDict_int.set(3   , "C");
+notesDict_int.set(3.5 , "C‡");
+notesDict_int.set(4   , "C#");
+notesDict_int.set(4.5 , "C⧥");
+notesDict_int.set(5   , "D");
+notesDict_int.set(5.5 , "D‡");
+notesDict_int.set(6   , "D#");
+notesDict_int.set(6.5 , "D⧥");
+notesDict_int.set(7   , "E");
+notesDict_int.set(7.5 , "E‡");
+notesDict_int.set(8   , "F");
+notesDict_int.set(8.5 , "F‡");
+notesDict_int.set(9   , "F#");
+notesDict_int.set(9.5 , "F⧥");
+notesDict_int.set(10  , "G");
+notesDict_int.set(10.5, "G‡");
+notesDict_int.set(11  , "G#");
+notesDict_int.set(11.5, "G⧥");
 
 // notes dictionnary (french notation)
 const notesDict_fr: Map<number, string> = new Map<number, string>();
-notesDict_fr.set(0, "La");
-notesDict_fr.set(1, "La#");
-notesDict_fr.set(2, "Si");
-notesDict_fr.set(3, "Do");
-notesDict_fr.set(4, "Do#");
-notesDict_fr.set(5, "Ré");
-notesDict_fr.set(6, "Ré#");
-notesDict_fr.set(7, "Mi");
-notesDict_fr.set(8, "Fa");
-notesDict_fr.set(9, "Fa#");
-notesDict_fr.set(10, "Sol");
-notesDict_fr.set(11, "Sol#");
+notesDict_fr.set(0   , "La");
+notesDict_fr.set(0.5 , "La‡");
+notesDict_fr.set(1   , "La#");
+notesDict_fr.set(1.5 , "La⧥"); // Sid
+notesDict_fr.set(2   , "Si");
+notesDict_fr.set(2.5 , "Si‡");
+notesDict_fr.set(3   , "Do");
+notesDict_fr.set(3.5 , "Do‡");
+notesDict_fr.set(4   , "Do#");
+notesDict_fr.set(4.5 , "Do⧥");
+notesDict_fr.set(5   , "Ré");
+notesDict_fr.set(5.5 , "Ré‡");
+notesDict_fr.set(6   , "Ré#");
+notesDict_fr.set(6.5 , "Ré⧥");
+notesDict_fr.set(7   , "Mi");
+notesDict_fr.set(7.5 , "Mi‡");
+notesDict_fr.set(8   , "Fa");
+notesDict_fr.set(8.5 , "Fa‡");
+notesDict_fr.set(9   , "Fa#");
+notesDict_fr.set(9.5 , "Fa⧥");
+notesDict_fr.set(10  , "Sol");
+notesDict_fr.set(10.5, "Sol‡");
+notesDict_fr.set(11  , "Sol#");
+notesDict_fr.set(11.5, "Sol⧥");
 
 // global dictionary
 const notesDicts: Map<string, Map<number, string>> = new Map<string,Map<number, string>>();
@@ -79,6 +103,10 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1, firstNote
         // init
         for (const [key, value] of notesDict)
         {
+            // don't handle microtones for now
+            if (isMicrotonalInterval(key))
+                continue;
+
             let option = document.createElement('option');
             option.value = key.toString();
             option.innerHTML = <string>notesDict.get(key);
@@ -93,6 +121,10 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1, firstNote
         let index = firstNoteEmpty ? 1 : 0;
         for (const [key, value] of notesDict)
         {
+            // don't handle microtones for now
+            if (isMicrotonalInterval(key))
+                continue;
+
             // if empty note, nop
             if (key == -1)
                 continue;
