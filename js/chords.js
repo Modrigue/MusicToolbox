@@ -16,7 +16,7 @@ chords3Dict.set("sus2sharp5", [0, 2, 8]);
 chords3Dict.set("sus4", [0, 5, 7]);
 chords3Dict.set("sus4flat5", [0, 5, 6]);
 chords3Dict.set("sus4sharp5", [0, 5, 8]);
-chords3Dict.set("msharp5", [0, 3, 8]);
+chords3Dict.set("N6", [0, 3, 8]);
 chords3Dict.set("6M(no5)", [0, 4, 9]);
 chords3Dict.set("6(no5)", [0, 3, 9]);
 chords3Dict.set("m7sus4(no5)", [0, 5, 10]);
