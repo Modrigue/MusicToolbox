@@ -323,6 +323,15 @@ function setEnabled(id: string, status: boolean): void
 {
     let elem: any = document.getElementById(id);
     elem.disabled = !status;
+
+    // if checkbox, update also attached label
+    if (elem.type && elem.type === 'checkbox')
+    {
+        const idLabel: string = id + "Label";
+        const label = <HTMLLabelElement>document.getElementById(idLabel);
+        if (label && label.classList.contains("input-label"))
+            label.style.color = status ? "black" : "grey";
+    }
 }
 
 function updateChordGeneratorMode(): void

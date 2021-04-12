@@ -239,6 +239,13 @@ function setVisible(id, status) {
 function setEnabled(id, status) {
     let elem = document.getElementById(id);
     elem.disabled = !status;
+    // if checkbox, update also attached label
+    if (elem.type && elem.type === 'checkbox') {
+        const idLabel = id + "Label";
+        const label = document.getElementById(idLabel);
+        if (label && label.classList.contains("input-label"))
+            label.style.color = status ? "black" : "grey";
+    }
 }
 function updateChordGeneratorMode() {
     // get selected mode

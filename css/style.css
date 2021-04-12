@@ -277,6 +277,11 @@ input
     cursor: pointer;
 }
 
+.input-label:disabled
+{
+    color: grey;
+}
+
 .chord_explorer_arpeggio, .scale_finder_found_notes
 {
     font-family: Arial, Helvetica, sans-serif;
