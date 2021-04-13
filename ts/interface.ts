@@ -26,7 +26,7 @@ window.onload = function()
     // scale explorer
     (<HTMLSelectElement>document.getElementById("note")).addEventListener("change", onNoteChanged);
     (<HTMLSelectElement>document.getElementById("scale")).addEventListener("change", onScaleChanged);
-    (<HTMLInputElement>document.getElementById("checkboxChords")).addEventListener("change", () => { toggleDisplay('chords3_result');toggleDisplay('chords4_result'); });
+    (<HTMLInputElement>document.getElementById("checkboxChords")).addEventListener("change", () => { toggleDisplay('chords3_result');toggleDisplay('chords4_result');toggleDisplay('section_found_chords_from_scale') });
     (<HTMLInputElement>document.getElementById("checkboxGuitar")).addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     (<HTMLInputElement>document.getElementById("checkboxKeyboard")).addEventListener("change", () => toggleDisplay('canvas_keyboard'));
     (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer")).addEventListener("change", updateShowQuarterTonesInScaleExplorer);
@@ -271,15 +271,16 @@ function update(): void
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
             setVisible('found_scales', true);
             setVisible('negative_scale', true);
-            setVisible("section_found_chords_from_scale", !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
 
             setEnabled("checkboxGuitar", !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
             setEnabled("checkboxKeyboard", !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
 
             const checkboxGuitar = (<HTMLInputElement>document.getElementById("checkboxGuitar"));
             const checkboxKeyboard = (<HTMLInputElement>document.getElementById("checkboxKeyboard"));
+            const checkboxChords = (<HTMLInputElement>document.getElementById("checkboxChords"));
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked && !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
             setVisible("canvas_keyboard", checkboxKeyboard.checked && !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
+            setVisible("section_found_chords_from_scale", checkboxChords.checked && !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
 
             break;
 
@@ -287,7 +288,6 @@ function update(): void
             foundScales.innerHTML = findScalesFromNotesHTML();
             setVisible('found_scales', true);
             setVisible('negative_scale', false);
-            setVisible("section_found_chords_from_scale", false);
             break;
 
         case "page_chord_explorer":
@@ -302,7 +302,6 @@ function update(): void
 
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
-            setVisible("section_found_chords_from_scale", false);
             break;
         }
     }
