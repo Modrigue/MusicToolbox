@@ -85,10 +85,10 @@ function updateSelectors(): void
     for (let i = 1; i <= 8; i++)
     {
         const id: string = i.toString();
-        updateNoteSelector(`note_finder${id}`, -1, true);   
+        updateNoteSelector(`note_finder${id}`, -1, true, true);   
         initChordSelector(`chord_finder${id}`, "-1", true);   
     }
-    updateNoteSelector('note_finder_tonic', -1, true); 
+    updateNoteSelector('note_finder_tonic', -1, true, true); 
     
     // update chord explorer selectors
     updateNoteSelector('note_explorer_chord', 3, false);

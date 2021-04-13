@@ -279,7 +279,7 @@ function getSelectedNotesChordsFinderValues(): Array<number>
     for (let i = 1; i <= 8; i++)
     {
         const tonicSelected: string = (<HTMLSelectElement>document.getElementById(`note_finder${i.toString()}`)).value;
-        const tonicValue: number = parseInt(tonicSelected);
+        const tonicValue: number = /*parseInt*/parseFloat(tonicSelected);
 
         if (tonicValue < 0)
             continue;
@@ -314,5 +314,5 @@ function getSelectedNotesChordsFinderValues(): Array<number>
 function getSelectedTonicValue(): number
 {
     const note = (<HTMLSelectElement>document.getElementById('note_finder_tonic')).value;
-    return parseInt(note);
+    return /*parseInt*/parseFloat(note);
 }

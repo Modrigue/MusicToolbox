@@ -194,7 +194,7 @@ function getSelectedNotesChordsFinderValues() {
     let notesValues = new Array();
     for (let i = 1; i <= 8; i++) {
         const tonicSelected = document.getElementById(`note_finder${i.toString()}`).value;
-        const tonicValue = parseInt(tonicSelected);
+        const tonicValue = parseFloat(tonicSelected);
         if (tonicValue < 0)
             continue;
         const chordSelector = document.getElementById(`chord_finder${i.toString()}`);
@@ -220,6 +220,6 @@ function getSelectedNotesChordsFinderValues() {
 // get selected tonic note
 function getSelectedTonicValue() {
     const note = document.getElementById('note_finder_tonic').value;
-    return parseInt(note);
+    return /*parseInt*/ parseFloat(note);
 }
 //# sourceMappingURL=scale_finder.js.map
