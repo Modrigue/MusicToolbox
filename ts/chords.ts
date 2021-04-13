@@ -28,6 +28,7 @@ chords3Dict.set("sus2add4(no5)",    [0, 2, 5]);
 chords3Dict.set("phryg",            [0, 1, 7]); // phrygian
 chords3Dict.set("lyd",              [0, 6, 7]); // lydian
 chords3Dict.set("loc",              [0, 5, 6]); // locrian
+chords3Dict.set("vien",             [0, 1, 6]); // viennese
 chords3Dict.set("It+6",             [0, 4, 10]);
 
 // chords with 4 notes
