@@ -21,7 +21,7 @@ window.onload = function () {
     document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); });
     document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('canvas_keyboard'));
-    document.getElementById("checkboxQuarterTonesScaleExplorer").addEventListener("change", updateShowQuarterTones);
+    document.getElementById("checkboxQuarterTonesScaleExplorer").addEventListener("change", updateShowQuarterTonesInScaleExplorer);
     document.getElementById("scale_explorer_guitar_nb_strings").addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     document.getElementById("scale_explorer_guitar_tuning").addEventListener("change", update);
     // scale finder
@@ -32,6 +32,7 @@ window.onload = function () {
     }
     document.getElementById('note_finder_tonic').addEventListener("change", update);
     document.getElementById('reset_scale_finder').addEventListener("click", resetScaleFinder);
+    document.getElementById("checkboxQuarterTonesScaleFinder").addEventListener("change", updateShowQuarterTonesInScaleFinder);
     // chord explorer
     document.getElementById('note_explorer_chord').addEventListener("change", update);
     document.getElementById('chord_explorer_chord').addEventListener("change", update);
@@ -55,24 +56,25 @@ function initShowQuarterTones() {
     const tonicValue = parseNoteParameter();
     const checkboxQuarterTones = document.getElementById('checkboxQuarterTonesScaleExplorer');
     checkboxQuarterTones.checked = isMicrotonalInterval(tonicValue);
-    updateShowQuarterTones();
+    updateShowQuarterTonesInScaleExplorer();
 }
 ////////////////////////////////// SELECTORS //////////////////////////////////
-function updateSelectors(resetScaleFinderNotes = false) {
+function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes = false) {
     // show quarter tones?
-    const showQuarterTonesInScaleFinder = document.getElementById("checkboxQuarterTonesScaleExplorer").checked;
+    const showQuarterTonesInScaleExplorer = document.getElementById("checkboxQuarterTonesScaleExplorer").checked;
+    const showQuarterTonesInScaleFinder = document.getElementById("checkboxQuarterTonesScaleFinder").checked;
     // update scale explorer selectors
-    updateNoteSelector('note', 3, false, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
+    updateNoteSelector('note', 3, false, showQuarterTonesInScaleExplorer, resetScaleExplorerNotes);
     updateScaleSelector('scale', "7major_nat,1");
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
     // update scale finder selectors
     for (let i = 1; i <= 8; i++) {
         const id = i.toString();
-        updateNoteSelector(`note_finder${id}`, -1, true, true);
+        updateNoteSelector(`note_finder${id}`, -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
         initChordSelector(`chord_finder${id}`, "-1", true);
     }
-    updateNoteSelector('note_finder_tonic', -1, true, true);
+    updateNoteSelector('note_finder_tonic', -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
     // update chord explorer selectors
     updateNoteSelector('note_explorer_chord', 3, false);
     initChordSelector('chord_explorer_chord', "M", false);
@@ -192,8 +194,8 @@ function update() {
     const foundChordsFromScale = document.getElementById('section_found_chords_from_scale');
     switch (pageSelected) {
         case "page_scale_explorer":
-            foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues);
-            negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues);
+            foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
+            negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
             setVisible('found_scales', true);
             setVisible('negative_scale', true);
@@ -317,6 +319,7 @@ function updateLocales() {
     let tonicElements = document.getElementsByClassName("tonic");
     for (let tonicEelem of tonicElements)
         tonicEelem.innerText = getString("tonic");
+    document.getElementById("checkboxQuarterTonesScaleFinderLabel").innerText = getString("quarter_tones");
     // chord explorer
     document.getElementById("radioChordExplorerNameLabel").innerText = getString("name");
     document.getElementById("radioChordExplorerNotesLabel").innerText = getString("notes");
@@ -329,8 +332,12 @@ function updateLocales() {
     updateSelectors();
     onNoteChanged();
 }
-function updateShowQuarterTones() {
+function updateShowQuarterTonesInScaleExplorer() {
     updateSelectors(true /*resetScaleFinderNotes*/);
+    onNoteChanged();
+}
+function updateShowQuarterTonesInScaleFinder() {
+    updateSelectors(false /*resetScaleExplorerNotes*/, true /*resetScaleFinderNotes*/);
     onNoteChanged();
 }
 function getSelectorIndexFromValue(selector, value) {

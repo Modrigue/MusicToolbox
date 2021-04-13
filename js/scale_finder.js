@@ -1,5 +1,5 @@
 "use strict";
-function findScales(notesValues, sameNbNotes = false, refTonicValue = -1) {
+function findScales(notesValues, sameNbNotes = false, refTonicValue = -1, findQuarterTones = false) {
     // at least 2 notes needed
     if (notesValues == null || notesValues.length < 2)
         return new Array();
@@ -20,7 +20,8 @@ function findScales(notesValues, sameNbNotes = false, refTonicValue = -1) {
         const scaleValues = getModeNotesValues(scaleFamily, modeValue);
         if (sameNbNotes && scaleValues.length != nbNotes)
             continue;
-        for (let tonicValue = noteValue1; tonicValue < 12 + noteValue1; tonicValue++) {
+        const halfToneInc = findQuarterTones ? 0.5 : 1;
+        for (let tonicValue = noteValue1; tonicValue < 12 + noteValue1; tonicValue += halfToneInc) {
             // only take ref tonic if specified
             if (refTonicValue >= 0 && (tonicValue % 12) != refTonicValue)
                 continue;
@@ -45,9 +46,9 @@ function findScales(notesValues, sameNbNotes = false, refTonicValue = -1) {
     return scalesIds;
 }
 // build found scales HTML
-function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1, excludedScale = "", tonicValue = -1) {
+function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1, excludedScale = "", tonicValue = -1, findQuarterTones = false) {
     let foundScalesHTML = "";
-    const foundScales = findScales(notesValues, sameNbNotes, tonicValue);
+    const foundScales = findScales(notesValues, sameNbNotes, tonicValue, findQuarterTones);
     if (foundScales == null)
         return "";
     let nbScales = 0;
@@ -90,13 +91,13 @@ function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1,
     return foundScalesHTML;
 }
 // build negative scale HTML
-function getNegativeFoundScaleHTML(notesValues, tonicValue = -1) {
+function getNegativeFoundScaleHTML(notesValues, tonicValue = -1, findQuarterTones = false) {
     let negScalesHTML = "";
     const negScaleValues = getNegativeScaleValues(notesValues);
     if (negScaleValues == null || negScaleValues.length == 0)
         return "";
     const refTonicValue = (tonicValue >= 0) ? tonicValue : negScaleValues[0];
-    const foundScales = findScales(negScaleValues, true, refTonicValue);
+    const foundScales = findScales(negScaleValues, true, refTonicValue, findQuarterTones);
     if (foundScales == null)
         return "";
     let nbScales = 0;
@@ -135,24 +136,24 @@ function getNegativeFoundScaleHTML(notesValues, tonicValue = -1) {
     return negScalesHTML;
 }
 // scale explorer mode: find relative scales
-function getRelativeScalesHTML(noteValue, scaleValues) {
+function getRelativeScalesHTML(noteValue, scaleValues, findQuarterTones = false) {
     let relScalesHTML = `${getString("relative_scales")} `;
     // get selected scale
     const selectedScale = document.getElementById("scale").value;
     // find scales from notes
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-    const foundScalesHTML = getFoundScalesHTML(scaleNotesValues, true, noteValue, selectedScale);
+    const foundScalesHTML = getFoundScalesHTML(scaleNotesValues, true, noteValue, selectedScale, -1, findQuarterTones);
     relScalesHTML += foundScalesHTML;
     return relScalesHTML;
 }
 // scale explorer mode: find negative scale
-function getNegativeScaleHTML(noteValue, scaleValues) {
+function getNegativeScaleHTML(noteValue, scaleValues, findQuarterTones = false) {
     let negScaleHTML = `${getString("negative_scale")} `;
     // get selected scale
     const selectedScale = document.getElementById("scale").value;
     // find scale from notes
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-    const negFoundScaleHTML = getNegativeFoundScaleHTML(scaleNotesValues);
+    const negFoundScaleHTML = getNegativeFoundScaleHTML(scaleNotesValues, -1, findQuarterTones);
     negScaleHTML += negFoundScaleHTML;
     return negScaleHTML;
 }
@@ -161,6 +162,7 @@ function findScalesFromNotesHTML() {
     let finderScalesHTML = getString("scales") + " ";
     let notesValues = getSelectedNotesChordsFinderValues();
     const tonicValue = getSelectedTonicValue();
+    const findQuarterTones = document.getElementById("checkboxQuarterTonesScaleFinder").checked;
     // update found notes label
     const foundNotesLabel = document.getElementById("scale_finder_found_notes_text");
     if (notesValues == null || notesValues.length == 0)
@@ -183,7 +185,7 @@ function findScalesFromNotesHTML() {
         foundNotesLabel.innerHTML = foundNotesStr;
     }
     // update found scales
-    const foundScalesHTML = getFoundScalesHTML(notesValues, false, -1, "", tonicValue);
+    const foundScalesHTML = getFoundScalesHTML(notesValues, false, -1, "", tonicValue, findQuarterTones);
     if (foundScalesHTML == "")
         return getString("min_2_notes");
     finderScalesHTML += foundScalesHTML;
