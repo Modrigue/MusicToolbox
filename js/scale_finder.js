@@ -52,38 +52,16 @@ function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1,
     if (foundScales == null)
         return "";
     let nbScales = 0;
-    for (let scaleId of foundScales) {
+    for (let tonicScaleId of foundScales) {
         // get tonic and scale key
-        const scaleAttributes = scaleId.split("|");
+        const scaleAttributes = tonicScaleId.split("|");
         const tonicValue = parseFloat(scaleAttributes[0]);
-        const tonic = getNoteName(tonicValue);
-        const scaleKey = scaleAttributes[1];
+        const scaleId = scaleAttributes[1];
         // exclude defined note, scale if defined
         if (excludedNote >= 0 && excludedScale != "")
-            if (tonicValue == excludedNote && scaleKey == excludedScale)
+            if (tonicValue == excludedNote && scaleId == excludedScale)
                 continue;
-        const scaleName = getScaleString(scaleKey);
-        const text = tonic + " " + scaleName;
-        // hightlight scale
-        let styleString = "";
-        if (hightlightScale(scaleKey))
-            styleString = "style=\"font-weight:bold;\" ";
-        const culture = getSelectedCulture();
-        // build URL
-        let url = window.location.pathname;
-        url += "?note=" + tonicValue.toString();
-        url += "&scale=" + scaleKey;
-        url += "&lang=" + culture;
-        if (pageSelected == "page_scale_explorer") {
-            url += "&guitar_nb_strings=" + getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
-            url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
-        }
-        // disabled: update same page
-        //foundScalesHTML += "<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"; 
-        let button = document.createElement('button');
-        button.innerText = text;
-        button.setAttribute("onClick", `openNewTab(\"${url}\")`);
-        foundScalesHTML += `${button.outerHTML}\r\n`;
+        foundScalesHTML += getScaleButtonHTML(tonicValue, scaleId);
         nbScales++;
     }
     if (nbScales == 0)
@@ -105,38 +83,8 @@ function getNegativeFoundScaleHTML(notesValues, tonicValue = -1, findQuarterTone
         // get tonic and scale key
         const scaleAttributes = tonicScaleId.split("|");
         const tonicValue = parseFloat(scaleAttributes[0]);
-        const tonic = getNoteName(tonicValue);
         const scaleId = scaleAttributes[1];
-        const scaleName = getScaleString(scaleId);
-        const scaleValues = getScaleValues(scaleId);
-        const text = tonic + " " + scaleName;
-        // hightlight scale
-        let styleString = "";
-        if (hightlightScale(scaleId))
-            styleString = "style=\"font-weight:bold;\" ";
-        const culture = getSelectedCulture();
-        // build URL
-        let url = window.location.pathname;
-        url += "?note=" + tonicValue.toString();
-        url += "&scale=" + scaleId;
-        url += "&lang=" + culture;
-        if (pageSelected == "page_scale_explorer") {
-            url += "&guitar_nb_strings=" + getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
-            url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
-        }
-        // disabled: update same page
-        //foundScalesHTML += "<button " + styleString + "onclick=\'selectNoteAndScale(\"" + scaleId + "\")\'>" + text + "</button>"; 
-        let button = document.createElement('button');
-        button.innerText = text;
-        button.setAttribute("onClick", `openNewTab(\"${url}\")`);
-        button.classList.add("border-left-radius");
-        negScalesHTML += `${button.outerHTML}`;
-        // build play button
-        let buttonPlay = document.createElement('button');
-        buttonPlay.innerText = "♪";
-        buttonPlay.classList.add("border-right-radius");
-        buttonPlay.setAttribute("onClick", `playScale(${tonicValue}, [${scaleValues.toString()}], 0, 0)`);
-        negScalesHTML += `${buttonPlay.outerHTML}\r\n`;
+        negScalesHTML += getScaleButtonHTML(tonicValue, scaleId);
         nbScales++;
     }
     if (nbScales == 0)
@@ -226,6 +174,40 @@ function getSelectedNotesChordsFinderValues() {
                 notesValues.push(noteValue);
     }
     return notesValues;
+}
+function getScaleButtonHTML(tonicValue, scaleId) {
+    let buttonHTML = "";
+    const tonic = getNoteName(tonicValue);
+    const scaleName = getScaleString(scaleId);
+    const scaleValues = getScaleValues(scaleId);
+    const text = tonic + " " + scaleName;
+    // hightlight scale
+    let styleString = "";
+    if (hightlightScale(scaleId))
+        styleString = "style=\"font-weight:bold;\" ";
+    const culture = getSelectedCulture();
+    // build URL
+    let url = window.location.pathname;
+    url += "?note=" + tonicValue.toString();
+    url += "&scale=" + scaleId;
+    url += "&lang=" + culture;
+    if (pageSelected == "page_scale_explorer") {
+        url += "&guitar_nb_strings=" + getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
+        url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
+    }
+    // build button
+    let button = document.createElement('button');
+    button.innerText = text;
+    button.setAttribute("onClick", `openNewTab(\"${url}\")`);
+    button.classList.add("border-left-radius");
+    buttonHTML += `${button.outerHTML}`;
+    // build aux. play button
+    let buttonPlay = document.createElement('button');
+    buttonPlay.innerText = "♪";
+    buttonPlay.classList.add("border-right-radius");
+    buttonPlay.setAttribute("onClick", `playScale(${tonicValue}, [${scaleValues.toString()}], 0, 0)`);
+    buttonHTML += `${buttonPlay.outerHTML}\r\n`;
+    return buttonHTML;
 }
 // get selected tonic note
 function getSelectedTonicValue() {
