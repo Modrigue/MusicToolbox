@@ -4,7 +4,7 @@
 function getSelectedNoteValue(): number
 {
   const noteSelected: string = (<HTMLSelectElement>document.getElementById("note")).value;
-  return parseInt(noteSelected);
+  return /*parseInt*/parseFloat(noteSelected);
 }
 
 // get selected scale and mode notes values

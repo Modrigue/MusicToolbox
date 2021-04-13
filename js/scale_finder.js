@@ -54,7 +54,7 @@ function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1,
     for (let scaleId of foundScales) {
         // get tonic and scale key
         const scaleAttributes = scaleId.split("|");
-        const tonicValue = parseInt(scaleAttributes[0]);
+        const tonicValue = parseFloat(scaleAttributes[0]);
         const tonic = getNoteName(tonicValue);
         const scaleKey = scaleAttributes[1];
         // exclude defined note, scale if defined
@@ -103,7 +103,7 @@ function getNegativeFoundScaleHTML(notesValues, tonicValue = -1) {
     for (let scaleId of foundScales) {
         // get tonic and scale key
         const scaleAttributes = scaleId.split("|");
-        const tonicValue = parseInt(scaleAttributes[0]);
+        const tonicValue = parseFloat(scaleAttributes[0]);
         const tonic = getNoteName(tonicValue);
         const scaleKey = scaleAttributes[1];
         const scaleName = getScaleString(scaleKey);
@@ -168,7 +168,7 @@ function findScalesFromNotesHTML() {
     else {
         let notesValuesSorted = new Array();
         for (let note of notesValues) {
-            //const noteValue = parseInt(note);
+            //const noteValue = /*parseInt*/parseFloat(note);
             notesValuesSorted.push(note);
         }
         notesValuesSorted.sort((a, b) => a - b);

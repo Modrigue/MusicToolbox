@@ -20,7 +20,7 @@ function parseNoteParameter() {
     if (paramsDict == null || !paramsDict.has("note"))
         return -1;
     const note = paramsDict.get("note");
-    const noteValue = parseInt(note) % 12;
+    const noteValue = parseFloat(note) % 12;
     return noteValue;
 }
 // get parameter by id

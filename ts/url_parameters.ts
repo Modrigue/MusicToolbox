@@ -27,7 +27,7 @@ function parseNoteParameter(): number
     return -1;
 
   const note: string = <string>paramsDict.get("note");
-  const noteValue: number = parseInt(note) % 12;
+  const noteValue: number = /*parseInt*/parseFloat(note) % 12;
   
   return noteValue;
 }

@@ -61,7 +61,7 @@ notesDicts.set("fr", notesDict_fr);
 function addToNoteValue(noteValue, interval) {
     return ((noteValue + interval) % 12);
 }
-function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false) {
+function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, showMicrotones = false) {
     // get selected culture
     const lang = getSelectedCulture();
     // get note selecor
@@ -87,8 +87,8 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false) {
         }
         // init
         for (const [key, value] of notesDict) {
-            // don't handle microtones for now
-            if (isMicrotonalInterval(key))
+            // don't handle microtones if option not set
+            if (!showMicrotones && isMicrotonalInterval(key))
                 continue;
             let option = document.createElement('option');
             option.value = key.toString();
@@ -102,8 +102,8 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false) {
         // update
         let index = firstNoteEmpty ? 1 : 0;
         for (const [key, value] of notesDict) {
-            // don't handle microtones for now
-            if (isMicrotonalInterval(key))
+            // don't handle microtones if option not set
+            if (!showMicrotones && isMicrotonalInterval(key))
                 continue;
             // if empty note, nop
             if (key == -1)
