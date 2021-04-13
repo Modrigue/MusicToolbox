@@ -190,7 +190,7 @@ scalesDict_int.set("7hardino,1,diff:7major_nat;1", "Hardino");
 scalesDict_int.set("7iraq,1,diff:7major_nat;1", "Iraq");
 scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi");
 scalesDict_int.set("7notes_quarter_tones,sep", "");
-scalesDict_int.set("7neutral,1", "Neutral");
+scalesDict_int.set("7neutral,1,diff:7major_nat;1", "Neutral");
 // french
 const scalesDict_fr = new Map();
 scalesDict_fr.set("7major_nat,1", "Majeur naturel / Ionien");
@@ -278,7 +278,7 @@ scalesDict_fr.set("7hijaz,4,diff:7major_harm;1", "Suznak (4e mode)");
 scalesDict_fr.set("7hijaz,5,diff:7bayati;1", "Bayati Shuri (5e mode)");
 scalesDict_fr.set("7rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5e mode)");
 scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
-scalesDict_fr.set("7neutral,1", "Neutre");
+scalesDict_fr.set("7neutral,1,diff:7major_nat;1", "Neutre");
 // global dictionary
 const scalesDicts = new Map();
 scalesDicts.set("int", scalesDict_int);
