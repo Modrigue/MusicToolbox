@@ -21,6 +21,7 @@ window.onload = function () {
     document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); });
     document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('canvas_keyboard'));
+    document.getElementById("checkboxQuarterTonesScaleExplorer").addEventListener("change", updateShowQuarterTones);
     document.getElementById("scale_explorer_guitar_nb_strings").addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     document.getElementById("scale_explorer_guitar_tuning").addEventListener("change", update);
     // scale finder
@@ -50,12 +51,18 @@ function initLanguage() {
     document.title = getString("title"); // force update
     updateLocales();
 }
+function initShowQuarterTones() {
+    const tonicValue = parseNoteParameter();
+    const checkboxQuarterTones = document.getElementById('checkboxQuarterTonesScaleExplorer');
+    checkboxQuarterTones.checked = isMicrotonalInterval(tonicValue);
+    updateShowQuarterTones();
+}
 ////////////////////////////////// SELECTORS //////////////////////////////////
-function updateSelectors() {
-    // get selected culture
-    const lang = getSelectedCulture();
+function updateSelectors(resetScaleFinderNotes = false) {
+    // show quarter tones?
+    const showQuarterTonesInScaleFinder = document.getElementById("checkboxQuarterTonesScaleExplorer").checked;
     // update scale explorer selectors
-    updateNoteSelector('note', 3, false, true);
+    updateNoteSelector('note', 3, false, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
     updateScaleSelector('scale', "7major_nat,1");
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
@@ -144,10 +151,10 @@ function update() {
     document.getElementById('scale_result').innerHTML = getScaleNotesTableHTML(noteValue, scaleValues, charIntervals);
     const scaleNotesValuesMicrotonal = isMicrotonalScale(scaleNotesValues);
     // build chords 3,4 notes harmonization tables
-    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
-    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
-    document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3) : "";
-    document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4) : "";
+    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesMicrotonal);
+    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesMicrotonal);
+    document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal) : "";
+    document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
     const scaleName = getSelectorText("scale");
     // checkboxes
     //setEnabled("checkboxChords3", showChords3);
@@ -300,6 +307,7 @@ function updateLocales() {
     document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");
     document.getElementById("checkboxKeyboardLabel").innerText = getString("keyboard");
     document.getElementById("checkboxBarresLabel").innerText = getString("show_barres");
+    document.getElementById("checkboxQuarterTonesScaleExplorerLabel").innerText = getString("quarter_tones");
     document.getElementById("scale_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("scale_explorer_guitar_tuning_text").innerText = getString("tuning");
     // scale finder
@@ -319,6 +327,10 @@ function updateLocales() {
     document.getElementById("chord_explorer_nb_strings_max_text").innerText = getString("chord_explorer_nb_strings_max_text");
     // update computed data
     updateSelectors();
+    onNoteChanged();
+}
+function updateShowQuarterTones() {
+    updateSelectors(true /*resetScaleFinderNotes*/);
     onNoteChanged();
 }
 function getSelectorIndexFromValue(selector, value) {

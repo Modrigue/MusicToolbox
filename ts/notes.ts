@@ -69,7 +69,7 @@ function addToNoteValue(noteValue: number, interval: number): number
 }
 
 function updateNoteSelector(id: string, defaultNoteValue: number = -1,
-    firstNoteEmpty: boolean = false, showMicrotones: boolean = false): void
+    firstNoteEmpty: boolean = false, showMicrotones: boolean = false, reset: boolean = false): void
 {
 // get selected culture
     const lang = getSelectedCulture();
@@ -88,8 +88,13 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1,
       || id.startsWith("chord_explorer_note"))
         defaultNoteValue = -1;
 
+    // if reset option set, remove all options
+    if (reset)
+        while (noteSelect.firstChild)
+            noteSelect.firstChild.remove();
+
     // fill note selector
-    if (!initialized)
+    if (!initialized || reset)
     {
         if (firstNoteEmpty)
         {

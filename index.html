@@ -108,6 +108,9 @@
   
         <input type="checkbox" id="checkboxKeyboard" name="checkboxKeyboard" checked>
         <label class="input-label" id="checkboxKeyboardLabel" for="checkboxKeyboard">Keyboard</label>
+
+        <input type="checkbox" id="checkboxQuarterTonesScaleExplorer" name="checkboxQuarterTonesScaleExplorer">
+        <label class="input-label" id="checkboxQuarterTonesScaleExplorerLabel" for="checkboxQuarterTonesScaleExplorer">¼ tones</label>
   
       </p>
   
@@ -256,6 +259,7 @@
     <script>
       // init: ensure immediate selected page display
       initLanguage();
+      initShowQuarterTones();
       updateSelectors();
       onResize();
       initPagefromURLParams();

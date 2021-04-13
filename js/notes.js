@@ -61,7 +61,7 @@ notesDicts.set("fr", notesDict_fr);
 function addToNoteValue(noteValue, interval) {
     return ((noteValue + interval) % 12);
 }
-function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, showMicrotones = false) {
+function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, showMicrotones = false, reset = false) {
     // get selected culture
     const lang = getSelectedCulture();
     // get note selecor
@@ -75,8 +75,12 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, s
     if ((id.startsWith("note_finder") && id != "note_finder_tonic")
         || id.startsWith("chord_explorer_note"))
         defaultNoteValue = -1;
+    // if reset option set, remove all options
+    if (reset)
+        while (noteSelect.firstChild)
+            noteSelect.firstChild.remove();
     // fill note selector
-    if (!initialized) {
+    if (!initialized || reset) {
         if (firstNoteEmpty) {
             let option = document.createElement('option');
             option.value = "-1";

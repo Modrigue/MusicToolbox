@@ -186,7 +186,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     notesScaleTablesHTML += "</div>";
     return notesScaleTablesHTML;
 }
-function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNotesInChords) {
+function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNotesInChords, showChordsDetails = true) {
     let chordValuesArray = new Array();
     const chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
     const culture = getSelectedCulture();
@@ -267,7 +267,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
     arpeggiosIntervalsRowHTML += "</div>";
     // chords details
     const imgMagnifier = new Image();
-    imgMagnifier.src = 'img/magnifier_16.png';
+    imgMagnifier.src = showChordsDetails ? 'img/magnifier_16.png' : 'img/magnifier_grey_16.png';
     imgMagnifier.alt = "MAG";
     let chordsDetailsRowHTML = "<div class=\"resp-table-row\">";
     chordValuesArray.forEach(function (chordValues, index) {
@@ -281,7 +281,9 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
         url += "&guitar_nb_strings=" + getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
         url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
         const callbackString = `openNewTab(\"${url}\")`;
-        chordsDetailsRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
+        chordsDetailsRowHTML += showChordsDetails ?
+            /*html*/ `<div class=\"table-body-cell-interactive\" onclick=${callbackString}>` :
+            /*html*/ `<div class=\"table-body-cell\">`;
         //chordsDetailsRowHTML += "&#x1f50d";
         chordsDetailsRowHTML += imgMagnifier.outerHTML;
         chordsDetailsRowHTML += "</div>";

@@ -255,7 +255,7 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
 }
 
 function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<number>,
-  charIntervals: Array<number>, nbNotesInChords: number): string
+  charIntervals: Array<number>, nbNotesInChords: number, showChordsDetails: boolean = true): string
 {
   let chordValuesArray: Array<Array<number>> = new Array<Array<number>>();
   const chordsDict: Map<string, Array<number>> = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
@@ -361,7 +361,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
 
   // chords details
   const imgMagnifier = new Image();
-  imgMagnifier.src = 'img/magnifier_16.png';
+  imgMagnifier.src = showChordsDetails ? 'img/magnifier_16.png' : 'img/magnifier_grey_16.png';
   imgMagnifier.alt = "MAG";
   let chordsDetailsRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
@@ -379,7 +379,9 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     
     const callbackString = `openNewTab(\"${url}\")`;
 
-    chordsDetailsRowHTML += "<div class=\"table-body-cell-interactive\" onclick=" + callbackString + ">";
+    chordsDetailsRowHTML += showChordsDetails ?
+      /*html*/`<div class=\"table-body-cell-interactive\" onclick=${callbackString}>` :
+      /*html*/`<div class=\"table-body-cell\">`;
     //chordsDetailsRowHTML += "&#x1f50d";
     chordsDetailsRowHTML += imgMagnifier.outerHTML;
     chordsDetailsRowHTML += "</div>";

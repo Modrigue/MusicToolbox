@@ -29,6 +29,7 @@ window.onload = function()
     (<HTMLInputElement>document.getElementById("checkboxChords")).addEventListener("change", () => { toggleDisplay('chords3_result');toggleDisplay('chords4_result'); });
     (<HTMLInputElement>document.getElementById("checkboxGuitar")).addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     (<HTMLInputElement>document.getElementById("checkboxKeyboard")).addEventListener("change", () => toggleDisplay('canvas_keyboard'));
+    (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer")).addEventListener("change", updateShowQuarterTones);
     (<HTMLSelectElement>document.getElementById("scale_explorer_guitar_nb_strings")).addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     (<HTMLSelectElement>document.getElementById("scale_explorer_guitar_tuning")).addEventListener("change", update);
 
@@ -68,15 +69,26 @@ function initLanguage(): void
   updateLocales();
 }
 
+function initShowQuarterTones(): void
+{
+  const tonicValue: number = parseNoteParameter();
+
+  const checkboxQuarterTones = <HTMLInputElement>document.getElementById('checkboxQuarterTonesScaleExplorer');
+  checkboxQuarterTones.checked = isMicrotonalInterval(tonicValue);
+
+  updateShowQuarterTones();
+}
+
 ////////////////////////////////// SELECTORS //////////////////////////////////
 
-function updateSelectors(): void
+function updateSelectors(resetScaleFinderNotes: boolean = false): void
 {
-    // get selected culture
-    const lang: string = getSelectedCulture();
+    // show quarter tones?
+    const showQuarterTonesInScaleFinder =
+        (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer")).checked;
   
     // update scale explorer selectors
-    updateNoteSelector('note', 3, false, true);
+    updateNoteSelector('note', 3, false, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
     updateScaleSelector('scale', "7major_nat,1");
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
@@ -198,10 +210,10 @@ function update(): void
     const scaleNotesValuesMicrotonal: boolean = isMicrotonalScale(scaleNotesValues);
 
     // build chords 3,4 notes harmonization tables
-    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
-    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesMicrotonal && !scaleNotesValuesMicrotonal);
-    (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3) : "";
-    (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4) : "";
+    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesMicrotonal);
+    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesMicrotonal);
+    (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal) : "";
+    (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
 
     const scaleName: string = getSelectorText("scale");
 
@@ -406,6 +418,7 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("checkboxGuitarLabel")).innerText = getString("guitar");
     (<HTMLLabelElement>document.getElementById("checkboxKeyboardLabel")).innerText = getString("keyboard");
     (<HTMLLabelElement>document.getElementById("checkboxBarresLabel")).innerText = getString("show_barres");
+    (<HTMLLabelElement>document.getElementById("checkboxQuarterTonesScaleExplorerLabel")).innerText = getString("quarter_tones");
     (<HTMLSpanElement>document.getElementById("scale_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
     (<HTMLSpanElement>document.getElementById("scale_explorer_guitar_tuning_text")).innerText = getString("tuning");
 
@@ -430,6 +443,12 @@ function updateLocales(): void
     
     // update computed data
     updateSelectors();
+    onNoteChanged();
+}
+
+function updateShowQuarterTones()
+{
+    updateSelectors(true /*resetScaleFinderNotes*/);
     onNoteChanged();
 }
 
