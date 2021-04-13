@@ -59,7 +59,7 @@ scaleFamiliesDict.set("7neutral", [0, 2, 3.5, 5, 7, 8.5, 10.5]);
 const scalesDict_int = new Map();
 scalesDict_int.set("7notes", "------------------------ 7 NOTES ------------------------");
 scalesDict_int.set("7major_nat,1", "Natural major / Ionian");
-scalesDict_int.set("7major_nat,6", "Natural minor / Aeolian (6th mode)");
+scalesDict_int.set("7major_nat,6,diff:7major_nat;1", "Natural minor / Aeolian (6th mode)");
 scalesDict_int.set("7major_nat,2,diff:7major_nat;6", "Dorian (2nd mode)");
 scalesDict_int.set("7major_nat,3,diff:7major_nat;6", "Phrygian (3rd mode)");
 scalesDict_int.set("7major_nat,4,diff:7major_nat;1", "Lydian (4th mode)");
@@ -191,10 +191,10 @@ scalesDict_int.set("7iraq,1,diff:7major_nat;1", "Iraq");
 scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi");
 scalesDict_int.set("7notes_quarter_tones,sep", "");
 scalesDict_int.set("7neutral,1,diff:7major_nat;1", "Neutral");
-// french
+/////////////////////////////////// FRENCH ////////////////////////////////////
 const scalesDict_fr = new Map();
 scalesDict_fr.set("7major_nat,1", "Majeur naturel / Ionien");
-scalesDict_fr.set("7major_nat,6", "Mineur naturel / Eolien (6e mode)");
+scalesDict_fr.set("7major_nat,6,diff:7major_nat;1", "Mineur naturel / Eolien (6e mode)");
 scalesDict_fr.set("7major_nat,2,diff:7major_nat;6", "Dorien (2e mode)");
 scalesDict_fr.set("7major_nat,3,diff:7major_nat;6", "Phrygien (3e mode)");
 scalesDict_fr.set("7major_nat,4,diff:7major_nat;1", "Lydien (4e mode)");
