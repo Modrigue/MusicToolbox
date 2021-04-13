@@ -201,7 +201,7 @@ function update(): void
 
     // get selected note and scale/mode values
     const noteValue: number = getSelectedNoteValue();
-    const scaleValues: Array<number> = getSelectedScaleValues();
+    const scaleValues: Array<number> = getScaleValues();
     const charIntervals: Array<number> = getSelectedScaleCharIntervals();
 
     const nbNotesInScale: number = scaleValues.length;

@@ -146,24 +146,25 @@ function getNegativeFoundScaleHTML(notesValues: Array<number>,
         return "";
    
    let nbScales = 0;
-   for (let scaleId of foundScales)
+   for (let tonicScaleId of foundScales)
    {
        // get tonic and scale key
 
-        const scaleAttributes: Array<string> = scaleId.split("|");
+        const scaleAttributes: Array<string> = tonicScaleId.split("|");
 
         const tonicValue: number = /*parseInt*/parseFloat(scaleAttributes[0]);
         const tonic: string = getNoteName(tonicValue);
 
-        const scaleKey = scaleAttributes[1]; 
+        const scaleId = scaleAttributes[1]; 
         
-        const scaleName: string = getScaleString(scaleKey);
+        const scaleName: string = getScaleString(scaleId);
+        const scaleValues = getScaleValues(scaleId);        
         
         const text: string = tonic + " " + scaleName;
 
         // hightlight scale
         let styleString: string = "";
-        if (hightlightScale(scaleKey))
+        if (hightlightScale(scaleId))
             styleString = "style=\"font-weight:bold;\" ";
 
         const culture = getSelectedCulture();
@@ -171,7 +172,7 @@ function getNegativeFoundScaleHTML(notesValues: Array<number>,
         // build URL
         let url: string = window.location.pathname;
         url += "?note=" + tonicValue.toString();
-        url += "&scale=" + scaleKey;
+        url += "&scale=" + scaleId;
         url += "&lang=" + culture;
         if (pageSelected == "page_scale_explorer")
         {
@@ -185,8 +186,17 @@ function getNegativeFoundScaleHTML(notesValues: Array<number>,
         let button: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
         button.innerText = text;
         button.setAttribute("onClick", `openNewTab(\"${url}\")`);
+        button.classList.add("border-left-radius");
+        negScalesHTML += `${button.outerHTML}`;
 
-        negScalesHTML += `${button.outerHTML}\r\n`; 
+        // build play button
+
+        let buttonPlay = document.createElement('button');
+        buttonPlay.innerText = "♪";
+        buttonPlay.classList.add("border-right-radius");
+        buttonPlay.setAttribute("onClick", `playScale(${tonicValue}, [${scaleValues.toString()}], 0, 0)`);
+        negScalesHTML += `${buttonPlay.outerHTML}\r\n`;
+
         nbScales++;
     }
 

@@ -8,10 +8,11 @@ function getSelectedNoteValue(): number
 }
 
 // get selected scale and mode notes values
-function getSelectedScaleValues(): Array<number>
+function getScaleValues(scaleId: string = ""): Array<number>
 {
-  const scaleSelected: string = (<HTMLSelectElement>document.getElementById("scale")).value;
-  const scaleAttributes: Array<string> = scaleSelected.split(",");
+  if (!scaleId || scaleId == "")
+    scaleId = (<HTMLSelectElement>document.getElementById("scale")).value;
+  const scaleAttributes: Array<string> = scaleId.split(",");
   const scaleName: string = scaleAttributes[0];
   const modeValue: number = parseInt(scaleAttributes[1]);
   const scaleFamily: Array<number> = <Array<number>>scaleFamiliesDict.get(scaleName);
@@ -42,7 +43,7 @@ function getSelectedScaleCharIntervals(): Array<number>
   
   // get selected and reference scale values
   const refScaleValues: Array<number> = getModeNotesValues(refScaleFamily, refModeValue);
-  const scaleValues: Array<number> = getSelectedScaleValues();
+  const scaleValues: Array<number> = getScaleValues();
   
   // compute differences between selected and reference scale values
   return arraysDiff(scaleValues, refScaleValues);

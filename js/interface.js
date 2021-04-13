@@ -144,7 +144,7 @@ function update() {
         setVisible(pageId, (pageId == pageSelected));
     // get selected note and scale/mode values
     const noteValue = getSelectedNoteValue();
-    const scaleValues = getSelectedScaleValues();
+    const scaleValues = getScaleValues();
     const charIntervals = getSelectedScaleCharIntervals();
     const nbNotesInScale = scaleValues.length;
     const scaleValuesMicrotonal = isMicrotonalScale(scaleValues);
