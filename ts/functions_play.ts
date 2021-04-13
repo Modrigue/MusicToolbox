@@ -39,15 +39,29 @@ function playNote(noteValue: number, delay: number): void
     MIDI.noteOff(0, note, delay + length);
 }
 
-function playScale(noteValue: number, scaleValues: Array<number>): void
+function playScale(noteValue: number, scaleValues: Array<number>,
+    backwards: boolean = false): void
 {
     const duration: number = 1;
-    scaleValues.forEach(function (intervalValue, index)
+
+    if (!backwards)
     {
-        let noteCurValue = noteValue + intervalValue;
-        playNote(noteCurValue, duration*index);
-    });
-    playNote(noteValue + 12, duration*(scaleValues.length));
+        scaleValues.forEach(function (intervalValue, index)
+        {
+            let noteCurValue = noteValue + intervalValue;
+            playNote(noteCurValue, duration*index);
+        });
+        playNote(noteValue + 12, duration*(scaleValues.length));
+    }
+    else // backwards
+    {
+        playNote(noteValue + 12, 0);
+        scaleValues.reverse().forEach(function (intervalValue, index)
+        {
+            let noteCurValue = noteValue + intervalValue;
+            playNote(noteCurValue, duration*(index + 1));
+        });
+    }
 }
 
 function playChord(noteValue: number, chordValues:  Array<number>,
@@ -82,6 +96,15 @@ function onPlayScale(): void
     const scaleValues: Array<number> = getScaleValues();
 
     playScale(noteValue, scaleValues);
+}
+
+function onPlayScaleBackwards(): void
+{
+    // get selected note and scale values
+    const noteValue: number = getSelectedNoteValue();
+    const scaleValues: Array<number> = getScaleValues();
+
+    playScale(noteValue, scaleValues, true /*backwards*/);
 }
 
 function onPlayNoteInScale(index: number): void

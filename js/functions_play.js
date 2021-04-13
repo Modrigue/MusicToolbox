@@ -26,13 +26,23 @@ function playNote(noteValue, delay) {
     MIDI.noteOn(0, note, velocity, delay, pitchBend);
     MIDI.noteOff(0, note, delay + length);
 }
-function playScale(noteValue, scaleValues) {
+function playScale(noteValue, scaleValues, backwards = false) {
     const duration = 1;
-    scaleValues.forEach(function (intervalValue, index) {
-        let noteCurValue = noteValue + intervalValue;
-        playNote(noteCurValue, duration * index);
-    });
-    playNote(noteValue + 12, duration * (scaleValues.length));
+    if (!backwards) {
+        scaleValues.forEach(function (intervalValue, index) {
+            let noteCurValue = noteValue + intervalValue;
+            playNote(noteCurValue, duration * index);
+        });
+        playNote(noteValue + 12, duration * (scaleValues.length));
+    }
+    else // backwards
+     {
+        playNote(noteValue + 12, 0);
+        scaleValues.reverse().forEach(function (intervalValue, index) {
+            let noteCurValue = noteValue + intervalValue;
+            playNote(noteCurValue, duration * (index + 1));
+        });
+    }
 }
 function playChord(noteValue, chordValues, duration, delay = 0) {
     chordValues.forEach(function (intervalValue, index) {
@@ -53,6 +63,12 @@ function onPlayScale() {
     const noteValue = getSelectedNoteValue();
     const scaleValues = getScaleValues();
     playScale(noteValue, scaleValues);
+}
+function onPlayScaleBackwards() {
+    // get selected note and scale values
+    const noteValue = getSelectedNoteValue();
+    const scaleValues = getScaleValues();
+    playScale(noteValue, scaleValues, true /*backwards*/);
 }
 function onPlayNoteInScale(index) {
     const duration = 0;

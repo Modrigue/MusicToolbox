@@ -183,8 +183,13 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
   button.innerText = `${getString("play")} ♪`;
   button.setAttribute("onClick", "onPlayScale()");
 
+  // create play backwards button
+  let buttonBackwards: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+  buttonBackwards.innerText = `${getString("play_backwards")} ♪`;
+  buttonBackwards.setAttribute("onClick", "onPlayScaleBackwards()");
+
   // build scale notes list
-  let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${button.outerHTML}</div><div id=\"resp-table-body\">`;
+  let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${button.outerHTML} ${buttonBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
   let notesScaleRowHTML = "<div class=\"resp-table-row\">";
   const scaleNotesValues: Array<number> = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
