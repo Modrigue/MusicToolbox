@@ -225,15 +225,16 @@ function update(): void
     //setEnabled("checkboxChords4", showChords4);
     setEnabled("checkboxChords", showChords3);
 
+    const checkboxQuarterTones = (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer"));
     const showQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
 
     // update fretboard
-    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones);
-    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones); // HACK to ensure correct drawing
+    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked);
+    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
 
     // update keyboard
-    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName);
-    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName); // HACK to ensure correct drawing
+    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked);
+    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
 
     // update scale finder chords selectors
     let has1NoteSelected: boolean = false;
@@ -274,13 +275,11 @@ function update(): void
             setVisible('found_scales', true);
             setVisible('negative_scale', true);
 
-            setEnabled("checkboxKeyboard", !showQuarterTones);
-
             const checkboxGuitar = (<HTMLInputElement>document.getElementById("checkboxGuitar"));
             const checkboxKeyboard = (<HTMLInputElement>document.getElementById("checkboxKeyboard"));
             const checkboxChords = (<HTMLInputElement>document.getElementById("checkboxChords"));
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked);
-            setVisible("canvas_keyboard", checkboxKeyboard.checked && !showQuarterTones);
+            setVisible("canvas_keyboard", checkboxKeyboard.checked);
             setVisible("section_found_chords_from_scale", checkboxChords.checked && !showQuarterTones);
 
             break;
