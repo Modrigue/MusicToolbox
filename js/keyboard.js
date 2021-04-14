@@ -75,7 +75,7 @@ function displayNoteOnKeyboard(i, text, color, showQuarterTones = false) {
         let yShift = 0;
         switch (lang) {
             case "fr":
-                ctx.font = "14px Arial";
+                ctx.font = "13px Arial";
                 xShift = -9 - 2 * (text.length - 2);
                 yShift = 4; //6;
                 break;
