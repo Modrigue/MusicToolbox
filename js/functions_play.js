@@ -43,6 +43,24 @@ function playScale(noteValue, scaleValues, backwards = false) {
             playNote(noteCurValue, duration * (index + 1));
         });
     }
+    // // disabled for now: forward + backwards
+    // {
+    //     const nbNotes = scaleValues.length;
+    //     for (let i = 0; i < nbNotes; i++)
+    //     {
+    //         // forward
+    //         const intervalValue = scaleValues[i];
+    //         const noteCurValue = noteValue + intervalValue;
+    //         // backwards
+    //         const intervalBackValue = scaleValues[(nbNotes - i) % nbNotes];
+    //         const noteBackCurValue = noteValue + intervalBackValue - 12;
+    //         playNote(noteCurValue, duration*i);
+    //         if (i > 0)
+    //             playNote(noteBackCurValue, duration*i);
+    //     };
+    //     playNote(noteValue + 12, duration*(nbNotes));
+    //     playNote(noteValue - 12, duration*(nbNotes));
+    // }
 }
 function playChord(noteValue, chordValues, duration, delay = 0) {
     chordValues.forEach(function (intervalValue, index) {
