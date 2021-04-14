@@ -7,7 +7,8 @@ let xFretScaleStep = 60; // used for scale explorer
 let xFretChordStep = 50; // used for chord explorer
 const yFretMarginChordBottom = 20;
 // colors
-const colorFretsStrings = "lightgrey";
+const colorFretsStrings = "silver";
+const colorFretsStringsQTones = "#E4E4E4";
 const colorFretsOctave = "dimgrey";
 const colorNoteTonic = "firebrick";
 const colorNoteNormal = "dimgrey";
@@ -20,7 +21,7 @@ function getCaseNoteValue(tuningValues, i, j) {
     return ((tuningValues[i - 1] + j) % 12);
 }
 // <i> has offset 1
-function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0) {
+function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0, showQuarterTones = false) {
     let canvas = document.getElementById(id);
     if (canvas.getContext) {
         let ctx = canvas.getContext("2d");
@@ -34,7 +35,8 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         if (startFret > 0 && j > 0)
             j -= startFret - 1;
         // position
-        let x = xFretMargin + (j - 1) * xFretStep + xFretStep / 2 - 1;
+        const xFretStart = showQuarterTones ? 3 / 4 * xFretStep : xFretStep / 2;
+        let x = xFretMargin + (j - 1) * xFretStep + xFretStart;
         if (j <= 0)
             x = xFretMargin - 40 + 40 / 2 - 1;
         let y = yFretMargin + (nbStrings - i) * yStep - 1;
@@ -59,7 +61,7 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         let yShift = 0;
         switch (lang) {
             case "fr":
-                ctx.font = "14px Arial";
+                ctx.font = "13px Arial";
                 xShift = -9 - 2 * (text.length - 2);
                 yShift = 4; //6;
                 break;
@@ -74,63 +76,67 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         ctx.fillText(text, x + xShift, y + yShift);
     }
 }
-function updateFretboard(noteValue, scaleValues, charIntervals, scaleName) {
+function updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones = false) {
     const nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
     let canvas = document.getElementById("canvas_guitar");
-    if (canvas.getContext) {
-        canvas.height = getCanvasHeight(nbStrings);
-        let ctx = canvas.getContext("2d");
-        ctx.strokeStyle = colorFretsStrings;
-        // clear
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // fill background
+    if (!canvas.getContext)
+        return;
+    canvas.height = getCanvasHeight(nbStrings);
+    let ctx = canvas.getContext("2d");
+    ctx.strokeStyle = colorFretsStrings;
+    // clear
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // fill background
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.closePath();
+    // get last fret x
+    let xFretLast = getLastFretX();
+    // hint frets
+    const hintFrets = [0, 3, 5, 7, 9];
+    let indexFret = 0;
+    for (let x = xFretMargin; x < xFretLast; x += xFretScaleStep) {
+        indexFret++;
+        if (hintFrets.indexOf(indexFret % 12) < 0)
+            continue;
+        // fill hint fret
         ctx.beginPath();
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = ((indexFret % 12) == 0) ? colorFretsOctave : colorFretsStrings;
+        ctx.fillStyle = colorHintFret;
+        ctx.fillRect(x, yFretMargin, xFretScaleStep, canvas.height - 2 * yFretMargin);
         ctx.closePath();
-        // get last fret x
-        let xFretLast = getLastFretX();
-        // hint frets
-        const hintFrets = [0, 3, 5, 7, 9];
-        let indexFret = 0;
-        for (let x = xFretMargin; x < xFretLast; x += xFretScaleStep) {
-            indexFret++;
-            if (hintFrets.indexOf(indexFret % 12) < 0)
-                continue;
-            // fill hint fret
-            ctx.beginPath();
-            ctx.strokeStyle = ((indexFret % 12) == 0) ? colorFretsOctave : colorFretsStrings;
-            ctx.fillStyle = colorHintFret;
-            ctx.fillRect(x, yFretMargin, xFretScaleStep, canvas.height - 2 * yFretMargin);
-            ctx.closePath();
-        }
-        // horizontal lines (strings)      
-        for (let i = 0; i < nbStrings; i++) {
-            let y = yFretMargin + i * yFretStep;
-            ctx.beginPath();
-            ctx.strokeStyle = colorFretsStrings;
-            ctx.moveTo(xFretMargin, y);
-            ctx.lineTo(xFretLast, y);
-            ctx.stroke();
-        }
-        // vertical lines
-        indexFret = 0;
-        for (let x = xFretMargin; x <= xFretLast; x += xFretScaleStep) {
-            let isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
-            ctx.beginPath();
-            ctx.strokeStyle = isFretOctave ? colorFretsOctave : colorFretsStrings;
-            ctx.moveTo(x, yFretMargin);
-            ctx.lineTo(x, canvas.height - yFretMargin);
-            ctx.stroke();
-            ctx.closePath();
-            indexFret++;
-        }
+    }
+    // horizontal lines (strings)   
+    for (let i = 0; i < nbStrings; i++) {
+        let y = yFretMargin + i * yFretStep;
+        ctx.beginPath();
+        ctx.strokeStyle = colorFretsStrings;
+        ctx.moveTo(xFretMargin, y);
+        ctx.lineTo(xFretLast, y);
+        ctx.stroke();
+    }
+    // vertical lines
+    indexFret = 0;
+    const halfToneInc = showQuarterTones ? 0.5 : 1;
+    for (let x = xFretMargin; x <= xFretLast; x += halfToneInc * xFretScaleStep) {
+        const isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
+        const isFretQuarterTone = isMicrotonalInterval(indexFret);
+        ctx.beginPath();
+        ctx.strokeStyle = isFretOctave ?
+            colorFretsOctave :
+            (isFretQuarterTone ? colorFretsStringsQTones : colorFretsStrings);
+        ctx.moveTo(x, yFretMargin);
+        ctx.lineTo(x, canvas.height - yFretMargin);
+        ctx.stroke();
+        ctx.closePath();
+        indexFret += halfToneInc;
     }
     // display notes
     const tuningValues = getSelectedGuitarTuningValue("scale_explorer_guitar_tuning");
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     for (let i = 1; i <= nbStrings; i++) {
-        for (let j = 0; j < 3 * 12; j++) {
+        for (let j = 0; j < 3 * 12; j += halfToneInc) {
             const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
             if (scaleNotesValues.indexOf(currentNoteValue) < 0)
                 continue;
@@ -142,7 +148,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName) {
             const indexNote = scaleNotesValues.indexOf(currentNoteValue);
             if (charIntervals.indexOf(indexNote) >= 0)
                 colorNote = colorNoteChar; // characteristic note
-            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings);
+            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
         }
     }
     // update save callback
