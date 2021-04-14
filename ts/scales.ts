@@ -56,9 +56,7 @@ scaleFamiliesDict.set("7hijaz",        [0, 1, 4, 5, 7, 8.5, 10]);
 scaleFamiliesDict.set("7rast",         [0, 2, 3.5, 5, 7, 9, 10.5]);
 scaleFamiliesDict.set("7bayati",       [0, 1.5, 3, 5, 7, 8, 10]);
 scaleFamiliesDict.set("7hardino",      [0, 1.5, 4, 5, 7, 8.5, 11]);
-scaleFamiliesDict.set("7iraq",         [0, 1.5, 3.5, 5, 6.5, 8.5, 10.5]);
 scaleFamiliesDict.set("7sikah_baladi", [0, 1.5, 3.5, 5, 7, 8.5, 10.5]);
-scaleFamiliesDict.set("7neutral",      [0, 2, 3.5, 5, 7, 8.5, 10.5]);
 
 
 //////////////////////////////////// STRINGS //////////////////////////////////
@@ -205,15 +203,15 @@ scalesDict_int.set("7hijaz,sep", "");
 scalesDict_int.set("7rast,1,diff:7major_nat;2", "Rast");
 scalesDict_int.set("7rast,5,diff:7major_nat;6", "Nayruz / Simdi Huseyni-Ussak (5th mode)");
 scalesDict_int.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6th mode)");
+scalesDict_int.set("7rast,7,diff:7major_nat;1", "Iraq (7th mode)");
 scalesDict_int.set("7rast,sep", "");
 
 scalesDict_int.set("7bayati,1,diff:7major_nat;6", "Bayati");
 scalesDict_int.set("7hardino,1,diff:7major_nat;1", "Hardino");
-scalesDict_int.set("7iraq,1,diff:7major_nat;1", "Iraq");
 scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi");
 scalesDict_int.set("7notes_quarter_tones,sep", "");
 
-scalesDict_int.set("7neutral,1,diff:7major_nat;1", "Neutral");
+scalesDict_int.set("7sikah_baladi,6,diff:7major_nat;1", "Neutral");
 
 
 /////////////////////////////////// FRENCH ////////////////////////////////////
@@ -331,8 +329,9 @@ scalesDict_fr.set("7hijaz,4,diff:7major_harm;1", "Suznak (4e mode)");
 scalesDict_fr.set("7hijaz,5,diff:7bayati;1", "Bayati Shuri (5e mode)");
 scalesDict_fr.set("7rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5e mode)");
 scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
+scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 
-scalesDict_fr.set("7neutral,1,diff:7major_nat;1", "Neutre");
+scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre");
 
 
 // global dictionary
