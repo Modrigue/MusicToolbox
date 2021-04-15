@@ -91,7 +91,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleFinder")).checked;
   
     // update scale explorer selectors
-    updateNoteSelector('note', 3, false, showQuarterTonesInScaleExplorer, resetScaleExplorerNotes);
+    updateNoteSelector('note', 0, false, showQuarterTonesInScaleExplorer, resetScaleExplorerNotes);
     updateScaleSelector('scale', "7major_nat,1");
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
@@ -106,7 +106,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     updateNoteSelector('note_finder_tonic', -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes); 
     
     // update chord explorer selectors
-    updateNoteSelector('note_explorer_chord', 3, false);
+    updateNoteSelector('note_explorer_chord', 0, false);
     initChordSelector('chord_explorer_chord', "M", false);
     initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');

@@ -14,7 +14,7 @@ function initializePlay() {
 }
 function playNote(noteValue, delay) {
     // delay: play one note every quarter second
-    const note = Math.floor(48 + noteValue); // the MIDI note
+    const note = Math.floor(48 + noteValue); // the MIDI note (48 = C2)
     const velocity = 96; // how hard the note hits
     const volume = 60; // volume
     const length = 0.75;

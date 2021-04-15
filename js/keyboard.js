@@ -17,30 +17,30 @@ const colorPianoGreyKey = "#E0E0E0";
 const colorPianoGreyKeyBorder = "#888888";
 // notes position on keyboard dictionnary
 const notesKeyPos = new Map();
-notesKeyPos.set(0, 5);
-notesKeyPos.set(0.5, 5.25);
-notesKeyPos.set(1, 5.5);
-notesKeyPos.set(1.5, 5.75);
-notesKeyPos.set(2, 6);
-notesKeyPos.set(2.5, 6.25);
-notesKeyPos.set(3, 0); // C
-notesKeyPos.set(3.5, 0.25);
-notesKeyPos.set(4, 0.5);
-notesKeyPos.set(4.5, 0.75);
-notesKeyPos.set(5, 1);
-notesKeyPos.set(5.5, 1.25);
-notesKeyPos.set(6, 1.5);
-notesKeyPos.set(6.5, 1.75);
-notesKeyPos.set(7, 2);
-notesKeyPos.set(7.5, 2.25);
-notesKeyPos.set(8, 3);
-notesKeyPos.set(8.5, 3.25);
-notesKeyPos.set(9, 3.5);
-notesKeyPos.set(9.5, 3.75);
-notesKeyPos.set(10, 4);
-notesKeyPos.set(10.5, 4.25);
-notesKeyPos.set(11, 4.5);
-notesKeyPos.set(11.5, 4.75);
+notesKeyPos.set(0, 0); // C
+notesKeyPos.set(0.5, 0.25);
+notesKeyPos.set(1, 0.5);
+notesKeyPos.set(1.5, 0.75);
+notesKeyPos.set(2, 1);
+notesKeyPos.set(2.5, 1.25);
+notesKeyPos.set(3, 1.5);
+notesKeyPos.set(3.5, 1.75);
+notesKeyPos.set(4, 2);
+notesKeyPos.set(4.5, 2.25);
+notesKeyPos.set(5, 3);
+notesKeyPos.set(5.5, 3.25);
+notesKeyPos.set(6, 3.5);
+notesKeyPos.set(6.5, 3.75);
+notesKeyPos.set(7, 4);
+notesKeyPos.set(7.5, 4.25);
+notesKeyPos.set(8, 4.5);
+notesKeyPos.set(8.5, 4.75);
+notesKeyPos.set(9, 5);
+notesKeyPos.set(9.5, 5.25);
+notesKeyPos.set(10, 5.5);
+notesKeyPos.set(10.5, 5.75);
+notesKeyPos.set(11, 6);
+notesKeyPos.set(11.5, 6.25);
 // <i> has offset 0
 function displayNoteOnKeyboard(i, text, color, showQuarterTones = false) {
     let canvas = document.getElementById("canvas_keyboard");

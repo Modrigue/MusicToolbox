@@ -2,57 +2,57 @@
 
 // notes dictionnary (international notation)
 const notesDict_int: Map<number, string> = new Map<number, string>();
-notesDict_int.set(0   , "A");
-notesDict_int.set(0.5 , "A‡");
-notesDict_int.set(1   , "A#");
-notesDict_int.set(1.5 , "A⧥"); // Bd
-notesDict_int.set(2   , "B");
-notesDict_int.set(2.5 , "B‡");
-notesDict_int.set(3   , "C");
-notesDict_int.set(3.5 , "C‡");
-notesDict_int.set(4   , "C#");
-notesDict_int.set(4.5 , "C⧥");
-notesDict_int.set(5   , "D");
-notesDict_int.set(5.5 , "D‡");
-notesDict_int.set(6   , "D#");
-notesDict_int.set(6.5 , "D⧥");
-notesDict_int.set(7   , "E");
-notesDict_int.set(7.5 , "E‡");
-notesDict_int.set(8   , "F");
-notesDict_int.set(8.5 , "F‡");
-notesDict_int.set(9   , "F#");
-notesDict_int.set(9.5 , "F⧥");
-notesDict_int.set(10  , "G");
-notesDict_int.set(10.5, "G‡");
-notesDict_int.set(11  , "G#");
-notesDict_int.set(11.5, "G⧥");
+notesDict_int.set(0   , "C");
+notesDict_int.set(0.5 , "C‡");
+notesDict_int.set(1   , "C#");
+notesDict_int.set(1.5 , "C⧥"); // Dd
+notesDict_int.set(2   , "D");
+notesDict_int.set(2.5 , "D‡");
+notesDict_int.set(3   , "D#");
+notesDict_int.set(3.5 , "D⧥");
+notesDict_int.set(4   , "E");
+notesDict_int.set(4.5 , "E‡");
+notesDict_int.set(5   , "F");
+notesDict_int.set(5.5 , "F‡");
+notesDict_int.set(6   , "F#");
+notesDict_int.set(6.5 , "F⧥");
+notesDict_int.set(7   , "G");
+notesDict_int.set(7.5 , "G‡");
+notesDict_int.set(8   , "G#");
+notesDict_int.set(8.5 , "G⧥");
+notesDict_int.set(9   , "A");
+notesDict_int.set(9.5 , "A‡");
+notesDict_int.set(10  , "A#");
+notesDict_int.set(10.5, "A⧥");
+notesDict_int.set(11  , "B");
+notesDict_int.set(11.5, "B‡");
 
 // notes dictionnary (french notation)
 const notesDict_fr: Map<number, string> = new Map<number, string>();
-notesDict_fr.set(0   , "La");
-notesDict_fr.set(0.5 , "La‡");
-notesDict_fr.set(1   , "La#");
-notesDict_fr.set(1.5 , "La⧥"); // Sid
-notesDict_fr.set(2   , "Si");
-notesDict_fr.set(2.5 , "Si‡");
-notesDict_fr.set(3   , "Do");
-notesDict_fr.set(3.5 , "Do‡");
-notesDict_fr.set(4   , "Do#");
-notesDict_fr.set(4.5 , "Do⧥");
-notesDict_fr.set(5   , "Ré");
-notesDict_fr.set(5.5 , "Ré‡");
-notesDict_fr.set(6   , "Ré#");
-notesDict_fr.set(6.5 , "Ré⧥");
-notesDict_fr.set(7   , "Mi");
-notesDict_fr.set(7.5 , "Mi‡");
-notesDict_fr.set(8   , "Fa");
-notesDict_fr.set(8.5 , "Fa‡");
-notesDict_fr.set(9   , "Fa#");
-notesDict_fr.set(9.5 , "Fa⧥");
-notesDict_fr.set(10  , "Sol");
-notesDict_fr.set(10.5, "Sol‡");
-notesDict_fr.set(11  , "Sol#");
-notesDict_fr.set(11.5, "Sol⧥");
+notesDict_fr.set(0   , "Do");
+notesDict_fr.set(0.5 , "Do‡");
+notesDict_fr.set(1   , "Do#");
+notesDict_fr.set(1.5 , "Do⧥"); // Réd
+notesDict_fr.set(2   , "Ré");
+notesDict_fr.set(2.5 , "Ré‡");
+notesDict_fr.set(3   , "Ré#");
+notesDict_fr.set(3.5 , "Ré⧥");
+notesDict_fr.set(4   , "Mi");
+notesDict_fr.set(4.5 , "Mi‡");
+notesDict_fr.set(5   , "Fa");
+notesDict_fr.set(5.5 , "Fa‡");
+notesDict_fr.set(6   , "Fa#");
+notesDict_fr.set(6.5 , "Fa⧥");
+notesDict_fr.set(7   , "Sol");
+notesDict_fr.set(7.5 , "Sol‡");
+notesDict_fr.set(8   , "Sol#");
+notesDict_fr.set(8.5 , "Sol⧥");
+notesDict_fr.set(9   , "La");
+notesDict_fr.set(9.5 , "La‡");
+notesDict_fr.set(10  , "La#");
+notesDict_fr.set(10.5, "La⧥");
+notesDict_fr.set(11  , "Si");
+notesDict_fr.set(11.5, "Si‡");
 
 // global dictionary
 const notesDicts: Map<string, Map<number, string>> = new Map<string,Map<number, string>>();

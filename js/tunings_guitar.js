@@ -1,20 +1,20 @@
 "use strict";
 // guitar tunings with 4 notes (bass)
 const guitarTunings4Dict = new Map();
-guitarTunings4Dict.set("standard", [7, 0, 5, 10]);
-guitarTunings4Dict.set("dropped_d", [5, 0, 5, 10]);
+guitarTunings4Dict.set("standard", [4, 9, 2, 7]);
+guitarTunings4Dict.set("dropped_d", [2, 9, 2, 7]);
 // guitar tunings with 7 notes -bass / mandolin)
 const guitarTunings5Dict = new Map();
-guitarTunings5Dict.set("standard", [2, 7, 0, 5, 10]);
+guitarTunings5Dict.set("standard", [11, 4, 9, 2, 7]);
 // guitar tunings with 6 notes
 const guitarTunings6Dict = new Map();
-guitarTunings6Dict.set("standard", [7, 0, 5, 10, 2, 7]);
-guitarTunings6Dict.set("dropped_d", [5, 0, 5, 10, 2, 7]);
-guitarTunings6Dict.set("open_g", [10, 2, 5, 10, 2, 5]);
-guitarTunings6Dict.set("dadgad", [5, 0, 5, 10, 0, 5]);
+guitarTunings6Dict.set("standard", [4, 9, 2, 7, 11, 4]);
+guitarTunings6Dict.set("dropped_d", [2, 9, 2, 7, 11, 4]);
+guitarTunings6Dict.set("open_g", [7, 11, 2, 7, 11, 2]);
+guitarTunings6Dict.set("dadgad", [2, 9, 2, 7, 9, 2]);
 // guitar tunings with 7 notes
 const guitarTunings7Dict = new Map();
-guitarTunings7Dict.set("standard", [2, 7, 0, 5, 10, 2, 7]);
+guitarTunings7Dict.set("standard", [11, 4, 9, 2, 7, 11, 4]);
 // global guitar tunings dictionary
 const guitarTuningsDict = new Map();
 guitarTuningsDict.set(4, guitarTunings4Dict);
