@@ -50,6 +50,7 @@ scaleFamiliesDict.set("8jiharkah",     [0, 2, 4, 5, 7, 9, 10, 10.5]);
 scaleFamiliesDict.set("8mahur",        [0, 2, 3.5, 5, 7, 9, 10, 11]);
 scaleFamiliesDict.set("8mehayar",      [0, 1.5, 3, 5, 7, 8, 8.5, 10]);
 scaleFamiliesDict.set("8mustaar",      [0, 1.5, 2.5, 3.5, 5.5, 6.5, 8.5, 10.5]);
+scaleFamiliesDict.set("8tet",          [0, 1.5, 3, 4.5, 6, 7.5, 9, 10.5]);
 
 // 7 notes with quarter tones
 scaleFamiliesDict.set("7hijaz",        [0, 1, 4, 5, 7, 8.5, 10]);
@@ -58,6 +59,8 @@ scaleFamiliesDict.set("7bayati",       [0, 1.5, 3, 5, 7, 8, 10]);
 scaleFamiliesDict.set("7hardino",      [0, 1.5, 4, 5, 7, 8.5, 11]);
 scaleFamiliesDict.set("7sikah_baladi", [0, 1.5, 3.5, 5, 7, 8.5, 10.5]);
 
+// 5 notes with quarter tones
+scaleFamiliesDict.set("5tet_approx",   [0, 2.5, 5, 7, 9.5]);
 
 //////////////////////////////////// STRINGS //////////////////////////////////
 
@@ -193,6 +196,9 @@ scalesDict_int.set("8mehayar,1,diff:7major_nat;6", "Mehayar / Hoseni / Rahaw");
 scalesDict_int.set("8mustaar,1", "Mustaar");
 scalesDict_int.set("8notes_quarter_tones,sep", "");
 
+scalesDict_int.set("8tet,1", "8-TET / 8-EDO");
+scalesDict_int.set("8tet,sep", "");
+
 scalesDict_int.set("7notes_quarter_tones", "--------------- 7 NOTES ¼ TONES ---------------");
 
 scalesDict_int.set("7hijaz,1,diff:7minor_harm;5", "Hijaz");
@@ -208,11 +214,16 @@ scalesDict_int.set("7rast,sep", "");
 
 scalesDict_int.set("7bayati,1,diff:7major_nat;6", "Bayati");
 scalesDict_int.set("7hardino,1,diff:7major_nat;1", "Hardino");
-scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi");
+scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi / 7-TET (Approximation)");
 scalesDict_int.set("7notes_quarter_tones,sep", "");
 
 scalesDict_int.set("7sikah_baladi,6,diff:7major_nat;1", "Neutral");
+scalesDict_int.set("7neutral,sep", "");
 
+scalesDict_int.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONES ---------------");
+
+scalesDict_int.set("5tet_approx,1,diff:5major_penta;4", "5-TET / 5-EDO (Approximation)"); // Inca scale?
+scalesDict_int.set("5notes_quarter_tones,sep", "");
 
 /////////////////////////////////// FRENCH ////////////////////////////////////
 
@@ -333,6 +344,8 @@ scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 
 scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre");
 
+scalesDict_fr.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONS ---------------");
+
 
 // global dictionary
 const scalesDicts: Map<string, Map<string, string>> = new Map<string,Map<string, string>>();
@@ -345,10 +358,12 @@ scalesDicts.set("fr",  scalesDict_fr);
 const scalesToHighlight: Array<string> = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
     "8jiharkah,1",
-    "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1",
+    "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7sikah_baladi",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
     "6blues,1", "6strange,1", "6aug,1",
-    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1"];
+    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1",
+    "5tet_approx,1"
+];
 
 function hightlightScale(id: string): boolean
 {
