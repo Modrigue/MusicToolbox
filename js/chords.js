@@ -64,9 +64,10 @@ chords4Dict.set("7Msus4sharp5", [0, 5, 8, 11]);
 chords4Dict.set("7Msus4sharpsharp5", [0, 5, 9, 11]);
 chords4Dict.set("m7add4(no5)", [0, 3, 5, 10]);
 chords4Dict.set("m6Madd4(no5)", [0, 3, 5, 9]);
-chords4Dict.set("tristan", [0, 6, 10, 15]);
 chords4Dict.set("Fr+6", [0, 2, 6, 8]); // French augmented 6th
 chords4Dict.set("Ger+6", [0, 3, 6, 8]); // German augmented 6th
+chords4Dict.set("dream", [0, 5, 6, 7]);
+chords4Dict.set("tristan", [0, 6, 10, 15]);
 // chords with 5 notes
 const chords5Dict = new Map();
 chords5Dict.set("9M", [0, 4, 7, 11, 14]);
@@ -87,7 +88,10 @@ chords5Dict.set("7Madd11", [0, 4, 7, 9, 14]);
 chords5Dict.set("7add11", [0, 4, 7, 8, 14]);
 chords5Dict.set("m7add11", [0, 3, 7, 8, 14]);
 chords5Dict.set("m7Madd11", [0, 3, 7, 9, 14]);
+chords5Dict.set("beta", [0, 3, 6, 9, 11]);
+chords5Dict.set("gamma", [0, 3, 6, 8, 11]);
 chords5Dict.set("elektra", [0, 7, 9, 13, 16]);
+chords5Dict.set("farben", [0, 8, 11, 16, 21]);
 // chords with 6 notes
 const chords6Dict = new Map();
 chords6Dict.set("11M", [0, 4, 7, 11, 14, 17]);
@@ -108,6 +112,7 @@ chords6Dict.set("13Mflat9", [0, 4, 7, 11, 13, 21]);
 chords6Dict.set("13flat9", [0, 4, 7, 10, 13, 21]);
 chords6Dict.set("m13flat9", [0, 3, 7, 10, 13, 21]);
 chords6Dict.set("m13Mflat9", [0, 3, 7, 11, 13, 21]);
+chords6Dict.set("bridge", [0, 3, 7, 14, 18, 21]);
 chords6Dict.set("mystic", [0, 4, 6, 9, 10, 14]);
 // global chords dictionary
 const chordsDicts = new Map();
