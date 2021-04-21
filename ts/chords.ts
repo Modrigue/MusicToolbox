@@ -27,8 +27,8 @@ chords3Dict.set("sus2add4(no5)",    [0, 2, 5]);
 chords3Dict.set("phryg",            [0, 1, 7]); // phrygian
 chords3Dict.set("lyd",              [0, 6, 7]); // lydian
 chords3Dict.set("loc",              [0, 5, 6]); // locrian
-chords3Dict.set("vien",             [0, 1, 6]); // viennese
-chords3Dict.set("It+6",             [0, 4, 10]);
+chords3Dict.set("vien",             [0, 1, 6]); // Viennese
+chords3Dict.set("It+6",             [0, 6, 8]); // Italian augmented 6th
 
 // chords with 4 notes
 const chords4Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
@@ -57,7 +57,6 @@ chords4Dict.set("m6",                 [0, 3, 7, 8]);
 chords4Dict.set("m6M",                [0, 3, 7, 9]);
 chords4Dict.set("6flat5",             [0, 4, 6, 9]);
 chords4Dict.set("mdim7",              [0, 3, 6, 9]);
-chords4Dict.set("m6flat5",            [0, 3, 6, 8]);
 chords4Dict.set("sus2add6flat5",      [0, 2, 6, 9]);
 chords4Dict.set("sus2add4sharp5",     [0, 2, 5, 8]);
 chords4Dict.set("6Msus2add4(no5)",    [0, 2, 5, 9]);
@@ -68,6 +67,8 @@ chords4Dict.set("7Msus4sharpsharp5",  [0, 5, 9, 11]);
 chords4Dict.set("m7add4(no5)",        [0, 3, 5, 10]);
 chords4Dict.set("m6Madd4(no5)",       [0, 3, 5, 9]);
 chords4Dict.set("tristan",            [0, 6, 10, 15]);
+chords4Dict.set("Fr+6",               [0, 2, 6, 8]); // French augmented 6th
+chords4Dict.set("Ger+6",              [0, 3, 6, 8]); // German augmented 6th
 
 // chords with 5 notes
 const chords5Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
