@@ -103,10 +103,10 @@ scalesDict_int.set("7major_2harm,6,diff:7major_nat;1", "Ionian augmented #2 (6th
 scalesDict_int.set("7major_2harm,7,diff:7major_nat;7", "Locrian ♭♭3 ♭♭7 (7th mode)");
 scalesDict_int.set("7major_2harm,sep", "");
 scalesDict_int.set("7major_harm,1,diff:7major_nat;1", "Harmonic major / Ionian ♭6");
-scalesDict_int.set("7major_harm,2,diff:7major_nat;2", "Dorian ♭5 (2nd mode)");
+scalesDict_int.set("7major_harm,2,diff:7major_nat;2", "Nahawand Murassa' / Dorian ♭5 (2nd mode)");
 scalesDict_int.set("7major_harm,3,diff:7major_nat;3", "Phrygian ♭4 (3rd mode)");
 scalesDict_int.set("7major_harm,4,diff:7major_nat;4", "Lydian ♭3 / Melodic minor #4 (4th mode)");
-scalesDict_int.set("7major_harm,5,diff:7major_nat;5", "Mixolydian ♭2 (5th mode)");
+scalesDict_int.set("7major_harm,5,diff:7major_nat;5", "Zanjaran / Mixolydian ♭2 (5th mode)");
 scalesDict_int.set("7major_harm,6,diff:7major_nat;4", "Lydian augmented #2 (6th mode)");
 scalesDict_int.set("7major_harm,7,diff:7major_nat;7", "Locrian ♭♭7 (7th mode)");
 scalesDict_int.set("7major_harm,sep", "");
@@ -207,7 +207,7 @@ scalesDict_int.set("7hijaz,5,diff:7bayati;1", "Bayati Shuri (5th mode)");
 scalesDict_int.set("7hijaz,sep", "");
 
 scalesDict_int.set("7rast,1,diff:7major_nat;2", "Rast");
-scalesDict_int.set("7rast,5,diff:7major_nat;6", "Nayruz / Simdi Huseyni-Ussak (5th mode)");
+scalesDict_int.set("7rast,5,diff:7major_nat;6", "Nairuz / Simdi Huseyni-Ussak (5th mode)");
 scalesDict_int.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6th mode)");
 scalesDict_int.set("7rast,7,diff:7major_nat;1", "Iraq (7th mode)");
 scalesDict_int.set("7rast,sep", "");
@@ -263,10 +263,10 @@ scalesDict_fr.set("7major_2harm,6,diff:7major_nat;1", "Ionien augmenté #2 (6e m
 scalesDict_fr.set("7major_2harm,7,diff:7major_nat;7", "Locrien ♭♭3 ♭♭7 (7e mode)");
 
 scalesDict_fr.set("7major_harm,1,diff:7major_nat;1", "Majeur harmonique / Ionien ♭6");
-scalesDict_fr.set("7major_harm,2,diff:7major_nat;2", "Dorien ♭5 (2e mode)");
+scalesDict_fr.set("7major_harm,2,diff:7major_nat;2", "Nahawand Murassa' / Dorien ♭5 (2e mode)");
 scalesDict_fr.set("7major_harm,3,diff:7major_nat;3", "Phrygien ♭4 (3e mode)");
 scalesDict_fr.set("7major_harm,4,diff:7major_nat;4", "Lydien ♭3 / Mineure mélodique #4 (4e mode)");
-scalesDict_fr.set("7major_harm,5,diff:7major_nat;5", "Mixolydien ♭2 (5e mode)");
+scalesDict_fr.set("7major_harm,5,diff:7major_nat;5", "Zanjaran / Mixolydien ♭2 (5e mode)");
 scalesDict_fr.set("7major_harm,6,diff:7major_nat;4", "Lydien augmenté #2 (6e mode)");
 scalesDict_fr.set("7major_harm,7,diff:7major_nat;7", "Locrien ♭♭7 (7e mode)");
 
