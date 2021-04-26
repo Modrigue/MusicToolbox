@@ -47,6 +47,7 @@ scaleFamiliesDict.set("8bastanikar",   [0, 1.5, 3.5, 5, 6.5, 7.5, 10.5, 11.5]);
 scaleFamiliesDict.set("8dalanshin",    [0, 1, 2, 3.5, 5, 7, 9, 10.5]);
 scaleFamiliesDict.set("8jiharkah",     [0, 2, 4, 5, 7, 9, 10, 10.5]);
 scaleFamiliesDict.set("8mehayar",      [0, 1.5, 3, 5, 7, 8, 8.5, 10]);
+scaleFamiliesDict.set("8kirdan",       [0, 2, 3, 3.5, 5, 7, 9, 10.5]);
 scaleFamiliesDict.set("8tet",          [0, 1.5, 3, 4.5, 6, 7.5, 9, 10.5]);
 
 // 7 notes with quarter tones
@@ -190,6 +191,7 @@ scalesDict_int.set("8jiharkah,sep", "");
 
 scalesDict_int.set("8bastanikar,1,diff:8bebop_dom;1", "Bastanikar");
 scalesDict_int.set("8dalanshin,1", "Dalanshin");
+scalesDict_int.set("8kirdan,1", "Kirdan");
 scalesDict_int.set("8mehayar,1,diff:7major_nat;6", "Mehayar / Hoseni / Rahaw");
 scalesDict_int.set("8notes_quarter_tones,sep", "");
 
