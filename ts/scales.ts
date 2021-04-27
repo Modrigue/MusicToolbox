@@ -186,9 +186,6 @@ scalesDict_int.set("5others,sep", "");
 scalesDict_int.set("8notes_quarter_tones", "--------------- 8 NOTES ¼ TONES ---------------");
 
 scalesDict_int.set("8jiharkah,1,diff:8bebop_dom;1", "Jiharkah");
-scalesDict_int.set("8jiharkah,2,diff:7major_nat;6", "Ushaq Masri (2nd mode)");
-scalesDict_int.set("8jiharkah,sep", "");
-
 scalesDict_int.set("8bastanikar,1,diff:8bebop_dom;1", "Bastanikar");
 scalesDict_int.set("8dalanshin,1", "Dalanshin");
 scalesDict_int.set("8kirdan,1", "Kirdan");
@@ -213,7 +210,7 @@ scalesDict_int.set("7rast,7,diff:7major_nat;1", "Iraq (7th mode)");
 scalesDict_int.set("7rast,sep", "");
 
 scalesDict_int.set("7bayati,1,diff:7major_nat;6", "Bayati");
-scalesDict_int.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (2nd mode)");
+scalesDict_int.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4th mode)");
 scalesDict_int.set("7bayati,sep", "");
 
 scalesDict_int.set("7hardino,1,diff:7major_nat;1", "Hardino");
@@ -337,8 +334,6 @@ scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique Phrygien 
 
 scalesDict_fr.set("8notes_quarter_tones", "----------------- 8 NOTES ¼ TONS -----------------");
 
-scalesDict_fr.set("8jiharkah,2,diff:7major_nat;6", "Ushaq Masri (2e mode)");
-
 scalesDict_fr.set("7notes_quarter_tones", "----------------- 7 NOTES ¼ TONS -----------------");
 
 scalesDict_fr.set("7hijaz,4,diff:7major_harm;1", "Suznak (4e mode)");
@@ -349,7 +344,7 @@ scalesDict_fr.set("7rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5e mode)");
 scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
 scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 
-scalesDict_int.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (2e mode)");
+scalesDict_fr.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4e mode)");
 
 scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre");
 
@@ -366,7 +361,6 @@ scalesDicts.set("fr",  scalesDict_fr);
 
 const scalesToHighlight: Array<string> = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
-    "8jiharkah,1",
     "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7sikah_baladi",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
     "6blues,1", "6strange,1", "6aug,1",
