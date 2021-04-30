@@ -103,7 +103,7 @@ function getChordNumberInScale(scaleValues: Array<number>,
 }
 
 // get roman representation of chord position
-function getRomanChord(pos: number, chordId: string, nbNotesInChords: number): string
+function getRomanChord(pos: number, chordId: string, nbNotesInChords: number, scaleValues: Array<number>): string
 {
   let romanPos: string = <string>romanDigits.get(pos + 1);
   
@@ -126,6 +126,15 @@ function getRomanChord(pos: number, chordId: string, nbNotesInChords: number): s
     romanPos = getCompactChordNotation(romanPos, chordId.substring(1));
   else
     romanPos = getCompactChordNotation(romanPos, chordId);
+
+  // add prefix if existing
+  const nbNotesInScale = scaleValues.length;
+  const intervalValue = scaleValues[pos];
+  const intervalName: string = <string>intervalsDict.get(intervalValue);
+  const intervalNameAlt: string = getAltIntervalNotation(intervalValue, pos);
+  const interval = (nbNotesInScale == 7) ? intervalNameAlt : intervalName;
+  const prefix = interval.replace(/[0-9T]/g, '');
+  romanPos = prefix + romanPos;
 
   return romanPos;
 }
@@ -320,7 +329,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
   chordValuesArray.forEach(function (chordValues, index)
   {
     const chordName = getKeyFromArrayValue(chordsDict, chordValues);
-    const romanChord = getRomanChord(index, chordName, nbNotesInChords);
+    const romanChord = getRomanChord(index, chordName, nbNotesInChords, scaleValues);
 
     const noteValue = scaleNotesValues[index];
 

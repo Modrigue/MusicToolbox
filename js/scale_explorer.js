@@ -72,7 +72,7 @@ function getChordNumberInScale(scaleValues, pos, nbNotes) {
     return chordValues;
 }
 // get roman representation of chord position
-function getRomanChord(pos, chordId, nbNotesInChords) {
+function getRomanChord(pos, chordId, nbNotesInChords, scaleValues) {
     let romanPos = romanDigits.get(pos + 1);
     // write minor chords in lower case
     const chordsDict = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
@@ -91,6 +91,14 @@ function getRomanChord(pos, chordId, nbNotesInChords) {
         romanPos = getCompactChordNotation(romanPos, chordId.substring(1));
     else
         romanPos = getCompactChordNotation(romanPos, chordId);
+    // add prefix if existing
+    const nbNotesInScale = scaleValues.length;
+    const intervalValue = scaleValues[pos];
+    const intervalName = intervalsDict.get(intervalValue);
+    const intervalNameAlt = getAltIntervalNotation(intervalValue, pos);
+    const interval = (nbNotesInScale == 7) ? intervalNameAlt : intervalName;
+    const prefix = interval.replace(/[0-9T]/g, '');
+    romanPos = prefix + romanPos;
     return romanPos;
 }
 // get scale inner steps values
@@ -235,7 +243,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
     let chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
     chordValuesArray.forEach(function (chordValues, index) {
         const chordName = getKeyFromArrayValue(chordsDict, chordValues);
-        const romanChord = getRomanChord(index, chordName, nbNotesInChords);
+        const romanChord = getRomanChord(index, chordName, nbNotesInChords, scaleValues);
         const noteValue = scaleNotesValues[index];
         // highlight if tonic degree
         let classString = "table-body-cell";
