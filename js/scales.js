@@ -160,11 +160,13 @@ scalesDict_int.set("5jap_insen,5", "Kumoi (5th mode)");
 scalesDict_int.set("5jap_insen,sep", "");
 scalesDict_int.set("5javanese,1", "Javanese");
 scalesDict_int.set("5javanese,2", "Balinese (2nd mode)");
-scalesDict_int.set("5pelog_bem,1", "Pelog Bem");
-scalesDict_int.set("5pelog_barang,1", "Pelog Barang");
 scalesDict_int.set("5javanese_sep", "");
-scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonic Bartok");
-scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonic Phrygian ♮6");
+scalesDict_int.set("5pelog_barang,1", "Pelog Barang");
+scalesDict_int.set("5pelog_barang,2", "Mixolydian Pentatonic (2nd mode)");
+scalesDict_int.set("5pelog_barang_sep", "");
+scalesDict_int.set("5pelog_bem,1", "Pelog Bem");
+scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Bartok Pentatonic");
+scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
 scalesDict_int.set("5others,sep", "");
 scalesDict_int.set("8notes_quarter_tones", "--------------- 8 NOTES ¼ TONES ---------------");
 scalesDict_int.set("8jiharkah,1,diff:8bebop_dom;1", "Jiharkah");
@@ -277,6 +279,7 @@ scalesDict_fr.set("5jap_insen,1", "Insen");
 scalesDict_fr.set("5jap_insen,5", "Kumoi (5e mode)");
 scalesDict_fr.set("5javanese,1", "Javanais");
 scalesDict_fr.set("5javanese,2", "Balinais (2e mode)");
+scalesDict_fr.set("5pelog_barang,2", "Pentatonique Mixolydien (2e mode)");
 scalesDict_fr.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonique Bartok");
 scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique Phrygien ♮6");
 scalesDict_fr.set("8notes_quarter_tones", "----------------- 8 NOTES ¼ TONS -----------------");
@@ -300,7 +303,7 @@ const scalesToHighlight = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7mi
     "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7sikah_baladi",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
     "6blues,1", "6strange,1", "6aug,1",
-    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1",
+    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1",
     "5tet_approx,1"
 ];
 function hightlightScale(id) {
