@@ -102,18 +102,20 @@ chords6Dict.set("11Mflat9", [0, 4, 7, 11, 13, 17]);
 chords6Dict.set("11flat9", [0, 4, 7, 10, 13, 17]);
 chords6Dict.set("m11flat9", [0, 3, 7, 10, 13, 17]);
 chords6Dict.set("m11Mflat9", [0, 3, 7, 11, 13, 17]);
-chords6Dict.set("13M", [0, 4, 7, 11, 14, 21]);
-chords6Dict.set("13", [0, 4, 7, 10, 14, 21]);
-chords6Dict.set("m13", [0, 3, 7, 10, 14, 21]);
-chords6Dict.set("m13M", [0, 3, 7, 11, 14, 21]);
-chords6Dict.set("13Msus", [0, 5, 7, 11, 14, 21]); // sus4
-chords6Dict.set("m13sus", [0, 5, 7, 10, 14, 21]); // sus4
-chords6Dict.set("13Mflat9", [0, 4, 7, 11, 13, 21]);
-chords6Dict.set("13flat9", [0, 4, 7, 10, 13, 21]);
-chords6Dict.set("m13flat9", [0, 3, 7, 10, 13, 21]);
-chords6Dict.set("m13Mflat9", [0, 3, 7, 11, 13, 21]);
 chords6Dict.set("bridge", [0, 3, 7, 14, 18, 21]);
 chords6Dict.set("mystic", [0, 4, 6, 9, 10, 14]);
+// disabled for now: chords with 7 notes
+const chords7Dict = new Map();
+chords7Dict.set("13M", [0, 4, 7, 11, 14, 17, 21]);
+chords7Dict.set("13", [0, 4, 7, 10, 14, 17, 21]);
+chords7Dict.set("m13", [0, 3, 7, 10, 14, 17, 21]);
+chords7Dict.set("m13M", [0, 3, 7, 11, 14, 17, 21]);
+chords7Dict.set("13Mflat9", [0, 4, 7, 11, 13, 17, 21]);
+chords7Dict.set("13flat9", [0, 4, 7, 10, 13, 17, 21]);
+chords7Dict.set("m13flat9", [0, 3, 7, 10, 13, 17, 21]);
+chords7Dict.set("m13Mflat9", [0, 3, 7, 11, 13, 17, 21]);
+chords7Dict.set("13Msus", [0, 5, 7, 11, 14, 17, 21]); // sus4?
+chords7Dict.set("m13sus", [0, 5, 7, 10, 14, 17, 21]); // sus4?
 // global chords dictionary
 const chordsDicts = new Map();
 chordsDicts.set(2, chords2Dict);
@@ -121,6 +123,7 @@ chordsDicts.set(3, chords3Dict);
 chordsDicts.set(4, chords4Dict);
 chordsDicts.set(5, chords5Dict);
 chordsDicts.set(6, chords6Dict);
+//chordsDicts.set(7, chords7Dict);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 function initChordSelector(id, defaultChordId = "-1", firstChordEmpty = false) {
     // get chord selector
