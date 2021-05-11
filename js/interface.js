@@ -1,5 +1,5 @@
 "use strict";
-const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer"];
+const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"];
 let pageSelected = "";
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
@@ -11,6 +11,7 @@ window.onload = function () {
     window.addEventListener("resize", onResize);
     //document.body.addEventListener("resize", onResize); // not working?
     // header
+    document.getElementById("button_page_chord_tester").addEventListener("click", () => { selectPage("page_chord_tester"); });
     document.getElementById("button_page_chord_explorer").addEventListener("click", () => { selectPage("page_chord_explorer"); });
     document.getElementById("button_page_scale_explorer").addEventListener("click", () => { selectPage("page_scale_explorer"); });
     document.getElementById("button_page_scale_finder").addEventListener("click", () => selectPage("page_scale_finder"));
@@ -225,6 +226,11 @@ function update() {
                 setVisible('negative_scale', false);
                 break;
             }
+        case "page_chord_tester":
+            updateChordTesterTables();
+            setVisible('found_scales', false);
+            setVisible('negative_scale', false);
+            break;
     }
 }
 function onResize() {
@@ -295,6 +301,7 @@ function resetScaleFinder() {
 function updateLocales() {
     document.title = getString("title");
     // pages buttons
+    document.getElementById("button_page_chord_tester").innerText = getString("page_chord_tester");
     document.getElementById("button_page_chord_explorer").innerText = getString("page_chord_explorer");
     document.getElementById("button_page_scale_explorer").innerText = getString("page_scale_explorer");
     document.getElementById("button_page_scale_finder").innerText = getString("page_scale_finder");

@@ -21,6 +21,7 @@
     <script src="js/scale_finder.js"></script>
     <script src="js/chord_finder.js"></script>
     <script src="js/chord_generator.js"></script>
+    <script src="js/chord_tester.js"></script>
     <script src="js/tunings_guitar.js"></script>
     <script src="js/url_parameters.js"></script>
     <script src="js/negative_harmony.js"></script>
@@ -54,6 +55,7 @@
       <span style='float: left;'>
         <a href="https://github.com/Modrigue/WebMusicScaleGenerator" target="_blank" title="Github"><img src="img/GitHub-Mark-24px.png" alt="GitHub"/></a>
       </span>
+      <button class="button-page" id="button_page_chord_tester">Test all chords</button>
       <button class="button-page" id="button_page_chord_explorer">Find chords</button>
       <button class="button-page" id="button_page_scale_explorer">Explore scales</button>
       <button class="button-page" id="button_page_scale_finder">Find scales</button>
@@ -256,6 +258,12 @@
       <p id='generated_guitar_chords' style="text-align: center;">?</p>
     </div>
   </div>
+
+    <!-- ############################ CHORDS TESTER ########################### -->
+
+    <div id ='page_chord_tester'>
+      <p id='chord_tester'>?</p>
+    </div>
 
     <script>
       // init: ensure immediate selected page display

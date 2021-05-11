@@ -85,7 +85,7 @@ function playScale(noteValue: number, scaleValues: Array<number>,
     // }
 }
 
-function playChord(noteValue: number, chordValues:  Array<number>,
+function playChord(noteValue: number, chordValues: Array<number>,
     duration: number, delay: number = 0): void
 {
     chordValues.forEach(function (intervalValue, index)
