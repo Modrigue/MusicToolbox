@@ -2,9 +2,6 @@ function updateChordTesterTables()
 {
     let chordsTablesHTML = "";
 
-    // get selected mode (chord / arpeggios)    
-    const delay = 0;
-
     for (const [nbNotesInChords, chordsDict] of chordsDicts)
     {
         let chordsTableHTML = /*html*/`<div id=\"resp-table\"><div id=\"resp-table-caption\">${getString("chords_N_notes", nbNotesInChords.toString())}</div><div id=\"resp-table-body\">`;  
@@ -12,16 +9,16 @@ function updateChordTesterTables()
         // list all chords with current nb. notes
         for (const [chordId, chordValues] of chordsDict)
         {
-            let chordsRowHTML = "<div class=\"resp-table-row\">";
+            let chordsRowHTML = /*html*/`<div class=\"resp-table-row\">`;
             for (let noteValue = 0; noteValue < 12; noteValue++)
             {
                 const noteName = getNoteName(noteValue);
-                const callbackString = `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`;
+                const callbackString = `playChordTest(${noteValue}, [${chordValues.toString()}])`;
                 
                 let classString = "table-body-cell-interactive";  
                 const divChord: HTMLDivElement = document.createElement('div');
                 divChord.classList.add(classString);
-                divChord.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, ${delay})`);
+                divChord.setAttribute("onClick", callbackString);
                 //divChord.innerText = (noteValue == 0) ?
                 //    getCompactChordNotation(noteName, chordId) : noteName;
                 divChord.innerText = getCompactChordNotation(noteName, chordId);
@@ -41,4 +38,14 @@ function updateChordTesterTables()
     }
 
     (<HTMLParagraphElement>document.getElementById('chord_tester')).innerHTML = chordsTablesHTML;
+}
+
+function playChordTest(noteValue: number, chordValues: Array<number>): void
+{
+    // get delay given selected mode (arpeggios chord)
+    const delay =
+        (<HTMLInputElement>document.getElementById("radioChordTesterArpeggios")).checked ?
+        0.25 : 0;
+    
+    playChord(noteValue, chordValues, 0, delay);
 }

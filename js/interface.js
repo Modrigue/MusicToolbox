@@ -334,6 +334,9 @@ function updateLocales() {
     document.getElementById("chord_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("chord_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("chord_explorer_nb_strings_max_text").innerText = getString("chord_explorer_nb_strings_max_text");
+    // chord tester
+    document.getElementById("radioChordTesterChordsLabel").innerText = getString("play_chords");
+    document.getElementById("radioChordTesterArpeggiosLabel").innerText = getString("play_arpeggios");
     // update computed data
     updateSelectors();
     onNoteChanged();
