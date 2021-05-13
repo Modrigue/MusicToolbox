@@ -4,7 +4,7 @@ Easy to use online music scale and chords generator, finder and player.
 
 * Scale explorer with more than 90 scales / modes included (including quarter tones),
 * Scale finder,
-* Chord explorer and finder,
+* Chord explorer, finder and interactive player,
 * Possibility to hear scales and chords,
 * Scales and chords visualization on guitar and keyboard,
 * Adjustable guitar nb. of strings and tuning.
