@@ -262,13 +262,19 @@
     <!-- ############################ CHORDS TESTER ########################### -->
 
     <div id ='page_chord_tester'>
-      <div class='align-center'>
-        <input type="radio" id="radioChordTesterChords" name="chord_tester_mode" value="chords" checked>
-        <label class="input-label" id="radioChordTesterChordsLabel" for="radioChordTesterChords">Play chords</label>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="radio" id="radioChordTesterArpeggios" name="chord_tester_mode" value="arpeggios">
-        <label class="input-label" id="radioChordTesterArpeggiosLabel" for="radioChordTesterArpeggios">Play arpeggios</label>
-        <br/><br/>
+      <div id='options_chord_tester'>
+        <p class='align-left'>
+          <input type="radio" id="radioChordTesterChords" name="chord_tester_mode" value="chords" checked>
+          <label class="input-label" id="radioChordTesterChordsLabel" for="radioChordTesterChords">Play chords</label>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" id="radioChordTesterArpeggios" name="chord_tester_mode" value="arpeggios">
+          <label class="input-label" id="radioChordTesterArpeggiosLabel" for="radioChordTesterArpeggios">Play arpeggios</label>
+        </p>
+
+        <p class='align-right'>
+          <input type="checkbox" id="checkboxCommonChords" name="checkboxCommonChords">
+          <label class="input-label" id="checkboxCommonChordsLabel" for="checkboxCommonChords">Common chords only</label>
+        </p>
       </div>
 
       <p id='chord_tester'>?</p>

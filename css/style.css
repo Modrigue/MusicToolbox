@@ -317,7 +317,7 @@ p
 
 /* from https://stackoverflow.com/questions/13694062/css-left-center-right-align-text-on-same-line */
 
-#options_chord_explorer
+#options_chord_explorer, #options_chord_tester
 {
     display: flex;
 }

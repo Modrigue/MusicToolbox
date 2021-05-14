@@ -45,6 +45,8 @@ window.onload = function () {
     document.getElementById("chord_explorer_guitar_tuning").addEventListener("change", update);
     document.getElementById("checkboxBarres").addEventListener("change", update);
     document.getElementById("chord_explorer_nb_strings_max").addEventListener("change", update);
+    // chord tester
+    document.getElementById("checkboxCommonChords").addEventListener("change", update);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -314,7 +316,6 @@ function updateLocales() {
     document.getElementById("checkboxChordsLabel").innerText = getString("chords");
     document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");
     document.getElementById("checkboxKeyboardLabel").innerText = getString("keyboard");
-    document.getElementById("checkboxBarresLabel").innerText = getString("show_barres");
     document.getElementById("checkboxQuarterTonesScaleExplorerLabel").innerText = getString("quarter_tones");
     document.getElementById("scale_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("scale_explorer_guitar_tuning_text").innerText = getString("tuning");
@@ -334,9 +335,11 @@ function updateLocales() {
     document.getElementById("chord_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("chord_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("chord_explorer_nb_strings_max_text").innerText = getString("chord_explorer_nb_strings_max_text");
+    document.getElementById("checkboxBarresLabel").innerText = getString("show_barres");
     // chord tester
     document.getElementById("radioChordTesterChordsLabel").innerText = getString("play_chords");
     document.getElementById("radioChordTesterArpeggiosLabel").innerText = getString("play_arpeggios");
+    document.getElementById("checkboxCommonChordsLabel").innerText = getString("show_common_chords_only");
     // update computed data
     updateSelectors();
     onNoteChanged();

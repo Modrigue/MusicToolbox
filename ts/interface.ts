@@ -57,6 +57,9 @@ window.onload = function()
     (<HTMLSelectElement>document.getElementById("chord_explorer_guitar_tuning")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("checkboxBarres")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("chord_explorer_nb_strings_max")).addEventListener("change", update);
+
+    // chord tester
+    (<HTMLInputElement>document.getElementById("checkboxCommonChords")).addEventListener("change", update);
 }
 
 function initLanguage(): void
@@ -428,7 +431,6 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("checkboxChordsLabel")).innerText = getString("chords");
     (<HTMLLabelElement>document.getElementById("checkboxGuitarLabel")).innerText = getString("guitar");
     (<HTMLLabelElement>document.getElementById("checkboxKeyboardLabel")).innerText = getString("keyboard");
-    (<HTMLLabelElement>document.getElementById("checkboxBarresLabel")).innerText = getString("show_barres");
     (<HTMLLabelElement>document.getElementById("checkboxQuarterTonesScaleExplorerLabel")).innerText = getString("quarter_tones");
     (<HTMLSpanElement>document.getElementById("scale_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
     (<HTMLSpanElement>document.getElementById("scale_explorer_guitar_tuning_text")).innerText = getString("tuning");
@@ -453,11 +455,12 @@ function updateLocales(): void
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_tuning_text")).innerText = getString("tuning");
     (<HTMLSpanElement>document.getElementById("chord_explorer_nb_strings_max_text")).innerText = getString("chord_explorer_nb_strings_max_text");
+    (<HTMLLabelElement>document.getElementById("checkboxBarresLabel")).innerText = getString("show_barres");
     
     // chord tester
     (<HTMLLabelElement>document.getElementById("radioChordTesterChordsLabel")).innerText = getString("play_chords");
     (<HTMLLabelElement>document.getElementById("radioChordTesterArpeggiosLabel")).innerText = getString("play_arpeggios");
-    
+    (<HTMLLabelElement>document.getElementById("checkboxCommonChordsLabel")).innerText = getString("show_common_chords_only");
 
     // update computed data
     updateSelectors();
