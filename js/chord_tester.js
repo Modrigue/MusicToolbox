@@ -23,6 +23,9 @@ function updateChordTesterTables() {
                 let classString = "table-body-cell-interactive";
                 const divChord = document.createElement('div');
                 divChord.classList.add(classString);
+                // set notes as tooltip
+                divChord.title =
+                    getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
                 divChord.setAttribute("onClick", callbackString);
                 //divChord.innerText = (noteValue == 0) ?
                 //    getCompactChordNotation(noteName, chordId) : noteName;
