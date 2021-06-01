@@ -52,6 +52,7 @@ scaleFamiliesDict.set("7bayati", [0, 1.5, 3, 5, 7, 8, 10]);
 scaleFamiliesDict.set("7hardino", [0, 1.5, 4, 5, 7, 8.5, 11]);
 scaleFamiliesDict.set("7mahur", [0, 2, 3.5, 5, 7, 9, 11]);
 scaleFamiliesDict.set("7mustaar", [0, 2.5, 3.5, 5.5, 6.5, 8.5, 10.5]);
+scaleFamiliesDict.set("7saba", [0, 1.5, 3, 4, 7, 8, 10]);
 scaleFamiliesDict.set("7sikah_baladi", [0, 1.5, 3.5, 5, 7, 8.5, 10.5]);
 // 5 notes with quarter tones
 scaleFamiliesDict.set("5tet_approx", [0, 2.5, 5, 7, 9.5]);
@@ -194,6 +195,7 @@ scalesDict_int.set("7bayati,sep", "");
 scalesDict_int.set("7hardino,1,diff:7major_nat;1", "Hardino");
 scalesDict_int.set("7mahur,1,diff:7major_nat;1", "Mahur");
 scalesDict_int.set("7mustaar,1", "Musta'ar");
+scalesDict_int.set("7saba,1", "Saba");
 scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi / 7-TET (Approximation)");
 scalesDict_int.set("7notes_quarter_tones,sep", "");
 scalesDict_int.set("7sikah_baladi,6,diff:7major_nat;1", "Neutral");
@@ -300,7 +302,7 @@ scalesDicts.set("fr", scalesDict_fr);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 const scalesToHighlight = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
-    "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7sikah_baladi",
+    "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7saba", "7sikah_baladi",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
     "6blues,1", "6strange,1", "6aug,1",
     "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1",
