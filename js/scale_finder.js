@@ -115,7 +115,7 @@ function getNegativeScaleHTML(noteValue, scaleValues, findQuarterTones = false) 
 }
 // scale finder mode: find scales containing notes
 function findScalesFromNotesHTML() {
-    let finderScalesHTML = getString("scales") + " ";
+    let finderScalesHTML = getString("scales_compatible") + " ";
     let notesValues = getSelectedNotesChordsFinderValues();
     const tonicValue = getSelectedTonicValue();
     const findQuarterTones = document.getElementById("checkboxQuarterTonesScaleFinder").checked;

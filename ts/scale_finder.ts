@@ -168,7 +168,7 @@ function getNegativeScaleHTML(noteValue: number, scaleValues: Array<number>,
 // scale finder mode: find scales containing notes
 function findScalesFromNotesHTML()
 {
-    let finderScalesHTML = getString("scales") + " ";
+    let finderScalesHTML = getString("scales_compatible") + " ";
 
     let notesValues = getSelectedNotesChordsFinderValues();
     const tonicValue = getSelectedTonicValue();
