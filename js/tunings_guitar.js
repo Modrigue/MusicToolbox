@@ -23,7 +23,7 @@ guitarTuningsDict.set(6, guitarTunings6Dict);
 guitarTuningsDict.set(7, guitarTunings7Dict);
 ///////////////////////////////// GUITAR TUNING ///////////////////////////////
 function initGuitarTuningSelector(id, useURLParams = true, nbStrings = 6, tuningId = "Standard") {
-    // get chord selecor
+    // get selecor
     const tuningSelect = document.getElementById(id);
     const initialized = (tuningSelect.options != null && tuningSelect.options.length > 0);
     if (initialized) // nop if already initialized
@@ -86,6 +86,40 @@ function getSelectedGuitarTuningValue(id) {
         tuningId = "Standard"; // fallback
     return guitarTuningDict.get(tuningId);
 }
+//////////////////////////////// GUITAR POSITION //////////////////////////////
+function initGuitarPositionSelector(id, useURLParams = true, nbPos = 7, position = -1) {
+    // get selecor
+    const posSelect = document.getElementById(id);
+    const initialized = (posSelect.options != null && posSelect.options.length > 0);
+    if (initialized) // nop if already initialized
+        return;
+    // add tunings
+    for (let i = -1; i < nbPos; i++) {
+        const positionAll = (i == -1);
+        let option = document.createElement('option');
+        option.value = i.toString();
+        option.innerHTML = positionAll ? "All" : (i + 1).toString();
+        if (i == position)
+            option.selected = true;
+        posSelect.appendChild(option);
+    }
+    // disable if only 1 option
+    posSelect.disabled = (posSelect.options.length <= 1);
+}
+function updateGuitarPositionGivenNbNotes(id, nbNotes) {
+    const posSelect = document.getElementById(id);
+    const posFormer = getSelectedGuitarPosition(id);
+    // replace selector options and try to select former corresponding guitar tuning
+    removeAllChildNodes(posSelect);
+    const position = (posFormer <= nbNotes) ? posFormer : -1;
+    initGuitarPositionSelector(id, false, nbNotes, position);
+}
+function getSelectedGuitarPosition(id) {
+    const posSelect = document.getElementById(id);
+    let posId = posSelect.value;
+    return parseInt(posId);
+}
+//////////////////////////////////// UTILS ////////////////////////////////////
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);

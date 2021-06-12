@@ -20,6 +20,20 @@ function getCaseNoteValue(tuningValues, i, j) {
         return -1;
     return ((tuningValues[i - 1] + j) % 12);
 }
+// octaves indexes / nb. strings arrays
+const octavesStringDict = new Map();
+octavesStringDict.set(7, [1, 2, 2, 3, 3, 3, 4]);
+octavesStringDict.set(6, [2, 2, 3, 3, 3, 4]);
+octavesStringDict.set(5, [2, 3, 3, 4, 4]);
+octavesStringDict.set(4, [1, 1, 2, 2]);
+// get case note value with octave
+function getCaseNoteValueAbs(tuningValues, i, j, nbStrings = 6) {
+    // handle not hit string
+    if (j < 0)
+        return -1;
+    const octavesString = (octavesStringDict.get(nbStrings));
+    return (octavesString[i - 1] * 12 + tuningValues[i - 1] + j);
+}
 // <i> has offset 1
 function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0, showQuarterTones = false) {
     let canvas = document.getElementById(id);
@@ -76,7 +90,7 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         ctx.fillText(text, x + xShift, y + yShift);
     }
 }
-function updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones = false) {
+function updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones = false, position = -1) {
     const nbStrings = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
     let canvas = document.getElementById("canvas_guitar");
     if (!canvas.getContext)
@@ -135,12 +149,19 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQ
     // display notes
     const tuningValues = getSelectedGuitarTuningValue("scale_explorer_guitar_tuning");
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+    const nbNotesPositionPerString = (scaleValues.length > 5) ? 3 : 2;
+    let nbNotesPositionPerStringCur = 0;
+    let startNotePositionFound = false;
+    let notePositionValueCur = -1;
     for (let i = 1; i <= nbStrings; i++) {
+        nbNotesPositionPerStringCur = 0;
+        startNotePositionFound = false;
         for (let j = 0; j < 3 * 12; j += halfToneInc) {
             const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
             if (scaleNotesValues.indexOf(currentNoteValue) < 0)
                 continue;
             // display note
+            let displayNote = true;
             const currentNote = getNoteName(currentNoteValue);
             let colorNote = colorNoteNormal;
             if (currentNoteValue == noteValue)
@@ -148,7 +169,24 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQ
             const indexNote = scaleNotesValues.indexOf(currentNoteValue);
             if (charIntervals.indexOf(indexNote) >= 0)
                 colorNote = colorNoteChar; // characteristic note
-            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
+            // if position set, display only notes with corresponding position
+            if (position >= 0) {
+                displayNote = false;
+                if (nbNotesPositionPerStringCur < nbNotesPositionPerString) {
+                    const currentNoteValueAbs = getCaseNoteValueAbs(tuningValues, i, j, nbStrings);
+                    console.log(i, currentNoteValueAbs, notePositionValueCur);
+                    if ((i == 1 && notePositionValueCur < 0 && currentNoteValue == scaleNotesValues[position])
+                        || (i > 1 && currentNoteValueAbs > notePositionValueCur)
+                        || startNotePositionFound) {
+                        notePositionValueCur = currentNoteValueAbs;
+                        nbNotesPositionPerStringCur++;
+                        displayNote = true;
+                        startNotePositionFound = true;
+                    }
+                }
+            }
+            if (displayNote)
+                displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
         }
     }
     // update save callback

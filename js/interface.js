@@ -25,6 +25,7 @@ window.onload = function () {
     document.getElementById("checkboxQuarterTonesScaleExplorer").addEventListener("change", updateShowQuarterTonesInScaleExplorer);
     document.getElementById("scale_explorer_guitar_nb_strings").addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     document.getElementById("scale_explorer_guitar_tuning").addEventListener("change", update);
+    document.getElementById("scale_explorer_guitar_position").addEventListener("change", update);
     // scale finder
     for (let i = 1; i <= 8; i++) {
         const id = i.toString();
@@ -71,6 +72,7 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     updateScaleSelector('scale', "7major_nat,1");
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
+    initGuitarPositionSelector('scale_explorer_guitar_position');
     // update scale finder selectors
     for (let i = 1; i <= 8; i++) {
         const id = i.toString();
@@ -131,6 +133,10 @@ function onNoteChanged() {
     update();
 }
 function onScaleChanged() {
+    // update scale position on guitar selector
+    const scaleValues = getScaleValues();
+    const nbNotesInScale = scaleValues.length;
+    updateGuitarPositionGivenNbNotes('scale_explorer_guitar_position', nbNotesInScale);
     update();
 }
 function onNbStringsChanged(id) {
@@ -168,8 +174,9 @@ function update() {
     const checkboxQuarterTones = document.getElementById("checkboxQuarterTonesScaleExplorer");
     const showQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
     // update fretboard
-    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked);
-    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
+    const position = getSelectedGuitarPosition('scale_explorer_guitar_position');
+    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked, position);
+    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked, position); // HACK to ensure correct drawing
     // update keyboard
     updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked);
     updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
@@ -319,6 +326,7 @@ function updateLocales() {
     document.getElementById("checkboxQuarterTonesScaleExplorerLabel").innerText = getString("quarter_tones");
     document.getElementById("scale_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("scale_explorer_guitar_tuning_text").innerText = getString("tuning");
+    document.getElementById("scale_explorer_guitar_position_text").innerText = getString("position");
     // scale finder
     let resetElements = document.getElementsByClassName("reset");
     for (let resetEelem of resetElements)

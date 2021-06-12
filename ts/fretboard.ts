@@ -24,6 +24,24 @@ function getCaseNoteValue(tuningValues: Array<number>, i: number, j: number): nu
     return ((tuningValues[i - 1] + j) % 12);
 }
 
+// octaves indexes / nb. strings arrays
+const octavesStringDict: Map<number, Array<number>> = new Map<number, Array<number>>();
+octavesStringDict.set(7, [1, 2, 2, 3, 3, 3, 4]);
+octavesStringDict.set(6, [2, 2, 3, 3, 3, 4]);
+octavesStringDict.set(5, [2, 3, 3, 4, 4]);
+octavesStringDict.set(4, [1, 1, 2, 2]);
+
+// get case note value with octave
+function getCaseNoteValueAbs(tuningValues: Array<number>, i: number, j: number, nbStrings: number = 6): number
+{
+    // handle not hit string
+    if (j < 0)
+        return -1;
+
+    const octavesString : Array<number> = <Array<number>>(octavesStringDict.get(nbStrings));
+    return (octavesString[i - 1]*12 + tuningValues[i - 1] + j);
+}
+
 // <i> has offset 1
 function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
     color: string, nbStrings: number, xFretStep: number = xFretScaleStep,
@@ -96,7 +114,8 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
 }
 
 function updateFretboard(noteValue: number, scaleValues: Array<number>,
-    charIntervals: Array<number>, scaleName: string, showQuarterTones: boolean = false): void
+    charIntervals: Array<number>, scaleName: string, showQuarterTones: boolean = false,
+    position: number = -1): void
 {
     const nbStrings: number = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
 
@@ -172,10 +191,20 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
     }
 
     // display notes
+    
     const tuningValues: Array<number> = getSelectedGuitarTuningValue("scale_explorer_guitar_tuning");
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
+
+    const nbNotesPositionPerString = (scaleValues.length > 5) ? 3 : 2;
+    let nbNotesPositionPerStringCur = 0;
+    let startNotePositionFound = false;
+    let notePositionValueCur = -1;
+
     for (let i: number = 1; i <= nbStrings; i++)
     {
+        nbNotesPositionPerStringCur = 0;
+        startNotePositionFound = false;
+
         for (let j: number = 0; j <3*12; j += halfToneInc)
         {
             const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
@@ -183,6 +212,7 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
                 continue;
 
             // display note
+            let displayNote = true;
             const currentNote = getNoteName(currentNoteValue);
 
             let colorNote = colorNoteNormal;
@@ -193,7 +223,30 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
             if (charIntervals.indexOf(indexNote) >= 0)
                 colorNote = colorNoteChar; // characteristic note
 
-            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
+            // if position set, display only notes with corresponding position
+            if (position >= 0)
+            {
+                displayNote = false;
+                if (nbNotesPositionPerStringCur < nbNotesPositionPerString)
+                {
+                    const currentNoteValueAbs = getCaseNoteValueAbs(tuningValues, i, j, nbStrings);
+                    console.log(i, currentNoteValueAbs, notePositionValueCur);
+                    
+
+                    if ((i == 1 && notePositionValueCur < 0 && currentNoteValue == scaleNotesValues[position])
+                    || (i > 1 && currentNoteValueAbs > notePositionValueCur)
+                    || startNotePositionFound)
+                    {
+                        notePositionValueCur = currentNoteValueAbs;
+                        nbNotesPositionPerStringCur++;
+                        displayNote = true;
+                        startNotePositionFound = true;
+                    }
+                }
+            }
+
+            if (displayNote)
+                displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
         }
     }
 
