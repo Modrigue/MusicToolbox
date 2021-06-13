@@ -251,7 +251,7 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
     }
 
     // update save callback
-    canvas.setAttribute("onclick", `saveFretboardImage(${noteValue}, "${scaleName}")`);
+    canvas.setAttribute("onclick", `saveFretboardImage(${noteValue}, "${scaleName}", ${position})`);
 }
 
 // get last fret x position
@@ -266,7 +266,7 @@ function getLastFretX()
     return xFretLast;
 }
 
-function saveFretboardImage(noteValue: number, scaleName: string)
+function saveFretboardImage(noteValue: number, scaleName: string, position: number = -1)
 {
     let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('canvas_guitar');
     let canvasImage: string = canvasElement.toDataURL('image/png');
@@ -279,13 +279,15 @@ function saveFretboardImage(noteValue: number, scaleName: string)
     scaleSelectedText = scaleSelectedText.replace(/ /g, '_');
     scaleSelectedText = scaleSelectedText.replace(/♭/g, 'b');
 
+    const positionText = (position < 0) ? "" : `-Position_${position + 1}`;
+
     // this can be used to download any image from webpage to local disk
     let xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = function () {
         let a = document.createElement('a');
         a.href = window.URL.createObjectURL(xhr.response);
-        a.download = `${getString("fretboard")}-${noteSelectedText}-${scaleSelectedText}.png`;
+        a.download = `${getString("fretboard")}-${noteSelectedText}-${scaleSelectedText}${positionText}.png`;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
