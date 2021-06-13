@@ -17,7 +17,7 @@ function initGuitarPositionSelector(id: string, useURLParams: boolean = true,
 
         let option = document.createElement('option');
         option.value = i.toString();
-        option.innerHTML = positionAll ? "All" : (i + 1).toString();
+        option.innerHTML = positionAll ? "" : (i + 1).toString();
         if (i == position)
             option.selected = true;
 

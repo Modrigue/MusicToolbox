@@ -11,7 +11,7 @@ function initGuitarPositionSelector(id, useURLParams = true, nbPos = 7, position
         const positionAll = (i == -1);
         let option = document.createElement('option');
         option.value = i.toString();
-        option.innerHTML = positionAll ? "All" : (i + 1).toString();
+        option.innerHTML = positionAll ? "" : (i + 1).toString();
         if (i == position)
             option.selected = true;
         posSelect.appendChild(option);
