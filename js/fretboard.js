@@ -10,10 +10,13 @@ const yFretMarginChordBottom = 20;
 const colorFretsStrings = "silver";
 const colorFretsStringsQTones = "#E4E4E4";
 const colorFretsOctave = "dimgrey";
+const colorHintFret = "whitesmoke";
 const colorNoteTonic = "firebrick";
 const colorNoteNormal = "dimgrey";
 const colorNoteChar = "dodgerblue";
-const colorHintFret = "whitesmoke";
+const colorNoteTonicDisabled = "mistyrose";
+const colorNoteNormalDisabled = "gainsboro";
+const colorNoteCharDisabled = "#C8E8FF";
 function getCaseNoteValue(tuningValues, i, j) {
     // handle not hit string
     if (j < 0)
@@ -163,12 +166,6 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQ
             // display note
             let displayNote = true;
             const currentNote = getNoteName(currentNoteValue);
-            let colorNote = colorNoteNormal;
-            if (currentNoteValue == noteValue)
-                colorNote = colorNoteTonic;
-            const indexNote = scaleNotesValues.indexOf(currentNoteValue);
-            if (charIntervals.indexOf(indexNote) >= 0)
-                colorNote = colorNoteChar; // characteristic note
             // if position set, display only notes with corresponding position
             if (position >= 0) {
                 displayNote = false;
@@ -185,8 +182,14 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQ
                     }
                 }
             }
-            if (displayNote)
-                displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
+            let colorNote = displayNote ? colorNoteNormal : colorNoteNormalDisabled;
+            if (currentNoteValue == noteValue)
+                colorNote = displayNote ? colorNoteTonic : colorNoteTonicDisabled;
+            const indexNote = scaleNotesValues.indexOf(currentNoteValue);
+            if (charIntervals.indexOf(indexNote) >= 0)
+                colorNote = displayNote ? colorNoteChar : colorNoteCharDisabled; // characteristic note
+            //if (displayNote)
+            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
         }
     }
     // update save callback
