@@ -100,7 +100,19 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     updateScaleSelector('scale', "7major_nat,1");
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
-    initGuitarPositionSelector('scale_explorer_guitar_position');
+
+    // update scale position on guitar selector
+
+    const scaleValues: Array<number> = getScaleValues();
+    let nbPositions: number = scaleValues.length;
+
+    // blues scale specific: 5 positions
+    const scaleValuesBlues = getScaleValues("6blues,1,diff:5major_penta;5");            
+    const isBluesScale = arraysEqual(scaleValues, scaleValuesBlues);
+    if (isBluesScale)
+        nbPositions = 5;
+
+    initGuitarPositionSelector('scale_explorer_guitar_position', true, nbPositions);
 
     // update scale finder selectors
     for (let i = 1; i <= 8; i++)
@@ -186,8 +198,15 @@ function onScaleChanged(): void
 {
     // update scale position on guitar selector
     const scaleValues: Array<number> = getScaleValues();
-    const nbNotesInScale: number = scaleValues.length;
-    updateGuitarPositionGivenNbNotes('scale_explorer_guitar_position', nbNotesInScale);
+    let nbPositions: number = scaleValues.length;
+
+    // blues scale specific: 5 positions
+    const scaleValuesBlues = getScaleValues("6blues,1,diff:5major_penta;5");            
+    const isBluesScale = arraysEqual(scaleValues, scaleValuesBlues);
+    if (isBluesScale)
+        nbPositions = 5;
+
+    updateGuitarPositionGivenNbNotes('scale_explorer_guitar_position', nbPositions);
 
     update();
 }

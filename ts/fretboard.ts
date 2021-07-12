@@ -201,15 +201,29 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
     const tuningValues: Array<number> = getSelectedGuitarTuningValue("scale_explorer_guitar_tuning");
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
 
-    const nbNotesPositionPerString = (scaleValues.length > 5) ? 3 : 2;
+    let nbNotesPositionPerString = (scaleValues.length > 5) ? 3 : 2;
     let nbNotesPositionPerStringCur = 0;
     let startNotePositionFound = false;
     let notePositionValueCur = -1;
+
+    // blues scale specific
+    const scaleValuesBlues = getScaleValues("6blues,1,diff:5major_penta;5");            
+    const isBluesScale = arraysEqual(scaleValues, scaleValuesBlues);
+    if (isBluesScale)
+    {
+         nbNotesPositionPerString = 2;
+
+         // skip blue note as start position
+         if (position >= 3)
+            position++;
+    }
 
     for (let i: number = 1; i <= nbStrings; i++)
     {
         nbNotesPositionPerStringCur = 0;
         startNotePositionFound = false;
+        let hasDisplayedBlueNoteOnString = false;
+        let lastDisplayedPosOnString = 0;
 
         for (let j: number = 0; j <3*12; j += halfToneInc)
         {
@@ -225,12 +239,15 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
             if (position >= 0)
             {
                 displayNote = false;
-                if (nbNotesPositionPerStringCur < nbNotesPositionPerString)
+
+                const isBlueNote = (isBluesScale && scaleNotesValues.indexOf(currentNoteValue) == 3);
+
+                if (nbNotesPositionPerStringCur < nbNotesPositionPerString
+                 && !isBlueNote)
                 {
                     const currentNoteValueAbs = getCaseNoteValueAbs(tuningValues, i, j, nbStrings);
-                    console.log(i, currentNoteValueAbs, notePositionValueCur);
+                    //console.log(i, currentNoteValueAbs, notePositionValueCur);
                     
-
                     if ((i == 1 && notePositionValueCur < 0 && currentNoteValue == scaleNotesValues[position])
                     || (i > 1 && currentNoteValueAbs > notePositionValueCur)
                     || startNotePositionFound)
@@ -238,8 +255,21 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
                         notePositionValueCur = currentNoteValueAbs;
                         nbNotesPositionPerStringCur++;
                         displayNote = true;
+
                         startNotePositionFound = true;
+                        lastDisplayedPosOnString = j;
                     }
+                }
+
+                // display blue note in blues scale iff:
+                //  - another note has already been displayed on the current string
+                //  - the last note displayed on the current string is 1 case far
+                //  - no other blue note has been displayed
+                if (isBlueNote && (j - lastDisplayedPosOnString) < 2)
+                if (startNotePositionFound && !hasDisplayedBlueNoteOnString)
+                {
+                    displayNote = true;
+                    hasDisplayedBlueNoteOnString = true;
                 }
             }
 
