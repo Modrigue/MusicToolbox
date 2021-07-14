@@ -2,6 +2,9 @@
 // guitar tunings with 4 notes (bass)
 const guitarTunings4Dict = new Map();
 guitarTunings4Dict.set("standard", [4, 9, 2, 7]);
+guitarTunings4Dict.set("open_d", [2, 9, 2, 6]);
+guitarTunings4Dict.set("open_e7", [4, 11, 2, 8]);
+guitarTunings4Dict.set("open_g", [7, 11, 2, 7]);
 guitarTunings4Dict.set("dropped_d", [2, 9, 2, 7]);
 // guitar tunings with 7 notes -bass / mandolin)
 const guitarTunings5Dict = new Map();
@@ -10,6 +13,8 @@ guitarTunings5Dict.set("standard", [11, 4, 9, 2, 7]);
 const guitarTunings6Dict = new Map();
 guitarTunings6Dict.set("standard", [4, 9, 2, 7, 11, 4]);
 guitarTunings6Dict.set("dropped_d", [2, 9, 2, 7, 11, 4]);
+guitarTunings6Dict.set("open_d", [2, 9, 2, 6, 9, 2]);
+guitarTunings6Dict.set("open_e7", [4, 11, 2, 8, 11, 4]);
 guitarTunings6Dict.set("open_g", [7, 11, 2, 7, 11, 2]);
 guitarTunings6Dict.set("dadgad", [2, 9, 2, 7, 9, 2]);
 // guitar tunings with 7 notes
