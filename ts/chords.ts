@@ -56,7 +56,7 @@ chords4Dict.set("6",                  [0, 4, 7, 8]);
 chords4Dict.set("m6",                 [0, 3, 7, 8]);
 chords4Dict.set("m6M",                [0, 3, 7, 9]);
 chords4Dict.set("6flat5",             [0, 4, 6, 9]);
-chords4Dict.set("mdim7",              [0, 3, 6, 9]);
+chords4Dict.set("dim7",               [0, 3, 6, 9]);
 chords4Dict.set("sus2add6flat5",      [0, 2, 6, 9]);
 chords4Dict.set("sus2add4sharp5",     [0, 2, 5, 8]);
 chords4Dict.set("6Msus2add4(no5)",    [0, 2, 5, 9]);
