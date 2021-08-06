@@ -185,6 +185,10 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
                 const callbackString = `openNewTab(\"${url}\")`;
                 button.setAttribute("onClick", callbackString);
 
+                // set notes as tooltip
+                button.title =
+                    getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+
                 foundChordsNbNotesHTML += `${button.outerHTML}`;
 
                 // build play button
@@ -196,6 +200,10 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
                     buttonPlay.classList.add("button-tonic-interactive");
                 else if (isCharacteristic)
                     buttonPlay.classList.add("button-char-interactive");
+
+                // set notes as tooltip
+                buttonPlay.title =
+                    getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");  
 
                 if (noteValue < tonicValue)
                     noteValue += 12;
