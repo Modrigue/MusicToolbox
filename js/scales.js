@@ -36,8 +36,9 @@ scaleFamiliesDict.set("5pelog_bem", [0, 1, 6, 7, 8]);
 scaleFamiliesDict.set("5pelog_barang", [0, 2, 6, 7, 9]);
 scaleFamiliesDict.set("5jap_in", [0, 1, 5, 7, 8]);
 scaleFamiliesDict.set("5jap_insen", [0, 1, 5, 7, 10]);
-scaleFamiliesDict.set("5bartok_penta", [0, 3, 6, 7, 10]);
+scaleFamiliesDict.set("5bartok_penta", [0, 4, 6, 7, 10]);
 scaleFamiliesDict.set("5phryg6_penta", [0, 1, 3, 7, 9]);
+scaleFamiliesDict.set("5blues_no4_penta", [0, 3, 6, 7, 10]);
 // 8 notes with quarter tones
 scaleFamiliesDict.set("8bastanikar", [0, 1.5, 3.5, 5, 6.5, 7.5, 10.5, 11.5]);
 scaleFamiliesDict.set("8dalanshin", [0, 1, 2, 3.5, 5, 7, 9, 10.5]);
@@ -168,6 +169,7 @@ scalesDict_int.set("5pelog_barang_sep", "");
 scalesDict_int.set("5pelog_bem,1", "Pelog Bem");
 scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Bartok Pentatonic");
 scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
+scalesDict_int.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
 scalesDict_int.set("5others,sep", "");
 scalesDict_int.set("8notes_quarter_tones", "--------------- 8 NOTES ¼ TONES ---------------");
 scalesDict_int.set("8jiharkah,1,diff:8bebop_dom;1", "Jiharkah");
