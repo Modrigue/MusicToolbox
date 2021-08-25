@@ -66,6 +66,7 @@ chords4Dict.set("m7add4(no5)", [0, 3, 5, 10]);
 chords4Dict.set("m6Madd4(no5)", [0, 3, 5, 9]);
 chords4Dict.set("Fr+6", [0, 2, 6, 8]); // French augmented 6th
 chords4Dict.set("Ger+6", [0, 3, 6, 8]); // German augmented 6th
+chords4Dict.set("alt", [0, 4, 10, 15]); // Altered / Hendrix
 chords4Dict.set("dream", [0, 5, 6, 7]);
 chords4Dict.set("tristan", [0, 6, 10, 15]);
 // chords with 5 notes
