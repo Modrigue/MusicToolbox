@@ -546,7 +546,8 @@ function saveFretboardChordImage(id: string, noteValue: number, chordId: string,
         // chordText = chordText.replaceAll("sharp", "#");
         // chordText = chordText.replaceAll("flat", "b");
         chordText = chordText.replace(/sharp/g, '#');
-        chordText = chordText.replace(/flat/g, 'b');
+        chordText = chordText.replace(/flat/g , 'b');
+        chordText = chordText.replace(/slash/g, '/');
         //chordText = chordText.replaceAll("dim", "°");
         //chordText = chordText.replaceAll("aug", "+");
         if (chordId == "M")

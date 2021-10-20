@@ -80,18 +80,23 @@ chords5Dict.set("m9",               [0, 3, 7, 10, 14]);
 chords5Dict.set("m9M",              [0, 3, 7, 11, 14]);
 chords5Dict.set("9Msus",            [0, 5, 7, 11, 14]);
 chords5Dict.set("m9sus",            [0, 5, 7, 10, 14]);
-chords5Dict.set("7Mflat5flat9",     [0, 4, 6, 9 , 13]);
-chords5Dict.set("7flat5flat9",      [0, 4, 6, 8 , 13]);
-chords5Dict.set("m7flat5flat9",     [0, 3, 6, 8 , 13]);
-chords5Dict.set("m7Mflat5flat9",    [0, 3, 6, 9 , 13]);
-chords5Dict.set("7Madd11",          [0, 4, 7, 9 , 14]);
-chords5Dict.set("7add11",           [0, 4, 7, 8 , 14]);
-chords5Dict.set("m7add11",          [0, 3, 7, 8 , 14]);
-chords5Dict.set("m7Madd11",         [0, 3, 7, 9 , 14]);
-chords5Dict.set("7Madd13",          [0, 4, 7, 9 , 11]);
-chords5Dict.set("7add13",           [0, 4, 7, 8 , 11]);
-chords5Dict.set("m7add13",          [0, 3, 7, 8 , 11]);
-chords5Dict.set("m7Madd13",         [0, 3, 7, 9 , 11]);
+chords5Dict.set("6slash9",          [0, 4, 7,  9, 14]);
+chords5Dict.set("7Mflat5flat9",     [0, 4, 6, 11, 13]);
+chords5Dict.set("7flat5flat9",      [0, 4, 6, 10, 13]);
+chords5Dict.set("m7flat5flat9",     [0, 3, 6, 10, 13]);
+chords5Dict.set("m7Mflat5flat9",    [0, 3, 6, 11, 13]);
+chords5Dict.set("7Madd9",           [0, 4, 7, 11, 14]);
+chords5Dict.set("7add9",            [0, 4, 7, 10, 14]);
+chords5Dict.set("m7add9",           [0, 3, 7, 10, 14]);
+chords5Dict.set("m7Madd*",          [0, 3, 7, 11, 14]);
+chords5Dict.set("7Madd11",          [0, 4, 7, 11, 17]);
+chords5Dict.set("7add11",           [0, 4, 7, 10, 17]);
+chords5Dict.set("m7add11",          [0, 3, 7, 10, 17]);
+chords5Dict.set("m7Madd11",         [0, 3, 7, 11, 17]);
+chords5Dict.set("7Madd13",          [0, 4, 7, 11, 21]);
+chords5Dict.set("7add13",           [0, 4, 7, 10, 21]);
+chords5Dict.set("m7add13",          [0, 3, 7, 10, 21]);
+chords5Dict.set("m7Madd13",         [0, 3, 7, 11, 21]);
 chords5Dict.set("beta",             [0, 3, 6, 9 , 11]);
 chords5Dict.set("gamma",            [0, 3, 6, 8 , 11]);
 chords5Dict.set("elektra",          [0, 7, 9, 13, 16]);
@@ -254,6 +259,7 @@ function getCompactChordNotation(text: string, chordID: string): string
   suffix = suffix.replace(/flat/g , "♭");
   suffix = suffix.replace(/dim/g  , "°");
   suffix = suffix.replace(/aug/g  , "+");
+  suffix = suffix.replace(/slash/g, "/");
 
   return text + suffix;
 }
@@ -291,6 +297,7 @@ function getAltChordNotation(chordId: string): string
     notation = notation.replace(/flat/g , "♭");
     notation = notation.replace(/dim/g  , "°");
     notation = notation.replace(/aug/g  , "+");
+    notation = notation.replace(/slash/g, "/");
 
     return notation;
 }
