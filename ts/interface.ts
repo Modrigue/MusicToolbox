@@ -61,6 +61,7 @@ window.onload = function()
 
     // chord tester
     (<HTMLInputElement>document.getElementById("checkboxCommonChords")).addEventListener("change", update);
+    (<HTMLSelectElement>document.getElementById(`chord_tester_start_note`)).addEventListener("change", update);
 }
 
 function initLanguage(): void
@@ -131,6 +132,9 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     updateNbStringsForChordSelector();
     for (let i = 1; i <= 6; i++)
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
+    
+    // update chord tester selector
+    updateNoteSelector(`chord_tester_start_note`, 0, false);
 }
 
 // get selected text from selector
@@ -470,8 +474,8 @@ function updateLocales(): void
         resetEelem.innerText = getString("reset");
 
     let tonicElements: HTMLCollectionOf<HTMLElement> = <HTMLCollectionOf<HTMLElement>>document.getElementsByClassName("tonic");
-    for (let tonicEelem of tonicElements)
-        tonicEelem.innerText = getString("tonic");
+    for (let elem of tonicElements)
+        elem.innerText = getString("tonic");
 
     (<HTMLLabelElement>document.getElementById("checkboxQuarterTonesScaleFinderLabel")).innerText = getString("quarter_tones");
 
@@ -489,6 +493,9 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("radioChordTesterChordsLabel")).innerText = getString("play_chords");
     (<HTMLLabelElement>document.getElementById("radioChordTesterArpeggiosLabel")).innerText = getString("play_arpeggios");
     (<HTMLLabelElement>document.getElementById("checkboxCommonChordsLabel")).innerText = getString("show_common_chords_only");
+    let startElements: HTMLCollectionOf<HTMLElement> = <HTMLCollectionOf<HTMLElement>>document.getElementsByClassName("start");
+    for (let elem of startElements)
+        elem.innerText = getString("start");
 
     // update computed data
     updateSelectors();

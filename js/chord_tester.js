@@ -5,6 +5,9 @@ const commonChords = [
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
 function updateChordTesterTables() {
+    // get selected start note
+    const noteStartSelected = document.getElementById(`chord_tester_start_note`).value;
+    const noteStartValue = parseInt(noteStartSelected);
     let chordsTablesHTML = "";
     const commonChordsOnly = document.getElementById("checkboxCommonChords").checked;
     for (const [nbNotesInChords, chordsDict] of chordsDicts) {
@@ -17,8 +20,8 @@ function updateChordTesterTables() {
             if (commonChordsOnly && commonChords.indexOf(chordId) < 0)
                 continue;
             hasChordsWithNbNotes = true;
-            for (let noteValue = 0; noteValue < 12; noteValue++) {
-                const noteName = getNoteName(noteValue);
+            for (let noteValue = noteStartValue; noteValue < 12 + noteStartValue; noteValue++) {
+                const noteName = getNoteName(noteValue % 12);
                 const callbackString = `playChordTest(${noteValue}, [${chordValues.toString()}])`;
                 let classString = "table-body-cell-interactive";
                 const divChord = document.createElement('div');

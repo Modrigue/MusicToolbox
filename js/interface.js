@@ -48,6 +48,7 @@ window.onload = function () {
     document.getElementById("chord_explorer_nb_strings_max").addEventListener("change", update);
     // chord tester
     document.getElementById("checkboxCommonChords").addEventListener("change", update);
+    document.getElementById(`chord_tester_start_note`).addEventListener("change", update);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -96,6 +97,8 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     updateNbStringsForChordSelector();
     for (let i = 1; i <= 6; i++)
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
+    // update chord tester selector
+    updateNoteSelector(`chord_tester_start_note`, 0, false);
 }
 // get selected text from selector
 function getSelectorText(id) {
@@ -345,8 +348,8 @@ function updateLocales() {
     for (let resetEelem of resetElements)
         resetEelem.innerText = getString("reset");
     let tonicElements = document.getElementsByClassName("tonic");
-    for (let tonicEelem of tonicElements)
-        tonicEelem.innerText = getString("tonic");
+    for (let elem of tonicElements)
+        elem.innerText = getString("tonic");
     document.getElementById("checkboxQuarterTonesScaleFinderLabel").innerText = getString("quarter_tones");
     // chord explorer
     document.getElementById("radioChordExplorerNameLabel").innerText = getString("name");
@@ -361,6 +364,9 @@ function updateLocales() {
     document.getElementById("radioChordTesterChordsLabel").innerText = getString("play_chords");
     document.getElementById("radioChordTesterArpeggiosLabel").innerText = getString("play_arpeggios");
     document.getElementById("checkboxCommonChordsLabel").innerText = getString("show_common_chords_only");
+    let startElements = document.getElementsByClassName("start");
+    for (let elem of startElements)
+        elem.innerText = getString("start");
     // update computed data
     updateSelectors();
     onNoteChanged();

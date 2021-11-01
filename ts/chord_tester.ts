@@ -6,6 +6,10 @@ const commonChords: Array<string> = [
 
 function updateChordTesterTables()
 {
+    // get selected start note
+    const noteStartSelected: string = (<HTMLSelectElement>document.getElementById(`chord_tester_start_note`)).value;
+    const noteStartValue: number = parseInt(noteStartSelected);
+
     let chordsTablesHTML = "";
     const commonChordsOnly = (<HTMLInputElement>document.getElementById("checkboxCommonChords")).checked;
 
@@ -24,9 +28,9 @@ function updateChordTesterTables()
                 continue;
 
             hasChordsWithNbNotes = true;
-            for (let noteValue = 0; noteValue < 12; noteValue++)
+            for (let noteValue = noteStartValue; noteValue < 12 + noteStartValue; noteValue++)
             {
-                const noteName = getNoteName(noteValue);
+                const noteName = getNoteName(noteValue % 12);
                 const callbackString = `playChordTest(${noteValue}, [${chordValues.toString()}])`;
                 
                 let classString = "table-body-cell-interactive";  
