@@ -140,3 +140,55 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1,
         }
     }
 }
+
+function updateOctaveSelector(id: string, minOctave: number = 0, maxOctave: number = 4, defaultOctaveValue: number = -1,
+    firstOctaveEmpty: boolean = false, reset: boolean = false): void
+{
+    // get selecor
+    const octaveSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    const initialized: boolean = (octaveSelect.options != null && octaveSelect.options.length > 0);
+
+    // if reset option set, remove all options
+    if (reset)
+        while (octaveSelect.firstChild)
+            octaveSelect.firstChild.remove();
+
+    // fill note selector
+    if (!initialized || reset)
+    {
+        if (firstOctaveEmpty)
+        {
+            let option: HTMLOptionElement = document.createElement('option');
+            option.value = "-1";
+            option.innerHTML = "";
+            if (defaultOctaveValue == -1)
+                option.selected = true;
+            octaveSelect.appendChild(option);
+        }
+
+        // init
+        for (let octave = minOctave; octave <= maxOctave; octave++)
+        {
+            let option = document.createElement('option');
+            option.value = octave.toString();
+            option.innerHTML = octave.toString();
+            if (octave == defaultOctaveValue)
+                option.selected = true;
+            octaveSelect.appendChild(option);
+        }
+    }
+    else
+    {
+        // update
+        let index = firstOctaveEmpty ? 1 : 0;
+        for (let octave = minOctave; octave <= maxOctave; octave++)
+        {
+            // if empty octave, nop
+            if (octave == -1)
+                continue;
+
+            octaveSelect.options[index].innerHTML = octave.toString();
+            index++;
+        }
+    }
+}

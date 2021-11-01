@@ -49,6 +49,7 @@ window.onload = function () {
     // chord tester
     document.getElementById("checkboxCommonChords").addEventListener("change", update);
     document.getElementById(`chord_tester_start_note`).addEventListener("change", update);
+    document.getElementById(`chord_tester_start_octave`).addEventListener("change", update);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -99,6 +100,7 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
     // update chord tester selector
     updateNoteSelector(`chord_tester_start_note`, 0, false);
+    updateOctaveSelector(`chord_tester_start_octave`, 0, 4, 2, false);
 }
 // get selected text from selector
 function getSelectorText(id) {

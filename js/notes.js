@@ -117,4 +117,44 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, s
         }
     }
 }
+function updateOctaveSelector(id, minOctave = 0, maxOctave = 4, defaultOctaveValue = -1, firstOctaveEmpty = false, reset = false) {
+    // get selecor
+    const octaveSelect = document.getElementById(id);
+    const initialized = (octaveSelect.options != null && octaveSelect.options.length > 0);
+    // if reset option set, remove all options
+    if (reset)
+        while (octaveSelect.firstChild)
+            octaveSelect.firstChild.remove();
+    // fill note selector
+    if (!initialized || reset) {
+        if (firstOctaveEmpty) {
+            let option = document.createElement('option');
+            option.value = "-1";
+            option.innerHTML = "";
+            if (defaultOctaveValue == -1)
+                option.selected = true;
+            octaveSelect.appendChild(option);
+        }
+        // init
+        for (let octave = minOctave; octave <= maxOctave; octave++) {
+            let option = document.createElement('option');
+            option.value = octave.toString();
+            option.innerHTML = octave.toString();
+            if (octave == defaultOctaveValue)
+                option.selected = true;
+            octaveSelect.appendChild(option);
+        }
+    }
+    else {
+        // update
+        let index = firstOctaveEmpty ? 1 : 0;
+        for (let octave = minOctave; octave <= maxOctave; octave++) {
+            // if empty octave, nop
+            if (octave == -1)
+                continue;
+            octaveSelect.options[index].innerHTML = octave.toString();
+            index++;
+        }
+    }
+}
 //# sourceMappingURL=notes.js.map

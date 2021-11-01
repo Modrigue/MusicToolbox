@@ -8,6 +8,10 @@ function updateChordTesterTables() {
     // get selected start note
     const noteStartSelected = document.getElementById(`chord_tester_start_note`).value;
     const noteStartValue = parseInt(noteStartSelected);
+    // get selected start octave
+    const octaveStartSelected = document.getElementById(`chord_tester_start_octave`).value;
+    const octaveStartValue = parseInt(octaveStartSelected);
+    console.log(octaveStartValue);
     let chordsTablesHTML = "";
     const commonChordsOnly = document.getElementById("checkboxCommonChords").checked;
     for (const [nbNotesInChords, chordsDict] of chordsDicts) {
@@ -22,7 +26,7 @@ function updateChordTesterTables() {
             hasChordsWithNbNotes = true;
             for (let noteValue = noteStartValue; noteValue < 12 + noteStartValue; noteValue++) {
                 const noteName = getNoteName(noteValue % 12);
-                const callbackString = `playChordTest(${noteValue}, [${chordValues.toString()}])`;
+                const callbackString = `playChordTest(${noteValue + 12 * (octaveStartValue - 2)}, [${chordValues.toString()}])`;
                 let classString = "table-body-cell-interactive";
                 const divChord = document.createElement('div');
                 divChord.classList.add(classString);

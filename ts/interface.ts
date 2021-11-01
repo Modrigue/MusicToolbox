@@ -62,6 +62,7 @@ window.onload = function()
     // chord tester
     (<HTMLInputElement>document.getElementById("checkboxCommonChords")).addEventListener("change", update);
     (<HTMLSelectElement>document.getElementById(`chord_tester_start_note`)).addEventListener("change", update);
+    (<HTMLSelectElement>document.getElementById(`chord_tester_start_octave`)).addEventListener("change", update);
 }
 
 function initLanguage(): void
@@ -135,6 +136,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     
     // update chord tester selector
     updateNoteSelector(`chord_tester_start_note`, 0, false);
+    updateOctaveSelector(`chord_tester_start_octave`, 0, 4, 2, false);
 }
 
 // get selected text from selector
