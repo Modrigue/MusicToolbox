@@ -38,7 +38,7 @@ intervalsDict.set(16  , "♭11");
 intervalsDict.set(16.5, "d11");
 intervalsDict.set(17  , "11");
 intervalsDict.set(17.5, "‡11");
-intervalsDict.set(18  , "♭12");
+intervalsDict.set(18  , "#11");
 intervalsDict.set(21  , "13");
 intervalsDict.set(21.5, "‡13");
 
