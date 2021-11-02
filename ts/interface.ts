@@ -262,16 +262,16 @@ function update(): void
     setEnabled("checkboxChords", showChords3);
 
     const checkboxQuarterTones = (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer"));
-    const showQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
+    const hasQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
 
     // update fretboard
     const position: number = getSelectedGuitarPosition('scale_explorer_guitar_position');
-    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked, position);
-    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked, position); // HACK to ensure correct drawing
+    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position);
+    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position); // HACK to ensure correct drawing
 
     // update keyboard
-    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked);
-    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
+    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked);
+    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
 
     // update scale finder chords selectors
     let has1NoteSelected: boolean = false;
@@ -317,7 +317,7 @@ function update(): void
             const checkboxChords = (<HTMLInputElement>document.getElementById("checkboxChords"));
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked);
             setVisible("canvas_keyboard", checkboxKeyboard.checked);
-            setVisible("section_found_chords_from_scale", checkboxChords.checked && !showQuarterTones);
+            setVisible("section_found_chords_from_scale", checkboxChords.checked && !hasQuarterTones);
 
             break;
 

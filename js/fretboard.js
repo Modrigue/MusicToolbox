@@ -52,13 +52,19 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         if (startFret > 0 && j > 0)
             j -= startFret - 1;
         // position
-        const xFretStart = showQuarterTones ? 3 / 4 * xFretStep : xFretStep / 2;
+        const xFretStart = showQuarterTones ?
+            3 / 4 * xFretStep :
+            (isMicrotonalInterval(j) ? 0 : xFretStep / 2);
         let x = xFretMargin + (j - 1) * xFretStep + xFretStart;
         if (j <= 0)
             x = xFretMargin - 40 + 40 / 2 - 1;
         let y = yFretMargin + (nbStrings - i) * yStep - 1;
         if (x > xFretLast)
             return;
+        // do not show bent microtonal notes on empty strings
+        if (!showQuarterTones && isMicrotonalInterval(j))
+            if (j < 1)
+                return;
         // handle not hit string
         if (j < 0) {
             ctx.font = "24px Arial";
@@ -72,6 +78,17 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         ctx.fillStyle = color;
         ctx.fill();
         ctx.closePath();
+        // if note microtonal but not guitar, draw bend hint
+        if (!showQuarterTones && isMicrotonalInterval(j)) {
+            ctx.beginPath();
+            ctx.lineTo(x, y - radius);
+            ctx.lineTo(x + radius, y - radius);
+            ctx.lineTo(x + radius, y);
+            ctx.lineTo(x, y - radius);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.closePath();
+        }
         // text
         const lang = getSelectedCulture();
         let xShift = 0;
@@ -170,7 +187,7 @@ function updateFretboard(noteValue, scaleValues, charIntervals, scaleName, showQ
         startNotePositionFound = false;
         let hasDisplayedBlueNoteOnString = false;
         let lastDisplayedPosOnString = 0;
-        for (let j = 0; j < 3 * 12; j += halfToneInc) {
+        for (let j = 0; j < 3 * 12; j += 0.5) {
             const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
             if (scaleNotesValues.indexOf(currentNoteValue) < 0)
                 continue;
