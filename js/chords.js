@@ -46,7 +46,7 @@ chords4Dict.set("7flat5", [0, 4, 6, 10]);
 chords4Dict.set("m7flat5", [0, 3, 6, 10]);
 chords4Dict.set("m7Mflat5", [0, 3, 6, 11]);
 chords4Dict.set("m7Msharp5", [0, 3, 8, 11]);
-chords4Dict.set("7sharp5", [0, 4, 8, 10]);
+chords4Dict.set("altdom", [0, 4, 8, 10]); // altered dominant
 chords4Dict.set("7Msharp5", [0, 4, 8, 11]);
 chords4Dict.set("7Mflat5", [0, 4, 6, 11]);
 chords4Dict.set("6M", [0, 4, 7, 9]);
@@ -66,7 +66,7 @@ chords4Dict.set("m7add4(no5)", [0, 3, 5, 10]);
 chords4Dict.set("m6Madd4(no5)", [0, 3, 5, 9]);
 chords4Dict.set("Fr+6", [0, 2, 6, 8]); // French augmented 6th
 chords4Dict.set("Ger+6", [0, 3, 6, 8]); // German augmented 6th
-chords4Dict.set("alt", [0, 4, 10, 15]); // Altered / Hendrix
+chords4Dict.set("hendrix", [0, 4, 10, 15]); // Hendrix
 chords4Dict.set("dream", [0, 5, 6, 7]);
 chords4Dict.set("tristan", [0, 6, 10, 15]);
 // chords with 5 notes
