@@ -41,6 +41,7 @@ intervalsDict.set(17.5, "‡11");
 intervalsDict.set(18, "#11");
 intervalsDict.set(21, "13");
 intervalsDict.set(21.5, "‡13");
+intervalsDict.set(26, "16");
 function getAltIntervalNotation(intervalValue, index) {
     index += 1;
     // tonic: nop
