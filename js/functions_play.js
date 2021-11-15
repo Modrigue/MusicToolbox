@@ -96,23 +96,23 @@ function onPlayNoteInScale(index) {
     const intervalValue = scaleValues[index];
     playNote(noteValue + intervalValue, duration);
 }
-function onPlayChords(nbNotesInChords) {
+function onPlayChords(nbNotesInChords, step = 2) {
     // get selected note and scale values
     const noteValue = getSelectedNoteValue();
     const scaleValues = getScaleValues();
     let chordValuesArray = new Array();
     scaleValues.forEach(function (noteValue, index) {
-        const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+        const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords, step);
         chordValuesArray.push(chordValues);
     });
     const duration = 1;
     playChords(noteValue, scaleValues, chordValuesArray, duration);
 }
-function onPlayChordInScale(nbNotesInChords, index, delay = 0) {
+function onPlayChordInScale(nbNotesInChords, index, step = 2, delay = 0) {
     // get selected note and scale values
     const noteValue = getSelectedNoteValue();
     const scaleValues = getScaleValues();
-    const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+    const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords, step);
     const duration = 0;
     const noteCurrent = noteValue + scaleValues[index];
     playChord(noteCurrent, chordValues, duration, delay);

@@ -80,7 +80,7 @@ function getModeNotesValues(scaleValues: Array<number>, modeNumber: number): Arr
 
 // get chord position given scale values and number of notes
 function getChordNumberInScale(scaleValues: Array<number>,
-  pos: number, nbNotes: number): Array<number>
+  pos: number, nbNotes: number, step: number = 2): Array<number>
 {
   let chordValues: Array<number> = new Array<number>();
 
@@ -96,7 +96,7 @@ function getChordNumberInScale(scaleValues: Array<number>,
     const finalValue: number = (value - firstNoteValue + 12) % 12;
     chordValues.push(finalValue);
 
-    posCur = (posCur + 2) % nbNotesInScale;
+    posCur = (posCur + step) % nbNotesInScale;
   }
 
   return chordValues;
@@ -270,7 +270,8 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
 }
 
 function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<number>,
-  charIntervals: Array<number>, nbNotesInChords: number, showChordsDetails: boolean = true): string
+  charIntervals: Array<number>, nbNotesInChords: number, showChordsDetails: boolean = true,
+  step: number = 2 /* 3 for quartal harmonization */): string
 {
   let chordValuesArray: Array<Array<number>> = new Array<Array<number>>();
   const chordsDict: Map<string, Array<number>> = (nbNotesInChords == 4) ? chords4Dict : chords3Dict;
@@ -280,13 +281,14 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
   // create play button
   let button = document.createElement('button');
   button.innerText = `${getString("play")} ♪`;
-  button.setAttribute("onClick", `onPlayChords(${nbNotesInChords})`);
+  button.setAttribute("onClick", `onPlayChords(${nbNotesInChords},${step})`);
 
   // header
-  let chordsTableHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">${getString("chords_N_notes", nbNotesInChords.toString())} ${button.outerHTML}</div><div id=\"resp-table-body\">`;
+  const legend: string = (step == 3) ? "chords_quartal" : "chords_N_notes";
+  let chordsTableHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">${getString(legend, nbNotesInChords.toString())} ${button.outerHTML}</div><div id=\"resp-table-body\">`;
   scaleValues.forEach(function (noteValue, index)
   {
-    const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+    const chordValues = getChordNumberInScale(scaleValues, index, nbNotesInChords, step);
     chordValuesArray.push(chordValues);
   });
 
@@ -309,7 +311,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
 
     const chordName = getKeyFromArrayValue(chordsDict, chordValues);
     const chordNoteName = getCompactChordNotation(noteName, chordName);
-    const callbackString = `onPlayChordInScale(${nbNotesInChords},${index})`;
+    const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step})`;
 
     // highlight if tonic note
     let classString = "table-body-cell-interactive";
@@ -351,7 +353,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
   chordValuesArray.forEach(function (chordValues, index)
   {
     const noteFondamental = scaleNotesValues[index];
-    const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},0.25)`;
+    const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step},0.25)`;
 
     arpeggiosNotesRowHTML += /*html*/`<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
     arpeggiosNotesRowHTML += getArpeggioNotes(noteFondamental, chordValues, tonicValue, charNotesValues);

@@ -140,7 +140,7 @@ function onPlayNoteInScale(index: number): void
     playNote(noteValue + intervalValue, duration);
 }
 
-function onPlayChords(nbNotesInChords: number): void
+function onPlayChords(nbNotesInChords: number, step: number = 2): void
 {
     // get selected note and scale values
     const noteValue: number = getSelectedNoteValue();
@@ -149,7 +149,7 @@ function onPlayChords(nbNotesInChords: number): void
     let chordValuesArray: Array<Array<number>> = new Array<Array<number>>();
     scaleValues.forEach(function (noteValue, index)
     {
-      const chordValues: Array<number> = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+      const chordValues: Array<number> = getChordNumberInScale(scaleValues, index, nbNotesInChords, step);
       chordValuesArray.push(chordValues);
     });
 
@@ -157,12 +157,12 @@ function onPlayChords(nbNotesInChords: number): void
     playChords(noteValue, scaleValues, chordValuesArray, duration);
 }
 
-function onPlayChordInScale(nbNotesInChords: number, index: number, delay: number = 0): void
+function onPlayChordInScale(nbNotesInChords: number, index: number, step: number = 2, delay: number = 0): void
 {
     // get selected note and scale values
     const noteValue: number = getSelectedNoteValue();
     const scaleValues: Array<number> = getScaleValues();
-    const chordValues: Array<number> = getChordNumberInScale(scaleValues, index, nbNotesInChords);
+    const chordValues: Array<number> = getChordNumberInScale(scaleValues, index, nbNotesInChords, step);
 
     const duration: number = 0;
     const noteCurrent: number = noteValue + scaleValues[index];

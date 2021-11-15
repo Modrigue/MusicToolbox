@@ -24,6 +24,12 @@ chords3Dict.set("sus4sharp5", [0, 5, 8]);
 chords3Dict.set("q", [0, 5, 10]); // quartal chords
 chords3Dict.set("+4q", [0, 6, 11]);
 chords3Dict.set("q+4", [0, 5, 11]);
+chords3Dict.set("7M(no5)", [0, 4, 11]);
+chords3Dict.set("7(no5)", [0, 4, 10]);
+chords3Dict.set("m7(no5)", [0, 3, 10]);
+chords3Dict.set("7M(no3)", [0, 7, 11]);
+chords3Dict.set("m7(no3)", [0, 7, 10]);
+chords3Dict.set("m7flat5(no3)", [0, 6, 10]);
 chords3Dict.set("6M(no5)", [0, 4, 9]);
 chords3Dict.set("6(no5)", [0, 3, 9]);
 chords3Dict.set("6sus4(no5)", [0, 5, 9]);

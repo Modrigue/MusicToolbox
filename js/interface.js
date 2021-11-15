@@ -19,7 +19,7 @@ window.onload = function () {
     // scale explorer
     document.getElementById("note").addEventListener("change", onNoteChanged);
     document.getElementById("scale").addEventListener("change", onScaleChanged);
-    document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); toggleDisplay('section_found_chords_from_scale'); });
+    document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); toggleDisplay('chordsQ_result'); toggleDisplay('section_found_chords_from_scale'); });
     document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('canvas_keyboard'));
     document.getElementById("checkboxQuarterTonesScaleExplorer").addEventListener("change", updateShowQuarterTonesInScaleExplorer);
@@ -179,11 +179,13 @@ function update() {
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     document.getElementById('scale_result').innerHTML = getScaleNotesTableHTML(noteValue, scaleValues, charIntervals);
     const scaleNotesValuesMicrotonal = isMicrotonalScale(scaleNotesValues);
-    // build chords 3,4 notes harmonization tables
+    // build chords 3,4 notes and quartal harmonization tables
     const showChords3 = (nbNotesInScale >= 6 && !scaleValuesMicrotonal);
     const showChords4 = (nbNotesInScale >= 7 && !scaleValuesMicrotonal);
+    const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesMicrotonal);
     document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal) : "";
     document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
+    document.getElementById('chordsQ_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal, 3) : "";
     const scaleName = getSelectorText("scale");
     // checkboxes
     //setEnabled("checkboxChords3", showChords3);
