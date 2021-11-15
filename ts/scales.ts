@@ -39,6 +39,7 @@ scaleFamiliesDict.set("5pelog_bem",       [0, 1, 6, 7, 8]);
 scaleFamiliesDict.set("5pelog_barang",    [0, 2, 6, 7, 9]);
 scaleFamiliesDict.set("5jap_in",          [0, 1, 5, 7, 8]);
 scaleFamiliesDict.set("5jap_insen",       [0, 1, 5, 7, 10]);
+scaleFamiliesDict.set("5dom_penta",       [0, 2, 4, 7, 10]);
 scaleFamiliesDict.set("5bartok_penta",    [0, 4, 6, 7, 10]);
 scaleFamiliesDict.set("5phryg6_penta",    [0, 1, 3, 7, 9]);
 scaleFamiliesDict.set("5blues_no4_penta", [0, 3, 6, 7, 10]);
@@ -183,6 +184,7 @@ scalesDict_int.set("5pelog_barang,1", "Pelog Barang");
 scalesDict_int.set("5pelog_barang,2", "Mixolydian Pentatonic (2nd mode)");
 scalesDict_int.set("5pelog_barang_sep", "");
 scalesDict_int.set("5pelog_bem,1", "Pelog Bem");
+scalesDict_int.set("5dom_penta,1,diff:5major_penta;1", "Dominant Pentatonic");
 scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Bartok Pentatonic");
 scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
 scalesDict_int.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
@@ -337,6 +339,7 @@ scalesDict_fr.set("5javanese,2", "Balinais (2e mode)");
 
 scalesDict_fr.set("5pelog_barang,2", "Pentatonique Mixolydien (2e mode)");
 
+scalesDict_fr.set("5dom_penta,1,diff:5major_penta;1", "Pentatonique Dominante");
 scalesDict_fr.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonique Bartok");
 scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique Phrygien ♮6");
 
