@@ -74,9 +74,13 @@ chords4Dict.set("7Msus4sharp5",       [0, 5, 8, 11]);
 chords4Dict.set("7Msus4sharpsharp5",  [0, 5, 9, 11]);
 chords4Dict.set("m7add4(no5)",        [0, 3, 5, 10]);
 chords4Dict.set("m6Madd4(no5)",       [0, 3, 5, 9]);
+chords4Dict.set("13M(modern)",        [0, 4, 11, 21]);
+chords4Dict.set("13(modern)",         [0, 4, 10, 21]);
+chords4Dict.set("m13(modern)",        [0, 3, 10, 21]);
+chords4Dict.set("m13M(modern)",       [0, 3, 11, 21]);
 chords4Dict.set("Fr+6",               [0, 2, 6, 8]); // French augmented 6th
 chords4Dict.set("Ger+6",              [0, 3, 6, 8]); // German augmented 6th
-chords4Dict.set("hendrix",            [0, 4, 10, 15]); // Hendrix
+chords4Dict.set("hendrix(no5)",       [0, 4, 10, 15]); // Hendrix
 chords4Dict.set("dream",              [0, 5, 6, 7]);
 chords4Dict.set("tristan",            [0, 6, 10, 15]);
 
@@ -109,7 +113,12 @@ chords5Dict.set("7Madd13",          [0, 4, 7, 11, 21]);
 chords5Dict.set("7add13",           [0, 4, 7, 10, 21]);
 chords5Dict.set("m7add13",          [0, 3, 7, 10, 21]);
 chords5Dict.set("m7Madd13",         [0, 3, 7, 11, 21]);
+chords5Dict.set("11M(no5)",         [0, 4, 11, 14, 17]);
+chords5Dict.set("11(no5)",          [0, 4, 10, 14, 17]);
+chords5Dict.set("m11(no5)",         [0, 3, 10, 14, 17]);
+chords5Dict.set("m11M(no5)",        [0, 3, 11, 14, 17]);
 chords5Dict.set("sowhat",           [0, 5, 10, 15, 19]);
+chords5Dict.set("hendrix",          [0, 4, 7, 10, 15]); // Hendrix
 chords5Dict.set("beta",             [0, 3, 6, 9 , 11]);
 chords5Dict.set("gamma",            [0, 3, 6, 8 , 11]);
 chords5Dict.set("elektra",          [0, 7, 9, 13, 16]);
@@ -125,6 +134,10 @@ chords6Dict.set("11Mflat9",          [0, 4, 7, 11, 13, 17]);
 chords6Dict.set("11flat9",           [0, 4, 7, 10, 13, 17]);
 chords6Dict.set("m11flat9",          [0, 3, 7, 10, 13, 17]);
 chords6Dict.set("m11Mflat9",         [0, 3, 7, 11, 13, 17]);
+chords6Dict.set("13M(no5)",          [0, 4, 11, 14, 17, 21]);
+chords6Dict.set("13(no5)",           [0, 4, 10, 14, 17, 21]);
+chords6Dict.set("m13(no5)",          [0, 3, 10, 14, 17, 21]);
+chords6Dict.set("m13M(no5)",         [0, 3, 11, 14, 17, 21]);
 chords6Dict.set("bridge",            [0, 3, 7, 14, 18, 21]);
 chords6Dict.set("mystic",            [0, 6, 10, 16, 21, 26]);
 
@@ -138,6 +151,10 @@ chords7Dict.set("13Mflat9",          [0, 4, 7, 11, 13, 17, 21]);
 chords7Dict.set("13flat9",           [0, 4, 7, 10, 13, 17, 21]);
 chords7Dict.set("m13flat9",          [0, 3, 7, 10, 13, 17, 21]);
 chords7Dict.set("m13Mflat9",         [0, 3, 7, 11, 13, 17, 21]);
+chords7Dict.set("13Msharp9",         [0, 4, 7, 11, 13, 17, 21]);
+chords7Dict.set("13sharp9",          [0, 4, 7, 10, 13, 17, 21]);
+chords7Dict.set("m13sharp9",         [0, 3, 7, 10, 13, 17, 21]);
+chords7Dict.set("m13Msharp9",        [0, 3, 7, 11, 13, 17, 21]);
 chords7Dict.set("13Msus",            [0, 5, 7, 11, 14, 17, 21]); // sus4?
 chords7Dict.set("m13sus",            [0, 5, 7, 10, 14, 17, 21]); // sus4?
 
