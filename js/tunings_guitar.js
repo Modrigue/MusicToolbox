@@ -15,7 +15,7 @@ guitarTunings6Dict.set("standard", [4, 9, 2, 7, 11, 4]);
 guitarTunings6Dict.set("dropped_d", [2, 9, 2, 7, 11, 4]);
 guitarTunings6Dict.set("open_d", [2, 9, 2, 6, 9, 2]);
 guitarTunings6Dict.set("open_e7", [4, 11, 2, 8, 11, 4]);
-guitarTunings6Dict.set("open_g", [7, 11, 2, 7, 11, 2]);
+guitarTunings6Dict.set("open_g", [2, 7, 2, 7, 11, 2]);
 guitarTunings6Dict.set("dadgad", [2, 9, 2, 7, 9, 2]);
 // guitar tunings with 7 notes
 const guitarTunings7Dict = new Map();
