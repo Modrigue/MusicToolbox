@@ -170,7 +170,7 @@ scalesDict_int.set("5major_penta,2", "Egyptian / Suspended (2nd mode)");
 scalesDict_int.set("5major_penta,3", "Blues minor / Man gong (3rd mode)");
 scalesDict_int.set("5major_penta,4", "Blues major / Ritsusen (4th mode)");
 scalesDict_int.set("5major_penta,sep", "");
-scalesDict_int.set("5jap_in,1", "In");
+scalesDict_int.set("5jap_in,1", "In / Miyako-Bushi");
 scalesDict_int.set("5jap_in,2", "Chinese (2nd mode)");
 scalesDict_int.set("5jap_in,3", "Hirajoshi (3rd mode)");
 scalesDict_int.set("5jap_in,4", "Iwato (4th mode)");
@@ -178,7 +178,7 @@ scalesDict_int.set("5jap_in,sep", "");
 scalesDict_int.set("5jap_insen,1", "Insen");
 scalesDict_int.set("5jap_insen,5", "Kumoi (5th mode)");
 scalesDict_int.set("5jap_insen,sep", "");
-scalesDict_int.set("5javanese,1", "Javanese");
+scalesDict_int.set("5javanese,1", "Javanese / Ryu Kyu");
 scalesDict_int.set("5javanese,2", "Balinese (2nd mode)");
 scalesDict_int.set("5javanese_sep", "");
 scalesDict_int.set("5pelog_barang,1", "Pelog Barang");
@@ -328,7 +328,7 @@ scalesDict_fr.set("5major_penta,2", "Egyptien / Suspendu (2e mode)");
 scalesDict_fr.set("5major_penta,3", "Blues mineur / Man gong (3e mode)");
 scalesDict_fr.set("5major_penta,4", "Blues majeur / Ritsusen (4e mode)");
 
-scalesDict_fr.set("5jap_in,1", "In");
+scalesDict_fr.set("5jap_in,1", "In / Miyako-Bushi");
 scalesDict_fr.set("5jap_in,2", "Chinois (2e mode)");
 scalesDict_fr.set("5jap_in,3", "Hirajoshi (3e mode)");
 scalesDict_fr.set("5jap_in,4", "Iwato (4e mode)");
@@ -336,7 +336,7 @@ scalesDict_fr.set("5jap_in,4", "Iwato (4e mode)");
 scalesDict_fr.set("5jap_insen,1", "Insen");
 scalesDict_fr.set("5jap_insen,5", "Kumoi (5e mode)");
 
-scalesDict_fr.set("5javanese,1", "Javanais");
+scalesDict_fr.set("5javanese,1", "Javanais / Ryu Kyu");
 scalesDict_fr.set("5javanese,2", "Balinais (2e mode)");
 
 scalesDict_fr.set("5pelog_barang,2", "Pentatonique Mixolydien (2e mode)");
