@@ -91,7 +91,7 @@ scalesDict_int.set("7minor_harm,6,diff:7major_nat;4", "Lydian #2 (6th mode)");
 scalesDict_int.set("7minor_harm,7,diff:7major_nat;7", "Ultra Locrian / Altered ♭♭7 (7th mode)");
 scalesDict_int.set("7minor_harm,sep", "");
 scalesDict_int.set("7minor_melo,1,diff:7major_nat;6", "Melodic minor");
-scalesDict_int.set("7minor_melo,2,diff:7major_nat;2", "Dorian ♭2 / Phrygian ♮6 (2nd mode)");
+scalesDict_int.set("7minor_melo,2,diff:7major_nat;6", "Dorian ♭2 / Phrygian ♮6 (2nd mode)");
 scalesDict_int.set("7minor_melo,3,diff:7major_nat;4", "Lydian augmented / Lydian #5 (3rd mode)");
 scalesDict_int.set("7minor_melo,4,diff:7major_nat;4", "Bartok / Lydian Dominant (4th mode)");
 scalesDict_int.set("7minor_melo,5,diff:7major_nat;5", "Hindu / Mixolydian ♭6 (5th mode)");
@@ -114,12 +114,13 @@ scalesDict_int.set("7major_harm,5,diff:7major_nat;5", "Zanjaran / Mixolydian ♭
 scalesDict_int.set("7major_harm,6,diff:7major_nat;4", "Lydian augmented #2 (6th mode)");
 scalesDict_int.set("7major_harm,7,diff:7major_nat;7", "Locrian ♭♭7 (7th mode)");
 scalesDict_int.set("7major_harm,sep", "");
-scalesDict_int.set("7major_neap,1", "Neapolitan major");
+scalesDict_int.set("7major_neap,1,diff:7minor_melo;1", "Neapolitan major");
 scalesDict_int.set("7major_neap,2", "Leading whole tone (2nd mode)");
 scalesDict_int.set("7major_neap,4,diff:7major_nat;4", "Lydian minor (4th mode)");
 scalesDict_int.set("7major_neap,5,diff:7major_nat;7", "Arabian / Locrian major (5th mode)");
 scalesDict_int.set("7major_neap,sep", "");
-scalesDict_int.set("7minor_neap,1", "Neapolitan minor");
+scalesDict_int.set("7minor_neap,1,diff:7major_nat;6", "Neapolitan minor");
+scalesDict_int.set("7minor_neap,2,diff:7major_nat;4", "Lydian #6 (2nd mode)");
 scalesDict_int.set("7minor_neap,4", "Hungarian gypsy (4th mode)");
 scalesDict_int.set("7minor_neap,sep", "");
 scalesDict_int.set("7persian,1,diff:7major_2harm;1", "Persian");
@@ -257,7 +258,7 @@ scalesDict_fr.set("7minor_harm,6,diff:7major_nat;4", "Lydien #2 (6e mode)");
 scalesDict_fr.set("7minor_harm,7,diff:7major_nat;7", "Ultra Locrien / Altérée ♭♭7 (7e mode)");
 
 scalesDict_fr.set("7minor_melo,1,diff:7major_nat;6", "Mineur mélodique");
-scalesDict_fr.set("7minor_melo,2,diff:7major_nat;2", "Dorien ♭2 / Phrygien ♮6 (2e mode)");
+scalesDict_fr.set("7minor_melo,2,diff:7major_nat;6", "Dorien ♭2 / Phrygien ♮6 (2e mode)");
 scalesDict_fr.set("7minor_melo,3,diff:7major_nat;4", "Lydien augmenté / Lydien #5 (3e mode)");
 scalesDict_fr.set("7minor_melo,4,diff:7major_nat;4", "Bartok / Lydien Dominant (4e mode)");
 scalesDict_fr.set("7minor_melo,5,diff:7major_nat;5", "Hindou / Mixolydien ♭6 (5e mode)");
@@ -280,12 +281,13 @@ scalesDict_fr.set("7major_harm,5,diff:7major_nat;5", "Zanjaran / Mixolydien ♭2
 scalesDict_fr.set("7major_harm,6,diff:7major_nat;4", "Lydien augmenté #2 (6e mode)");
 scalesDict_fr.set("7major_harm,7,diff:7major_nat;7", "Locrien ♭♭7 (7e mode)");
 
-scalesDict_fr.set("7major_neap,1", "Napolitain majeur");
+scalesDict_fr.set("7major_neap,1,diff:7minor_melo;1", "Napolitain majeur");
 scalesDict_fr.set("7major_neap,2", "Tons en tête (2e mode)");
 scalesDict_fr.set("7major_neap,4,diff:7major_nat;4", "Lydien mineur (4e mode)");
 scalesDict_fr.set("7major_neap,5,diff:7major_nat;7", "Arabe / Locrien majeur (5e mode)");
 
-scalesDict_fr.set("7minor_neap,1", "Napolitain mineur");
+scalesDict_fr.set("7minor_neap,1,diff:7major_nat;6", "Napolitain mineur");
+scalesDict_fr.set("7minor_neap,2,diff:7major_nat;4", "Lydien #6 (2e mode)");
 scalesDict_fr.set("7minor_neap,4", "Hongrois gitan (4e mode)");
 
 scalesDict_fr.set("7persian,1,diff:7major_2harm;1", "Persan");
