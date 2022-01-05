@@ -55,7 +55,6 @@ chords4Dict.set("7flat5", [0, 4, 6, 10]);
 chords4Dict.set("m7flat5", [0, 3, 6, 10]);
 chords4Dict.set("m7Mflat5", [0, 3, 6, 11]);
 chords4Dict.set("m7Msharp5", [0, 3, 8, 11]);
-chords4Dict.set("altdom", [0, 4, 8, 10]); // altered dominant
 chords4Dict.set("7Msharp5", [0, 4, 8, 11]);
 chords4Dict.set("7Mflat5", [0, 4, 6, 11]);
 chords4Dict.set("6M", [0, 4, 7, 9]);
@@ -77,6 +76,7 @@ chords4Dict.set("13M(modern)", [0, 4, 11, 21]);
 chords4Dict.set("13(modern)", [0, 4, 10, 21]);
 chords4Dict.set("m13(modern)", [0, 3, 10, 21]);
 chords4Dict.set("m13M(modern)", [0, 3, 11, 21]);
+chords4Dict.set("altdom", [0, 4, 9, 13]); // altered dominant
 chords4Dict.set("Fr+6", [0, 2, 6, 8]); // French augmented 6th
 chords4Dict.set("Ger+6", [0, 3, 6, 8]); // German augmented 6th
 chords4Dict.set("hendrix(no5)", [0, 4, 10, 15]); // Hendrix
