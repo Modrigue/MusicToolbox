@@ -57,6 +57,7 @@ window.onload = function()
     (<HTMLSelectElement>document.getElementById("chord_explorer_guitar_nb_strings")).addEventListener("change", () => onNbStringsChanged('chord_explorer'));
     (<HTMLSelectElement>document.getElementById("chord_explorer_guitar_tuning")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("checkboxBarres")).addEventListener("change", update);
+    (<HTMLInputElement>document.getElementById("checkboxEmptyStrings")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("chord_explorer_nb_strings_max")).addEventListener("change", update);
 
     // chord tester
@@ -332,12 +333,13 @@ function update(): void
         case "page_chord_explorer":
         {
             const checkboxBarres: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxBarres");
+            const checkboxEmptyStrings: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxEmptyStrings");
             
             updateChordGeneratorMode();
             updateChordSelectorGivenNbStrings('chord_explorer_chord');
             updateNbStringsForChordSelector();
             updateFoundChordElements();
-            updateGeneratedChordsOnFretboard(checkboxBarres.checked);
+            updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
 
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
@@ -492,6 +494,7 @@ function updateLocales(): void
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_tuning_text")).innerText = getString("tuning");
     (<HTMLSpanElement>document.getElementById("chord_explorer_nb_strings_max_text")).innerText = getString("chord_explorer_nb_strings_max_text");
     (<HTMLLabelElement>document.getElementById("checkboxBarresLabel")).innerText = getString("show_barres");
+    (<HTMLLabelElement>document.getElementById("checkboxEmptyStringsLabel")).innerText = getString("show_empty_strings");
     
     // chord tester
     (<HTMLLabelElement>document.getElementById("radioChordTesterChordsLabel")).innerText = getString("play_chords");

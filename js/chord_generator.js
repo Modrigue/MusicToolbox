@@ -4,12 +4,12 @@ let cMaxPos = 1;
 let cStretch = 2;
 let cRange = 0;
 let cEmptyStrings = 4;
-function getNotesPositionsOnString(noteValue, stringValue, posMin, posMax, includeEmptyString = true) {
+function getNotesPositionsOnString(noteValue, stringValue, posMin, posMax, includeEmptyString = false) {
     let positions = [];
     // include empty string if option allowed
     if (includeEmptyString && noteValue == stringValue)
         positions.push(0);
-    // browse positions on string
+    // browse positions range on string
     for (let pos = posMin; pos <= posMax; pos++) {
         const curNoteValue = (stringValue + pos) % 12;
         if (curNoteValue == noteValue && positions.indexOf(pos) < 0)
@@ -17,7 +17,7 @@ function getNotesPositionsOnString(noteValue, stringValue, posMin, posMax, inclu
     }
     return positions;
 }
-function generateChords(notesValues, nbStrings = 99) {
+function generateChords(notesValues, nbStrings = 99, includeEmptyStrings = false) {
     if (notesValues == null || notesValues.length < 2)
         return new Array();
     let chordsPositions = new Array();
@@ -27,7 +27,7 @@ function generateChords(notesValues, nbStrings = 99) {
     const nbNotes = notesValues.length;
     // generate all valid chord positions
     for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++) {
-        const positionsString0 = getNotesPositionsOnString(fundamental, tuningValues[startString], 0, 11);
+        const positionsString0 = getNotesPositionsOnString(fundamental, tuningValues[startString], 0, 11, true);
         for (let p0 of positionsString0) {
             // get start positions
             let startPositions = [];
@@ -35,7 +35,7 @@ function generateChords(notesValues, nbStrings = 99) {
                 startPositions.push(-1);
             startPositions.push(p0);
             // init algorithm
-            addChordNoteOnString(notesValues, startString, startString + 1, startPositions, chordsPositions, tuningValues, nbStrings);
+            addChordNoteOnString(notesValues, startString, startString + 1, startPositions, chordsPositions, tuningValues, nbStrings, includeEmptyStrings);
         }
     }
     // sort positions
@@ -53,7 +53,7 @@ function generateChords(notesValues, nbStrings = 99) {
 // recurse on strings
 //    nbStrings = 99 => recurse until valid max. number of strings reached
 //    nbStrings = 0  => recurse until valid min. number of strings reached
-function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur, chordsPositions, tuningValues, nbStrings = 99, chordAddedArray = []) {
+function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur, chordsPositions, tuningValues, nbStrings = 99, includeEmptyStrings = false, chordAddedArray = []) {
     // secure
     const nbStringsTotal = tuningValues.length;
     if (stringIndex >= nbStringsTotal)
@@ -66,7 +66,7 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
         if (stringIndex > startIndex && positionsCur != null)
             if (noteValue == (positionsCur[positionsCur.length - 1] + tuningValues[stringIndex - 1]) % 12)
                 continue;
-        const positionsOnString = getNotesPositionsOnString(noteValue, tuningValues[stringIndex], range[0], range[1]);
+        const positionsOnString = getNotesPositionsOnString(noteValue, tuningValues[stringIndex], range[0], range[1], includeEmptyStrings);
         for (let pos of positionsOnString) {
             let positionsCandidate = [...positionsCur];
             positionsCandidate.push(pos);
@@ -88,7 +88,7 @@ function addChordNoteOnString(notesValues, startIndex, stringIndex, positionsCur
             // find notes on next string
             let chordAddedArrayCurrent = new Array();
             if (continueSearch)
-                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, tuningValues, nbStrings, chordAddedArrayCurrent);
+                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, tuningValues, nbStrings, includeEmptyStrings, chordAddedArrayCurrent);
             // update added chord positions array
             for (let chordPos of chordAddedArrayCurrent)
                 chordAddedArray.push(chordPos);
@@ -399,7 +399,7 @@ function updateFoundChordElements() {
     let buttonPlayArpeggio = document.getElementById("play_found_arpeggio");
     buttonPlayArpeggio.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0, 0.25)`);
 }
-function updateGeneratedChordsOnFretboard(showBarres = true) {
+function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false) {
     const generatedGuitarChords = document.getElementById('generated_guitar_chords');
     let chordNotesValues = new Array();
     let noteFondamental = -1;
@@ -427,7 +427,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true) {
     // compute chord positions
     const nbStringsSelectedStr = document.getElementById('chord_explorer_nb_strings_max').value;
     const nbStringsSelected = parseInt(nbStringsSelectedStr);
-    const positionsArray = generateChords(chordNotesValues, nbStringsSelected);
+    const positionsArray = generateChords(chordNotesValues, nbStringsSelected, includeEmptyStrings);
     if (positionsArray == null || positionsArray.length == 0) {
         generatedGuitarChords.innerHTML = getString("no_result");
         return;

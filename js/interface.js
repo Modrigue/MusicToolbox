@@ -45,6 +45,7 @@ window.onload = function () {
     document.getElementById("chord_explorer_guitar_nb_strings").addEventListener("change", () => onNbStringsChanged('chord_explorer'));
     document.getElementById("chord_explorer_guitar_tuning").addEventListener("change", update);
     document.getElementById("checkboxBarres").addEventListener("change", update);
+    document.getElementById("checkboxEmptyStrings").addEventListener("change", update);
     document.getElementById("chord_explorer_nb_strings_max").addEventListener("change", update);
     // chord tester
     document.getElementById("checkboxCommonChords").addEventListener("change", update);
@@ -246,11 +247,12 @@ function update() {
         case "page_chord_explorer":
             {
                 const checkboxBarres = document.getElementById("checkboxBarres");
+                const checkboxEmptyStrings = document.getElementById("checkboxEmptyStrings");
                 updateChordGeneratorMode();
                 updateChordSelectorGivenNbStrings('chord_explorer_chord');
                 updateNbStringsForChordSelector();
                 updateFoundChordElements();
-                updateGeneratedChordsOnFretboard(checkboxBarres.checked);
+                updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
                 setVisible('found_scales', false);
                 setVisible('negative_scale', false);
                 break;
@@ -364,6 +366,7 @@ function updateLocales() {
     document.getElementById("chord_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("chord_explorer_nb_strings_max_text").innerText = getString("chord_explorer_nb_strings_max_text");
     document.getElementById("checkboxBarresLabel").innerText = getString("show_barres");
+    document.getElementById("checkboxEmptyStringsLabel").innerText = getString("show_empty_strings");
     // chord tester
     document.getElementById("radioChordTesterChordsLabel").innerText = getString("play_chords");
     document.getElementById("radioChordTesterArpeggiosLabel").innerText = getString("play_arpeggios");
