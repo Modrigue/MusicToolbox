@@ -190,6 +190,7 @@ scalesDict_int.set("7hijaz,5,diff:7bayati;1", "Bayati Shuri (5th mode)");
 scalesDict_int.set("7hijaz,6", "Huzam (6th mode)");
 scalesDict_int.set("7hijaz,sep", "");
 scalesDict_int.set("7rast,1,diff:7major_nat;2", "Rast");
+scalesDict_int.set("7rast,2,diff:7major_nat;6", "Rattlesnake (2nd mode)");
 scalesDict_int.set("7rast,5,diff:7major_nat;6", "Nairuz / Simdi Huseyni-Ussak (5th mode)");
 scalesDict_int.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6th mode)");
 scalesDict_int.set("7rast,7,diff:7major_nat;1", "Iraq (7th mode)");
@@ -296,6 +297,7 @@ scalesDict_fr.set("7notes_quarter_tones", "----------------- 7 NOTES ¼ TONS ---
 scalesDict_fr.set("7hijaz,4,diff:7major_harm;1", "Suznak (4e mode)");
 scalesDict_fr.set("7hijaz,5,diff:7bayati;1", "Bayati Shuri (5e mode)");
 scalesDict_fr.set("7hijaz,6", "Huzam (6e mode)");
+scalesDict_fr.set("7rast,2,diff:7major_nat;6", "Rattlesnake (2e mode)");
 scalesDict_fr.set("7rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5e mode)");
 scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
 scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
