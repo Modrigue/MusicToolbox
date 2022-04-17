@@ -185,7 +185,10 @@ scalesDict_int.set("5pelog_barang,1", "Pelog Barang");
 scalesDict_int.set("5pelog_barang,2", "Mixolydian Pentatonic (2nd mode)");
 scalesDict_int.set("5pelog_barang_sep", "");
 scalesDict_int.set("5pelog_bem,1", "Pelog Bem");
+scalesDict_int.set("5pelog_bem_sep", "");
 scalesDict_int.set("5dom_penta,1,diff:5major_penta;1", "Dominant Pentatonic");
+scalesDict_int.set("5dom_penta,4,diff:5major_penta;5", "Dorian Pentatonic (4th mode)");
+scalesDict_int.set("5dom_penta_sep", "");
 scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Bartok Pentatonic");
 scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
 scalesDict_int.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
@@ -343,6 +346,7 @@ scalesDict_fr.set("5javanese,2", "Balinais (2e mode)");
 scalesDict_fr.set("5pelog_barang,2", "Pentatonique Mixolydien (2e mode)");
 
 scalesDict_fr.set("5dom_penta,1,diff:5major_penta;1", "Pentatonique Dominante");
+scalesDict_fr.set("5dom_penta,4,diff:5major_penta;5", "Pentatonique Dorienne (4e mode)");
 scalesDict_fr.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonique Bartok");
 scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique Phrygien ♮6");
 
@@ -379,7 +383,7 @@ const scalesToHighlight: Array<string> = ["7major_nat,1", "7major_nat,6", "7mino
     "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7saba", "7sikah_baladi",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
     "6blues,1", "6strange,1", "6aug,1",
-    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1",
+    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1",
     "5tet_approx,1"
 ];
 
