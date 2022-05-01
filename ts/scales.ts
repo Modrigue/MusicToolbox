@@ -180,6 +180,7 @@ scalesDict_int.set("5jap_insen,5", "Kumoi (5th mode)");
 scalesDict_int.set("5jap_insen,sep", "");
 scalesDict_int.set("5javanese,1", "Javanese / Ryu Kyu");
 scalesDict_int.set("5javanese,2", "Balinese (2nd mode)");
+scalesDict_int.set("5javanese,5", "Iwato bis (5th mode)");
 scalesDict_int.set("5javanese_sep", "");
 scalesDict_int.set("5pelog_barang,1", "Pelog Barang");
 scalesDict_int.set("5pelog_barang,2", "Mixolydian Pentatonic (2nd mode)");
@@ -342,6 +343,7 @@ scalesDict_fr.set("5jap_insen,5", "Kumoi (5e mode)");
 
 scalesDict_fr.set("5javanese,1", "Javanais / Ryu Kyu");
 scalesDict_fr.set("5javanese,2", "Balinais (2e mode)");
+scalesDict_fr.set("5javanese,5", "Iwato bis (5e mode)");
 
 scalesDict_fr.set("5pelog_barang,2", "Pentatonique Mixolydien (2e mode)");
 
