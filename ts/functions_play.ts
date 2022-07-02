@@ -43,41 +43,26 @@ function playScale(noteValue: number, scaleValues: Array<number>,
     bass: boolean = false, backwards: boolean = false): void
 {
     const duration: number = bass ? 0.5 : 1;
-    let noteBassValue = noteValue -12; // tonic at inferior octave
 
-    if (!backwards)
+    let noteBassValue = noteValue - 12; // tonic at inferior octave
+    let scaleValuesToPlay: Array<number> = cloneIntegerArray(scaleValues);
+    scaleValuesToPlay.push(noteValue + 12); // final note at superior octave
+
+    if (backwards)
+        scaleValuesToPlay = scaleValuesToPlay.reverse();
+
+    scaleValuesToPlay.forEach(function (intervalValue, index)
     {
-        scaleValues.forEach(function (intervalValue, index)
-        {
-            let noteCurValue = noteValue + intervalValue;
+        let noteCurValue = noteValue + intervalValue;
 
-            if (bass)
-            {
-                playNote(noteBassValue, duration*2*index);
-                playNote(noteCurValue, duration*(2*index + 1));
-            }
-            else
-                playNote(noteCurValue, duration*index);
-        });
-
-        // final note at octave
         if (bass)
         {
-            playNote(noteBassValue, 2*duration*scaleValues.length);
-            playNote(noteValue + 12, duration*(2*scaleValues.length + 1));
+            playNote(noteBassValue, duration*2*index);
+            playNote(noteCurValue, duration*(2*index + 1));
         }
         else
-            playNote(noteValue + 12, duration*(scaleValues.length));
-    }
-    else // backwards
-    {
-        playNote(noteValue + 12, 0);
-        scaleValues.reverse().forEach(function (intervalValue, index)
-        {
-            let noteCurValue = noteValue + intervalValue;
-            playNote(noteCurValue, duration*(index + 1));
-        });
-    }
+            playNote(noteCurValue, duration*index);
+    });
 
     // // disabled for now: forward + backwards
     // {
@@ -151,6 +136,15 @@ function onPlayScaleBackwards(): void
     const scaleValues: Array<number> = getScaleValues();
 
     playScale(noteValue, scaleValues, false, true /*backwards*/);
+}
+
+function onPlayScaleBackwardsWithBass(): void
+{
+    // get selected note and scale values
+    const noteValue: number = getSelectedNoteValue();
+    const scaleValues: Array<number> = getScaleValues();
+
+    playScale(noteValue, scaleValues, true /*bass*/, true /*backwards*/);
 }
 
 function onPlayNoteInScale(index: number): void

@@ -146,8 +146,12 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     let buttonPlayBackwards = document.createElement('button');
     buttonPlayBackwards.innerText = `${getString("play_backwards")} ♪`;
     buttonPlayBackwards.setAttribute("onClick", "onPlayScaleBackwards()");
+    // create play backwards with bass button
+    let buttonPlayBackwardsWithBass = document.createElement('button');
+    buttonPlayBackwardsWithBass.innerText = `${getString("play_backwards_with_bass")} ♪`;
+    buttonPlayBackwardsWithBass.setAttribute("onClick", "onPlayScaleBackwardsWithBass()");
     // build scale notes list
-    let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonPlay.outerHTML} ${buttonPlayWithBass.outerHTML} ${buttonPlayBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
+    let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonPlay.outerHTML} ${buttonPlayWithBass.outerHTML} ${buttonPlayBackwards.outerHTML} ${buttonPlayBackwardsWithBass.outerHTML}</div><div id=\"resp-table-body\">`;
     let notesScaleRowHTML = "<div class=\"resp-table-row\">";
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     scaleNotesValues.forEach(function (noteValue, index) {
