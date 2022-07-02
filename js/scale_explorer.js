@@ -135,15 +135,19 @@ function getStepNotation(stepValue) {
 function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     const nbNotesInScale = scaleValues.length;
     // create play button
-    let button = document.createElement('button');
-    button.innerText = `${getString("play")} ♪`;
-    button.setAttribute("onClick", "onPlayScale()");
+    let buttonPlay = document.createElement('button');
+    buttonPlay.innerText = `${getString("play")} ♪`;
+    buttonPlay.setAttribute("onClick", "onPlayScale()");
+    // create play with bass button
+    let buttonPlayWithBass = document.createElement('button');
+    buttonPlayWithBass.innerText = `${getString("play_with_bass")} ♪`;
+    buttonPlayWithBass.setAttribute("onClick", "onPlayScaleWithBass()");
     // create play backwards button
-    let buttonBackwards = document.createElement('button');
-    buttonBackwards.innerText = `${getString("play_backwards")} ♪`;
-    buttonBackwards.setAttribute("onClick", "onPlayScaleBackwards()");
+    let buttonPlayBackwards = document.createElement('button');
+    buttonPlayBackwards.innerText = `${getString("play_backwards")} ♪`;
+    buttonPlayBackwards.setAttribute("onClick", "onPlayScaleBackwards()");
     // build scale notes list
-    let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${button.outerHTML} ${buttonBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
+    let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonPlay.outerHTML} ${buttonPlayWithBass.outerHTML} ${buttonPlayBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
     let notesScaleRowHTML = "<div class=\"resp-table-row\">";
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     scaleNotesValues.forEach(function (noteValue, index) {

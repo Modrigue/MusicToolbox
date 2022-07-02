@@ -26,14 +26,26 @@ function playNote(noteValue, delay) {
     MIDI.noteOn(0, note, velocity, delay, pitchBend);
     MIDI.noteOff(0, note, delay + length);
 }
-function playScale(noteValue, scaleValues, backwards = false) {
-    const duration = 1;
+function playScale(noteValue, scaleValues, bass = false, backwards = false) {
+    const duration = bass ? 0.5 : 1;
+    let noteBassValue = noteValue - 12; // tonic at inferior octave
     if (!backwards) {
         scaleValues.forEach(function (intervalValue, index) {
             let noteCurValue = noteValue + intervalValue;
-            playNote(noteCurValue, duration * index);
+            if (bass) {
+                playNote(noteBassValue, duration * 2 * index);
+                playNote(noteCurValue, duration * (2 * index + 1));
+            }
+            else
+                playNote(noteCurValue, duration * index);
         });
-        playNote(noteValue + 12, duration * (scaleValues.length));
+        // final note at octave
+        if (bass) {
+            playNote(noteBassValue, 2 * duration * scaleValues.length);
+            playNote(noteValue + 12, duration * (2 * scaleValues.length + 1));
+        }
+        else
+            playNote(noteValue + 12, duration * (scaleValues.length));
     }
     else // backwards
      {
@@ -82,11 +94,17 @@ function onPlayScale() {
     const scaleValues = getScaleValues();
     playScale(noteValue, scaleValues);
 }
+function onPlayScaleWithBass() {
+    // get selected note and scale values
+    const noteValue = getSelectedNoteValue();
+    const scaleValues = getScaleValues();
+    playScale(noteValue, scaleValues, true /*bass*/);
+}
 function onPlayScaleBackwards() {
     // get selected note and scale values
     const noteValue = getSelectedNoteValue();
     const scaleValues = getScaleValues();
-    playScale(noteValue, scaleValues, true /*backwards*/);
+    playScale(noteValue, scaleValues, false, true /*backwards*/);
 }
 function onPlayNoteInScale(index) {
     const duration = 0;
