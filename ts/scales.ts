@@ -156,7 +156,7 @@ scalesDict_int.set("6aug,1", "Augmented / Irish / Scottish");
 scalesDict_int.set("6aug,2", "Six-tone symmetrical (2nd mode)");
 scalesDict_int.set("6aug,sep", "");
 scalesDict_int.set("6major_hexa,1", "Hexatonic major");
-scalesDict_int.set("6prom,1", "Prometheus");
+scalesDict_int.set("6prom,1", "Prometheus / Mystic");
 scalesDict_int.set("6prom_nap,1", "Prometheus neapolitan");
 scalesDict_int.set("6tritone,1", "Tritone / Petrushka");
 scalesDict_int.set("6tritone_semi,1", "Two-semitone tritone");
@@ -321,7 +321,7 @@ scalesDict_fr.set("6aug,1", "Augmenté / Irlandais / Ecossais");
 scalesDict_fr.set("6aug,2", "6 tons symétrique (2e mode)");
 
 scalesDict_fr.set("6major_hexa,1", "Hexatonique majeur");
-scalesDict_fr.set("6prom,1", "Prométhée");
+scalesDict_fr.set("6prom,1", "Prométhée / Mystique");
 scalesDict_fr.set("6prom_nap,1", "Prométhée napolitain");
 scalesDict_fr.set("6tritone,1", "Triton / Petrouchka");
 scalesDict_fr.set("6tritone_semi,1", "2 semi-tons triton");
