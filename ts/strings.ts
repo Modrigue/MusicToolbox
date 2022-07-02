@@ -5,7 +5,7 @@ stringsDict_int.set("title", "Music Companion");
 stringsDict_int.set("page_scale_explorer", "Explore scales");
 stringsDict_int.set("page_scale_finder", "Find compatible scales");
 stringsDict_int.set("page_chord_explorer", "Find chords");
-stringsDict_int.set("page_chord_tester", "Test all chords");
+stringsDict_int.set("page_chord_tester", "Test chords");
 stringsDict_int.set("header_scale_finder", "Select your notes and chords:");
 stringsDict_int.set("header_chord_explorer", "Select your note and chord:");
 stringsDict_int.set("select_key", "Key:");
