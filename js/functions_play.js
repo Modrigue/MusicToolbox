@@ -30,7 +30,7 @@ function playScale(noteValue, scaleValues, bass = false, backwards = false) {
     const duration = bass ? 0.5 : 1;
     let noteBassValue = noteValue - 12; // tonic at inferior octave
     let scaleValuesToPlay = cloneIntegerArray(scaleValues);
-    scaleValuesToPlay.push(noteValue + 12); // final note at superior octave
+    scaleValuesToPlay.push(12); // final note at superior octave
     if (backwards)
         scaleValuesToPlay = scaleValuesToPlay.reverse();
     scaleValuesToPlay.forEach(function (intervalValue, index) {

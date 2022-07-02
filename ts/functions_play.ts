@@ -46,7 +46,7 @@ function playScale(noteValue: number, scaleValues: Array<number>,
 
     let noteBassValue = noteValue - 12; // tonic at inferior octave
     let scaleValuesToPlay: Array<number> = cloneIntegerArray(scaleValues);
-    scaleValuesToPlay.push(noteValue + 12); // final note at superior octave
+    scaleValuesToPlay.push(12); // final note at superior octave
 
     if (backwards)
         scaleValuesToPlay = scaleValuesToPlay.reverse();
