@@ -306,12 +306,14 @@ function update(): void
     const foundScales: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('found_scales');
     const negativeScale: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('negative_scale');
     const foundChordsFromScale: HTMLDivElement = <HTMLDivElement>document.getElementById('section_found_chords_from_scale');
+    const neapChordFromScale: HTMLDivElement = <HTMLDivElement>document.getElementById('section_neap_chord_from_scale');
     switch (pageSelected) 
     {
         case "page_scale_explorer":
             foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
             negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
+            neapChordFromScale.innerHTML = findNeapChordFromTonicHTML(noteValue);
             setVisible('found_scales', true);
             setVisible('negative_scale', true);
 
@@ -321,6 +323,7 @@ function update(): void
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked);
             setVisible("canvas_keyboard", checkboxKeyboard.checked);
             setVisible("section_found_chords_from_scale", checkboxChords.checked && !hasQuarterTones);
+            setVisible("section_neap_chord_from_scale", true);
 
             break;
 
@@ -328,6 +331,7 @@ function update(): void
             foundScales.innerHTML = findScalesFromNotesHTML();
             setVisible('found_scales', true);
             setVisible('negative_scale', false);
+            setVisible("section_neap_chord_from_scale", false);
             break;
 
         case "page_chord_explorer":
@@ -343,6 +347,7 @@ function update(): void
 
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
+            setVisible("section_neap_chord_from_scale", false);
             break;
         }
 
@@ -351,6 +356,7 @@ function update(): void
 
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
+            setVisible("section_neap_chord_from_scale", false);
             break;
     }
 }

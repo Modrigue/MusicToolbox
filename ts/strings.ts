@@ -13,6 +13,7 @@ stringsDict_int.set("chords", "Chords");
 stringsDict_int.set("guitar", "Guitar");
 stringsDict_int.set("fretboard", "Fretboard");
 stringsDict_int.set("keyboard", "Keyboard");
+stringsDict_int.set("chord_neapolitan", "Neapolitan chord:");
 stringsDict_int.set("chords_N_notes", "Chords with {%1} notes");
 stringsDict_int.set("chords_N_notes_all", "All chords with {%1} notes:");
 stringsDict_int.set("chords_quartal", "Quartal chords");
@@ -45,7 +46,7 @@ stringsDict_int.set("tuning", "Tuning:");
 stringsDict_int.set("welcome_title", "Welcome to the Music Companion");
 stringsDict_int.set("welcome_subtitle", "What do you want to do?");
 
-// french notation
+// french
 const stringsDict_fr: Map<string, string> = new Map<string, string>();
 stringsDict_fr.set("chord_explorer_nb_strings_max_text", "cordes jouées");
 stringsDict_fr.set("title", "Le compagnon musical");
@@ -60,6 +61,7 @@ stringsDict_fr.set("chords", "Accords");
 stringsDict_fr.set("guitar", "Guitare");
 stringsDict_fr.set("fretboard", "Guitare");
 stringsDict_fr.set("keyboard", "Piano");
+stringsDict_fr.set("chord_neapolitan", "Accord napolitain :");
 stringsDict_fr.set("chords_N_notes", "Accords de {%1} notes");
 stringsDict_fr.set("chords_N_notes_all", "Tous les accords de {%1} notes :");
 stringsDict_fr.set("chords_quartal", "Accords quartaux");
