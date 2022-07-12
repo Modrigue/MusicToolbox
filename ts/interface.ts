@@ -27,7 +27,7 @@ window.onload = function()
     // scale explorer
     (<HTMLSelectElement>document.getElementById("note")).addEventListener("change", onNoteChanged);
     (<HTMLSelectElement>document.getElementById("scale")).addEventListener("change", onScaleChanged);
-    (<HTMLInputElement>document.getElementById("checkboxChords")).addEventListener("change", () => { toggleDisplay('chords3_result');toggleDisplay('chords4_result');toggleDisplay('chordsQ_result');toggleDisplay('section_found_chords_from_scale') });
+    (<HTMLInputElement>document.getElementById("checkboxChords")).addEventListener("change", () => { toggleDisplay('chords3_result');toggleDisplay('chords4_result');toggleDisplay('chordsQ_result');toggleDisplay('section_found_chords') });
     (<HTMLInputElement>document.getElementById("checkboxGuitar")).addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     (<HTMLInputElement>document.getElementById("checkboxKeyboard")).addEventListener("change", () => toggleDisplay('canvas_keyboard'));
     (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer")).addEventListener("change", updateShowQuarterTonesInScaleExplorer);
@@ -305,8 +305,9 @@ function update(): void
     // update found scales given selected page
     const foundScales: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('found_scales');
     const negativeScale: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('negative_scale');
-    const foundChordsFromScale: HTMLDivElement = <HTMLDivElement>document.getElementById('section_found_chords_from_scale');
-    const neapChordFromScale: HTMLDivElement = <HTMLDivElement>document.getElementById('section_neap_chord_from_scale');
+    const foundChordsFromScale: HTMLDivElement = <HTMLDivElement>document.getElementById('found_chords_from_scale');
+    const neapChordFromScale: HTMLDivElement = <HTMLDivElement>document.getElementById('neap_chord_from_scale');
+    const aug6thChordsFromScale: HTMLDivElement = <HTMLDivElement>document.getElementById('aug_6th_chords_from_scale');
     switch (pageSelected) 
     {
         case "page_scale_explorer":
@@ -314,6 +315,7 @@ function update(): void
             negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
             foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
             neapChordFromScale.innerHTML = findNeapChordFromTonicHTML(noteValue);
+            aug6thChordsFromScale.innerHTML = findAug6thChordsFromTonicHTML(noteValue);
             setVisible('found_scales', true);
             setVisible('negative_scale', true);
 
@@ -322,8 +324,7 @@ function update(): void
             const checkboxChords = (<HTMLInputElement>document.getElementById("checkboxChords"));
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked);
             setVisible("canvas_keyboard", checkboxKeyboard.checked);
-            setVisible("section_found_chords_from_scale", checkboxChords.checked && !hasQuarterTones);
-            setVisible("section_neap_chord_from_scale", true);
+            setVisible("section_found_chords", checkboxChords.checked && !hasQuarterTones);
 
             break;
 
@@ -331,7 +332,7 @@ function update(): void
             foundScales.innerHTML = findScalesFromNotesHTML();
             setVisible('found_scales', true);
             setVisible('negative_scale', false);
-            setVisible("section_neap_chord_from_scale", false);
+            setVisible("section_found_chords", false);
             break;
 
         case "page_chord_explorer":
@@ -347,7 +348,7 @@ function update(): void
 
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
-            setVisible("section_neap_chord_from_scale", false);
+            setVisible("section_found_chords", false);
             break;
         }
 
@@ -356,7 +357,7 @@ function update(): void
 
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
-            setVisible("section_neap_chord_from_scale", false);
+            setVisible("section_found_chords", false);
             break;
     }
 }

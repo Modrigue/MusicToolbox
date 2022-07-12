@@ -15,7 +15,7 @@ chords3Dict.set("phryg", [0, 1, 7]); // phrygian
 chords3Dict.set("lyd", [0, 6, 7]); // lydian
 chords3Dict.set("loc", [0, 5, 6]); // locrian
 chords3Dict.set("vien", [0, 1, 6]); // Viennese
-chords3Dict.set("It+6", [0, 6, 8]); // Italian augmented 6th
+chords3Dict.set("It+6", [0, 4, 10]); // Italian augmented 6th
 chords3Dict.set("5add9", [0, 7, 14]);
 chords3Dict.set("flat5", [0, 4, 6]);
 chords3Dict.set("sus2flat5", [0, 2, 6]);
@@ -25,7 +25,6 @@ chords3Dict.set("q", [0, 5, 10]); // quartal chords
 chords3Dict.set("+4q", [0, 6, 11]);
 chords3Dict.set("q+4", [0, 5, 11]);
 chords3Dict.set("7M(no5)", [0, 4, 11]);
-chords3Dict.set("7(no5)", [0, 4, 10]);
 chords3Dict.set("m7(no5)", [0, 3, 10]);
 chords3Dict.set("7M(no3)", [0, 7, 11]);
 chords3Dict.set("m7(no3)", [0, 7, 10]);

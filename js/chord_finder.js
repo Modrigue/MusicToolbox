@@ -216,6 +216,7 @@ function getIntervalsInScale(scaleValues, nbNotesMax, intervalsValuesArray, only
         }
     }
 }
+////////////////////////////// SPECIFIC CHORDS ////////////////////////////////
 function findNeapChordFromTonicHTML(tonicValue) {
     let foundNeapChordHTML = "";
     const culture = getSelectedCulture();
@@ -224,6 +225,53 @@ function findNeapChordFromTonicHTML(tonicValue) {
     // bII chord
     let noteValue = addToNoteValue(tonicValue, 1);
     const chordId = "M";
+    const chordValues = getChordValues(chordId);
+    const noteName = getNoteName(noteValue);
+    const chordNoteName = getCompactChordNotation(noteName, chordId);
+    // build button
+    let neapChordHTML = "";
+    let button = document.createElement('button');
+    button.innerText = chordNoteName;
+    button.classList.add("border-left-radius");
+    // build URL
+    let url = window.location.pathname;
+    url += "?note=" + noteValue.toString();
+    url += "&chord=" + chordId;
+    url += "&lang=" + culture;
+    if (pageSelected == "page_scale_explorer") {
+        const nbStrings = getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
+        url += "&guitar_nb_strings=" + nbStrings;
+        url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
+    }
+    const callbackString = `openNewTab(\"${url}\")`;
+    button.setAttribute("onClick", callbackString);
+    // set notes as tooltip
+    button.title =
+        getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+    neapChordHTML += `${button.outerHTML}`;
+    // build play button
+    let buttonPlay = document.createElement('button');
+    buttonPlay.innerText = "♪";
+    buttonPlay.classList.add("border-right-radius");
+    // set notes as tooltip
+    buttonPlay.title =
+        getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+    if (noteValue < tonicValue)
+        noteValue += 12;
+    buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
+    neapChordHTML += `${buttonPlay.outerHTML}\r\n`;
+    paragraph.innerHTML += neapChordHTML;
+    foundNeapChordHTML += paragraph.outerHTML;
+    return foundNeapChordHTML;
+}
+function findAug6thChordsFromTonicHTML(tonicValue) {
+    let foundNeapChordHTML = "";
+    const culture = getSelectedCulture();
+    let paragraph = document.createElement('p');
+    paragraph.innerHTML = `${getString("chords_aug_6th")} `;
+    // Italian 6th chord: bVI7(no5) chord
+    let noteValue = addToNoteValue(tonicValue, 8);
+    const chordId = "It+6";
     const chordValues = getChordValues(chordId);
     const noteName = getNoteName(noteValue);
     const chordNoteName = getCompactChordNotation(noteName, chordId);
