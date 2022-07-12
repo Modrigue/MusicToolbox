@@ -270,18 +270,21 @@ function findAug6thChordsFromTonicHTML(tonicValue) {
     let paragraph = document.createElement('p');
     paragraph.innerHTML = `${getString("chords_aug_6th")} `;
     // Italian 6th chord: bVI7(no5)
-    const it6Chord = [addToNoteValue(tonicValue, 8), "It+6"];
+    const it6Chord = [8, "It+6", ""];
     // French 6th chord: bVI7b5
-    const fr6Chord = [addToNoteValue(tonicValue, 8), "Fr+6"];
-    const aug6Chords = [it6Chord, fr6Chord];
-    for (let [noteValue, chordId] of aug6Chords) {
+    const fr6Chord = [8, "Fr+6", ""];
+    // German 6th chord: bVI7
+    const ger6Chord = [8, "7", "Ger+6"];
+    const aug6Chords = [it6Chord, fr6Chord, ger6Chord];
+    for (let [intervalValue, chordId, chordNameAux] of aug6Chords) {
+        let noteValue = addToNoteValue(tonicValue, intervalValue);
         const chordValues = getChordValues(chordId);
         const noteName = getNoteName(noteValue);
         const chordNoteName = getCompactChordNotation(noteName, chordId);
         // build button
         let aug6ChordHTML = "";
         let button = document.createElement('button');
-        button.innerText = chordNoteName;
+        button.innerText = chordNameAux ? `${chordNoteName} / ${noteName}${chordNameAux}` : chordNoteName;
         button.classList.add("border-left-radius");
         // build URL
         let url = window.location.pathname;

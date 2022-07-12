@@ -391,15 +391,19 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
     paragraph.innerHTML = `${getString("chords_aug_6th")} `;
 
     // Italian 6th chord: bVI7(no5)
-    const it6Chord: [number, string] = [addToNoteValue(tonicValue, 8), "It+6"];
+    const it6Chord: [number, string, string] = [8, "It+6", ""];
   
     // French 6th chord: bVI7b5
-    const fr6Chord: [number, string] = [addToNoteValue(tonicValue, 8), "Fr+6"];
+    const fr6Chord: [number, string, string] = [8, "Fr+6", ""];
 
-    const aug6Chords: Array<[number, string]> = [it6Chord, fr6Chord];
+    // German 6th chord: bVI7
+    const ger6Chord: [number, string, string] = [8, "7", "Ger+6"];
 
-    for (let [noteValue, chordId] of aug6Chords)
+    const aug6Chords: Array<[number, string, string]> = [it6Chord, fr6Chord, ger6Chord];
+
+    for (let [intervalValue, chordId, chordNameAux] of aug6Chords)
     {
+        let noteValue = addToNoteValue(tonicValue, intervalValue);
         const chordValues = getChordValues(chordId);
         const noteName = getNoteName(noteValue);
         const chordNoteName = getCompactChordNotation(noteName, chordId);
@@ -407,7 +411,7 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
         // build button
         let aug6ChordHTML = "";
         let button = document.createElement('button');
-        button.innerText = chordNoteName;
+        button.innerText = chordNameAux ? `${chordNoteName} / ${noteName}${chordNameAux}` : chordNoteName;
         button.classList.add("border-left-radius");
 
         // build URL

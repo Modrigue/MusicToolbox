@@ -75,7 +75,6 @@ chords4Dict.set("m13(modern)", [0, 3, 10, 21]);
 chords4Dict.set("m13M(modern)", [0, 3, 11, 21]);
 chords4Dict.set("altdom", [0, 4, 9, 13]); // altered dominant
 chords4Dict.set("Fr+6", [0, 4, 6, 10]); // French augmented 6th
-chords4Dict.set("Ger+6", [0, 3, 6, 8]); // German augmented 6th
 chords4Dict.set("hendrix(no5)", [0, 4, 10, 15]); // Hendrix
 chords4Dict.set("dream", [0, 5, 6, 7]);
 chords4Dict.set("tristan", [0, 6, 10, 15]);
