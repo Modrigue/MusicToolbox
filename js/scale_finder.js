@@ -47,6 +47,8 @@ function findScales(notesValues, sameNbNotes = false, refTonicValue = -1, findQu
 }
 // build found scales HTML
 function getFoundScalesHTML(notesValues, sameNbNotes = false, excludedNote = -1, excludedScale = "", tonicValue = -1, findQuarterTones = false) {
+    if (notesValues == null || notesValues.length < 2)
+        return "";
     let foundScalesHTML = "";
     const foundScales = findScales(notesValues, sameNbNotes, tonicValue, findQuarterTones);
     if (foundScales == null)

@@ -70,6 +70,9 @@ function getFoundScalesHTML(notesValues: Array<number>, sameNbNotes: boolean = f
     excludedNote: number = -1, excludedScale: string = "", tonicValue: number = -1,
     findQuarterTones: boolean = false): string
 {    
+    if (notesValues == null || notesValues.length < 2)
+        return "";
+    
     let foundScalesHTML = "";
     const foundScales: Array<string> = findScales(notesValues, sameNbNotes, tonicValue, findQuarterTones);
     if (foundScales == null)
