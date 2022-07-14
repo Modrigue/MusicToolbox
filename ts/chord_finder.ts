@@ -337,6 +337,7 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     let button = document.createElement('button');
     button.innerText = chordNoteName;
     button.classList.add("border-left-radius");
+    button.classList.add("button-neap-interactive");
 
     // build URL
     let url = window.location.pathname;
@@ -356,14 +357,15 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     // set notes as tooltip
     button.title =
         getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
-
-        neapChordHTML += `${button.outerHTML}`;
+    
+    neapChordHTML += `${button.outerHTML}`;
 
     // build play button
 
     let buttonPlay = document.createElement('button');
     buttonPlay.innerText = "♪";
     buttonPlay.classList.add("border-right-radius");
+    buttonPlay.classList.add("button-neap-interactive");
 
     // set notes as tooltip
     buttonPlay.title =
@@ -372,7 +374,7 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     if (noteValue < tonicValue)
         noteValue += 12;
     buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
-
+    
     neapChordHTML += `${buttonPlay.outerHTML}\r\n`;
 
     paragraph.innerHTML += neapChordHTML;
@@ -413,6 +415,7 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
         let button = document.createElement('button');
         button.innerText = chordNameAux ? `${chordNoteName} / ${noteName}${chordNameAux}` : chordNoteName;
         button.classList.add("border-left-radius");
+        button.classList.add("button-aug6-interactive");
 
         // build URL
         let url = window.location.pathname;
@@ -440,6 +443,7 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
         let buttonPlay = document.createElement('button');
         buttonPlay.innerText = "♪";
         buttonPlay.classList.add("border-right-radius");
+        buttonPlay.classList.add("button-aug6-interactive");
 
         // set notes as tooltip
         buttonPlay.title =

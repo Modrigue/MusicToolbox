@@ -183,6 +183,8 @@ canvas
 .table-body-cell, .table-body-cell-interactive,
 .table-body-cell-tonic, .table-body-cell-tonic-interactive,
 .table-body-cell-char, .table-body-cell-char-interactive,
+.table-body-cell-neap, .table-body-cell-neap-interactive,
+.table-body-cell-aug6, .table-body-cell-aug6-interactive,
 .table-body-cell-step-1, .table-body-cell-step-3, .table-body-cell-step-4
 {
     display: table-cell;
@@ -218,6 +220,7 @@ canvas
     color: white;
 }
 
+
 .table-body-cell-char, .table-body-cell-char-interactive, .button-char-interactive, .span-char
 {
     color: dodgerblue;
@@ -233,6 +236,41 @@ canvas
     background-color: dodgerblue;
     color: white;
 }
+
+
+.table-body-cell-neap, .table-body-cell-neap-interactive, .button-neap-interactive, .span-neap
+{
+    color: mediumseagreen;
+}
+
+.table-body-cell-neap-interactive
+{
+    cursor: pointer;
+}
+
+.table-body-cell-neap-interactive:hover, .button-neap-interactive:hover
+{
+    background-color: mediumseagreen;
+    color: white;
+}
+
+
+.table-body-cell-aug6, .table-body-cell-aug6-interactive, .button-aug6-interactive, .span-aug6
+{
+    color: darkgreen;
+}
+
+.table-body-cell-aug6-interactive
+{
+    cursor: pointer;
+}
+
+.table-body-cell-aug6-interactive:hover, .button-aug6-interactive:hover
+{
+    background-color: darkgreen;
+    color: white;
+}
+
 
 .table-body-cell-step-1
 {

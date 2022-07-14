@@ -233,6 +233,7 @@ function findNeapChordFromTonicHTML(tonicValue) {
     let button = document.createElement('button');
     button.innerText = chordNoteName;
     button.classList.add("border-left-radius");
+    button.classList.add("button-neap-interactive");
     // build URL
     let url = window.location.pathname;
     url += "?note=" + noteValue.toString();
@@ -253,6 +254,7 @@ function findNeapChordFromTonicHTML(tonicValue) {
     let buttonPlay = document.createElement('button');
     buttonPlay.innerText = "♪";
     buttonPlay.classList.add("border-right-radius");
+    buttonPlay.classList.add("button-neap-interactive");
     // set notes as tooltip
     buttonPlay.title =
         getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
@@ -286,6 +288,7 @@ function findAug6thChordsFromTonicHTML(tonicValue) {
         let button = document.createElement('button');
         button.innerText = chordNameAux ? `${chordNoteName} / ${noteName}${chordNameAux}` : chordNoteName;
         button.classList.add("border-left-radius");
+        button.classList.add("button-aug6-interactive");
         // build URL
         let url = window.location.pathname;
         url += "?note=" + noteValue.toString();
@@ -306,6 +309,7 @@ function findAug6thChordsFromTonicHTML(tonicValue) {
         let buttonPlay = document.createElement('button');
         buttonPlay.innerText = "♪";
         buttonPlay.classList.add("border-right-radius");
+        buttonPlay.classList.add("button-aug6-interactive");
         // set notes as tooltip
         buttonPlay.title =
             getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
