@@ -20,11 +20,14 @@ function getScaleValues(scaleId: string = ""): Array<number>
   return getModeNotesValues(scaleFamily, modeValue);
 }
 
-// get selected scale and mode characteristic interval(s)
-function getSelectedScaleCharIntervals(): Array<number>
+// get scale characteristic interval(s)
+function getScaleCharIntervals(scaleId: string = ""): Array<number>
 {
-  const scaleSelected: string = (<HTMLSelectElement>document.getElementById("scale")).value;
-  let refScaleAttributes: Array<string> = scaleSelected.split(",");
+  // if no scale specified, get selected scale
+  if (scaleId == null || scaleId == "")
+    scaleId = (<HTMLSelectElement>document.getElementById("scale")).value;
+  
+  let refScaleAttributes: Array<string> = scaleId.split(",");
 
   // no characterisitic notes
   if (refScaleAttributes.length < 3)
@@ -32,7 +35,7 @@ function getSelectedScaleCharIntervals(): Array<number>
   
   // parse reference scale attribute
   const diffString: string = refScaleAttributes[2];
-  const diffAttributes: Array<string> = scaleSelected.split(":");
+  const diffAttributes: Array<string> = scaleId.split(":");
   if (diffAttributes.length < 2)
     return new Array<number>();
   const refScaleString: string = diffAttributes[1];
@@ -41,9 +44,9 @@ function getSelectedScaleCharIntervals(): Array<number>
   const refModeValue: number = parseInt(refScaleAttributes[1]);
   const refScaleFamily: Array<number> = <Array<number>>scaleFamiliesDict.get(refScaleName);
   
-  // get selected and reference scale values
+  // get reference scale values
   const refScaleValues: Array<number> = getModeNotesValues(refScaleFamily, refModeValue);
-  const scaleValues: Array<number> = getScaleValues();
+  const scaleValues: Array<number> = getScaleValues(scaleId);
   
   // compute differences between selected and reference scale values
   return arraysDiff(scaleValues, refScaleValues);
@@ -327,7 +330,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     let classString = "table-body-cell-interactive";
     if (index == 0)
       classString = "table-body-cell-tonic-interactive";
-    else if (isCharacteristicChord(noteValue, chordValues, charNotesValues))
+    else if (isChordCharacteristic(noteValue, chordValues, charNotesValues))
       classString = "table-body-cell-char-interactive";
 
     chordsRowHTML += /*html*/`<div class=${classString} onclick=${callbackString}>`;
@@ -349,7 +352,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     let classString = "table-body-cell";
     if (index == 0)
       classString = "table-body-cell-tonic";
-    else if (isCharacteristicChord(noteValue, chordValues, charNotesValues))
+    else if (isChordCharacteristic(noteValue, chordValues, charNotesValues))
       classString = "table-body-cell-char-interactive";
 
     chordsRomanRowHTML += /*html*/`<div class=${classString}>`;
@@ -366,7 +369,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step},0.25)`;
 
     arpeggiosNotesRowHTML += /*html*/`<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
-    arpeggiosNotesRowHTML += getArpeggioNotes(noteFondamental, chordValues, tonicValue, charNotesValues);
+    arpeggiosNotesRowHTML += getArpeggioNotesText(noteFondamental, chordValues, tonicValue, charNotesValues);
     arpeggiosNotesRowHTML += "</div>";
   });
   arpeggiosNotesRowHTML += "</div>";

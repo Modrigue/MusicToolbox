@@ -514,7 +514,7 @@ function updateFoundChordElements()
 
         const notesArpeggio: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_arpeggio_notes');
         const intervalsArpeggio: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_arpeggio_intervals');
-        notesArpeggio.innerHTML = getArpeggioNotes(noteFondamental, intervalValues);
+        notesArpeggio.innerHTML = getArpeggioNotesText(noteFondamental, intervalValues);
         intervalsArpeggio.innerHTML = getArpeggioIntervals(intervalValues);
     }
     else

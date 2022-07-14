@@ -106,7 +106,7 @@ function findChordsFromScaleScalesHTML(tonicValue, scaleValues, charIntervals = 
                 const chordId = noteChord[1];
                 const chordValues = getChordValues(chordId);
                 const isTonic = (noteValue % 12 == tonicValue % 12);
-                const isCharacteristic = isCharacteristicChord(noteValue, chordValues, charNotesValues);
+                const isCharacteristic = isChordCharacteristic(noteValue, chordValues, charNotesValues);
                 const noteName = getNoteName(noteValue);
                 const chordNoteName = getCompactChordNotation(noteName, chordId);
                 // build button
@@ -131,7 +131,7 @@ function findChordsFromScaleScalesHTML(tonicValue, scaleValues, charIntervals = 
                 button.setAttribute("onClick", callbackString);
                 // set notes as tooltip
                 button.title =
-                    getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+                    getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
                 foundChordsNbNotesHTML += `${button.outerHTML}`;
                 // build play button
                 let buttonPlay = document.createElement('button');
@@ -143,7 +143,7 @@ function findChordsFromScaleScalesHTML(tonicValue, scaleValues, charIntervals = 
                     buttonPlay.classList.add("button-char-interactive");
                 // set notes as tooltip
                 buttonPlay.title =
-                    getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+                    getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
                 if (noteValue < tonicValue)
                     noteValue += 12;
                 buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
@@ -248,7 +248,7 @@ function findNeapChordFromTonicHTML(tonicValue) {
     button.setAttribute("onClick", callbackString);
     // set notes as tooltip
     button.title =
-        getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+        getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
     neapChordHTML += `${button.outerHTML}`;
     // build play button
     let buttonPlay = document.createElement('button');
@@ -257,7 +257,7 @@ function findNeapChordFromTonicHTML(tonicValue) {
     buttonPlay.classList.add("button-neap-interactive");
     // set notes as tooltip
     buttonPlay.title =
-        getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+        getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
     if (noteValue < tonicValue)
         noteValue += 12;
     buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
@@ -303,7 +303,7 @@ function findAug6thChordsFromTonicHTML(tonicValue) {
         button.setAttribute("onClick", callbackString);
         // set notes as tooltip
         button.title =
-            getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+            getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
         aug6ChordHTML += `${button.outerHTML}`;
         // build play button
         let buttonPlay = document.createElement('button');
@@ -312,7 +312,7 @@ function findAug6thChordsFromTonicHTML(tonicValue) {
         buttonPlay.classList.add("button-aug6-interactive");
         // set notes as tooltip
         buttonPlay.title =
-            getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+            getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
         if (noteValue < tonicValue)
             noteValue += 12;
         buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);

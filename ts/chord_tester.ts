@@ -4,7 +4,7 @@ const commonChords: Array<string> = [
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
 
-function updateChordTesterTables()
+function updateChordTesterTables(tonicValue = -1, scaleId: string = "") : void
 {
     // get selected start note
     const noteStartSelected: string = (<HTMLSelectElement>document.getElementById(`chord_tester_start_note`)).value;
@@ -13,8 +13,14 @@ function updateChordTesterTables()
     // get selected start octave
     const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`chord_tester_start_octave`)).value;
     const octaveStartValue: number = parseInt(octaveStartSelected);
-    console.log(octaveStartValue);
     
+    // get scale notes value if specified
+    let scaleNotesValues: Array<number> = [];
+    if (tonicValue >= 0 && scaleId != null && scaleId != "")
+    {
+        const scaleValues: Array<number> = getScaleValues(scaleId);
+        scaleNotesValues = getScaleNotesValues(tonicValue, scaleValues);
+    }
 
     let chordsTablesHTML = "";
     const commonChordsOnly = (<HTMLInputElement>document.getElementById("checkboxCommonChords")).checked;
@@ -36,21 +42,62 @@ function updateChordTesterTables()
             hasChordsWithNbNotes = true;
             for (let noteValue = noteStartValue; noteValue < 12 + noteStartValue; noteValue++)
             {
-                const noteName = getNoteName(noteValue % 12);
+                const noteValueInOctave = (noteValue % 12);
+                const noteName = getNoteName(noteValueInOctave);
                 const callbackString = `playChordTest(${noteValue + 12*(octaveStartValue - 2)}, [${chordValues.toString()}])`;
                 
                 let classString = "table-body-cell-interactive";  
                 const divChord: HTMLDivElement = document.createElement('div');
+
+                // highlight chord if in specified scale
+                if (tonicValue >= 0 && scaleNotesValues != null && scaleNotesValues.length > 0)
+                {
+                    const inScale = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValues);
+                    if (!inScale)
+                        classString = "table-body-cell-grey-interactive";
+                    else
+                    {
+                        // highlight characteristic chords
+                        const charIntervals = getScaleCharIntervals(scaleId);
+                        const charNotesValues = new Array<number>();
+                        for (const index of charIntervals)
+                        {
+                            const charNoteValue = scaleNotesValues[index];
+                            charNotesValues.push(charNoteValue);
+                        }                   
+
+                        const isCharacteristic = isChordCharacteristic(noteValueInOctave, chordValues, charNotesValues);
+                        if (noteValueInOctave != tonicValue && isCharacteristic)
+                            classString = "table-body-cell-char-interactive";
+
+                        if (noteValueInOctave == tonicValue)
+                            classString = "table-body-cell-tonic-interactive";
+                    }
+                    
+                    // highlight neapolitan chord
+                    if (isChordNeapolitan(tonicValue, noteValueInOctave, chordId))
+                        classString = "table-body-cell-neap-interactive";
+
+                    // highlight augmented 6th chords
+                    if (isChordAugmented6th(tonicValue, noteValueInOctave, chordId))
+                        classString = "table-body-cell-aug6-interactive";
+                }
+
                 divChord.classList.add(classString);
 
                 // set notes as tooltip
                 divChord.title =
-                    getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+                    getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
 
                 divChord.setAttribute("onClick", callbackString);
                 //divChord.innerText = (noteValue == 0) ?
                 //    getCompactChordNotation(noteName, chordId) : noteName;
                 divChord.innerText = getCompactChordNotation(noteName, chordId);
+
+                // german chord specific
+                if (isChordGermanAug6th(tonicValue, noteValue, chordId))
+                    divChord.innerText +=  ` / ${noteName}Ger+6`;
+
                 chordsRowHTML += divChord.outerHTML;
             }
 

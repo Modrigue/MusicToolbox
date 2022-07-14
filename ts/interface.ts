@@ -239,7 +239,7 @@ function update(): void
     // get selected note and scale/mode values
     const noteValue: number = getSelectedNoteValue();
     const scaleValues: Array<number> = getScaleValues();
-    const charIntervals: Array<number> = getSelectedScaleCharIntervals();
+    const charIntervals: Array<number> = getScaleCharIntervals();
 
     const nbNotesInScale: number = scaleValues.length;
     const scaleValuesMicrotonal: boolean = isMicrotonalScale(scaleValues);

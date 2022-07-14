@@ -351,7 +351,7 @@ function updateFoundChordElements() {
         intervalValues = getChordValues(chordSelected);
         const notesArpeggio = document.getElementById('chord_explorer_arpeggio_notes');
         const intervalsArpeggio = document.getElementById('chord_explorer_arpeggio_intervals');
-        notesArpeggio.innerHTML = getArpeggioNotes(noteFondamental, intervalValues);
+        notesArpeggio.innerHTML = getArpeggioNotesText(noteFondamental, intervalValues);
         intervalsArpeggio.innerHTML = getArpeggioIntervals(intervalValues);
     }
     else {

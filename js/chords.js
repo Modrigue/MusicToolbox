@@ -284,7 +284,7 @@ function getAltChordNotation(chordId) {
     return notation;
 }
 ////////////////////////////////// ARPEGGIOS //////////////////////////////////
-function getArpeggioNotes(noteFondamental, chordValues, noteTonic = -1, charNotesValues = []) {
+function getArpeggioNotesText(noteFondamental, chordValues, noteTonic = -1, charNotesValues = []) {
     let arpeggioNotesStr = "";
     chordValues.forEach(function (intervalValue) {
         const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
@@ -312,7 +312,9 @@ function getArpeggioIntervals(chordValues) {
     arpeggioIntervalsStr = arpeggioIntervalsStr.slice(0, -2);
     return arpeggioIntervalsStr;
 }
-function isCharacteristicChord(noteFondamental, chordValues, charNotesValues = []) {
+function isChordCharacteristic(noteFondamental, chordValues, charNotesValues = []) {
+    if (charNotesValues == null || charNotesValues.length == 0)
+        return false;
     let isCharacteristic = false;
     chordValues.forEach(function (intervalValue) {
         const noteValue = addToNoteValue(noteFondamental, intervalValue);
@@ -320,6 +322,43 @@ function isCharacteristicChord(noteFondamental, chordValues, charNotesValues = [
             isCharacteristic = true;
     });
     return isCharacteristic;
+}
+function areChordNotesInScale(fondamentalValue, chordValues, scaleNotesValues) {
+    let isInScale = true;
+    chordValues.forEach(function (intervalValue) {
+        const noteValue = addToNoteValue(fondamentalValue, intervalValue);
+        if (scaleNotesValues.indexOf(noteValue) < 0)
+            isInScale = false;
+    });
+    return isInScale;
+}
+// Neapolitan chord: bII
+function isChordNeapolitan(tonicValue, fondamentalValue, chordId) {
+    if (fondamentalValue != addToNoteValue(tonicValue, 1))
+        return false;
+    return (chordId == "M");
+}
+// Augmented 6th chords
+function isChordAugmented6th(tonicValue, fondamentalValue, chordId) {
+    // Italian 6th chord: bVI7(no5)
+    const it6Chord = [8, "It+6"];
+    // French 6th chord: bVI7b5
+    const fr6Chord = [8, "Fr+6"];
+    // German 6th chord: bVI7
+    const ger6Chord = [8, "7"];
+    const aug6Chords = [it6Chord, fr6Chord, ger6Chord];
+    for (let [intervalValue, chordAug6Id] of aug6Chords) {
+        let noteValue = addToNoteValue(tonicValue, intervalValue);
+        if (fondamentalValue == noteValue && chordId == chordAug6Id)
+            return true;
+    }
+    return false;
+}
+// German augmented 6th chord: bVI7
+function isChordGermanAug6th(tonicValue, fondamentalValue, chordId) {
+    if (fondamentalValue != addToNoteValue(tonicValue, 8))
+        return false;
+    return (chordId == "7");
 }
 function getChordDictionary(nbNotes) {
     let chordsDict = chords2Dict;

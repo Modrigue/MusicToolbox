@@ -156,7 +156,7 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
                 const chordValues = getChordValues(chordId);
 
                 const isTonic: boolean = (noteValue % 12 == tonicValue % 12);
-                const isCharacteristic: boolean = isCharacteristicChord(noteValue, chordValues, charNotesValues);
+                const isCharacteristic: boolean = isChordCharacteristic(noteValue, chordValues, charNotesValues);
     
                 const noteName = getNoteName(noteValue);
                 const chordNoteName = getCompactChordNotation(noteName, chordId);
@@ -187,7 +187,7 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
 
                 // set notes as tooltip
                 button.title =
-                    getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+                    getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
 
                 foundChordsNbNotesHTML += `${button.outerHTML}`;
 
@@ -203,7 +203,7 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
 
                 // set notes as tooltip
                 buttonPlay.title =
-                    getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");  
+                    getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");  
 
                 if (noteValue < tonicValue)
                     noteValue += 12;
@@ -356,7 +356,7 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
 
     // set notes as tooltip
     button.title =
-        getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+        getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
     
     neapChordHTML += `${button.outerHTML}`;
 
@@ -369,7 +369,7 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
 
     // set notes as tooltip
     buttonPlay.title =
-        getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");  
+        getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");  
 
     if (noteValue < tonicValue)
         noteValue += 12;
@@ -434,7 +434,7 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
 
         // set notes as tooltip
         button.title =
-            getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+            getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
 
         aug6ChordHTML += `${button.outerHTML}`;
 
@@ -447,7 +447,7 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
 
         // set notes as tooltip
         buttonPlay.title =
-            getArpeggioNotes(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");  
+            getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");  
 
         if (noteValue < tonicValue)
             noteValue += 12;
