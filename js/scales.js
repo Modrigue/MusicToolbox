@@ -334,7 +334,7 @@ function hightlightScale(id) {
     return found;
 }
 // update scale selector
-function updateScaleSelector(id, defaultScaleId) {
+function updateScaleSelector(id, defaultScaleId, includesQTones = true) {
     const scaleSelect = document.getElementById(id);
     const initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
     const regexNbNotes = /(\d+)notes/;
@@ -344,9 +344,11 @@ function updateScaleSelector(id, defaultScaleId) {
     if (!initialized) {
         // init
         for (const [key, value] of scalesDict_int) {
+            if (!includesQTones && key.includes("quarter_tones"))
+                break;
+            const scaleName = getScaleString(key);
             let option = document.createElement('option');
             option.value = key;
-            const scaleName = getScaleString(key);
             option.innerHTML = scaleName;
             // scale to highlight
             if (hightlightScale(key))
@@ -369,6 +371,8 @@ function updateScaleSelector(id, defaultScaleId) {
         // update
         let scaleValue = 0;
         for (const [key, value] of scalesDict_int) {
+            if (!includesQTones && key.includes("quarter_tones"))
+                break;
             scaleSelect.options[scaleValue].innerHTML = getScaleString(key);
             scaleValue++;
         }

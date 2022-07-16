@@ -1,8 +1,8 @@
 "use strict";
 ////////////////////////////// SELECTORS FUNCTIONS ////////////////////////////
 // get selected note
-function getSelectedNoteValue() {
-    const noteSelected = document.getElementById("note").value;
+function getSelectedNoteValue(id = "note") {
+    const noteSelected = document.getElementById(id).value;
     return /*parseInt*/ parseFloat(noteSelected);
 }
 // get selected scale and mode notes values

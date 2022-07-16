@@ -405,7 +405,7 @@ function hightlightScale(id: string): boolean
 }
 
 // update scale selector
-function updateScaleSelector(id: string, defaultScaleId: string): void
+function updateScaleSelector(id: string, defaultScaleId: string, includesQTones = true): void
 {
     const scaleSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const initialized: boolean = (scaleSelect.options != null && scaleSelect.options.length > 0);
@@ -420,9 +420,12 @@ function updateScaleSelector(id: string, defaultScaleId: string): void
         // init
         for (const [key , value] of scalesDict_int)
         {
+            if (!includesQTones && key.includes("quarter_tones"))
+                break;
+            
+            const scaleName = getScaleString(key);
             let option = document.createElement('option');
             option.value = key;
-            const scaleName = getScaleString(key);
             option.innerHTML = scaleName;
             
             // scale to highlight
@@ -453,6 +456,9 @@ function updateScaleSelector(id: string, defaultScaleId: string): void
         let scaleValue = 0;
         for (const [key , value] of scalesDict_int)
         {
+            if (!includesQTones && key.includes("quarter_tones"))
+                break;
+            
             scaleSelect.options[scaleValue].innerHTML = getScaleString(key);
             scaleValue++;
         }

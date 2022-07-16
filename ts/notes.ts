@@ -153,7 +153,7 @@ function updateOctaveSelector(id: string, minOctave: number = 0, maxOctave: numb
         while (octaveSelect.firstChild)
             octaveSelect.firstChild.remove();
 
-    // fill note selector
+    // fill octave selector
     if (!initialized || reset)
     {
         if (firstOctaveEmpty)

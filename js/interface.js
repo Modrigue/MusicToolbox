@@ -49,8 +49,11 @@ window.onload = function () {
     document.getElementById("chord_explorer_nb_strings_max").addEventListener("change", update);
     // chord tester
     document.getElementById("checkboxCommonChords").addEventListener("change", update);
-    document.getElementById(`chord_tester_start_note`).addEventListener("change", update);
-    document.getElementById(`chord_tester_start_octave`).addEventListener("change", update);
+    document.getElementById("checkboxChordTesterKey").addEventListener("change", update);
+    document.getElementById("chord_tester_start_note").addEventListener("change", update);
+    document.getElementById("chord_tester_start_octave").addEventListener("change", update);
+    document.getElementById("chord_tester_note_key").addEventListener("change", update);
+    document.getElementById("chord_tester_scale").addEventListener("change", update);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -99,9 +102,11 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     updateNbStringsForChordSelector();
     for (let i = 1; i <= 6; i++)
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
-    // update chord tester selector
+    // update chord tester selectors
     updateNoteSelector(`chord_tester_start_note`, 0, false);
     updateOctaveSelector(`chord_tester_start_octave`, 0, 4, 2, false);
+    updateNoteSelector('chord_tester_note_key', 0, false);
+    updateScaleSelector('chord_tester_scale', "7major_nat,1", false /* no quarter tones */);
 }
 // get selected text from selector
 function getSelectorText(id) {
@@ -264,11 +269,25 @@ function update() {
                 break;
             }
         case "page_chord_tester":
-            updateChordTesterTables();
-            setVisible('found_scales', false);
-            setVisible('negative_scale', false);
-            setVisible("section_found_chords", false);
-            break;
+            {
+                const checkboxKey = document.getElementById("checkboxChordTesterKey");
+                const hasKey = checkboxKey.checked;
+                setEnabled(`chord_tester_note_key`, hasKey);
+                setEnabled(`chord_tester_scale`, hasKey);
+                // get selected key if option checked
+                let tonicValue = -1;
+                let scaleId = "";
+                if (hasKey) {
+                    const tonicValueSelected = document.getElementById(`chord_tester_note_key`).value;
+                    tonicValue = parseInt(tonicValueSelected);
+                    scaleId = document.getElementById(`chord_tester_scale`).value;
+                }
+                updateChordTesterTables(tonicValue, scaleId);
+                setVisible('found_scales', false);
+                setVisible('negative_scale', false);
+                setVisible("section_found_chords", false);
+                break;
+            }
     }
 }
 function onResize() {
@@ -348,6 +367,7 @@ function updateLocales() {
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
+    document.getElementById("select_key_text_chord_tester").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");
     document.getElementById("checkboxChordsLabel").innerText = getString("chords");
     document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");

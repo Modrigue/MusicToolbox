@@ -125,7 +125,7 @@ function updateOctaveSelector(id, minOctave = 0, maxOctave = 4, defaultOctaveVal
     if (reset)
         while (octaveSelect.firstChild)
             octaveSelect.firstChild.remove();
-    // fill note selector
+    // fill octave selector
     if (!initialized || reset) {
         if (firstOctaveEmpty) {
             let option = document.createElement('option');

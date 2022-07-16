@@ -1,9 +1,9 @@
 ////////////////////////////// SELECTORS FUNCTIONS ////////////////////////////
 
 // get selected note
-function getSelectedNoteValue(): number
+function getSelectedNoteValue(id = "note"): number
 {
-  const noteSelected: string = (<HTMLSelectElement>document.getElementById("note")).value;
+  const noteSelected: string = (<HTMLSelectElement>document.getElementById(id)).value;
   return /*parseInt*/parseFloat(noteSelected);
 }
 

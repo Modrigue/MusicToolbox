@@ -82,15 +82,13 @@
     <div id="page_scale_explorer">
 
       <p id="page_scale_explorer_params" class="center" style="font-family:Arial, Helvetica, sans-serif;">
-        <span id="select_key_text">Select your key:</span>
+        <span id="select_key_text">Key:</span>
   
         <!-- NOTES -->
-        <select name="notes" id="note">
-        </select>
+        <select name="notes" id="note"></select>
   
-        <!-- SCALES / MODES -->
-        <select name="scales" id="scale">
-        </select>
+        <!-- SCALES -->
+        <select name="scales" id="scale"></select>
   
         <!-- Checkboxes -->
   
@@ -292,6 +290,15 @@
         <p class='align-right'>
           <input type="checkbox" id="checkboxCommonChords" name="checkboxCommonChords">
           <label class="input-label" id="checkboxCommonChordsLabel" for="checkboxCommonChords">Common chords only</label>
+        </p>
+      </div>
+
+      <div id='note_scale_chord_tester'>
+        <p class='align-center'>
+          <input type="checkbox" id="checkboxChordTesterKey" name="checkboxChordTesterKey">
+          <span id="select_key_text_chord_tester">Key:</span>
+          <select name="chord_tester_note_key" id="chord_tester_note_key"></select>
+          <select name="chord_tester_scale" id="chord_tester_scale"></select>
         </p>
       </div>
 
