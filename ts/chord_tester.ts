@@ -94,7 +94,9 @@ function updateChordTesterTables(tonicValue = -1, scaleId: string = "") : void
                 //    getCompactChordNotation(noteName, chordId) : noteName;
                 divChord.innerText = getCompactChordNotation(noteName, chordId);
 
-                // german chord specific
+                // Neapolitan / German augmented 6th chord specific
+                if (isChordNeapolitan(tonicValue, noteValue, chordId))
+                    divChord.innerText +=  ` / ${noteName}N6`;
                 if (isChordGermanAug6th(tonicValue, noteValue, chordId))
                     divChord.innerText +=  ` / ${noteName}Ger+6`;
 

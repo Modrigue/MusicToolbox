@@ -335,7 +335,7 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     // build button
     let neapChordHTML = "";
     let button = document.createElement('button');
-    button.innerText = chordNoteName;
+    button.innerText = chordNoteName + ` / ${noteName}N6`;
     button.classList.add("border-left-radius");
     button.classList.add("button-neap-interactive");
 

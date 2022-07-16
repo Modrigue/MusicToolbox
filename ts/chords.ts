@@ -409,6 +409,9 @@ function areChordNotesInScale(fondamentalValue: number, chordValues: Array<numbe
 // Neapolitan chord: bII
 function isChordNeapolitan(tonicValue: number, fondamentalValue: number, chordId: string) : boolean
 {
+    if (tonicValue < 0)
+        return false;
+    
     if (fondamentalValue != addToNoteValue(tonicValue, 1))
         return false;
     
@@ -418,6 +421,9 @@ function isChordNeapolitan(tonicValue: number, fondamentalValue: number, chordId
 // Augmented 6th chords
 function isChordAugmented6th(tonicValue: number, fondamentalValue: number, chordId: string) : boolean
 {
+    if (tonicValue < 0)
+        return false;
+    
     // Italian 6th chord: bVI7(no5)
     const it6Chord: [number, string] = [8, "It+6"];
 
@@ -441,6 +447,9 @@ function isChordAugmented6th(tonicValue: number, fondamentalValue: number, chord
 // German augmented 6th chord: bVI7
 function isChordGermanAug6th(tonicValue: number, fondamentalValue: number, chordId: string) : boolean
 {
+    if (tonicValue < 0)
+        return false;
+    
     if (fondamentalValue != addToNoteValue(tonicValue, 8))
         return false;
     

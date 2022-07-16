@@ -334,12 +334,16 @@ function areChordNotesInScale(fondamentalValue, chordValues, scaleNotesValues) {
 }
 // Neapolitan chord: bII
 function isChordNeapolitan(tonicValue, fondamentalValue, chordId) {
+    if (tonicValue < 0)
+        return false;
     if (fondamentalValue != addToNoteValue(tonicValue, 1))
         return false;
     return (chordId == "M");
 }
 // Augmented 6th chords
 function isChordAugmented6th(tonicValue, fondamentalValue, chordId) {
+    if (tonicValue < 0)
+        return false;
     // Italian 6th chord: bVI7(no5)
     const it6Chord = [8, "It+6"];
     // French 6th chord: bVI7b5
@@ -356,6 +360,8 @@ function isChordAugmented6th(tonicValue, fondamentalValue, chordId) {
 }
 // German augmented 6th chord: bVI7
 function isChordGermanAug6th(tonicValue, fondamentalValue, chordId) {
+    if (tonicValue < 0)
+        return false;
     if (fondamentalValue != addToNoteValue(tonicValue, 8))
         return false;
     return (chordId == "7");
