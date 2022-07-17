@@ -27,7 +27,7 @@ function getNotesPositionsOnString(noteValue: number, stringValue: number,
 }
 
 function generateChords(notesValues: Array<number>, nbStrings: number = 99,
-    includeEmptyStrings = false): Array<Array<number>>
+    includeEmptyStrings = false, noteBass = -1): Array<Array<number>>
 {
     if (notesValues == null || notesValues.length < 2)
         return new Array<Array<number>>();
@@ -42,7 +42,8 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
     // generate all valid chord positions
     for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++)
     {
-        const positionsString0 = getNotesPositionsOnString(fundamental, tuningValues[startString], 0, 11, true);
+        const bassNote = (noteBass >= 0) ? noteBass : fundamental;
+        const positionsString0 = getNotesPositionsOnString(bassNote, tuningValues[startString], 0, 11, true);
         for (let p0 of positionsString0)
         {
             // get start positions
@@ -52,7 +53,7 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
             startPositions.push(p0);
 
             // init algorithm
-            addChordNoteOnString(notesValues, startString, startString + 1, startPositions, chordsPositions, tuningValues, nbStrings, includeEmptyStrings);
+            addChordNoteOnString(notesValues, noteBass, startString, startString + 1, startPositions, chordsPositions, tuningValues, nbStrings, includeEmptyStrings);
         }
     }
 
@@ -76,7 +77,8 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
 // recurse on strings
 //    nbStrings = 99 => recurse until valid max. number of strings reached
 //    nbStrings = 0  => recurse until valid min. number of strings reached
-function addChordNoteOnString(notesValues: Array<number>, startIndex: number, stringIndex: number,
+function addChordNoteOnString(notesValues: Array<number>, bass: number,
+    startIndex: number, stringIndex: number,
     positionsCur: Array<number>, chordsPositions: Array<Array<number>>,
     tuningValues: Array<number>, nbStrings: number = 99, includeEmptyStrings = false,
     chordAddedArray: Array<Array<number>> = [])
@@ -104,7 +106,7 @@ function addChordNoteOnString(notesValues: Array<number>, startIndex: number, st
             let positionsCandidate = [...positionsCur];
             positionsCandidate.push(pos);
             
-            let valid = chordPositionsValid(notesValues, positionsCandidate, tuningValues, nbStrings);
+            let valid = chordPositionsValid(notesValues, bass, positionsCandidate, tuningValues, nbStrings);
 
             // fixed number of strings?
             const fixedNbString = (nbStrings > 0 && nbStrings <= nbStringsTotal);
@@ -127,7 +129,7 @@ function addChordNoteOnString(notesValues: Array<number>, startIndex: number, st
             // find notes on next string
             let chordAddedArrayCurrent: Array<Array<number>> = new Array<Array<number>>();
             if (continueSearch)
-                addChordNoteOnString(notesValues, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, tuningValues, nbStrings, includeEmptyStrings, chordAddedArrayCurrent);
+                addChordNoteOnString(notesValues, bass, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, tuningValues, nbStrings, includeEmptyStrings, chordAddedArrayCurrent);
 
             // update added chord positions array
             for (let chordPos of chordAddedArrayCurrent)
@@ -143,7 +145,7 @@ function addChordNoteOnString(notesValues: Array<number>, startIndex: number, st
                     positionsCandidateComplete.push(-1);
 
                 // check again
-                valid = chordPositionsValid(notesValues, positionsCandidateComplete, tuningValues, nbStrings);
+                valid = chordPositionsValid(notesValues, bass, positionsCandidateComplete, tuningValues, nbStrings);
 
                 if (valid)
                 {
@@ -157,11 +159,11 @@ function addChordNoteOnString(notesValues: Array<number>, startIndex: number, st
     }
 }
 
-function chordPositionsValid(notesValues: Array<number>,
+function chordPositionsValid(notesValues: Array<number>, bass: number,
     positionsCandidate: Array<number>, tuningValues: Array<number>, nbStrings: number = 99): boolean
 {
     // check if all notes are included
-    if (!chordPositionsIncludeNotes(notesValues, tuningValues, positionsCandidate))
+    if (!chordPositionsIncludeNotes(notesValues, bass, tuningValues, positionsCandidate))
         return false;
     
     // check positions range
@@ -208,7 +210,8 @@ function chordPositionsValid(notesValues: Array<number>,
     return true;
 }
 
-function chordPositionsIncludeNotes(notesValues: Array<number>, tuningValues: Array<number>, positionsCandidate: Array<number>): boolean
+function chordPositionsIncludeNotes(notesValues: Array<number>, bass: number,
+    tuningValues: Array<number>, positionsCandidate: Array<number>): boolean
 {
     if (notesValues == null || notesValues.length < 2)
         return false;
@@ -219,7 +222,7 @@ function chordPositionsIncludeNotes(notesValues: Array<number>, tuningValues: Ar
         return false;
 
     let notesValuesToFind = [...notesValues];
-    let stringIndex = 0;
+    let posIndex = 0, stringIndex = 0;
     for (let pos of positionsCandidate)
     {
         // string not hit
@@ -232,13 +235,24 @@ function chordPositionsIncludeNotes(notesValues: Array<number>, tuningValues: Ar
         const curStringValue = tuningValues[stringIndex];
         const curNoteValue = (pos + curStringValue) % 12;
 
-        if (notesValues.indexOf(curNoteValue) < 0)
+        // check bass if specified
+        let isBass = false;
+        if (bass >= 0 && posIndex == 0)
+        {
+            if (curNoteValue != bass)
+                return false;
+            
+            isBass = true;
+        }
+
+        if (notesValues.indexOf(curNoteValue) < 0 && !isBass)
             return false;
 
-        if (notesValuesToFind.indexOf(curNoteValue) >= 0)
+        if (notesValuesToFind.indexOf(curNoteValue) >= 0 && !isBass)
             notesValuesToFind = arrayRemoveValue(notesValuesToFind, curNoteValue);
 
         stringIndex++;
+        posIndex++;
     }
 
     return (notesValuesToFind.length == 0);
@@ -498,6 +512,7 @@ function getSelectedChordExplorerNotes(): Array<number>
 function updateFoundChordElements()
 {
     let noteFondamental = -1;
+    let noteBass = -1;
     let noteSelected = "";
     let intervalValues = [];
 
@@ -505,7 +520,7 @@ function updateFoundChordElements()
     if (selectedMode == "name")
     {
         // update arpeggios texts
-        const noteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('note_explorer_chord');
+        const noteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_note');
         noteSelected = noteSelector.value;
         noteFondamental = parseInt(noteSelected);
         const chordSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_chord');
@@ -516,6 +531,10 @@ function updateFoundChordElements()
         const intervalsArpeggio: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_arpeggio_intervals');
         notesArpeggio.innerHTML = getArpeggioNotesText(noteFondamental, intervalValues);
         intervalsArpeggio.innerHTML = getArpeggioIntervals(intervalValues);
+
+        const bassSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_bass');
+        const bassSelected = bassSelector.value;
+        noteBass = parseInt(bassSelected);
     }
     else
     {
@@ -570,11 +589,11 @@ function updateFoundChordElements()
 
     // update play chord button callback
     let buttonPlayChord: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_chord");
-    buttonPlayChord.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0)`);
+    buttonPlayChord.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0, 0, ${noteBass})`);
 
     // update play arpeggio button callback
     let buttonPlayArpeggio: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_arpeggio");
-    buttonPlayArpeggio.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0, 0.25)`);
+    buttonPlayArpeggio.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0, 0.25, ${noteBass})`);
 }
 
 function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false)
@@ -582,6 +601,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     const generatedGuitarChords: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('generated_guitar_chords');
     let chordNotesValues: Array<number> = new Array<number>();
     let noteFondamental: number = -1;
+    let noteBass: number = -1;
     let chordSelected: string = "";
     let freeNotesValues: Array<number> = new Array<number>();
 
@@ -589,7 +609,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     let selectedMode: string = getSelectedChordGeneratorMode();
     if (selectedMode == "name")
     {
-        const noteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('note_explorer_chord');
+        const noteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_note');
         const noteSelected = noteSelector.value;
         const chordSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_chord');
         chordSelected = chordSelector.value;
@@ -601,6 +621,10 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
             const newNoteValue: number = addToNoteValue(noteFondamental, interval);
             chordNotesValues.push(newNoteValue);            
         }
+
+        const bassSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_bass');
+        const bassSelected = bassSelector.value;
+        noteBass = parseInt(bassSelected);
     }
     else
     {
@@ -612,7 +636,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     // compute chord positions
     const nbStringsSelectedStr = (<HTMLSelectElement>document.getElementById('chord_explorer_nb_strings_max')).value;
     const nbStringsSelected = parseInt(nbStringsSelectedStr);
-    const positionsArray: Array<Array<number>> = generateChords(chordNotesValues, nbStringsSelected, includeEmptyStrings);
+    const positionsArray: Array<Array<number>> = generateChords(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass);
     if (positionsArray == null || positionsArray.length == 0)
     {
         generatedGuitarChords.innerHTML = getString("no_result");

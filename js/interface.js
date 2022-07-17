@@ -36,8 +36,9 @@ window.onload = function () {
     document.getElementById('reset_scale_finder').addEventListener("click", resetScaleFinder);
     document.getElementById("checkboxQuarterTonesScaleFinder").addEventListener("change", updateShowQuarterTonesInScaleFinder);
     // chord explorer
-    document.getElementById('note_explorer_chord').addEventListener("change", update);
+    document.getElementById('chord_explorer_note').addEventListener("change", update);
     document.getElementById('chord_explorer_chord').addEventListener("change", update);
+    document.getElementById('chord_explorer_bass').addEventListener("change", update);
     for (let i = 1; i <= 6; i++) {
         const id = i.toString();
         document.getElementById(`chord_explorer_note${id}`).addEventListener("change", update);
@@ -95,8 +96,9 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     }
     updateNoteSelector('note_finder_tonic', -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
     // update chord explorer selectors
-    updateNoteSelector('note_explorer_chord', 0, false);
+    updateNoteSelector('chord_explorer_note', 0, false);
     initChordSelector('chord_explorer_chord', "M", false);
+    updateNoteSelector("chord_explorer_bass", -1, true);
     initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');
     updateNbStringsForChordSelector();
@@ -332,7 +334,7 @@ function updateChordGeneratorMode() {
     // get select nb. of strings
     const nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     // name mode
-    setEnabled("note_explorer_chord", nameMode);
+    setEnabled("chord_explorer_note", nameMode);
     setEnabled("chord_explorer_chord", nameMode);
     setEnabled("chord_explorer_arpeggio_notes", nameMode);
     setEnabled("chord_explorer_arpeggio_intervals", nameMode);
@@ -393,6 +395,7 @@ function updateLocales() {
     // chord explorer
     document.getElementById("radioChordExplorerNameLabel").innerText = getString("name");
     document.getElementById("radioChordExplorerNotesLabel").innerText = getString("notes");
+    document.getElementById("chord_explorer_bass_text").innerText = getString("bass");
     document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
     document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
     document.getElementById("chord_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");

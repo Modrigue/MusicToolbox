@@ -506,7 +506,7 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
         let selectedMode = getSelectedChordGeneratorMode();
         if (selectedMode == "name")
         {
-            const noteExplorerChordInput: HTMLInputElement = <HTMLInputElement>document.getElementById('note_explorer_chord');
+            const noteExplorerChordInput: HTMLInputElement = <HTMLInputElement>document.getElementById('chord_explorer_note');
             const noteSelected: string = noteExplorerChordInput.value;
             noteFondamental = parseInt(noteSelected);
         }

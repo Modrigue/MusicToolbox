@@ -383,7 +383,7 @@ function updateChordFretboard(positionsArray, showBarres = true) {
         let noteFondamental = -1;
         let selectedMode = getSelectedChordGeneratorMode();
         if (selectedMode == "name") {
-            const noteExplorerChordInput = document.getElementById('note_explorer_chord');
+            const noteExplorerChordInput = document.getElementById('chord_explorer_note');
             const noteSelected = noteExplorerChordInput.value;
             noteFondamental = parseInt(noteSelected);
         }

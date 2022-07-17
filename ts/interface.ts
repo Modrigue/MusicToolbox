@@ -47,8 +47,9 @@ window.onload = function()
     (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleFinder")).addEventListener("change", updateShowQuarterTonesInScaleFinder);
 
     // chord explorer
-    (<HTMLSelectElement>document.getElementById('note_explorer_chord')).addEventListener("change", update);
+    (<HTMLSelectElement>document.getElementById('chord_explorer_note')).addEventListener("change", update);
     (<HTMLSelectElement>document.getElementById('chord_explorer_chord')).addEventListener("change", update);
+    (<HTMLSelectElement>document.getElementById('chord_explorer_bass')).addEventListener("change", update);
     for (let i = 1; i <= 6; i++)
     {
         const id: string = i.toString();
@@ -130,8 +131,9 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     updateNoteSelector('note_finder_tonic', -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes); 
     
     // update chord explorer selectors
-    updateNoteSelector('note_explorer_chord', 0, false);
+    updateNoteSelector('chord_explorer_note', 0, false);
     initChordSelector('chord_explorer_chord', "M", false);
+    updateNoteSelector("chord_explorer_bass", -1, true);
     initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');
     updateNbStringsForChordSelector();
@@ -446,7 +448,7 @@ function updateChordGeneratorMode(): void
     const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     
     // name mode
-    setEnabled("note_explorer_chord", nameMode);
+    setEnabled("chord_explorer_note", nameMode);
     setEnabled("chord_explorer_chord", nameMode);
     setEnabled("chord_explorer_arpeggio_notes", nameMode);
     setEnabled("chord_explorer_arpeggio_intervals", nameMode);
@@ -528,6 +530,7 @@ function updateLocales(): void
     // chord explorer
     (<HTMLLabelElement>document.getElementById("radioChordExplorerNameLabel")).innerText = getString("name");
     (<HTMLLabelElement>document.getElementById("radioChordExplorerNotesLabel")).innerText = getString("notes");
+    (<HTMLSpanElement>document.getElementById("chord_explorer_bass_text")).innerText = getString("bass");
     (<HTMLButtonElement>document.getElementById("play_found_chord")).innerText = `${getString("play")} ♪`;
     (<HTMLButtonElement>document.getElementById("play_found_arpeggio")).innerText = `${getString("play_arpeggio")} ♪`;
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");

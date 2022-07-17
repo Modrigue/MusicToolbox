@@ -87,9 +87,18 @@ function playScale(noteValue: number, scaleValues: Array<number>,
 }
 
 function playChord(noteValue: number, chordValues: Array<number>,
-    duration: number, delay: number = 0): void
+    duration: number, delay: number = 0, bass: number = -1): void
 {
-    chordValues.forEach(function (intervalValue, index)
+    let intervalsToPlay = cloneIntegerArray(chordValues);
+    
+    // play bass if specified
+    if (bass >= 0 && bass != noteValue)
+    {
+        const bassInterval = ((bass - noteValue) % 12) - 12;
+        intervalsToPlay.unshift(bassInterval);
+    }
+    
+    intervalsToPlay.forEach(function (intervalValue, index)
     {
         playNote(noteValue + intervalValue, duration + index*delay);
     });
