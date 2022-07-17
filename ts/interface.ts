@@ -530,7 +530,7 @@ function updateLocales(): void
     // chord explorer
     (<HTMLLabelElement>document.getElementById("radioChordExplorerNameLabel")).innerText = getString("name");
     (<HTMLLabelElement>document.getElementById("radioChordExplorerNotesLabel")).innerText = getString("notes");
-    (<HTMLSpanElement>document.getElementById("chord_explorer_bass_text")).innerText = getString("bass");
+    (<HTMLSpanElement>document.getElementById("chord_explorer_bass_text")).innerText = getString("bass_chord_explorer");
     (<HTMLButtonElement>document.getElementById("play_found_chord")).innerText = `${getString("play")} ♪`;
     (<HTMLButtonElement>document.getElementById("play_found_arpeggio")).innerText = `${getString("play_arpeggio")} ♪`;
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");

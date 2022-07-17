@@ -395,7 +395,7 @@ function updateLocales() {
     // chord explorer
     document.getElementById("radioChordExplorerNameLabel").innerText = getString("name");
     document.getElementById("radioChordExplorerNotesLabel").innerText = getString("notes");
-    document.getElementById("chord_explorer_bass_text").innerText = getString("bass");
+    document.getElementById("chord_explorer_bass_text").innerText = getString("bass_chord_explorer");
     document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
     document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
     document.getElementById("chord_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");

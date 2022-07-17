@@ -450,7 +450,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
         return;
     }
     // generate fretboard images
-    generatedGuitarChords.innerHTML = initChordsFretboardHTML(noteFondamental, chordSelected, freeNotesValues, positionsArray.length);
+    generatedGuitarChords.innerHTML = initChordsFretboardHTML(noteFondamental, noteBass, chordSelected, freeNotesValues, positionsArray.length);
     updateChordFretboard(positionsArray, showBarres);
 }
 // disable incoherent number of strings options

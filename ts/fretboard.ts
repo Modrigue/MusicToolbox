@@ -358,7 +358,8 @@ function saveFretboardImage(noteValue: number, scaleName: string, position: numb
 /////////////////////////////////// CHORDS ////////////////////////////////////
 
 
-function initChordsFretboardHTML(noteFondamental: number, chordSelected: string, freeNotesSelected: Array<number>, nbPositions: number): string
+function initChordsFretboardHTML(noteFondamental: number, noteBass: number,
+    chordSelected: string, freeNotesSelected: Array<number>, nbPositions: number): string
 {
     const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     let chordsFretboardHTML = "";
@@ -375,7 +376,8 @@ function initChordsFretboardHTML(noteFondamental: number, chordSelected: string,
         canvas.width = xFretMargin + 5*xFretChordStep;
         canvas.height = getCanvasHeight(nbStrings) + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
-        canvas.setAttribute("onclick", `saveFretboardChordImage(\"${idText}\", ${noteFondamental},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`);
+        let callbackStr = `saveFretboardChordImage(\"${idText}\", ${noteFondamental}, ${noteBass},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`
+        canvas.setAttribute("onclick", callbackStr);
 
         //chordsFretboardHTML += `${canvas.outerHTML}\r\n`;
         chordsFretboardHTML += canvas.outerHTML;
@@ -551,7 +553,7 @@ function getStartFret(positions: Array<number>)
     return startFret;
 }
 
-function saveFretboardChordImage(id: string, noteValue: number, chordId: string, freeNotesStr: string): void
+function saveFretboardChordImage(id: string, fondamental: number, bass: number, chordId: string, freeNotesStr: string): void
 {    
     let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id);
     let canvasImage: string = canvasElement.toDataURL('image/png');
@@ -560,7 +562,7 @@ function saveFretboardChordImage(id: string, noteValue: number, chordId: string,
     if (freeNotesStr == null || freeNotesStr.length == 0)
     {
         // chord name mode
-        let noteText = getNoteName(noteValue);
+        let fondamentalText = getNoteName(fondamental);
 
         let chordText = chordId;
         // chordText = chordText.replaceAll("sharp", "#");
@@ -575,7 +577,12 @@ function saveFretboardChordImage(id: string, noteValue: number, chordId: string,
         else if (chordId == "m")
             chordText = "min";
 
-        filename = `${getString("fretboard")}-${noteText}-${chordText}.png`;
+        filename = `${getString("chord")}-${fondamentalText}-${chordText}`;
+
+        if (bass >= 0 && bass != fondamental)
+            filename += `-${getString("bass")}-${getNoteName(bass)}`;
+
+        filename += ".png";
     }
     else
     {
