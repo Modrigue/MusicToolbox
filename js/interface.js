@@ -270,11 +270,17 @@ function update() {
             }
         case "page_chord_tester":
             {
+                // get selected start note
+                const noteStartSelected = document.getElementById(`chord_tester_start_note`).value;
+                const noteStartValue = parseInt(noteStartSelected);
+                // get selected start octave
+                const octaveStartSelected = document.getElementById(`chord_tester_start_octave`).value;
+                const octaveStartValue = parseInt(octaveStartSelected);
+                // get selected key if option checked
                 const checkboxKey = document.getElementById("checkboxChordTesterKey");
                 const hasKey = checkboxKey.checked;
                 setEnabled(`chord_tester_note_key`, hasKey);
                 setEnabled(`chord_tester_scale`, hasKey);
-                // get selected key if option checked
                 let tonicValue = -1;
                 let scaleId = "";
                 if (hasKey) {
@@ -282,7 +288,7 @@ function update() {
                     tonicValue = parseInt(tonicValueSelected);
                     scaleId = document.getElementById(`chord_tester_scale`).value;
                 }
-                updateChordTesterTables(tonicValue, scaleId);
+                updateChordTesterTables(noteStartValue, octaveStartValue, tonicValue, scaleId);
                 setVisible('found_scales', false);
                 setVisible('negative_scale', false);
                 setVisible("section_found_chords", false);

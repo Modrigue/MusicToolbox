@@ -4,13 +4,7 @@ const commonChords = [
     /* 4 notes */ "7M", "7", "m7", "add9", "madd9", "add11", "madd11", "m7flat5", "m6M",
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
-function updateChordTesterTables(tonicValue = -1, scaleId = "") {
-    // get selected start note
-    const noteStartSelected = document.getElementById(`chord_tester_start_note`).value;
-    const noteStartValue = parseInt(noteStartSelected);
-    // get selected start octave
-    const octaveStartSelected = document.getElementById(`chord_tester_start_octave`).value;
-    const octaveStartValue = parseInt(octaveStartSelected);
+function updateChordTesterTables(noteStartValue, octaveStartValue, tonicValue = -1, scaleId = "") {
     // get scale notes value if specified
     let scaleNotesValues = [];
     if (tonicValue >= 0 && scaleId != null && scaleId != "") {

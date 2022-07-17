@@ -359,13 +359,22 @@ function update(): void
 
         case "page_chord_tester":
         {
+            // get selected start note
+            const noteStartSelected: string = (<HTMLSelectElement>document.getElementById(`chord_tester_start_note`)).value;
+            const noteStartValue: number = parseInt(noteStartSelected);
+
+            // get selected start octave
+            const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`chord_tester_start_octave`)).value;
+            const octaveStartValue: number = parseInt(octaveStartSelected);
+            
+            // get selected key if option checked
+
             const checkboxKey: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxChordTesterKey");
             const hasKey = checkboxKey.checked;
 
             setEnabled(`chord_tester_note_key`, hasKey);
             setEnabled(`chord_tester_scale`, hasKey);
             
-            // get selected key if option checked
             let tonicValue = -1;
             let scaleId = "";
             if (hasKey)
@@ -375,7 +384,7 @@ function update(): void
                 scaleId = (<HTMLSelectElement>document.getElementById(`chord_tester_scale`)).value;
             }
             
-            updateChordTesterTables(tonicValue, scaleId);
+            updateChordTesterTables(noteStartValue, octaveStartValue, tonicValue, scaleId);
 
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
