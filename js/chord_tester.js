@@ -5,6 +5,7 @@ const commonChords = [
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
 function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
+    let commonNotesStr = "";
     // get scale notes values if specified
     let tonicScaleIdArray = [];
     let scaleNotesValues = [];
@@ -21,7 +22,22 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
             scaleNotesValues = scaleNotesValuesArray[0];
         else if (scaleNotesValuesArray.length == 2)
             scaleNotesValues = getArrayIntersection(scaleNotesValuesArray[0], scaleNotesValuesArray[1]);
+        // compute common notes
+        if (scaleNotesValues == null || scaleNotesValues.length == 0)
+            commonNotesStr = getString("no_result");
+        else {
+            let index = 0;
+            for (const noteValue of scaleNotesValues) {
+                if (index > 0)
+                    commonNotesStr += ", ";
+                commonNotesStr += getNoteName(noteValue);
+                index++;
+            }
+        }
     }
+    // update common notes
+    const commonNotes = document.getElementById("common_notes_chord_tester");
+    commonNotes.innerText = commonNotesStr;
     let chordsTablesHTML = "";
     const commonChordsOnly = document.getElementById("checkboxCommonChords").checked;
     for (const [nbNotesInChords, chordsDict] of chordsDicts) {
@@ -41,11 +57,11 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
                 let classString = "table-body-cell-interactive";
                 const divChord = document.createElement('div');
                 // grey chords if not in specified scale(s)
-                if (scaleNotesValues != null && scaleNotesValues.length > 0) {
-                    const inScale = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValues);
+                if (keys != null && keys.length > 0) {
+                    let inScale = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValues);
                     if (!inScale)
                         classString = "table-body-cell-grey-interactive";
-                    else {
+                    else if (scaleNotesValues != null && scaleNotesValues.length > 0) {
                         for (const [tonicValue, scaleId] of tonicScaleIdArray) {
                             // highlight characteristic chords
                             const charIntervals = getScaleCharIntervals(scaleId);

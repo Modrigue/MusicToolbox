@@ -394,6 +394,9 @@ function isChordCharacteristic(noteFondamental: number, chordValues: Array<numbe
 
 function areChordNotesInScale(fondamentalValue: number, chordValues: Array<number>, scaleNotesValues: Array<number>) : boolean
 {
+    if (scaleNotesValues == null || scaleNotesValues.length == 0)
+        return false;
+    
     let isInScale = true;
 
     chordValues.forEach(function (intervalValue)

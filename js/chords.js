@@ -324,6 +324,8 @@ function isChordCharacteristic(noteFondamental, chordValues, charNotesValues = [
     return isCharacteristic;
 }
 function areChordNotesInScale(fondamentalValue, chordValues, scaleNotesValues) {
+    if (scaleNotesValues == null || scaleNotesValues.length == 0)
+        return false;
     let isInScale = true;
     chordValues.forEach(function (intervalValue) {
         const noteValue = addToNoteValue(fondamentalValue, intervalValue);
