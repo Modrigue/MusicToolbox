@@ -40,6 +40,15 @@ function getScaleCharIntervals(scaleId = "") {
     // compute differences between selected and reference scale values
     return arraysDiff(scaleValues, refScaleValues);
 }
+function getScaleCharValuesFromNotes(scaleId, scaleNotesValues) {
+    const charNotesValues = new Array();
+    const charIntervals = getScaleCharIntervals(scaleId);
+    for (const index of charIntervals) {
+        const charNoteValue = scaleNotesValues[index];
+        charNotesValues.push(charNoteValue);
+    }
+    return charNotesValues;
+}
 //////////////////////////////// NOTES FUNCTIONS //////////////////////////////
 // get mode notes values given scale and mode number
 function getModeNotesValues(scaleValues, modeNumber) {

@@ -5,39 +5,34 @@ const commonChords = [
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
 function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
-    let commonNotesStr = "";
+    const nbKeys = (keys != null) ? keys.length : 0;
+    let keyNotesHTML = "";
     // get scale notes values if specified
+    let scaleNotesValuesArray = [];
     let tonicScaleIdArray = [];
-    let scaleNotesValues = [];
-    if (keys != null && keys.length > 0) {
-        let scaleNotesValuesArray = [];
+    if (nbKeys > 0) {
         for (const [tonicValueCur, scaleIdCur] of keys) {
             tonicScaleIdArray.push([tonicValueCur, scaleIdCur]);
             const scaleValues = getScaleValues(scaleIdCur);
             const scaleNotesValuesCur = getScaleNotesValues(tonicValueCur, scaleValues);
             scaleNotesValuesArray.push(scaleNotesValuesCur);
         }
-        // get scale(s) common notes
-        if (scaleNotesValuesArray.length == 1)
-            scaleNotesValues = scaleNotesValuesArray[0];
-        else if (scaleNotesValuesArray.length == 2)
-            scaleNotesValues = getArrayIntersection(scaleNotesValuesArray[0], scaleNotesValuesArray[1]);
-        // compute common notes
-        if (scaleNotesValues == null || scaleNotesValues.length == 0)
-            commonNotesStr = getString("no_result");
-        else {
-            let index = 0;
-            for (const noteValue of scaleNotesValues) {
-                if (index > 0)
-                    commonNotesStr += ", ";
-                commonNotesStr += getNoteName(noteValue);
-                index++;
-            }
-        }
     }
-    // update common notes
-    const commonNotes = document.getElementById("common_notes_chord_tester");
-    commonNotes.innerText = commonNotesStr;
+    // update key(s) notes
+    const keyNotes = document.getElementById("key_notes_chord_tester");
+    keyNotes.innerText = "";
+    if (nbKeys == 1) {
+        // highlight tonic and characteristic notes
+        const tonicValue = tonicScaleIdArray[0][0];
+        const scaleId = tonicScaleIdArray[0][1];
+        const charNotesValues = getScaleCharValuesFromNotes(scaleId, scaleNotesValuesArray[0]);
+        keyNotesHTML = getArpeggioNotesText(tonicValue, getScaleValues(scaleId), tonicValue, charNotesValues);
+    }
+    else if (nbKeys == 2) {
+        // display keys notes with corresponding colors
+        keyNotesHTML = get2KeysNotesText(scaleNotesValuesArray);
+    }
+    keyNotes.innerHTML = keyNotesHTML;
     let chordsTablesHTML = "";
     const commonChordsOnly = document.getElementById("checkboxCommonChords").checked;
     for (const [nbNotesInChords, chordsDict] of chordsDicts) {
@@ -57,19 +52,14 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
                 let classString = "table-body-cell-interactive";
                 const divChord = document.createElement('div');
                 // grey chords if not in specified scale(s)
-                if (keys != null && keys.length > 0) {
-                    let inScale = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValues);
+                if (nbKeys == 1) {
+                    let inScale = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValuesArray[0]);
                     if (!inScale)
                         classString = "table-body-cell-grey-interactive";
-                    else if (scaleNotesValues != null && scaleNotesValues.length > 0) {
+                    else if (scaleNotesValuesArray[0] != null && scaleNotesValuesArray[0].length > 0) {
                         for (const [tonicValue, scaleId] of tonicScaleIdArray) {
                             // highlight characteristic chords
-                            const charIntervals = getScaleCharIntervals(scaleId);
-                            const charNotesValues = new Array();
-                            for (const index of charIntervals) {
-                                const charNoteValue = scaleNotesValues[index];
-                                charNotesValues.push(charNoteValue);
-                            }
+                            const charNotesValues = getScaleCharValuesFromNotes(scaleId, scaleNotesValuesArray[0]);
                             const isCharacteristic = isChordCharacteristic(noteValueInOctave, chordValues, charNotesValues);
                             if (noteValueInOctave != tonicValue && isCharacteristic)
                                 classString = "table-body-cell-char-interactive";
@@ -85,6 +75,18 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
                             classString = "table-body-cell-aug6-interactive";
                     }
                 }
+                else if (nbKeys == 2) {
+                    let inScale1 = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValuesArray[0]);
+                    let inScale2 = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValuesArray[1]);
+                    if (!inScale1 && !inScale2)
+                        classString = "table-body-cell-grey-interactive";
+                    else if (inScale1 && !inScale2)
+                        classString = "table-body-cell-key1-interactive";
+                    else if (!inScale1 && inScale2)
+                        classString = "table-body-cell-key2-interactive";
+                    else if (inScale1 && inScale2)
+                        classString = "table-body-cell-keyc-interactive";
+                }
                 divChord.classList.add(classString);
                 // set notes as tooltip
                 divChord.title =
@@ -94,12 +96,13 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
                 //    getCompactChordNotation(noteName, chordId) : noteName;
                 divChord.innerText = getCompactChordNotation(noteName, chordId);
                 // Neapolitan / German augmented 6th chord specific
-                for (const [tonicValue, scaleId] of tonicScaleIdArray) {
-                    if (isChordNeapolitan(tonicValue, noteValue, chordId))
-                        divChord.innerText += ` / ${noteName}N6`;
-                    if (isChordGermanAug6th(tonicValue, noteValue, chordId))
-                        divChord.innerText += ` / ${noteName}Ger+6`;
-                }
+                if (nbKeys == 1)
+                    for (const [tonicValue, scaleId] of tonicScaleIdArray) {
+                        if (isChordNeapolitan(tonicValue, noteValue, chordId))
+                            divChord.innerText += ` / ${noteName}N6`;
+                        if (isChordGermanAug6th(tonicValue, noteValue, chordId))
+                            divChord.innerText += ` / ${noteName}Ger+6`;
+                    }
                 chordsRowHTML += divChord.outerHTML;
             }
             chordsRowHTML += "</div>";
@@ -119,5 +122,30 @@ function playChordTest(noteValue, chordValues) {
     const delay = document.getElementById("radioChordTesterArpeggios").checked ?
         0.25 : 0;
     playChord(noteValue, chordValues, 0, delay);
+}
+function get2KeysNotesText(scaleNotesValuesArray) {
+    if (scaleNotesValuesArray == null || scaleNotesValuesArray.length != 2)
+        return "";
+    let keysNotesStr = "";
+    for (let noteValue = 0; noteValue < 12; noteValue++) {
+        const isInKey1 = (scaleNotesValuesArray[0].indexOf(noteValue) >= 0);
+        const isInKey2 = (scaleNotesValuesArray[1].indexOf(noteValue) >= 0);
+        if (!isInKey1 && !isInKey2)
+            continue;
+        // add note with corresponding color
+        const noteName = getNoteName(noteValue);
+        const noteSpan = document.createElement("span");
+        noteSpan.textContent = noteName;
+        if (isInKey1 && !isInKey2)
+            noteSpan.classList.add("span-key1");
+        else if (!isInKey1 && isInKey2)
+            noteSpan.classList.add("span-key2");
+        else if (isInKey1 && isInKey2)
+            noteSpan.classList.add("span-keyc");
+        keysNotesStr += noteSpan.outerHTML;
+        keysNotesStr += `, `;
+    }
+    keysNotesStr = keysNotesStr.slice(0, -2);
+    return keysNotesStr;
 }
 //# sourceMappingURL=chord_tester.js.map

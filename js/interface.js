@@ -284,12 +284,13 @@ function update() {
                 const octaveStartValue = parseInt(octaveStartSelected);
                 // get selected key(s) if option checked
                 let selectedKeys = [];
-                //let hasKey = false;
+                let hasKeys = [];
                 for (let i = 1; i <= 2; i++) {
                     const checkboxKey = document.getElementById(`checkboxChordTesterKey${i}`);
                     const keyChecked = checkboxKey.checked;
                     setEnabled(`chord_tester_tonic${i}`, keyChecked);
                     setEnabled(`chord_tester_scale${i}`, keyChecked);
+                    hasKeys.push(keyChecked);
                     if (keyChecked) {
                         const tonicValueSelected = document.getElementById(`chord_tester_tonic${i}`).value;
                         const tonicValue = parseInt(tonicValueSelected);
@@ -298,8 +299,18 @@ function update() {
                         //hasKey = true;
                     }
                 }
-                //setVisible(`common_notes_chord_tester_text`, hasKey);
-                //setVisible(`common_notes_chord_tester`, hasKey);
+                // update keys colors if 2 keys selected
+                const has2Keys = (hasKeys[0] && hasKeys[1]);
+                const key1Color = has2Keys ? "Crimson" : "";
+                const key2Color = has2Keys ? "RoyalBlue" : "";
+                const keyColors = [key1Color, key2Color];
+                for (let i = 1; i <= 2; i++) {
+                    document.getElementById(`select_key_text_chord_tester${i}`).style.color = keyColors[i - 1];
+                    document.getElementById(`chord_tester_tonic${i}`).style.color = keyColors[i - 1];
+                    document.getElementById(`chord_tester_scale${i}`).style.color = keyColors[i - 1];
+                }
+                //setVisible(`key_notes_chord_tester_text`, hasKey);
+                //setVisible(`key_notes_chord_tester`, hasKey);
                 updateChordTesterTables(noteStartValue, octaveStartValue, selectedKeys);
                 setVisible('found_scales', false);
                 setVisible('negative_scale', false);
@@ -421,7 +432,7 @@ function updateLocales() {
         elem.innerText = getString("start");
     for (let i = 1; i <= 2; i++)
         document.getElementById(`select_key_text_chord_tester${i}`).innerText = getString("select_key");
-    document.getElementById(`common_notes_chord_tester_text`).innerText = getString("notes");
+    document.getElementById(`key_notes_chord_tester_text`).innerText = getString("notes");
     // update computed data
     updateSelectors();
     onNoteChanged();

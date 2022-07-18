@@ -377,13 +377,15 @@ function update(): void
             
             // get selected key(s) if option checked
             let selectedKeys: Array<[number, string]> = [];
-            //let hasKey = false;
+            let hasKeys: Array<boolean> = [];
             for (let i = 1; i <= 2; i++)
             {
                 const checkboxKey: HTMLInputElement = <HTMLInputElement>document.getElementById(`checkboxChordTesterKey${i}`);
                 const keyChecked = checkboxKey.checked;
                 setEnabled(`chord_tester_tonic${i}`, keyChecked);
                 setEnabled(`chord_tester_scale${i}`, keyChecked);
+
+                hasKeys.push(keyChecked);
 
                 if (keyChecked)
                 {
@@ -396,8 +398,20 @@ function update(): void
                 }
             }
 
-            //setVisible(`common_notes_chord_tester_text`, hasKey);
-            //setVisible(`common_notes_chord_tester`, hasKey);
+            // update keys colors if 2 keys selected
+            const has2Keys = (hasKeys[0] && hasKeys[1]);
+            const key1Color = has2Keys ? "Crimson" : "";
+            const key2Color = has2Keys ? "RoyalBlue" : "";
+            const keyColors = [key1Color, key2Color];
+            for (let i = 1; i <= 2; i++)
+            {
+                (<HTMLSpanElement>document.getElementById(`select_key_text_chord_tester${i}`)).style.color = keyColors[i-1];
+                (<HTMLSelectElement>document.getElementById(`chord_tester_tonic${i}`)).style.color = keyColors[i-1];
+                (<HTMLSelectElement>document.getElementById(`chord_tester_scale${i}`)).style.color = keyColors[i-1];
+            }
+
+            //setVisible(`key_notes_chord_tester_text`, hasKey);
+            //setVisible(`key_notes_chord_tester`, hasKey);
 
             updateChordTesterTables(noteStartValue, octaveStartValue, selectedKeys);
 
@@ -563,7 +577,7 @@ function updateLocales(): void
     for (let i = 1; i <= 2; i++)
         (<HTMLSpanElement>document.getElementById(`select_key_text_chord_tester${i}`)).innerText = getString("select_key");
 
-    (<HTMLSpanElement>document.getElementById(`common_notes_chord_tester_text`)).innerText = getString("notes");
+    (<HTMLSpanElement>document.getElementById(`key_notes_chord_tester_text`)).innerText = getString("notes");
 
     // update computed data
     updateSelectors();

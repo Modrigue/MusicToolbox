@@ -186,6 +186,9 @@ canvas
 .table-body-cell-neap, .table-body-cell-neap-interactive,
 .table-body-cell-aug6, .table-body-cell-aug6-interactive,
 .table-body-cell-grey, .table-body-cell-grey-interactive,
+.table-body-cell-key1, .table-body-cell-key1-interactive,
+.table-body-cell-key2, .table-body-cell-key2-interactive,
+.table-body-cell-keyc, .table-body-cell-keyc-interactive,
 .table-body-cell-step-1, .table-body-cell-step-3, .table-body-cell-step-4
 {
     display: table-cell;
@@ -286,6 +289,56 @@ canvas
 .table-body-cell-grey-interactive:hover, .button-grey-interactive:hover
 {
     background-color: silver;
+    color: white;
+}
+
+.table-body-cell-key1, .table-body-cell-key1-interactive, .button-key1-interactive, .span-key1
+{
+    color: Crimson;
+}
+
+.table-body-cell-key1-interactive
+{
+    cursor: pointer;
+}
+
+.table-body-cell-key1-interactive:hover, .button-key1-interactive:hover
+{
+    background-color: Crimson;
+    color: white;
+}
+
+
+.table-body-cell-key2, .table-body-cell-key2-interactive, .button-key2-interactive, .span-key2
+{
+    color: RoyalBlue;
+}
+
+.table-body-cell-key2-interactive
+{
+    cursor: pointer;
+}
+
+.table-body-cell-key2-interactive:hover, .button-key2-interactive:hover
+{
+    background-color: RoyalBlue;
+    color: white;
+}
+
+
+.table-body-cell-keyc, .table-body-cell-keyc-interactive, .button-keyc-interactive, .span-keyc
+{
+    color: Purple;
+}
+
+.table-body-cell-keyc-interactive
+{
+    cursor: pointer;
+}
+
+.table-body-cell-keyc-interactive:hover, .button-keyc-interactive:hover
+{
+    background-color: Purple;
     color: white;
 }
 

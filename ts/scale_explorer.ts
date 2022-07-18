@@ -52,6 +52,19 @@ function getScaleCharIntervals(scaleId: string = ""): Array<number>
   return arraysDiff(scaleValues, refScaleValues);
 }
 
+function getScaleCharValuesFromNotes(scaleId: string, scaleNotesValues: Array<number>): Array<number>
+{
+  const charNotesValues = new Array<number>();
+  const charIntervals = getScaleCharIntervals(scaleId);
+  for (const index of charIntervals)
+  {
+      const charNoteValue = scaleNotesValues[index];
+      charNotesValues.push(charNoteValue);
+  }
+
+  return charNotesValues;
+}
+
 
 //////////////////////////////// NOTES FUNCTIONS //////////////////////////////
 
