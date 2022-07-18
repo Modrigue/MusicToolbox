@@ -63,11 +63,14 @@ window.onload = function()
 
     // chord tester
     (<HTMLInputElement>document.getElementById("checkboxCommonChords")).addEventListener("change", update);
-    (<HTMLInputElement>document.getElementById("checkboxChordTesterKey")).addEventListener("change", update);
     (<HTMLSelectElement>document.getElementById("chord_tester_start_note")).addEventListener("change", update);
     (<HTMLSelectElement>document.getElementById("chord_tester_start_octave")).addEventListener("change", update);
-    (<HTMLSelectElement>document.getElementById("chord_tester_note_key")).addEventListener("change", update);
-    (<HTMLSelectElement>document.getElementById("chord_tester_scale")).addEventListener("change", update);
+    for (let i = 1; i <= 2; i++)
+    {
+        (<HTMLInputElement>document.getElementById(`checkboxChordTesterKey${i}`)).addEventListener("change", update);
+        (<HTMLSelectElement>document.getElementById(`chord_tester_tonic${i}`)).addEventListener("change", update);
+        (<HTMLSelectElement>document.getElementById(`chord_tester_scale${i}`)).addEventListener("change", update);      
+    }
 }
 
 function initLanguage(): void
@@ -143,8 +146,11 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     // update chord tester selectors
     updateNoteSelector(`chord_tester_start_note`, 0, false);
     updateOctaveSelector(`chord_tester_start_octave`, 0, 4, 2, false);
-    updateNoteSelector('chord_tester_note_key', 0, false);
-    updateScaleSelector('chord_tester_scale', "7major_nat,1", false /* no quarter tones */);
+    for (let i = 1; i <= 2; i++)
+    {
+        updateNoteSelector(`chord_tester_tonic${i}`, ((i == 1) ? 0 : 7), false);
+        updateScaleSelector(`chord_tester_scale${i}`, "7major_nat,1", false /* no quarter tones */);
+    }
 }
 
 // get selected text from selector
@@ -369,24 +375,26 @@ function update(): void
             const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`chord_tester_start_octave`)).value;
             const octaveStartValue: number = parseInt(octaveStartSelected);
             
-            // get selected key if option checked
-
-            const checkboxKey: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxChordTesterKey");
-            const hasKey = checkboxKey.checked;
-
-            setEnabled(`chord_tester_note_key`, hasKey);
-            setEnabled(`chord_tester_scale`, hasKey);
-            
-            let tonicValue = -1;
-            let scaleId = "";
-            if (hasKey)
+            // get selected key(s) if option checked
+            let selectedKeys: Array<[number, string]> = [];
+            for (let i = 1; i <= 2; i++)
             {
-                const tonicValueSelected: string = (<HTMLSelectElement>document.getElementById(`chord_tester_note_key`)).value;
-                tonicValue = parseInt(tonicValueSelected);
-                scaleId = (<HTMLSelectElement>document.getElementById(`chord_tester_scale`)).value;
+                const checkboxKey: HTMLInputElement = <HTMLInputElement>document.getElementById(`checkboxChordTesterKey${i}`);
+                const hasKey = checkboxKey.checked;
+                setEnabled(`chord_tester_tonic${i}`, hasKey);
+                setEnabled(`chord_tester_scale${i}`, hasKey);
+
+                if (hasKey)
+                {
+                    const tonicValueSelected: string = (<HTMLSelectElement>document.getElementById(`chord_tester_tonic${i}`)).value;
+                    const tonicValue = parseInt(tonicValueSelected);
+                    const scaleId = (<HTMLSelectElement>document.getElementById(`chord_tester_scale${i}`)).value;
+
+                    selectedKeys.push([tonicValue, scaleId]);
+                }
             }
-            
-            updateChordTesterTables(noteStartValue, octaveStartValue, tonicValue, scaleId);
+
+            updateChordTesterTables(noteStartValue, octaveStartValue, selectedKeys);
 
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
@@ -505,7 +513,6 @@ function updateLocales(): void
 
     // scale explorer
     (<HTMLSpanElement>document.getElementById("select_key_text")).innerText = getString("select_key");
-    (<HTMLSpanElement>document.getElementById("select_key_text_chord_tester")).innerText = getString("select_key");
     (<HTMLSpanElement>document.getElementById("header_scale_finder")).innerText = getString("header_scale_finder");
     (<HTMLLabelElement>document.getElementById("checkboxChordsLabel")).innerText = getString("chords");
     (<HTMLLabelElement>document.getElementById("checkboxGuitarLabel")).innerText = getString("guitar");
@@ -540,12 +547,16 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("checkboxEmptyStringsLabel")).innerText = getString("show_empty_strings");
     
     // chord tester
+
     (<HTMLLabelElement>document.getElementById("radioChordTesterChordsLabel")).innerText = getString("play_chords");
     (<HTMLLabelElement>document.getElementById("radioChordTesterArpeggiosLabel")).innerText = getString("play_arpeggios");
     (<HTMLLabelElement>document.getElementById("checkboxCommonChordsLabel")).innerText = getString("show_common_chords_only");
     let startElements: HTMLCollectionOf<HTMLElement> = <HTMLCollectionOf<HTMLElement>>document.getElementsByClassName("start");
     for (let elem of startElements)
         elem.innerText = getString("start");
+
+    for (let i = 1; i <= 2; i++)
+        (<HTMLSpanElement>document.getElementById(`select_key_text_chord_tester${i}`)).innerText = getString("select_key");
 
     // update computed data
     updateSelectors();

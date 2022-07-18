@@ -50,11 +50,13 @@ window.onload = function () {
     document.getElementById("chord_explorer_nb_strings_max").addEventListener("change", update);
     // chord tester
     document.getElementById("checkboxCommonChords").addEventListener("change", update);
-    document.getElementById("checkboxChordTesterKey").addEventListener("change", update);
     document.getElementById("chord_tester_start_note").addEventListener("change", update);
     document.getElementById("chord_tester_start_octave").addEventListener("change", update);
-    document.getElementById("chord_tester_note_key").addEventListener("change", update);
-    document.getElementById("chord_tester_scale").addEventListener("change", update);
+    for (let i = 1; i <= 2; i++) {
+        document.getElementById(`checkboxChordTesterKey${i}`).addEventListener("change", update);
+        document.getElementById(`chord_tester_tonic${i}`).addEventListener("change", update);
+        document.getElementById(`chord_tester_scale${i}`).addEventListener("change", update);
+    }
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -107,8 +109,10 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     // update chord tester selectors
     updateNoteSelector(`chord_tester_start_note`, 0, false);
     updateOctaveSelector(`chord_tester_start_octave`, 0, 4, 2, false);
-    updateNoteSelector('chord_tester_note_key', 0, false);
-    updateScaleSelector('chord_tester_scale', "7major_nat,1", false /* no quarter tones */);
+    for (let i = 1; i <= 2; i++) {
+        updateNoteSelector(`chord_tester_tonic${i}`, ((i == 1) ? 0 : 7), false);
+        updateScaleSelector(`chord_tester_scale${i}`, "7major_nat,1", false /* no quarter tones */);
+    }
 }
 // get selected text from selector
 function getSelectorText(id) {
@@ -278,19 +282,21 @@ function update() {
                 // get selected start octave
                 const octaveStartSelected = document.getElementById(`chord_tester_start_octave`).value;
                 const octaveStartValue = parseInt(octaveStartSelected);
-                // get selected key if option checked
-                const checkboxKey = document.getElementById("checkboxChordTesterKey");
-                const hasKey = checkboxKey.checked;
-                setEnabled(`chord_tester_note_key`, hasKey);
-                setEnabled(`chord_tester_scale`, hasKey);
-                let tonicValue = -1;
-                let scaleId = "";
-                if (hasKey) {
-                    const tonicValueSelected = document.getElementById(`chord_tester_note_key`).value;
-                    tonicValue = parseInt(tonicValueSelected);
-                    scaleId = document.getElementById(`chord_tester_scale`).value;
+                // get selected key(s) if option checked
+                let selectedKeys = [];
+                for (let i = 1; i <= 2; i++) {
+                    const checkboxKey = document.getElementById(`checkboxChordTesterKey${i}`);
+                    const hasKey = checkboxKey.checked;
+                    setEnabled(`chord_tester_tonic${i}`, hasKey);
+                    setEnabled(`chord_tester_scale${i}`, hasKey);
+                    if (hasKey) {
+                        const tonicValueSelected = document.getElementById(`chord_tester_tonic${i}`).value;
+                        const tonicValue = parseInt(tonicValueSelected);
+                        const scaleId = document.getElementById(`chord_tester_scale${i}`).value;
+                        selectedKeys.push([tonicValue, scaleId]);
+                    }
                 }
-                updateChordTesterTables(noteStartValue, octaveStartValue, tonicValue, scaleId);
+                updateChordTesterTables(noteStartValue, octaveStartValue, selectedKeys);
                 setVisible('found_scales', false);
                 setVisible('negative_scale', false);
                 setVisible("section_found_chords", false);
@@ -375,7 +381,6 @@ function updateLocales() {
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
-    document.getElementById("select_key_text_chord_tester").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");
     document.getElementById("checkboxChordsLabel").innerText = getString("chords");
     document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");
@@ -410,6 +415,8 @@ function updateLocales() {
     let startElements = document.getElementsByClassName("start");
     for (let elem of startElements)
         elem.innerText = getString("start");
+    for (let i = 1; i <= 2; i++)
+        document.getElementById(`select_key_text_chord_tester${i}`).innerText = getString("select_key");
     // update computed data
     updateSelectors();
     onNoteChanged();

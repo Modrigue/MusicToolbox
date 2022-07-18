@@ -86,6 +86,17 @@ function cloneIntegerArray(array) {
         arrayCloned.push(value);
     return arrayCloned;
 }
+function getArrayIntersection(array1, array2) {
+    if (array1 == null || array1.length == 0)
+        return [];
+    if (array2 == null || array2.length == 0)
+        return [];
+    let arrayInter = [];
+    for (let item1 of array1)
+        if (array2.indexOf(item1) >= 0)
+            arrayInter.push(item1);
+    return arrayInter;
+}
 function getKeyFromArrayValue(dict, value) {
     if (dict == null)
         return "?";

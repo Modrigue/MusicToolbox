@@ -125,6 +125,22 @@ function cloneIntegerArray(array: Array<number>): Array<number>
   return arrayCloned;
 }
 
+function getArrayIntersection<T>(array1: Array<T>, array2: Array<T>): Array<T>
+{
+  if (array1 == null || array1.length == 0)
+    return [];
+  if (array2 == null || array2.length == 0)
+    return [];
+  
+  let arrayInter: Array<T> = [];
+
+  for (let item1 of array1)
+    if (array2.indexOf(item1) >= 0)
+      arrayInter.push(item1);
+
+  return arrayInter;
+}
+
 function getKeyFromArrayValue(dict: Map<string, Array<number>>, value: Array<number>): string
 {
   if (dict == null)
