@@ -2,8 +2,8 @@ class Note
 {
     value: number;  // in [0; 12[
     octave: number; // integer
-    length: number;
-    time: number;
+    length: number; // seconds
+    time: number;   // quarter notes
 
     // constant for now
     velocity: number = 96;
@@ -17,12 +17,15 @@ class Note
         this.time = time;
     }
 
-    public Play(): void
+    public Play(tempo: number): void
     {
         const noteValue = this.value + 12*(this.octave + 2);
         const noteValueInt = Math.floor(noteValue); // the MIDI note (Ex.: 48 = C2)
-        const noteStart = this.time;
-        const noteEnd = this.time + this.length;
+        
+        const tempoFactor = 60 / tempo;
+
+        const noteStart = this.time*tempoFactor;
+        const noteEnd = (this.time + this.length)*tempoFactor;
 
         // compute pitch bend if non-integer value
         let pitchBend = noteValue - Math.floor(noteValue);

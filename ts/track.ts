@@ -7,14 +7,14 @@ class Track
         this.notes = notes;
     }
 
-    public Play(): void
+    public Play(tempo: number): void
     {
         if (this.notes == null || this.notes.length == 0)
             return;
 
         for (const note of this.notes)
         {
-            note.Play();    
+            note.Play(tempo);    
         }
     }
 

@@ -9,11 +9,12 @@ class Note {
         this.length = length;
         this.time = time;
     }
-    Play() {
+    Play(tempo) {
         const noteValue = this.value + 12 * (this.octave + 2);
         const noteValueInt = Math.floor(noteValue); // the MIDI note (Ex.: 48 = C2)
-        const noteStart = this.time;
-        const noteEnd = this.time + this.length;
+        const tempoFactor = 60 / tempo;
+        const noteStart = this.time * tempoFactor;
+        const noteEnd = (this.time + this.length) * tempoFactor;
         // compute pitch bend if non-integer value
         let pitchBend = noteValue - Math.floor(noteValue);
         pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone

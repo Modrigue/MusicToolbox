@@ -23,7 +23,9 @@ function initializePlay(): void
 
 function playNote(noteValue: number, delay: number): void
 {
-    //playTestTrack()
+    // for test purposes only
+    //playTestTrack();
+    //playTestSong();
     //return;
     
     // delay: play one note every quarter second
@@ -200,9 +202,14 @@ function onPlayChordInScale(nbNotesInChords: number, index: number, step: number
     playChord(noteCurrent, chordValues, duration, delay);   
 }
 
+
+//////////////////////////// MUSIC GENERATION TESTS ///////////////////////////
+
+
 function playTestTrack()
 {
     let notes: Array<Note> = [];
+    const tempo = 100;
 
     notes.push(new Note(0, 2, 1, 0));
     notes.push(new Note(0, 2, 1, 1));
@@ -219,5 +226,40 @@ function playTestTrack()
     notes.push(new Note(0, 2, 1, 12));
 
     const track = new Track(notes);
-    track.Play();
+    track.Play(tempo);
+}
+
+function playTestSong()
+{
+    let notes1: Array<Note> = [];
+    notes1.push(new Note(0, 2, 1, 0));
+    notes1.push(new Note(0, 2, 1, 1));
+    notes1.push(new Note(0, 2, 1, 2));
+    notes1.push(new Note(2, 2, 1, 3));
+    notes1.push(new Note(4, 2, 1, 4));
+    notes1.push(new Note(2, 2, 1, 6));
+    notes1.push(new Note(0, 2, 1, 8));
+    notes1.push(new Note(4, 2, 1, 9));
+    notes1.push(new Note(2, 2, 1, 10));
+    notes1.push(new Note(2, 2, 1, 11));
+    notes1.push(new Note(0, 2, 1, 12));
+    const track1 = new Track(notes1);
+
+    let notes2: Array<Note> = [];
+    notes2.push(new Note(4, 2, 1, 0));
+    notes2.push(new Note(4, 2, 1, 1));
+    notes2.push(new Note(4, 2, 1, 2));
+    notes2.push(new Note(5, 2, 1, 3));
+    notes2.push(new Note(7, 2, 1, 4));
+    notes2.push(new Note(5, 2, 1, 6));
+    notes2.push(new Note(4, 2, 1, 8));
+    notes2.push(new Note(7, 2, 1, 9));
+    notes2.push(new Note(5, 2, 1, 10));
+    notes2.push(new Note(5, 2, 1, 11));
+    notes2.push(new Note(4, 2, 1, 12));
+    const track2 = new Track(notes2);
+
+    const song = new Song([track1, track2]);
+    song.Tempo = 150;
+    song.Play();
 }
