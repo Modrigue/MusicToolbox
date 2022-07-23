@@ -13,8 +13,10 @@ function initializePlay() {
     });
 }
 function playNote(noteValue, delay) {
+    //playTestTrack()
+    //return;
     // delay: play one note every quarter second
-    const note = Math.floor(48 + noteValue); // the MIDI note (48 = C2)
+    const note = Math.floor(48 + noteValue); // the MIDI note (Ex.: 48 = C2)
     const velocity = 96; // how hard the note hits
     const volume = 60; // volume
     const length = 0.75;
@@ -133,5 +135,21 @@ function onPlayChordInScale(nbNotesInChords, index, step = 2, delay = 0) {
     const duration = 0;
     const noteCurrent = noteValue + scaleValues[index];
     playChord(noteCurrent, chordValues, duration, delay);
+}
+function playTestTrack() {
+    let notes = [];
+    notes.push(new Note(0, 2, 1, 0));
+    notes.push(new Note(0, 2, 1, 1));
+    notes.push(new Note(0, 2, 1, 2));
+    notes.push(new Note(2, 2, 1, 3));
+    notes.push(new Note(4, 2, 1, 4));
+    notes.push(new Note(2, 2, 1, 6));
+    notes.push(new Note(0, 2, 1, 8));
+    notes.push(new Note(4, 2, 1, 9));
+    notes.push(new Note(2, 2, 1, 10));
+    notes.push(new Note(2, 2, 1, 11));
+    notes.push(new Note(0, 2, 1, 12));
+    const track = new Track(notes);
+    track.Play();
 }
 //# sourceMappingURL=functions_play.js.map
