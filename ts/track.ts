@@ -22,4 +22,12 @@ class Track
     {
         this.notes.push(note);
     }
+
+    public Transpose(interval: number)
+    {
+        for (let note of this.notes)
+        {
+            note.value += interval;    
+        }
+    }
 }

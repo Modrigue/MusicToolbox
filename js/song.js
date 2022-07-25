@@ -9,5 +9,10 @@ class Song {
             track.Play(this.Tempo);
         }
     }
+    Transpose(interval) {
+        for (let track of this.tracks) {
+            track.Transpose(interval);
+        }
+    }
 }
 //# sourceMappingURL=song.js.map

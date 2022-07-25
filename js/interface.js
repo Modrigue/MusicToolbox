@@ -1,5 +1,5 @@
 "use strict";
-const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"];
+const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected = "";
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
@@ -15,6 +15,7 @@ window.onload = function () {
     document.getElementById("button_page_chord_explorer").addEventListener("click", () => { selectPage("page_chord_explorer"); });
     document.getElementById("button_page_scale_explorer").addEventListener("click", () => { selectPage("page_scale_explorer"); });
     document.getElementById("button_page_scale_finder").addEventListener("click", () => selectPage("page_scale_finder"));
+    document.getElementById("button_page_song_generator").addEventListener("click", () => selectPage("page_song_generator"));
     document.getElementById("checkboxLanguage").addEventListener("change", updateLocales);
     // scale explorer
     document.getElementById("note").addEventListener("change", onNoteChanged);
@@ -57,6 +58,9 @@ window.onload = function () {
         document.getElementById(`chord_tester_tonic${i}`).addEventListener("change", update);
         document.getElementById(`chord_tester_scale${i}`).addEventListener("change", update);
     }
+    // track generator
+    setVisible("button_page_song_generator", false); // experimental: disabled for now
+    document.getElementById('song_generator_play').addEventListener("click", playGeneratedSong);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -113,6 +117,9 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
         updateNoteSelector(`chord_tester_tonic${i}`, ((i == 1) ? 0 : 7), false);
         updateScaleSelector(`chord_tester_scale${i}`, "7major_nat,1", false /* no quarter tones */);
     }
+    // update track generator selectors
+    updateNoteSelector(`song_generator_start_note`, 0, false);
+    updateOctaveSelector(`song_generator_start_octave`, 0, 4, 2, false);
 }
 // get selected text from selector
 function getSelectorText(id) {
@@ -317,6 +324,11 @@ function update() {
                 setVisible("section_found_chords", false);
                 break;
             }
+        case "page_song_generator":
+            setVisible('found_scales', false);
+            setVisible('negative_scale', false);
+            setVisible("section_found_chords", false);
+            break;
     }
 }
 function onResize() {
@@ -391,6 +403,7 @@ function updateLocales() {
     document.getElementById("button_page_chord_explorer").innerText = getString("page_chord_explorer");
     document.getElementById("button_page_scale_explorer").innerText = getString("page_scale_explorer");
     document.getElementById("button_page_scale_finder").innerText = getString("page_scale_finder");
+    document.getElementById("button_page_song_generator").innerText = getString("page_song_generator");
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
@@ -433,6 +446,9 @@ function updateLocales() {
     for (let i = 1; i <= 2; i++)
         document.getElementById(`select_key_text_chord_tester${i}`).innerText = getString("select_key");
     document.getElementById(`key_notes_chord_tester_text`).innerText = getString("notes");
+    // song generator
+    document.getElementById("song_generator_tempo_text").innerText = `${getString("tempo")}`;
+    document.getElementById("song_generator_play").innerText = `${getString("play")} ♪`;
     // update computed data
     updateSelectors();
     onNoteChanged();

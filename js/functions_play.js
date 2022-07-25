@@ -139,52 +139,66 @@ function onPlayChordInScale(nbNotesInChords, index, step = 2, delay = 0) {
     playChord(noteCurrent, chordValues, duration, delay);
 }
 //////////////////////////// MUSIC GENERATION TESTS ///////////////////////////
-function playTestTrack() {
+function playGeneratedSong() {
+    // get selected start note
+    const noteStartSelected = document.getElementById(`song_generator_start_note`).value;
+    const noteStartValue = parseInt(noteStartSelected);
+    // get selected start octave
+    const octaveStartSelected = document.getElementById(`song_generator_start_octave`).value;
+    const octaveStartValue = parseInt(octaveStartSelected);
+    // get selected tempo
+    const tempoSelected = document.getElementById(`song_generator_tempo`).value;
+    const tempoValue = parseInt(tempoSelected);
+    //playTestTrack(tempoValue, noteStartValue, octaveStartValue);
+    playTestSong(tempoValue, noteStartValue, octaveStartValue);
+}
+function playTestTrack(tempo, note, octave) {
     let notes = [];
-    const tempo = 100;
-    notes.push(new Note(0, 2, 1, 0));
-    notes.push(new Note(0, 2, 1, 1));
-    notes.push(new Note(0, 2, 1, 2));
-    notes.push(new Note(2, 2, 1, 3));
-    notes.push(new Note(4, 2, 1, 4));
-    notes.push(new Note(2, 2, 1, 6));
-    notes.push(new Note(0, 2, 1, 8));
-    notes.push(new Note(4, 2, 1, 9));
-    notes.push(new Note(2, 2, 1, 10));
-    notes.push(new Note(2, 2, 1, 11));
-    notes.push(new Note(0, 2, 1, 12));
+    notes.push(new Note(0, 0, 1, 0));
+    notes.push(new Note(0, 0, 1, 1));
+    notes.push(new Note(0, 0, 1, 2));
+    notes.push(new Note(2, 0, 1, 3));
+    notes.push(new Note(4, 0, 1, 4));
+    notes.push(new Note(2, 0, 1, 6));
+    notes.push(new Note(0, 0, 1, 8));
+    notes.push(new Note(4, 0, 1, 9));
+    notes.push(new Note(2, 0, 1, 10));
+    notes.push(new Note(2, 0, 1, 11));
+    notes.push(new Note(0, 0, 1, 12));
     const track = new Track(notes);
+    track.Transpose(note + 12 * octave);
     track.Play(tempo);
 }
-function playTestSong() {
+function playTestSong(tempo, note, octave) {
     let notes1 = [];
-    notes1.push(new Note(0, 2, 1, 0));
-    notes1.push(new Note(0, 2, 1, 1));
-    notes1.push(new Note(0, 2, 1, 2));
-    notes1.push(new Note(2, 2, 1, 3));
-    notes1.push(new Note(4, 2, 1, 4));
-    notes1.push(new Note(2, 2, 1, 6));
-    notes1.push(new Note(0, 2, 1, 8));
-    notes1.push(new Note(4, 2, 1, 9));
-    notes1.push(new Note(2, 2, 1, 10));
-    notes1.push(new Note(2, 2, 1, 11));
-    notes1.push(new Note(0, 2, 1, 12));
+    notes1.push(new Note(0, 0, 1, 0));
+    notes1.push(new Note(0, 0, 1, 1));
+    notes1.push(new Note(0, 0, 1, 2));
+    notes1.push(new Note(2, 0, 1, 3));
+    notes1.push(new Note(4, 0, 1, 4));
+    notes1.push(new Note(2, 0, 1, 6));
+    notes1.push(new Note(0, 0, 1, 8));
+    notes1.push(new Note(4, 0, 1, 9));
+    notes1.push(new Note(2, 0, 1, 10));
+    notes1.push(new Note(2, 0, 1, 11));
+    notes1.push(new Note(0, 0, 1, 12));
     const track1 = new Track(notes1);
     let notes2 = [];
-    notes2.push(new Note(4, 2, 1, 0));
-    notes2.push(new Note(4, 2, 1, 1));
-    notes2.push(new Note(4, 2, 1, 2));
-    notes2.push(new Note(5, 2, 1, 3));
-    notes2.push(new Note(7, 2, 1, 4));
-    notes2.push(new Note(5, 2, 1, 6));
-    notes2.push(new Note(4, 2, 1, 8));
-    notes2.push(new Note(7, 2, 1, 9));
-    notes2.push(new Note(5, 2, 1, 10));
-    notes2.push(new Note(5, 2, 1, 11));
-    notes2.push(new Note(4, 2, 1, 12));
+    notes2.push(new Note(4, 0, 1, 0));
+    notes2.push(new Note(4, 0, 1, 1));
+    notes2.push(new Note(4, 0, 1, 2));
+    notes2.push(new Note(5, 0, 1, 3));
+    notes2.push(new Note(7, 0, 1, 4));
+    notes2.push(new Note(5, 0, 1, 6));
+    notes2.push(new Note(4, 0, 1, 8));
+    notes2.push(new Note(7, 0, 1, 9));
+    notes2.push(new Note(5, 0, 1, 10));
+    notes2.push(new Note(5, 0, 1, 11));
+    notes2.push(new Note(4, 0, 1, 12));
     const track2 = new Track(notes2);
     const song = new Song([track1, track2]);
-    song.Tempo = 150;
+    song.Transpose(note + 12 * octave);
+    song.Tempo = tempo;
     song.Play();
 }
 //# sourceMappingURL=functions_play.js.map

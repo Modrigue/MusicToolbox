@@ -18,4 +18,12 @@ class Song
             track.Play(this.Tempo);
         }
     }
+
+    public Transpose(interval: number)
+    {
+        for (let track of this.tracks)
+        {
+            track.Transpose(interval);
+        }
+    }
 }

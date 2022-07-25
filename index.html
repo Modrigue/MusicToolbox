@@ -53,7 +53,7 @@
     <script src="js/functions_play.js"></script>
     <script src="js/strings.js"></script>
 
-    <!-- music generation -->
+    <!-- song generation -->
     <script src="js/note.js"></script>
     <script src="js/track.js"></script>
     <script src="js/song.js"></script>
@@ -68,6 +68,7 @@
       <button class="button-page" id="button_page_chord_explorer">Find chords</button>
       <button class="button-page" id="button_page_scale_explorer">Explore scales</button>
       <button class="button-page" id="button_page_scale_finder">Find scales</button>
+      <button class="button-page" id="button_page_song_generator">Generate a song</button>
       <span style='float: right;'>
         <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
         <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
@@ -323,6 +324,25 @@
 
       <p id='chord_tester'>?</p>
     </div>
+
+
+    <!-- ################## SONG GENERATOR (EXPERIMENTAL) ################# -->
+
+    <div id ='page_song_generator'>
+      
+      <p class='align-center'>
+        <span id="select_note_text_song_generator">Note:</span>
+        <select name="song_generator_start_note" id="song_generator_start_note"></select>
+        <select name="song_generator_start_octave" id="song_generator_start_octave"></select>
+        &nbsp;&nbsp;
+        <span id="song_generator_tempo_text">Tempo:</span>
+        <input type="number" id="song_generator_tempo" min="20" max="400" width="20" value="120"/>
+        &nbsp;&nbsp;
+        <button id="song_generator_play"><span class="play">Play ♪</span></button>
+      </p>
+      
+    </div>
+
 
     <script>
       // init: ensure immediate selected page display

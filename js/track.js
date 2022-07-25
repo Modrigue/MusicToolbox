@@ -13,5 +13,10 @@ class Track {
     AddNote(note) {
         this.notes.push(note);
     }
+    Transpose(interval) {
+        for (let note of this.notes) {
+            note.value += interval;
+        }
+    }
 }
 //# sourceMappingURL=track.js.map
