@@ -143,14 +143,11 @@ function playGeneratedSong() {
     // get selected start note
     const noteStartSelected = document.getElementById(`song_generator_start_note`).value;
     const noteStartValue = parseInt(noteStartSelected);
-    // get selected start octave
-    const octaveStartSelected = document.getElementById(`song_generator_start_octave`).value;
-    const octaveStartValue = parseInt(octaveStartSelected);
     // get selected tempo
     const tempoSelected = document.getElementById(`song_generator_tempo`).value;
     const tempoValue = parseInt(tempoSelected);
-    //playTestTrack(tempoValue, noteStartValue, octaveStartValue);
-    playTestSong(tempoValue, noteStartValue, octaveStartValue);
+    //playTestTrack(tempoValue, noteStartValue, 2);
+    playTestSong(tempoValue, noteStartValue, 2);
 }
 function playTestTrack(tempo, note, octave) {
     let notes = [];

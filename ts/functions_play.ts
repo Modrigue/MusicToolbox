@@ -211,17 +211,13 @@ function playGeneratedSong(): void
     // get selected start note
     const noteStartSelected: string = (<HTMLSelectElement>document.getElementById(`song_generator_start_note`)).value;
     const noteStartValue: number = parseInt(noteStartSelected);
-
-    // get selected start octave
-    const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`song_generator_start_octave`)).value;
-    const octaveStartValue: number = parseInt(octaveStartSelected);
     
     // get selected tempo
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
     const tempoValue: number = parseInt(tempoSelected);
 
-    //playTestTrack(tempoValue, noteStartValue, octaveStartValue);
-    playTestSong(tempoValue, noteStartValue, octaveStartValue);
+    //playTestTrack(tempoValue, noteStartValue, 2);
+    playTestSong(tempoValue, noteStartValue, 2);
 }
 
 

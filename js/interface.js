@@ -119,7 +119,6 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     }
     // update track generator selectors
     updateNoteSelector(`song_generator_start_note`, 0, false);
-    updateOctaveSelector(`song_generator_start_octave`, 0, 4, 2, false);
 }
 // get selected text from selector
 function getSelectorText(id) {
