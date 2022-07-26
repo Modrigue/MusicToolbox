@@ -196,6 +196,7 @@ function playTestSong(tempo, note, octave) {
     const song = new Song([track1, track2]);
     song.Transpose(note + 12 * octave);
     song.Tempo = tempo;
+    //song.Log();
     song.Play();
 }
 //# sourceMappingURL=functions_play.js.map

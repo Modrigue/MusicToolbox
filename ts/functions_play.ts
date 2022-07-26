@@ -277,5 +277,6 @@ function playTestSong(tempo: number, note:number, octave: number): void
     const song = new Song([track1, track2]);
     song.Transpose(note + 12*octave);
     song.Tempo = tempo;
+    //song.Log();
     song.Play();
 }

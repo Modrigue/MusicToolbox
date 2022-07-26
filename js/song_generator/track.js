@@ -15,8 +15,18 @@ class Track {
     }
     Transpose(interval) {
         for (let note of this.notes) {
-            note.value += interval;
+            note.Transpose(interval);
         }
+    }
+    // for debug purposes only
+    LogText() {
+        let logText = "[";
+        for (const note of this.notes) {
+            logText += note.LogText() + ", ";
+        }
+        logText = logText.slice(0, logText.lastIndexOf(", "));
+        logText += "]";
+        return logText;
     }
 }
 //# sourceMappingURL=track.js.map

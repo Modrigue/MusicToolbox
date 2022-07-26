@@ -27,7 +27,21 @@ class Track
     {
         for (let note of this.notes)
         {
-            note.value += interval;    
+            note.Transpose(interval);
         }
+    }
+
+    // for debug purposes only
+    public LogText(): string
+    {
+        let logText: string = "[";
+        for (const note of this.notes)
+        {
+            logText += note.LogText() + ", ";
+        }
+        logText = logText.slice(0, logText.lastIndexOf(", "));
+        logText += "]";
+
+        return logText;
     }
 }

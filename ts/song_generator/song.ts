@@ -26,4 +26,18 @@ class Song
             track.Transpose(interval);
         }
     }
+
+    // for debug purposes only
+    public Log(): void
+    {
+        let logText: string = "[";
+        for (const track of this.tracks)
+        {
+            logText += track.LogText() + ", ";
+        }
+        logText = logText.slice(0, logText.lastIndexOf(", "));
+        logText += "]";
+
+        console.log(logText);
+    }
 }

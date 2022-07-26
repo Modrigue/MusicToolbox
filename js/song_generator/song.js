@@ -14,5 +14,15 @@ class Song {
             track.Transpose(interval);
         }
     }
+    // for debug purposes only
+    Log() {
+        let logText = "[";
+        for (const track of this.tracks) {
+            logText += track.LogText() + ", ";
+        }
+        logText = logText.slice(0, logText.lastIndexOf(", "));
+        logText += "]";
+        console.log(logText);
+    }
 }
 //# sourceMappingURL=song.js.map
