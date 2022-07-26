@@ -59,7 +59,7 @@ window.onload = function () {
         document.getElementById(`chord_tester_scale${i}`).addEventListener("change", update);
     }
     // track generator
-    setVisible("button_page_song_generator", false); // experimental: disabled for now
+    //setVisible("button_page_song_generator", false); // experimental: disabled for now
     document.getElementById('song_generator_play').addEventListener("click", playGeneratedSong);
 };
 function initLanguage() {
@@ -119,6 +119,7 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     }
     // update track generator selectors
     updateNoteSelector(`song_generator_start_note`, 0, false);
+    updateScaleSelector(`song_generator_scale`, "7major_nat,1");
 }
 // get selected text from selector
 function getSelectorText(id) {
@@ -446,6 +447,7 @@ function updateLocales() {
         document.getElementById(`select_key_text_chord_tester${i}`).innerText = getString("select_key");
     document.getElementById(`key_notes_chord_tester_text`).innerText = getString("notes");
     // song generator
+    document.getElementById(`select_key_text_song_generator`).innerText = getString("select_key");
     document.getElementById("song_generator_tempo_text").innerText = `${getString("tempo")}`;
     document.getElementById("song_generator_play").innerText = `${getString("play")} ♪`;
     // update computed data

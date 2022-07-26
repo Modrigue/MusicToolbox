@@ -208,16 +208,28 @@ function onPlayChordInScale(nbNotesInChords: number, index: number, step: number
 
 function playGeneratedSong(): void
 {
-    // get selected start note
-    const noteStartSelected: string = (<HTMLSelectElement>document.getElementById(`song_generator_start_note`)).value;
-    const noteStartValue: number = parseInt(noteStartSelected);
+    // get selected tonic
+    const tonicSelected: string = (<HTMLSelectElement>document.getElementById(`song_generator_start_note`)).value;
+    const tonicValue: number = parseInt(tonicSelected);
     
+    // get selected scale
+    const scaleId = (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).value;
+    const scaleValues = getScaleValues(scaleId);
+
     // get selected tempo
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
-    const tempoValue: number = parseInt(tempoSelected);
+    const tempo: number = parseInt(tempoSelected);
 
-    //playTestTrack(tempoValue, noteStartValue, 2);
-    playTestSong(tempoValue, noteStartValue, 2);
+    const nbBars = 9;
+    let track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2);
+    let track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4);
+    const song = new Song([track1, track2]);
+    song.Tempo = tempo;
+    song.Log();
+    song.Play();
+
+    //playTestTrack(tempoValue, tonicValue, 2);
+    //playTestSong(tempoValue, tonicValue, 2);
 }
 
 

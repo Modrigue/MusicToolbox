@@ -74,7 +74,7 @@ window.onload = function()
     }
 
     // track generator
-    setVisible("button_page_song_generator", false); // experimental: disabled for now
+    //setVisible("button_page_song_generator", false); // experimental: disabled for now
     (<HTMLButtonElement>document.getElementById('song_generator_play')).addEventListener("click", playGeneratedSong);
 }
 
@@ -159,6 +159,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
 
     // update track generator selectors
     updateNoteSelector(`song_generator_start_note`, 0, false);
+    updateScaleSelector(`song_generator_scale`, "7major_nat,1");
 }
 
 // get selected text from selector
@@ -595,6 +596,7 @@ function updateLocales(): void
     (<HTMLSpanElement>document.getElementById(`key_notes_chord_tester_text`)).innerText = getString("notes");
 
     // song generator
+    (<HTMLSpanElement>document.getElementById(`select_key_text_song_generator`)).innerText = getString("select_key");
     (<HTMLButtonElement>document.getElementById("song_generator_tempo_text")).innerText = `${getString("tempo")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_play")).innerText = `${getString("play")} ♪`;
 

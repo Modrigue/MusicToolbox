@@ -54,9 +54,10 @@
     <script src="js/strings.js"></script>
 
     <!-- song generation -->
+    <script src="js/song_generator/counterpoint.js"></script>
     <script src="js/song_generator/note.js"></script>
-    <script src="js/song_generator/track.js"></script>
     <script src="js/song_generator/song.js"></script>
+    <script src="js/song_generator/track.js"></script>
   </head>
   <body>
 
@@ -331,11 +332,14 @@
     <div id ='page_song_generator'>
       
       <p class='align-center'>
-        <span id="select_note_text_song_generator">Note:</span>
+        Counterpoint 1:1 (Experimental)
+        <br/><br/>
+        <span id="select_key_text_song_generator">Key:</span>
         <select name="song_generator_start_note" id="song_generator_start_note"></select>
+        <select name="song_generator_scale" id="song_generator_scale"></select>
         &nbsp;&nbsp;
         <span id="song_generator_tempo_text">Tempo:</span>
-        <input type="number" id="song_generator_tempo" min="20" max="400" width="20" value="120"/>
+        <input type="number" id="song_generator_tempo" min="20" max="400" width="20" value="200"/>
         &nbsp;&nbsp;
         <button id="song_generator_play"><span class="play">Play ♪</span></button>
       </p>
