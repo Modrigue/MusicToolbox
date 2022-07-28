@@ -37,7 +37,7 @@ window.onload = function () {
     document.getElementById('reset_scale_finder').addEventListener("click", resetScaleFinder);
     document.getElementById("checkboxQuarterTonesScaleFinder").addEventListener("change", updateShowQuarterTonesInScaleFinder);
     // chord explorer
-    document.getElementById('chord_explorer_note').addEventListener("change", update);
+    document.getElementById('chord_explorer_fundamental').addEventListener("change", update);
     document.getElementById('chord_explorer_chord').addEventListener("change", update);
     document.getElementById('chord_explorer_bass').addEventListener("change", update);
     for (let i = 1; i <= 6; i++) {
@@ -59,7 +59,7 @@ window.onload = function () {
         document.getElementById(`chord_tester_scale${i}`).addEventListener("change", update);
     }
     // track generator
-    //setVisible("button_page_song_generator", false); // experimental: disabled for now
+    setVisible("button_page_song_generator", false); // experimental: disabled for now
     document.getElementById('song_generator_play').addEventListener("click", playGeneratedSong);
 };
 function initLanguage() {
@@ -102,9 +102,9 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     }
     updateNoteSelector('note_finder_tonic', -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
     // update chord explorer selectors
-    updateNoteSelector('chord_explorer_note', 0, false);
+    updateNoteSelector('chord_explorer_fundamental', 0, false);
     initChordSelector('chord_explorer_chord', "M", false);
-    updateNoteSelector("chord_explorer_bass", -1, true);
+    updateNoteSelector("chord_explorer_bass", -1, true, false, true);
     initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');
     updateNbStringsForChordSelector();
@@ -367,7 +367,7 @@ function updateChordGeneratorMode() {
     // get select nb. of strings
     const nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     // name mode
-    setEnabled("chord_explorer_note", nameMode);
+    setEnabled("chord_explorer_fundamental", nameMode);
     setEnabled("chord_explorer_chord", nameMode);
     setEnabled("chord_explorer_arpeggio_notes", nameMode);
     setEnabled("chord_explorer_arpeggio_intervals", nameMode);

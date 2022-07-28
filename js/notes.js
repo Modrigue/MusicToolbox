@@ -59,7 +59,7 @@ notesDicts.set("fr", notesDict_fr);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 // add interval to note value
 function addToNoteValue(noteValue, interval) {
-    return ((noteValue + interval) % 12);
+    return ((noteValue + interval + 12) % 12);
 }
 function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, showMicrotones = false, reset = false) {
     // get selected culture
@@ -68,7 +68,10 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, s
     const noteSelect = document.getElementById(id);
     const initialized = (noteSelect.options != null && noteSelect.options.length > 0);
     const notesDict = notesDicts.get(lang);
-    const noteParamValue = parseNoteParameter();
+    let noteParamValue = parseNoteParameter();
+    // bass specific
+    if (id == "chord_explorer_bass")
+        noteParamValue = parseBassParameter();
     if (noteParamValue >= 0)
         defaultNoteValue = noteParamValue;
     // do not set default values for scale finder / chord finder notes selectors

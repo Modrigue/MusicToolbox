@@ -91,21 +91,13 @@ function playScale(noteValue: number, scaleValues: Array<number>,
     // }
 }
 
-function playChord(noteValue: number, chordValues: Array<number>,
-    duration: number, delay: number = 0, bass: number = -1): void
+function playChord(fondamentalValue: number, chordValues: Array<number>,
+    duration: number, delay: number = 0, bassValue: number = -1): void
 {
-    let intervalsToPlay = cloneIntegerArray(chordValues);
-    
-    // play bass if specified
-    if (bass >= 0 && bass != noteValue)
+    let chordValuesToPlay = getChordIntervalsWithBass(fondamentalValue, chordValues, bassValue);
+    chordValuesToPlay.forEach(function (intervalValue, index)
     {
-        const bassInterval = ((bass - noteValue) % 12) - 12;
-        intervalsToPlay.unshift(bassInterval);
-    }
-    
-    intervalsToPlay.forEach(function (intervalValue, index)
-    {
-        playNote(noteValue + intervalValue, duration + index*delay);
+        playNote(fondamentalValue + intervalValue, duration + index*delay);
     });
 }
 

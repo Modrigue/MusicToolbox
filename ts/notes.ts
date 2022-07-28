@@ -65,11 +65,12 @@ notesDicts.set("fr", notesDict_fr);
 // add interval to note value
 function addToNoteValue(noteValue: number, interval: number): number
 {
-  return ((noteValue + interval) % 12);
+  return ((noteValue + interval + 12) % 12);
 }
 
 function updateNoteSelector(id: string, defaultNoteValue: number = -1,
-    firstNoteEmpty: boolean = false, showMicrotones: boolean = false, reset: boolean = false): void
+    firstNoteEmpty: boolean = false, showMicrotones: boolean = false,
+    reset: boolean = false): void
 {
 // get selected culture
     const lang = getSelectedCulture();
@@ -79,7 +80,12 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1,
     const initialized: boolean = (noteSelect.options != null && noteSelect.options.length > 0);
     const notesDict : Map<number, string> = <Map<number, string>>notesDicts.get(lang);
 
-    const noteParamValue: number = parseNoteParameter();
+    let noteParamValue: number = parseNoteParameter();
+
+    // bass specific
+    if (id == "chord_explorer_bass")
+        noteParamValue = parseBassParameter();
+
     if (noteParamValue >= 0)
         defaultNoteValue = noteParamValue;
 

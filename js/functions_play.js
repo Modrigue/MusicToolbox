@@ -65,15 +65,10 @@ function playScale(noteValue, scaleValues, bass = false, backwards = false) {
     //     playNote(noteValue - 12, duration*(nbNotes));
     // }
 }
-function playChord(noteValue, chordValues, duration, delay = 0, bass = -1) {
-    let intervalsToPlay = cloneIntegerArray(chordValues);
-    // play bass if specified
-    if (bass >= 0 && bass != noteValue) {
-        const bassInterval = ((bass - noteValue) % 12) - 12;
-        intervalsToPlay.unshift(bassInterval);
-    }
-    intervalsToPlay.forEach(function (intervalValue, index) {
-        playNote(noteValue + intervalValue, duration + index * delay);
+function playChord(fondamentalValue, chordValues, duration, delay = 0, bassValue = -1) {
+    let chordValuesToPlay = getChordIntervalsWithBass(fondamentalValue, chordValues, bassValue);
+    chordValuesToPlay.forEach(function (intervalValue, index) {
+        playNote(fondamentalValue + intervalValue, duration + index * delay);
     });
 }
 function playChords(noteValue, scaleValues, chordValuesArray, duration) {

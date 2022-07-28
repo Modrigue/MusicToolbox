@@ -346,35 +346,36 @@ function getSelectedChordExplorerNotes() {
     return noteValues;
 }
 function updateFoundChordElements() {
-    let noteFondamental = -1;
-    let noteBass = -1;
-    let noteSelected = "";
+    let fondamentalValue = -1;
+    let bassValue = -1;
+    let fundamentalSelected = "";
     let intervalValues = [];
     let selectedMode = getSelectedChordGeneratorMode();
     if (selectedMode == "name") {
         // update arpeggios texts
-        const noteSelector = document.getElementById('chord_explorer_note');
-        noteSelected = noteSelector.value;
-        noteFondamental = parseInt(noteSelected);
+        const fundamentalSelector = document.getElementById('chord_explorer_fundamental');
+        fundamentalSelected = fundamentalSelector.value;
+        fondamentalValue = parseInt(fundamentalSelected);
         const chordSelector = document.getElementById('chord_explorer_chord');
         const chordSelected = chordSelector.value;
         intervalValues = getChordValues(chordSelected);
         const notesArpeggio = document.getElementById('chord_explorer_arpeggio_notes');
         const intervalsArpeggio = document.getElementById('chord_explorer_arpeggio_intervals');
-        notesArpeggio.innerHTML = getArpeggioNotesText(noteFondamental, intervalValues);
-        intervalsArpeggio.innerHTML = getArpeggioIntervals(intervalValues);
         const bassSelector = document.getElementById('chord_explorer_bass');
         const bassSelected = bassSelector.value;
-        noteBass = parseInt(bassSelected);
+        bassValue = parseInt(bassSelected);
+        const bassInterval = (bassValue >= 0) ? (bassValue - fondamentalValue + 12) % 12 : -1;
+        notesArpeggio.innerHTML = getArpeggioNotesText(fondamentalValue, intervalValues, -1, [], bassValue);
+        intervalsArpeggio.innerHTML = getArpeggioIntervals(intervalValues, bassInterval);
     }
     else {
         // take 1st selected note as fundamental
         const selectedNotesValues = getSelectedChordExplorerNotes();
-        noteFondamental = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
-        noteSelected = noteFondamental.toString();
+        fondamentalValue = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
+        fundamentalSelected = fondamentalValue.toString();
         // compute chord relative values given fundamental
         for (let noteValue of selectedNotesValues)
-            intervalValues.push((noteValue - noteFondamental) % 12);
+            intervalValues.push((noteValue - fondamentalValue) % 12);
         const culture = getSelectedCulture();
         // update found chords text
         const foundChordsTexts = document.getElementById('chord_explorer_found_chords_texts');
@@ -407,10 +408,10 @@ function updateFoundChordElements() {
     }
     // update play chord button callback
     let buttonPlayChord = document.getElementById("play_found_chord");
-    buttonPlayChord.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0, 0, ${noteBass})`);
+    buttonPlayChord.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0, ${bassValue})`);
     // update play arpeggio button callback
     let buttonPlayArpeggio = document.getElementById("play_found_arpeggio");
-    buttonPlayArpeggio.setAttribute("onClick", `playChord(${noteSelected}, [${intervalValues.toString()}], 0, 0.25, ${noteBass})`);
+    buttonPlayArpeggio.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0.25, ${bassValue})`);
 }
 function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false) {
     const generatedGuitarChords = document.getElementById('generated_guitar_chords');
@@ -422,7 +423,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     // get selected parameters given mode
     let selectedMode = getSelectedChordGeneratorMode();
     if (selectedMode == "name") {
-        const noteSelector = document.getElementById('chord_explorer_note');
+        const noteSelector = document.getElementById('chord_explorer_fundamental');
         const noteSelected = noteSelector.value;
         const chordSelector = document.getElementById('chord_explorer_chord');
         chordSelected = chordSelector.value;

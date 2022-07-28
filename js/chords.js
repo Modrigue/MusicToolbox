@@ -235,6 +235,45 @@ function getChordValues(id) {
                 return value;
     return [];
 }
+function getChordIntervalsWithBass(fondamentalValue, chordValues, bassValue = -1) {
+    let chordValuesWithBass = cloneIntegerArray(chordValues);
+    const fondamentalValueInOctave = (fondamentalValue % 12);
+    // add bass if specified
+    if (bassValue >= 0 && bassValue != fondamentalValueInOctave) {
+        // check if bass corresponds to chord inversion
+        const bassIntervalValue = (bassValue - fondamentalValueInOctave + 12) % 12;
+        let bassIndex = -1;
+        for (let octave = 0; octave <= 2; octave++) {
+            bassIndex = chordValuesWithBass.indexOf(bassIntervalValue + 12 * octave);
+            if (bassIndex >= 0)
+                break;
+        }
+        // bass corresponds to chord inversion
+        if (bassIndex >= 0) {
+            // 1st pass: invert chord
+            for (let i = 0; i < bassIndex; i++) {
+                const interval = chordValuesWithBass.shift(); // remove 1st element
+                chordValuesWithBass.push(interval + 12);
+            }
+            // 2nd pass: check intervals ascending order and correct octave if needed
+            for (let i = 1; i < chordValuesWithBass.length; i++) {
+                const intervalPrev = chordValuesWithBass[i - 1];
+                const intervalCur = chordValuesWithBass[i];
+                if (intervalCur <= intervalPrev) {
+                    for (let j = i; j < chordValuesWithBass.length; j++) {
+                        while (chordValuesWithBass[j] <= chordValuesWithBass[j - 1])
+                            chordValuesWithBass[j] += 12;
+                    }
+                }
+            }
+        }
+        // not a chord inversion
+        else {
+            chordValuesWithBass.unshift(bassIntervalValue - 12);
+        }
+    }
+    return chordValuesWithBass;
+}
 ////////////////////////////// CHORDS NOTATIONS ///////////////////////////////
 // get chord compact representation (for tables)
 function getCompactChordNotation(text, chordID) {
@@ -284,29 +323,42 @@ function getAltChordNotation(chordId) {
     return notation;
 }
 ////////////////////////////////// ARPEGGIOS //////////////////////////////////
-function getArpeggioNotesText(noteFondamental, chordValues, noteTonic = -1, charNotesValues = []) {
+function getArpeggioNotesText(fondamentalValue, chordValues, noteTonic = -1, charNotesValues = [], bassValue = -1) {
     let arpeggioNotesStr = "";
-    chordValues.forEach(function (intervalValue) {
-        const newNoteValue = addToNoteValue(noteFondamental, intervalValue);
-        const noteName = getNoteName(newNoteValue);
+    let chordValuesToDisplay = getChordIntervalsWithBass(fondamentalValue, chordValues, bassValue);
+    let hasDisplayedBass = false;
+    for (const intervalValue of chordValuesToDisplay) {
+        const curNoteValue = addToNoteValue(fondamentalValue, intervalValue);
+        // skip bass if existing and already processed
+        if (bassValue >= 0)
+            if (bassValue != fondamentalValue && curNoteValue == bassValue) {
+                if (!hasDisplayedBass)
+                    hasDisplayedBass = true;
+                else
+                    continue;
+            }
+        const noteName = getNoteName(curNoteValue);
         const noteSpan = document.createElement("span");
         noteSpan.textContent = noteName;
-        if (noteTonic >= 0 && newNoteValue == noteTonic)
+        if (noteTonic >= 0 && curNoteValue == noteTonic)
             noteSpan.classList.add("span-tonic");
-        else if (charNotesValues.length > 0 && charNotesValues.indexOf(newNoteValue) >= 0)
+        else if (charNotesValues.length > 0 && charNotesValues.indexOf(curNoteValue) >= 0)
             noteSpan.classList.add("span-char");
         arpeggioNotesStr += noteSpan.outerHTML;
         arpeggioNotesStr += `, `;
-    });
+    }
     arpeggioNotesStr = arpeggioNotesStr.slice(0, -2);
     return arpeggioNotesStr;
 }
-function getArpeggioIntervals(chordValues) {
+function getArpeggioIntervals(chordValues, bassInterval = -1) {
     let arpeggioIntervalsStr = "";
-    chordValues.forEach(function (intervalValue) {
-        let intervalName = intervalsDict.get(intervalValue);
-        if (intervalName == "T")
-            intervalName = "F"; // fondamental
+    let chordValuesToDisplay = (bassInterval > 0) ?
+        getChordIntervalsWithBass(0, chordValues, bassInterval) :
+        cloneIntegerArray(chordValues);
+    //if (bassInterval >= 0)
+    //    console.log(chordValuesToDisplay);
+    chordValuesToDisplay.forEach(function (intervalValue) {
+        let intervalName = getIntervalChordNotation(intervalValue);
         arpeggioIntervalsStr += `${intervalName}, `;
     });
     arpeggioIntervalsStr = arpeggioIntervalsStr.slice(0, -2);

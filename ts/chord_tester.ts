@@ -134,8 +134,8 @@ function updateChordTesterTables(noteStartValue: number, octaveStartValue: numbe
                 if (nbKeys == 1)
                     for (const [tonicValue, scaleId] of tonicScaleIdArray)
                     {
-                        if (isChordNeapolitan(tonicValue, noteValue, chordId))
-                            divChord.innerText +=  ` / ${noteName}N6`;
+                        //if (isChordNeapolitan(tonicValue, noteValue, chordId))
+                        //    divChord.innerText +=  ` / ${noteName}N6`;
                         if (isChordGermanAug6th(tonicValue, noteValue, chordId))
                             divChord.innerText +=  ` / ${noteName}Ger+6`;
                     }

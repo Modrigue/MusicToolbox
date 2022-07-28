@@ -324,7 +324,8 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     let paragraph = document.createElement('p');
     paragraph.innerHTML = `${getString("chord_neapolitan")} `;
 
-    // bII chord
+    // bII chord at 1st inversion
+
     let noteValue = addToNoteValue(tonicValue, 1);
     const chordId = "M";
     const chordValues = getChordValues(chordId);
@@ -332,10 +333,13 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     const noteName = getNoteName(noteValue);
     const chordNoteName = getCompactChordNotation(noteName, chordId);
 
+    const bassValue = addToNoteValue(noteValue, chordValues[1]);
+    const bassName = getNoteName(bassValue);
+
     // build button
     let neapChordHTML = "";
     let button = document.createElement('button');
-    button.innerText = chordNoteName + ` / ${noteName}N6`;
+    button.innerText = `${chordNoteName} / ${bassName}`;
     button.classList.add("border-left-radius");
     button.classList.add("button-neap-interactive");
 
@@ -343,6 +347,7 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     let url = window.location.pathname;
     url += "?note=" + noteValue.toString();
     url += "&chord=" + chordId;
+    url += "&bass=" + bassValue;
     url += "&lang=" + culture;
     if (pageSelected == "page_scale_explorer")
     {
@@ -356,7 +361,7 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
 
     // set notes as tooltip
     button.title =
-        getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
+        getArpeggioNotesText(noteValue, chordValues, -1, [], bassValue).replace(/<span>/g, "").replace(/<\/span>/g, "");
     
     neapChordHTML += `${button.outerHTML}`;
 
@@ -369,11 +374,11 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
 
     // set notes as tooltip
     buttonPlay.title =
-        getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");  
+        getArpeggioNotesText(noteValue, chordValues, -1, [], bassValue).replace(/<span>/g, "").replace(/<\/span>/g, "");  
 
     if (noteValue < tonicValue)
         noteValue += 12;
-    buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
+    buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0, ${bassValue})`);
     
     neapChordHTML += `${buttonPlay.outerHTML}\r\n`;
 

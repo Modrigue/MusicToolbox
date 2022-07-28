@@ -23,6 +23,15 @@ function parseNoteParameter() {
     const noteValue = parseFloat(note) % 12;
     return noteValue;
 }
+// get bass parameter
+function parseBassParameter() {
+    const paramsDict = parseParameters();
+    if (paramsDict == null || !paramsDict.has("bass"))
+        return -1;
+    const note = paramsDict.get("bass");
+    const noteValue = parseFloat(note) % 12;
+    return noteValue;
+}
 // get parameter by id
 function parseParameterById(id) {
     const paramsDict = parseParameters();

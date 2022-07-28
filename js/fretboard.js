@@ -384,7 +384,7 @@ function updateChordFretboard(positionsArray, showBarres = true) {
         let noteFondamental = -1;
         let selectedMode = getSelectedChordGeneratorMode();
         if (selectedMode == "name") {
-            const noteExplorerChordInput = document.getElementById('chord_explorer_note');
+            const noteExplorerChordInput = document.getElementById('chord_explorer_fundamental');
             const noteSelected = noteExplorerChordInput.value;
             noteFondamental = parseInt(noteSelected);
         }

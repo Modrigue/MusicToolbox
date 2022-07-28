@@ -32,6 +32,20 @@ function parseNoteParameter(): number
   return noteValue;
 }
 
+// get bass parameter
+function parseBassParameter(): number
+{
+  const paramsDict: Map<string, string> = parseParameters();
+
+  if (paramsDict == null || !paramsDict.has("bass"))
+    return -1;
+
+  const note: string = <string>paramsDict.get("bass");
+  const noteValue: number = /*parseInt*/parseFloat(note) % 12;
+  
+  return noteValue;
+}
+
 // get parameter by id
 function parseParameterById(id: string): string
 {

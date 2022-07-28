@@ -1,7 +1,7 @@
 // intervals dictionnary
 const intervalsDict :Map<number, string> = new Map<number, string>();
 intervalsDict.set(0,   "T");
-intervalsDict.set(0.5, "‡T");
+intervalsDict.set(0.5, "T‡");
 intervalsDict.set(1,   "♭2");
 intervalsDict.set(1.5, "d2");
 intervalsDict.set(2,   "2");
@@ -26,22 +26,18 @@ intervalsDict.set(11  , "7");
 intervalsDict.set(11.5, "⧥7");
 
 // >= 1 octave
-intervalsDict.set(12  , "8");
-intervalsDict.set(12.5, "8‡");
 intervalsDict.set(13  , "♭9");
 intervalsDict.set(13.5, "d9");
 intervalsDict.set(14  , "9");
 intervalsDict.set(14.5, "‡9");
 intervalsDict.set(15  , "#9");
-intervalsDict.set(15.5, "d10");
-intervalsDict.set(16  , "♭11");
 intervalsDict.set(16.5, "d11");
 intervalsDict.set(17  , "11");
 intervalsDict.set(17.5, "‡11");
 intervalsDict.set(18  , "#11");
+intervalsDict.set(20  , "b13");
 intervalsDict.set(21  , "13");
 intervalsDict.set(21.5, "‡13");
-intervalsDict.set(26  , "16");
 
 function getAltIntervalNotation(intervalValue: number, index: number): string
 {
@@ -79,6 +75,24 @@ function getAltIntervalNotation(intervalValue: number, index: number): string
   }
 
   return "?";
+}
+
+function getIntervalChordNotation(intervalValue: number): string
+{
+  let intervalName = "";
+
+  if (intervalsDict.has(intervalValue))
+    intervalName = <string>intervalsDict.get(intervalValue);
+  else
+  {
+    intervalName = <string>intervalsDict.get((intervalValue + 12) % 12);
+
+    const octave = Math.floor(intervalValue / 12);
+    intervalName += `(${octave}ve)`
+  }
+
+  intervalName = intervalName.replace("T", "F");
+  return intervalName;
 }
 
 function getIntervalString(intervalName: string, intervalNameAlt: string): string
