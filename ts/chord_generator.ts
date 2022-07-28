@@ -516,6 +516,8 @@ function updateFoundChordElements()
     let fundamentalSelected = "";
     let intervalValues = [];
 
+    let selectedNotesValues: Array<number> = [];
+
     let selectedMode: string = <string>getSelectedChordGeneratorMode();
     if (selectedMode == "name")
     {
@@ -537,57 +539,79 @@ function updateFoundChordElements()
 
         notesArpeggio.innerHTML = getArpeggioNotesText(fondamentalValue, intervalValues, -1, [], bassValue);
         intervalsArpeggio.innerHTML = getArpeggioIntervals(intervalValues, bassInterval);
+
+        // get corresponding notes values
+
+        for (const intervalValue of intervalValues)
+            selectedNotesValues.push(addToNoteValue(fondamentalValue, intervalValue));
+
+        if (bassValue >= 0 && selectedNotesValues.indexOf(bassValue) == -1)
+            selectedNotesValues.push(bassValue);
     }
     else
     {
         // take 1st selected note as fundamental
-        const selectedNotesValues = getSelectedChordExplorerNotes();
+        selectedNotesValues = getSelectedChordExplorerNotes();
         fondamentalValue = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
         fundamentalSelected = fondamentalValue.toString();
 
         // compute chord relative values given fundamental
         for (let noteValue of selectedNotesValues)
             intervalValues.push((noteValue - fondamentalValue) % 12);
-
-        const culture = getSelectedCulture();
-
-        // update found chords text
-        const foundChordsTexts: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_found_chords_texts');
-        const foundChords: Array<[number, string]> = findChords(selectedNotesValues);
-        let foundChordsStr = "";
-        let index = 0;
-        for (let noteChord of foundChords)
-        {
-            const noteValue = noteChord[0];
-            const chordId = noteChord[1];
-
-            const noteName = getNoteName(noteValue);
-            const chordNoteName = getCompactChordNotation(noteName, chordId);
-
-            // build button
-            let button = document.createElement('button');
-            button.innerText = chordNoteName;
-
-            // build URL
-            let url = window.location.pathname;
-            url += "?note=" + noteValue.toString();
-            url += "&chord=" + chordId;
-            url += "&lang=" + culture;
-            url += "&guitar_nb_strings=" + getSelectedGuitarNbStrings("chord_explorer_guitar_nb_strings");
-            url += "&guitar_tuning=" + getSelectedGuitarTuningId("chord_explorer_guitar_tuning");
-            
-            const callbackString = `openNewTab(\"${url}\")`;
-            button.setAttribute("onClick", callbackString);
-
-            if (index > 0)
-                foundChordsStr += " ";
-            foundChordsStr += button.outerHTML;
-            
-            index++;
-        }
-
-        foundChordsTexts.innerHTML = foundChordsStr;
     }
+
+    const culture = getSelectedCulture();
+
+    // update found chords text
+    const foundChordsTexts: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_found_chords_texts');
+    const foundChords: Array<[number, string]> = findChords(selectedNotesValues);
+    let foundChordsStr = "";
+    let index = 0;
+    for (let noteChord of foundChords)
+    {
+        const noteValue = noteChord[0];
+        const chordId = noteChord[1];
+
+        // skip already selected chord
+        if (selectedMode == "name")
+        if (noteValue == fondamentalValue)
+            continue;
+
+        const noteName = getNoteName(noteValue);
+        const chordNoteName = getCompactChordNotation(noteName, chordId);
+
+        // build button
+        let button = document.createElement('button');
+        button.innerText = chordNoteName;
+        button.classList.add("border-left-radius");
+
+        // build URL
+        let url = window.location.pathname;
+        url += "?note=" + noteValue.toString();
+        url += "&chord=" + chordId;
+        url += "&lang=" + culture;
+        url += "&guitar_nb_strings=" + getSelectedGuitarNbStrings("chord_explorer_guitar_nb_strings");
+        url += "&guitar_tuning=" + getSelectedGuitarTuningId("chord_explorer_guitar_tuning");
+        
+        const callbackString = `openNewTab(\"${url}\")`;
+        button.setAttribute("onClick", callbackString);
+
+        if (index > 0)
+            foundChordsStr += " ";
+        foundChordsStr += button.outerHTML;
+
+        // build play button
+        const chordValues = getChordValues(chordId);
+        let buttonPlay = document.createElement('button');
+        buttonPlay.innerText = "♪";
+        buttonPlay.classList.add("border-right-radius");
+        buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
+        foundChordsStr += `${buttonPlay.outerHTML}\r\n`;
+        
+        index++;
+    }
+
+    foundChordsTexts.innerHTML = foundChordsStr;
 
     // update play chord button callback
     let buttonPlayChord: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_chord");

@@ -497,7 +497,6 @@ function updateChordGeneratorMode(): void
     setVisible("chord_explorer_arpeggio_texts", nameMode);
 
     // notes mode
-    setVisible("chord_explorer_found_chords_texts", !nameMode);
     for (let i = 1; i <= 6; i++)
     {
         const enableSelector: boolean = !nameMode && (i <= nbStrings);
