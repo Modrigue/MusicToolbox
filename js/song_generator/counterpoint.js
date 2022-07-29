@@ -1,7 +1,7 @@
 "use strict";
 const perfectConsonances = [0, 7]; // octave and 5th
 const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
-const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
+const dissonances = [1, 2, 5, 6, 10, 11, 0.5, 11.5]; // 2nds, 4ths and 7ths
 function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, trackExisting = new Track()) {
     let track = new Track();
     const nbNotesInScale = scaleValues.length;
@@ -16,11 +16,14 @@ function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, tr
     // 1st note = tonic
     track.AddNote(new Note(tonicValue, octave, 4, 0));
     // generate random notes in scale
+    const nbTries = 10000;
     let curNoteIndex = scaleNotesValues.indexOf(tonicValue + 12 * (octave + 2));
     for (let barIndex = 1; barIndex < nbBars - 1; barIndex++) {
         let noteValueNext = -1;
         let nextNoteIndex = -1;
-        while (!acceptNote(noteValueNext, tonicValue, barIndex, nbBars, track, trackExisting)) {
+        for (let i = 0; i < nbTries; i++) 
+        //while (!acceptNote(noteValueNext, tonicValue, barIndex, nbBars, track, trackExisting))
+        {
             // get random step
             let indexIntervalNext = getRandomNumber(-nbNotesInScale + 1, nbNotesInScale - 1);
             //while (indexIntervalNext == 0)
@@ -29,6 +32,8 @@ function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, tr
             nextNoteIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, nextNoteIndex));
             noteValueNext = scaleNotesValues[nextNoteIndex];
             //console.log(curNoteIndex, indexIntervalNext, nextNoteIndex, noteValueNext);
+            if (acceptNote(noteValueNext, tonicValue, barIndex, nbBars, track, trackExisting))
+                break;
         }
         // ok, add note
         const valueNext = noteValueNext % 12;
