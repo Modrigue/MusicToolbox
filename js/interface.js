@@ -60,6 +60,8 @@ window.onload = function () {
     }
     // song generator
     //setVisible("button_page_song_generator", false); // experimental: disabled for now
+    document.getElementById(`song_generator_tonic`).addEventListener("change", generateNewSong);
+    document.getElementById(`song_generator_scale`).addEventListener("change", generateNewSong);
     document.getElementById('song_generator_generate').addEventListener("click", generateNewSong);
     document.getElementById('song_generator_play').addEventListener("click", playGeneratedSong);
 };
@@ -119,7 +121,7 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
         updateScaleSelector(`chord_tester_scale${i}`, "7major_nat,1", false /* no quarter tones */);
     }
     // update track generator selectors
-    updateNoteSelector(`song_generator_start_note`, 0, false);
+    updateNoteSelector(`song_generator_tonic`, 0, false);
     updateScaleSelector(`song_generator_scale`, "7major_nat,1");
 }
 // get selected text from selector

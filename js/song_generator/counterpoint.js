@@ -1,7 +1,11 @@
 "use strict";
-function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave) {
+const perfectConsonances = [0, 7]; // octave and 5th
+const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
+const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
+function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, trackExisting = new Track()) {
     let track = new Track();
     const nbNotesInScale = scaleValues.length;
+    const hasExistingTrack = (trackExisting.notes != null && trackExisting.notes.length > 0);
     // build allowed scale notes array
     let scaleNotesValues = [];
     for (let octaveCur = octave - 1; octaveCur <= octave; octaveCur++) {
@@ -13,27 +17,94 @@ function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave) {
     track.AddNote(new Note(tonicValue, octave, 4, 0));
     // generate random notes in scale
     let curNoteIndex = scaleNotesValues.indexOf(tonicValue + 12 * (octave + 2));
-    for (let i = 1; i < nbBars - 1; i++) {
-        // get random step
-        let indexIntervalNext = getRandomNumber(-nbNotesInScale, nbNotesInScale);
-        //while (indexIntervalNext == 0)
-        //    indexIntervalNext = getRandomNumber(-nbNotesInScale, nbNotesInScale);
-        let nextNoteIndex = curNoteIndex + indexIntervalNext;
-        nextNoteIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, nextNoteIndex));
-        const noteValueNext = scaleNotesValues[nextNoteIndex];
-        //console.log(curNoteIndex, indexIntervalNext, nextNoteIndex, noteValueNext);
-        // add note
+    for (let barIndex = 1; barIndex < nbBars - 1; barIndex++) {
+        let noteValueNext = -1;
+        let nextNoteIndex = -1;
+        while (!acceptNote(noteValueNext, tonicValue, barIndex, nbBars, track, trackExisting)) {
+            // get random step
+            let indexIntervalNext = getRandomNumber(-nbNotesInScale + 1, nbNotesInScale - 1);
+            //while (indexIntervalNext == 0)
+            //    indexIntervalNext = getRandomNumber(-nbNotesInScale, nbNotesInScale);
+            nextNoteIndex = curNoteIndex + indexIntervalNext;
+            nextNoteIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, nextNoteIndex));
+            noteValueNext = scaleNotesValues[nextNoteIndex];
+            //console.log(curNoteIndex, indexIntervalNext, nextNoteIndex, noteValueNext);
+        }
+        // ok, add note
         const valueNext = noteValueNext % 12;
         const octaveNext = Math.floor(noteValueNext / 12) - 2;
-        track.AddNote(new Note(valueNext, octaveNext, 4, 4 * i));
+        track.AddNote(new Note(valueNext, octaveNext, 4, 4 * barIndex));
         curNoteIndex = nextNoteIndex;
     }
-    // TODO: counterpoint rules
-    // TODO: smoothen resolution to tonic at end
-    // last note = tonic
-    track.AddNote(new Note(tonicValue, octave, 4, 4 * (nbBars - 1)));
+    // last note: fetch nearest tonic
+    let distMin = -1;
+    let octaveEnd = -1;
+    const lastNoteValue = track.GetNoteValue(track.notes.length - 1);
+    for (let octaveCur = octave - 1; octaveCur <= octave; octaveCur++) {
+        const dist = Math.abs(lastNoteValue - (tonicValue + 12 * (octaveCur + 2)));
+        if (distMin < 0 || dist < distMin) {
+            distMin = dist;
+            octaveEnd = octaveCur;
+        }
+    }
+    track.AddNote(new Note(tonicValue, octaveEnd, 4, 4 * (nbBars - 1)));
     //console.log(track.LogText());
     return track;
+}
+function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, trackExisting = new Track()) {
+    if (noteValue < 0)
+        return false;
+    const hasExistingTrack = (trackExisting.notes != null && trackExisting.notes.length > 0);
+    // do not set tonic at starting or ending bars (except final bar)
+    const range = 2;
+    if (noteValue % 12 == tonicValue % 12)
+        if (barIndex <= range /* start */ || nbBars - barIndex - 1 <= range /* end */)
+            return false;
+    // do no set 2 consecutive unissons
+    if (trackCurrent.notes.length > 2) {
+        const lastNoteValue1 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 1);
+        const lastNoteValue2 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 2);
+        if (lastNoteValue1 == lastNoteValue2 && noteValue == lastNoteValue1)
+            return false;
+    }
+    // TODO: counterpoint rules
+    if (hasExistingTrack) {
+        // compute current candidate interval with existing track note
+        const existingNoteValue1 = trackExisting.GetNoteValue(barIndex);
+        const curInterval1 = getIntervalBetweenNotes(noteValue, existingNoteValue1);
+        // avoid dissonant intervals
+        if (dissonances.indexOf(curInterval1) >= 0)
+            return false;
+        const existingNoteValue2 = trackExisting.GetNoteValue(barIndex - 1);
+        const curNoteValue2 = trackCurrent.GetNoteValue(barIndex - 1);
+        const curInterval2 = getIntervalBetweenNotes(curNoteValue2, existingNoteValue2);
+        // avoid parallel octaves and 5ths
+        if (curInterval1 == 7 && curInterval2 == 7)
+            return false;
+        if (curInterval1 == 0 && curInterval2 == 0)
+            return false;
+        if (curInterval1 == 0 && barIndex == nbBars - 2)
+            return false;
+        // avoid direct octaves and 5ths
+        const curMotion = getMotionBetweenNotes(curNoteValue2, noteValue);
+        const existingMotion = getMotionBetweenNotes(existingNoteValue2, existingNoteValue1);
+        const hasSameMotion = (curMotion == existingMotion);
+        if (hasSameMotion && (curInterval1 == 0 || curInterval1 == 7))
+            return false;
+    }
+    return true;
+}
+function getIntervalBetweenNotes(noteValue1, noteValue2) {
+    const note1 = (noteValue1 % 12);
+    const note2 = (noteValue2 % 12);
+    return (note1 - note2 + 12) % 12;
+}
+function getMotionBetweenNotes(noteValuePrev, noteValueNext) {
+    if (noteValueNext > noteValuePrev)
+        return 1;
+    else if (noteValueNext < noteValuePrev)
+        return -1;
+    return 0;
 }
 function getRandomNumber(minNumber, maxNumber /* included */) {
     return Math.floor(minNumber + (maxNumber + 1 - minNumber) * Math.random());

@@ -13,6 +13,11 @@ class Track {
     AddNote(note) {
         this.notes.push(note);
     }
+    GetNoteValue(index) {
+        if (index < 0 || index >= this.notes.length)
+            return -1;
+        return this.notes[index].noteValue;
+    }
     Transpose(interval) {
         for (let note of this.notes) {
             note.Transpose(interval);

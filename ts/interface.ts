@@ -75,6 +75,8 @@ window.onload = function()
 
     // song generator
     //setVisible("button_page_song_generator", false); // experimental: disabled for now
+    (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).addEventListener("change", generateNewSong);
+    (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).addEventListener("change", generateNewSong); 
     (<HTMLButtonElement>document.getElementById('song_generator_generate')).addEventListener("click", generateNewSong);
     (<HTMLButtonElement>document.getElementById('song_generator_play')).addEventListener("click", playGeneratedSong);
 }
@@ -159,7 +161,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     }
 
     // update track generator selectors
-    updateNoteSelector(`song_generator_start_note`, 0, false);
+    updateNoteSelector(`song_generator_tonic`, 0, false);
     updateScaleSelector(`song_generator_scale`, "7major_nat,1");
 }
 

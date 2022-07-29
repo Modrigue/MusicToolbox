@@ -23,6 +23,14 @@ class Track
         this.notes.push(note);
     }
 
+    public GetNoteValue(index: number): number
+    {
+        if (index < 0 || index >= this.notes.length)
+            return -1;
+        
+        return this.notes[index].noteValue;
+    }
+
     public Transpose(interval: number)
     {
         for (let note of this.notes)
