@@ -7,10 +7,12 @@ function generateNewSong() {
     // get selected scale
     const scaleId = document.getElementById(`song_generator_scale`).value;
     const scaleValues = getScaleValues(scaleId);
+    // get number of bars
+    const nbBarsSelected = document.getElementById(`song_generator_nb_bars`).value;
+    const nbBars = parseInt(nbBarsSelected);
     // get selected tempo
     const tempoSelected = document.getElementById(`song_generator_tempo`).value;
     const tempo = parseInt(tempoSelected);
-    const nbBars = 9;
     let track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2);
     let track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
     generatedSong = new Song([track1, track2]);

@@ -62,6 +62,7 @@ window.onload = function () {
     //setVisible("button_page_song_generator", false); // experimental: disabled for now
     document.getElementById(`song_generator_tonic`).addEventListener("change", generateNewSong);
     document.getElementById(`song_generator_scale`).addEventListener("change", generateNewSong);
+    document.getElementById(`song_generator_nb_bars`).addEventListener("change", generateNewSong);
     document.getElementById('song_generator_generate').addEventListener("click", generateNewSong);
     document.getElementById('song_generator_play').addEventListener("click", playGeneratedSong);
 };
@@ -452,6 +453,7 @@ function updateLocales() {
     document.getElementById(`select_key_text_song_generator`).innerText = getString("select_key");
     document.getElementById(`song_generator_header`).innerText = getString("page_experimental");
     document.getElementById(`song_generator_type_text`).innerText = getString("counterpoint") + " 1:1";
+    document.getElementById("song_generator_nb_bars_text").innerText = `${getString("nb_bars")}`;
     document.getElementById("song_generator_tempo_text").innerText = `${getString("tempo")}`;
     document.getElementById('song_generator_generate').innerText = `${getString("generate_new_song")}`;
     document.getElementById("song_generator_play").innerText = `${getString("play")} ♪`;
