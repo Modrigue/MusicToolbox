@@ -1,7 +1,7 @@
 "use strict";
 const perfectConsonances = [0, 7]; // octave and 5th
 const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
-const dissonances = [1, 2, 5, 6, 10, 11, 0.5, 11.5]; // 2nds, 4ths and 7ths
+const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
 function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, trackExisting = new Track()) {
     let track = new Track();
     const nbNotesInScale = scaleValues.length;
@@ -65,11 +65,19 @@ function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, track
     if (noteValue % 12 == tonicValue % 12)
         if (barIndex <= range /* start */ || nbBars - barIndex - 1 <= range /* end */)
             return false;
-    // do no set 2 consecutive unissons
-    if (trackCurrent.notes.length > 2) {
+    //// do not allow 2 consecutive unissons
+    //if (trackCurrent.notes.length > 2)
+    //{
+    //    const lastNoteValue1 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 1);
+    //    const lastNoteValue2 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 2);
+    //
+    //    if (lastNoteValue1 == lastNoteValue2 && noteValue == lastNoteValue1)
+    //        return false;
+    //}
+    // do not allow unisson
+    if (trackCurrent.notes.length > 1) {
         const lastNoteValue1 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 1);
-        const lastNoteValue2 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 2);
-        if (lastNoteValue1 == lastNoteValue2 && noteValue == lastNoteValue1)
+        if (noteValue == lastNoteValue1)
             return false;
     }
     // TODO: counterpoint rules
@@ -79,6 +87,8 @@ function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, track
         const curInterval1 = getIntervalBetweenNotes(noteValue, existingNoteValue1);
         // avoid dissonant intervals
         if (dissonances.indexOf(curInterval1) >= 0)
+            return false;
+        if (isMicrotonalInterval(curInterval1))
             return false;
         const existingNoteValue2 = trackExisting.GetNoteValue(barIndex - 1);
         const curNoteValue2 = trackCurrent.GetNoteValue(barIndex - 1);
