@@ -13,9 +13,12 @@ class Song
 
     public Play()
     {
+        //stopPlaying();
+
         for (const track of this.tracks)
         {
-            track.Play(this.Tempo);
+            if (track != null)
+                track.Play(this.Tempo);
         }
     }
 
@@ -24,6 +27,25 @@ class Song
         for (let track of this.tracks)
         {
             track.Transpose(interval);
+        }
+    }
+
+    // mute / unmute tracks
+    public EnableTracks(statusTracks: Array<boolean>): void
+    {
+        if (statusTracks == null || this.tracks == null)
+            return;
+        
+        if (statusTracks == null)
+            return;
+
+        for (let i = 0; i < statusTracks.length; i++)
+        {
+            const status = statusTracks[i];
+            const track = this.tracks[i];
+
+            if (track != null)
+                track.muted = !status;
         }
     }
 

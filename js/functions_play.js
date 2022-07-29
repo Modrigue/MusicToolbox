@@ -79,6 +79,11 @@ function playChords(noteValue, scaleValues, chordValuesArray, duration) {
     const nbNotesInScale = scaleValues.length;
     playChord(noteValue + 12, chordValuesArray[0], nbNotesInScale * duration);
 }
+// not working
+function stopPlaying() {
+    MIDI.stopAllNotes();
+    //console.log("stop playing");
+}
 /////////////////////////////////// CALLBACKS /////////////////////////////////
 function onPlayScale() {
     // get selected note and scale values

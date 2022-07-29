@@ -20,7 +20,6 @@ function initializePlay(): void
     });
 }
 
-
 function playNote(noteValue: number, delay: number): void
 {
     // for test purposes only
@@ -112,6 +111,13 @@ function playChords(noteValue: number, scaleValues: Array<number>,
 
     const nbNotesInScale = scaleValues.length;
     playChord(noteValue + 12, chordValuesArray[0], nbNotesInScale*duration);
+}
+
+// not working
+function stopPlaying()
+{
+    MIDI.stopAllNotes();
+    //console.log("stop playing");
 }
 
 /////////////////////////////////// CALLBACKS /////////////////////////////////

@@ -13,11 +13,24 @@ function generateNewSong() {
     // get selected tempo
     const tempoSelected = document.getElementById(`song_generator_tempo`).value;
     const tempo = parseInt(tempoSelected);
-    let track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2);
-    let track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+    // get selected tracks
+    let tracksSelected = getSelectedTracks();
+    // generate tracks
+    let track1 = generatedSong.tracks[0];
+    let track2 = generatedSong.tracks[1];
+    if (tracksSelected[0] && !tracksSelected[1]) {
+        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, track2);
+    }
+    else if (!tracksSelected[0] && tracksSelected[1]) {
+        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+    }
+    else if (tracksSelected[0] && tracksSelected[1]) {
+        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2);
+        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+    }
     generatedSong = new Song([track1, track2]);
     generatedSong.Tempo = tempo;
-    displayGeneratedSong();
+    updateSongGeneratorPage();
     setEnabled("song_generator_play", true);
     //generatedSong.Log();
 }
@@ -28,6 +41,9 @@ function playGeneratedSong() {
     const tempoSelected = document.getElementById(`song_generator_tempo`).value;
     const tempo = parseInt(tempoSelected);
     generatedSong.Tempo = tempo;
+    // get selected tracks
+    let tracksSelected = getSelectedTracks();
+    generatedSong.EnableTracks(tracksSelected);
     generatedSong.Play();
     //playTestTrack(tempoValue, tonicValue, 2);
     //playTestSong(tempoValue, tonicValue, 2);
@@ -36,22 +52,49 @@ function resetGeneratedSong() {
     generatedSong = new Song();
     setEnabled("song_generator_play", false);
 }
-function displayGeneratedSong() {
-    const hasSong = (generatedSong != null && generatedSong.tracks != null && generatedSong.tracks.length > 0);
+function getSelectedTracks() {
+    // get selected tracks
+    let tracksSelected = [false, false];
     for (let i = 1; i <= 2; i++)
-        document.getElementById(`song_generator_track_text${i}`).innerText = hasSong ?
-            generatedSong.tracks[i - 1].Text() : "";
-    // for debug purposes
-    if (false && hasSong) {
-        let intervalsStr = "";
-        for (let i = 0; i < generatedSong.tracks[0].notes.length; i++) {
-            const noteValue0 = generatedSong.tracks[0].GetNoteValue(i);
-            const noteValue1 = generatedSong.tracks[1].GetNoteValue(i);
-            intervalsStr += getIntervalBetweenNotes(noteValue1, noteValue0) + " ";
+        tracksSelected[i - 1] = document.getElementById(`song_generator_checkbox_track${i}`).checked;
+    return tracksSelected;
+}
+function updateSongGeneratorPage() {
+    // get selected tracks
+    let tracksSelected = getSelectedTracks();
+    generatedSong.EnableTracks(tracksSelected);
+    let nbTracksSelected = 0;
+    for (let i = 0; i < 2; i++)
+        if (tracksSelected[i])
+            nbTracksSelected++;
+    document.getElementById('song_generator_generate').innerText = (nbTracksSelected > 1) ?
+        `${getString("generate_new_song")}` : `${getString("generate_new_track")}`;
+    const hasSelectedTracks = (nbTracksSelected > 0);
+    setEnabled('song_generator_generate', hasSelectedTracks);
+    setEnabled('song_generator_play', hasSelectedTracks);
+    // update generated song texts if existing
+    const hasSong = (generatedSong != null && generatedSong.tracks != null && generatedSong.tracks.length > 0);
+    if (!hasSong)
+        return;
+    for (let i = 1; i <= 2; i++) {
+        const track = generatedSong.tracks[i - 1];
+        if (track != null) {
+            document.getElementById(`song_generator_track_text${i}`).innerText = hasSong ? track.Text() : "";
+            document.getElementById(`song_generator_track_text${i}`).style.color = track.muted ? "silver" : "black";
         }
-        intervalsStr = intervalsStr.trim();
-        document.getElementById(`song_generator_tracks_intervals`).innerText = intervalsStr;
     }
+    // for debug purposes
+    if (false)
+        if (hasSong) {
+            let intervalsStr = "";
+            for (let i = 0; i < generatedSong.tracks[0].notes.length; i++) {
+                const noteValue0 = generatedSong.tracks[0].GetNoteValue(i);
+                const noteValue1 = generatedSong.tracks[1].GetNoteValue(i);
+                intervalsStr += getIntervalBetweenNotes(noteValue1, noteValue0) + " ";
+            }
+            intervalsStr = intervalsStr.trim();
+            document.getElementById(`song_generator_tracks_intervals`).innerText = intervalsStr;
+        }
 }
 ///////////////////////////////// TEST FUNCTIONS //////////////////////////////
 function playTestTrack(tempo, note, octave) {

@@ -5,13 +5,28 @@ class Song {
         this.Tempo = tempo;
     }
     Play() {
+        //stopPlaying();
         for (const track of this.tracks) {
-            track.Play(this.Tempo);
+            if (track != null)
+                track.Play(this.Tempo);
         }
     }
     Transpose(interval) {
         for (let track of this.tracks) {
             track.Transpose(interval);
+        }
+    }
+    // mute / unmute tracks
+    EnableTracks(statusTracks) {
+        if (statusTracks == null || this.tracks == null)
+            return;
+        if (statusTracks == null)
+            return;
+        for (let i = 0; i < statusTracks.length; i++) {
+            const status = statusTracks[i];
+            const track = this.tracks[i];
+            if (track != null)
+                track.muted = !status;
         }
     }
     // for debug purposes only

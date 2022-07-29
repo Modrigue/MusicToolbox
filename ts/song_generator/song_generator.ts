@@ -18,12 +18,29 @@ function generateNewSong(): void
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
     const tempo: number = parseInt(tempoSelected);
 
-    let track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2);
-    let track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+    // get selected tracks
+    let tracksSelected = getSelectedTracks();
+
+    // generate tracks
+    let track1 = generatedSong.tracks[0];
+    let track2 = generatedSong.tracks[1];
+    if (tracksSelected[0] && !tracksSelected[1])
+    {
+        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, track2);
+    }
+    else if (!tracksSelected[0] && tracksSelected[1])
+    {
+        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+    }
+    else if (tracksSelected[0] && tracksSelected[1])
+    {
+        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2);
+        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+    }
     generatedSong = new Song([track1, track2]);
     generatedSong.Tempo = tempo;
 
-    displayGeneratedSong();
+    updateSongGeneratorPage();
 
     setEnabled("song_generator_play", true);
     //generatedSong.Log();
@@ -39,6 +56,10 @@ function playGeneratedSong(): void
     const tempo: number = parseInt(tempoSelected);
     generatedSong.Tempo = tempo;
 
+    // get selected tracks
+    let tracksSelected = getSelectedTracks();
+    generatedSong.EnableTracks(tracksSelected);
+
     generatedSong.Play();
 
     //playTestTrack(tempoValue, tonicValue, 2);
@@ -51,16 +72,54 @@ function resetGeneratedSong(): void
     setEnabled("song_generator_play", false);
 }
 
-function displayGeneratedSong(): void
+function getSelectedTracks(): Array<boolean>
 {
-    const hasSong = (generatedSong != null && generatedSong.tracks != null && generatedSong.tracks.length > 0);
-    
+    // get selected tracks
+    let tracksSelected = [false, false];
     for (let i = 1; i <= 2; i++)
-        (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).innerText = hasSong ?
-            generatedSong.tracks[i-1].Text() : "";
+        tracksSelected[i - 1] = (<HTMLInputElement>document.getElementById(`song_generator_checkbox_track${i}`)).checked;
+
+    return tracksSelected;
+}
+
+function updateSongGeneratorPage(): void
+{
+    // get selected tracks
+
+    let tracksSelected = getSelectedTracks();
+    generatedSong.EnableTracks(tracksSelected);
+
+    let nbTracksSelected = 0;
+    for (let i = 0; i < 2; i++)
+        if (tracksSelected[i])
+            nbTracksSelected++;
+
+    (<HTMLButtonElement>document.getElementById('song_generator_generate')).innerText = (nbTracksSelected > 1) ?
+    `${getString("generate_new_song")}` : `${getString("generate_new_track")}`;
+    
+    const hasSelectedTracks = (nbTracksSelected > 0);
+    setEnabled('song_generator_generate', hasSelectedTracks);
+    setEnabled('song_generator_play', hasSelectedTracks);
+    
+    // update generated song texts if existing
+    
+    const hasSong = (generatedSong != null && generatedSong.tracks != null && generatedSong.tracks.length > 0);
+    if (!hasSong)
+        return;
+
+    for (let i = 1; i <= 2; i++)
+    {
+        const track = generatedSong.tracks[i-1];
+        if (track != null)
+        {
+            (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).innerText = hasSong ? track.Text() : "";
+            (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).style.color = track.muted ? "silver" : "black";
+        }
+    }
     
     // for debug purposes
-    if (false && hasSong)
+    if (false)
+    if (hasSong)
     {
         let intervalsStr = "";
         for (let i = 0; i < generatedSong.tracks[0].notes.length; i++)

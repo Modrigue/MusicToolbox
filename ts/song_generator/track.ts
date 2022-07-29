@@ -1,6 +1,7 @@
 class Track
 {
     notes: Array<Note>;
+    muted: boolean = false;
     
     constructor(notes: Array<Note> = [])
     {
@@ -10,6 +11,9 @@ class Track
     public Play(tempo: number): void
     {
         if (this.notes == null || this.notes.length == 0)
+            return;
+
+        if (this.muted)
             return;
 
         for (const note of this.notes)

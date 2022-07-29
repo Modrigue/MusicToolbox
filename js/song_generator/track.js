@@ -1,10 +1,13 @@
 "use strict";
 class Track {
     constructor(notes = []) {
+        this.muted = false;
         this.notes = notes;
     }
     Play(tempo) {
         if (this.notes == null || this.notes.length == 0)
+            return;
+        if (this.muted)
             return;
         for (const note of this.notes) {
             note.Play(tempo);
