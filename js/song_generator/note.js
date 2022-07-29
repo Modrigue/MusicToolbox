@@ -24,6 +24,9 @@ class Note {
     Transpose(interval) {
         this.noteValue += interval;
     }
+    Text() {
+        return `${getNoteName(this.Value())}${this.Octave()}`;
+    }
     // for debug purposes only
     LogText() {
         return `{${getNoteName(this.Value())}${this.Octave()}, ${this.time}, ${this.length}}`;

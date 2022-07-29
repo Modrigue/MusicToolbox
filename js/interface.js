@@ -58,8 +58,9 @@ window.onload = function () {
         document.getElementById(`chord_tester_tonic${i}`).addEventListener("change", update);
         document.getElementById(`chord_tester_scale${i}`).addEventListener("change", update);
     }
-    // track generator
-    setVisible("button_page_song_generator", false); // experimental: disabled for now
+    // song generator
+    //setVisible("button_page_song_generator", false); // experimental: disabled for now
+    document.getElementById('song_generator_generate').addEventListener("click", generateNewSong);
     document.getElementById('song_generator_play').addEventListener("click", playGeneratedSong);
 };
 function initLanguage() {
@@ -447,8 +448,12 @@ function updateLocales() {
     document.getElementById(`key_notes_chord_tester_text`).innerText = getString("notes");
     // song generator
     document.getElementById(`select_key_text_song_generator`).innerText = getString("select_key");
+    document.getElementById(`song_generator_header`).innerText = getString("page_experimental");
+    document.getElementById(`song_generator_type_text`).innerText = getString("counterpoint") + " 1:1";
     document.getElementById("song_generator_tempo_text").innerText = `${getString("tempo")}`;
+    document.getElementById('song_generator_generate').innerText = `${getString("generate_new_song")}`;
     document.getElementById("song_generator_play").innerText = `${getString("play")} ♪`;
+    displayGeneratedSong();
     // update computed data
     updateSelectors();
     onNoteChanged();

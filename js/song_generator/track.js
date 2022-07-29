@@ -18,6 +18,14 @@ class Track {
             note.Transpose(interval);
         }
     }
+    Text() {
+        let text = "";
+        for (const note of this.notes) {
+            text += note.Text() + " ";
+        }
+        text = text.trim();
+        return text;
+    }
     // for debug purposes only
     LogText() {
         let logText = "[";

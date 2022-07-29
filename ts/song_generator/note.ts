@@ -39,6 +39,11 @@ class Note
         this.noteValue += interval;
     }
 
+    public Text(): string
+    {
+        return `${getNoteName(this.Value())}${this.Octave()}`;
+    }
+
     // for debug purposes only
     public LogText(): string
     {

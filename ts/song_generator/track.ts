@@ -31,6 +31,18 @@ class Track
         }
     }
 
+    public Text(): string
+    {
+        let text: string = "";
+        for (const note of this.notes)
+        {
+            text += note.Text() + " ";
+        }
+        text = text.trim();
+
+        return text;
+    }
+
     // for debug purposes only
     public LogText(): string
     {
