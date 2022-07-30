@@ -106,7 +106,7 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
             return false;
     }
 
-    // TODO: counterpoint rules
+    // apply counterpoint rules
     if (hasExistingTrack)
     {
         // compute current candidate interval with existing track note
@@ -140,6 +140,18 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
         const hasSameMotion = (curMotion == existingMotion);
         if (hasSameMotion && (curInterval1 == 0 || curInterval1 == 7))
             return false;
+
+        // no 3 consecutive 3rds and 6ths
+        if (barIndex >= 2)
+        {
+            const existingNoteValue3 = trackExisting.GetNoteValue(barIndex - 2);
+            const curNoteValue3 = trackCurrent.GetNoteValue(barIndex - 2);
+            const curInterval3 = getIntervalBetweenNotes(curNoteValue3, existingNoteValue3);
+
+            if (imperfectConsonances.indexOf(curInterval3) >= 0)
+            if (curInterval3 == curInterval2 && curInterval2 == curInterval1)
+                return false;
+        }
     }
 
     return true;
