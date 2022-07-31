@@ -25,7 +25,7 @@ function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, tr
         //while (!acceptNote(noteValueNext, tonicValue, barIndex, nbBars, track, trackExisting))
         {
             // get random step
-            let indexIntervalNext = getRandomNumber(-nbNotesInScale + 1, nbNotesInScale - 1);
+            let indexIntervalNext = getRandomGaussianNumber(-nbNotesInScale + 1, nbNotesInScale - 1);
             //while (indexIntervalNext == 0)
             //    indexIntervalNext = getRandomNumber(-nbNotesInScale, nbNotesInScale);
             nextNoteIndex = curNoteIndex + indexIntervalNext;
@@ -129,8 +129,5 @@ function getMotionBetweenNotes(noteValuePrev, noteValueNext) {
     else if (noteValueNext < noteValuePrev)
         return -1;
     return 0;
-}
-function getRandomNumber(minNumber, maxNumber /* included */) {
-    return Math.floor(minNumber + (maxNumber + 1 - minNumber) * Math.random());
 }
 //# sourceMappingURL=counterpoint.js.map
