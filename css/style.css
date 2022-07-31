@@ -100,7 +100,7 @@ button[disabled]
     border: 0;
     border-bottom:1pt solid transparent;
     border-radius: 0px;
-    font-size: 0.7em;
+    font-size: 0.6em;
 }
 
 .button-page:hover
@@ -110,7 +110,7 @@ button[disabled]
     border-radius: 0px;
     background-color: white;
     color: black;
-    font-size: 0.7em;    
+    font-size: 0.6em; 
 }
 
 .button-page-selected, .button-page-selected:hover
@@ -120,7 +120,7 @@ button[disabled]
     border-radius: 0px;
     background-color: white;
     color: black;
-    font-size: 0.7em;
+    font-size: 0.6em;
 }
 
 canvas
