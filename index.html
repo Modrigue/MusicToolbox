@@ -346,7 +346,7 @@
         <input type="number" id="song_generator_nb_bars" min="5" max="101" width="10" value="9"/>
         &nbsp;
         <span id="song_generator_tempo_text">Tempo:</span>
-        <input type="number" id="song_generator_tempo" min="20" max="400" width="10" value="200"/>
+        <input type="number" id="song_generator_tempo" min="20" max="5000" width="10" value="200"/>
         <br/><br/>
         <input type="checkbox" id="song_generator_checkbox_track1" name="song_generator_checkbox_track1" checked>
         <span id="song_generator_checkbox_track1_text">Bass</span>
@@ -363,6 +363,8 @@
         <span id="song_generator_track_text1"></span>
         <br/>
         <span id="song_generator_tracks_intervals"></span>
+        <br/>
+        <button id="song_generator_reset" disabled><span class="reset">Reset</span></button>
       </p>
       
     </div>

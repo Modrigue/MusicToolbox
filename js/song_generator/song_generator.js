@@ -50,7 +50,7 @@ function playGeneratedSong() {
 }
 function resetGeneratedSong() {
     generatedSong = new Song();
-    setEnabled("song_generator_play", false);
+    updateSongGeneratorPage();
 }
 function getSelectedTracks() {
     // get selected tracks
@@ -60,6 +60,7 @@ function getSelectedTracks() {
     return tracksSelected;
 }
 function updateSongGeneratorPage() {
+    const hasSong = (generatedSong != null && generatedSong.tracks != null && generatedSong.tracks.length > 0);
     // get selected tracks
     let tracksSelected = getSelectedTracks();
     generatedSong.EnableTracks(tracksSelected);
@@ -71,18 +72,22 @@ function updateSongGeneratorPage() {
         `${getString("generate_new_song")}` : `${getString("generate_new_track")}`;
     const hasSelectedTracks = (nbTracksSelected > 0);
     setEnabled('song_generator_generate', hasSelectedTracks);
-    setEnabled('song_generator_play', hasSelectedTracks);
+    setEnabled('song_generator_play', hasSong && hasSelectedTracks);
     // update generated song texts if existing
-    const hasSong = (generatedSong != null && generatedSong.tracks != null && generatedSong.tracks.length > 0);
-    if (!hasSong)
-        return;
     for (let i = 1; i <= 2; i++) {
-        const track = generatedSong.tracks[i - 1];
-        if (track != null) {
-            document.getElementById(`song_generator_track_text${i}`).innerText = hasSong ? track.Text() : "";
-            document.getElementById(`song_generator_track_text${i}`).style.color = track.muted ? "silver" : "black";
+        let trackText = "";
+        let trackColor = "silver";
+        if (hasSong) {
+            const track = generatedSong.tracks[i - 1];
+            if (track != null) {
+                trackText = track.Text();
+                trackColor = track.muted ? "silver" : "black";
+            }
         }
+        document.getElementById(`song_generator_track_text${i}`).innerText = trackText;
+        document.getElementById(`song_generator_track_text${i}`).style.color = trackColor;
     }
+    setEnabled("song_generator_reset", hasSong);
     // for debug purposes
     if (false)
         if (hasSong) {
