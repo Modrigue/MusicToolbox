@@ -61,6 +61,7 @@ scaleFamiliesDict.set("7mahur",        [0, 2, 3.5, 5, 7, 9, 11]);
 scaleFamiliesDict.set("7mustaar",      [0, 2.5, 3.5, 5.5, 6.5, 8.5, 10.5]);
 scaleFamiliesDict.set("7saba",         [0, 1.5, 3, 4, 7, 8, 10]);
 scaleFamiliesDict.set("7sikah_baladi", [0, 1.5, 3.5, 5, 7, 8.5, 10.5]);
+scaleFamiliesDict.set("7nairuzb2",     [0, 1, 3.5, 5, 7, 8.5, 10]);
 
 
 // 5 notes with quarter tones
@@ -230,11 +231,13 @@ scalesDict_int.set("7hardino,1,diff:7major_nat;1", "Hardino");
 scalesDict_int.set("7mahur,1,diff:7major_nat;1", "Mahur");
 scalesDict_int.set("7mustaar,1", "Musta'ar");
 scalesDict_int.set("7saba,1", "Saba");
-scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi / 7-TET (Approximation)");
 scalesDict_int.set("7notes_quarter_tones,sep", "");
 
-scalesDict_int.set("7sikah_baladi,6,diff:7major_nat;1", "Neutral");
-scalesDict_int.set("7neutral,sep", "");
+scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi / 7-TET (Approximation)");
+scalesDict_int.set("7sikah_baladi,6,diff:7major_nat;1", "Neutral (6th mode)");
+scalesDict_int.set("7sikah_baladi,sep", "");
+
+scalesDict_int.set("7nairuzb2,1,diff:7major_nat;6", "Nairuz ♭2");
 
 scalesDict_int.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONES ---------------");
 
@@ -361,13 +364,13 @@ scalesDict_fr.set("7hijaz,5,diff:7bayati;1", "Bayati Shuri (5e mode)");
 scalesDict_fr.set("7hijaz,6", "Huzam (6e mode)");
 
 scalesDict_fr.set("7rast,2,diff:7major_nat;6", "Rattlesnake (2e mode)");
-scalesDict_fr.set("7rast,5,diff:7major_nat;6", "Simdi Huseyni-Ussak (5e mode)");
+scalesDict_fr.set("7rast,5,diff:7major_nat;6", "Nairuz / Simdi Huseyni-Ussak (5e mode)");
 scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
 scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 
 scalesDict_fr.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4e mode)");
 
-scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre");
+scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre (6e mode)");
 
 scalesDict_fr.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONS ---------------");
 
@@ -382,7 +385,7 @@ scalesDicts.set("fr",  scalesDict_fr);
 
 const scalesToHighlight: Array<string> = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
-    "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7saba", "7sikah_baladi",
+    "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7saba", "7sikah_baladi,1",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
     "6blues,1", "6strange,1", "6aug,1",
     "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1",
