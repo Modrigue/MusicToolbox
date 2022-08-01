@@ -17,9 +17,9 @@ class Note {
         let pitchBend = this.noteValue - Math.floor(this.noteValue);
         pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
         // play the note
-        MIDI.setVolume(0, this.volume);
-        MIDI.noteOn(0, noteValueInt, this.velocity, noteStart, pitchBend);
-        MIDI.noteOff(0, noteValueInt, noteEnd);
+        MIDI.setVolume(channelPlay, this.volume);
+        MIDI.noteOn(channelPlay, noteValueInt, this.velocity, noteStart, pitchBend);
+        MIDI.noteOff(channelPlay, noteValueInt, noteEnd);
     }
     Transpose(interval) {
         this.noteValue += interval;

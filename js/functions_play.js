@@ -1,9 +1,12 @@
 "use strict";
+const channelPlay = 0;
 function initializePlay() {
+    const instruments = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];
     // init MIDI plugins
     MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
-        instrument: "acoustic_grand_piano",
+        /*instrument: "acoustic_grand_piano",*/
+        instruments: instruments,
         onprogress: function (state, progress) {
             //console.log(state, progress);
         },
@@ -11,6 +14,10 @@ function initializePlay() {
             //
         }
     });
+    // set MIDI instruments ids
+    MIDI.channels[0].program = "0";
+    //MIDI.channels[0].program = "25";
+    //MIDI.channels[0].program = "88";
 }
 function playNote(noteValue, delay) {
     // for test purposes only
@@ -26,9 +33,9 @@ function playNote(noteValue, delay) {
     let pitchBend = noteValue - Math.floor(noteValue);
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
     // play the note
-    MIDI.setVolume(0, volume);
-    MIDI.noteOn(0, note, velocity, delay, pitchBend);
-    MIDI.noteOff(0, note, delay + length);
+    MIDI.setVolume(channelPlay, volume);
+    MIDI.noteOn(channelPlay, note, velocity, delay, pitchBend);
+    MIDI.noteOff(channelPlay, note, delay + length);
 }
 function playScale(noteValue, scaleValues, bass = false, backwards = false) {
     const duration = bass ? 0.5 : 1;
@@ -158,7 +165,7 @@ document.addEventListener('keydown', function (e) {
     let pitchBend = noteValue - Math.floor(noteValue);
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
     if (notesPressed.indexOf(noteValue) < 0 && noteValueMin + noteValue <= noteValueMax) {
-        MIDI.noteOn(0, noteValueMin + Math.floor(noteValue), 60, 0, pitchBend);
+        MIDI.noteOn(channelPlay, noteValueMin + Math.floor(noteValue), 60, 0, pitchBend);
         notesPressed.push(noteValue);
     }
     //console.log(notesPressed);
@@ -176,7 +183,7 @@ document.addEventListener('keyup', function (e) {
     const noteValue = tonicValue + scaleValues[positionInScale] + 12 * octave;
     const noteIndex = notesPressed.indexOf(noteValue, 0);
     if (noteIndex >= 0 && noteValueMin + noteValue <= noteValueMax) {
-        MIDI.noteOff(0, noteValueMin + Math.floor(noteValue));
+        MIDI.noteOff(channelPlay, noteValueMin + Math.floor(noteValue));
         notesPressed.splice(noteIndex, 1);
     }
     //console.log(notesPressed);
