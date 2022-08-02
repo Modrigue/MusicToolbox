@@ -1,6 +1,7 @@
 "use strict";
 const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected = "";
+let instrumentsLoaded = false;
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms
@@ -10,6 +11,7 @@ window.onload = function () {
     initializePlay();
     window.addEventListener("resize", onResize);
     //document.body.addEventListener("resize", onResize); // not working?
+    window.addEventListener("allInstrumentsLoaded", onAllInstrumentsLoaded, false);
     // header
     document.getElementById("button_page_chord_tester").addEventListener("click", () => { selectPage("page_chord_tester"); });
     document.getElementById("button_page_chord_explorer").addEventListener("click", () => { selectPage("page_chord_explorer"); });
@@ -59,7 +61,7 @@ window.onload = function () {
         document.getElementById(`chord_tester_scale${i}`).addEventListener("change", update);
     }
     // song generator
-    //setVisible("button_page_song_generator", false); // experimental: disabled for now
+    setVisible("button_page_song_generator", false); // experimental: disabled for now
     document.getElementById(`song_generator_tonic`).addEventListener("change", generateNewSong);
     document.getElementById(`song_generator_scale`).addEventListener("change", generateNewSong);
     document.getElementById(`song_generator_nb_bars`).addEventListener("change", generateNewSong);
@@ -345,6 +347,13 @@ function onResize() {
     canvasKeyboard.width = window.innerWidth - 30;
     onNoteChanged();
 }
+function onAllInstrumentsLoaded() {
+    instrumentsLoaded = true;
+    updateLocales();
+    // allow page access
+    for (const page of pagesArray)
+        setEnabled(`button_${page}`, true);
+}
 function toggleDisplay(id) {
     let elem = document.getElementById(id);
     if (elem.style.display === "none")
@@ -412,7 +421,8 @@ function updateLocales() {
     document.getElementById("button_page_song_generator").innerText = getString("page_song_generator");
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
-    document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
+    document.getElementById("welcome_subtitle").innerText = instrumentsLoaded ?
+        getString("welcome_subtitle") : getString("instruments_loading");
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");

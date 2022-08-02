@@ -11,7 +11,7 @@
     <meta http-equiv="Expires" content="0" />
     <link rel="apple-touch-icon" href="img/G_clef.png">
     <link rel="icon" href="img/G_clef.png">
-    <link rel="stylesheet" href="css/style.css?version=1.2">
+    <link rel="stylesheet" href="css/style.css?version=1.3">
     <script src="js/notes.js"></script>
     <script src="js/intervals.js"></script>
     <script src="js/scales.js"></script>
@@ -93,11 +93,11 @@
       <span style='float: left;'>
         <a href="https://github.com/Modrigue/WebMusicScaleGenerator" target="_blank" title="Github"><img src="img/GitHub-Mark-24px.png" alt="GitHub"/></a>
       </span>
-      <button class="button-page" id="button_page_chord_tester">Test all chords</button>
-      <button class="button-page" id="button_page_chord_explorer">Find chords</button>
-      <button class="button-page" id="button_page_scale_explorer">Explore scales</button>
-      <button class="button-page" id="button_page_scale_finder">Find scales</button>
-      <button class="button-page" id="button_page_song_generator">Generate a song</button>
+      <button class="button-page" id="button_page_chord_tester" disabled>Test all chords</button>
+      <button class="button-page" id="button_page_chord_explorer" disabled>Find chords</button>
+      <button class="button-page" id="button_page_scale_explorer" disabled>Explore scales</button>
+      <button class="button-page" id="button_page_scale_finder" disabled>Find scales</button>
+      <button class="button-page" id="button_page_song_generator" disabled>Generate a song</button>
       <span style='float: right;'>
         <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
         <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
@@ -111,7 +111,7 @@
     <div id="page_welcome" class="center">
       <br><br>
       <h2 id="welcome_title">Welcome</h2>
-      <h3 id="welcome_subtitle" style="font-size: 18px;">What do want to do?</h3>
+      <h3 id="welcome_subtitle" style="font-size: 18px;">Instruments loading, please wait...</h3>
       <br><br><br><br><br><br>
     </div>
   

@@ -6,6 +6,10 @@
 	----------------------------------------------------------
 */
 
+let nbInstrumentsLoaded = 0;
+const nbInstrumentsTotal = 27;
+const eventInstrumentsLoaded = new Event('allInstrumentsLoaded');
+
 (function(MIDI) { 'use strict';
 
 	window.AudioContext && (function() {
@@ -263,6 +267,10 @@
 							soundfont.isLoaded = true;
 							MIDI.DEBUG && console.log('loaded: ', instrument);
 							waitForEnd(instrument);
+
+							nbInstrumentsLoaded++;
+							if (nbInstrumentsLoaded >= nbInstrumentsTotal)
+								dispatchEvent(eventInstrumentsLoaded);
 						}
 					}, function() {
 						MIDI.handleError('audio could not load', arguments);

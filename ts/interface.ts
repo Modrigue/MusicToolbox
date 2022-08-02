@@ -1,5 +1,6 @@
 const pagesArray: Array<string> = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected: string = "";
+let instrumentsLoaded = false;
 
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
@@ -16,6 +17,8 @@ window.onload = function()
 
     window.addEventListener("resize", onResize);
     //document.body.addEventListener("resize", onResize); // not working?
+
+    window.addEventListener("allInstrumentsLoaded", onAllInstrumentsLoaded, false);
 
     // header
     (<HTMLButtonElement>document.getElementById("button_page_chord_tester")).addEventListener("click", () => { selectPage("page_chord_tester"); });
@@ -74,7 +77,7 @@ window.onload = function()
     }
 
     // song generator
-    //setVisible("button_page_song_generator", false); // experimental: disabled for now
+    setVisible("button_page_song_generator", false); // experimental: disabled for now
     (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).addEventListener("change", generateNewSong);
     (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).addEventListener("change", generateNewSong);
     (<HTMLSelectElement>document.getElementById(`song_generator_nb_bars`)).addEventListener("change", generateNewSong);
@@ -456,6 +459,16 @@ function onResize(): void
     onNoteChanged();
 }
 
+function onAllInstrumentsLoaded()
+{
+    instrumentsLoaded = true;
+    updateLocales();
+
+    // allow page access
+    for (const page of pagesArray)
+        setEnabled(`button_${page}`, true);
+}
+
 function toggleDisplay(id: string): void
 {
     let elem: HTMLElement = <HTMLElement>document.getElementById(id);
@@ -550,7 +563,8 @@ function updateLocales(): void
 
     // welcome
     (<HTMLHeadElement>document.getElementById("welcome_title")).innerText = getString("welcome_title");
-    (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = getString("welcome_subtitle");
+    (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = instrumentsLoaded ?
+        getString("welcome_subtitle") : getString("instruments_loading");
 
     // scale explorer
     (<HTMLSpanElement>document.getElementById("select_key_text")).innerText = getString("select_key");

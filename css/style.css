@@ -123,6 +123,17 @@ button[disabled]
     font-size: 0.6em;
 }
 
+.button-page:disabled,
+.button-page[disabled]
+{
+    border: 0;
+    border-bottom:0pt solid transparent;
+    border-radius: 0px;
+    background-color: transparent;
+    color: #888888;
+    cursor: default;
+}
+
 canvas
 {
     cursor: pointer;
