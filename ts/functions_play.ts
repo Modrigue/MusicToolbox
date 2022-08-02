@@ -221,9 +221,13 @@ let notesPressed: Array<number> = [];
 
 document.addEventListener('keydown', function(e)
 {
+  if (pageSelected != "page_scale_keyboard")
+    return;
+  
   // get tonic value and scale values
-  const tonicValue = getSelectedNoteValue();
-  const scaleValues: Array<number> = getScaleValues();
+  const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
+  const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
+  const scaleValues: Array<number> = getScaleValues(scaleId);
   const nbNotesInScale = scaleValues.length;
 
   const position = getPositionFromInputKey(e, nbNotesInScale);
@@ -252,9 +256,13 @@ document.addEventListener('keydown', function(e)
 
 document.addEventListener('keyup', function(e)
 {
+  if (pageSelected != "page_scale_keyboard")
+    return;
+  
   // get tonic value and scale values
-  const tonicValue = getSelectedNoteValue();
-  const scaleValues: Array<number> = getScaleValues();
+  const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
+  const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
+  const scaleValues: Array<number> = getScaleValues(scaleId);
   const nbNotesInScale = scaleValues.length;
     
   const position = getPositionFromInputKey(e, nbNotesInScale);

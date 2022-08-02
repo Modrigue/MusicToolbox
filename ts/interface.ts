@@ -1,4 +1,5 @@
-const pagesArray: Array<string> = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
+const pagesArray: Array<string> =
+    ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator", "page_scale_keyboard"];
 let pageSelected: string = "";
 
 
@@ -24,14 +25,12 @@ window.onload = function()
 
     window.addEventListener("newInstrumentLoaded", onNewInstrumentLoaded, false);
 
-    // header
-    (<HTMLButtonElement>document.getElementById("button_page_chord_tester")).addEventListener("click", () => { selectPage("page_chord_tester"); });
-    (<HTMLButtonElement>document.getElementById("button_page_chord_explorer")).addEventListener("click", () => { selectPage("page_chord_explorer"); });
-    (<HTMLButtonElement>document.getElementById("button_page_scale_explorer")).addEventListener("click", () => { selectPage("page_scale_explorer"); });
-    (<HTMLButtonElement>document.getElementById("button_page_scale_finder")).addEventListener("click", () => selectPage("page_scale_finder"));
-    (<HTMLButtonElement>document.getElementById("button_page_song_generator")).addEventListener("click", () => selectPage("page_song_generator"));
     (<HTMLButtonElement>document.getElementById("checkboxLanguage")).addEventListener("change", updateLocales);
 
+    // pages
+    for (const page of pagesArray)
+        (<HTMLButtonElement>document.getElementById(`button_${page}`)).addEventListener("click", () => selectPage(page));
+    
     // scale explorer
     (<HTMLSelectElement>document.getElementById("note")).addEventListener("change", onNoteChanged);
     (<HTMLSelectElement>document.getElementById("scale")).addEventListener("change", onScaleChanged);
@@ -171,9 +170,13 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
         updateScaleSelector(`chord_tester_scale${i}`, "7major_nat,1", false /* no quarter tones */);
     }
 
-    // update track generator selectors
+    // update song generator selectors
     updateNoteSelector(`song_generator_tonic`, 0, false);
     updateScaleSelector(`song_generator_scale`, "7major_nat,1");
+
+    // update scale keyboard selectors
+    updateNoteSelector(`scale_keyboard_tonic`, 0, false);
+    updateScaleSelector(`scale_keyboard_scale`, "7major_nat,1");
 }
 
 // get selected text from selector
@@ -449,6 +452,12 @@ function update(): void
             setVisible('negative_scale', false);
             setVisible("section_found_chords", false);
             break;
+        
+        case "page_scale_keyboard":
+            setVisible('found_scales', false);
+            setVisible('negative_scale', false);
+            setVisible("section_found_chords", false);
+            break;
     }
 }
 
@@ -566,6 +575,7 @@ function updateLocales(): void
     (<HTMLButtonElement>document.getElementById("button_page_scale_explorer")).innerText = getString("page_scale_explorer");
     (<HTMLButtonElement>document.getElementById("button_page_scale_finder")).innerText = getString("page_scale_finder");
     (<HTMLButtonElement>document.getElementById("button_page_song_generator")).innerText = getString("page_song_generator");
+    (<HTMLButtonElement>document.getElementById("button_page_scale_keyboard")).innerText = getString("play");
 
     // welcome
     (<HTMLHeadElement>document.getElementById("welcome_title")).innerText = getString("welcome_title");
@@ -623,15 +633,19 @@ function updateLocales(): void
     (<HTMLSpanElement>document.getElementById(`key_notes_chord_tester_text`)).innerText = getString("notes");
 
     // song generator
-    (<HTMLSpanElement>document.getElementById(`select_key_text_song_generator`)).innerText = getString("select_key");
+    (<HTMLSpanElement>document.getElementById(`song_generator_select_key_text`)).innerText = getString("select_key");
     (<HTMLSpanElement>document.getElementById(`song_generator_header`)).innerText = getString("page_experimental");
     (<HTMLSpanElement>document.getElementById(`song_generator_type_text`)).innerText = getString("counterpoint") + " 1:1";
     (<HTMLButtonElement>document.getElementById("song_generator_nb_bars_text")).innerText = `${getString("nb_bars")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_tempo_text")).innerText = `${getString("tempo")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_play")).innerText = `${getString("play")} ♪`;
-    (<HTMLButtonElement>document.getElementById("song_generator_reset")).innerText = `${getString("reset")}`;
+    (<HTMLButtonElement>document.getElementById("song_generator_reset")).innerText = getString("reset");
     updateSongGeneratorPage();
+
+    // scale keyboard
+    (<HTMLSpanElement>document.getElementById("scale_keyboard_header")).innerText = `♪ ${getString("scale_keyboard_header")} ♪`;
+    (<HTMLSpanElement>document.getElementById("scale_keyboard_select_key_text")).innerText = getString("select_key");
 
     // update computed data
     updateSelectors();

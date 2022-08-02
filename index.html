@@ -98,6 +98,7 @@
       <button class="button-page" id="button_page_scale_explorer" disabled>Explore scales</button>
       <button class="button-page" id="button_page_scale_finder" disabled>Find scales</button>
       <button class="button-page" id="button_page_song_generator" disabled>Generate a song</button>
+      <button class="button-page" id="button_page_scale_keyboard" disabled>Play</button>
       <span style='float: right;'>
         <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
         <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
@@ -364,7 +365,7 @@
         <br/>
         <em><span id="song_generator_header" style="color: grey">This page is experimental and under development</span></em>
         <br/><br/>
-        <span id="select_key_text_song_generator">Key:</span>
+        <span id="song_generator_select_key_text">Key:</span>
         <select name="song_generator_tonic" id="song_generator_tonic"></select>
         <select name="song_generator_scale" id="song_generator_scale"></select>
         &nbsp;
@@ -393,6 +394,20 @@
         <button id="song_generator_reset" disabled><span class="reset">Reset</span></button>
       </p>
       
+    </div>
+
+
+    <!-- ########################## SCALE KEYBOARD ########################## -->
+
+    <div id ='page_scale_keyboard'>
+      <p class='align-center'>
+        <em><span id="scale_keyboard_header" style="color: grey">Use your keyboard to play within the selected key</span></em>
+        <br/><br/>
+        <span id="scale_keyboard_select_key_text">Key:</span>
+        <select name="scale_keyboard_tonic" id="scale_keyboard_tonic"></select>
+        <select name="scale_keyboard_scale" id="scale_keyboard_scale"></select>
+        &nbsp;
+      </p>
     </div>
 
 
