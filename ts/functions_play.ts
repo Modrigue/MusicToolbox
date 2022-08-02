@@ -1,6 +1,6 @@
 // for MIDI.js usage
 // from: https://github.com/mudcube/MIDI.js
-// soundfonts from: https://cindyjs.org/dist/v0.8.6/soundfonts/
+// soundfonts from: https://cindyjs.org/dist/v0.8.8/soundfonts/
 declare let MIDI: any;
 
 const channelPlay = 0;
@@ -17,7 +17,7 @@ function initializePlay(): void
         instruments: instruments,
         onprogress: function(state: any, progress: any)
         {
-                    //console.log(state, progress);
+            //console.log(state, progress);
         },
         onsuccess: function()
         {
