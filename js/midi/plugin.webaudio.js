@@ -6,9 +6,7 @@
 	----------------------------------------------------------
 */
 
-let nbInstrumentsLoaded = 0;
-const nbInstrumentsTotal = 27;
-const eventInstrumentsLoaded = new Event('allInstrumentsLoaded');
+const eventNewInstrumentLoaded = new Event('newInstrumentLoaded');
 
 (function(MIDI) { 'use strict';
 
@@ -268,9 +266,7 @@ const eventInstrumentsLoaded = new Event('allInstrumentsLoaded');
 							MIDI.DEBUG && console.log('loaded: ', instrument);
 							waitForEnd(instrument);
 
-							nbInstrumentsLoaded++;
-							if (nbInstrumentsLoaded >= nbInstrumentsTotal)
-								dispatchEvent(eventInstrumentsLoaded);
+							dispatchEvent(eventNewInstrumentLoaded);
 						}
 					}, function() {
 						MIDI.handleError('audio could not load', arguments);

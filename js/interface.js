@@ -1,7 +1,9 @@
 "use strict";
 const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected = "";
-let instrumentsLoaded = false;
+let allInstrumentsLoaded = false;
+let nbInstrumentsLoaded = 0;
+const nbInstrumentsTotal = 27;
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms
@@ -11,7 +13,7 @@ window.onload = function () {
     initializePlay();
     window.addEventListener("resize", onResize);
     //document.body.addEventListener("resize", onResize); // not working?
-    window.addEventListener("allInstrumentsLoaded", onAllInstrumentsLoaded, false);
+    window.addEventListener("newInstrumentLoaded", onNewInstrumentLoaded, false);
     // header
     document.getElementById("button_page_chord_tester").addEventListener("click", () => { selectPage("page_chord_tester"); });
     document.getElementById("button_page_chord_explorer").addEventListener("click", () => { selectPage("page_chord_explorer"); });
@@ -347,12 +349,14 @@ function onResize() {
     canvasKeyboard.width = window.innerWidth - 30;
     onNoteChanged();
 }
-function onAllInstrumentsLoaded() {
-    instrumentsLoaded = true;
+function onNewInstrumentLoaded(e) {
+    nbInstrumentsLoaded++;
+    allInstrumentsLoaded = (nbInstrumentsLoaded >= nbInstrumentsTotal);
     updateLocales();
-    // allow page access
-    for (const page of pagesArray)
-        setEnabled(`button_${page}`, true);
+    // if all instruments loaded, allow page access
+    if (allInstrumentsLoaded)
+        for (const page of pagesArray)
+            setEnabled(`button_${page}`, true);
 }
 function toggleDisplay(id) {
     let elem = document.getElementById(id);
@@ -421,8 +425,9 @@ function updateLocales() {
     document.getElementById("button_page_song_generator").innerText = getString("page_song_generator");
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
-    document.getElementById("welcome_subtitle").innerText = instrumentsLoaded ?
-        getString("welcome_subtitle") : getString("instruments_loading");
+    document.getElementById("welcome_subtitle").innerText = allInstrumentsLoaded ?
+        getString("welcome_subtitle") :
+        `${getString("instruments_loading")} ${Math.floor(100 * (nbInstrumentsLoaded / nbInstrumentsTotal))}%`;
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");

@@ -1,6 +1,10 @@
 const pagesArray: Array<string> = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected: string = "";
-let instrumentsLoaded = false;
+
+
+let allInstrumentsLoaded = false;
+let nbInstrumentsLoaded = 0;
+const nbInstrumentsTotal = 27;
 
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
@@ -18,7 +22,7 @@ window.onload = function()
     window.addEventListener("resize", onResize);
     //document.body.addEventListener("resize", onResize); // not working?
 
-    window.addEventListener("allInstrumentsLoaded", onAllInstrumentsLoaded, false);
+    window.addEventListener("newInstrumentLoaded", onNewInstrumentLoaded, false);
 
     // header
     (<HTMLButtonElement>document.getElementById("button_page_chord_tester")).addEventListener("click", () => { selectPage("page_chord_tester"); });
@@ -459,12 +463,14 @@ function onResize(): void
     onNoteChanged();
 }
 
-function onAllInstrumentsLoaded()
+function onNewInstrumentLoaded(e: Event)
 {
-    instrumentsLoaded = true;
+    nbInstrumentsLoaded++;
+    allInstrumentsLoaded = (nbInstrumentsLoaded >= nbInstrumentsTotal);
     updateLocales();
 
-    // allow page access
+    // if all instruments loaded, allow page access
+    if (allInstrumentsLoaded)
     for (const page of pagesArray)
         setEnabled(`button_${page}`, true);
 }
@@ -563,8 +569,9 @@ function updateLocales(): void
 
     // welcome
     (<HTMLHeadElement>document.getElementById("welcome_title")).innerText = getString("welcome_title");
-    (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = instrumentsLoaded ?
-        getString("welcome_subtitle") : getString("instruments_loading");
+    (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = allInstrumentsLoaded ?
+        getString("welcome_subtitle") :
+        `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%`;
 
     // scale explorer
     (<HTMLSpanElement>document.getElementById("select_key_text")).innerText = getString("select_key");
