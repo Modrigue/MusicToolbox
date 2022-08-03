@@ -89,6 +89,12 @@ window.onload = function()
     (<HTMLButtonElement>document.getElementById('song_generator_reset')).addEventListener("click", resetGeneratedSong);
     for (let i = 1; i <= 2; i++)
         (<HTMLInputElement>document.getElementById(`song_generator_checkbox_track${i}`)).addEventListener("change", updateSongGeneratorPage);
+
+    // scale keyboard
+    const selectScaleKeyboardTonic = <HTMLSelectElement>document.getElementById(`scale_keyboard_tonic`);
+    const selectScaleKeyboardScale = <HTMLSelectElement>document.getElementById(`scale_keyboard_scale`);
+    selectScaleKeyboardTonic.addEventListener("change", () => { selectScaleKeyboardTonic.blur(); update()});
+    selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update()});
 }
 
 function initLanguage(): void
@@ -457,6 +463,9 @@ function update(): void
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
             setVisible("section_found_chords", false);
+
+            // TODO: update scale keyboard
+
             break;
     }
 }

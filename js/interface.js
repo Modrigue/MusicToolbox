@@ -69,6 +69,11 @@ window.onload = function () {
     document.getElementById('song_generator_reset').addEventListener("click", resetGeneratedSong);
     for (let i = 1; i <= 2; i++)
         document.getElementById(`song_generator_checkbox_track${i}`).addEventListener("change", updateSongGeneratorPage);
+    // scale keyboard
+    const selectScaleKeyboardTonic = document.getElementById(`scale_keyboard_tonic`);
+    const selectScaleKeyboardScale = document.getElementById(`scale_keyboard_scale`);
+    selectScaleKeyboardTonic.addEventListener("change", () => { selectScaleKeyboardTonic.blur(); update(); });
+    selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update(); });
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -344,6 +349,7 @@ function update() {
             setVisible('found_scales', false);
             setVisible('negative_scale', false);
             setVisible("section_found_chords", false);
+            // TODO: update scale keyboard
             break;
     }
 }
