@@ -59,9 +59,21 @@ scaleFamiliesDict.set("7sikah_baladi", [0, 1.5, 3.5, 5, 7, 8.5, 10.5]);
 scaleFamiliesDict.set("7nairuzb2", [0, 1, 3.5, 5, 7, 8.5, 10]);
 // 5 notes with quarter tones
 scaleFamiliesDict.set("5tet_approx", [0, 2.5, 5, 7, 9.5]);
+// chromatic
+scaleFamiliesDict.set("12tet", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+// xenharmonics
+// equal-temperament scales
+const xenTETScalesNbNotes = [5, 7, 9, 10, 11, 13, 14, 15, 17, 19, 22, 23, 24];
+for (const nbNotes of xenTETScalesNbNotes) {
+    let scaleValuesXenCur = [];
+    for (let i = 0; i < nbNotes; i++)
+        scaleValuesXenCur.push(i * 12 / nbNotes);
+    scaleFamiliesDict.set(`${nbNotes}tet`, scaleValuesXenCur);
+}
 //////////////////////////////////// STRINGS //////////////////////////////////
 // international
 const scalesDict_int = new Map();
+scalesDict_int.set("12tet,1", "Chromatic");
 scalesDict_int.set("7notes", "------------------------ 7 NOTES ------------------------");
 scalesDict_int.set("7major_nat,1", "Natural major / Ionian");
 scalesDict_int.set("7major_nat,6,diff:7major_nat;1", "Natural minor / Aeolian (6th mode)");
@@ -215,8 +227,12 @@ scalesDict_int.set("7nairuzb2,1,diff:7major_nat;6", "Nairuz ♭2");
 scalesDict_int.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONES ---------------");
 scalesDict_int.set("5tet_approx,1,diff:5major_penta;4", "5-TET / 5-EDO (Approximation)"); // Inca scale?
 scalesDict_int.set("5notes_quarter_tones,sep", "");
+scalesDict_int.set("xenharmonics", "----------------- XENHARMONICS ----------------");
+for (const nbNotes of xenTETScalesNbNotes)
+    scalesDict_int.set(`${nbNotes}tet,1`, `${nbNotes}-TET / ${nbNotes}-EDO`);
 /////////////////////////////////// FRENCH ////////////////////////////////////
 const scalesDict_fr = new Map();
+scalesDict_fr.set("12tet,1", "Chromatique");
 scalesDict_fr.set("7major_nat,1", "Majeur naturel / Ionien");
 scalesDict_fr.set("7major_nat,6,diff:7major_nat;1", "Mineur naturel / Eolien (6e mode)");
 scalesDict_fr.set("7major_nat,2,diff:7major_nat;6", "Dorien (2e mode)");
@@ -311,19 +327,19 @@ scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
 scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 scalesDict_fr.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4e mode)");
 scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre (6e mode)");
-scalesDict_fr.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONS ---------------");
+scalesDict_fr.set("xenharmonics", "-------------- XENHARMONIQUES --------------");
 // global dictionary
 const scalesDicts = new Map();
 scalesDicts.set("int", scalesDict_int);
 scalesDicts.set("fr", scalesDict_fr);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
-const scalesToHighlight = ["7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
+const scalesToHighlight = ["12tet,1",
+    "7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
     "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7saba", "7sikah_baladi,1",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
     "6blues,1", "6strange,1", "6aug,1",
-    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1",
-    "5tet_approx,1"
+    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1"
 ];
 function hightlightScale(id) {
     if (scalesToHighlight.indexOf(id) != -1)
@@ -336,7 +352,7 @@ function hightlightScale(id) {
     return found;
 }
 // update scale selector
-function updateScaleSelector(id, defaultScaleId, includesQTones = true) {
+function updateScaleSelector(id, defaultScaleId, includesQTones = true, includesExtraScales = false) {
     const scaleSelect = document.getElementById(id);
     const initialized = (scaleSelect.options != null && scaleSelect.options.length > 0);
     const regexNbNotes = /(\d+)notes/;
@@ -348,6 +364,10 @@ function updateScaleSelector(id, defaultScaleId, includesQTones = true) {
         for (const [key, value] of scalesDict_int) {
             if (!includesQTones && key.includes("quarter_tones"))
                 break;
+            if (!includesExtraScales && key.startsWith("12tet"))
+                continue;
+            if (!includesExtraScales && key.includes("xenharmonics"))
+                break;
             const scaleName = getScaleString(key);
             let option = document.createElement('option');
             option.value = key;
@@ -356,7 +376,7 @@ function updateScaleSelector(id, defaultScaleId, includesQTones = true) {
             if (hightlightScale(key))
                 option.classList.add('bolden');
             // notes seperator
-            if (key.match(regexNbNotes)) {
+            if (key.match(regexNbNotes) || key.includes("xenharmonics")) {
                 option.classList.add('bolden');
                 option.disabled = true;
             }
@@ -374,6 +394,10 @@ function updateScaleSelector(id, defaultScaleId, includesQTones = true) {
         let scaleValue = 0;
         for (const [key, value] of scalesDict_int) {
             if (!includesQTones && key.includes("quarter_tones"))
+                break;
+            if (!includesExtraScales && key.startsWith("12tet"))
+                continue;
+            if (!includesExtraScales && key.includes("xenharmonics"))
                 break;
             scaleSelect.options[scaleValue].innerHTML = getScaleString(key);
             scaleValue++;

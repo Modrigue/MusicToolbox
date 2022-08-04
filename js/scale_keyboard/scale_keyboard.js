@@ -1,5 +1,6 @@
 "use strict";
 function getPositionFromInputKey(e, nbNotesInScale) {
+    let startOctave = Math.floor(nbNotesInScale / 12);
     let position = -999;
     switch (e.code) {
         // 1st row
@@ -137,6 +138,7 @@ function getPositionFromInputKey(e, nbNotesInScale) {
             position = 46;
             break;
     }
+    position += startOctave * nbNotesInScale;
     return position;
 }
 //# sourceMappingURL=scale_keyboard.js.map

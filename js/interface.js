@@ -137,7 +137,7 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     updateScaleSelector(`song_generator_scale`, "7major_nat,1");
     // update scale keyboard selectors
     updateNoteSelector(`scale_keyboard_tonic`, 0, false);
-    updateScaleSelector(`scale_keyboard_scale`, "7major_nat,1");
+    updateScaleSelector(`scale_keyboard_scale`, "12tet,1", true, true);
     updateInstrumentSelector(`scale_keyboard_instrument`);
 }
 // get selected text from selector
