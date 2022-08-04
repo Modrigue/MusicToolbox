@@ -3,7 +3,7 @@ const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_expl
 let pageSelected = "";
 let allInstrumentsLoaded = false;
 let nbInstrumentsLoaded = 0;
-const nbInstrumentsTotal = 27;
+const nbInstrumentsTotal = 26; // TODO: count files in soudfonts directory
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms

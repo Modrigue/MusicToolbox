@@ -5,7 +5,7 @@ let pageSelected: string = "";
 
 let allInstrumentsLoaded = false;
 let nbInstrumentsLoaded = 0;
-const nbInstrumentsTotal = 27;
+const nbInstrumentsTotal = 26; // TODO: count files in soudfonts directory
 
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
