@@ -72,7 +72,7 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1,
     firstNoteEmpty: boolean = false, showMicrotones: boolean = false,
     reset: boolean = false): void
 {
-// get selected culture
+    // get selected culture
     const lang = getSelectedCulture();
 
     // get note selecor

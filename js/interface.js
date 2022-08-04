@@ -72,8 +72,10 @@ window.onload = function () {
     // scale keyboard
     const selectScaleKeyboardTonic = document.getElementById(`scale_keyboard_tonic`);
     const selectScaleKeyboardScale = document.getElementById(`scale_keyboard_scale`);
+    const selectInstrumentKeyboardScale = document.getElementById(`scale_keyboard_instrument`);
     selectScaleKeyboardTonic.addEventListener("change", () => { selectScaleKeyboardTonic.blur(); update(); });
     selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update(); });
+    selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_keyboard_instrument`); });
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -136,6 +138,7 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     // update scale keyboard selectors
     updateNoteSelector(`scale_keyboard_tonic`, 0, false);
     updateScaleSelector(`scale_keyboard_scale`, "7major_nat,1");
+    updateInstrumentSelector(`scale_keyboard_instrument`);
 }
 // get selected text from selector
 function getSelectorText(id) {
@@ -492,6 +495,7 @@ function updateLocales() {
     // scale keyboard
     document.getElementById("scale_keyboard_header").innerText = `♪ ${getString("scale_keyboard_header")} ♪`;
     document.getElementById("scale_keyboard_select_key_text").innerText = getString("select_key");
+    document.getElementById("scale_keyboard_select_instrument_text").innerText = getString("instrument");
     // update computed data
     updateSelectors();
     onNoteChanged();
