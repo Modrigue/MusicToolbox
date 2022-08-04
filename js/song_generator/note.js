@@ -3,7 +3,7 @@ class Note {
     constructor(value, octave, length, time) {
         // constant for now
         this.velocity = 96;
-        this.volume = 60;
+        this.volume = volumePlay;
         this.noteValue = value + 12 * (octave + 2);
         this.length = length;
         this.time = time;

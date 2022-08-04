@@ -1,5 +1,6 @@
 "use strict";
-const channelPlay = 0;
+let channelPlay = 0;
+let volumePlay = 80;
 function initializePlay() {
     const instruments = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];
     // init MIDI plugins
@@ -14,10 +15,8 @@ function initializePlay() {
             //
         }
     });
-    // set MIDI instruments ids
+    // set default MIDI instrument
     MIDI.channels[0].program = "0";
-    //MIDI.channels[0].program = "25";
-    //MIDI.channels[0].program = "88";
 }
 function playNote(noteValue, delay) {
     // for test purposes only
@@ -27,13 +26,12 @@ function playNote(noteValue, delay) {
     // delay: play one note every quarter second
     const note = Math.floor(48 + noteValue); // the MIDI note (Ex.: 48 = C2)
     const velocity = 96; // how hard the note hits
-    const volume = 60; // volume
     const length = 0.75;
     // compute pitch bend if non-integer value
     let pitchBend = noteValue - Math.floor(noteValue);
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
     // play the note
-    MIDI.setVolume(channelPlay, volume);
+    MIDI.setVolume(channelPlay, volumePlay);
     MIDI.noteOn(channelPlay, note, velocity, delay, pitchBend);
     MIDI.noteOff(channelPlay, note, delay + length);
 }
@@ -168,6 +166,7 @@ document.addEventListener('keydown', function (e) {
     let pitchBend = noteValue - Math.floor(noteValue);
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
     if (notesPressed.indexOf(noteValue) < 0 && noteValueMin + noteValue <= noteValueMax) {
+        MIDI.setVolume(channelPlay, volumePlay);
         MIDI.noteOn(channelPlay, noteValueMin + Math.floor(noteValue), 60, 0, pitchBend);
         notesPressed.push(noteValue);
     }

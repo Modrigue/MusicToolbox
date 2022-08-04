@@ -3,7 +3,8 @@
 // soundfonts from: https://cindyjs.org/dist/v0.8.8/soundfonts/
 declare let MIDI: any;
 
-const channelPlay = 0;
+let channelPlay = 0;
+let volumePlay: number = 80;
 
 function initializePlay(): void
 {
@@ -25,10 +26,8 @@ function initializePlay(): void
         }
     });
 
-    // set MIDI instruments ids
+    // set default MIDI instrument
     MIDI.channels[0].program = "0";
-    //MIDI.channels[0].program = "25";
-    //MIDI.channels[0].program = "88";
 }
 
 function playNote(noteValue: number, delay: number): void
@@ -41,7 +40,6 @@ function playNote(noteValue: number, delay: number): void
     // delay: play one note every quarter second
     const note: number = Math.floor(48 + noteValue); // the MIDI note (Ex.: 48 = C2)
     const velocity: number = 96; // how hard the note hits
-    const volume: number = 60; // volume
     const length: number = 0.75;
 
     // compute pitch bend if non-integer value
@@ -49,7 +47,7 @@ function playNote(noteValue: number, delay: number): void
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
 
     // play the note
-    MIDI.setVolume(channelPlay, volume);
+    MIDI.setVolume(channelPlay, volumePlay);
     MIDI.noteOn(channelPlay, note, velocity, delay, pitchBend);
     MIDI.noteOff(channelPlay, note, delay + length);
 }
@@ -247,6 +245,7 @@ document.addEventListener('keydown', function(e)
 
   if(notesPressed.indexOf(noteValue) < 0 && noteValueMin + noteValue <= noteValueMax)
   {
+      MIDI.setVolume(channelPlay, volumePlay);
       MIDI.noteOn(channelPlay, noteValueMin + Math.floor(noteValue), 60, 0, pitchBend);
       notesPressed.push(noteValue);
   }

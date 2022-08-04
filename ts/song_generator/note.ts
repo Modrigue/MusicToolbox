@@ -6,7 +6,7 @@ class Note
 
     // constant for now
     velocity: number = 96;
-    volume: number = 60;
+    volume: number = volumePlay;
     
     constructor(value: number, octave: number, length: number, time: number)
     {
