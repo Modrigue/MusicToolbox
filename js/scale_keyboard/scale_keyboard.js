@@ -139,4 +139,34 @@ function getPositionFromInputKey(e) {
     }
     return position;
 }
+// build scale intervals values array
+function getScaleValuesArray(scaleValues) {
+    let scaleValuesArray = [];
+    if (scaleValues == null || scaleValues.length == 0)
+        return [];
+    let scaleValuesToProcess = cloneIntegerArray(scaleValues);
+    const nbValuesInScale = scaleValuesToProcess.length;
+    // if scale values starts with 0, the scale supports octave.
+    // remove and push octave (value 12) at end of array.
+    if (scaleValuesToProcess[0] == 0) {
+        scaleValuesToProcess.shift();
+        scaleValuesToProcess.push(12);
+    }
+    // compute scale values array
+    scaleValuesArray.push(0);
+    let curStartValue = 0;
+    const nbValuesMax = 50;
+    for (let i = 1; i <= nbValuesMax; i++) {
+        // re-loop on scale values
+        if (i % nbValuesInScale == 0) {
+            curStartValue += scaleValuesToProcess[nbValuesInScale - 1];
+            scaleValuesArray.push(curStartValue);
+        }
+        else {
+            const curValue = curStartValue + scaleValuesToProcess[(i - 1) % nbValuesInScale];
+            scaleValuesArray.push(curValue);
+        }
+    }
+    return scaleValuesArray;
+}
 //# sourceMappingURL=scale_keyboard.js.map
