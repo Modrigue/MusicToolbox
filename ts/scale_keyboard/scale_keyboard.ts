@@ -1,4 +1,4 @@
-function getPositionFromInputKey(e: KeyboardEvent, nbNotesInScale: number): number
+function getPositionFromInputKey(e: KeyboardEvent): number
 {    
     let position = -999;
     switch (e.code)

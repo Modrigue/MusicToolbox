@@ -228,7 +228,7 @@ document.addEventListener('keydown', function(e)
   const scaleValues: Array<number> = getScaleValues(scaleId);
   const nbNotesInScale = scaleValues.length;
 
-  const position = getPositionFromInputKey(e, nbNotesInScale);
+  const position = getPositionFromInputKey(e);
   //console.log(`Key down ${e.key} code: ${e.code} => pos: ${position}`);
 
   const startOctave = Math.floor(nbNotesInScale / 12);
@@ -266,12 +266,12 @@ document.addEventListener('keyup', function(e)
   const scaleValues: Array<number> = getScaleValues(scaleId);
   const nbNotesInScale = scaleValues.length;
     
-  const position = getPositionFromInputKey(e, nbNotesInScale);
+  const position = getPositionFromInputKey(e);
   if (position < 0)
     return;
 
   const startOctave = Math.floor(nbNotesInScale / 12);
-  
+
   const positionInScale = position % nbNotesInScale;
   const octave = Math.floor(position / nbNotesInScale);
 

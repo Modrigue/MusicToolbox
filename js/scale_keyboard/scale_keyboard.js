@@ -1,5 +1,5 @@
 "use strict";
-function getPositionFromInputKey(e, nbNotesInScale) {
+function getPositionFromInputKey(e) {
     let position = -999;
     switch (e.code) {
         // 1st row
