@@ -22,11 +22,29 @@ for (const nbNotes of xenTETScalesNbNotes)
 scaleFamiliesDict.set("7ji_major",             [0, 2.04, 3.86, 4.98, 7.02, 8.84, 10.88]);
 scaleFamiliesDict.set("7ji_minor",             [0, 2.04, 3.16, 4.98, 7.02, 8.14, 10.18]);
 scaleFamiliesDict.set("7ji_indian",            [0, 2.04, 3.86, 4.98, 7.02, 9.06, 10.88]);
-//scaleFamiliesDict.set("12ji_lmy_piano",        [0, 1.77, 2.04, 2.40, 4.44, 4.71, 6.75, 7.02, 7.38, 9.42, 9.69, 11.73]);
 scaleFamiliesDict.set("12ji_kg_centaur",       [0, 0.8467 , 2.03910, 2.66871, 3.86314, 4.98045, 5.82512, 7.01955, 7.64916, 8.84359, 9.68826, 10.88269]);
 scaleFamiliesDict.set("12ji_kg_centaura_sub",  [0, 1.19443, 1.82404, 3.33041, 3.86314, 4.98045, 6.17488, 7.01955, 8.21398, 8.84359, 10.34996, 10.88269]);
 scaleFamiliesDict.set("12ji_kg_centaura_harm", [0, 0.53273, 2.03910, 2.66871, 3.86314, 4.98045, 5.51318, 7.01955, 7.64916, 8.84359, 9.68826, 10.88269]);
-scaleFamiliesDict.set("12ji_wc_sj",            [0, 1.04955, 2.03910, 3.15641, 3.86314, 4.98045, 5.51318, 7.01955, 8.40528, 8.84359, 9.68826, 10.88269]);
+scaleFamiliesDict.set("12ji_pythagorean",      [0, 0.90225, 2.03910, 2.94135, 4.07820, 4.98045, 5.88270, 7.01955, 7.92180, 9.05865, 9.96090, 10.86315]);
+scaleFamiliesDict.set("12ji_wendy_carlos_sj",  [0, 1.04955, 2.03910, 3.15641, 3.86314, 4.98045, 5.51318, 7.01955, 8.40528, 8.84359, 9.68826, 10.88269]);
+scaleFamiliesDict.set("12ji_werckmeister_3",   [0, 1.0782, 2.0391, 3.1172, 4.0196, 5.0391, 6.0587, 7.0196, 8.0978, 9.0000, 10.0782, 11.0391]);
+scaleFamiliesDict.set("12ji_young_1799",       [0, 1.060, 1.980, 3.062, 4.001, 5.020, 6.040, 6.979, 8.061, 8.981, 10.041, 11.020]);
+
+// traditionnal
+scaleFamiliesDict.set("22shruti",        [0, 0.90225, 1.11731, 1.82404, 2.03910, 2.94135, 3.15641, 3.86314, 4.07820, 4.98045, 5.19551, 5.90224, 6.11730, 7.01955, 7.92180, 8.13686, 8.84359, 9.05865, 9.96090, 10.17596, 10.88269, 11.09775]);
+scaleFamiliesDict.set("7archytas_dia",   [0, 0.62961, 2.94135, 4.98045, 7.01955, 7.64916, 9.96090]);
+scaleFamiliesDict.set("7archytas_enh",   [0, 0.62961, 1.11731, 4.98045, 7.01955, 7.64916, 8.13686]);
+scaleFamiliesDict.set("7balafon2",       [0, 1.52, 2.87, 5.33, 7.24, 8.90, 10.29]);
+scaleFamiliesDict.set("5balafon7",       [0, 2.02, 3.70, 6.85, 9.03]);
+scaleFamiliesDict.set("7didymus",        [0, 1.11731, 1.82404, 4.98045, 7.01955, 8.13686, 8.84359]);
+scaleFamiliesDict.set("5hirajoshi_trad", [0, 1.85, 3.37, 6.83, 7.90]);
+scaleFamiliesDict.set("7ptolemy_di",     [0, 0.90225, 2.94135, 4.98045, 7.01955, 7.92180, 9.96090]);
+scaleFamiliesDict.set("7ptolemy_he",     [0, 1.50637, 3.15641, 4.98045, 7.01955, 8.52592, 10.17596]);
+scaleFamiliesDict.set("7raga_bageshri",  [0, 1.82404, 2.94135, 4.98045, 7.01955, 8.84359, 9.96090]);
+scaleFamiliesDict.set("8raga_bhairavi",  [0, 1.11731, 2.03910, 3.15641, 5.19551, 7.01955, 8.13686, 10.17596]);
+scaleFamiliesDict.set("7raga_kafi",      [0, 2.03910, 2.94135, 4.98045, 7.01955, 8.84359, 9.96090]);
+scaleFamiliesDict.set("7raga_todi",      [0, 0.90225, 2.94135, 5.90224, 7.01955, 7.92180, 10.88269]);
+scaleFamiliesDict.set("7raga_yaman",     [0, 2.03910, 3.86314, 5.90224, 7.01955, 9.05865, 10.88269]);
 
 // equal temperament subsets
 scaleFamiliesDict.set("11edo_machine_6",     [0, 2.18182, 4.36364, 6.54545, 8.72727, 10.90909]);
@@ -47,7 +65,15 @@ scaleFamiliesDict.set("46edo_sensi_11",      [0, 1.30435, 2.60870, 3.91304, 4.43
 scaleFamiliesDict.set("128edo_approx_22",    [0, 0.53273, 1.04955, 1.67462, 2.15891, 2.74582, 3.31349, 3.86314, 4.39587, 4.91269, 5.41453, 5.99815, 6.56273, 7.10948, 7.63950, 8.15376, 8.73505, 9.29744, 9.84215, 10.37023, 10.88269, 11.45036]);
 scaleFamiliesDict.set("313edo_island_9",     [0, 2.03195, 2.49201, 4.52396, 4.98403, 7.01597, 7.47604, 9.50799, 9.96805]);
 
-scaleFamiliesDict.set("7tetrachordal", [0, 1.82404, 3.47408, 4.98045, 7.01955, 8.84359, 10.49363]);
+// misc
+scaleFamiliesDict.set("6hexany1379",    [0, 2.03910, 2.66871, 4.70781, 7.01955, 9.68826]);
+scaleFamiliesDict.set("7tetrachordal",  [0, 1.82404, 3.47408, 4.98045, 7.01955, 8.84359, 10.49363]);
+scaleFamiliesDict.set("11semaphore",    [0, 0.7954, 1.7637, 2.5591, 4.3228, 5.1182, 6.8818, 6.8818, 7.6773, 9.4409, 10.2364, 11.2046]);
+scaleFamiliesDict.set("17supermariner", [0, 0.45258, 1.76639, 2.21897, 2.67155, 3.12412, 4.43794, 4.89052, 5.34309, 6.65691, 7.10948, 7.56206, 8.87588, 9.32845, 9.78103, 10.23361, 11.54742]);
+
+// non-octaves
+//scaleFamiliesDict.set("golden_ratio", [1.2155, 1.9667, 3.1821, 4.3976, 5.1488, 6.3642, 7.1154, 8.3309]);
+//scaleFamiliesDict.set("mersh", [0.86265, 2.17449, 4.10520, 5.89714, 6.83627]);
 
 
 //////////////////////////////////// STRINGS //////////////////////////////////
@@ -63,12 +89,32 @@ scalesDict_int.set("xenharmonics_ji", "------------------ Just Intonation ------
 scalesDict_int.set("7ji_major,1", "Just intonation major");
 scalesDict_int.set("7ji_minor,1", "Just intonation minor");
 scalesDict_int.set("7ji_indian,1", "Just intonation indian");
-//scalesDict_int.set("12ji_lmy_piano,1", "La Monte Young Well-Tuned Piano");
 scalesDict_int.set("12ji_kg_centaur,1", "Kraig Grady Centaur");
 scalesDict_int.set("12ji_kg_centaura_harm,1", "Kraig Grady Centaura harmonic");
 scalesDict_int.set("12ji_kg_centaura_sub,1", "Kraig Grady Centaura subharmonic");
-scalesDict_int.set("12ji_wc_sj,1", "Wendy Carlos Super Just");
+scalesDict_int.set("12ji_pythagorean,1", "Pythagorean");
+scalesDict_int.set("12ji_wendy_carlos_sj,1", "Wendy Carlos Super Just");
+scalesDict_int.set("12ji_werckmeister_3,1", "Werckmeister III");
+scalesDict_int.set("12ji_young_1799,1", "Young (1799)");
 scalesDict_int.set("ji,sep", "");
+
+scalesDict_int.set("xenharmonics_trad", "--------------------- Traditionnal --------------------");
+
+scalesDict_int.set("22shruti,1", "22 Shruti");
+scalesDict_int.set("7archytas_dia,1", "Archytas diatonic");
+scalesDict_int.set("7archytas_enh,1", "Archytas enharmonic");
+scalesDict_int.set("7balafon2,1", "Balafon 2");
+scalesDict_int.set("5balafon7,1", "Balafon 7");
+scalesDict_int.set("7didymus,1", "Didymus chromatic");
+scalesDict_int.set("5hirajoshi_trad,1", "Hirajoshi (trad.)");
+scalesDict_int.set("7ptolemy_di,1", "Ptolemy diatonic ditoniaion");
+scalesDict_int.set("7ptolemy_he,1", "Ptolemy diatonic hemiolion");
+scalesDict_int.set("7raga_bageshri,1", "Raga Bageshri");
+scalesDict_int.set("8raga_bhairavi,1", "Raga Bhairavi");
+scalesDict_int.set("7raga_kafi,1", "Raga Kafi");
+scalesDict_int.set("7raga_todi,1", "Raga Todi");
+scalesDict_int.set("7raga_yaman,1", "Raga Yaman");
+scalesDict_int.set("trad,sep", "");
 
 scalesDict_int.set("xenharmonics_tet", "-------------- Equal temperaments -------------");
 
@@ -97,7 +143,12 @@ scalesDict_int.set("128edo_approx_22,1", "128-EDO Approx[22]");
 scalesDict_int.set("313edo_island_9,1", "313-EDO Island / Madagascar / Barbados[9]");
 scalesDict_int.set("xen_tet_subsets,sep", "");
 
+scalesDict_int.set("xenharmonics_misc_sub", "------------------- Miscellaneous ------------------");
+
+scalesDict_int.set("6hexany1379,1", "Hexany[6] 1-3-7-9");
 scalesDict_int.set("7tetrachordal,1", "Tetrachordal[7]");
+scalesDict_int.set("11semaphore,1", "Semaphore[11]");
+scalesDict_int.set("17supermariner,1", "Supermariner[17]");
 
 
 /////////////////////////////////// FRENCH ////////////////////////////////////
@@ -107,6 +158,8 @@ scalesDict_fr.set("xenharmonics", "--------------- XENHARMONIQUES --------------
 
 scalesDict_fr.set("xenharmonics_ji", "------------------- Intonation juste ------------------");
 
+scalesDict_fr.set("xenharmonics_trad", "------------------- Traditionnelles -------------------");
+
 scalesDict_fr.set("7ji_major,1", "Juste intonation majeure");
 scalesDict_fr.set("7ji_minor,1", "Juste intonation mineure");
 scalesDict_fr.set("7ji_indian,1", "Juste intonation indienne");
@@ -114,3 +167,5 @@ scalesDict_fr.set("7ji_indian,1", "Juste intonation indienne");
 scalesDict_fr.set("xenharmonics_tet", "------------- Tempéraments égaux --------------");
 
 scalesDict_fr.set("xenharmonics_tet_sub", "------- Extraits tempéraments égaux ------");
+
+scalesDict_fr.set("xenharmonics_misc_sub", "------------------------ Diverses ------------------------");
