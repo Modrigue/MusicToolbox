@@ -157,6 +157,7 @@ document.addEventListener('keydown', function (e) {
     const nbNotesInScale = scaleValues.length;
     const position = getPositionFromInputKey(e, nbNotesInScale);
     //console.log(`Key down ${e.key} code: ${e.code} => pos: ${position}`);
+    const startOctave = Math.floor(nbNotesInScale / 12);
     if (position < 0)
         return;
     const positionInScale = position % nbNotesInScale;
@@ -167,7 +168,7 @@ document.addEventListener('keydown', function (e) {
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
     if (notesPressed.indexOf(noteValue) < 0 && noteValueMin + noteValue <= noteValueMax) {
         MIDI.setVolume(channelPlay, volumePlay);
-        MIDI.noteOn(channelPlay, noteValueMin + Math.floor(noteValue), 60, 0, pitchBend);
+        MIDI.noteOn(channelPlay, 12 * startOctave + noteValueMin + Math.floor(noteValue), 60, 0, pitchBend);
         notesPressed.push(noteValue);
     }
     //console.log(notesPressed);
@@ -183,12 +184,13 @@ document.addEventListener('keyup', function (e) {
     const position = getPositionFromInputKey(e, nbNotesInScale);
     if (position < 0)
         return;
+    const startOctave = Math.floor(nbNotesInScale / 12);
     const positionInScale = position % nbNotesInScale;
     const octave = Math.floor(position / nbNotesInScale);
     const noteValue = tonicValue + scaleValues[positionInScale] + 12 * octave;
     const noteIndex = notesPressed.indexOf(noteValue, 0);
     if (noteIndex >= 0 && noteValueMin + noteValue <= noteValueMax) {
-        MIDI.noteOff(channelPlay, noteValueMin + Math.floor(noteValue));
+        MIDI.noteOff(channelPlay, 12 * startOctave + noteValueMin + Math.floor(noteValue));
         notesPressed.splice(noteIndex, 1);
     }
     //console.log(notesPressed);

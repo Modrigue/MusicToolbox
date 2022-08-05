@@ -1,7 +1,5 @@
 function getPositionFromInputKey(e: KeyboardEvent, nbNotesInScale: number): number
-{
-    let startOctave = Math.floor(nbNotesInScale / 12);
-    
+{    
     let position = -999;
     switch (e.code)
     {
@@ -145,8 +143,6 @@ function getPositionFromInputKey(e: KeyboardEvent, nbNotesInScale: number): numb
             position = 46;
             break;
     }
-
-    position += startOctave*nbNotesInScale;
 
     return position;
 }
