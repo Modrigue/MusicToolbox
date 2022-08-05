@@ -380,6 +380,8 @@ scalesDict_fr.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4e mode)");
 
 scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre (6e mode)");
 
+scalesDict_fr.set("5notes_quarter_tones", "----------------- 5 NOTES ¼ TONS -----------------");
+
 
 // global dictionary
 const scalesDicts: Map<string, Map<string, string>> = new Map<string,Map<string, string>>();

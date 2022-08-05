@@ -44,13 +44,9 @@ scaleFamiliesDict.set("313edo_island_9", [0, 2.03195, 2.49201, 4.52396, 4.98403,
 scaleFamiliesDict.set("7tetrachordal", [0, 1.82404, 3.47408, 4.98045, 7.01955, 8.84359, 10.49363]);
 //////////////////////////////////// STRINGS //////////////////////////////////
 // international
-scalesDict_int.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONES ---------------");
-scalesDict_int.set("5tet_approx,1,diff:5major_penta;4", "5-TET / 5-EDO (Approximation)");
-scalesDict_int.set("5notes_quarter_tones,sep", "");
 scalesDict_int.set("xenharmonics", "----------------- XENHARMONICS ----------------");
-for (const nbNotes of xenTETScalesNbNotes)
-    scalesDict_int.set(`${nbNotes}tet,1`, `${nbNotes}-TET / ${nbNotes}-EDO`);
-scalesDict_int.set("5xen_tet,sep", "");
+scalesDict_int.set("xen_title, sep", "");
+scalesDict_int.set("xenharmonics_ji", "------------------ Just Intonation ------------------");
 scalesDict_int.set("7ji_major,1", "Just intonation major");
 scalesDict_int.set("7ji_minor,1", "Just intonation minor");
 scalesDict_int.set("7ji_indian,1", "Just intonation indian");
@@ -60,6 +56,11 @@ scalesDict_int.set("12ji_kg_centaura_harm,1", "Kraig Grady Centaura harmonic");
 scalesDict_int.set("12ji_kg_centaura_sub,1", "Kraig Grady Centaura subharmonic");
 scalesDict_int.set("12ji_wc_sj,1", "Wendy Carlos Super Just");
 scalesDict_int.set("ji,sep", "");
+scalesDict_int.set("xenharmonics_tet", "-------------- Equal temperaments -------------");
+for (const nbNotes of xenTETScalesNbNotes)
+    scalesDict_int.set(`${nbNotes}tet,1`, `${nbNotes}-TET / ${nbNotes}-EDO`);
+scalesDict_int.set("xen_tet,sep", "");
+scalesDict_int.set("xenharmonics_tet_sub", "------- Equal temperaments subsets ------");
 scalesDict_int.set("11edo_machine_6,1", "11-EDO Machine[6]");
 scalesDict_int.set("13edo_father_8,1", "13-EDO Father[8]");
 scalesDict_int.set("13edo_glacial_7,1", "13-EDO Glacial[7]");
@@ -77,11 +78,14 @@ scalesDict_int.set("31edo_meantone_19,1", "31-EDO MeanTone[19]");
 scalesDict_int.set("46edo_sensi_11,1", "46-EDO Sensi[11]");
 scalesDict_int.set("128edo_approx_22,1", "128-EDO Approx[22]");
 scalesDict_int.set("313edo_island_9,1", "313-EDO Island / Madagascar / Barbados[9]");
-scalesDict_int.set("edo_subsets,sep", "");
+scalesDict_int.set("xen_tet_subsets,sep", "");
 scalesDict_int.set("7tetrachordal,1", "Tetrachordal[7]");
 /////////////////////////////////// FRENCH ////////////////////////////////////
-scalesDict_fr.set("xenharmonics", "-------------- XENHARMONIQUES --------------");
+scalesDict_fr.set("xenharmonics", "--------------- XENHARMONIQUES ---------------");
+scalesDict_fr.set("xenharmonics_ji", "------------------- Intonation juste ------------------");
 scalesDict_fr.set("7ji_major,1", "Juste intonation majeure");
 scalesDict_fr.set("7ji_minor,1", "Juste intonation mineure");
 scalesDict_fr.set("7ji_indian,1", "Juste intonation indienne");
+scalesDict_fr.set("xenharmonics_tet", "------------- Tempéraments égaux --------------");
+scalesDict_fr.set("xenharmonics_tet_sub", "------- Extraits tempéraments égaux ------");
 //# sourceMappingURL=scales_xenharmonic.js.map

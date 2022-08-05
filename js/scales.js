@@ -315,6 +315,7 @@ scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
 scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 scalesDict_fr.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4e mode)");
 scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre (6e mode)");
+scalesDict_fr.set("5notes_quarter_tones", "----------------- 5 NOTES ¼ TONS -----------------");
 // global dictionary
 const scalesDicts = new Map();
 scalesDicts.set("int", scalesDict_int);
