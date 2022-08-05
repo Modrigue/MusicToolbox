@@ -40,14 +40,14 @@ scaleFamiliesDict.set("5dom_penta", [0, 2, 4, 7, 10]);
 scaleFamiliesDict.set("5bartok_penta", [0, 4, 6, 7, 10]);
 scaleFamiliesDict.set("5phryg6_penta", [0, 1, 3, 7, 9]);
 scaleFamiliesDict.set("5blues_no4_penta", [0, 3, 6, 7, 10]);
-// 8 notes with quarter tones
+// 8 notes microtonal
 scaleFamiliesDict.set("8bastanikar", [0, 1.5, 3.5, 5, 6.5, 7.5, 10.5, 11.5]);
 scaleFamiliesDict.set("8dalanshin", [0, 1, 2, 3.5, 5, 7, 9, 10.5]);
 scaleFamiliesDict.set("8jiharkah", [0, 2, 4, 5, 7, 9, 10, 10.5]);
 scaleFamiliesDict.set("8mehayar", [0, 1.5, 3, 5, 7, 8, 8.5, 10]);
 scaleFamiliesDict.set("8kirdan", [0, 2, 3, 3.5, 5, 7, 9, 10.5]);
 scaleFamiliesDict.set("8tet", [0, 1.5, 3, 4.5, 6, 7.5, 9, 10.5]);
-// 7 notes with quarter tones
+// 7 notes microtonal
 scaleFamiliesDict.set("7hijaz", [0, 1, 4, 5, 7, 8.5, 10]);
 scaleFamiliesDict.set("7rast", [0, 2, 3.5, 5, 7, 9, 10.5]);
 scaleFamiliesDict.set("7bayati", [0, 1.5, 3, 5, 7, 8, 10]);
@@ -57,28 +57,10 @@ scaleFamiliesDict.set("7mustaar", [0, 2.5, 3.5, 5.5, 6.5, 8.5, 10.5]);
 scaleFamiliesDict.set("7saba", [0, 1.5, 3, 4, 7, 8, 10]);
 scaleFamiliesDict.set("7sikah_baladi", [0, 1.5, 3.5, 5, 7, 8.5, 10.5]);
 scaleFamiliesDict.set("7nairuzb2", [0, 1, 3.5, 5, 7, 8.5, 10]);
-// 5 notes with quarter tones
+// 5 notes microtonal
 scaleFamiliesDict.set("5tet_approx", [0, 2.5, 5, 7, 9.5]);
 // chromatic
 scaleFamiliesDict.set("12tet", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-// xenharmonics
-// equal-temperament scales
-const xenTETScalesNbNotes = [5, 7, 9, 10, 11, 13, 14, 15, 16, 17, 19, 22, 23, 24];
-for (const nbNotes of xenTETScalesNbNotes) {
-    let scaleValuesXenCur = [];
-    for (let i = 0; i < nbNotes; i++)
-        scaleValuesXenCur.push(i * 12 / nbNotes);
-    scaleFamiliesDict.set(`${nbNotes}tet`, scaleValuesXenCur);
-}
-// from: https://en.wikipedia.org/wiki/Just_intonation
-scaleFamiliesDict.set("7ji_major", [0, 2.04, 3.86, 4.98, 7.02, 8.84, 10.88]);
-scaleFamiliesDict.set("7ji_minor", [0, 2.04, 3.16, 4.98, 7.02, 8.14, 10.18]);
-scaleFamiliesDict.set("7ji_indian", [0, 2.04, 3.86, 4.98, 7.02, 9.06, 10.88]);
-scaleFamiliesDict.set("12ji_wc_sj", [0, 1.04955, 2.03910, 3.15641, 3.86314, 4.98045, 5.51318, 7.01955, 8.40528, 8.84359, 9.68826, 10.88269]);
-// from: https://sevish.com/scaleworkshop
-scaleFamiliesDict.set("11edo_machine_6", [0, 2.18182, 4.36364, 6.54545, 8.72727, 10.90909]);
-scaleFamiliesDict.set("13edo_glacial_7", [0, 1.8573, 3.7146, 5.5718, 7.4291, 9.2864, 11.1437]);
-scaleFamiliesDict.set("7tetrachordal", [0, 1.82404, 3.47408, 4.98045, 7.01955, 8.84359, 10.49363]);
 //////////////////////////////////// STRINGS //////////////////////////////////
 // international
 const scalesDict_int = new Map();
@@ -236,19 +218,6 @@ scalesDict_int.set("7nairuzb2,1,diff:7major_nat;6", "Nairuz ♭2");
 scalesDict_int.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONES ---------------");
 scalesDict_int.set("5tet_approx,1,diff:5major_penta;4", "5-TET / 5-EDO (Approximation)");
 scalesDict_int.set("5notes_quarter_tones,sep", "");
-scalesDict_int.set("xenharmonics", "----------------- XENHARMONICS ----------------");
-for (const nbNotes of xenTETScalesNbNotes)
-    scalesDict_int.set(`${nbNotes}tet,1`, `${nbNotes}-TET / ${nbNotes}-EDO`);
-scalesDict_int.set("5xen_tet,sep", "");
-scalesDict_int.set("7ji_major,1", "Just intonation major");
-scalesDict_int.set("7ji_minor,1", "Just intonation minor");
-scalesDict_int.set("7ji_indian,1", "Just intonation indian");
-scalesDict_int.set("12ji_wc_sj,1", "Wendy Carlos' super just");
-scalesDict_int.set("ji,sep", "");
-scalesDict_int.set("11edo_machine_6,1", "11-EDO Machine[6]");
-scalesDict_int.set("13edo_glacial_7,1", "13-EDO Glacial[7]");
-scalesDict_int.set("edo_subsets,sep", "");
-scalesDict_int.set("7tetrachordal,1", "Tetrachordal[7]");
 /////////////////////////////////// FRENCH ////////////////////////////////////
 const scalesDict_fr = new Map();
 scalesDict_fr.set("12tet,1", "Chromatique");
@@ -346,10 +315,6 @@ scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
 scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 scalesDict_fr.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4e mode)");
 scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre (6e mode)");
-scalesDict_fr.set("xenharmonics", "-------------- XENHARMONIQUES --------------");
-scalesDict_fr.set("7ji_major,1", "Juste intonation majeure");
-scalesDict_fr.set("7ji_minor,1", "Juste intonation mineure");
-scalesDict_fr.set("7ji_indian,1", "Juste intonation indienne");
 // global dictionary
 const scalesDicts = new Map();
 scalesDicts.set("int", scalesDict_int);
