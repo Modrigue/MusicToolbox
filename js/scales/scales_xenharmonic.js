@@ -29,10 +29,16 @@ scaleFamiliesDict.set("12ji_young_1799", [0, 1.060, 1.980, 3.062, 4.001, 5.020, 
 scaleFamiliesDict.set("22shruti", [0, 0.90225, 1.11731, 1.82404, 2.03910, 2.94135, 3.15641, 3.86314, 4.07820, 4.98045, 5.19551, 5.90224, 6.11730, 7.01955, 7.92180, 8.13686, 8.84359, 9.05865, 9.96090, 10.17596, 10.88269, 11.09775]);
 scaleFamiliesDict.set("7archytas_dia", [0, 0.62961, 2.94135, 4.98045, 7.01955, 7.64916, 9.96090]);
 scaleFamiliesDict.set("7archytas_enh", [0, 0.62961, 1.11731, 4.98045, 7.01955, 7.64916, 8.13686]);
+scaleFamiliesDict.set("7balafon1", [1.87, 3.56, 5.26, 6.72, 8.56, 9.85, 12.22]);
 scaleFamiliesDict.set("7balafon2", [0, 1.52, 2.87, 5.33, 7.24, 8.90, 10.29]);
+scaleFamiliesDict.set("7balafon3", [1.95, 2.89, 5.13, 6.86, 7.96, 10.08, 12.09]);
+scaleFamiliesDict.set("7balafon4", [1.51, 3.45, 5.26, 6.60, 8.61, 10.25, 11.41]);
+scaleFamiliesDict.set("7balafon5", [1.69, 3.50, 5.43, 7.09, 8.94, 10.40, 12.05]);
+scaleFamiliesDict.set("7balafon6", [1.14, 3.50, 5.50, 6.87, 8.38, 10.32, 11.96]);
 scaleFamiliesDict.set("5balafon7", [0, 2.02, 3.70, 6.85, 9.03]);
 scaleFamiliesDict.set("7didymus", [0, 1.11731, 1.82404, 4.98045, 7.01955, 8.13686, 8.84359]);
 scaleFamiliesDict.set("5hirajoshi_trad", [0, 1.85, 3.37, 6.83, 7.90]);
+scaleFamiliesDict.set("7pelog_norm", [1.20, 2.70, 5.40, 6.70, 7.85, 9.50, 12.15]);
 scaleFamiliesDict.set("7ptolemy_di", [0, 0.90225, 2.94135, 4.98045, 7.01955, 7.92180, 9.96090]);
 scaleFamiliesDict.set("7ptolemy_he", [0, 1.50637, 3.15641, 4.98045, 7.01955, 8.52592, 10.17596]);
 scaleFamiliesDict.set("7raga_bageshri", [0, 1.82404, 2.94135, 4.98045, 7.01955, 8.84359, 9.96090]);
@@ -40,6 +46,7 @@ scaleFamiliesDict.set("8raga_bhairavi", [0, 1.11731, 2.03910, 3.15641, 5.19551, 
 scaleFamiliesDict.set("7raga_kafi", [0, 2.03910, 2.94135, 4.98045, 7.01955, 8.84359, 9.96090]);
 scaleFamiliesDict.set("7raga_todi", [0, 0.90225, 2.94135, 5.90224, 7.01955, 7.92180, 10.88269]);
 scaleFamiliesDict.set("7raga_yaman", [0, 2.03910, 3.86314, 5.90224, 7.01955, 9.05865, 10.88269]);
+scaleFamiliesDict.set("5slendro", [2.31, 4.74, 7.17, 9.55, 12.08]);
 // equal temperament subsets
 scaleFamiliesDict.set("11edo_machine_6", [0, 2.18182, 4.36364, 6.54545, 8.72727, 10.90909]);
 scaleFamiliesDict.set("13edo_glacial_7", [0, 1.8573, 3.7146, 5.5718, 7.4291, 9.2864, 11.1437]);
@@ -86,10 +93,16 @@ scalesDict_int.set("xenharmonics_trad", "--------------------- Traditionnal ----
 scalesDict_int.set("22shruti,1", "22 Shruti");
 scalesDict_int.set("7archytas_dia,1", "Archytas diatonic");
 scalesDict_int.set("7archytas_enh,1", "Archytas enharmonic");
-scalesDict_int.set("7balafon2,1", "Balafon 2");
-scalesDict_int.set("5balafon7,1", "Balafon 7");
+scalesDict_int.set("7balafon1,1", "Balafon 1 (Patna)");
+scalesDict_int.set("7balafon2,1", "Balafon 2 (West-Africa)");
+scalesDict_int.set("7balafon3,1", "Balafon 3 (Pitt-River)");
+scalesDict_int.set("7balafon4,1", "Balafon 4 (Mandinka)");
+scalesDict_int.set("7balafon5,1", "Balafon 5 (Singapore)");
+scalesDict_int.set("7balafon6,1", "Balafon 6 (Burma)");
+scalesDict_int.set("5balafon7,1", "Balafon 7 (South Pacific)");
 scalesDict_int.set("7didymus,1", "Didymus chromatic");
 scalesDict_int.set("5hirajoshi_trad,1", "Hirajoshi (trad.)");
+scalesDict_int.set("7pelog_norm,1", "Pelog (normalized)");
 scalesDict_int.set("7ptolemy_di,1", "Ptolemy diatonic ditoniaion");
 scalesDict_int.set("7ptolemy_he,1", "Ptolemy diatonic hemiolion");
 scalesDict_int.set("7raga_bageshri,1", "Raga Bageshri");
@@ -97,6 +110,7 @@ scalesDict_int.set("8raga_bhairavi,1", "Raga Bhairavi");
 scalesDict_int.set("7raga_kafi,1", "Raga Kafi");
 scalesDict_int.set("7raga_todi,1", "Raga Todi");
 scalesDict_int.set("7raga_yaman,1", "Raga Yaman");
+scalesDict_int.set("5slendro,1", "Slendro");
 scalesDict_int.set("trad,sep", "");
 scalesDict_int.set("xenharmonics_tet", "-------------- Equal temperaments -------------");
 for (const nbNotes of xenTETScalesNbNotes)
@@ -126,14 +140,21 @@ scalesDict_int.set("6hexany1379,1", "Hexany[6] 1-3-7-9");
 scalesDict_int.set("7tetrachordal,1", "Tetrachordal[7]");
 scalesDict_int.set("11semaphore,1", "Semaphore[11]");
 scalesDict_int.set("17supermariner,1", "Supermariner[17]");
+scalesDict_int.set("xen_misc,sep", "");
+scalesDict_int.set("xenharmonics_no_sub", "------------------ Without octave -----------------");
 /////////////////////////////////// FRENCH ////////////////////////////////////
 scalesDict_fr.set("xenharmonics", "--------------- XENHARMONIQUES ---------------");
 scalesDict_fr.set("xenharmonics_ji", "------------------- Intonation juste ------------------");
-scalesDict_fr.set("xenharmonics_trad", "------------------- Traditionnelles -------------------");
 scalesDict_fr.set("7ji_major,1", "Juste intonation majeure");
 scalesDict_fr.set("7ji_minor,1", "Juste intonation mineure");
 scalesDict_fr.set("7ji_indian,1", "Juste intonation indienne");
+scalesDict_fr.set("xenharmonics_trad", "------------------- Traditionnelles -------------------");
+scalesDict_fr.set("7balafon2,1", "Balafon 2 (Afrique de l'Ouest)");
+scalesDict_fr.set("7balafon3,1", "Balafon 3 (Rivière Pitt)");
+scalesDict_fr.set("7balafon5,1", "Balafon 5 (Singapour)");
+scalesDict_fr.set("5balafon7,1", "Balafon 7 (Pacifique Sud)");
 scalesDict_fr.set("xenharmonics_tet", "------------- Tempéraments égaux --------------");
 scalesDict_fr.set("xenharmonics_tet_sub", "------- Extraits tempéraments égaux ------");
 scalesDict_fr.set("xenharmonics_misc_sub", "------------------------ Diverses ------------------------");
+scalesDict_fr.set("xenharmonics_no_sub", "--------------------- Sans octave ---------------------");
 //# sourceMappingURL=scales_xenharmonic.js.map

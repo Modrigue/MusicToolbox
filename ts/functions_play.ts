@@ -227,7 +227,6 @@ document.addEventListener('keydown', function(e)
   const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
   const scaleValues: Array<number> = getScaleValues(scaleId);
   const scaleValuesPositions = getScaleValuesPositions(scaleValues);
-  //const nbNotesInScale = scaleValues.length;
 
   const position = getPositionFromInputKey(e);
   //console.log(`Key down ${e.key} code: ${e.code} => pos: ${position}`);
@@ -263,7 +262,6 @@ document.addEventListener('keyup', function(e)
   const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
   const scaleValues: Array<number> = getScaleValues(scaleId);
   const scaleValuesPositions = getScaleValuesPositions(scaleValues);
-  //const nbNotesInScale = scaleValues.length;
     
   const position = getPositionFromInputKey(e);
   if (position < 0)

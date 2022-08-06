@@ -155,7 +155,6 @@ document.addEventListener('keydown', function (e) {
     const scaleId = document.getElementById("scale_keyboard_scale").value;
     const scaleValues = getScaleValues(scaleId);
     const scaleValuesPositions = getScaleValuesPositions(scaleValues);
-    //const nbNotesInScale = scaleValues.length;
     const position = getPositionFromInputKey(e);
     //console.log(`Key down ${e.key} code: ${e.code} => pos: ${position}`);
     const startOctave = 0; //Math.floor(nbNotesInScale / 12);
@@ -180,7 +179,6 @@ document.addEventListener('keyup', function (e) {
     const scaleId = document.getElementById("scale_keyboard_scale").value;
     const scaleValues = getScaleValues(scaleId);
     const scaleValuesPositions = getScaleValuesPositions(scaleValues);
-    //const nbNotesInScale = scaleValues.length;
     const position = getPositionFromInputKey(e);
     if (position < 0)
         return;
