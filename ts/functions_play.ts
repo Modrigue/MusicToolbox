@@ -226,20 +226,18 @@ document.addEventListener('keydown', function(e)
   const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
   const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
   const scaleValues: Array<number> = getScaleValues(scaleId);
-  const nbNotesInScale = scaleValues.length;
+  const scaleValuesPositions = getScaleValuesPositions(scaleValues);
+  //const nbNotesInScale = scaleValues.length;
 
   const position = getPositionFromInputKey(e);
   //console.log(`Key down ${e.key} code: ${e.code} => pos: ${position}`);
 
-  const startOctave = Math.floor(nbNotesInScale / 12);
+  const startOctave = 0; //Math.floor(nbNotesInScale / 12);
 
   if (position < 0)
     return;
 
-  const positionInScale = position % nbNotesInScale;
-  const octave = Math.floor(position / nbNotesInScale);
-
-  const noteValue = tonicValue + scaleValues[positionInScale] + 12*octave;
+  const noteValue = tonicValue + scaleValuesPositions[position];
 
   // compute pitch bend if non-integer value
   let pitchBend = noteValue - Math.floor(noteValue);
@@ -264,21 +262,20 @@ document.addEventListener('keyup', function(e)
   const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
   const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
   const scaleValues: Array<number> = getScaleValues(scaleId);
-  const nbNotesInScale = scaleValues.length;
+  const scaleValuesPositions = getScaleValuesPositions(scaleValues);
+  //const nbNotesInScale = scaleValues.length;
     
   const position = getPositionFromInputKey(e);
   if (position < 0)
     return;
 
-  const startOctave = Math.floor(nbNotesInScale / 12);
+  const startOctave = 0; //Math.floor(nbNotesInScale / 12);
 
-  const positionInScale = position % nbNotesInScale;
-  const octave = Math.floor(position / nbNotesInScale);
+  const noteValue = tonicValue + scaleValuesPositions[position];
 
-  const noteValue = tonicValue + scaleValues[positionInScale] + 12*octave;
-
+  // release note if pressed
   const noteIndex = notesPressed.indexOf(noteValue, 0);
-  if(noteIndex >= 0  && noteValueMin + noteValue <= noteValueMax)
+  if(noteIndex >= 0 && noteValueMin + noteValue <= noteValueMax)
   {
     MIDI.noteOff(channelPlay, 12*startOctave + noteValueMin + Math.floor(noteValue));
     notesPressed.splice(noteIndex, 1);

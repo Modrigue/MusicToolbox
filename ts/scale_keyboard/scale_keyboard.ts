@@ -147,8 +147,8 @@ function getPositionFromInputKey(e: KeyboardEvent): number
     return position;
 }
 
-// build scale intervals values array
-function getScaleValuesArray(scaleValues: Array<number>): Array<number>
+// build scale intervals positions values array
+function getScaleValuesPositions(scaleValues: Array<number>): Array<number>
 {
     let scaleValuesArray: Array<number> = [];
 

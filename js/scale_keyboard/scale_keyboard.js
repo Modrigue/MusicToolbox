@@ -139,8 +139,8 @@ function getPositionFromInputKey(e) {
     }
     return position;
 }
-// build scale intervals values array
-function getScaleValuesArray(scaleValues) {
+// build scale intervals positions values array
+function getScaleValuesPositions(scaleValues) {
     let scaleValuesArray = [];
     if (scaleValues == null || scaleValues.length == 0)
         return [];
