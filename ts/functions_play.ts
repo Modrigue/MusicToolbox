@@ -230,11 +230,13 @@ document.addEventListener('keydown', function(e)
 
   const position = getPositionFromInputKey(e);
   //console.log(`Key down ${e.key} code: ${e.code} => pos: ${position}`);
-
-  const startOctave = 0; //Math.floor(nbNotesInScale / 12);
-
   if (position < 0)
     return;
+
+  // get selected start octave
+  const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`scale_keyboard_start_octave`)).value;
+  const octaveStartValue: number = parseInt(octaveStartSelected);
+  const noteValueMinOctave = 12*octaveStartValue + noteValueMin;
 
   const noteValue = tonicValue + scaleValuesPositions[position];
   //console.log(noteValue, position, scaleValuesPositions[position]);
@@ -243,10 +245,10 @@ document.addEventListener('keydown', function(e)
   let pitchBend = noteValue - Math.floor(noteValue);
   pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
 
-  if(notesPressed.indexOf(noteValue) < 0 && noteValueMin + noteValue <= noteValueMax)
+  if(notesPressed.indexOf(noteValue) < 0 && noteValueMinOctave + noteValue <= noteValueMax)
   {
       MIDI.setVolume(channelPlay, volumePlay);
-      MIDI.noteOn(channelPlay, 12*startOctave + noteValueMin + Math.floor(noteValue), 60, 0, pitchBend);
+      MIDI.noteOn(channelPlay, noteValueMinOctave + Math.floor(noteValue), 60, 0, pitchBend);
       notesPressed.push(noteValue);
   }
 
@@ -268,15 +270,18 @@ document.addEventListener('keyup', function(e)
   if (position < 0)
     return;
 
-  const startOctave = 0; //Math.floor(nbNotesInScale / 12);
+  // get selected start octave
+  const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`scale_keyboard_start_octave`)).value;
+  const octaveStartValue: number = parseInt(octaveStartSelected);
+  const noteValueMinOctave = 12*octaveStartValue + noteValueMin;
 
   const noteValue = tonicValue + scaleValuesPositions[position];
 
   // release note if pressed
   const noteIndex = notesPressed.indexOf(noteValue, 0);
-  if(noteIndex >= 0 && noteValueMin + noteValue <= noteValueMax)
+  if(noteIndex >= 0 && noteValueMinOctave + noteValue <= noteValueMax)
   {
-    MIDI.noteOff(channelPlay, 12*startOctave + noteValueMin + Math.floor(noteValue));
+    MIDI.noteOff(channelPlay, noteValueMinOctave + Math.floor(noteValue));
     notesPressed.splice(noteIndex, 1);
   }
 

@@ -93,9 +93,11 @@ window.onload = function()
     // scale keyboard
     const selectScaleKeyboardTonic = <HTMLSelectElement>document.getElementById(`scale_keyboard_tonic`);
     const selectScaleKeyboardScale = <HTMLSelectElement>document.getElementById(`scale_keyboard_scale`);
+    const selectScaleKeyboardStartOctave = <HTMLSelectElement>document.getElementById(`scale_keyboard_start_octave`);
     const selectInstrumentKeyboardScale = <HTMLSelectElement>document.getElementById(`scale_keyboard_instrument`);
     selectScaleKeyboardTonic.addEventListener("change", () => { selectScaleKeyboardTonic.blur(); update()});
     selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update()});
+    selectScaleKeyboardStartOctave.addEventListener("change", () => { selectScaleKeyboardStartOctave.blur(); update()});
     selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_keyboard_instrument`)});
 }
 
@@ -185,6 +187,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     // update scale keyboard selectors
     updateNoteSelector(`scale_keyboard_tonic`, 0, false);
     updateScaleSelector(`scale_keyboard_scale`, "12tet,1", true, true);
+    updateOctaveSelector(`scale_keyboard_start_octave`, 0, 4);
     updateInstrumentSelector(`scale_keyboard_instrument`);
 }
 
@@ -469,6 +472,14 @@ function update(): void
 
             // TODO: update scale keyboard
 
+            // get selected start note
+            const tonicSelected: string = (<HTMLSelectElement>document.getElementById(`scale_keyboard_tonic`)).value;
+            const tonicValue: number = parseInt(tonicSelected);
+
+            // get selected start octave
+            const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`scale_keyboard_start_octave`)).value;
+            const octaveStartValue: number = parseInt(octaveStartSelected);
+
             break;
     }
 }
@@ -658,6 +669,7 @@ function updateLocales(): void
     // scale keyboard
     (<HTMLSpanElement>document.getElementById("scale_keyboard_header")).innerText = `♪ ${getString("scale_keyboard_header")} ♪`;
     (<HTMLSpanElement>document.getElementById("scale_keyboard_select_key_text")).innerText = getString("select_key");
+    (<HTMLSpanElement>document.getElementById("scale_keyboard_start_octave_text")).innerText = getString("start_from_octave");
     (<HTMLSpanElement>document.getElementById("scale_keyboard_select_instrument_text")).innerText = getString("instrument");
 
     // update computed data

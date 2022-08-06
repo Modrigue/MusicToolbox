@@ -72,9 +72,11 @@ window.onload = function () {
     // scale keyboard
     const selectScaleKeyboardTonic = document.getElementById(`scale_keyboard_tonic`);
     const selectScaleKeyboardScale = document.getElementById(`scale_keyboard_scale`);
+    const selectScaleKeyboardStartOctave = document.getElementById(`scale_keyboard_start_octave`);
     const selectInstrumentKeyboardScale = document.getElementById(`scale_keyboard_instrument`);
     selectScaleKeyboardTonic.addEventListener("change", () => { selectScaleKeyboardTonic.blur(); update(); });
     selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update(); });
+    selectScaleKeyboardStartOctave.addEventListener("change", () => { selectScaleKeyboardStartOctave.blur(); update(); });
     selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_keyboard_instrument`); });
 };
 function initLanguage() {
@@ -138,6 +140,7 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     // update scale keyboard selectors
     updateNoteSelector(`scale_keyboard_tonic`, 0, false);
     updateScaleSelector(`scale_keyboard_scale`, "12tet,1", true, true);
+    updateOctaveSelector(`scale_keyboard_start_octave`, 0, 4);
     updateInstrumentSelector(`scale_keyboard_instrument`);
 }
 // get selected text from selector
@@ -353,6 +356,12 @@ function update() {
             setVisible('negative_scale', false);
             setVisible("section_found_chords", false);
             // TODO: update scale keyboard
+            // get selected start note
+            const tonicSelected = document.getElementById(`scale_keyboard_tonic`).value;
+            const tonicValue = parseInt(tonicSelected);
+            // get selected start octave
+            const octaveStartSelected = document.getElementById(`scale_keyboard_start_octave`).value;
+            const octaveStartValue = parseInt(octaveStartSelected);
             break;
     }
 }
@@ -495,6 +504,7 @@ function updateLocales() {
     // scale keyboard
     document.getElementById("scale_keyboard_header").innerText = `♪ ${getString("scale_keyboard_header")} ♪`;
     document.getElementById("scale_keyboard_select_key_text").innerText = getString("select_key");
+    document.getElementById("scale_keyboard_start_octave_text").innerText = getString("start_from_octave");
     document.getElementById("scale_keyboard_select_instrument_text").innerText = getString("instrument");
     // update computed data
     updateSelectors();
