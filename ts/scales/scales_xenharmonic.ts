@@ -78,9 +78,16 @@ scaleFamiliesDict.set("7tetrachordal",  [0, 1.82404, 3.47408, 4.98045, 7.01955, 
 scaleFamiliesDict.set("11semaphore",    [0, 0.7954, 1.7637, 2.5591, 4.3228, 5.1182, 6.8818, 6.8818, 7.6773, 9.4409, 10.2364, 11.2046]);
 scaleFamiliesDict.set("17supermariner", [0, 0.45258, 1.76639, 2.21897, 2.67155, 3.12412, 4.43794, 4.89052, 5.34309, 6.65691, 7.10948, 7.56206, 8.87588, 9.32845, 9.78103, 10.23361, 11.54742]);
 
-// non-octaves
-//scaleFamiliesDict.set("golden_ratio", [1.2155, 1.9667, 3.1821, 4.3976, 5.1488, 6.3642, 7.1154, 8.3309]);
-//scaleFamiliesDict.set("mersh", [0.86265, 2.17449, 4.10520, 5.89714, 6.83627]);
+// no octave
+scaleFamiliesDict.set("65cent_et",          [0.65]);
+scaleFamiliesDict.set("88cent_et",          [0.88]);
+scaleFamiliesDict.set("13bohlen_pierce",    [1.46304, 2.92608, 4.38913, 5.85217, 7.31521, 8.77825, 10.24130, 11.70434, 13.16738, 14.63042, 16.09347, 17.55651, 19.01955]);
+scaleFamiliesDict.set("13bohlen_pierce_ji", [1.33238, 3.01847, 4.35084, 5.82512, 7.36931, 8.84359, 10.17596, 11.65024, 13.19443, 14.66871, 16.00108, 17.68717, 19.01955]);
+scaleFamiliesDict.set("8golden_ratio",      [1.2155, 1.9667, 3.1821, 4.3976, 5.1488, 6.3642, 7.1154, 8.3309]);
+scaleFamiliesDict.set("5mersh",             [0.86265, 2.17449, 4.10520, 5.89714, 6.83627]);
+scaleFamiliesDict.set("9wendy_carlos_a",    [0.78, 1.56, 2.34, 3.12, 3.90, 4.68, 5.46, 6.24, 7.02]);
+scaleFamiliesDict.set("11wendy_carlos_b",   [0.638, 1.276, 1.914, 2.552, 3.190, 3.828, 4.466, 5.104, 5.742, 6.380, 7.018]);
+scaleFamiliesDict.set("20wendy_carlos_g",   [0.351, 0.702, 1.053, 1.404, 1.755, 2.106, 2.457, 2.808, 3.159, 3.510, 3.861, 4.212, 4.563, 4.914, 5.265, 5.616, 5.967, 6.318, 6.669, 7.020]);
 
 
 //////////////////////////////////// STRINGS //////////////////////////////////
@@ -167,6 +174,15 @@ scalesDict_int.set("xen_misc,sep", "");
 
 scalesDict_int.set("xenharmonics_no_sub", "------------------ Without octave -----------------");
 
+scalesDict_int.set("65cent_et,1", "65 cent equal temperament");
+scalesDict_int.set("88cent_et,1", "88 cent equal temperament");
+scalesDict_int.set("13bohlen_pierce,1", "Bohlen-Pierce equal (13EDO3)");
+scalesDict_int.set("13bohlen_pierce_ji,1", "Bohlen-Pierce just intonation");
+scalesDict_int.set("8golden_ratio,1", "Golden ratio");
+scalesDict_int.set("5mersh,1", "Mersh");
+scalesDict_int.set("9wendy_carlos_a,1", "Wendy Carlos Alpha");
+scalesDict_int.set("11wendy_carlos_b,1", "Wendy Carlos Beta");
+scalesDict_int.set("20wendy_carlos_g,1", "Wendy Carlos Gamma");
 
 /////////////////////////////////// FRENCH ////////////////////////////////////
 
@@ -193,3 +209,6 @@ scalesDict_fr.set("xenharmonics_tet_sub", "------- Extraits tempéraments égaux
 scalesDict_fr.set("xenharmonics_misc_sub", "------------------------ Diverses ------------------------");
 
 scalesDict_fr.set("xenharmonics_no_sub", "--------------------- Sans octave ---------------------");
+
+scalesDict_fr.set("13bohlen_pierce_ji,1", "Bohlen-Pierce intonation juste");
+scalesDict_fr.set("8golden_ratio,1", "Nombre d'or");
