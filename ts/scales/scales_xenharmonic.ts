@@ -22,6 +22,12 @@ for (const nbNotes of xenTETScalesNbNotes)
 scaleFamiliesDict.set("7ji_major",             [0, 2.04, 3.86, 4.98, 7.02, 8.84, 10.88]);
 scaleFamiliesDict.set("7ji_minor",             [0, 2.04, 3.16, 4.98, 7.02, 8.14, 10.18]);
 scaleFamiliesDict.set("7ji_indian",            [0, 2.04, 3.86, 4.98, 7.02, 9.06, 10.88]);
+scaleFamiliesDict.set("43ji_harry_partch",     [
+0, 0.21506, 0.53273, 0.84467, 1.11731, 1.50637, 1.65004, 1.82404, 2.03910, 2.31174,
+2.66871, 2.94135, 3.15641, 3.47408, 3.86314, 4.17508, 4.35084, 4.70781, 4.98045, 5.19551,
+5.51318, 5.82512, 6.17488, 6.48682, 6.80449, 7.01955, 7.29219, 7.64916, 7.82492, 8.13686,
+8.52592, 8.84359, 9.05865, 9.33129, 9.68826, 9.96090, 10.17596, 10.34996, 10.49363, 10.88269,
+11.15533, 11.46727, 11.78494]);
 scaleFamiliesDict.set("12ji_kg_centaur",       [0, 0.8467 , 2.03910, 2.66871, 3.86314, 4.98045, 5.82512, 7.01955, 7.64916, 8.84359, 9.68826, 10.88269]);
 scaleFamiliesDict.set("12ji_kg_centaura_sub",  [0, 1.19443, 1.82404, 3.33041, 3.86314, 4.98045, 6.17488, 7.01955, 8.21398, 8.84359, 10.34996, 10.88269]);
 scaleFamiliesDict.set("12ji_kg_centaura_harm", [0, 0.53273, 2.03910, 2.66871, 3.86314, 4.98045, 5.51318, 7.01955, 7.64916, 8.84359, 9.68826, 10.88269]);
@@ -67,6 +73,7 @@ scaleFamiliesDict.set("22edo_orwell_9",      [0, 1.09091, 2.72727, 3.81818, 5.45
 scaleFamiliesDict.set("22edo_pajara_12",     [0, 1.09091, 2.18182, 3.27273, 4.36364, 5.45455, 6.00000, 7.09091, 8.18182, 9.27273, 10.36364, 11.45455]);
 scaleFamiliesDict.set("26edo_lemba_10",      [0, 1.38462, 2.30769, 3.69231, 4.61538, 6.00000, 7.38462, 8.30769, 9.69231, 10.61538]);
 scaleFamiliesDict.set("26edo_flattone_12",   [0, 0.46154, 1.84615, 2.30769, 3.69231, 5.07692, 5.53846, 6.92308, 7.38462, 8.76923, 9.23077, 10.61538]);
+scaleFamiliesDict.set("28edo_machine_5",     [0, 2.1428571, 5.5714286, 7.7142857, 9.8571429]);
 scaleFamiliesDict.set("31edo_meantone_19",   [0, 0.38710, 1.16129, 1.54839, 2.32258, 3.09677, 3.48387, 4.25806, 5.03226, 5.41935, 6.19355, 6.58065, 7.35484, 8.12903, 8.51613, 9.29032, 10.06452, 10.45161, 11.22581]);
 scaleFamiliesDict.set("46edo_sensi_11",      [0, 1.30435, 2.60870, 3.91304, 4.43478, 5.73913, 7.04348, 8.34783, 8.86957, 10.17391, 11.47826]);
 scaleFamiliesDict.set("128edo_approx_22",    [0, 0.53273, 1.04955, 1.67462, 2.15891, 2.74582, 3.31349, 3.86314, 4.39587, 4.91269, 5.41453, 5.99815, 6.56273, 7.10948, 7.63950, 8.15376, 8.73505, 9.29744, 9.84215, 10.37023, 10.88269, 11.45036]);
@@ -103,6 +110,7 @@ scalesDict_int.set("xenharmonics_ji", "------------------ Just Intonation ------
 scalesDict_int.set("7ji_major,1", "Just intonation major");
 scalesDict_int.set("7ji_minor,1", "Just intonation minor");
 scalesDict_int.set("7ji_indian,1", "Just intonation indian");
+scalesDict_int.set("43ji_harry_partch,1", "Harry Partch 43-tone");
 scalesDict_int.set("12ji_kg_centaur,1", "Kraig Grady Centaur");
 scalesDict_int.set("12ji_kg_centaura_harm,1", "Kraig Grady Centaura harmonic");
 scalesDict_int.set("12ji_kg_centaura_sub,1", "Kraig Grady Centaura subharmonic");
@@ -158,6 +166,7 @@ scalesDict_int.set("22edo_pajara_12,1", "22-EDO Pajara[12]");
 scalesDict_int.set("22edo_porcupine_8,1", "22-EDO Porcupine[8]");
 scalesDict_int.set("26edo_flattone_12,1", "26-EDO FlatTone[12]");
 scalesDict_int.set("26edo_lemba_10,1", "26-EDO Lemba[10]");
+scalesDict_int.set("28edo_machine_5,1", "28-EDO Machine[5]");
 scalesDict_int.set("31edo_meantone_19,1", "31-EDO MeanTone[19]");
 scalesDict_int.set("46edo_sensi_11,1", "46-EDO Sensi[11]");
 scalesDict_int.set("128edo_approx_22,1", "128-EDO Approx[22]");
