@@ -52,6 +52,9 @@ function getScaleCharValuesFromNotes(scaleId, scaleNotesValues) {
 //////////////////////////////// NOTES FUNCTIONS //////////////////////////////
 // get mode notes values given scale and mode number
 function getModeNotesValues(scaleValues, modeNumber) {
+    // no mode post-process if no octave
+    if (scaleValues != null && scaleValues[0] != 0 && modeNumber == 1)
+        return scaleValues;
     let modeNotesValues = new Array();
     const nbNotes = scaleValues.length;
     for (let i = 0; i < nbNotes; i++) {

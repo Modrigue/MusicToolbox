@@ -161,6 +161,7 @@ document.addEventListener('keydown', function (e) {
     if (position < 0)
         return;
     const noteValue = tonicValue + scaleValuesPositions[position];
+    //console.log(noteValue, position, scaleValuesPositions[position]);
     // compute pitch bend if non-integer value
     let pitchBend = noteValue - Math.floor(noteValue);
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone

@@ -12,6 +12,7 @@ function getScaleValues(scaleId: string = ""): Array<number>
 {
   if (!scaleId || scaleId == "")
     scaleId = (<HTMLSelectElement>document.getElementById("scale")).value;
+  
   const scaleAttributes: Array<string> = scaleId.split(",");
   const scaleName: string = scaleAttributes[0];
   const modeValue: number = parseInt(scaleAttributes[1]);
@@ -71,6 +72,10 @@ function getScaleCharValuesFromNotes(scaleId: string, scaleNotesValues: Array<nu
 // get mode notes values given scale and mode number
 function getModeNotesValues(scaleValues: Array<number>, modeNumber: number): Array<number>
 {
+  // no mode post-process if no octave
+  if (scaleValues != null && scaleValues[0] != 0 && modeNumber == 1)
+    return scaleValues;
+
   let modeNotesValues: Array<number> = new Array<number>();
 
   const nbNotes = scaleValues.length;
@@ -84,7 +89,7 @@ function getModeNotesValues(scaleValues: Array<number>, modeNumber: number): Arr
   const firstInterval = scaleValues[modeNumber - 1];
   for (let i: number = 0; i < nbNotes; i++)
   {
-    modeNotesValues[i] = (modeNotesValues[i] - firstInterval + 12) % 12;
+      modeNotesValues[i] = (modeNotesValues[i] - firstInterval + 12) % 12;
   } 
 
   return modeNotesValues;
