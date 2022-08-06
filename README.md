@@ -1,14 +1,15 @@
-# Music Companion
+# Music Toolbox
 
 Easy to use online music scale and chords generator, finder and player.
 
-* Scale explorer with more than 90 scales / modes included (including quarter tones),
+* Scale explorer with more than 90 scales / modes included (incl. quarter tones),
 * Scale finder,
 * Chord explorer, finder and interactive player,
 * Possibility to hear scales and chords,
 * Scales and chords visualization on guitar and keyboard,
-* Adjustable guitar nb. of strings and tuning.
+* Adjustable guitar nb. of strings and tuning,
+* Playing along with the scale keyboard (incl. microtonal / xenharmonic scales).
 
 [Try it here](http://ngourier.free.fr/musiccompanion/)
 
-_Uses [MIDI.js](https://github.com/mudcube/MIDI.js/) to play notes._
+_Uses [MIDI.js](https://github.com/mudcube/MIDI.js/) to play notes and [soundfonts](https://cindyjs.org/dist/v0.8.8/soundfonts/)._
