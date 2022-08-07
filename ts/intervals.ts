@@ -128,5 +128,5 @@ function getIntervalKeyFromValue(value: string): number
 
 function isMicrotonalInterval(interval: number): boolean
 {
-    return (interval - Math.floor(interval) != 0);  
+    return (interval - Math.floor(interval) == 0.5);  
 }

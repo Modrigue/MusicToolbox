@@ -313,7 +313,7 @@ function update(): void
     // checkboxes
     //setEnabled("checkboxChords3", showChords3);
     //setEnabled("checkboxChords4", showChords4);
-    setEnabled("checkboxChords", showChords3);
+    //setEnabled("checkboxChords", isXen);
 
     const checkboxQuarterTones = (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer"));
     const hasQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
@@ -375,7 +375,7 @@ function update(): void
             const checkboxChords = (<HTMLInputElement>document.getElementById("checkboxChords"));
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked);
             setVisible("canvas_keyboard", checkboxKeyboard.checked);
-            setVisible("section_found_chords", checkboxChords.checked && !hasQuarterTones);
+            setVisible("section_found_chords", checkboxChords.checked /*&& !hasQuarterTones*/);
 
             break;
 

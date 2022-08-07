@@ -99,6 +99,6 @@ function getIntervalKeyFromValue(value) {
     return -1;
 }
 function isMicrotonalInterval(interval) {
-    return (interval - Math.floor(interval) != 0);
+    return (interval - Math.floor(interval) == 0.5);
 }
 //# sourceMappingURL=intervals.js.map

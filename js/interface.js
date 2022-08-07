@@ -231,7 +231,7 @@ function update() {
     // checkboxes
     //setEnabled("checkboxChords3", showChords3);
     //setEnabled("checkboxChords4", showChords4);
-    setEnabled("checkboxChords", showChords3);
+    //setEnabled("checkboxChords", isXen);
     const checkboxQuarterTones = document.getElementById("checkboxQuarterTonesScaleExplorer");
     const hasQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
     // update fretboard
@@ -281,7 +281,7 @@ function update() {
             const checkboxChords = document.getElementById("checkboxChords");
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked);
             setVisible("canvas_keyboard", checkboxKeyboard.checked);
-            setVisible("section_found_chords", checkboxChords.checked && !hasQuarterTones);
+            setVisible("section_found_chords", checkboxChords.checked /*&& !hasQuarterTones*/);
             break;
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();

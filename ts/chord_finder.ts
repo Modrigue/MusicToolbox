@@ -170,20 +170,23 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
                 else if (isCharacteristic)
                     button.classList.add("button-char-interactive");
 
-                // build URL
-                let url = window.location.pathname;
-                url += "?note=" + noteValue.toString();
-                url += "&chord=" + chordId;
-                url += "&lang=" + culture;
-                if (pageSelected == "page_scale_explorer")
+                // build URL (if not microtonal)
+                if (!isMicrotonalInterval(noteValue))
                 {
-                    const nbStrings = Math.max(getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings"), nbNotes);
-                    url += "&guitar_nb_strings=" + nbStrings;
-                    url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
-                }
+                    let url = window.location.pathname;
+                    url += "?note=" + noteValue.toString();
+                    url += "&chord=" + chordId;
+                    url += "&lang=" + culture;
+                    if (pageSelected == "page_scale_explorer")
+                    {
+                        const nbStrings = Math.max(getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings"), nbNotes);
+                        url += "&guitar_nb_strings=" + nbStrings;
+                        url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
+                    }
 
-                const callbackString = `openNewTab(\"${url}\")`;
-                button.setAttribute("onClick", callbackString);
+                    const callbackString = `openNewTab(\"${url}\")`;
+                    button.setAttribute("onClick", callbackString);
+                }
 
                 // set notes as tooltip
                 button.title =
@@ -343,21 +346,24 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     button.classList.add("border-left-radius");
     button.classList.add("button-neap-interactive");
 
-    // build URL
-    let url = window.location.pathname;
-    url += "?note=" + noteValue.toString();
-    url += "&chord=" + chordId;
-    url += "&bass=" + bassValue;
-    url += "&lang=" + culture;
-    if (pageSelected == "page_scale_explorer")
+    // build chord URL (if not microtonal)
+    if (!isMicrotonalInterval(noteValue))
     {
-        const nbStrings = getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
-        url += "&guitar_nb_strings=" + nbStrings;
-        url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
-    }
+        let url = window.location.pathname;
+        url += "?note=" + noteValue.toString();
+        url += "&chord=" + chordId;
+        url += "&bass=" + bassValue;
+        url += "&lang=" + culture;
+        if (pageSelected == "page_scale_explorer")
+        {
+            const nbStrings = getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
+            url += "&guitar_nb_strings=" + nbStrings;
+            url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
+        }
 
-    const callbackString = `openNewTab(\"${url}\")`;
-    button.setAttribute("onClick", callbackString);
+        const callbackString = `openNewTab(\"${url}\")`;
+        button.setAttribute("onClick", callbackString);
+    }
 
     // set notes as tooltip
     button.title =
@@ -422,20 +428,23 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
         button.classList.add("border-left-radius");
         button.classList.add("button-aug6-interactive");
 
-        // build URL
-        let url = window.location.pathname;
-        url += "?note=" + noteValue.toString();
-        url += "&chord=" + chordId;
-        url += "&lang=" + culture;
-        if (pageSelected == "page_scale_explorer")
+        // build chord URL (if not microtonal)
+        if (!isMicrotonalInterval(noteValue))
         {
-            const nbStrings = getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
-            url += "&guitar_nb_strings=" + nbStrings;
-            url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
-        }
+            let url = window.location.pathname;
+            url += "?note=" + noteValue.toString();
+            url += "&chord=" + chordId;
+            url += "&lang=" + culture;
+            if (pageSelected == "page_scale_explorer")
+            {
+                const nbStrings = getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings");
+                url += "&guitar_nb_strings=" + nbStrings;
+                url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
+            }
 
-        const callbackString = `openNewTab(\"${url}\")`;
-        button.setAttribute("onClick", callbackString);
+            const callbackString = `openNewTab(\"${url}\")`;
+            button.setAttribute("onClick", callbackString);
+        }
 
         // set notes as tooltip
         button.title =
