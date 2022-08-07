@@ -1,22 +1,30 @@
 "use strict";
 let channelPlay = 0;
 let volumePlay = 80;
+// for debug purposes only
+const loadInstruments = true;
 function initializePlay() {
     const instruments = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];
     // init MIDI plugins
-    MIDI.loadPlugin({
-        soundfontUrl: "./soundfont/",
-        /*instrument: "acoustic_grand_piano",*/
-        instruments: instruments,
-        onprogress: function (state, progress) {
-            //console.log(state, progress);
-        },
-        onsuccess: function () {
-            //
-        }
-    });
-    // set default MIDI instrument
-    MIDI.channels[0].program = "0";
+    if (loadInstruments) {
+        MIDI.loadPlugin({
+            soundfontUrl: "./soundfont/",
+            /*instrument: "acoustic_grand_piano",*/
+            instruments: instruments,
+            onprogress: function (state, progress) {
+                //console.log(state, progress);
+            },
+            onsuccess: function () {
+                //
+            }
+        });
+        // set default MIDI instrument
+        MIDI.channels[0].program = "0";
+    }
+    else {
+        nbInstrumentsLoaded = nbInstrumentsTotal;
+        onNewInstrumentLoaded();
+    }
 }
 function playNote(noteValue, delay) {
     // for test purposes only

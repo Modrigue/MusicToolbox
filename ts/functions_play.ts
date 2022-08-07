@@ -6,28 +6,39 @@ declare let MIDI: any;
 let channelPlay = 0;
 let volumePlay: number = 80;
 
+// for debug purposes only
+const loadInstruments = true;
+
 function initializePlay(): void
 {
     const instruments: Array<string> = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];
 
     // init MIDI plugins
-    MIDI.loadPlugin(
+    if (loadInstruments)
     {
-        soundfontUrl: "./soundfont/",
-        /*instrument: "acoustic_grand_piano",*/
-        instruments: instruments,
-        onprogress: function(state: any, progress: any)
+        MIDI.loadPlugin(
         {
-            //console.log(state, progress);
-        },
-        onsuccess: function()
-        {
-            //
-        }
-    });
+            soundfontUrl: "./soundfont/",
+            /*instrument: "acoustic_grand_piano",*/
+            instruments: instruments,
+            onprogress: function(state: any, progress: any)
+            {
+                //console.log(state, progress);
+            },
+            onsuccess: function()
+            {
+                //
+            }
+        });
 
-    // set default MIDI instrument
-    MIDI.channels[0].program = "0";
+        // set default MIDI instrument
+        MIDI.channels[0].program = "0";
+    }
+    else
+    {
+        nbInstrumentsLoaded = nbInstrumentsTotal;
+        onNewInstrumentLoaded();
+    }
 }
 
 function playNote(noteValue: number, delay: number): void
