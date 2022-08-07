@@ -170,8 +170,8 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
                 else if (isCharacteristic)
                     button.classList.add("button-char-interactive");
 
-                // build URL (if not microtonal)
-                if (!isMicrotonalInterval(noteValue))
+                // build chord URL (if not microtonal/xenharmonic)
+                if (!isMicrotonalInterval(noteValue) && !isXenharmonicInterval(noteValue))
                 {
                     let url = window.location.pathname;
                     url += "?note=" + noteValue.toString();
@@ -346,8 +346,8 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     button.classList.add("border-left-radius");
     button.classList.add("button-neap-interactive");
 
-    // build chord URL (if not microtonal)
-    if (!isMicrotonalInterval(noteValue))
+    // build chord URL (if not microtonal/xenharmonic)
+    if (!isMicrotonalInterval(noteValue) && !isXenharmonicInterval(noteValue))
     {
         let url = window.location.pathname;
         url += "?note=" + noteValue.toString();
@@ -428,8 +428,8 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
         button.classList.add("border-left-radius");
         button.classList.add("button-aug6-interactive");
 
-        // build chord URL (if not microtonal)
-        if (!isMicrotonalInterval(noteValue))
+        // build chord URL (if not microtonal/xenharmonic)
+        if (!isMicrotonalInterval(noteValue) && !isXenharmonicInterval(noteValue))
         {
             let url = window.location.pathname;
             url += "?note=" + noteValue.toString();
