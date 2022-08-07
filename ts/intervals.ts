@@ -130,3 +130,8 @@ function isMicrotonalInterval(interval: number): boolean
 {
     return (interval - Math.floor(interval) == 0.5);  
 }
+
+function isXenharmonicInterval(interval: number): boolean
+{
+    return ((interval - Math.floor(interval)) % 0.5 != 0);  
+}

@@ -101,4 +101,7 @@ function getIntervalKeyFromValue(value) {
 function isMicrotonalInterval(interval) {
     return (interval - Math.floor(interval) == 0.5);
 }
+function isXenharmonicInterval(interval) {
+    return ((interval - Math.floor(interval)) % 0.5 != 0);
+}
 //# sourceMappingURL=intervals.js.map

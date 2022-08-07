@@ -99,7 +99,7 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     const showQuarterTonesInScaleFinder = document.getElementById("checkboxQuarterTonesScaleFinder").checked;
     // update scale explorer selectors
     updateNoteSelector('note', 0, false, showQuarterTonesInScaleExplorer, resetScaleExplorerNotes);
-    updateScaleSelector('scale', "7major_nat,1");
+    updateScaleSelector('scale', "7major_nat,1", true, true);
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
     // update scale position on guitar selector
@@ -216,14 +216,16 @@ function update() {
     const charIntervals = getScaleCharIntervals();
     const nbNotesInScale = scaleValues.length;
     const scaleValuesMicrotonal = isMicrotonalScale(scaleValues);
+    const scaleValuesXenharmonic = isXenharmonicScale(scaleValues);
+    const scaleValuesChromatic = isChromaticScale(scaleValues);
     // build scale notes list
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
     document.getElementById('scale_result').innerHTML = getScaleNotesTableHTML(noteValue, scaleValues, charIntervals);
     const scaleNotesValuesMicrotonal = isMicrotonalScale(scaleNotesValues);
     // build chords 3,4 notes and quartal harmonization tables
-    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesMicrotonal);
-    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesMicrotonal);
-    const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesMicrotonal);
+    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
+    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
+    const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
     document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal) : "";
     document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
     document.getElementById('chordsQ_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal, 3) : "";
@@ -269,19 +271,22 @@ function update() {
     const aug6thChordsFromScale = document.getElementById('aug_6th_chords_from_scale');
     switch (pageSelected) {
         case "page_scale_explorer":
-            foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
-            negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
-            foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
-            neapChordFromScale.innerHTML = findNeapChordFromTonicHTML(noteValue);
-            aug6thChordsFromScale.innerHTML = findAug6thChordsFromTonicHTML(noteValue);
-            setVisible('found_scales', true);
-            setVisible('negative_scale', true);
+            if (!scaleValuesChromatic && !scaleValuesXenharmonic) {
+                foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
+                negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
+                foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
+                neapChordFromScale.innerHTML = findNeapChordFromTonicHTML(noteValue);
+                aug6thChordsFromScale.innerHTML = findAug6thChordsFromTonicHTML(noteValue);
+                ;
+            }
+            setVisible('found_scales', !scaleValuesChromatic && !scaleValuesXenharmonic);
+            setVisible('negative_scale', !scaleValuesChromatic && !scaleValuesXenharmonic);
             const checkboxGuitar = document.getElementById("checkboxGuitar");
             const checkboxKeyboard = document.getElementById("checkboxKeyboard");
             const checkboxChords = document.getElementById("checkboxChords");
-            setVisible("scale_explorer_guitar_display", checkboxGuitar.checked);
-            setVisible("canvas_keyboard", checkboxKeyboard.checked);
-            setVisible("section_found_chords", checkboxChords.checked /*&& !hasQuarterTones*/);
+            setVisible("scale_explorer_guitar_display", checkboxGuitar.checked && !scaleValuesXenharmonic);
+            setVisible("canvas_keyboard", checkboxKeyboard.checked && !scaleValuesXenharmonic);
+            setVisible("section_found_chords", checkboxChords.checked && !scaleValuesChromatic && !scaleValuesXenharmonic);
             break;
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();
@@ -372,7 +377,7 @@ function onResize() {
     canvasKeyboard.width = window.innerWidth - 30;
     onNoteChanged();
 }
-function onNewInstrumentLoaded(e) {
+function onNewInstrumentLoaded() {
     nbInstrumentsLoaded++;
     allInstrumentsLoaded = (nbInstrumentsLoaded >= nbInstrumentsTotal);
     updateLocales();

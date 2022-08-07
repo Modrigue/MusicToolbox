@@ -335,10 +335,18 @@ function getScaleNotesValues(noteValue, scaleValues) {
     return scaleNotesValues;
 }
 function isMicrotonalScale(notesValues) {
-    for (const noteValue of notesValues) {
+    for (const noteValue of notesValues)
         if (isMicrotonalInterval(noteValue))
             return true;
-    }
     return false;
+}
+function isXenharmonicScale(notesValues) {
+    for (const noteValue of notesValues)
+        if (isXenharmonicInterval(noteValue))
+            return true;
+    return false;
+}
+function isChromaticScale(notesValues) {
+    return arraysEqual(notesValues, scaleFamiliesDict.get("12tet"));
 }
 //# sourceMappingURL=scales.js.map

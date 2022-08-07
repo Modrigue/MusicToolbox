@@ -132,6 +132,8 @@ function getScaleSteps(scaleValues) {
 }
 // get scale inner step notation
 function getStepNotation(stepValue) {
+    if (isXenharmonicInterval(stepValue))
+        return stepValue.toFixed(2);
     const nbTones = Math.floor(stepValue / 2);
     let nbTonesString = nbTones.toString();
     if (stepValue < 2)
@@ -183,16 +185,26 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     // build intervals list
     let intervalsScaleRowHTML = /*html*/ `<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">`;
     scaleValues.forEach(function (intervalValue, index) {
-        const intervalName = intervalsDict.get(intervalValue);
-        const intervalNameAlt = getAltIntervalNotation(intervalValue, index);
+        let intervalName = "?";
+        let intervalNameAlt = "?";
+        if (!isXenharmonicInterval(intervalValue)) // semi or quarter-tone
+         {
+            intervalName = intervalsDict.get(intervalValue);
+            intervalNameAlt = getAltIntervalNotation(intervalValue, index);
+        }
+        else {
+            // get value with cents
+            intervalName = intervalValue.toFixed(2);
+        }
         // highlight if tonic / characteristic interval
         let classString = "table-body-cell";
         if (index == 0)
             classString = "table-body-cell-tonic";
         else if (charIntervals != null && charIntervals.indexOf(index) >= 0)
             classString = "table-body-cell-char";
+        // TODO: no italic if xenharmonic interval?
         // display alternate notation if 7-notes cale
-        const intervalString = (nbNotesInScale == 7 && !isMicrotonalInterval(intervalValue)) ?
+        const intervalString = (nbNotesInScale == 7 && !isMicrotonalInterval(intervalValue) && !isXenharmonicInterval(intervalValue)) ?
             getIntervalString(intervalName, intervalNameAlt) : intervalName;
         intervalsScaleRowHTML += `<div class=${classString}>`;
         intervalsScaleRowHTML += intervalString;
@@ -206,12 +218,14 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
         const stepNotation = getStepNotation(stepValue);
         // highlight half/semi-tones and big steps
         let classString = "table-body-cell";
-        if (stepValue <= 1.5)
-            classString = "table-body-cell-step-1";
-        else if (2 < stepValue && stepValue < 4)
-            classString = "table-body-cell-step-3";
-        else if (stepValue >= 4)
-            classString = "table-body-cell-step-4";
+        if (!isXenharmonicInterval(stepValue)) {
+            if (stepValue <= 1.5)
+                classString = "table-body-cell-step-1";
+            else if (2 < stepValue && stepValue < 4)
+                classString = "table-body-cell-step-3";
+            else if (stepValue >= 4)
+                classString = "table-body-cell-step-4";
+        }
         stepsScaleRowHTML += `<div class=${classString}>${stepNotation}</div>`;
     });
     stepsScaleRowHTML += "</div>";

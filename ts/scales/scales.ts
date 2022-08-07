@@ -414,10 +414,22 @@ function getScaleNotesValues(noteValue: number, scaleValues: Array<number>): Arr
 function isMicrotonalScale(notesValues: Array<number>): boolean
 {
     for (const noteValue of notesValues)
-    {
         if (isMicrotonalInterval(noteValue))
             return true;
-    }
 
     return false;
+}
+
+function isXenharmonicScale(notesValues: Array<number>): boolean
+{
+    for (const noteValue of notesValues)
+        if (isXenharmonicInterval(noteValue))
+            return true;
+
+    return false;
+}
+
+function isChromaticScale(notesValues: Array<number>): boolean
+{
+    return arraysEqual(notesValues, <Array<number>>scaleFamiliesDict.get("12tet"));
 }

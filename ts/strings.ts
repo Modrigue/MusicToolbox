@@ -153,10 +153,37 @@ function getNoteName(noteValue: number): string
   const lang = getSelectedCulture(); 
   const notesDict = <Map<number, string>>notesDicts.get(lang);
 
-  if (notesDict.has(noteValue))
-    return <string>notesDict.get(noteValue);
+  let noteName = ""
+
+  let noteValueToProcess = noteValue;
+
+  // xenharmonics specific: get nearest 1/2 tone and cents
+  const isXenharmonic = isXenharmonicInterval(noteValue);
+  let cents = 0;
+  let sign = "+";
+  if (isXenharmonic)
+  {
+    noteValueToProcess = Math.floor(noteValueToProcess);
+    cents = noteValue - noteValueToProcess;
+    if (cents >= 0.5)
+    {
+        cents = noteValueToProcess + 1 - noteValue;
+        noteValueToProcess = (noteValueToProcess + 1) % 12;
+        sign = "-";
+    }
+
+    cents = Math.round(100*cents);
+  }
+
+  if (notesDict.has(noteValueToProcess))
+    noteName = <string>notesDict.get(noteValueToProcess);
   else
-    return <string>notesDict_int.get(noteValue);
+    noteName = <string>notesDict_int.get(noteValueToProcess);
+
+  if (isXenharmonic)
+    noteName += `${sign}${cents}¢`;
+
+  return noteName;
 }
 
 function getScaleString(id: string): string
