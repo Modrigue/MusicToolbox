@@ -504,7 +504,7 @@ function updateLocales() {
     document.getElementById("song_generator_nb_bars_text").innerText = `${getString("nb_bars")}`;
     document.getElementById("song_generator_tempo_text").innerText = `${getString("tempo")}`;
     document.getElementById("song_generator_checkbox_track1_text").innerText = `${getString("bass")}`;
-    document.getElementById("song_generator_play").innerText = `${getString("play")} ♪`;
+    document.getElementById("song_generator_play").innerText = `${getString("listen")} ♪`;
     document.getElementById("song_generator_reset").innerText = getString("reset");
     updateSongGeneratorPage();
     // scale keyboard

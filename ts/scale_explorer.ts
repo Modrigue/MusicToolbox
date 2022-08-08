@@ -211,28 +211,18 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
 {
   const nbNotesInScale = scaleValues.length;
 
-  // create play button
-  let buttonPlay: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
-  buttonPlay.innerText = `${getString("play")} ♪`;
-  buttonPlay.setAttribute("onClick", "onPlayScale()");
+  // create listen with bass button
+  let buttonListen: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+  buttonListen.innerText = `${getString("listen")} ♪`;
+  buttonListen.setAttribute("onClick", "onPlayScaleWithBass()");
 
-  // create play with bass button
-  let buttonPlayWithBass: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
-  buttonPlayWithBass.innerText = `${getString("play_with_bass")} ♪`;
-  buttonPlayWithBass.setAttribute("onClick", "onPlayScaleWithBass()");
-
-  // create play backwards button
-  let buttonPlayBackwards: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
-  buttonPlayBackwards.innerText = `${getString("play_backwards")} ♪`;
-  buttonPlayBackwards.setAttribute("onClick", "onPlayScaleBackwards()");
-
-  // create play backwards with bass button
-  let buttonPlayBackwardsWithBass: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
-  buttonPlayBackwardsWithBass.innerText = `${getString("play_backwards_with_bass")} ♪`;
-  buttonPlayBackwardsWithBass.setAttribute("onClick", "onPlayScaleBackwardsWithBass()");
+  // create listen backwards with bass button
+  let buttonListenBackwards: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+  buttonListenBackwards.innerText = `${getString("listen_backwards")} ♪`;
+  buttonListenBackwards.setAttribute("onClick", "onPlayScaleBackwardsWithBass()");
 
   // build scale notes list
-  let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonPlay.outerHTML} ${buttonPlayWithBass.outerHTML} ${buttonPlayBackwards.outerHTML} ${buttonPlayBackwardsWithBass.outerHTML}</div><div id=\"resp-table-body\">`;
+  let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonListen.outerHTML} ${buttonListenBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
   let notesScaleRowHTML = "<div class=\"resp-table-row\">";
   const scaleNotesValues: Array<number> = getScaleNotesValues(noteValue, scaleValues);
   scaleNotesValues.forEach(function (noteValue, index)
@@ -330,7 +320,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
 
   // create play button
   let button = document.createElement('button');
-  button.innerText = `${getString("play")} ♪`;
+  button.innerText = `${getString("listen")} ♪`;
   button.setAttribute("onClick", `onPlayChords(${nbNotesInChords},${step})`);
 
   // header

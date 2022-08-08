@@ -672,7 +672,7 @@ function updateLocales(): void
     (<HTMLButtonElement>document.getElementById("song_generator_nb_bars_text")).innerText = `${getString("nb_bars")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_tempo_text")).innerText = `${getString("tempo")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;
-    (<HTMLButtonElement>document.getElementById("song_generator_play")).innerText = `${getString("play")} ♪`;
+    (<HTMLButtonElement>document.getElementById("song_generator_play")).innerText = `${getString("listen")} ♪`;
     (<HTMLButtonElement>document.getElementById("song_generator_reset")).innerText = getString("reset");
     updateSongGeneratorPage();
 
