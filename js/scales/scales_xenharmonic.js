@@ -88,6 +88,8 @@ scaleFamiliesDict.set("13bohlen_pierce", [1.46304, 2.92608, 4.38913, 5.85217, 7.
 scaleFamiliesDict.set("13bohlen_pierce_ji", [1.33238, 3.01847, 4.35084, 5.82512, 7.36931, 8.84359, 10.17596, 11.65024, 13.19443, 14.66871, 16.00108, 17.68717, 19.01955]);
 scaleFamiliesDict.set("8golden_ratio", [1.2155, 1.9667, 3.1821, 4.3976, 5.1488, 6.3642, 7.1154, 8.3309]);
 scaleFamiliesDict.set("5mersh", [0.86265, 2.17449, 4.10520, 5.89714, 6.83627]);
+scaleFamiliesDict.set("15porcupine", [1.0301585, 1.6273726, 2.2245866, 3.2547451, 3.8519592, 4.8821177, 5.4793318, 6.5094903, 7.1067043, 8.1368629, 8.7340769, 9.7642354, 10.3614495, 11.3916080, 11.9888220]);
+scaleFamiliesDict.set("22porcupine", [0.5972140, 1.0301585, 1.6273726, 2.2245866, 2.6575311, 3.2547451, 3.8519592, 4.2849037, 4.8821177, 5.4793318, 5.9122762, 6.5094903, 7.1067043, 7.7039184, 8.1368629, 8.7340769, 9.3312909, 9.7642354, 10.3614495, 10.9586635, 11.3916080, 11.9888220]);
 scaleFamiliesDict.set("9wendy_carlos_a", [0.78, 1.56, 2.34, 3.12, 3.90, 4.68, 5.46, 6.24, 7.02]);
 scaleFamiliesDict.set("11wendy_carlos_b", [0.638, 1.276, 1.914, 2.552, 3.190, 3.828, 4.466, 5.104, 5.742, 6.380, 7.018]);
 scaleFamiliesDict.set("20wendy_carlos_g", [0.351, 0.702, 1.053, 1.404, 1.755, 2.106, 2.457, 2.808, 3.159, 3.510, 3.861, 4.212, 4.563, 4.914, 5.265, 5.616, 5.967, 6.318, 6.669, 7.020]);
@@ -170,6 +172,8 @@ scalesDict_int.set("13bohlen_pierce,1", "Bohlen-Pierce equal (13EDO3)");
 scalesDict_int.set("13bohlen_pierce_ji,1", "Bohlen-Pierce just intonation");
 scalesDict_int.set("8golden_ratio,1", "Golden ratio");
 scalesDict_int.set("5mersh,1", "Mersh");
+scalesDict_int.set("15porcupine,1", "Porcupine[15]");
+scalesDict_int.set("22porcupine,1", "Porcupine[22]");
 scalesDict_int.set("9wendy_carlos_a,1", "Wendy Carlos Alpha");
 scalesDict_int.set("11wendy_carlos_b,1", "Wendy Carlos Beta");
 scalesDict_int.set("20wendy_carlos_g,1", "Wendy Carlos Gamma");
