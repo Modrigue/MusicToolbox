@@ -275,7 +275,7 @@ function update() {
                 foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
                 negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
             }
-            setVisible('found_scales', !scaleValuesChromatic && !scaleValuesXenharmonic);
+            setVisible('section_found_scales', !scaleValuesChromatic && !scaleValuesXenharmonic);
             setVisible('negative_scale', !scaleValuesChromatic && !scaleValuesXenharmonic);
             const checkboxGuitar = document.getElementById("checkboxGuitar");
             const checkboxKeyboard = document.getElementById("checkboxKeyboard");
@@ -291,7 +291,7 @@ function update() {
             break;
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();
-            setVisible('found_scales', true);
+            setVisible('section_found_scales', true);
             setVisible('negative_scale', false);
             setVisible("section_found_chords", false);
             break;
@@ -304,7 +304,7 @@ function update() {
                 updateNbStringsForChordSelector();
                 updateFoundChordElements();
                 updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
-                setVisible('found_scales', false);
+                setVisible('section_found_scales', false);
                 setVisible('negative_scale', false);
                 setVisible("section_found_chords", false);
                 break;
@@ -347,18 +347,18 @@ function update() {
                 //setVisible(`key_notes_chord_tester_text`, hasKey);
                 //setVisible(`key_notes_chord_tester`, hasKey);
                 updateChordTesterTables(noteStartValue, octaveStartValue, selectedKeys);
-                setVisible('found_scales', false);
+                setVisible('section_found_scales', false);
                 setVisible('negative_scale', false);
                 setVisible("section_found_chords", false);
                 break;
             }
         case "page_song_generator":
-            setVisible('found_scales', false);
+            setVisible('section_found_scales', false);
             setVisible('negative_scale', false);
             setVisible("section_found_chords", false);
             break;
         case "page_scale_keyboard":
-            setVisible('found_scales', false);
+            setVisible('section_found_scales', false);
             setVisible('negative_scale', false);
             setVisible("section_found_chords", false);
             // TODO: update scale keyboard

@@ -117,13 +117,13 @@
     <div id="page_welcome" class="center">
       <br><br>
       <h2 id="welcome_title">Welcome</h2>
-      <h3 id="welcome_subtitle" style="font-size: 18px;">Instruments loading, please wait...</h3>
+      <h3 id="welcome_subtitle" style="font-size: 18px;">Welcome to the Music Toolbox</h3>
       <br><br><br><br><br><br>
     </div>
   
     <!-- ######################### SCALES EXPLORER ######################## -->
 
-    <div id="page_scale_explorer">
+    <div id="page_scale_explorer" style="display: none">
 
       <p id="page_scale_explorer_params" class="center" style="font-family:Arial, Helvetica, sans-serif;">
         <span id="select_key_text">Key:</span>
@@ -197,7 +197,7 @@
 
   <!-- ########################### SCALES FINDER ########################## -->
 
-  <div id ='page_scale_finder' class="center">
+  <div id ='page_scale_finder' class="center" style="display: none">
     <p><span id="header_scale_finder">Select your notes and chords:</span></p>
 
     <select name="notes_finder1" id="note_finder1"></select>
@@ -241,14 +241,14 @@
 
   <!-- ########################## RELATIVE SCALES ######################### -->
 
-  <div id='section_found_scales' class='is-grouped'>
+  <div id='section_found_scales' class='is-grouped' style="display: none">
     <p id='found_scales'></p>
     <p id='negative_scale'></p>
   </div>
 
   <!-- ########################## CHORDS EXPLORER ######################### -->
 
-  <div id ='page_chord_explorer'>
+  <div id ='page_chord_explorer' style="display: none">
     <div>
       <input type="radio" id="radioChordExplorerName" name="chord_explorer_mode" value="name" checked onchange="update()">
       <label class="input-label" id="radioChordExplorerNameLabel" for="radioChordExplorerName">Name:</label>
@@ -318,7 +318,7 @@
 
     <!-- ############################ CHORDS TESTER ########################### -->
 
-    <div id ='page_chord_tester'>
+    <div id ='page_chord_tester' style="display: none">
       <div id='options_chord_tester'>
         <p class='align-left'>
           <input type="radio" id="radioChordTesterChords" name="chord_tester_mode" value="chords" checked>
@@ -363,7 +363,7 @@
 
     <!-- ################## SONG GENERATOR (EXPERIMENTAL) ################# -->
 
-    <div id ='page_song_generator'>
+    <div id ='page_song_generator' style="display: none">
       
       <p class='align-center'>
         <span id="song_generator_type_text">Counterpoint 1:1</span>
@@ -404,7 +404,7 @@
 
     <!-- ########################## SCALE KEYBOARD ########################## -->
 
-    <div id ='page_scale_keyboard'>
+    <div id ='page_scale_keyboard' style="display: none">
       <p class='align-center'>
         <em><span id="scale_keyboard_header" style="color: grey">Use your keyboard to play within the selected key</span></em>
         <br/><br/>
