@@ -647,8 +647,8 @@ function updateLocales(): void
     (<HTMLLabelElement>document.getElementById("radioChordExplorerNameLabel")).innerText = getString("name");
     (<HTMLLabelElement>document.getElementById("radioChordExplorerNotesLabel")).innerText = getString("notes");
     (<HTMLSpanElement>document.getElementById("chord_explorer_bass_text")).innerText = getString("bass_chord_explorer");
-    (<HTMLButtonElement>document.getElementById("play_found_chord")).innerText = `${getString("play")} ♪`;
-    (<HTMLButtonElement>document.getElementById("play_found_arpeggio")).innerText = `${getString("play_arpeggio")} ♪`;
+    (<HTMLButtonElement>document.getElementById("play_found_chord")).innerText = `${getString("chord")} ♪`;
+    (<HTMLButtonElement>document.getElementById("play_found_arpeggio")).innerText = `${getString("arpeggio")} ♪`;
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_nb_strings_text")).innerText = getString("nb_strings");
     (<HTMLSpanElement>document.getElementById("chord_explorer_guitar_tuning_text")).innerText = getString("tuning");
     (<HTMLSpanElement>document.getElementById("chord_explorer_nb_strings_max_text")).innerText = getString("chord_explorer_nb_strings_max_text");

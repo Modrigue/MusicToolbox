@@ -482,8 +482,8 @@ function updateLocales() {
     document.getElementById("radioChordExplorerNameLabel").innerText = getString("name");
     document.getElementById("radioChordExplorerNotesLabel").innerText = getString("notes");
     document.getElementById("chord_explorer_bass_text").innerText = getString("bass_chord_explorer");
-    document.getElementById("play_found_chord").innerText = `${getString("play")} ♪`;
-    document.getElementById("play_found_arpeggio").innerText = `${getString("play_arpeggio")} ♪`;
+    document.getElementById("play_found_chord").innerText = `${getString("chord")} ♪`;
+    document.getElementById("play_found_arpeggio").innerText = `${getString("arpeggio")} ♪`;
     document.getElementById("chord_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("chord_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("chord_explorer_nb_strings_max_text").innerText = getString("chord_explorer_nb_strings_max_text");
