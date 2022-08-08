@@ -346,7 +346,10 @@ function isXenharmonicScale(notesValues) {
             return true;
     return false;
 }
+// consider 24-TET as chromatic
 function isChromaticScale(notesValues) {
-    return arraysEqual(notesValues, scaleFamiliesDict.get("12tet"));
+    const is12TET = arraysEqual(notesValues, scaleFamiliesDict.get("12tet"));
+    const is24TET = arraysEqual(notesValues, scaleFamiliesDict.get("24tet"));
+    return (is12TET || is24TET);
 }
 //# sourceMappingURL=scales.js.map
