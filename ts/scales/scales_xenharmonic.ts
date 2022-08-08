@@ -1,7 +1,7 @@
 // xenharmonics
 
 // equal-temperament scales
-const xenTETScalesNbNotes = [5, 7, 9, 10, 11, 13, 14, 15, 16, 17, 19, 22, 23, 24];
+const xenTETScalesNbNotes = [5, 7, 9, 10, 11, 13, 14, 15, 16, 17, 19, 22, 23, 24, 26, 28];
 for (const nbNotes of xenTETScalesNbNotes)
 {
     let scaleValuesXenCur: Array<number> = [];
@@ -71,6 +71,7 @@ scaleFamiliesDict.set("9island_313edo",     [0, 2.03195, 2.49201, 4.52396, 4.984
 scaleFamiliesDict.set("10lemba_26edo",      [0, 1.38462, 2.30769, 3.69231, 4.61538, 6.00000, 7.38462, 8.30769, 9.69231, 10.61538]);
 scaleFamiliesDict.set("5machine_28edo",     [0, 2.1428571, 5.5714286, 7.7142857, 9.8571429]);
 scaleFamiliesDict.set("6machine_11edo",     [0, 2.18182, 4.36364, 6.54545, 8.72727, 10.90909]);
+scaleFamiliesDict.set("11machine_28edo",    [0, 1.2857143, 2.1428571, 3.4285714, 4.2857143, 5.5714286, 6.4285714, 7.7142857, 9.0000000, 9.8571429, 11.1428571]);
 scaleFamiliesDict.set("7mavila_16edo",      [0, 1.50, 3.00, 5.25, 6.75, 8.25, 9.75]);
 scaleFamiliesDict.set("19meantone_31edo",   [0, 0.38710, 1.16129, 1.54839, 2.32258, 3.09677, 3.48387, 4.25806, 5.03226, 5.41935, 6.19355, 6.58065, 7.35484, 8.12903, 8.51613, 9.29032, 10.06452, 10.45161, 11.22581]);
 scaleFamiliesDict.set("9orwell_22edo",      [0, 1.09091, 2.72727, 3.81818, 5.45455, 6.54545, 8.18182, 9.27273, 10.90909]);
@@ -82,6 +83,7 @@ scaleFamiliesDict.set("12superpyth_17edo",  [0, 0.70588, 1.41176, 2.82353, 3.529
 
 // misc
 scaleFamiliesDict.set("6hexany1379",    [0, 2.03910, 2.66871, 4.70781, 7.01955, 9.68826]);
+scaleFamiliesDict.set("19madagascar",   [0, 0.6517572, 1.3801917, 1.8402556, 2.4920128, 3.1437700, 3.8722045, 4.5239617, 4.9840256, 5.6357827, 6.3642173, 7.0159744, 7.4760383, 8.1277955, 8.8562300, 9.5079872, 10.1597444, 10.6198083, 11.3482428]);
 scaleFamiliesDict.set("11semaphore",    [0, 0.7954, 1.7637, 2.5591, 4.3228, 5.1182, 6.8818, 7.6773, 9.4409, 10.2364, 11.2046]);
 scaleFamiliesDict.set("17supermariner", [0, 0.45258, 1.76639, 2.21897, 2.67155, 3.12412, 4.43794, 4.89052, 5.34309, 6.65691, 7.10948, 7.56206, 8.87588, 9.32845, 9.78103, 10.23361, 11.54742]);
 scaleFamiliesDict.set("7tetrachordal",  [0, 1.82404, 3.47408, 4.98045, 7.01955, 8.84359, 10.49363]);
@@ -164,6 +166,7 @@ scalesDict_int.set("9island_313edo,1",    "Island / Madag. / Barbados[9] (313-ED
 scalesDict_int.set("10lemba_26edo,1",     "Lemba[10] (26-EDO)");
 scalesDict_int.set("5machine_28edo,1",    "Machine[5] (28-EDO)");
 scalesDict_int.set("6machine_11edo,1",    "Machine[6] (11-EDO)");
+scalesDict_int.set("11machine_28edo,1",   "Machine[11] (28-EDO)");
 scalesDict_int.set("7mavila_16edo,1",     "Mavila[7] (16-EDO)");
 scalesDict_int.set("19meantone_31edo,1",  "MeanTone[19] (31-EDO)");
 scalesDict_int.set("9orwell_22edo,1",     "Orwell[9] (22-EDO)");
@@ -177,6 +180,7 @@ scalesDict_int.set("xen_tet_subsets,sep", "");
 scalesDict_int.set("xenharmonics_misc_sub", "------------------- Miscellaneous ------------------");
 
 scalesDict_int.set("6hexany1379,1", "Hexany[6] 1-3-7-9");
+scalesDict_int.set("19madagascar,1", "Madagascar[19]");
 scalesDict_int.set("11semaphore,1", "Semaphore[11]");
 scalesDict_int.set("17supermariner,1", "Supermariner[17]");
 scalesDict_int.set("7tetrachordal,1", "Tetrachordal[7]");
