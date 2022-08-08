@@ -64,8 +64,10 @@ stringsDict_int.set("tempo", "Tempo:");
 stringsDict_int.set("title", "Music Toolbox");
 stringsDict_int.set("tonic", "Tonic:");
 stringsDict_int.set("tuning", "Tuning:");
-stringsDict_int.set("welcome_title", "Welcome to the Music Toolbox");
+stringsDict_int.set("welcome_instruments_loaded", "Audio is now activated");
+stringsDict_int.set("welcome_instruments_not_loaded", "To enable audio, click on the button below or on the 'Play' page");
 stringsDict_int.set("welcome_subtitle", "What do you want to do?");
+stringsDict_int.set("welcome_title", "Welcome to the Music Toolbox");
 
 // french
 const stringsDict_fr: Map<string, string> = new Map<string, string>();
@@ -133,8 +135,10 @@ stringsDict_fr.set("tempo", "Tempo :");
 stringsDict_fr.set("title", "Boîte à outils musicale");
 stringsDict_fr.set("tonic", "Tonique :");
 stringsDict_fr.set("tuning", "Accordage :");
-stringsDict_fr.set("welcome_title", "Découvrez la Boîte à outils Musicale");
+stringsDict_fr.set("welcome_instruments_loaded", "L'audio est désormais activé");
+stringsDict_fr.set("welcome_instruments_not_loaded", "Pour activer l'audio, cliquez sur le bouton ci-dessous ou dans la page 'Jouer'");
 stringsDict_fr.set("welcome_subtitle", "Que voulez-vous faire ?");
+stringsDict_fr.set("welcome_title", "Découvrez la Boîte à outils Musicale");
 
 // global dictionary
 const stringsDicts: Map<string, Map<string, string>> = new Map<string,Map<string, string>>();

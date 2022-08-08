@@ -26,6 +26,8 @@ window.onload = function()
 
     (<HTMLButtonElement>document.getElementById("checkboxLanguage")).addEventListener("change", updateLocales);
 
+    (<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadInstruments);
+
     // pages
     for (const page of pagesArray)
         (<HTMLButtonElement>document.getElementById(`button_${page}`)).addEventListener("click", () => selectPage(page));
@@ -516,6 +518,7 @@ function onNewInstrumentLoaded()
         //for (const page of pagesArray)
         //    setEnabled(`button_${page}`, true);
 
+        setVisible("welcome_button_load_instruments", false);
         setVisible("scale_keyboard_button_load_instruments", false);
         instrumentsLoading = false;
     }
@@ -619,6 +622,12 @@ function updateLocales(): void
     // welcome
     (<HTMLHeadElement>document.getElementById("welcome_title")).innerText = getString("welcome_title");
     (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = getString("welcome_subtitle");
+    (<HTMLSpanElement>document.getElementById("welcome_button_load_instruments")).innerText = getString("instruments_load");
+    (<HTMLSpanElement>document.getElementById("welcome_header")).innerText = allInstrumentsLoaded ?
+    `♪ ${getString("welcome_instruments_loaded")} ♪` :
+    (instrumentsLoading ?
+        `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
+        getString("welcome_instruments_not_loaded"));
 
     // scale explorer
     (<HTMLSpanElement>document.getElementById("select_key_text")).innerText = getString("select_key");
