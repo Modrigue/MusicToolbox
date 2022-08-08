@@ -420,6 +420,7 @@ function updateFoundChordElements() {
         buttonPlay.innerText = "♪";
         buttonPlay.classList.add("border-right-radius");
         buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
+        buttonPlay.disabled = !allInstrumentsLoaded;
         foundChordsStr += `${buttonPlay.outerHTML}\r\n`;
         index++;
     }
@@ -427,9 +428,11 @@ function updateFoundChordElements() {
     // update play chord button callback
     let buttonPlayChord = document.getElementById("play_found_chord");
     buttonPlayChord.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0, ${bassValue})`);
+    buttonPlayChord.disabled = !allInstrumentsLoaded;
     // update play arpeggio button callback
     let buttonPlayArpeggio = document.getElementById("play_found_arpeggio");
     buttonPlayArpeggio.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0.25, ${bassValue})`);
+    buttonPlayArpeggio.disabled = !allInstrumentsLoaded;
 }
 function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false) {
     const generatedGuitarChords = document.getElementById('generated_guitar_chords');

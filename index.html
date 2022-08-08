@@ -98,12 +98,12 @@
       <span style='float: left;'>
         <a href="https://github.com/Modrigue/WebMusicScaleGenerator" target="_blank" title="Github"><img src="img/GitHub-Mark-24px.png" alt="GitHub"/></a>
       </span>
-      <button class="button-page" id="button_page_chord_tester" disabled>Test all chords</button>
-      <button class="button-page" id="button_page_chord_explorer" disabled>Find chords</button>
-      <button class="button-page" id="button_page_scale_explorer" disabled>Explore scales</button>
-      <button class="button-page" id="button_page_scale_finder" disabled>Find scales</button>
-      <button class="button-page" id="button_page_song_generator" disabled>Generate a song</button>
-      <button class="button-page" id="button_page_scale_keyboard" disabled>Play</button>
+      <button class="button-page" id="button_page_chord_tester" >Test all chords</button>
+      <button class="button-page" id="button_page_chord_explorer" >Find chords</button>
+      <button class="button-page" id="button_page_scale_explorer" >Explore scales</button>
+      <button class="button-page" id="button_page_scale_finder" >Find scales</button>
+      <button class="button-page" id="button_page_song_generator" >Generate a song</button>
+      <button class="button-page" id="button_page_scale_keyboard" >Play</button>
       <span style='float: right;'>
         <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
         <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
@@ -406,7 +406,9 @@
 
     <div id ='page_scale_keyboard' style="display: none">
       <p class='align-center'>
-        <em><span id="scale_keyboard_header" style="color: grey">Use your keyboard to play within the selected key</span></em>
+        <button id="scale_keyboard_button_load_instruments"><span class="play">Load instruments</span></button>
+        <br/>
+        <em><span id="scale_keyboard_header" style="color: grey">No instruments loaded</span></em>
         <br/><br/>
         <span id="scale_keyboard_select_key_text">Key:</span>
         <select name="scale_keyboard_tonic" id="scale_keyboard_tonic"></select>

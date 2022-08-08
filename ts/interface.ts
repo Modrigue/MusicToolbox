@@ -5,7 +5,8 @@ let pageSelected: string = "";
 
 let allInstrumentsLoaded = false;
 let nbInstrumentsLoaded = 0;
-const nbInstrumentsTotal = 26; // TODO: count files in soudfonts directory
+let instrumentsLoading = false;
+const nbInstrumentsTotal = 26; // TODO: count files in soundfonts directory
 
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
@@ -17,8 +18,6 @@ window.onload = function()
     //testChordPositionsLog();
 
     // add events callbacks to HTML elements
-
-    initializePlay();
 
     window.addEventListener("resize", onResize);
     //document.body.addEventListener("resize", onResize); // not working?
@@ -99,6 +98,7 @@ window.onload = function()
     selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update()});
     selectScaleKeyboardStartOctave.addEventListener("change", () => { selectScaleKeyboardStartOctave.blur(); update()});
     selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_keyboard_instrument`)});
+    (<HTMLButtonElement>document.getElementById('scale_keyboard_button_load_instruments')).addEventListener("click", loadInstruments);
 }
 
 function initLanguage(): void
@@ -509,12 +509,18 @@ function onNewInstrumentLoaded()
 {
     nbInstrumentsLoaded++;
     allInstrumentsLoaded = (nbInstrumentsLoaded >= nbInstrumentsTotal);
-    updateLocales();
 
-    // if all instruments loaded, allow page access
+    // if all instruments loaded, allow interactions
     if (allInstrumentsLoaded)
-    for (const page of pagesArray)
-        setEnabled(`button_${page}`, true);
+    {
+        //for (const page of pagesArray)
+        //    setEnabled(`button_${page}`, true);
+
+        setVisible("scale_keyboard_button_load_instruments", false);
+        instrumentsLoading = false;
+    }
+
+    updateLocales();
 }
 
 function toggleDisplay(id: string): void
@@ -612,9 +618,7 @@ function updateLocales(): void
 
     // welcome
     (<HTMLHeadElement>document.getElementById("welcome_title")).innerText = getString("welcome_title");
-    (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = allInstrumentsLoaded ?
-        getString("welcome_subtitle") :
-        `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%`;
+    (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = getString("welcome_subtitle");
 
     // scale explorer
     (<HTMLSpanElement>document.getElementById("select_key_text")).innerText = getString("select_key");
@@ -677,10 +681,16 @@ function updateLocales(): void
     updateSongGeneratorPage();
 
     // scale keyboard
-    (<HTMLSpanElement>document.getElementById("scale_keyboard_header")).innerText = `♪ ${getString("scale_keyboard_header")} ♪`;
+    (<HTMLSpanElement>document.getElementById("scale_keyboard_button_load_instruments")).innerText = getString("instruments_load");
     (<HTMLSpanElement>document.getElementById("scale_keyboard_select_key_text")).innerText = getString("select_key");
     (<HTMLSpanElement>document.getElementById("scale_keyboard_start_octave_text")).innerText = getString("start_from_octave");
     (<HTMLSpanElement>document.getElementById("scale_keyboard_select_instrument_text")).innerText = getString("instrument");
+
+    (<HTMLSpanElement>document.getElementById("scale_keyboard_header")).innerText = allInstrumentsLoaded ?
+        `♪ ${getString("scale_keyboard_header")} ♪` :
+        (instrumentsLoading ?
+            `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
+            getString("instruments_not_loaded"));
 
     // update computed data
     updateSelectors();

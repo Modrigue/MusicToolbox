@@ -6,43 +6,41 @@ declare let MIDI: any;
 let channelPlay = 0;
 let volumePlay: number = 80;
 
-// for debug purposes only
-const loadInstruments = true;
-
-function initializePlay(): void
+function loadInstruments(): void
 {
+    instrumentsLoading = true;
+    updateLocales(); // force text update
+
+    //for (const page of pagesArray)
+    //    setEnabled(`button_${page}`, false);
+
     const instruments: Array<string> = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];
 
-    // init MIDI plugins
-    if (loadInstruments)
+    // init MIDI plugins / soundfonts
+    MIDI.loadPlugin(
     {
-        MIDI.loadPlugin(
+        soundfontUrl: "./soundfont/",
+        /*instrument: "acoustic_grand_piano",*/
+        instruments: instruments,
+        onprogress: function(state: any, progress: any)
         {
-            soundfontUrl: "./soundfont/",
-            /*instrument: "acoustic_grand_piano",*/
-            instruments: instruments,
-            onprogress: function(state: any, progress: any)
-            {
-                //console.log(state, progress);
-            },
-            onsuccess: function()
-            {
-                //
-            }
-        });
+            //console.log(state, progress);
+        },
+        onsuccess: function()
+        {
+            //
+        }
+    });
 
-        // set default MIDI instrument
-        MIDI.channels[0].program = "0";
-    }
-    else
-    {
-        nbInstrumentsLoaded = nbInstrumentsTotal;
-        onNewInstrumentLoaded();
-    }
+    // set default MIDI instrument
+    MIDI.channels[0].program = "0";
 }
 
 function playNote(noteValue: number, delay: number): void
 {
+    if (!allInstrumentsLoaded)
+        return;
+    
     // for test purposes only
     //playTestTrack();
     //playTestSong();
@@ -230,8 +228,11 @@ let notesPressed: Array<number> = [];
 
 document.addEventListener('keydown', function(e)
 {
-  if (pageSelected != "page_scale_keyboard")
-    return;
+    if (!allInstrumentsLoaded)
+        return;
+  
+    if (pageSelected != "page_scale_keyboard")
+        return;
   
   // get tonic value and scale values
   const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
@@ -268,8 +269,10 @@ document.addEventListener('keydown', function(e)
 
 document.addEventListener('keyup', function(e)
 {
-  if (pageSelected != "page_scale_keyboard")
-    return;
+    if (!allInstrumentsLoaded)
+        return;
+    if (pageSelected != "page_scale_keyboard")
+        return;
   
   // get tonic value and scale values
   const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");

@@ -314,6 +314,7 @@ function getScaleButtonHTML(tonicValue: number, scaleId: string): string
     buttonPlay.innerText = "♪";
     buttonPlay.classList.add("border-right-radius");
     buttonPlay.setAttribute("onClick", `playScale(${tonicValue}, [${scaleValues.toString()}], 0, 0)`);
+    buttonPlay.disabled = !allInstrumentsLoaded;
     buttonHTML += `${buttonPlay.outerHTML}\r\n`;
 
     return buttonHTML;

@@ -1,32 +1,30 @@
 "use strict";
 let channelPlay = 0;
 let volumePlay = 80;
-// for debug purposes only
-const loadInstruments = true;
-function initializePlay() {
+function loadInstruments() {
+    instrumentsLoading = true;
+    updateLocales(); // force text update
+    //for (const page of pagesArray)
+    //    setEnabled(`button_${page}`, false);
     const instruments = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];
-    // init MIDI plugins
-    if (loadInstruments) {
-        MIDI.loadPlugin({
-            soundfontUrl: "./soundfont/",
-            /*instrument: "acoustic_grand_piano",*/
-            instruments: instruments,
-            onprogress: function (state, progress) {
-                //console.log(state, progress);
-            },
-            onsuccess: function () {
-                //
-            }
-        });
-        // set default MIDI instrument
-        MIDI.channels[0].program = "0";
-    }
-    else {
-        nbInstrumentsLoaded = nbInstrumentsTotal;
-        onNewInstrumentLoaded();
-    }
+    // init MIDI plugins / soundfonts
+    MIDI.loadPlugin({
+        soundfontUrl: "./soundfont/",
+        /*instrument: "acoustic_grand_piano",*/
+        instruments: instruments,
+        onprogress: function (state, progress) {
+            //console.log(state, progress);
+        },
+        onsuccess: function () {
+            //
+        }
+    });
+    // set default MIDI instrument
+    MIDI.channels[0].program = "0";
 }
 function playNote(noteValue, delay) {
+    if (!allInstrumentsLoaded)
+        return;
     // for test purposes only
     //playTestTrack();
     //playTestSong();
@@ -156,6 +154,8 @@ const noteValueMin = 24; // C0
 const noteValueMax = 108; // C7
 let notesPressed = [];
 document.addEventListener('keydown', function (e) {
+    if (!allInstrumentsLoaded)
+        return;
     if (pageSelected != "page_scale_keyboard")
         return;
     // get tonic value and scale values
@@ -184,6 +184,8 @@ document.addEventListener('keydown', function (e) {
     //console.log(notesPressed);
 }, false);
 document.addEventListener('keyup', function (e) {
+    if (!allInstrumentsLoaded)
+        return;
     if (pageSelected != "page_scale_keyboard")
         return;
     // get tonic value and scale values

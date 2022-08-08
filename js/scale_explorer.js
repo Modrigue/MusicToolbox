@@ -154,10 +154,12 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     let buttonListen = document.createElement('button');
     buttonListen.innerText = `${getString("listen")} ♪`;
     buttonListen.setAttribute("onClick", "onPlayScaleWithBass()");
+    buttonListen.disabled = !allInstrumentsLoaded;
     // create listen backwards with bass button
     let buttonListenBackwards = document.createElement('button');
     buttonListenBackwards.innerText = `${getString("listen_backwards")} ♪`;
     buttonListenBackwards.setAttribute("onClick", "onPlayScaleBackwardsWithBass()");
+    buttonListenBackwards.disabled = !allInstrumentsLoaded;
     // build scale notes list
     let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonListen.outerHTML} ${buttonListenBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
     let notesScaleRowHTML = "<div class=\"resp-table-row\">";
@@ -235,6 +237,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
     let button = document.createElement('button');
     button.innerText = `${getString("listen")} ♪`;
     button.setAttribute("onClick", `onPlayChords(${nbNotesInChords},${step})`);
+    button.disabled = !allInstrumentsLoaded;
     // header
     const legend = (step == 3) ? "chords_quartal" : "chords_N_notes";
     let chordsTableHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">${getString(legend, nbNotesInChords.toString())} ${button.outerHTML}</div><div id=\"resp-table-body\">`;
