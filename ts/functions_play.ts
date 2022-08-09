@@ -68,7 +68,12 @@ function playScale(noteValue: number, scaleValues: Array<number>,
 
     let noteBassValue = noteValue - 12; // tonic at inferior octave
     let scaleValuesToPlay: Array<number> = cloneIntegerArray(scaleValues);
-    scaleValuesToPlay.push(12); // final note at superior octave
+
+    // if octave scale, final note at superior octave
+    if (isOctaveScale(scaleValuesToPlay))
+        scaleValuesToPlay.push(12);
+    else
+        scaleValuesToPlay.unshift(0);
 
     if (backwards)
         scaleValuesToPlay = scaleValuesToPlay.reverse();
@@ -184,7 +189,11 @@ function onPlayNoteInScale(index: number): void
     // get selected note and scale values
     const noteValue: number = getSelectedNoteValue();
     const scaleValues: Array<number> = getScaleValues();
-    const intervalValue: number = scaleValues[index];
+    let scaleValuesToPlay: Array<number> = cloneIntegerArray(scaleValues);
+    if (!isOctaveScale(scaleValuesToPlay))
+      scaleValuesToPlay.unshift(0);
+
+    const intervalValue: number = scaleValuesToPlay[index];
 
     playNote(noteValue + intervalValue, duration);
 }

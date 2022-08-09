@@ -73,7 +73,7 @@ function getScaleCharValuesFromNotes(scaleId: string, scaleNotesValues: Array<nu
 function getModeNotesValues(scaleValues: Array<number>, modeNumber: number): Array<number>
 {
   // no mode post-process if no octave
-  if (scaleValues != null && scaleValues[0] != 0 && modeNumber == 1)
+  if (!isOctaveScale(scaleValues) && modeNumber == 1)
     return scaleValues;
 
   let modeNotesValues: Array<number> = new Array<number>();
@@ -161,7 +161,7 @@ function getRomanChord(pos: number, chordId: string, nbNotesInChords: number, sc
 }
 
 // get scale inner steps values
-function getScaleSteps(scaleValues: Array<number>): Array<number>
+function getScaleSteps(scaleValues: Array<number>, scaleHasOctave: boolean = true): Array<number>
 {
   if (scaleValues == null)
     return new Array<number>();
@@ -177,7 +177,13 @@ function getScaleSteps(scaleValues: Array<number>): Array<number>
     stepsValues.push(stepValue);
   }
 
-  stepsValues.push(scaleValues[0] + 12 - scaleValues[nbNotes - 1]); // last step with octave
+  if (scaleHasOctave)
+  {
+    // last step with octave
+    stepsValues.push(scaleValues[0] + 12 - scaleValues[nbNotes - 1]);
+  }
+  else
+    stepsValues.push(stepsValues[0]);
 
   return stepsValues;
 }
@@ -210,6 +216,11 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
   charIntervals: Array<number>): string
 {
   const nbNotesInScale = scaleValues.length;
+  const scaleHasOctave = isOctaveScale(scaleValues);
+
+  let scaleValuesToDisplay: Array<number> = cloneIntegerArray(scaleValues);
+  if (!scaleHasOctave)
+    scaleValuesToDisplay.unshift(0);
 
   // create listen with bass button
   let buttonListen: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
@@ -226,7 +237,7 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
   // build scale notes list
   let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonListen.outerHTML} ${buttonListenBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
   let notesScaleRowHTML = "<div class=\"resp-table-row\">";
-  const scaleNotesValues: Array<number> = getScaleNotesValues(noteValue, scaleValues);
+  const scaleNotesValues: Array<number> = getScaleNotesValues(noteValue, scaleValuesToDisplay);
   scaleNotesValues.forEach(function (noteValue, index)
   {
     // highlight if tonic / characteristic note
@@ -245,7 +256,7 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
 
   // build intervals list
   let intervalsScaleRowHTML = /*html*/`<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">`;
-  scaleValues.forEach(function (intervalValue, index)
+  scaleValuesToDisplay.forEach(function (intervalValue, index)
   {
     let intervalName = "?";
     let intervalNameAlt = "?";
@@ -281,7 +292,7 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
   intervalsScaleRowHTML += "</div>";
 
   // build steps list
-  const stepsScaleValues = getScaleSteps(scaleValues);
+  const stepsScaleValues = getScaleSteps(scaleValuesToDisplay, scaleHasOctave);
   let stepsScaleRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;\">";
   stepsScaleValues.forEach(function (stepValue, index)
   {

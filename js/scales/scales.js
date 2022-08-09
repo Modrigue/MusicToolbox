@@ -347,9 +347,14 @@ function isXenharmonicScale(notesValues) {
     return false;
 }
 // consider 24-TET as chromatic
-function isChromaticScale(notesValues) {
-    const is12TET = arraysEqual(notesValues, scaleFamiliesDict.get("12tet"));
-    const is24TET = arraysEqual(notesValues, scaleFamiliesDict.get("24tet"));
+function isChromaticScale(scaleValues) {
+    const is12TET = arraysEqual(scaleValues, scaleFamiliesDict.get("12tet"));
+    const is24TET = arraysEqual(scaleValues, scaleFamiliesDict.get("24tet"));
     return (is12TET || is24TET);
+}
+function isOctaveScale(scaleValues) {
+    if (scaleValues != null && scaleValues.length > 0 && scaleValues[0] != 0)
+        return false;
+    return true;
 }
 //# sourceMappingURL=scales.js.map
