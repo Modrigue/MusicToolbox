@@ -4,6 +4,8 @@ let volumePlay = 80;
 function loadInstruments() {
     instrumentsLoading = true;
     updateLocales(); // force text update
+    setVisible("welcome_button_load_instruments", false);
+    setVisible("scale_keyboard_button_load_instruments", false);
     //for (const page of pagesArray)
     //    setEnabled(`button_${page}`, false);
     const instruments = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];

@@ -11,6 +11,9 @@ function loadInstruments(): void
     instrumentsLoading = true;
     updateLocales(); // force text update
 
+    setVisible("welcome_button_load_instruments", false);
+    setVisible("scale_keyboard_button_load_instruments", false);
+
     //for (const page of pagesArray)
     //    setEnabled(`button_${page}`, false);
 
