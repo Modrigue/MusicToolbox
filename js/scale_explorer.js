@@ -175,11 +175,13 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValuesToDisplay);
     scaleNotesValues.forEach(function (noteValue, index) {
         // highlight if tonic / characteristic note
-        let classString = "table-body-cell-interactive";
+        let classString = "table-body-cell";
         if (index == 0)
-            classString = "table-body-cell-tonic-interactive";
+            classString = "table-body-cell-tonic";
         else if (charIntervals != null && charIntervals.indexOf(index) >= 0)
-            classString = "table-body-cell-char-interactive";
+            classString = "table-body-cell-char";
+        if (allInstrumentsLoaded)
+            classString += "-interactive";
         const callbackString = `onPlayNoteInScale(${index})`;
         const noteName = getNoteName(noteValue);
         notesScaleRowHTML += `<div class=${classString} onclick=${callbackString}>${noteName}</div>`;
@@ -270,11 +272,13 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
         const chordNoteName = getCompactChordNotation(noteName, chordName);
         const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step})`;
         // highlight if tonic note
-        let classString = "table-body-cell-interactive";
+        let classString = "table-body-cell";
         if (index == 0)
-            classString = "table-body-cell-tonic-interactive";
+            classString = "table-body-cell-tonic";
         else if (isChordCharacteristic(noteValue, chordValues, charNotesValues))
-            classString = "table-body-cell-char-interactive";
+            classString = "table-body-cell-char";
+        if (allInstrumentsLoaded)
+            classString += "-interactive";
         chordsRowHTML += /*html*/ `<div class=${classString} onclick=${callbackString}>`;
         chordsRowHTML += chordNoteName;
         chordsRowHTML += "</div>";
@@ -291,7 +295,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
         if (index == 0)
             classString = "table-body-cell-tonic";
         else if (isChordCharacteristic(noteValue, chordValues, charNotesValues))
-            classString = "table-body-cell-char-interactive";
+            classString = "table-body-cell-char";
         chordsRomanRowHTML += /*html*/ `<div class=${classString}>`;
         chordsRomanRowHTML += romanChord;
         chordsRomanRowHTML += "</div>";
@@ -302,7 +306,10 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
     chordValuesArray.forEach(function (chordValues, index) {
         const noteFondamental = scaleNotesValues[index];
         const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step},0.25)`;
-        arpeggiosNotesRowHTML += /*html*/ `<div class=\"table-body-cell-interactive\" onclick=${callbackString}>`;
+        let classString = "table-body-cell";
+        if (allInstrumentsLoaded)
+            classString += "-interactive";
+        arpeggiosNotesRowHTML += /*html*/ `<div class=\"${classString}\" onclick=${callbackString}>`;
         arpeggiosNotesRowHTML += getArpeggioNotesText(noteFondamental, chordValues, tonicValue, charNotesValues);
         arpeggiosNotesRowHTML += "</div>";
     });

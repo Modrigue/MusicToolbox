@@ -49,44 +49,46 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
                 const noteValueInOctave = (noteValue % 12);
                 const noteName = getNoteName(noteValueInOctave);
                 const callbackString = `playChordTest(${noteValue + 12 * (octaveStartValue - 2)}, [${chordValues.toString()}])`;
-                let classString = "table-body-cell-interactive";
+                let classString = "table-body-cell";
                 const divChord = document.createElement('div');
                 // grey chords if not in specified scale(s)
                 if (nbKeys == 1) {
                     let inScale = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValuesArray[0]);
                     if (!inScale)
-                        classString = "table-body-cell-grey-interactive";
+                        classString = "table-body-cell-grey";
                     else if (scaleNotesValuesArray[0] != null && scaleNotesValuesArray[0].length > 0) {
                         for (const [tonicValue, scaleId] of tonicScaleIdArray) {
                             // highlight characteristic chords
                             const charNotesValues = getScaleCharValuesFromNotes(scaleId, scaleNotesValuesArray[0]);
                             const isCharacteristic = isChordCharacteristic(noteValueInOctave, chordValues, charNotesValues);
                             if (noteValueInOctave != tonicValue && isCharacteristic)
-                                classString = "table-body-cell-char-interactive";
+                                classString = "table-body-cell-char";
                             if (noteValueInOctave == tonicValue)
-                                classString = "table-body-cell-tonic-interactive";
+                                classString = "table-body-cell-tonic";
                         }
                     }
                     // highlight Neapolitan / augmented 6th chords
                     for (const [tonicValue, scaleId] of tonicScaleIdArray) {
                         if (isChordNeapolitan(tonicValue, noteValueInOctave, chordId))
-                            classString = "table-body-cell-neap-interactive";
+                            classString = "table-body-cell-neap";
                         if (isChordAugmented6th(tonicValue, noteValueInOctave, chordId))
-                            classString = "table-body-cell-aug6-interactive";
+                            classString = "table-body-cell-aug6";
                     }
                 }
                 else if (nbKeys == 2) {
                     let inScale1 = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValuesArray[0]);
                     let inScale2 = areChordNotesInScale(noteValueInOctave, chordValues, scaleNotesValuesArray[1]);
                     if (!inScale1 && !inScale2)
-                        classString = "table-body-cell-grey-interactive";
+                        classString = "table-body-cell-grey";
                     else if (inScale1 && !inScale2)
-                        classString = "table-body-cell-key1-interactive";
+                        classString = "table-body-cell-key1";
                     else if (!inScale1 && inScale2)
-                        classString = "table-body-cell-key2-interactive";
+                        classString = "table-body-cell-key2";
                     else if (inScale1 && inScale2)
-                        classString = "table-body-cell-keyc-interactive";
+                        classString = "table-body-cell-keyc";
                 }
+                if (allInstrumentsLoaded)
+                    classString += "-interactive";
                 divChord.classList.add(classString);
                 // set notes as tooltip
                 divChord.title =
