@@ -518,6 +518,7 @@ function loadSelectedInstrument()
     if (instrumentsLoaded.indexOf(instrId) >= 0)
         return;
 
+    setEnabled('scale_keyboard_instrument', false);
     instrumentLoadingId = instrId;
     const instrument = <string>instrumentsDict_int.get(instrId);
     loadSoundfont(instrument);
@@ -527,6 +528,7 @@ function onNewInstrumentLoaded()
 {
     instrumentsLoaded.push(instrumentLoadingId);
     setVisible('scale_keyboard_button_load_instruments', false);
+    setEnabled('scale_keyboard_instrument', true);
 
     hasAudio = true;
     instrumentsLoading = false;

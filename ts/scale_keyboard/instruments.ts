@@ -254,5 +254,7 @@ function onInstrumentSelected(id: string)
 
     // check if instrument is loaded
     const instrLoaded = (instrumentsLoaded.indexOf(instrId) >= 0);
-    setVisible('scale_keyboard_button_load_instruments', !instrLoaded, "inline");
+    //setVisible('scale_keyboard_button_load_instruments', !instrLoaded, "inline");
+    if (!instrLoaded)
+        loadSelectedInstrument();
 }

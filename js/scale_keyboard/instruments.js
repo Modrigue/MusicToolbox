@@ -220,6 +220,8 @@ function onInstrumentSelected(id) {
     const instrId = parseInt(instrSelect.value);
     // check if instrument is loaded
     const instrLoaded = (instrumentsLoaded.indexOf(instrId) >= 0);
-    setVisible('scale_keyboard_button_load_instruments', !instrLoaded, "inline");
+    //setVisible('scale_keyboard_button_load_instruments', !instrLoaded, "inline");
+    if (!instrLoaded)
+        loadSelectedInstrument();
 }
 //# sourceMappingURL=instruments.js.map
