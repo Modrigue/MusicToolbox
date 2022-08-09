@@ -1,10 +1,10 @@
 "use strict";
 const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator", "page_scale_keyboard"];
 let pageSelected = "";
-let allInstrumentsLoaded = false;
-let nbInstrumentsLoaded = 0;
+let hasAudio = false;
+let instrumentsLoaded = [];
 let instrumentsLoading = false;
-const nbInstrumentsTotal = 26; // TODO: count files in soundfonts directory
+let instrumentLoadingId = 0;
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms
@@ -14,8 +14,9 @@ window.onload = function () {
     window.addEventListener("resize", onResize);
     //document.body.addEventListener("resize", onResize); // not working?
     window.addEventListener("newInstrumentLoaded", onNewInstrumentLoaded, false);
+    loadDefaultInstrument();
     document.getElementById("checkboxLanguage").addEventListener("change", updateLocales);
-    document.getElementById('welcome_button_load_instruments').addEventListener("click", loadInstruments);
+    //(<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadDefaultInstrument);
     // pages
     for (const page of pagesArray)
         document.getElementById(`button_${page}`).addEventListener("click", () => selectPage(page));
@@ -79,7 +80,7 @@ window.onload = function () {
     selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update(); });
     selectScaleKeyboardStartOctave.addEventListener("change", () => { selectScaleKeyboardStartOctave.blur(); update(); });
     selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_keyboard_instrument`); });
-    document.getElementById('scale_keyboard_button_load_instruments').addEventListener("click", loadInstruments);
+    document.getElementById('scale_keyboard_button_load_instruments').addEventListener("click", loadSelectedInstrument);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -380,17 +381,25 @@ function onResize() {
     canvasKeyboard.width = window.innerWidth - 30;
     onNoteChanged();
 }
+function loadSelectedInstrument() {
+    // get selected instrument
+    const instrSelect = document.getElementById(`scale_keyboard_instrument`);
+    const instrId = parseInt(instrSelect.value);
+    // check if instrument has already been loaded
+    if (instrumentsLoaded.indexOf(instrId) >= 0)
+        return;
+    instrumentLoadingId = instrId;
+    const instrument = instrumentsDict_int.get(instrId);
+    loadSoundfont(instrument);
+}
 function onNewInstrumentLoaded() {
-    nbInstrumentsLoaded++;
-    allInstrumentsLoaded = (nbInstrumentsLoaded >= nbInstrumentsTotal);
-    // if all instruments loaded, allow interactions
-    if (allInstrumentsLoaded) {
-        //for (const page of pagesArray)
-        //    setEnabled(`button_${page}`, true);
-        //setVisible("welcome_button_load_instruments", false);
-        //setVisible("scale_keyboard_button_load_instruments", false);
-        instrumentsLoading = false;
-    }
+    instrumentsLoaded.push(instrumentLoadingId);
+    setVisible('scale_keyboard_button_load_instruments', false);
+    hasAudio = true;
+    instrumentsLoading = false;
+    // update current instrument and volume
+    MIDI.channels[0].program = instrumentLoadingId - 1;
+    volumePlay = instrumentsVolumesDict.get(instrumentLoadingId);
     updateLocales();
 }
 function toggleDisplay(id) {
@@ -400,9 +409,9 @@ function toggleDisplay(id) {
     else
         elem.style.display = "none";
 }
-function setVisible(id, status) {
+function setVisible(id, status, visibility = "block") {
     let elem = document.getElementById(id);
-    elem.style.display = status ? "block" : "none";
+    elem.style.display = status ? visibility : "none";
 }
 function setEnabled(id, status) {
     let elem = document.getElementById(id);
@@ -462,12 +471,12 @@ function updateLocales() {
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
-    document.getElementById("welcome_button_load_instruments").innerText = getString("instruments_load");
-    document.getElementById("welcome_header").innerText = allInstrumentsLoaded ?
-        `♪ ${getString("welcome_instruments_loaded")} ♪` :
-        (instrumentsLoading ?
-            `${getString("instruments_loading")} ${Math.floor(100 * (nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
-            getString("welcome_instruments_not_loaded"));
+    //(<HTMLSpanElement>document.getElementById("welcome_button_load_instruments")).innerText = getString("instruments_load");
+    //(<HTMLSpanElement>document.getElementById("welcome_header")).innerText = hasAudio ?
+    //`♪ ${getString("welcome_instruments_loaded")} ♪` :
+    //(instrumentsLoading ?
+    //    `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
+    //    getString("welcome_instruments_not_loaded"));
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");
@@ -522,11 +531,9 @@ function updateLocales() {
     document.getElementById("scale_keyboard_select_key_text").innerText = getString("select_key");
     document.getElementById("scale_keyboard_start_octave_text").innerText = getString("start_from_octave");
     document.getElementById("scale_keyboard_select_instrument_text").innerText = getString("instrument");
-    document.getElementById("scale_keyboard_header").innerText = allInstrumentsLoaded ?
+    document.getElementById("scale_keyboard_header").innerText = hasAudio ?
         `♪ ${getString("scale_keyboard_header")} ♪` :
-        (instrumentsLoading ?
-            `${getString("instruments_loading")} ${Math.floor(100 * (nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
-            getString("instruments_not_loaded"));
+        (instrumentsLoading ? getString("instruments_loading") : getString("instruments_not_loaded"));
     // update computed data
     updateSelectors();
     onNoteChanged();

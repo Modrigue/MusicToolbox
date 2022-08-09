@@ -49,33 +49,8 @@
     <!-- utils -->
     <script src="js/midi/dom_request_xhr.js"></script>
     <script src="js/midi/dom_request_script.js"></script>
-    <!-- soundfonts -->
-    <script src="js/midi/soundfonts/acoustic_bass-ogg.js"></script>
+    <!-- soundfonts (pre-loaded)-->
     <script src="js/midi/soundfonts/acoustic_grand_piano-ogg.js"></script>
-    <script src="js/midi/soundfonts/acoustic_guitar_steel-ogg.js"></script>
-    <script src="js/midi/soundfonts/celesta-ogg.js"></script>
-    <script src="js/midi/soundfonts/choir_aahs-ogg.js"></script>
-    <script src="js/midi/soundfonts/church_organ-ogg.js"></script>
-    <script src="js/midi/soundfonts/fx_5_brightness-ogg.js"></script>
-    <script src="js/midi/soundfonts/fx_7_echoes-ogg.js"></script>
-    <script src="js/midi/soundfonts/glockenspiel-ogg.js"></script>
-    <script src="js/midi/soundfonts/lead_7_fifths-ogg.js"></script>
-    <script src="js/midi/soundfonts/marimba-ogg.js"></script>
-    <script src="js/midi/soundfonts/music_box-ogg.js"></script>
-    <script src="js/midi/soundfonts/pad_1_new_age-ogg.js"></script>
-    <script src="js/midi/soundfonts/pad_2_warm-ogg.js"></script>
-    <script src="js/midi/soundfonts/pad_5_bowed-ogg.js"></script>
-    <script src="js/midi/soundfonts/pad_8_sweep-ogg.js"></script>
-    <script src="js/midi/soundfonts/percussive_organ-ogg.js"></script>
-    <script src="js/midi/soundfonts/slap_bass_2-ogg.js"></script>
-    <script src="js/midi/soundfonts/steel_drums-ogg.js"></script>
-    <script src="js/midi/soundfonts/synth_strings_1-ogg.js"></script>
-    <script src="js/midi/soundfonts/tango_accordion-ogg.js"></script>
-    <script src="js/midi/soundfonts/tremolo_strings-ogg.js"></script>
-    <script src="js/midi/soundfonts/tubular_bells-ogg.js"></script>
-    <script src="js/midi/soundfonts/vibraphone-ogg.js"></script>
-    <script src="js/midi/soundfonts/voice_oohs-ogg.js"></script>
-    <script src="js/midi/soundfonts/xylophone-ogg.js"></script>
 
     <script src="js/functions_play.js"></script>
     <script src="js/strings.js"></script>
@@ -119,10 +94,11 @@
       <h2 id="welcome_title">Welcome</h2>
       <h3 id="welcome_subtitle" style="font-size: 18px;">Welcome to the Music Toolbox</h3>
       <br>
-      <em><span id="welcome_header" style="color: grey">No instruments loaded</span></em>
+      <br><br><br><br><br><br><br>
+      <!--em><span id="welcome_header" style="color: grey">No instruments loaded</span></em>
       <br><br>
       <button id="welcome_button_load_instruments"><span class="play">Load instruments</span></button>
-      <br><br><br><br>
+      <br><br><br><br-->
     </div>
   
     <!-- ######################### SCALES EXPLORER ######################## -->
@@ -410,8 +386,6 @@
 
     <div id ='page_scale_keyboard' style="display: none">
       <p class='align-center'>
-        <button id="scale_keyboard_button_load_instruments"><span class="play">Load instruments</span></button>
-        <br/>
         <em><span id="scale_keyboard_header" style="color: grey">No instruments loaded</span></em>
         <br/><br/>
         <span id="scale_keyboard_select_key_text">Key:</span>
@@ -424,6 +398,7 @@
         <span id="scale_keyboard_select_instrument_text">Instrument:</span>
         <select name="scale_keyboard_instrument" id="scale_keyboard_instrument"></select>
         &nbsp;
+        <button id="scale_keyboard_button_load_instruments"><span class="play">Load instrument</span></button>
       </p>
     </div>
 

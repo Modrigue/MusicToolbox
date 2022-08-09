@@ -211,7 +211,7 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
                 if (noteValue < tonicValue)
                     noteValue += 12;
                 buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
-                buttonPlay.disabled = !allInstrumentsLoaded;
+                buttonPlay.disabled = !hasAudio;
 
                 foundChordsNbNotesHTML += `${buttonPlay.outerHTML}\r\n`;
             }
@@ -386,7 +386,7 @@ function findNeapChordFromTonicHTML(tonicValue: number) : string
     if (noteValue < tonicValue)
         noteValue += 12;
     buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0, ${bassValue})`);
-    buttonPlay.disabled = !allInstrumentsLoaded;
+    buttonPlay.disabled = !hasAudio;
     
     neapChordHTML += `${buttonPlay.outerHTML}\r\n`;
 
@@ -468,7 +468,7 @@ function findAug6thChordsFromTonicHTML(tonicValue: number) : string
         if (noteValue < tonicValue)
             noteValue += 12;
         buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
-        buttonPlay.disabled = !allInstrumentsLoaded;
+        buttonPlay.disabled = !hasAudio;
 
         aug6ChordHTML += `${buttonPlay.outerHTML}\r\n`;
 

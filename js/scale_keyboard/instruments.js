@@ -218,8 +218,8 @@ function updateInstrumentSelector(id) {
 function onInstrumentSelected(id) {
     const instrSelect = document.getElementById(id);
     const instrId = parseInt(instrSelect.value);
-    // update current instrument and volume
-    MIDI.channels[0].program = instrId - 1;
-    volumePlay = instrumentsVolumesDict.get(instrId);
+    // check if instrument is loaded
+    const instrLoaded = (instrumentsLoaded.indexOf(instrId) >= 0);
+    setVisible('scale_keyboard_button_load_instruments', !instrLoaded, "inline");
 }
 //# sourceMappingURL=instruments.js.map

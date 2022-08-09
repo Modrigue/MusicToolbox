@@ -6,25 +6,24 @@ declare let MIDI: any;
 let channelPlay = 0;
 let volumePlay: number = 80;
 
-function loadInstruments(): void
+function loadJSFile(file: string)
+{
+    document.body.appendChild(document.createElement("script")).src = file;
+}
+
+function loadDefaultInstrument(): void
 {
     instrumentsLoading = true;
+    instrumentLoadingId = 1;
+    
     updateLocales(); // force text update
 
-    setVisible("welcome_button_load_instruments", false);
-    setVisible("scale_keyboard_button_load_instruments", false);
-
-    //for (const page of pagesArray)
-    //    setEnabled(`button_${page}`, false);
-
-    const instruments: Array<string> = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];
-
-    // init MIDI plugins / soundfonts
+    // init MIDI plugin / soundfont
     MIDI.loadPlugin(
     {
-        soundfontUrl: "./soundfont/",
-        /*instrument: "acoustic_grand_piano",*/
-        instruments: instruments,
+        //soundfontUrl: "./../../soundfonts/",
+        soundfontUrl: "./soundfonts/",
+        instrument: "acoustic_grand_piano",
         onprogress: function(state: any, progress: any)
         {
             //console.log(state, progress);
@@ -39,9 +38,46 @@ function loadInstruments(): void
     MIDI.channels[0].program = "0";
 }
 
+function loadSoundfont(instrument: string = "Acoustic Grand Piano"): void
+{
+    const instrFilename = instrument.toLowerCase().replace(/ /gi, "_").replace(/\(/gi, "").replace(/\)/gi, "");
+    //console.log(instrument, instrFilename);
+    
+    loadJSFile(`./js/midi/soundfonts/${instrFilename}-ogg.js`);
+    
+    instrumentsLoading = true;
+    updateLocales(); // force text update
+
+    //for (const page of pagesArray)
+    //    setEnabled(`button_${page}`, false);
+
+    const instruments: Array<string> = [instrFilename];
+    let retry = false;
+
+    // init MIDI plugins / soundfonts
+    MIDI.loadPlugin(
+    {
+        soundfontUrl: "./soundfonts/",
+        /*instrument: "acoustic_grand_piano",*/
+        instruments: instruments,
+        onprogress: function(state: any, progress: any)
+        {
+            //console.log(state, progress);
+        },
+        onsuccess: function()
+        {
+            //console.log("success")
+        },
+        onerror: function()
+        {
+            loadSoundfont(instrument); // retry to load soundfont
+        }
+    });
+}
+
 function playNote(noteValue: number, delay: number): void
 {
-    if (!allInstrumentsLoaded)
+    if (!hasAudio)
         return;
     
     // for test purposes only
@@ -240,7 +276,7 @@ let notesPressed: Array<number> = [];
 
 document.addEventListener('keydown', function(e)
 {
-    if (!allInstrumentsLoaded)
+    if (!hasAudio)
         return;
   
     if (pageSelected != "page_scale_keyboard")
@@ -281,7 +317,7 @@ document.addEventListener('keydown', function(e)
 
 document.addEventListener('keyup', function(e)
 {
-    if (!allInstrumentsLoaded)
+    if (!hasAudio)
         return;
     if (pageSelected != "page_scale_keyboard")
         return;

@@ -252,7 +252,7 @@ function onInstrumentSelected(id: string)
     const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const instrId: number = parseInt(instrSelect.value);
 
-    // update current instrument and volume
-    MIDI.channels[0].program = instrId - 1;
-    volumePlay = <number>instrumentsVolumesDict.get(instrId);
+    // check if instrument is loaded
+    const instrLoaded = (instrumentsLoaded.indexOf(instrId) >= 0);
+    setVisible('scale_keyboard_button_load_instruments', !instrLoaded, "inline");
 }

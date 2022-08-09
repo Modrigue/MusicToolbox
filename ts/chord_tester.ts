@@ -119,7 +119,7 @@ function updateChordTesterTables(noteStartValue: number, octaveStartValue: numbe
                         classString = "table-body-cell-keyc";
                 }
 
-                if (allInstrumentsLoaded)
+                if (hasAudio)
                     classString += "-interactive";
 
                 divChord.classList.add(classString);

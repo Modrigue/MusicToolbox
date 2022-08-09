@@ -226,13 +226,13 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
   let buttonListen: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
   buttonListen.innerText = `${getString("listen")} ♪`;
   buttonListen.setAttribute("onClick", "onPlayScaleWithBass()");
-  buttonListen.disabled = !allInstrumentsLoaded;
+  buttonListen.disabled = !hasAudio;
 
   // create listen backwards with bass button
   let buttonListenBackwards: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
   buttonListenBackwards.innerText = `${getString("listen_backwards")} ♪`;
   buttonListenBackwards.setAttribute("onClick", "onPlayScaleBackwardsWithBass()");
-  buttonListenBackwards.disabled = !allInstrumentsLoaded;
+  buttonListenBackwards.disabled = !hasAudio;
 
   // build scale notes list
   let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonListen.outerHTML} ${buttonListenBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
@@ -247,7 +247,7 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
     else if (charIntervals != null && charIntervals.indexOf(index) >= 0)
       classString = "table-body-cell-char";
     
-    if (allInstrumentsLoaded)
+    if (hasAudio)
       classString += "-interactive";
 
     const callbackString: string = `onPlayNoteInScale(${index})`;
@@ -338,7 +338,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
   let button = document.createElement('button');
   button.innerText = `${getString("listen")} ♪`;
   button.setAttribute("onClick", `onPlayChords(${nbNotesInChords},${step})`);
-  button.disabled = !allInstrumentsLoaded;
+  button.disabled = !hasAudio;
 
   // header
   const legend: string = (step == 3) ? "chords_quartal" : "chords_N_notes";
@@ -377,7 +377,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     else if (isChordCharacteristic(noteValue, chordValues, charNotesValues))
       classString = "table-body-cell-char";
 
-    if (allInstrumentsLoaded)
+    if (hasAudio)
       classString += "-interactive";
 
     chordsRowHTML += /*html*/`<div class=${classString} onclick=${callbackString}>`;
@@ -415,7 +415,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     const noteFondamental = scaleNotesValues[index];
     const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step},0.25)`;
     let classString = "table-body-cell";
-    if (allInstrumentsLoaded)
+    if (hasAudio)
       classString += "-interactive";
 
     arpeggiosNotesRowHTML += /*html*/`<div class=\"${classString}\" onclick=${callbackString}>`;

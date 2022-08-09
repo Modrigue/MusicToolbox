@@ -87,7 +87,7 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
                     else if (inScale1 && inScale2)
                         classString = "table-body-cell-keyc";
                 }
-                if (allInstrumentsLoaded)
+                if (hasAudio)
                     classString += "-interactive";
                 divChord.classList.add(classString);
                 // set notes as tooltip

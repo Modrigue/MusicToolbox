@@ -3,10 +3,10 @@ const pagesArray: Array<string> =
 let pageSelected: string = "";
 
 
-let allInstrumentsLoaded = false;
-let nbInstrumentsLoaded = 0;
+let hasAudio = false;
+let instrumentsLoaded: Array<number> = [];
 let instrumentsLoading = false;
-const nbInstrumentsTotal = 26; // TODO: count files in soundfonts directory
+let instrumentLoadingId = 0;
 
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
@@ -23,10 +23,11 @@ window.onload = function()
     //document.body.addEventListener("resize", onResize); // not working?
 
     window.addEventListener("newInstrumentLoaded", onNewInstrumentLoaded, false);
+    loadDefaultInstrument();
 
     (<HTMLButtonElement>document.getElementById("checkboxLanguage")).addEventListener("change", updateLocales);
 
-    (<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadInstruments);
+    //(<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadDefaultInstrument);
 
     // pages
     for (const page of pagesArray)
@@ -100,7 +101,7 @@ window.onload = function()
     selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update()});
     selectScaleKeyboardStartOctave.addEventListener("change", () => { selectScaleKeyboardStartOctave.blur(); update()});
     selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_keyboard_instrument`)});
-    (<HTMLButtonElement>document.getElementById('scale_keyboard_button_load_instruments')).addEventListener("click", loadInstruments);
+    (<HTMLButtonElement>document.getElementById('scale_keyboard_button_load_instruments')).addEventListener("click", loadSelectedInstrument);
 }
 
 function initLanguage(): void
@@ -507,20 +508,32 @@ function onResize(): void
     onNoteChanged();
 }
 
+function loadSelectedInstrument()
+{
+    // get selected instrument
+    const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`scale_keyboard_instrument`);
+    const instrId: number = parseInt(instrSelect.value);
+    
+    // check if instrument has already been loaded
+    if (instrumentsLoaded.indexOf(instrId) >= 0)
+        return;
+
+    instrumentLoadingId = instrId;
+    const instrument = <string>instrumentsDict_int.get(instrId);
+    loadSoundfont(instrument);
+}
+
 function onNewInstrumentLoaded()
 {
-    nbInstrumentsLoaded++;
-    allInstrumentsLoaded = (nbInstrumentsLoaded >= nbInstrumentsTotal);
+    instrumentsLoaded.push(instrumentLoadingId);
+    setVisible('scale_keyboard_button_load_instruments', false);
 
-    // if all instruments loaded, allow interactions
-    if (allInstrumentsLoaded)
-    {
-        //for (const page of pagesArray)
-        //    setEnabled(`button_${page}`, true);
-        //setVisible("welcome_button_load_instruments", false);
-        //setVisible("scale_keyboard_button_load_instruments", false);
-        instrumentsLoading = false;
-    }
+    hasAudio = true;
+    instrumentsLoading = false;
+
+    // update current instrument and volume
+    MIDI.channels[0].program = instrumentLoadingId - 1;
+    volumePlay = <number>instrumentsVolumesDict.get(instrumentLoadingId);
 
     updateLocales();
 }
@@ -535,10 +548,10 @@ function toggleDisplay(id: string): void
         elem.style.display = "none";
 }
 
-function setVisible(id: string, status: boolean): void
+function setVisible(id: string, status: boolean, visibility :string = "block"): void
 {
     let elem: HTMLElement = <HTMLElement>document.getElementById(id);
-    elem.style.display = status ? "block" : "none";
+    elem.style.display = status ? visibility : "none";
 }
 
 function setEnabled(id: string, status: boolean): void
@@ -621,12 +634,12 @@ function updateLocales(): void
     // welcome
     (<HTMLHeadElement>document.getElementById("welcome_title")).innerText = getString("welcome_title");
     (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = getString("welcome_subtitle");
-    (<HTMLSpanElement>document.getElementById("welcome_button_load_instruments")).innerText = getString("instruments_load");
-    (<HTMLSpanElement>document.getElementById("welcome_header")).innerText = allInstrumentsLoaded ?
-    `♪ ${getString("welcome_instruments_loaded")} ♪` :
-    (instrumentsLoading ?
-        `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
-        getString("welcome_instruments_not_loaded"));
+    //(<HTMLSpanElement>document.getElementById("welcome_button_load_instruments")).innerText = getString("instruments_load");
+    //(<HTMLSpanElement>document.getElementById("welcome_header")).innerText = hasAudio ?
+    //`♪ ${getString("welcome_instruments_loaded")} ♪` :
+    //(instrumentsLoading ?
+    //    `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
+    //    getString("welcome_instruments_not_loaded"));
 
     // scale explorer
     (<HTMLSpanElement>document.getElementById("select_key_text")).innerText = getString("select_key");
@@ -694,11 +707,9 @@ function updateLocales(): void
     (<HTMLSpanElement>document.getElementById("scale_keyboard_start_octave_text")).innerText = getString("start_from_octave");
     (<HTMLSpanElement>document.getElementById("scale_keyboard_select_instrument_text")).innerText = getString("instrument");
 
-    (<HTMLSpanElement>document.getElementById("scale_keyboard_header")).innerText = allInstrumentsLoaded ?
+    (<HTMLSpanElement>document.getElementById("scale_keyboard_header")).innerText = hasAudio ?
         `♪ ${getString("scale_keyboard_header")} ♪` :
-        (instrumentsLoading ?
-            `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
-            getString("instruments_not_loaded"));
+        (instrumentsLoading ? getString("instruments_loading") : getString("instruments_not_loaded"));
 
     // update computed data
     updateSelectors();

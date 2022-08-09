@@ -1,19 +1,18 @@
 "use strict";
 let channelPlay = 0;
 let volumePlay = 80;
-function loadInstruments() {
+function loadJSFile(file) {
+    document.body.appendChild(document.createElement("script")).src = file;
+}
+function loadDefaultInstrument() {
     instrumentsLoading = true;
+    instrumentLoadingId = 1;
     updateLocales(); // force text update
-    setVisible("welcome_button_load_instruments", false);
-    setVisible("scale_keyboard_button_load_instruments", false);
-    //for (const page of pagesArray)
-    //    setEnabled(`button_${page}`, false);
-    const instruments = ["acoustic_grand_piano", "acoustic_guitar_steel", "pad_1_new_age"];
-    // init MIDI plugins / soundfonts
+    // init MIDI plugin / soundfont
     MIDI.loadPlugin({
-        soundfontUrl: "./soundfont/",
-        /*instrument: "acoustic_grand_piano",*/
-        instruments: instruments,
+        //soundfontUrl: "./../../soundfonts/",
+        soundfontUrl: "./soundfonts/",
+        instrument: "acoustic_grand_piano",
         onprogress: function (state, progress) {
             //console.log(state, progress);
         },
@@ -24,8 +23,34 @@ function loadInstruments() {
     // set default MIDI instrument
     MIDI.channels[0].program = "0";
 }
+function loadSoundfont(instrument = "Acoustic Grand Piano") {
+    const instrFilename = instrument.toLowerCase().replace(/ /gi, "_").replace(/\(/gi, "").replace(/\)/gi, "");
+    //console.log(instrument, instrFilename);
+    loadJSFile(`./js/midi/soundfonts/${instrFilename}-ogg.js`);
+    instrumentsLoading = true;
+    updateLocales(); // force text update
+    //for (const page of pagesArray)
+    //    setEnabled(`button_${page}`, false);
+    const instruments = [instrFilename];
+    let retry = false;
+    // init MIDI plugins / soundfonts
+    MIDI.loadPlugin({
+        soundfontUrl: "./soundfonts/",
+        /*instrument: "acoustic_grand_piano",*/
+        instruments: instruments,
+        onprogress: function (state, progress) {
+            //console.log(state, progress);
+        },
+        onsuccess: function () {
+            //console.log("success")
+        },
+        onerror: function () {
+            loadSoundfont(instrument); // retry to load soundfont
+        }
+    });
+}
 function playNote(noteValue, delay) {
-    if (!allInstrumentsLoaded)
+    if (!hasAudio)
         return;
     // for test purposes only
     //playTestTrack();
@@ -163,7 +188,7 @@ const noteValueMin = 24; // C0
 const noteValueMax = 108; // C7
 let notesPressed = [];
 document.addEventListener('keydown', function (e) {
-    if (!allInstrumentsLoaded)
+    if (!hasAudio)
         return;
     if (pageSelected != "page_scale_keyboard")
         return;
@@ -193,7 +218,7 @@ document.addEventListener('keydown', function (e) {
     //console.log(notesPressed);
 }, false);
 document.addEventListener('keyup', function (e) {
-    if (!allInstrumentsLoaded)
+    if (!hasAudio)
         return;
     if (pageSelected != "page_scale_keyboard")
         return;

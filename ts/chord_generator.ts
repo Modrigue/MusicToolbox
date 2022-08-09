@@ -606,7 +606,7 @@ function updateFoundChordElements()
         buttonPlay.innerText = "♪";
         buttonPlay.classList.add("border-right-radius");
         buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
-        buttonPlay.disabled = !allInstrumentsLoaded;
+        buttonPlay.disabled = !hasAudio;
         foundChordsStr += `${buttonPlay.outerHTML}\r\n`;
         
         index++;
@@ -617,12 +617,12 @@ function updateFoundChordElements()
     // update play chord button callback
     let buttonPlayChord: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_chord");
     buttonPlayChord.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0, ${bassValue})`);
-    buttonPlayChord.disabled = !allInstrumentsLoaded;
+    buttonPlayChord.disabled = !hasAudio;
 
     // update play arpeggio button callback
     let buttonPlayArpeggio: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_arpeggio");
     buttonPlayArpeggio.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0.25, ${bassValue})`);
-    buttonPlayArpeggio.disabled = !allInstrumentsLoaded;
+    buttonPlayArpeggio.disabled = !hasAudio;
 }
 
 function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false)
