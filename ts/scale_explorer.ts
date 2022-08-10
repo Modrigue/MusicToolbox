@@ -224,14 +224,20 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
 
   // create listen with bass button
   let buttonListen: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+  let playScaleCallback = "onPlayScale";
+  if (scaleHasOctave)
+    playScaleCallback += "WithBass";
   buttonListen.innerText = `${getString("listen")} ♪`;
-  buttonListen.setAttribute("onClick", "onPlayScaleWithBass()");
+  buttonListen.setAttribute("onClick", `${playScaleCallback}()`);
   buttonListen.disabled = !hasAudio;
 
   // create listen backwards with bass button
   let buttonListenBackwards: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+  let playScaleBackwardsCallback = "onPlayScaleBackwards";
+  if (scaleHasOctave)
+    playScaleBackwardsCallback += "WithBass";
   buttonListenBackwards.innerText = `${getString("listen_backwards")} ♪`;
-  buttonListenBackwards.setAttribute("onClick", "onPlayScaleBackwardsWithBass()");
+  buttonListenBackwards.setAttribute("onClick", `${playScaleBackwardsCallback}()`);
   buttonListenBackwards.disabled = !hasAudio;
 
   // build scale notes list

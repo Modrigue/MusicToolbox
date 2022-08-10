@@ -161,13 +161,19 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals) {
         scaleValuesToDisplay.unshift(0);
     // create listen with bass button
     let buttonListen = document.createElement('button');
+    let playScaleCallback = "onPlayScale";
+    if (scaleHasOctave)
+        playScaleCallback += "WithBass";
     buttonListen.innerText = `${getString("listen")} ♪`;
-    buttonListen.setAttribute("onClick", "onPlayScaleWithBass()");
+    buttonListen.setAttribute("onClick", `${playScaleCallback}()`);
     buttonListen.disabled = !hasAudio;
     // create listen backwards with bass button
     let buttonListenBackwards = document.createElement('button');
+    let playScaleBackwardsCallback = "onPlayScaleBackwards";
+    if (scaleHasOctave)
+        playScaleBackwardsCallback += "WithBass";
     buttonListenBackwards.innerText = `${getString("listen_backwards")} ♪`;
-    buttonListenBackwards.setAttribute("onClick", "onPlayScaleBackwardsWithBass()");
+    buttonListenBackwards.setAttribute("onClick", `${playScaleBackwardsCallback}()`);
     buttonListenBackwards.disabled = !hasAudio;
     // build scale notes list
     let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonListen.outerHTML} ${buttonListenBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
