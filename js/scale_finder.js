@@ -219,7 +219,7 @@ function getScaleButtonHTML(tonicValue, scaleId) {
     let buttonPlay = document.createElement('button');
     buttonPlay.innerText = "♪";
     buttonPlay.classList.add("border-right-radius");
-    buttonPlay.setAttribute("onClick", `playScale(${tonicValue}, [${scaleValues.toString()}], 0, 0)`);
+    buttonPlay.setAttribute("onClick", `playScale(${tonicValue}, [${scaleValues.toString()}], true)`);
     buttonPlay.disabled = !hasAudio;
     buttonHTML += `${buttonPlay.outerHTML}\r\n`;
     return buttonHTML;
