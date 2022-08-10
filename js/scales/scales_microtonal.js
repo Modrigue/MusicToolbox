@@ -16,8 +16,9 @@ scaleFamiliesDict.set("7mustaar", [0, 2.5, 3.5, 5.5, 6.5, 8.5, 10.5]);
 scaleFamiliesDict.set("7saba", [0, 1.5, 3, 4, 7, 8, 10]);
 scaleFamiliesDict.set("7sikah_baladi", [0, 1.5, 3.5, 5, 7, 8.5, 10.5]);
 scaleFamiliesDict.set("7nairuzb2", [0, 1, 3.5, 5, 7, 8.5, 10]);
-// 5 notes microtonal
+// other microtonal
 scaleFamiliesDict.set("5tet_approx", [0, 2.5, 5, 7, 9.5]);
+scaleFamiliesDict.set("9island_approx", [0, 2, 2.5, 4.5, 5, 7, 7.5, 9.5, 10]);
 //////////////////////////////////// STRINGS //////////////////////////////////
 // international
 scalesDict_int.set("8notes_quarter_tones", "--------------- 8 NOTES ¼ TONES ---------------");
@@ -53,8 +54,9 @@ scalesDict_int.set("7sikah_baladi,1,diff:7major_nat;1", "Sikah baladi / 7-TET (A
 scalesDict_int.set("7sikah_baladi,6,diff:7major_nat;1", "Neutral (6th mode)");
 scalesDict_int.set("7sikah_baladi,sep", "");
 scalesDict_int.set("7nairuzb2,1,diff:7major_nat;6", "Nairuz ♭2");
-scalesDict_int.set("5notes_quarter_tones", "--------------- 5 NOTES ¼ TONES ---------------");
+scalesDict_int.set("microtonal_others", "--------------- OTHERS ¼ TONES ---------------");
 scalesDict_int.set("5tet_approx,1,diff:5major_penta;4", "5-TET / 5-EDO (Approximation)");
+scalesDict_int.set("9island_approx,1", "Island / Madag. / Barbados[9] (Approx.)");
 scalesDict_int.set("5notes_quarter_tones,sep", "");
 /////////////////////////////////// FRENCH ////////////////////////////////////
 scalesDict_fr.set("8notes_quarter_tones", "----------------- 8 NOTES ¼ TONS -----------------");
@@ -68,5 +70,5 @@ scalesDict_fr.set("7rast,6,diff:7major_nat;3", "Ashiran / Arazbar (6e mode)");
 scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 scalesDict_fr.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4e mode)");
 scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre (6e mode)");
-scalesDict_fr.set("5notes_quarter_tones", "----------------- 5 NOTES ¼ TONS -----------------");
+scalesDict_fr.set("microtonal_others", "----------------- AUTRES ¼ TONS -----------------");
 //# sourceMappingURL=scales_microtonal.js.map

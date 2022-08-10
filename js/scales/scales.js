@@ -287,7 +287,7 @@ function updateScaleSelector(id, defaultScaleId, includesQTones = true, includes
                 break;
             if (!includesExtraScales && key.startsWith("12tet"))
                 continue;
-            if (!includesExtraScales && key.includes("xenharmonics"))
+            if (!includesExtraScales && key.startsWith("xenharmonics"))
                 break;
             const scaleName = getScaleString(key);
             let option = document.createElement('option');
@@ -297,7 +297,7 @@ function updateScaleSelector(id, defaultScaleId, includesQTones = true, includes
             if (hightlightScale(key))
                 option.classList.add('bolden');
             // notes seperator
-            if (key.match(regexNbNotes) || key.includes("xenharmonics")) {
+            if (key.match(regexNbNotes) || key.startsWith("microtonal") || key.startsWith("xenharmonics")) {
                 option.classList.add('bolden');
                 option.disabled = true;
             }
