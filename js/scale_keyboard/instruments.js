@@ -1,9 +1,9 @@
 "use strict";
 const instrumentsDict_int = new Map();
 instrumentsDict_int.set(1, 'Acoustic Grand Piano');
-//instrumentsDict_int.set(  2, 'Bright Acoustic Piano');
-//instrumentsDict_int.set(  3, 'Electric Grand Piano');
-//instrumentsDict_int.set(  4, 'Honky-tonk Piano');
+instrumentsDict_int.set(2, 'Bright Acoustic Piano');
+instrumentsDict_int.set(3, 'Electric Grand Piano');
+instrumentsDict_int.set(4, 'HonkyTonk Piano');
 //instrumentsDict_int.set(  5, 'Electric Piano 1');
 //instrumentsDict_int.set(  6, 'Electric Piano 2');
 //instrumentsDict_int.set(  7, 'Harpsichord');
@@ -159,33 +159,12 @@ instrumentsDict_int.set(115, 'Steel Drums');
 //const instrumentsDicts: Map<string, Map<number, string>> = new Map<string,Map<number, string>>();
 //instrumentsDicts.set("int", instrumentsDict_int);
 //instrumentsDicts.set("fr" , instrumentsDict_fr);
+const volumeRef = 80;
 const instrumentsVolumesDict = new Map();
-instrumentsVolumesDict.set(1, 80 * 1);
-instrumentsVolumesDict.set(9, 80 * 1.75);
-instrumentsVolumesDict.set(10, 80 * 1.75);
-instrumentsVolumesDict.set(11, 80 * 1.75);
-instrumentsVolumesDict.set(12, 80 * 1.75);
-instrumentsVolumesDict.set(13, 80 * 1.75);
-instrumentsVolumesDict.set(14, 80 * 1.75);
-instrumentsVolumesDict.set(15, 80 * 1.75);
-instrumentsVolumesDict.set(18, 80 * 1.75);
-instrumentsVolumesDict.set(20, 80 * 1.75);
-instrumentsVolumesDict.set(24, 80 * 1.75);
-instrumentsVolumesDict.set(26, 80 * 1.75);
-instrumentsVolumesDict.set(33, 80 * 1.75);
-instrumentsVolumesDict.set(38, 80 * 1.75);
-instrumentsVolumesDict.set(45, 80 * 1.75);
-instrumentsVolumesDict.set(51, 80 * 1.75);
-instrumentsVolumesDict.set(53, 80 * 1.75);
-instrumentsVolumesDict.set(54, 80 * 1.75);
-instrumentsVolumesDict.set(87, 80 * 1.75 * 1.5);
-instrumentsVolumesDict.set(89, 80 * 1.75);
-instrumentsVolumesDict.set(90, 80 * 1.75);
-instrumentsVolumesDict.set(93, 80 * 1.75);
-instrumentsVolumesDict.set(96, 80 * 1.75);
-instrumentsVolumesDict.set(101, 80 * 1.75);
-instrumentsVolumesDict.set(103, 80 * 1.75);
-instrumentsVolumesDict.set(115, 80 * 1.75);
+for (let i = 1; i <= 128; i++)
+    instrumentsVolumesDict.set(i, volumeRef * 1.75); // default
+instrumentsVolumesDict.set(1, volumeRef * 0.9);
+instrumentsVolumesDict.set(87, volumeRef * 1.75 * 1.5);
 function updateInstrumentSelector(id) {
     // get selected culture
     const lang = getSelectedCulture();
@@ -223,5 +202,10 @@ function onInstrumentSelected(id) {
     //setVisible('scale_keyboard_button_load_instruments', !instrLoaded, "inline");
     if (!instrLoaded)
         loadSelectedInstrument();
+    else {
+        // update current instrument and volume
+        MIDI.channels[0].program = instrId - 1;
+        volumePlay = instrumentsVolumesDict.get(instrId);
+    }
 }
 //# sourceMappingURL=instruments.js.map

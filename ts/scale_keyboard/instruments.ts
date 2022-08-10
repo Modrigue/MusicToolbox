@@ -1,8 +1,8 @@
 const instrumentsDict_int: Map<number, string> = new Map<number, string>();
 instrumentsDict_int.set(  1, 'Acoustic Grand Piano');
-//instrumentsDict_int.set(  2, 'Bright Acoustic Piano');
-//instrumentsDict_int.set(  3, 'Electric Grand Piano');
-//instrumentsDict_int.set(  4, 'Honky-tonk Piano');
+instrumentsDict_int.set(  2, 'Bright Acoustic Piano');
+instrumentsDict_int.set(  3, 'Electric Grand Piano');
+instrumentsDict_int.set(  4, 'HonkyTonk Piano');
 //instrumentsDict_int.set(  5, 'Electric Piano 1');
 //instrumentsDict_int.set(  6, 'Electric Piano 2');
 //instrumentsDict_int.set(  7, 'Harpsichord');
