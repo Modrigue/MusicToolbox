@@ -78,6 +78,8 @@ scaleFamiliesDict.set("12superpyth_17edo", [0, 0.70588, 1.41176, 2.82353, 3.5294
 // misc
 scaleFamiliesDict.set("6hexany1379", [0, 2.03910, 2.66871, 4.70781, 7.01955, 9.68826]);
 scaleFamiliesDict.set("19madagascar", [0, 0.6517572, 1.3801917, 1.8402556, 2.4920128, 3.1437700, 3.8722045, 4.5239617, 4.9840256, 5.6357827, 6.3642173, 7.0159744, 7.4760383, 8.1277955, 8.8562300, 9.5079872, 10.1597444, 10.6198083, 11.3482428]);
+scaleFamiliesDict.set("5pygmy", [0, 2.31174, 4.70781, 7.01955, 9.68826]);
+scaleFamiliesDict.set("10pygmy", [0, 2, 2.31174, 4, 4.70781, 7.01955, 9, 9.68826, 10, 11]);
 scaleFamiliesDict.set("11semaphore", [0, 0.7954, 1.7637, 2.5591, 4.3228, 5.1182, 6.8818, 7.6773, 9.4409, 10.2364, 11.2046]);
 scaleFamiliesDict.set("17supermariner", [0, 0.45258, 1.76639, 2.21897, 2.67155, 3.12412, 4.43794, 4.89052, 5.34309, 6.65691, 7.10948, 7.56206, 8.87588, 9.32845, 9.78103, 10.23361, 11.54742]);
 scaleFamiliesDict.set("7tetrachordal", [0, 1.82404, 3.47408, 4.98045, 7.01955, 8.84359, 10.49363]);
@@ -161,6 +163,8 @@ scalesDict_int.set("xen_tet_subsets,sep", "");
 scalesDict_int.set("xenharmonics_misc_sub", "------------------- Miscellaneous ------------------");
 scalesDict_int.set("6hexany1379,1", "Hexany[6] 1-3-7-9");
 scalesDict_int.set("19madagascar,1", "Madagascar[19]");
+scalesDict_int.set("5pygmy,1", "Pygmy[5]");
+scalesDict_int.set("10pygmy,1", "Pygmy[10]");
 scalesDict_int.set("11semaphore,1", "Semaphore[11]");
 scalesDict_int.set("17supermariner,1", "Supermariner[17]");
 scalesDict_int.set("7tetrachordal,1", "Tetrachordal[7]");
