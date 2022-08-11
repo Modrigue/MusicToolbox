@@ -233,19 +233,6 @@ function update() {
     document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
     document.getElementById('chordsQ_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal, 3) : "";
     const scaleName = getSelectorText("scale");
-    // checkboxes
-    //setEnabled("checkboxChords3", showChords3);
-    //setEnabled("checkboxChords4", showChords4);
-    //setEnabled("checkboxChords", isXen);
-    const checkboxQuarterTones = document.getElementById("checkboxQuarterTonesScaleExplorer");
-    const hasQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
-    // update fretboard
-    const position = getSelectedGuitarPosition('scale_explorer_guitar_position');
-    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position);
-    updateFretboard(noteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position); // HACK to ensure correct drawing
-    // update keyboard
-    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked);
-    updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
     // update scale finder chords selectors
     let has1NoteSelected = false;
     for (let i = 1; i <= 8; i++) {
@@ -291,6 +278,19 @@ function update() {
                 aug6thChordsFromScale.innerHTML = findAug6thChordsFromTonicHTML(noteValue);
             }
             setVisible("section_found_chords", checkboxChords.checked && !scaleValuesChromatic && !scaleValuesXenharmonic);
+            // checkboxes
+            //setEnabled("checkboxChords3", showChords3);
+            //setEnabled("checkboxChords4", showChords4);
+            //setEnabled("checkboxChords", isXen);
+            const checkboxQuarterTones = document.getElementById("checkboxQuarterTonesScaleExplorer");
+            const hasQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
+            // update fretboard
+            const position = getSelectedGuitarPosition('scale_explorer_guitar_position');
+            updateFretboard("scale_explorer_canvas_guitar", noteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position);
+            updateFretboard("scale_explorer_canvas_guitar", noteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position); // HACK to ensure correct drawing
+            // update keyboard
+            updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked);
+            updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
             break;
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();
@@ -307,6 +307,19 @@ function update() {
                 updateNbStringsForChordSelector();
                 updateFoundChordElements();
                 updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
+                // get selected notes and chord values
+                const fondamental = getChordExplorerFondamental();
+                let chordName = "";
+                const chordValues = getChordExplorerChordValues();
+                let chordValuesToDisplay = cloneIntegerArray(chordValues);
+                if (getSelectedChordGeneratorMode() == "name") {
+                    const chordSelector = document.getElementById('chord_explorer_chord');
+                    chordName = chordSelector.value;
+                    const bassInterval = getChordExplorerBassInterval(fondamental);
+                    if (bassInterval >= 0)
+                        chordValuesToDisplay.push(bassInterval);
+                }
+                updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordName);
                 setVisible('section_found_scales', false);
                 setVisible('negative_scale', false);
                 setVisible("section_found_chords", false);
@@ -375,8 +388,10 @@ function update() {
     }
 }
 function onResize() {
-    let canvasGuitar = document.getElementById("canvas_guitar");
-    canvasGuitar.width = window.innerWidth - 30;
+    let scaleExplorerCanvasGuitar = document.getElementById("scale_explorer_canvas_guitar");
+    scaleExplorerCanvasGuitar.width = window.innerWidth - 30;
+    let chordExplorerCanvasGuitar = document.getElementById("chord_explorer_canvas_guitar");
+    chordExplorerCanvasGuitar.width = window.innerWidth - 30;
     let canvasKeyboard = document.getElementById("canvas_keyboard");
     canvasKeyboard.width = window.innerWidth - 30;
     onNoteChanged();
@@ -435,6 +450,7 @@ function updateChordGeneratorMode() {
     // name mode
     setEnabled("chord_explorer_fundamental", nameMode);
     setEnabled("chord_explorer_chord", nameMode);
+    setEnabled("chord_explorer_bass", nameMode);
     setEnabled("chord_explorer_arpeggio_notes", nameMode);
     setEnabled("chord_explorer_arpeggio_intervals", nameMode);
     setVisible("chord_explorer_arpeggio_texts", nameMode);

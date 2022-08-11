@@ -64,7 +64,7 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
             return;
 
         // get last fret x
-        let xFretLast = getLastFretX();
+        let xFretLast = getLastFretX(id);
 
         // handle startFret if > 0
         if (startFret > 0 && j > 0)
@@ -139,14 +139,20 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
     }
 }
 
-function updateFretboard(noteValue: number, scaleValues: Array<number>,
-    charIntervals: Array<number>, scaleName: string, showQuarterTones: boolean = false,
-    position: number = -1): void
+function updateFretboard(id: string, noteValue: number, scaleValues: Array<number>,
+    charIntervals: Array<number> = [], scaleChordName: string = "",
+    showQuarterTones: boolean = false, position: number = -1): void
 {
-    const nbStrings: number = getSelectedGuitarNbStrings('scale_explorer_guitar_nb_strings');
+    const nbStrings: number = getSelectedGuitarNbStrings(id.replace('canvas_guitar', 'guitar_nb_strings'));
 
-    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas_guitar");
+    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id);
     if (!canvas.getContext) 
+        return;
+
+    // hide if no tonic / fondamental
+    const hasNote = (noteValue >= 0);
+    setVisible(id, hasNote);
+    if (!hasNote)
         return;
 
     canvas.height = getCanvasHeight(nbStrings);
@@ -164,7 +170,7 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
     ctx.closePath();
 
     // get last fret x
-    let xFretLast = getLastFretX();
+    let xFretLast = getLastFretX(id);
 
     // hint frets
     const hintFrets = [0, 3, 5, 7, 9];
@@ -218,7 +224,7 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
 
     // display notes
     
-    const tuningValues: Array<number> = getSelectedGuitarTuningValue("scale_explorer_guitar_tuning");
+    const tuningValues: Array<number> = getSelectedGuitarTuningValue(id.replace('canvas_guitar', 'guitar_tuning'));
     const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
 
     let nbNotesPositionPerString = (scaleValues.length > 5) ? 3 : 2;
@@ -298,22 +304,50 @@ function updateFretboard(noteValue: number, scaleValues: Array<number>,
                 colorNote = displayNote ? colorNoteTonic : colorNoteTonicDisabled;
 
             const indexNote = scaleNotesValues.indexOf(currentNoteValue);
-            if (charIntervals.indexOf(indexNote) >= 0)
+            if (charIntervals != null && charIntervals.length > 0 && charIntervals.indexOf(indexNote) >= 0)
                 colorNote = displayNote ? colorNoteChar : colorNoteCharDisabled; // characteristic note
 
             //if (displayNote)
-            displayNoteOnFretboard("canvas_guitar", i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
+            displayNoteOnFretboard(id, i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
         }
     }
 
     // update save callback
-    canvas.setAttribute("onclick", `saveFretboardImage(${noteValue}, "${scaleName}", ${position})`);
+    let callbackStr = "";
+    switch(id)
+    {
+        case "scale_explorer_canvas_guitar":
+            callbackStr = `saveFretboardImage(\"scale_explorer_canvas_guitar\", ${noteValue}, "${scaleChordName}", ${position})`;
+            break;
+        
+        case "chord_explorer_canvas_guitar":
+            {
+                let chordName = "";
+                let bassValue = -1;
+                let freeNotesSelected: Array<number> = [];
+                if (getSelectedChordGeneratorMode() == "name")
+                {
+                    chordName = scaleChordName;
+                    bassValue = getChordExplorerBassValue()
+                }
+                else
+                {
+                    // get selected notes values
+                    freeNotesSelected = getSelectedChordExplorerNotes();
+                }
+
+                callbackStr = `saveFretboardChordImage(\"chord_explorer_canvas_guitar\", ${noteValue}, ${bassValue},\"${chordName}\", \"${freeNotesSelected.toString()}\")`
+            }
+            break;
+    }
+
+    canvas.setAttribute("onclick", callbackStr);
 }
 
 // get last fret x position
-function getLastFretX()
+function getLastFretX(id: string)
 {
-    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas_guitar");
+    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_guitar");
 
     let xFretLast = 0;
     for (let x = xFretMargin; x < canvas.width - xFretMargin; x += xFretScaleStep) 
@@ -322,35 +356,36 @@ function getLastFretX()
     return xFretLast;
 }
 
-function saveFretboardImage(noteValue: number, scaleName: string, position: number = -1)
+function saveFretboardImage(id: string, noteValue: number, scaleChordName: string, position: number = -1)
 {
-    let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('canvas_guitar');
+    let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id); console.log(id);
+    
     let canvasImage: string = canvasElement.toDataURL('image/png');
     const noteSelectedText: string = getNoteName(noteValue);
-    let scaleSelectedText: string = scaleName;
+    let scaleChordNameStr: string = scaleChordName;
     // scaleSelectedText = scaleSelectedText.replaceAll(" / ", ' ');
     // scaleSelectedText = scaleSelectedText.replaceAll(' ', '_');
     // scaleSelectedText = scaleSelectedText.replaceAll('♭', 'b');
-    scaleSelectedText = scaleSelectedText.replace(/ \//g, ' ');
-    scaleSelectedText = scaleSelectedText.replace(/ /g, '_');
-    scaleSelectedText = scaleSelectedText.replace(/♭/g, 'b');
+    scaleChordNameStr = scaleChordNameStr.replace(/ \//g, ' ');
+    scaleChordNameStr = scaleChordNameStr.replace(/ /g, '_');
+    scaleChordNameStr = scaleChordNameStr.replace(/♭/g, 'b');
 
     const positionText = (position < 0) ? "" : `-Position_${position + 1}`;
 
-    // this can be used to download any image from webpage to local disk
+    // used to download any image from webpage to local disk
     let xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = function () {
         let a = document.createElement('a');
         a.href = window.URL.createObjectURL(xhr.response);
-        a.download = `${getString("fretboard")}-${noteSelectedText}-${scaleSelectedText}${positionText}.png`;
+        a.download = `${getString("fretboard")}-${noteSelectedText}-${scaleChordNameStr}${positionText}.png`;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
         a.remove()
       };
 
-    xhr.open('GET', canvasImage); // This is to download the canvas Image
+    xhr.open('GET', canvasImage); // download the canvas Image
     xhr.send();
 }
 
@@ -414,7 +449,7 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
             ctx.closePath();
 
             // get last fret x
-            let xFretLast = getLastFretX();
+            let xFretLast = getLastFretX("scale_explorer_canvas_guitar");
 
             // hint frets
             const hintFrets = [0, 3, 5, 7, 9];
@@ -504,19 +539,7 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
         }
 
         // get fundamental given mode
-        let noteFondamental = -1;
-        let selectedMode = getSelectedChordGeneratorMode();
-        if (selectedMode == "name")
-        {
-            const noteExplorerChordInput: HTMLInputElement = <HTMLInputElement>document.getElementById('chord_explorer_fundamental');
-            const noteSelected: string = noteExplorerChordInput.value;
-            noteFondamental = parseInt(noteSelected);
-        }
-        else
-        {
-            const selectedNotesValues = getSelectedChordExplorerNotes();
-            noteFondamental = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
-        }
+        let noteFondamental = getChordExplorerFondamental();
 
         // display notes positions
         for (let i = 1; i <= nbStrings; i++)
