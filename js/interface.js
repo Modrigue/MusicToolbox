@@ -1,5 +1,5 @@
 "use strict";
-const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator", "page_scale_keyboard"];
+const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester" /*, "page_song_generator"*/, "page_scale_keyboard"];
 let pageSelected = "";
 let hasAudio = false;
 let instrumentsLoaded = [];
@@ -62,7 +62,6 @@ window.onload = function () {
         document.getElementById(`chord_tester_scale${i}`).addEventListener("change", update);
     }
     // song generator
-    setVisible("button_page_song_generator", false); // experimental: disabled for now
     document.getElementById(`song_generator_tonic`).addEventListener("change", generateNewSong);
     document.getElementById(`song_generator_scale`).addEventListener("change", generateNewSong);
     document.getElementById(`song_generator_nb_bars`).addEventListener("change", generateNewSong);
@@ -484,17 +483,11 @@ function updateLocales() {
     document.getElementById("button_page_chord_explorer").innerText = getString("page_chord_explorer");
     document.getElementById("button_page_scale_explorer").innerText = getString("page_scale_explorer");
     document.getElementById("button_page_scale_finder").innerText = getString("page_scale_finder");
-    document.getElementById("button_page_song_generator").innerText = getString("page_song_generator");
+    //(<HTMLButtonElement>document.getElementById("button_page_song_generator")).innerText = getString("page_song_generator");
     document.getElementById("button_page_scale_keyboard").innerText = getString("play");
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
-    //(<HTMLSpanElement>document.getElementById("welcome_button_load_instruments")).innerText = getString("instruments_load");
-    //(<HTMLSpanElement>document.getElementById("welcome_header")).innerText = hasAudio ?
-    //`♪ ${getString("welcome_instruments_loaded")} ♪` :
-    //(instrumentsLoading ?
-    //    `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
-    //    getString("welcome_instruments_not_loaded"));
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");

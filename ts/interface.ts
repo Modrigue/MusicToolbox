@@ -1,5 +1,5 @@
 const pagesArray: Array<string> =
-    ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator", "page_scale_keyboard"];
+    ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"/*, "page_song_generator"*/, "page_scale_keyboard"];
 let pageSelected: string = "";
 
 
@@ -82,7 +82,6 @@ window.onload = function()
     }
 
     // song generator
-    setVisible("button_page_song_generator", false); // experimental: disabled for now
     (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).addEventListener("change", generateNewSong);
     (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).addEventListener("change", generateNewSong);
     (<HTMLSelectElement>document.getElementById(`song_generator_nb_bars`)).addEventListener("change", generateNewSong);
@@ -651,18 +650,12 @@ function updateLocales(): void
     (<HTMLButtonElement>document.getElementById("button_page_chord_explorer")).innerText = getString("page_chord_explorer");
     (<HTMLButtonElement>document.getElementById("button_page_scale_explorer")).innerText = getString("page_scale_explorer");
     (<HTMLButtonElement>document.getElementById("button_page_scale_finder")).innerText = getString("page_scale_finder");
-    (<HTMLButtonElement>document.getElementById("button_page_song_generator")).innerText = getString("page_song_generator");
+    //(<HTMLButtonElement>document.getElementById("button_page_song_generator")).innerText = getString("page_song_generator");
     (<HTMLButtonElement>document.getElementById("button_page_scale_keyboard")).innerText = getString("play");
 
     // welcome
     (<HTMLHeadElement>document.getElementById("welcome_title")).innerText = getString("welcome_title");
     (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = getString("welcome_subtitle");
-    //(<HTMLSpanElement>document.getElementById("welcome_button_load_instruments")).innerText = getString("instruments_load");
-    //(<HTMLSpanElement>document.getElementById("welcome_header")).innerText = hasAudio ?
-    //`♪ ${getString("welcome_instruments_loaded")} ♪` :
-    //(instrumentsLoading ?
-    //    `${getString("instruments_loading")} ${Math.floor(100*(nbInstrumentsLoaded / nbInstrumentsTotal))}%` :
-    //    getString("welcome_instruments_not_loaded"));
 
     // scale explorer
     (<HTMLSpanElement>document.getElementById("select_key_text")).innerText = getString("select_key");
