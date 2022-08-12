@@ -1,4 +1,113 @@
 "use strict";
+const nbKeysInRowsScaleKeyboard = [11, 12, 12, 12];
+const startRowsScaleKeyboard = [0, 2 / 3, 1 / 3, 0];
+let wScaleKeyboardKey = 0;
+let hScalekeyboardKey = 0;
+function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals = []) {
+    let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
+    // keyboard
+    if (!canvas.getContext)
+        return;
+    let ctx = canvas.getContext("2d");
+    // clear
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // fill background
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.closePath();
+    wScaleKeyboardKey = canvas.width / 13;
+    hScalekeyboardKey = canvas.height / 4;
+    ctx.strokeStyle = colorPianoNoteNormal;
+    // draw computer keyboard grid
+    // fill rows (from top to bottom)
+    let xRowStart = 0, xRowEnd = 0;
+    let xRowStartPrev = 0, xRowEndPrev = 0;
+    let yRowStart = 0;
+    let nbKeysInRow = 0;
+    for (let row = 4; row >= 1; row--) {
+        nbKeysInRow = nbKeysInRowsScaleKeyboard[row - 1];
+        xRowStart = wScaleKeyboardKey * startRowsScaleKeyboard[row - 1];
+        xRowEnd = xRowStart + nbKeysInRow * wScaleKeyboardKey;
+        yRowStart = hScalekeyboardKey * (4 - row);
+        let xRowStartCur = xRowStart;
+        let xRowEndCur = xRowEnd;
+        if (row < 4) {
+            xRowStartCur = Math.min(xRowStart, xRowStartPrev);
+            xRowEndCur = Math.max(xRowEnd, xRowEndPrev);
+        }
+        // horizontal top line
+        let y = yRowStart;
+        ctx.beginPath();
+        ctx.moveTo(xRowStartCur, y);
+        ctx.lineTo(xRowEndCur, y);
+        ctx.stroke();
+        // vertical lines
+        for (let j = 0; j <= nbKeysInRow; j++) {
+            let x = xRowStart + j * wScaleKeyboardKey;
+            ctx.beginPath();
+            ctx.moveTo(x, yRowStart);
+            ctx.lineTo(x, yRowStart + hScalekeyboardKey);
+            ctx.stroke();
+        }
+        xRowStartPrev = xRowStart;
+        xRowEndPrev = xRowEnd;
+    }
+    // horizontal bottom line
+    let y = yRowStart + hScalekeyboardKey;
+    ctx.beginPath();
+    ctx.moveTo(xRowStart, y);
+    ctx.lineTo(xRowStart + nbKeysInRow * wScaleKeyboardKey, y);
+    ctx.stroke();
+    // fill with selected scale notes
+    const scaleValuesPositions = getScaleValuesPositions(scaleValues);
+    const noteValueMinOctave = 12 * startOctave + noteValueMin;
+    for (let pos = 0; pos <= 46; pos++) {
+        const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[pos];
+        if (noteValue <= noteValueMax)
+            displayNoteOnKey(pos, getNoteNameWithOctave(noteValue), colorPianoNoteNormal);
+    }
+}
+function displayNoteOnKey(pos, text, color) {
+    let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
+    if (!canvas.getContext)
+        return;
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = color;
+    let coords = getKeyCoordinates(pos);
+    // text display
+    const lang = getSelectedCulture();
+    let xShift = 0;
+    let yShift = 0;
+    switch (lang) {
+        case "fr":
+            ctx.font = "13px Arial";
+            xShift = -3.5 * text.length;
+            yShift = 2;
+            break;
+        case "int":
+        default:
+            ctx.font = "18px Arial";
+            xShift = -5 * text.length;
+            yShift = 6;
+            break;
+    }
+    ctx.fillText(text, coords[0] + xShift, coords[1] + yShift);
+}
+// get position corresponding key center coordinates
+function getKeyCoordinates(pos) {
+    if (pos < 0)
+        return [-1, -1];
+    if (0 <= pos && pos <= 10)
+        return [wScaleKeyboardKey * (pos - 0 + startRowsScaleKeyboard[1 - 1] + 0.5), hScalekeyboardKey * 3.5]; // 1st row
+    else if (11 <= pos && pos <= 22)
+        return [wScaleKeyboardKey * (pos - 11 + startRowsScaleKeyboard[2 - 1] + 0.5), hScalekeyboardKey * 2.5]; // 2nd row
+    else if (23 <= pos && pos <= 34)
+        return [wScaleKeyboardKey * (pos - 23 + startRowsScaleKeyboard[3 - 1] + 0.5), hScalekeyboardKey * 1.5]; // 3rd row
+    else if (35 <= pos && pos <= 46)
+        return [wScaleKeyboardKey * (pos - 35 + startRowsScaleKeyboard[4 - 1] + 0.5), hScalekeyboardKey * 0.5]; // 4th row
+    return [-1, -1];
+}
 function getPositionFromInputKey(e) {
     let position = -999;
     switch (e.code) {

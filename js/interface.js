@@ -21,7 +21,7 @@ window.onload = function () {
     for (const page of pagesArray)
         document.getElementById(`button_${page}`).addEventListener("click", () => selectPage(page));
     // scale explorer
-    document.getElementById("note").addEventListener("change", onNoteChanged);
+    document.getElementById("note").addEventListener("change", update);
     document.getElementById("scale").addEventListener("change", onScaleChanged);
     document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); toggleDisplay('chordsQ_result'); toggleDisplay('section_found_chords'); });
     document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
@@ -183,9 +183,6 @@ function selectPage(pageId = "") {
         button.className = buttonSelected ? "button-page-selected" : "button-page";
     }
     pageSelected = pageId;
-    update();
-}
-function onNoteChanged() {
     update();
 }
 function onScaleChanged() {
@@ -380,9 +377,13 @@ function update() {
             // get selected start note
             const tonicSelected = document.getElementById(`scale_keyboard_tonic`).value;
             const tonicValue = parseInt(tonicSelected);
+            // get selected scale
+            const scaleKeyboardId = document.getElementById("scale_keyboard_scale").value;
+            const scaleKeyboardValues = getScaleValues(scaleKeyboardId);
             // get selected start octave
             const octaveStartSelected = document.getElementById(`scale_keyboard_start_octave`).value;
             const octaveStartValue = parseInt(octaveStartSelected);
+            updateScaleKeyboard(tonicValue, scaleKeyboardValues, octaveStartValue);
             break;
     }
 }
@@ -391,9 +392,11 @@ function onResize() {
     scaleExplorerCanvasGuitar.width = window.innerWidth - 30;
     let chordExplorerCanvasGuitar = document.getElementById("chord_explorer_canvas_guitar");
     chordExplorerCanvasGuitar.width = window.innerWidth - 30;
-    let canvasKeyboard = document.getElementById("scale_explorer_canvas_keyboard");
-    canvasKeyboard.width = window.innerWidth - 30;
-    onNoteChanged();
+    let scaleExplorerCanvasKeyboard = document.getElementById("scale_explorer_canvas_keyboard");
+    scaleExplorerCanvasKeyboard.width = window.innerWidth - 30;
+    let scaleExplorerCanvasScaleKeyboard = document.getElementById("scale_explorer_canvas_scale_keyboard");
+    scaleExplorerCanvasScaleKeyboard.width = window.innerWidth - 30;
+    update();
 }
 function loadSelectedInstrument() {
     // get selected instrument
@@ -547,15 +550,15 @@ function updateLocales() {
         (instrumentsLoading ? getString("instruments_loading") : getString("instruments_not_loaded"));
     // update computed data
     updateSelectors();
-    onNoteChanged();
+    update();
 }
 function updateShowQuarterTonesInScaleExplorer() {
     updateSelectors(true /*resetScaleFinderNotes*/);
-    onNoteChanged();
+    update();
 }
 function updateShowQuarterTonesInScaleFinder() {
     updateSelectors(false /*resetScaleExplorerNotes*/, true /*resetScaleFinderNotes*/);
-    onNoteChanged();
+    update();
 }
 function getSelectorIndexFromValue(selector, value) {
     const options = selector.options;

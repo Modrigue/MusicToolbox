@@ -182,6 +182,11 @@ function getNoteName(noteValue) {
         noteName += `${sign}${cents}¢`;
     return noteName;
 }
+function getNoteNameWithOctave(noteValue) {
+    let noteName = getNoteName(noteValue % 12);
+    let octave = Math.floor(noteValue / 12) - 2;
+    return `${noteName}${octave}`;
+}
 function getScaleString(id) {
     const lang = getSelectedCulture();
     const scalesDict = scalesDicts.get(lang);

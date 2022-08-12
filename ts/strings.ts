@@ -200,6 +200,14 @@ function getNoteName(noteValue: number): string
   return noteName;
 }
 
+function getNoteNameWithOctave(noteValue: number): string
+{
+  let noteName = getNoteName(noteValue % 12);
+  let octave = Math.floor(noteValue / 12) - 2;
+
+  return `${noteName}${octave}`;
+}
+
 function getScaleString(id: string): string
 {
     const lang: string = getSelectedCulture();
