@@ -18,9 +18,9 @@ instrumentsDict_int.set(15, 'Tubular Bells');
 //instrumentsDict_int.set( 16, 'Dulcimer');
 //instrumentsDict_int.set( 17, 'Drawbar Organ');
 instrumentsDict_int.set(18, 'Percussive Organ');
-//instrumentsDict_int.set( 19, 'Rock Organ');
+instrumentsDict_int.set(19, 'Rock Organ');
 instrumentsDict_int.set(20, 'Church Organ');
-//instrumentsDict_int.set( 21, 'Reed Organ');
+instrumentsDict_int.set(21, 'Reed Organ');
 //instrumentsDict_int.set( 22, 'Accordion');
 //instrumentsDict_int.set( 23, 'Harmonica');
 instrumentsDict_int.set(24, 'Tango Accordion');
@@ -129,32 +129,6 @@ instrumentsDict_int.set(115, 'Steel Drums');
 //instrumentsDict_int.set(127, 'Applause');
 //instrumentsDict_int.set(128, 'Gunshot');
 //const instrumentsDict_fr: Map<number, string> = new Map<number, string>();
-//instrumentsDict_fr.set(  1, 'Acoustic Grand Piano');
-//instrumentsDict_fr.set(  9, 'Celesta');
-//instrumentsDict_fr.set( 10, 'Glockenspiel');
-//instrumentsDict_fr.set( 11, 'Music Box');
-//instrumentsDict_fr.set( 12, 'Vibraphone');
-//instrumentsDict_fr.set( 13, 'Marimba');
-//instrumentsDict_fr.set( 14, 'Xylophone');
-//instrumentsDict_fr.set( 15, 'Tubular Bells');
-//instrumentsDict_fr.set( 18, 'Percussive Organ');
-//instrumentsDict_fr.set( 20, 'Church Organ');
-//instrumentsDict_fr.set( 24, 'Tango Accordion');
-//instrumentsDict_fr.set( 26, 'Acoustic Guitar (Steel)');
-//instrumentsDict_fr.set( 33, 'Acoustic Bass');
-//instrumentsDict_fr.set( 38, 'Slap Bass 2');
-//instrumentsDict_fr.set( 45, 'Tremolo Strings');
-//instrumentsDict_fr.set( 51, 'Synth Strings 1');
-//instrumentsDict_fr.set( 53, 'Choir Aahs');
-//instrumentsDict_fr.set( 54, 'Voice Oohs');
-//instrumentsDict_fr.set( 87, 'Lead 7 (Fifths)');
-//instrumentsDict_fr.set( 89, 'Pad 1 (New age)');
-//instrumentsDict_fr.set( 90, 'Pad 2 (Warm)');
-//instrumentsDict_fr.set( 93, 'Pad 5 (Bowed)');
-//instrumentsDict_fr.set( 96, 'Pad 8 (Sweep)');
-//instrumentsDict_fr.set(101, 'FX 5 (Brightness)');
-//instrumentsDict_fr.set(103, 'FX 7 (Echoes)');
-//instrumentsDict_fr.set(115, 'Steel Drums');
 //// global dictionary
 //const instrumentsDicts: Map<string, Map<number, string>> = new Map<string,Map<number, string>>();
 //instrumentsDicts.set("int", instrumentsDict_int);
@@ -164,6 +138,8 @@ const instrumentsVolumesDict = new Map();
 for (let i = 1; i <= 128; i++)
     instrumentsVolumesDict.set(i, volumeRef * 1.75); // default
 instrumentsVolumesDict.set(1, volumeRef * 0.9);
+instrumentsVolumesDict.set(19, volumeRef * 2.5);
+instrumentsVolumesDict.set(21, volumeRef * 1);
 instrumentsVolumesDict.set(87, volumeRef * 1.75 * 1.5);
 function updateInstrumentSelector(id) {
     // get selected culture
