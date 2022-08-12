@@ -2,7 +2,7 @@
 const nbKeysInRowsScaleKeyboard = [11, 12, 12, 12];
 const startRowsScaleKeyboard = [0, 2 / 3, 1 / 3, 0];
 let wScaleKeyboardKey = 0;
-let hScalekeyboardKey = 0;
+let hScaleKeyboardKey = 0;
 function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals = []) {
     let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
     // keyboard
@@ -17,7 +17,7 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.closePath();
     wScaleKeyboardKey = canvas.width / 13;
-    hScalekeyboardKey = canvas.height / 4;
+    hScaleKeyboardKey = canvas.height / 4;
     ctx.strokeStyle = colorPianoNoteNormal;
     // draw computer keyboard grid
     // fill rows (from top to bottom)
@@ -29,7 +29,7 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
         nbKeysInRow = nbKeysInRowsScaleKeyboard[row - 1];
         xRowStart = wScaleKeyboardKey * startRowsScaleKeyboard[row - 1];
         xRowEnd = xRowStart + nbKeysInRow * wScaleKeyboardKey;
-        yRowStart = hScalekeyboardKey * (4 - row);
+        yRowStart = hScaleKeyboardKey * (4 - row);
         let xRowStartCur = xRowStart;
         let xRowEndCur = xRowEnd;
         if (row < 4) {
@@ -47,14 +47,14 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
             let x = xRowStart + j * wScaleKeyboardKey;
             ctx.beginPath();
             ctx.moveTo(x, yRowStart);
-            ctx.lineTo(x, yRowStart + hScalekeyboardKey);
+            ctx.lineTo(x, yRowStart + hScaleKeyboardKey);
             ctx.stroke();
         }
         xRowStartPrev = xRowStart;
         xRowEndPrev = xRowEnd;
     }
     // horizontal bottom line
-    let y = yRowStart + hScalekeyboardKey;
+    let y = yRowStart + hScaleKeyboardKey;
     ctx.beginPath();
     ctx.moveTo(xRowStart, y);
     ctx.lineTo(xRowStart + nbKeysInRow * wScaleKeyboardKey, y);
@@ -74,15 +74,17 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
             colorNote = colorPianoNoteChar; // characteristic note
         if (noteValue <= noteValueMax)
             displayNoteOnKey(pos, getNoteNameWithOctave(noteValue), colorNote);
+        if (colorNote != colorPianoNoteNormal)
+            highlightKeyBorders(pos, colorNote);
     }
 }
-function displayNoteOnKey(pos, text, color) {
+function displayNoteOnKey(position, text, color) {
     let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
     if (!canvas.getContext)
         return;
     let ctx = canvas.getContext("2d");
     ctx.fillStyle = color;
-    let coords = getKeyCoordinates(pos);
+    const coords = getKeyCoordinates(position);
     // text display
     const lang = getSelectedCulture();
     let xShift = 0;
@@ -91,7 +93,7 @@ function displayNoteOnKey(pos, text, color) {
         case "fr":
             ctx.font = "13px Arial";
             xShift = -3.5 * text.length;
-            yShift = 2;
+            yShift = 4;
             break;
         case "int":
         default:
@@ -102,18 +104,38 @@ function displayNoteOnKey(pos, text, color) {
     }
     ctx.fillText(text, coords[0] + xShift, coords[1] + yShift);
 }
+function highlightKeyBorders(position, color) {
+    let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
+    if (!canvas.getContext)
+        return;
+    let ctx = canvas.getContext("2d");
+    ctx.strokeStyle = color;
+    const coords = getKeyCoordinates(position);
+    const xC = coords[0];
+    const yC = coords[1];
+    ctx.beginPath();
+    ctx.moveTo(xC - wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2);
+    ctx.lineTo(xC + wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2);
+    ctx.stroke();
+    ctx.lineTo(xC + wScaleKeyboardKey / 2, yC + hScaleKeyboardKey / 2);
+    ctx.stroke();
+    ctx.lineTo(xC - wScaleKeyboardKey / 2, yC + hScaleKeyboardKey / 2);
+    ctx.stroke();
+    ctx.lineTo(xC - wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2);
+    ctx.stroke();
+}
 // get position corresponding key center coordinates
 function getKeyCoordinates(pos) {
     if (pos < 0)
         return [-1, -1];
     if (0 <= pos && pos <= 10)
-        return [wScaleKeyboardKey * (pos - 0 + startRowsScaleKeyboard[1 - 1] + 0.5), hScalekeyboardKey * 3.5]; // 1st row
+        return [wScaleKeyboardKey * (pos - 0 + startRowsScaleKeyboard[1 - 1] + 0.5), hScaleKeyboardKey * 3.5]; // 1st row
     else if (11 <= pos && pos <= 22)
-        return [wScaleKeyboardKey * (pos - 11 + startRowsScaleKeyboard[2 - 1] + 0.5), hScalekeyboardKey * 2.5]; // 2nd row
+        return [wScaleKeyboardKey * (pos - 11 + startRowsScaleKeyboard[2 - 1] + 0.5), hScaleKeyboardKey * 2.5]; // 2nd row
     else if (23 <= pos && pos <= 34)
-        return [wScaleKeyboardKey * (pos - 23 + startRowsScaleKeyboard[3 - 1] + 0.5), hScalekeyboardKey * 1.5]; // 3rd row
+        return [wScaleKeyboardKey * (pos - 23 + startRowsScaleKeyboard[3 - 1] + 0.5), hScaleKeyboardKey * 1.5]; // 3rd row
     else if (35 <= pos && pos <= 46)
-        return [wScaleKeyboardKey * (pos - 35 + startRowsScaleKeyboard[4 - 1] + 0.5), hScalekeyboardKey * 0.5]; // 4th row
+        return [wScaleKeyboardKey * (pos - 35 + startRowsScaleKeyboard[4 - 1] + 0.5), hScaleKeyboardKey * 0.5]; // 4th row
     return [-1, -1];
 }
 function getPositionFromInputKey(e) {
