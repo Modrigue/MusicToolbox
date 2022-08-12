@@ -43,7 +43,7 @@ notesKeyPos.set(11, 6);
 notesKeyPos.set(11.5, 6.25);
 // <i> has offset 0
 function displayNoteOnKeyboard(i, text, color, showQuarterTones = false) {
-    let canvas = document.getElementById("canvas_keyboard");
+    let canvas = document.getElementById("scale_explorer_canvas_keyboard");
     if (canvas.getContext) {
         let ctx = canvas.getContext("2d");
         const yStep = (canvas.height - 2 * yKeyMargin) / (6 - 1);
@@ -91,7 +91,7 @@ function displayNoteOnKeyboard(i, text, color, showQuarterTones = false) {
     }
 }
 function updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, showQuarterTones = false) {
-    let canvas = document.getElementById("canvas_keyboard");
+    let canvas = document.getElementById("scale_explorer_canvas_keyboard");
     // keyboard
     if (!canvas.getContext)
         return;
@@ -189,7 +189,7 @@ function updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, showQu
     canvas.setAttribute("onclick", `saveKeyboardImage(${noteValue}, "${scaleName}")`);
 }
 function saveKeyboardImage(noteValue, scaleName) {
-    let canvasElement = document.getElementById('canvas_keyboard');
+    let canvasElement = document.getElementById('scale_explorer_canvas_keyboard');
     let canvasImage = canvasElement.toDataURL('image/png');
     const noteSelectedText = getNoteName(noteValue);
     let scaleSelectedText = scaleName;

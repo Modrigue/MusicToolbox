@@ -46,7 +46,7 @@ notesKeyPos.set(11.5, 6.25);
 // <i> has offset 0
 function displayNoteOnKeyboard(i: number, text: string, color: string, showQuarterTones: boolean = false): void
 {
-    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas_keyboard");
+    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_keyboard");
     if (canvas.getContext) 
     {
         let ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
@@ -104,7 +104,7 @@ function displayNoteOnKeyboard(i: number, text: string, color: string, showQuart
 function updateKeyboard(noteValue: number, scaleValues: Array<number>,
     charIntervals: Array<number>, scaleName: string, showQuarterTones: boolean = false): void
 {
-    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas_keyboard");
+    let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_keyboard");
 
     // keyboard
     if (!canvas.getContext)
@@ -232,7 +232,7 @@ function updateKeyboard(noteValue: number, scaleValues: Array<number>,
 
 function saveKeyboardImage(noteValue: number, scaleName: string): void
 {
-    let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('canvas_keyboard');
+    let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('scale_explorer_canvas_keyboard');
     let canvasImage: string = canvasElement.toDataURL('image/png');
     const noteSelectedText: string = getNoteName(noteValue);
     let scaleSelectedText: string = scaleName;

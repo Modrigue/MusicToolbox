@@ -25,7 +25,7 @@ window.onload = function () {
     document.getElementById("scale").addEventListener("change", onScaleChanged);
     document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); toggleDisplay('chordsQ_result'); toggleDisplay('section_found_chords'); });
     document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
-    document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('canvas_keyboard'));
+    document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('scale_explorer_canvas_keyboard'));
     document.getElementById("checkboxQuarterTonesScaleExplorer").addEventListener("change", updateShowQuarterTonesInScaleExplorer);
     document.getElementById("scale_explorer_guitar_nb_strings").addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     document.getElementById("scale_explorer_guitar_tuning").addEventListener("change", update);
@@ -270,7 +270,7 @@ function update() {
             const checkboxKeyboard = document.getElementById("checkboxKeyboard");
             const checkboxChords = document.getElementById("checkboxChords");
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked && !scaleValuesXenharmonic);
-            setVisible("canvas_keyboard", checkboxKeyboard.checked && !scaleValuesXenharmonic);
+            setVisible("scale_explorer_canvas_keyboard", checkboxKeyboard.checked && !scaleValuesXenharmonic);
             if (!scaleValuesChromatic && !scaleValuesXenharmonic) {
                 foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
                 neapChordFromScale.innerHTML = findNeapChordFromTonicHTML(noteValue);
@@ -391,7 +391,7 @@ function onResize() {
     scaleExplorerCanvasGuitar.width = window.innerWidth - 30;
     let chordExplorerCanvasGuitar = document.getElementById("chord_explorer_canvas_guitar");
     chordExplorerCanvasGuitar.width = window.innerWidth - 30;
-    let canvasKeyboard = document.getElementById("canvas_keyboard");
+    let canvasKeyboard = document.getElementById("scale_explorer_canvas_keyboard");
     canvasKeyboard.width = window.innerWidth - 30;
     onNoteChanged();
 }
