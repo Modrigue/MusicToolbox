@@ -500,15 +500,16 @@ function update(): void
             const tonicSelected: string = (<HTMLSelectElement>document.getElementById(`scale_keyboard_tonic`)).value;
             const tonicValue: number = parseInt(tonicSelected);
 
-            // get selected scale
+            // get selected scale and characteric instervals
             const scaleKeyboardId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
             const scaleKeyboardValues: Array<number> = getScaleValues(scaleKeyboardId);
+            const scaleKeyboardCharIntervals = getScaleCharIntervals(scaleKeyboardId);            
 
             // get selected start octave
             const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`scale_keyboard_start_octave`)).value;
             const octaveStartValue: number = parseInt(octaveStartSelected);
 
-            updateScaleKeyboard(tonicValue, scaleKeyboardValues, octaveStartValue);
+            updateScaleKeyboard(tonicValue, scaleKeyboardValues, octaveStartValue, scaleKeyboardCharIntervals);
 
             break;
     }

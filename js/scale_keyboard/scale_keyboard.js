@@ -60,12 +60,20 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
     ctx.lineTo(xRowStart + nbKeysInRow * wScaleKeyboardKey, y);
     ctx.stroke();
     // fill with selected scale notes
+    const scaleNotesValues = getScaleNotesValues(tonicValue, scaleValues);
     const scaleValuesPositions = getScaleValuesPositions(scaleValues);
     const noteValueMinOctave = 12 * startOctave + noteValueMin;
     for (let pos = 0; pos <= 46; pos++) {
         const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[pos];
+        // get note color
+        let colorNote = colorPianoNoteNormal;
+        if (noteValue % 12 == tonicValue)
+            colorNote = colorPianoNoteTonic;
+        const indexNote = scaleNotesValues.indexOf(noteValue % 12);
+        if (charIntervals.indexOf(indexNote) >= 0)
+            colorNote = colorPianoNoteChar; // characteristic note
         if (noteValue <= noteValueMax)
-            displayNoteOnKey(pos, getNoteNameWithOctave(noteValue), colorPianoNoteNormal);
+            displayNoteOnKey(pos, getNoteNameWithOctave(noteValue), colorNote);
     }
 }
 function displayNoteOnKey(pos, text, color) {

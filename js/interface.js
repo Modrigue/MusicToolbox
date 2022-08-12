@@ -377,13 +377,14 @@ function update() {
             // get selected start note
             const tonicSelected = document.getElementById(`scale_keyboard_tonic`).value;
             const tonicValue = parseInt(tonicSelected);
-            // get selected scale
+            // get selected scale and characteric instervals
             const scaleKeyboardId = document.getElementById("scale_keyboard_scale").value;
             const scaleKeyboardValues = getScaleValues(scaleKeyboardId);
+            const scaleKeyboardCharIntervals = getScaleCharIntervals(scaleKeyboardId);
             // get selected start octave
             const octaveStartSelected = document.getElementById(`scale_keyboard_start_octave`).value;
             const octaveStartValue = parseInt(octaveStartSelected);
-            updateScaleKeyboard(tonicValue, scaleKeyboardValues, octaveStartValue);
+            updateScaleKeyboard(tonicValue, scaleKeyboardValues, octaveStartValue, scaleKeyboardCharIntervals);
             break;
     }
 }
