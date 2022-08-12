@@ -43,7 +43,6 @@ scaleFamiliesDict.set("5dom_penta",       [0, 2, 4, 7, 10]);
 scaleFamiliesDict.set("5bartok_penta",    [0, 4, 6, 7, 10]);
 scaleFamiliesDict.set("5phryg6_penta",    [0, 1, 3, 7, 9]);
 scaleFamiliesDict.set("5majorb6_penta",   [0, 2, 4, 7, 8]);
-scaleFamiliesDict.set("5minorb5_penta",   [0, 3, 5, 6, 10]);
 scaleFamiliesDict.set("5blues_no4_penta", [0, 3, 6, 7, 10]);
 
 // chromatic
@@ -162,6 +161,7 @@ scalesDict_int.set("5jap_in,3", "Hirajoshi (3rd mode)");
 scalesDict_int.set("5jap_in,4", "Iwato (4th mode)");
 scalesDict_int.set("5jap_in,sep", "");
 scalesDict_int.set("5jap_insen,1", "Insen");
+scalesDict_int.set("5jap_insen,4,diff:5major_penta;5", "Minor Pentatonic ♭5 (4th mode)");
 scalesDict_int.set("5jap_insen,5", "Kumoi (5th mode)");
 scalesDict_int.set("5jap_insen,sep", "");
 scalesDict_int.set("5javanese,1", "Javanese / Ryu Kyu");
@@ -179,7 +179,6 @@ scalesDict_int.set("5dom_penta_sep", "");
 scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Bartok Pentatonic");
 scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
 scalesDict_int.set("5majorb6_penta,1,diff:5major_penta;1", "Major Pentatonic ♭6");
-scalesDict_int.set("5minorb5_penta,1,diff:5major_penta;5", "Minor Pentatonic ♭5");
 scalesDict_int.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
 scalesDict_int.set("5others,sep", "");
 
@@ -284,6 +283,7 @@ scalesDict_fr.set("5jap_in,3", "Hirajoshi (3e mode)");
 scalesDict_fr.set("5jap_in,4", "Iwato (4e mode)");
 
 scalesDict_fr.set("5jap_insen,1", "Insen");
+scalesDict_fr.set("5jap_insen,4,diff:5major_penta;5", "Pentatonique mineure ♭5 (4e mode)");
 scalesDict_fr.set("5jap_insen,5", "Kumoi (5e mode)");
 
 scalesDict_fr.set("5javanese,1", "Javanais / Ryu Kyu");
@@ -297,7 +297,6 @@ scalesDict_fr.set("5dom_penta,4,diff:5major_penta;5", "Pentatonique dorienne (4e
 scalesDict_fr.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonique Bartok");
 scalesDict_fr.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonique majeure ♭6");
 scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique phrygien ♮6");
-scalesDict_fr.set("5minorb5_penta,1,diff:5major_penta;5", "Pentatonique mineure ♭5");
 
 
 // global dictionary
