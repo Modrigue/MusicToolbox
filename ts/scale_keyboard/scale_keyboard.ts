@@ -486,7 +486,7 @@ function initScaleKeyboardMouseCallbacks()
         if (!hasAudio)
             return;
 
-        if (pageSelected != "page_scale_keyboard")
+        if (pageSelected != "page_scale_explorer")
             return;
 
         // get position from mouse
@@ -507,7 +507,7 @@ function initScaleKeyboardMouseCallbacks()
         if (!hasAudio)
             return;
 
-        if (pageSelected != "page_scale_keyboard")
+        if (pageSelected != "page_scale_explorer")
             return;
 
         // get position from mouse
@@ -612,7 +612,7 @@ document.addEventListener('keydown', function(e)
     if (!hasAudio)
         return;
   
-    if (pageSelected != "page_scale_keyboard")
+    if (pageSelected != "page_scale_explorer")
         return;
 
     const position = getPositionFromInputKey(e);
@@ -626,7 +626,7 @@ document.addEventListener('keyup', function(e)
 {
     if (!hasAudio)
         return;
-    if (pageSelected != "page_scale_keyboard")
+    if (pageSelected != "page_scale_explorer")
         return;
   
     const position = getPositionFromInputKey(e);

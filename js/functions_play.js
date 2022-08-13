@@ -189,13 +189,13 @@ const noteValueMax = 108; // C7
 let notesPressed = [];
 function playScaleKeyboardNotePosition(position, status) {
     // get tonic value and scale values
-    const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
-    const scaleId = document.getElementById("scale_keyboard_scale").value;
+    const tonicValue = getSelectedNoteValue("note");
+    const scaleId = document.getElementById("scale").value;
     const scaleValues = getScaleValues(scaleId);
     const scaleValuesPositions = getScaleValuesPositions(scaleValues);
     const scaleCharIntervals = getScaleCharIntervals(scaleId);
     // get selected start octave
-    const octaveStartSelected = document.getElementById(`scale_keyboard_start_octave`).value;
+    const octaveStartSelected = document.getElementById(`scale_explorer_start_octave`).value;
     const octaveStartValue = parseInt(octaveStartSelected);
     const noteValueMinOctave = 12 * octaveStartValue + noteValueMin;
     const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[position];

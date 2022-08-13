@@ -1,5 +1,5 @@
 "use strict";
-const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester" /*, "page_song_generator"*/, "page_scale_keyboard"];
+const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester" /*, "page_song_generator"*/];
 let pageSelected = "";
 let hasAudio = false;
 let instrumentsLoaded = [];
@@ -21,15 +21,23 @@ window.onload = function () {
     for (const page of pagesArray)
         document.getElementById(`button_${page}`).addEventListener("click", () => selectPage(page));
     // scale explorer
-    document.getElementById("note").addEventListener("change", update);
-    document.getElementById("scale").addEventListener("change", onScaleChanged);
+    const selectScaleExplorerNote = document.getElementById(`note`);
+    const selectScaleExplorerScale = document.getElementById(`scale`);
+    selectScaleExplorerNote.addEventListener("change", () => { selectScaleExplorerNote.blur(); update(); });
+    selectScaleExplorerScale.addEventListener("change", () => { selectScaleExplorerScale.blur(); onScaleChanged(); });
     document.getElementById("checkboxChords").addEventListener("change", () => { toggleDisplay('chords3_result'); toggleDisplay('chords4_result'); toggleDisplay('chordsQ_result'); toggleDisplay('section_found_chords'); });
     document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
-    document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('scale_explorer_canvas_keyboard'));
+    document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('scale_explorer_scale_keyboard_display'));
     document.getElementById("checkboxQuarterTonesScaleExplorer").addEventListener("change", updateShowQuarterTonesInScaleExplorer);
     document.getElementById("scale_explorer_guitar_nb_strings").addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     document.getElementById("scale_explorer_guitar_tuning").addEventListener("change", update);
     document.getElementById("scale_explorer_guitar_position").addEventListener("change", update);
+    // scale explorer keyboard
+    const selectScaleKeyboardStartOctave = document.getElementById(`scale_explorer_start_octave`);
+    const selectInstrumentKeyboardScale = document.getElementById(`scale_explorer_instrument`);
+    selectScaleKeyboardStartOctave.addEventListener("change", () => { selectScaleKeyboardStartOctave.blur(); update(); });
+    selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_explorer_instrument`); });
+    document.getElementById('scale_explorer_button_load_instruments').addEventListener("click", loadSelectedInstrument);
     // scale finder
     for (let i = 1; i <= 8; i++) {
         const id = i.toString();
@@ -70,16 +78,6 @@ window.onload = function () {
     document.getElementById('song_generator_reset').addEventListener("click", resetGeneratedSong);
     for (let i = 1; i <= 2; i++)
         document.getElementById(`song_generator_checkbox_track${i}`).addEventListener("change", updateSongGeneratorPage);
-    // scale keyboard
-    const selectScaleKeyboardTonic = document.getElementById(`scale_keyboard_tonic`);
-    const selectScaleKeyboardScale = document.getElementById(`scale_keyboard_scale`);
-    const selectScaleKeyboardStartOctave = document.getElementById(`scale_keyboard_start_octave`);
-    const selectInstrumentKeyboardScale = document.getElementById(`scale_keyboard_instrument`);
-    selectScaleKeyboardTonic.addEventListener("change", () => { selectScaleKeyboardTonic.blur(); update(); });
-    selectScaleKeyboardScale.addEventListener("change", () => { selectScaleKeyboardScale.blur(); update(); });
-    selectScaleKeyboardStartOctave.addEventListener("change", () => { selectScaleKeyboardStartOctave.blur(); update(); });
-    selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_keyboard_instrument`); });
-    document.getElementById('scale_keyboard_button_load_instruments').addEventListener("click", loadSelectedInstrument);
 };
 function initLanguage() {
     const defaultLang = parseCultureParameter();
@@ -140,10 +138,8 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     updateNoteSelector(`song_generator_tonic`, 0, false);
     updateScaleSelector(`song_generator_scale`, "7major_nat,1");
     // update scale keyboard selectors
-    updateNoteSelector(`scale_keyboard_tonic`, 0, false);
-    updateScaleSelector(`scale_keyboard_scale`, "12tet,1", true, true);
-    updateOctaveSelector(`scale_keyboard_start_octave`, 0, 4);
-    updateInstrumentSelector(`scale_keyboard_instrument`);
+    updateOctaveSelector(`scale_explorer_start_octave`, 0, 4);
+    updateInstrumentSelector(`scale_explorer_instrument`);
 }
 // get selected text from selector
 function getSelectorText(id) {
@@ -210,7 +206,7 @@ function update() {
     for (let pageId of pagesArray)
         setVisible(pageId, (pageId == pageSelected));
     // get selected note and scale/mode values
-    const noteValue = getSelectedNoteValue();
+    const tonicNoteValue = getSelectedNoteValue();
     const scaleValues = getScaleValues();
     const charIntervals = getScaleCharIntervals();
     const nbNotesInScale = scaleValues.length;
@@ -218,8 +214,8 @@ function update() {
     const scaleValuesXenharmonic = isXenharmonicScale(scaleValues);
     const scaleValuesChromatic = isChromaticScale(scaleValues);
     // build scale notes list
-    const scaleNotesValues = getScaleNotesValues(noteValue, scaleValues);
-    document.getElementById('scale_result').innerHTML = getScaleNotesTableHTML(noteValue, scaleValues, charIntervals);
+    const scaleNotesValues = getScaleNotesValues(tonicNoteValue, scaleValues);
+    document.getElementById('scale_result').innerHTML = getScaleNotesTableHTML(tonicNoteValue, scaleValues, charIntervals);
     const scaleNotesValuesMicrotonal = isMicrotonalScale(scaleNotesValues);
     // build chords 3,4 notes and quartal harmonization tables
     const showChords3 = (nbNotesInScale >= 6 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
@@ -258,8 +254,8 @@ function update() {
     switch (pageSelected) {
         case "page_scale_explorer":
             if (!scaleValuesChromatic && !scaleValuesXenharmonic) {
-                foundScales.innerHTML = getRelativeScalesHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
-                negativeScale.innerHTML = getNegativeScaleHTML(noteValue, scaleValues, scaleNotesValuesMicrotonal);
+                foundScales.innerHTML = getRelativeScalesHTML(tonicNoteValue, scaleValues, scaleNotesValuesMicrotonal);
+                negativeScale.innerHTML = getNegativeScaleHTML(tonicNoteValue, scaleValues, scaleNotesValuesMicrotonal);
             }
             setVisible('section_found_scales', !scaleValuesChromatic && !scaleValuesXenharmonic);
             setVisible('negative_scale', !scaleValuesChromatic && !scaleValuesXenharmonic);
@@ -267,11 +263,11 @@ function update() {
             const checkboxKeyboard = document.getElementById("checkboxKeyboard");
             const checkboxChords = document.getElementById("checkboxChords");
             setVisible("scale_explorer_guitar_display", checkboxGuitar.checked && !scaleValuesXenharmonic);
-            setVisible("scale_explorer_canvas_keyboard", checkboxKeyboard.checked && !scaleValuesXenharmonic);
+            setVisible("scale_explorer_canvas_scale_keyboard", checkboxKeyboard.checked);
             if (!scaleValuesChromatic && !scaleValuesXenharmonic) {
-                foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(noteValue, scaleValues, charIntervals);
-                neapChordFromScale.innerHTML = findNeapChordFromTonicHTML(noteValue);
-                aug6thChordsFromScale.innerHTML = findAug6thChordsFromTonicHTML(noteValue);
+                foundChordsFromScale.innerHTML = findChordsFromScaleScalesHTML(tonicNoteValue, scaleValues, charIntervals);
+                neapChordFromScale.innerHTML = findNeapChordFromTonicHTML(tonicNoteValue);
+                aug6thChordsFromScale.innerHTML = findAug6thChordsFromTonicHTML(tonicNoteValue);
             }
             setVisible("section_found_chords", checkboxChords.checked && !scaleValuesChromatic && !scaleValuesXenharmonic);
             // checkboxes
@@ -282,11 +278,15 @@ function update() {
             const hasQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
             // update fretboard
             const position = getSelectedGuitarPosition('scale_explorer_guitar_position');
-            updateFretboard("scale_explorer_canvas_guitar", noteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position);
-            updateFretboard("scale_explorer_canvas_guitar", noteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position); // HACK to ensure correct drawing
-            // update keyboard
-            updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked);
-            updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
+            updateFretboard("scale_explorer_canvas_guitar", tonicNoteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position);
+            updateFretboard("scale_explorer_canvas_guitar", tonicNoteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position); // HACK to ensure correct drawing
+            // disabled: update keyboard
+            //updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked);
+            //updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
+            // get selected start octave
+            const octaveStartSelected = document.getElementById(`scale_explorer_start_octave`).value;
+            const octaveStartValue = parseInt(octaveStartSelected);
+            updateScaleKeyboard(tonicNoteValue, scaleValues, octaveStartValue, charIntervals);
             break;
         case "page_scale_finder":
             foundScales.innerHTML = findScalesFromNotesHTML();
@@ -369,23 +369,6 @@ function update() {
             setVisible('negative_scale', false);
             setVisible("section_found_chords", false);
             break;
-        case "page_scale_keyboard":
-            setVisible('section_found_scales', false);
-            setVisible('negative_scale', false);
-            setVisible("section_found_chords", false);
-            // TODO: update scale keyboard
-            // get selected start note
-            const tonicSelected = document.getElementById(`scale_keyboard_tonic`).value;
-            const tonicValue = parseInt(tonicSelected);
-            // get selected scale and characteric instervals
-            const scaleKeyboardId = document.getElementById("scale_keyboard_scale").value;
-            const scaleKeyboardValues = getScaleValues(scaleKeyboardId);
-            const scaleKeyboardCharIntervals = getScaleCharIntervals(scaleKeyboardId);
-            // get selected start octave
-            const octaveStartSelected = document.getElementById(`scale_keyboard_start_octave`).value;
-            const octaveStartValue = parseInt(octaveStartSelected);
-            updateScaleKeyboard(tonicValue, scaleKeyboardValues, octaveStartValue, scaleKeyboardCharIntervals);
-            break;
     }
 }
 function onResize() {
@@ -393,28 +376,28 @@ function onResize() {
     scaleExplorerCanvasGuitar.width = window.innerWidth - 30;
     let chordExplorerCanvasGuitar = document.getElementById("chord_explorer_canvas_guitar");
     chordExplorerCanvasGuitar.width = window.innerWidth - 30;
-    let scaleExplorerCanvasKeyboard = document.getElementById("scale_explorer_canvas_keyboard");
-    scaleExplorerCanvasKeyboard.width = window.innerWidth - 30;
+    //let scaleExplorerCanvasKeyboard: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_keyboard");
+    //scaleExplorerCanvasKeyboard.width = window.innerWidth - 30;
     let scaleExplorerCanvasScaleKeyboard = document.getElementById("scale_explorer_canvas_scale_keyboard");
     scaleExplorerCanvasScaleKeyboard.width = window.innerWidth - 30;
     update();
 }
 function loadSelectedInstrument() {
     // get selected instrument
-    const instrSelect = document.getElementById(`scale_keyboard_instrument`);
+    const instrSelect = document.getElementById(`scale_explorer_instrument`);
     const instrId = parseInt(instrSelect.value);
     // check if instrument has already been loaded
     if (instrumentsLoaded.indexOf(instrId) >= 0)
         return;
-    setEnabled('scale_keyboard_instrument', false);
+    setEnabled('scale_explorer_instrument', false);
     instrumentLoadingId = instrId;
     const instrument = instrumentsDict_int.get(instrId);
     loadSoundfont(instrument);
 }
 function onNewInstrumentLoaded() {
     instrumentsLoaded.push(instrumentLoadingId);
-    setVisible('scale_keyboard_button_load_instruments', false);
-    setEnabled('scale_keyboard_instrument', true);
+    setVisible('scale_explorer_button_load_instruments', false);
+    setEnabled('scale_explorer_instrument', true);
     hasAudio = true;
     instrumentsLoading = false;
     // update current instrument and volume
@@ -488,7 +471,6 @@ function updateLocales() {
     document.getElementById("button_page_scale_explorer").innerText = getString("page_scale_explorer");
     document.getElementById("button_page_scale_finder").innerText = getString("page_scale_finder");
     //(<HTMLButtonElement>document.getElementById("button_page_song_generator")).innerText = getString("page_song_generator");
-    document.getElementById("button_page_scale_keyboard").innerText = getString("play");
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
@@ -502,6 +484,14 @@ function updateLocales() {
     document.getElementById("scale_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("scale_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("scale_explorer_guitar_position_text").innerText = getString("position");
+    // scale explorer keyboard
+    document.getElementById("scale_explorer_button_load_instruments").innerText = getString("instruments_load");
+    document.getElementById("scale_explorer_start_octave_text").innerText = getString("start_from_octave");
+    document.getElementById("scale_explorer_select_instrument_text").innerText = getString("instrument");
+    document.getElementById("scale_explorer_keyboard_header").innerText = hasAudio ?
+        `♪ ${getString("scale_explorer_keyboard_header")} ♪` :
+        (instrumentsLoading ? getString("instruments_loading") : getString("instruments_not_loaded"));
+    initScaleKeyboardMouseCallbacks();
     // scale finder
     let resetElements = document.getElementsByClassName("reset");
     for (let resetEelem of resetElements)
@@ -541,15 +531,6 @@ function updateLocales() {
     document.getElementById("song_generator_play").innerText = `${getString("listen")} ♪`;
     document.getElementById("song_generator_reset").innerText = getString("reset");
     updateSongGeneratorPage();
-    // scale keyboard
-    document.getElementById("scale_keyboard_button_load_instruments").innerText = getString("instruments_load");
-    document.getElementById("scale_keyboard_select_key_text").innerText = getString("select_key");
-    document.getElementById("scale_keyboard_start_octave_text").innerText = getString("start_from_octave");
-    document.getElementById("scale_keyboard_select_instrument_text").innerText = getString("instrument");
-    document.getElementById("scale_keyboard_header").innerText = hasAudio ?
-        `♪ ${getString("scale_keyboard_header")} ♪` :
-        (instrumentsLoading ? getString("instruments_loading") : getString("instruments_not_loaded"));
-    initScaleKeyboardMouseCallbacks();
     // update computed data
     updateSelectors();
     update();

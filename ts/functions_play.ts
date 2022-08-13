@@ -277,14 +277,14 @@ let notesPressed: Array<number> = [];
 function playScaleKeyboardNotePosition(position: number, status: boolean): void
 {
   // get tonic value and scale values
-  const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
-  const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
+  const tonicValue = getSelectedNoteValue("note");
+  const scaleId = (<HTMLSelectElement>document.getElementById("scale")).value;
   const scaleValues: Array<number> = getScaleValues(scaleId);
   const scaleValuesPositions = getScaleValuesPositions(scaleValues);
   const scaleCharIntervals = getScaleCharIntervals(scaleId); 
 
   // get selected start octave
-  const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`scale_keyboard_start_octave`)).value;
+  const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`scale_explorer_start_octave`)).value;
   const octaveStartValue: number = parseInt(octaveStartSelected);
   const noteValueMinOctave = 12*octaveStartValue + noteValueMin;
 

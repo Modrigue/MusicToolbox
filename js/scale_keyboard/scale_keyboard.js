@@ -387,7 +387,7 @@ function initScaleKeyboardMouseCallbacks() {
     canvas.addEventListener("mousedown", function (e) {
         if (!hasAudio)
             return;
-        if (pageSelected != "page_scale_keyboard")
+        if (pageSelected != "page_scale_explorer")
             return;
         // get position from mouse
         const position = getPositionFromMouse(canvas, e);
@@ -402,7 +402,7 @@ function initScaleKeyboardMouseCallbacks() {
             return;
         if (!hasAudio)
             return;
-        if (pageSelected != "page_scale_keyboard")
+        if (pageSelected != "page_scale_explorer")
             return;
         // get position from mouse
         const position = getPositionFromMouse(canvas, e);
@@ -478,7 +478,7 @@ function getMousePositionInCanvas(canvas, e /* type? */) {
 document.addEventListener('keydown', function (e) {
     if (!hasAudio)
         return;
-    if (pageSelected != "page_scale_keyboard")
+    if (pageSelected != "page_scale_explorer")
         return;
     const position = getPositionFromInputKey(e);
     if (position < 0)
@@ -488,7 +488,7 @@ document.addEventListener('keydown', function (e) {
 document.addEventListener('keyup', function (e) {
     if (!hasAudio)
         return;
-    if (pageSelected != "page_scale_keyboard")
+    if (pageSelected != "page_scale_explorer")
         return;
     const position = getPositionFromInputKey(e);
     if (position < 0)

@@ -79,7 +79,6 @@
       <button class="button-page" id="button_page_scale_explorer" >Explore scales</button>
       <button class="button-page" id="button_page_scale_finder" >Find scales</button>
       <!--button class="button-page" id="button_page_song_generator" >Generate a song</button-->
-      <button class="button-page" id="button_page_scale_keyboard" >Play</button>
       <span style='float: right;'>
         <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
         <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
@@ -141,6 +140,25 @@
       </p>
   
       <p id='scale_result'>?</p>
+
+      <div id="scale_explorer_scale_keyboard_display">
+        <p class='align-center'>
+          <em><span id="scale_explorer_keyboard_header" style="color: grey">No instruments loaded</span></em>
+          <br>
+          <span id="scale_explorer_start_octave_text">Start from octave:</span>
+          <select name="scale_explorer_start_octave" id="scale_explorer_start_octave"></select>
+          &nbsp;&nbsp;
+          <span id="scale_explorer_select_instrument_text">Instrument:</span>
+          <select name="scale_explorer_instrument" id="scale_explorer_instrument"></select>
+          &nbsp;
+          <button id="scale_explorer_button_load_instruments"><span class="play">Load instrument</span></button>
+          <br>
+        </p>
+        <canvas id="scale_explorer_canvas_scale_keyboard" width="600" height="200">
+          Your browser does not support the canvas element.
+        </canvas>
+        <br>
+      </div>
       
       <p id='chords3_result'>?</p>
       
@@ -164,9 +182,9 @@
         </canvas>
       </div>
   
-      <canvas id="scale_explorer_canvas_keyboard" width="600" height="200">
+      <!--canvas id="scale_explorer_canvas_keyboard" width="600" height="200">
         Your browser does not support the canvas element.
-      </canvas>
+      </canvas-->
       
       <div id='section_found_chords' class='is-grouped'>
         <p id='found_chords_from_scale'></p>
@@ -383,31 +401,6 @@
         <button id="song_generator_reset" disabled><span class="reset">Reset</span></button>
       </p>
       
-    </div>
-
-
-    <!-- ########################## SCALE KEYBOARD ########################## -->
-
-    <div id ='page_scale_keyboard' style="display: none">
-      <p class='align-center'>
-        <em><span id="scale_keyboard_header" style="color: grey">No instruments loaded</span></em>
-        <br/><br/>
-        <span id="scale_keyboard_select_key_text">Key:</span>
-        <select name="scale_keyboard_tonic" id="scale_keyboard_tonic"></select>
-        <select name="scale_keyboard_scale" id="scale_keyboard_scale"></select>
-        <br/>
-        <span id="scale_keyboard_start_octave_text">Start from octave:</span>
-        <select name="scale_keyboard_start_octave" id="scale_keyboard_start_octave"></select>
-        <br/>
-        <span id="scale_keyboard_select_instrument_text">Instrument:</span>
-        <select name="scale_keyboard_instrument" id="scale_keyboard_instrument"></select>
-        &nbsp;
-        <button id="scale_keyboard_button_load_instruments"><span class="play">Load instrument</span></button>
-        <br><br>
-        <canvas id="scale_explorer_canvas_scale_keyboard" width="600" height="200">
-          Your browser does not support the canvas element.
-        </canvas>
-      </p>
     </div>
 
 
