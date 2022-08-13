@@ -732,6 +732,8 @@ function updateLocales(): void
         `♪ ${getString("scale_keyboard_header")} ♪` :
         (instrumentsLoading ? getString("instruments_loading") : getString("instruments_not_loaded"));
 
+    initScaleKeyboardMouseCallbacks();
+
     // update computed data
     updateSelectors();
     update();

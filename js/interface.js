@@ -549,6 +549,7 @@ function updateLocales() {
     document.getElementById("scale_keyboard_header").innerText = hasAudio ?
         `♪ ${getString("scale_keyboard_header")} ♪` :
         (instrumentsLoading ? getString("instruments_loading") : getString("instruments_not_loaded"));
+    initScaleKeyboardMouseCallbacks();
     // update computed data
     updateSelectors();
     update();

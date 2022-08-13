@@ -183,25 +183,17 @@ function onPlayChordInScale(nbNotesInChords, index, step = 2, delay = 0) {
     const noteCurrent = noteValue + scaleValues[index];
     playChord(noteCurrent, chordValues, duration, delay);
 }
-///////////////////////////// KEYBOARD PLAY FUNCTIONS /////////////////////////
+/////////////////////////////// SCALE KEYBOARD PLAY ///////////////////////////
 const noteValueMin = 24; // C0
 const noteValueMax = 108; // C7
 let notesPressed = [];
-document.addEventListener('keydown', function (e) {
-    if (!hasAudio)
-        return;
-    if (pageSelected != "page_scale_keyboard")
-        return;
+function playScaleKeyboardNotePosition(position, status) {
     // get tonic value and scale values
     const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
     const scaleId = document.getElementById("scale_keyboard_scale").value;
     const scaleValues = getScaleValues(scaleId);
     const scaleValuesPositions = getScaleValuesPositions(scaleValues);
     const scaleCharIntervals = getScaleCharIntervals(scaleId);
-    const position = getPositionFromInputKey(e);
-    //console.log(`Key down ${e.key} code: ${e.code} => pos: ${position}`);
-    if (position < 0)
-        return;
     // get selected start octave
     const octaveStartSelected = document.getElementById(`scale_keyboard_start_octave`).value;
     const octaveStartValue = parseInt(octaveStartSelected);
@@ -211,40 +203,23 @@ document.addEventListener('keydown', function (e) {
     // compute pitch bend if non-integer value
     let pitchBend = noteValue - Math.floor(noteValue);
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
-    if (notesPressed.indexOf(noteValue) < 0 && noteValue <= noteValueMax) {
-        MIDI.setVolume(channelPlay, volumePlay);
-        MIDI.noteOn(channelPlay, Math.floor(noteValue), 60, 0, pitchBend);
-        notesPressed.push(noteValue);
-        updateScaleKeyboard(tonicValue, scaleValues, octaveStartValue, scaleCharIntervals);
+    if (status) {
+        // play note
+        if (notesPressed.indexOf(noteValue) < 0 && noteValue <= noteValueMax) {
+            MIDI.setVolume(channelPlay, volumePlay);
+            MIDI.noteOn(channelPlay, Math.floor(noteValue), 60, 0, pitchBend);
+            notesPressed.push(noteValue);
+        }
     }
-    //console.log(notesPressed);
-}, false);
-document.addEventListener('keyup', function (e) {
-    if (!hasAudio)
-        return;
-    if (pageSelected != "page_scale_keyboard")
-        return;
-    // get tonic value and scale values
-    const tonicValue = getSelectedNoteValue("scale_keyboard_tonic");
-    const scaleId = document.getElementById("scale_keyboard_scale").value;
-    const scaleValues = getScaleValues(scaleId);
-    const scaleValuesPositions = getScaleValuesPositions(scaleValues);
-    const scaleCharIntervals = getScaleCharIntervals(scaleId);
-    const position = getPositionFromInputKey(e);
-    if (position < 0)
-        return;
-    // get selected start octave
-    const octaveStartSelected = document.getElementById(`scale_keyboard_start_octave`).value;
-    const octaveStartValue = parseInt(octaveStartSelected);
-    const noteValueMinOctave = 12 * octaveStartValue + noteValueMin;
-    const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[position];
-    // release note if pressed
-    const noteIndex = notesPressed.indexOf(noteValue, 0);
-    if (noteIndex >= 0 && noteValue <= noteValueMax) {
-        MIDI.noteOff(channelPlay, Math.floor(noteValue));
-        notesPressed.splice(noteIndex, 1);
-        updateScaleKeyboard(tonicValue, scaleValues, octaveStartValue, scaleCharIntervals);
+    else {
+        // release note if pressed
+        const noteIndex = notesPressed.indexOf(noteValue, 0);
+        if (noteIndex >= 0 && noteValue <= noteValueMax) {
+            MIDI.noteOff(channelPlay, Math.floor(noteValue));
+            notesPressed.splice(noteIndex, 1);
+        }
     }
+    updateScaleKeyboard(tonicValue, scaleValues, octaveStartValue, scaleCharIntervals);
     //console.log(notesPressed);
-}, false);
+}
 //# sourceMappingURL=functions_play.js.map

@@ -15,6 +15,8 @@ keyboardCharactersArrays.set("int", keyboardCharacters_int);
 keyboardCharactersArrays.set("fr", keyboardCharacters_fr);
 let wScaleKeyboardKey = 0;
 let hScaleKeyboardKey = 0;
+let mouseDownInScaleKeyboard = false;
+let posMouseInScaleKeyboard = -1;
 function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals = []) {
     let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
     // keyboard
@@ -108,6 +110,7 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
             highlightKeyBorders(pos, colorPianoNoteTonic);
     }
 }
+// key display functions
 function displayNoteOnKey(position, text, color) {
     let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
     if (!canvas.getContext)
@@ -378,4 +381,118 @@ function getScaleValuesPositions(scaleValues) {
     }
     return scaleValuesArray;
 }
+///////////////////////////////////// MOUSE PLAY //////////////////////////////
+function initScaleKeyboardMouseCallbacks() {
+    let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
+    canvas.addEventListener("mousedown", function (e) {
+        if (!hasAudio)
+            return;
+        if (pageSelected != "page_scale_keyboard")
+            return;
+        // get position from mouse
+        const position = getPositionFromMouse(canvas, e);
+        if (position < 0)
+            return;
+        posMouseInScaleKeyboard = position;
+        playScaleKeyboardNotePosition(position, true);
+        mouseDownInScaleKeyboard = true;
+    }, false);
+    canvas.addEventListener("mousemove", function (e) {
+        if (!mouseDownInScaleKeyboard)
+            return;
+        if (!hasAudio)
+            return;
+        if (pageSelected != "page_scale_keyboard")
+            return;
+        // get position from mouse
+        const position = getPositionFromMouse(canvas, e);
+        if (position < 0 || posMouseInScaleKeyboard < 0)
+            return;
+        let posMouseInScaleKeyboardCur = position;
+        if (posMouseInScaleKeyboardCur == posMouseInScaleKeyboard) // nop if previously pressed
+            return;
+        // stop previous pressed note
+        //console.log("notePressedByMouse", posMouseInScaleKeyboard, posMouseInScaleKeyboardCur);
+        playScaleKeyboardNotePosition(posMouseInScaleKeyboard, false);
+        playScaleKeyboardNotePosition(posMouseInScaleKeyboardCur, true);
+        posMouseInScaleKeyboard = posMouseInScaleKeyboardCur;
+    }, false);
+    canvas.addEventListener("mouseup", function (e) {
+        if (!mouseDownInScaleKeyboard)
+            return;
+        // stop pressed note     
+        playScaleKeyboardNotePosition(posMouseInScaleKeyboard, false);
+        posMouseInScaleKeyboard = -1;
+        mouseDownInScaleKeyboard = false;
+    }, false);
+    canvas.addEventListener("mouseout", function (e) {
+        // warning: duplicated code
+        if (!mouseDownInScaleKeyboard)
+            return;
+        // stop pressed note     
+        playScaleKeyboardNotePosition(posMouseInScaleKeyboard, false);
+        posMouseInScaleKeyboard = -1;
+        mouseDownInScaleKeyboard = false;
+    }, false);
+}
+function getPositionFromMouse(canvas, e) {
+    const mouseCoords = getMousePositionInCanvas(canvas, e);
+    //console.log("mouse down", mousePos.x, mousePos.y);
+    // get row
+    let row = 4 - Math.floor(mouseCoords.y / hScaleKeyboardKey);
+    // get position given row
+    let pos = -1;
+    switch (row) {
+        case 1:
+            pos = Math.floor(mouseCoords.x / wScaleKeyboardKey);
+            pos = Math.min(pos, nbKeysInRowsScaleKeyboard[row - 1] - 1);
+            break;
+        case 2:
+            pos = Math.floor((mouseCoords.x - startRowsScaleKeyboard[row - 1] * wScaleKeyboardKey) / wScaleKeyboardKey);
+            pos = Math.max(Math.min(pos, nbKeysInRowsScaleKeyboard[row - 1] - 1), 0);
+            pos += 11;
+            break;
+        case 3:
+            pos = Math.floor((mouseCoords.x - startRowsScaleKeyboard[row - 1] * wScaleKeyboardKey) / wScaleKeyboardKey);
+            pos = Math.max(Math.min(pos, nbKeysInRowsScaleKeyboard[row - 1] - 1), 0);
+            pos += 23;
+            break;
+        case 4:
+            pos = Math.floor(mouseCoords.x / wScaleKeyboardKey);
+            pos = Math.min(pos, nbKeysInRowsScaleKeyboard[row - 1] - 1);
+            pos += 35;
+            break;
+    }
+    //console.log(pos);
+    return pos;
+}
+// from https://stackoverflow.com/questions/1114465/getting-mouse-location-in-canvas
+function getMousePositionInCanvas(canvas, e /* type? */) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+    };
+}
+////////////////////////////////// KEYBOARD PLAY //////////////////////////////
+document.addEventListener('keydown', function (e) {
+    if (!hasAudio)
+        return;
+    if (pageSelected != "page_scale_keyboard")
+        return;
+    const position = getPositionFromInputKey(e);
+    if (position < 0)
+        return;
+    playScaleKeyboardNotePosition(position, true);
+}, false);
+document.addEventListener('keyup', function (e) {
+    if (!hasAudio)
+        return;
+    if (pageSelected != "page_scale_keyboard")
+        return;
+    const position = getPositionFromInputKey(e);
+    if (position < 0)
+        return;
+    playScaleKeyboardNotePosition(position, false);
+}, false);
 //# sourceMappingURL=scale_keyboard.js.map
