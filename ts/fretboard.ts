@@ -358,7 +358,7 @@ function getLastFretX(id: string)
 
 function saveFretboardImage(id: string, noteValue: number, scaleChordName: string, position: number = -1)
 {
-    let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id); console.log(id);
+    let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id);
     
     let canvasImage: string = canvasElement.toDataURL('image/png');
     const noteSelectedText: string = getNoteName(noteValue);
