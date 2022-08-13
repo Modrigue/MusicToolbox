@@ -37,7 +37,6 @@ window.onload = function () {
     const selectInstrumentKeyboardScale = document.getElementById(`scale_explorer_instrument`);
     selectScaleKeyboardStartOctave.addEventListener("change", () => { selectScaleKeyboardStartOctave.blur(); update(); });
     selectInstrumentKeyboardScale.addEventListener("change", () => { selectInstrumentKeyboardScale.blur(); onInstrumentSelected(`scale_explorer_instrument`); });
-    document.getElementById('scale_explorer_button_load_instruments').addEventListener("click", loadSelectedInstrument);
     // scale finder
     for (let i = 1; i <= 8; i++) {
         const id = i.toString();
@@ -390,13 +389,14 @@ function loadSelectedInstrument() {
     if (instrumentsLoaded.indexOf(instrId) >= 0)
         return;
     setEnabled('scale_explorer_instrument', false);
+    instrumentsLoading = true;
+    updateLocales();
     instrumentLoadingId = instrId;
     const instrument = instrumentsDict_int.get(instrId);
     loadSoundfont(instrument);
 }
 function onNewInstrumentLoaded() {
     instrumentsLoaded.push(instrumentLoadingId);
-    setVisible('scale_explorer_button_load_instruments', false);
     setEnabled('scale_explorer_instrument', true);
     hasAudio = true;
     instrumentsLoading = false;
@@ -485,12 +485,10 @@ function updateLocales() {
     document.getElementById("scale_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("scale_explorer_guitar_position_text").innerText = getString("position");
     // scale explorer keyboard
-    document.getElementById("scale_explorer_button_load_instruments").innerText = getString("instruments_load");
     document.getElementById("scale_explorer_start_octave_text").innerText = getString("start_from_octave");
     document.getElementById("scale_explorer_select_instrument_text").innerText = getString("instrument");
-    document.getElementById("scale_explorer_keyboard_header").innerText = hasAudio ?
-        `♪ ${getString("scale_explorer_keyboard_header")} ♪` :
-        (instrumentsLoading ? getString("instruments_loading") : getString("instruments_not_loaded"));
+    document.getElementById("scale_explorer_keyboard_header").innerText = (!hasAudio || instrumentsLoading) ?
+        getString("instrument_loading") : `♪ ${getString("scale_explorer_keyboard_header")} ♪`;
     initScaleKeyboardMouseCallbacks();
     // scale finder
     let resetElements = document.getElementsByClassName("reset");

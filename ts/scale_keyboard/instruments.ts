@@ -211,8 +211,6 @@ function onInstrumentSelected(id: string)
 
     // check if instrument is loaded
     const instrLoaded = (instrumentsLoaded.indexOf(instrId) >= 0);
-    //setVisible('scale_explorer_button_load_instruments', !instrLoaded, "inline");
-
     if (!instrLoaded)
         loadSelectedInstrument();
     else
