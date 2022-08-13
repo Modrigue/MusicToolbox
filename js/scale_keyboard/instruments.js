@@ -45,9 +45,9 @@ instrumentsDict_int.set(38, 'Slap Bass 2');
 //instrumentsDict_int.set( 43, 'Cello');
 //instrumentsDict_int.set( 44, 'Contrabass');
 instrumentsDict_int.set(45, 'Tremolo Strings');
-//instrumentsDict_int.set( 46, 'Pizzicato Strings');
+instrumentsDict_int.set(46, 'Pizzicato Strings');
 //instrumentsDict_int.set( 47, 'Orchestral Harp');
-//instrumentsDict_int.set( 48, 'Timpani');
+instrumentsDict_int.set(48, 'Timpani');
 //instrumentsDict_int.set( 49, 'String Ensemble 1');
 //instrumentsDict_int.set( 50, 'String Ensemble 2');
 instrumentsDict_int.set(51, 'Synth Strings 1');
@@ -138,7 +138,8 @@ const instrumentsVolumesDict = new Map();
 for (let i = 1; i <= 128; i++)
     instrumentsVolumesDict.set(i, volumeRef * 1.75); // default
 instrumentsVolumesDict.set(1, volumeRef * 0.9);
-instrumentsVolumesDict.set(19, volumeRef * 2.5);
+instrumentsVolumesDict.set(19, volumeRef * 2);
+instrumentsVolumesDict.set(46, volumeRef * 3);
 instrumentsVolumesDict.set(21, volumeRef * 1);
 instrumentsVolumesDict.set(87, volumeRef * 1.75 * 1.5);
 function updateInstrumentSelector(id) {
