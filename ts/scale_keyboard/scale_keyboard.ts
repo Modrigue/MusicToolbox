@@ -122,8 +122,17 @@ function updateScaleKeyboard(tonicValue: number, scaleValues: Array<number>,
         if(noteValue <= noteValueMax)
             displayNoteOnKey(pos, getNoteNameWithOctave(noteValue), colorNote);
 
-        if (colorNote != colorPianoNoteNormal)
+        // highlight characteristic notes keys
+        if (charIntervals.indexOf(indexNote) >= 0)
             highlightKeyBorders(pos, colorNote);
+    }
+
+    // 2nd pass to highlight tonic notes keys
+    for (let pos = 0; pos <= 46; pos++)
+    {
+        const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[pos];
+        if (noteValue % 12 == tonicValue)
+            highlightKeyBorders(pos, colorPianoNoteTonic);
     }
 }
 
