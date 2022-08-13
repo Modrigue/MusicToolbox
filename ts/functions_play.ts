@@ -287,6 +287,7 @@ document.addEventListener('keydown', function(e)
   const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
   const scaleValues: Array<number> = getScaleValues(scaleId);
   const scaleValuesPositions = getScaleValuesPositions(scaleValues);
+  const scaleCharIntervals = getScaleCharIntervals(scaleId); 
 
   const position = getPositionFromInputKey(e);
   //console.log(`Key down ${e.key} code: ${e.code} => pos: ${position}`);
@@ -298,18 +299,20 @@ document.addEventListener('keydown', function(e)
   const octaveStartValue: number = parseInt(octaveStartSelected);
   const noteValueMinOctave = 12*octaveStartValue + noteValueMin;
 
-  const noteValue = tonicValue + scaleValuesPositions[position];
+  const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[position];
   //console.log(noteValue, position, scaleValuesPositions[position]);
   
   // compute pitch bend if non-integer value
   let pitchBend = noteValue - Math.floor(noteValue);
   pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
 
-  if(notesPressed.indexOf(noteValue) < 0 && noteValueMinOctave + noteValue <= noteValueMax)
+  if(notesPressed.indexOf(noteValue) < 0 && noteValue <= noteValueMax)
   {
       MIDI.setVolume(channelPlay, volumePlay);
-      MIDI.noteOn(channelPlay, noteValueMinOctave + Math.floor(noteValue), 60, 0, pitchBend);
+      MIDI.noteOn(channelPlay, Math.floor(noteValue), 60, 0, pitchBend);
+      
       notesPressed.push(noteValue);
+      updateScaleKeyboard(tonicValue, scaleValues, octaveStartValue, scaleCharIntervals);
   }
 
   //console.log(notesPressed);
@@ -327,6 +330,7 @@ document.addEventListener('keyup', function(e)
   const scaleId = (<HTMLSelectElement>document.getElementById("scale_keyboard_scale")).value;
   const scaleValues: Array<number> = getScaleValues(scaleId);
   const scaleValuesPositions = getScaleValuesPositions(scaleValues);
+  const scaleCharIntervals = getScaleCharIntervals(scaleId); 
     
   const position = getPositionFromInputKey(e);
   if (position < 0)
@@ -337,14 +341,16 @@ document.addEventListener('keyup', function(e)
   const octaveStartValue: number = parseInt(octaveStartSelected);
   const noteValueMinOctave = 12*octaveStartValue + noteValueMin;
 
-  const noteValue = tonicValue + scaleValuesPositions[position];
+  const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[position];
 
   // release note if pressed
   const noteIndex = notesPressed.indexOf(noteValue, 0);
-  if(noteIndex >= 0 && noteValueMinOctave + noteValue <= noteValueMax)
+  if(noteIndex >= 0 && noteValue <= noteValueMax)
   {
-    MIDI.noteOff(channelPlay, noteValueMinOctave + Math.floor(noteValue));
+    MIDI.noteOff(channelPlay, Math.floor(noteValue));
+    
     notesPressed.splice(noteIndex, 1);
+    updateScaleKeyboard(tonicValue, scaleValues, octaveStartValue, scaleCharIntervals);
   }
 
   //console.log(notesPressed);

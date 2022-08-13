@@ -86,6 +86,11 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
         const indexNote = scaleNotesValues.indexOf(noteValue % 12);
         if (charIntervals.indexOf(indexNote) >= 0)
             colorNote = colorPianoNoteChar; // characteristic note
+        let pressed = (notesPressed.indexOf(noteValue) >= 0);
+        if (pressed) {
+            fillKey(pos, colorNote);
+            colorNote = "white";
+        }
         // display character on key
         if (pos < keyboardCharactersArray.length)
             displayCharacterOnKey(pos, keyboardCharactersArray[pos], colorNote);
@@ -174,6 +179,20 @@ function highlightKeyBorders(position, color) {
     ctx.stroke();
     ctx.lineTo(xC - wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2);
     ctx.stroke();
+    ctx.closePath();
+}
+function fillKey(position, color) {
+    let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
+    if (!canvas.getContext)
+        return;
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = color;
+    const coords = getKeyCoordinates(position);
+    const xC = coords[0];
+    const yC = coords[1];
+    ctx.beginPath();
+    ctx.fillRect(xC - wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2, wScaleKeyboardKey, hScaleKeyboardKey);
+    ctx.closePath();
 }
 // get position corresponding key center coordinates
 function getKeyCoordinates(pos) {
