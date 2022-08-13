@@ -1,6 +1,18 @@
 "use strict";
 const nbKeysInRowsScaleKeyboard = [11, 12, 12, 12];
 const startRowsScaleKeyboard = [0, 2 / 3, 1 / 3, 0];
+const keyboardCharacters_int = ["\\", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "\/",
+    "A", "S", "D", "F", "G", "H", "J", "K", "L", "M", ";", "'",
+    "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]",
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ")", "="];
+const keyboardCharacters_fr = ["<", "W", "X", "C", "V", "B", "N", ",", ";", ":", "!",
+    "Q", "S", "D", "F", "G", "H", "J", "K", "L", "M", "ù", "*",
+    "A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P", "^", "$",
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="];
+// global dictionary
+const keyboardCharactersArrays = new Map();
+keyboardCharactersArrays.set("int", keyboardCharacters_int);
+keyboardCharactersArrays.set("fr", keyboardCharacters_fr);
 let wScaleKeyboardKey = 0;
 let hScaleKeyboardKey = 0;
 function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals = []) {
@@ -59,6 +71,8 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
     ctx.moveTo(xRowStart, y);
     ctx.lineTo(xRowStart + nbKeysInRow * wScaleKeyboardKey, y);
     ctx.stroke();
+    const lang = getSelectedCulture();
+    const keyboardCharactersArray = keyboardCharactersArrays.get(lang);
     // fill with selected scale notes
     const scaleNotesValues = getScaleNotesValues(tonicValue, scaleValues);
     const scaleValuesPositions = getScaleValuesPositions(scaleValues);
@@ -72,6 +86,10 @@ function updateScaleKeyboard(tonicValue, scaleValues, startOctave, charIntervals
         const indexNote = scaleNotesValues.indexOf(noteValue % 12);
         if (charIntervals.indexOf(indexNote) >= 0)
             colorNote = colorPianoNoteChar; // characteristic note
+        // display character on key
+        if (pos < keyboardCharactersArray.length)
+            displayCharacterOnKey(pos, keyboardCharactersArray[pos], colorNote);
+        // display note on key
         if (noteValue <= noteValueMax)
             displayNoteOnKey(pos, getNoteNameWithOctave(noteValue), colorNote);
         if (colorNote != colorPianoNoteNormal)
@@ -91,18 +109,44 @@ function displayNoteOnKey(position, text, color) {
     let yShift = 0;
     switch (lang) {
         case "fr":
-            ctx.font = "13px Arial";
-            xShift = -3.5 * text.length;
-            yShift = 4;
+            ctx.font = "18px Arial";
+            xShift = -5 * text.length;
+            yShift = -8;
             break;
         case "int":
         default:
             ctx.font = "18px Arial";
             xShift = -5 * text.length;
-            yShift = 6;
+            yShift = -8;
             break;
     }
-    ctx.fillText(text, coords[0] + xShift, coords[1] + yShift);
+    ctx.fillText(text, coords[0] + xShift, coords[1] + hScaleKeyboardKey / 2 + yShift);
+}
+function displayCharacterOnKey(position, text, color) {
+    let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
+    if (!canvas.getContext)
+        return;
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = color;
+    const coords = getKeyCoordinates(position);
+    // text display
+    const lang = getSelectedCulture();
+    let xShift = 0;
+    let yShift = 0;
+    switch (lang) {
+        case "fr":
+            ctx.font = "15px Times New Roman";
+            xShift = -4.5 * text.length;
+            yShift = 16;
+            break;
+        case "int":
+        default:
+            ctx.font = "15px Times New Roman";
+            xShift = -4.5 * text.length;
+            yShift = 16;
+            break;
+    }
+    ctx.fillText(text, coords[0] + xShift, coords[1] - hScaleKeyboardKey / 2 + yShift);
 }
 function highlightKeyBorders(position, color) {
     let canvas = document.getElementById("scale_explorer_canvas_scale_keyboard");
