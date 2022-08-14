@@ -213,7 +213,7 @@ function getStepNotation(stepValue: number): string
 /////////////////////////////// HTML FUNCTIONS ////////////////////////////////
 
 function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
-  charIntervals: Array<number>): string
+  charIntervals: Array<number>, scaleName: string): string
 {
   const nbNotesInScale = scaleValues.length;
   const scaleHasOctave = isOctaveScale(scaleValues);
@@ -240,8 +240,13 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
   buttonListenBackwards.setAttribute("onClick", `${playScaleBackwardsCallback}()`);
   buttonListenBackwards.disabled = !hasAudio;
 
+  // create export to scala file button
+  let buttonExportScala: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+  buttonExportScala.innerText = `${getString("export_to_scala")}`;
+  buttonExportScala.setAttribute("onClick", `onExportToScala(\"${scaleName}\",\"${scaleValues.toString()}\")`);
+
   // build scale notes list
-  let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonListen.outerHTML} ${buttonListenBackwards.outerHTML}</div><div id=\"resp-table-body\">`;
+  let notesScaleTablesHTML = `<div id=\"resp-table\"><div id=\"resp-table-caption\">Notes ${buttonListen.outerHTML} ${buttonListenBackwards.outerHTML} ${buttonExportScala.outerHTML}</div><div id=\"resp-table-body\">`;
   let notesScaleRowHTML = "<div class=\"resp-table-row\">";
   const scaleNotesValues: Array<number> = getScaleNotesValues(noteValue, scaleValuesToDisplay);
   scaleNotesValues.forEach(function (noteValue, index)

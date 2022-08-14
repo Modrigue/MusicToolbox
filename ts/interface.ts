@@ -281,6 +281,7 @@ function update(): void
 
     // get selected note and scale/mode values
     const tonicNoteValue: number = getSelectedNoteValue();
+    const scaleName: string = getSelectorText("scale");
     const scaleValues: Array<number> = getScaleValues();
     const charIntervals: Array<number> = getScaleCharIntervals();
 
@@ -292,7 +293,7 @@ function update(): void
     
     // build scale notes list
     const scaleNotesValues: Array<number> = getScaleNotesValues(tonicNoteValue, scaleValues);
-    (<HTMLParagraphElement>document.getElementById('scale_result')).innerHTML = getScaleNotesTableHTML(tonicNoteValue, scaleValues, charIntervals);
+    (<HTMLParagraphElement>document.getElementById('scale_result')).innerHTML = getScaleNotesTableHTML(tonicNoteValue, scaleValues, charIntervals, scaleName);
     const scaleNotesValuesMicrotonal: boolean = isMicrotonalScale(scaleNotesValues);
 
     // build chords 3,4 notes and quartal harmonization tables
@@ -302,8 +303,6 @@ function update(): void
     (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal) : "";
     (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
     (<HTMLParagraphElement>document.getElementById('chordsQ_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal, 3) : "";
-
-    const scaleName: string = getSelectorText("scale");
 
     // update scale finder chords selectors
     let has1NoteSelected: boolean = false;
