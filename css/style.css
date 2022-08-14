@@ -219,6 +219,16 @@ canvas
     color: white;
 }
 
+.table-body-cell-listened
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    background-color: grey;
+    color: white;
+}
+
 .table-body-cell-tonic, .table-body-cell-tonic-interactive, .button-tonic-interactive, .span-tonic
 {
     color: firebrick;
@@ -231,6 +241,16 @@ canvas
 
 .table-body-cell-tonic-interactive:hover, .button-tonic-interactive:hover
 {
+    background-color: firebrick;
+    color: white;
+}
+
+.table-body-cell-tonic-listened
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
     background-color: firebrick;
     color: white;
 }
@@ -248,6 +268,16 @@ canvas
 
 .table-body-cell-char-interactive:hover, .button-char-interactive:hover
 {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.table-body-cell-char-listened
+{
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
     background-color: dodgerblue;
     color: white;
 }

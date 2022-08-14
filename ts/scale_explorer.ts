@@ -253,6 +253,9 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
     else if (charIntervals != null && charIntervals.indexOf(index) >= 0)
       classString = "table-body-cell-char";
     
+    //if (notesListened.indexOf(noteValue % 12) >= 0)
+    //  classString += "-listened";
+    //else
     if (hasAudio)
       classString += "-interactive";
 

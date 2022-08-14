@@ -1,6 +1,7 @@
 "use strict";
 let channelPlay = 0;
 let volumePlay = 80;
+//let notesListened: Array<number> = [];
 function loadJSFile(file) {
     document.body.appendChild(document.createElement("script")).src = file;
 }
@@ -24,7 +25,8 @@ function loadDefaultInstrument() {
     MIDI.channels[0].program = "0";
 }
 function loadSoundfont(instrument = "Acoustic Grand Piano") {
-    const instrFilename = instrument.toLowerCase().replace(/ /gi, "_").replace(/\(/gi, "").replace(/\)/gi, "");
+    const instrFilename = instrument.toLowerCase().replace(/ /gi, "_").replace(/\(/gi, "").replace(/\)/gi, "").replace(/\+/gi, "");
+    ;
     //console.log(instrument, instrFilename);
     loadJSFile(`./js/midi/soundfonts/${instrFilename}-ogg.js`);
     instrumentsLoading = true;
@@ -84,10 +86,15 @@ function playScale(noteValue, scaleValues, bass = false, backwards = false) {
         if (bass) {
             playNote(noteBassValue, duration * 2 * index);
             playNote(noteCurValue, duration * (2 * index + 1));
+            //setTimeout(()=>{ notesListened = []; update(); }, duration*2*index*1000);
+            //setTimeout(()=>{ notesListened = [noteCurValue % 12]; update(); }, duration*(2*index + 1)*1000 - 100);
         }
-        else
+        else {
             playNote(noteCurValue, duration * index);
+            //setTimeout(()=>{ notesListened = [noteCurValue % 12]; update(); }, index*duration*1000);
+        }
     });
+    //setTimeout(()=>{ notesListened = []; update(); }, (scaleValuesToPlay.length + 1)*duration*1000);
     // // disabled for now: forward + backwards
     // {
     //     const nbNotes = scaleValues.length;

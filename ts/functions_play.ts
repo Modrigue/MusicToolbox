@@ -6,6 +6,8 @@ declare let MIDI: any;
 let channelPlay = 0;
 let volumePlay: number = 80;
 
+//let notesListened: Array<number> = [];
+
 function loadJSFile(file: string)
 {
     document.body.appendChild(document.createElement("script")).src = file;
@@ -40,7 +42,7 @@ function loadDefaultInstrument(): void
 
 function loadSoundfont(instrument: string = "Acoustic Grand Piano"): void
 {
-    const instrFilename = instrument.toLowerCase().replace(/ /gi, "_").replace(/\(/gi, "").replace(/\)/gi, "");
+    const instrFilename = instrument.toLowerCase().replace(/ /gi, "_").replace(/\(/gi, "").replace(/\)/gi, "").replace(/\+/gi, "");;
     //console.log(instrument, instrFilename);
     
     loadJSFile(`./js/midi/soundfonts/${instrFilename}-ogg.js`);
@@ -125,10 +127,18 @@ function playScale(noteValue: number, scaleValues: Array<number>,
         {
             playNote(noteBassValue, duration*2*index);
             playNote(noteCurValue, duration*(2*index + 1));
+
+            //setTimeout(()=>{ notesListened = []; update(); }, duration*2*index*1000);
+            //setTimeout(()=>{ notesListened = [noteCurValue % 12]; update(); }, duration*(2*index + 1)*1000 - 100);
         }
         else
+        {
             playNote(noteCurValue, duration*index);
+            //setTimeout(()=>{ notesListened = [noteCurValue % 12]; update(); }, index*duration*1000);
+        }
     });
+
+    //setTimeout(()=>{ notesListened = []; update(); }, (scaleValuesToPlay.length + 1)*duration*1000);
 
     // // disabled for now: forward + backwards
     // {
