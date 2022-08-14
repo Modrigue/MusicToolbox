@@ -118,19 +118,20 @@ function findChordsFromScaleScalesHTML(tonicValue, scaleValues, charIntervals = 
                 else if (isCharacteristic)
                     button.classList.add("button-char-interactive");
                 // build chord URL (if not microtonal/xenharmonic)
-                if (!isMicrotonalInterval(noteValue) && !isXenharmonicInterval(noteValue)) {
-                    let url = window.location.pathname;
-                    url += "?note=" + noteValue.toString();
-                    url += "&chord=" + chordId;
-                    url += "&lang=" + culture;
-                    if (pageSelected == "page_scale_explorer") {
-                        const nbStrings = Math.max(getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings"), nbNotes);
-                        url += "&guitar_nb_strings=" + nbStrings;
-                        url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
+                if (!isMicrotonalScale(chordValues))
+                    if (!isMicrotonalInterval(noteValue) && !isXenharmonicInterval(noteValue)) {
+                        let url = window.location.pathname;
+                        url += "?note=" + noteValue.toString();
+                        url += "&chord=" + chordId;
+                        url += "&lang=" + culture;
+                        if (pageSelected == "page_scale_explorer") {
+                            const nbStrings = Math.max(getSelectedGuitarNbStrings("scale_explorer_guitar_nb_strings"), nbNotes);
+                            url += "&guitar_nb_strings=" + nbStrings;
+                            url += "&guitar_tuning=" + getSelectedGuitarTuningId("scale_explorer_guitar_tuning");
+                        }
+                        const callbackString = `openNewTab(\"${url}\")`;
+                        button.setAttribute("onClick", callbackString);
                     }
-                    const callbackString = `openNewTab(\"${url}\")`;
-                    button.setAttribute("onClick", callbackString);
-                }
                 // set notes as tooltip
                 button.title =
                     getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");

@@ -171,6 +171,7 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
                     button.classList.add("button-char-interactive");
 
                 // build chord URL (if not microtonal/xenharmonic)
+                if (!isMicrotonalScale(chordValues))
                 if (!isMicrotonalInterval(noteValue) && !isXenharmonicInterval(noteValue))
                 {
                     let url = window.location.pathname;

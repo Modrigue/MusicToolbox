@@ -37,6 +37,10 @@ chords3Dict.set("6flat5(no3)",      [0, 6, 9]);
 chords3Dict.set("madd4(no5)",       [0, 3, 5]);
 chords3Dict.set("sus2add4(no5)",    [0, 2, 5]);
 
+// microtonal chords with 3 notes
+chords3Dict.set("neutral",          [0, 3.5, 7]);
+chords3Dict.set("sus4‡6",           [0, 5, 8.5]);
+
 // chords with 4 notes
 const chords4Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
 chords4Dict.set("7M",                 [0, 4, 7, 11]);
