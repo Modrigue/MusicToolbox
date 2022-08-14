@@ -107,7 +107,7 @@ instrumentsDict_int.set(103, 'FX 7 (Echoes)');
 //instrumentsDict_int.set(105, 'Sitar');
 //instrumentsDict_int.set(106, 'Banjo');
 //instrumentsDict_int.set(107, 'Shamisen');
-//instrumentsDict_int.set(108, 'Koto');
+instrumentsDict_int.set(108, 'Koto');
 //instrumentsDict_int.set(109, 'Kalimba');
 //instrumentsDict_int.set(110, 'Bagpipe');
 //instrumentsDict_int.set(111, 'Fiddle');
@@ -137,12 +137,13 @@ const volumeRef = 80;
 const instrumentsVolumesDict = new Map();
 for (let i = 1; i <= 128; i++)
     instrumentsVolumesDict.set(i, volumeRef * 1.75); // default
-instrumentsVolumesDict.set(1, volumeRef * 0.9);
-instrumentsVolumesDict.set(19, volumeRef * 2);
-instrumentsVolumesDict.set(46, volumeRef * 3);
-instrumentsVolumesDict.set(21, volumeRef * 1);
-instrumentsVolumesDict.set(87, volumeRef * 1.75 * 1.5);
-instrumentsVolumesDict.set(98, volumeRef * 3);
+instrumentsVolumesDict.set(1, volumeRef * 0.9); // Acoustic Grand Piano
+instrumentsVolumesDict.set(19, volumeRef * 2); // Rock Organ
+instrumentsVolumesDict.set(21, volumeRef * 1); // Reed Organ
+instrumentsVolumesDict.set(46, volumeRef * 3); // Tremolo Strings
+instrumentsVolumesDict.set(87, volumeRef * 2.6); // Lead 7 (Fifths)
+instrumentsVolumesDict.set(98, volumeRef * 3); // FX 2 (Soundtrack)
+instrumentsVolumesDict.set(108, volumeRef * 0.8); // Koto
 function updateInstrumentSelector(id) {
     // get selected culture
     const lang = getSelectedCulture();
