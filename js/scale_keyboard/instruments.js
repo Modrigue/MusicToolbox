@@ -118,7 +118,7 @@ instrumentsDict_int.set(115, 'Steel Drums');
 //instrumentsDict_int.set(116, 'Woodblock');
 //instrumentsDict_int.set(117, 'Taiko Drum');
 //instrumentsDict_int.set(118, 'Melodic Tom');
-//instrumentsDict_int.set(119, 'Synth Drum');
+instrumentsDict_int.set(119, 'Synth Drum');
 //instrumentsDict_int.set(120, 'Reverse Cymbal');
 //instrumentsDict_int.set(121, 'Guitar Fret Noise');
 //instrumentsDict_int.set(122, 'Breath Noise');
