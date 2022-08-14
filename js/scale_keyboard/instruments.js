@@ -97,13 +97,13 @@ instrumentsDict_int.set(93, 'Pad 5 (Bowed)');
 //instrumentsDict_int.set( 95, 'Pad 7 (Halo)');
 instrumentsDict_int.set(96, 'Pad 8 (Sweep)');
 //instrumentsDict_int.set( 97, 'FX 1 (Rain)');
-//instrumentsDict_int.set( 98, 'FX 2 (Soundtrack)');
+instrumentsDict_int.set(98, 'FX 2 (Soundtrack)');
 //instrumentsDict_int.set( 99, 'FX 3 (Crystal)');
 //instrumentsDict_int.set(100, 'FX 4 (Atmosphere)');
 instrumentsDict_int.set(101, 'FX 5 (Brightness)');
 //instrumentsDict_int.set(102, 'FX 6 (Goblins)');
 instrumentsDict_int.set(103, 'FX 7 (Echoes)');
-//instrumentsDict_int.set(104, 'FX 8 (Sci-fi)');
+//instrumentsDict_int.set(104, 'FX 8 (SciFi)');
 //instrumentsDict_int.set(105, 'Sitar');
 //instrumentsDict_int.set(106, 'Banjo');
 //instrumentsDict_int.set(107, 'Shamisen');
@@ -142,6 +142,7 @@ instrumentsVolumesDict.set(19, volumeRef * 2);
 instrumentsVolumesDict.set(46, volumeRef * 3);
 instrumentsVolumesDict.set(21, volumeRef * 1);
 instrumentsVolumesDict.set(87, volumeRef * 1.75 * 1.5);
+instrumentsVolumesDict.set(98, volumeRef * 3);
 function updateInstrumentSelector(id) {
     // get selected culture
     const lang = getSelectedCulture();
