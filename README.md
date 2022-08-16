@@ -12,4 +12,4 @@ Easy to use online music scale and chords generator, finder and player.
 
 [Try it here](http://ngourier.free.fr/musictoolbox/)
 
-_Uses [MIDI.js](https://github.com/mudcube/MIDI.js/) to play notes and [js ogg soundfonts](https://cindyjs.org/dist/v0.8.8/soundfonts/)._
+_Uses [MIDI.js](https://github.com/mudcube/MIDI.js/) to play notes and [js soundfonts](https://cindyjs.org/dist/v0.8.8/soundfonts/)._
