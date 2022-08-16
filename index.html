@@ -68,6 +68,9 @@
     <!-- scale keyboard -->
     <script src="js/scale_keyboard/instruments.js"></script>
     <script src="js/scale_keyboard/scale_keyboard.js"></script>
+
+    <!-- browser detection -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.5/platform.min.js"></script>
   </head>
   <body>
 
@@ -95,6 +98,7 @@
       <h2 id="welcome_title">Welcome</h2>
       <h3 id="welcome_subtitle" style="font-size: 18px;">Welcome to the Music Toolbox</h3>
       <br>
+      <span id="welcome_message"></span>
       <br><br><br><br><br><br><br>
       <!--em><span id="welcome_header" style="color: grey">No instruments loaded</span></em>
       <br><br>
@@ -410,6 +414,12 @@
       updateSelectors();
       onResize();
       initPagefromURLParams();
+
+      // display message given detected browser
+      //console.log(platform);
+      browserSupportsAudio = (platform.name != "Safari");
+      if (!browserSupportsAudio)
+        updateLocales();
     </script>
 
     <br>
@@ -421,7 +431,7 @@
       <br><br>
       &copy; 2020-2022 <a href="mailto:thealdobaldo+musictoolbox@gmail.com" title="Mail">Modrigue</a>
       <br>
-      <a href="https://www.youtube.com/playlist?list=PLqf2srRfppHAslEmHBn8QP6d_eoanh0eW" title="My compositions" target="_blank">♪ My compositions ♪</a>
+      <a id="compos_footer" href="https://www.youtube.com/playlist?list=PLqf2srRfppHAslEmHBn8QP6d_eoanh0eW" title="My compositions" target="_blank">♪ My compositions ♪</a>
     </footer>
   </body>
 </html>

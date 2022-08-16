@@ -5,6 +5,7 @@ let hasAudio = false;
 let instrumentsLoaded = [];
 let instrumentsLoading = false;
 let instrumentLoadingId = 0;
+let browserSupportsAudio = true;
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms
@@ -474,6 +475,8 @@ function updateLocales() {
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
+    document.getElementById("welcome_message").innerText =
+        browserSupportsAudio ? "" : getString("audio_not_suppoted");
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");
@@ -529,6 +532,10 @@ function updateLocales() {
     document.getElementById("song_generator_play").innerText = `${getString("listen")} ♪`;
     document.getElementById("song_generator_reset").innerText = getString("reset");
     updateSongGeneratorPage();
+    // footer
+    let footerCompos = document.getElementById("compos_footer");
+    if (footerCompos != null)
+        footerCompos.innerText = `♪ ${getString("compositions")} ♪`;
     // update computed data
     updateSelectors();
     update();

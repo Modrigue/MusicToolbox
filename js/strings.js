@@ -2,6 +2,7 @@
 // international
 const stringsDict_int = new Map();
 stringsDict_int.set("arpeggio", "Arpeggio");
+stringsDict_int.set("audio_not_suppoted", "⚠ Audio features may not work with your browser ⚠\nYou can use either Chrome or Firefox to enable audio on the website");
 stringsDict_int.set("bass", "Bass");
 stringsDict_int.set("bass_chord_explorer", "Bass:");
 stringsDict_int.set("chord", "Chord");
@@ -12,6 +13,7 @@ stringsDict_int.set("chords_N_notes", "Chords with {%1} notes");
 stringsDict_int.set("chords_N_notes_all", "All chords with {%1} notes:");
 stringsDict_int.set("chords_quartal", "Quartal chords");
 stringsDict_int.set("chords", "Chords");
+stringsDict_int.set("compositions", "My compos");
 stringsDict_int.set("counterpoint", "Counterpoint");
 stringsDict_int.set("fretboard", "Fretboard");
 stringsDict_int.set("export_to_scala", "Export to .scl");
@@ -73,6 +75,7 @@ stringsDict_int.set("welcome_title", "Welcome to the Music Toolbox");
 // french
 const stringsDict_fr = new Map();
 stringsDict_fr.set("arpeggio", "Arpège");
+stringsDict_fr.set("audio_not_suppoted", "⚠ Les fonctionnalités audio pourraient ne pas marcher votre navigateur web ⚠\nVous pouvez utiliser Chrome ou Firefox pour activer l'audio sur le site");
 stringsDict_fr.set("bass", "Basse");
 stringsDict_fr.set("bass_chord_explorer", "Basse :");
 stringsDict_fr.set("chord", "Accord");
@@ -83,6 +86,7 @@ stringsDict_fr.set("chords_N_notes", "Accords de {%1} notes");
 stringsDict_fr.set("chords_N_notes_all", "Tous les accords de {%1} notes :");
 stringsDict_fr.set("chords_quartal", "Accords quartaux");
 stringsDict_fr.set("chords", "Accords");
+stringsDict_fr.set("compositions", "Mes compos");
 stringsDict_fr.set("counterpoint", "Contrepoint");
 stringsDict_fr.set("export_to_scala", "Exporter en .scl");
 stringsDict_fr.set("fretboard", "Guitare");
