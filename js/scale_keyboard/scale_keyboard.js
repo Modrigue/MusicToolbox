@@ -1,7 +1,7 @@
 "use strict";
 const nbKeysInRowsScaleKeyboard = [11, 12, 12, 12];
 const startRowsScaleKeyboard = [0, 2 / 3, 1 / 3, 0];
-const keyboardCharacters_int = ["\\", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "\/",
+const keyboardCharacters_int = ["⇧\\", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "\/",
     "A", "S", "D", "F", "G", "H", "J", "K", "L", "M", ";", "'",
     "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]",
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ")", "="];
@@ -213,8 +213,10 @@ function getKeyCoordinates(pos) {
 }
 function getPositionFromInputKey(e) {
     let position = -999;
+    //console.log(e.code);
     switch (e.code) {
         // 1st row
+        case "ShiftLeft":
         case "IntlBackslash":
             position = 0;
             break;
