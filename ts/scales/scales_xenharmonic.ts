@@ -83,7 +83,7 @@ scaleFamiliesDict.set("9mavila_16edo",      [0, 0.75, 2.25, 3.75, 5.25, 6, 7.5, 
 scaleFamiliesDict.set("19meantone_31edo",   [0, 0.38710, 1.16129, 1.54839, 2.32258, 3.09677, 3.48387, 4.25806, 5.03226, 5.41935, 6.19355, 6.58065, 7.35484, 8.12903, 8.51613, 9.29032, 10.06452, 10.45161, 11.22581]);
 scaleFamiliesDict.set("9orwell_22edo",      [0, 1.09091, 2.72727, 3.81818, 5.45455, 6.54545, 8.18182, 9.27273, 10.90909]);
 scaleFamiliesDict.set("12pajara_22edo",     [0, 1.09091, 2.18182, 3.27273, 4.36364, 5.45455, 6.00000, 7.09091, 8.18182, 9.27273, 10.36364, 11.45455]);
-scaleFamiliesDict.set("7pepperoni_271edo",  [0, 2.0811808, 2.8782288, 4.9594096, 7.0405904, 7.8376384, 9.9188192]);
+//scaleFamiliesDict.set("7pepperoni_271edo",  [0, 2.0811808, 2.8782288, 4.9594096, 7.0405904, 7.8376384, 9.9188192]);
 scaleFamiliesDict.set("7porcupine_22edo",   [0, 1.6363636, 3.2727273, 4.9090909, 7.0909091, 8.7272727, 10.3636364]);
 scaleFamiliesDict.set("8porcupine_22edo",   [0, 1.63636, 3.27273, 4.90909, 6.54545, 8.18182, 9.81818, 11.45455]);
 scaleFamiliesDict.set("5radon_128edo",      [0, 2.34375, 4.68750, 7.03125, 9.65625]);
@@ -208,7 +208,7 @@ scalesDict_int.set("9mavila_16edo,1",     "Mavila[9] (16-EDO)");
 scalesDict_int.set("19meantone_31edo,1",  "MeanTone[19] (31-EDO)");
 scalesDict_int.set("9orwell_22edo,1",     "Orwell[9] (22-EDO)");
 scalesDict_int.set("12pajara_22edo,1",    "Pajara[12] (22-EDO)");
-scalesDict_int.set("7pepperoni_271edo,1", "Pepperoni[7] (271-EDO)");
+//scalesDict_int.set("7pepperoni_271edo,1", "Pepperoni[7] (271-EDO)");
 scalesDict_int.set("7porcupine_22edo,1",  "Porcupine[7] (22-EDO)");
 scalesDict_int.set("8porcupine_22edo,1",  "Porcupine[8] (22-EDO)");
 scalesDict_int.set("5radon_128edo,1",     "Radon[5] (128-EDO)");
