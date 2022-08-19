@@ -123,7 +123,7 @@ scalesDict_int.set("8bebop_dom,4", "Ichikosucho (4th mode)");
 scalesDict_int.set("8bebop_dom,5,diff:7major_nat;2", "Bebop Dorian / Bebop minor (5th mode)");
 scalesDict_int.set("8bebop_dom,sep", "");
 scalesDict_int.set("8bebop_maj,1,diff:7major_nat;1", "Bebop major");
-scalesDict_int.set("8bebop_maj,2,diff:7major_nat;2", "Dorian + Blue note (2nd mode)");
+scalesDict_int.set("8bebop_maj,2,diff:7major_nat;6", "Dorian + Blue note (2nd mode)");
 scalesDict_int.set("8bebop_maj,7,diff:7minor_harm;1", "Bebop harmonic minor (7th mode)");
 scalesDict_int.set("8bebop_maj,sep", "");
 scalesDict_int.set("8bebop_min_melo,1,diff:7minor_melo;1", "Bebop melodic minor");
@@ -250,7 +250,7 @@ scalesDict_fr.set("8bebop_dom,1,diff:7major_nat;1", "Bebop dominant");
 scalesDict_fr.set("8bebop_dom,5,diff:7major_nat;2", "Bebop dorien / Bebop mineur (5e mode)");
 
 scalesDict_fr.set("8bebop_maj,1,diff:7major_nat;1", "Bebop majeur");
-scalesDict_fr.set("8bebop_maj,2,diff:7major_nat;2", "Dorien + Blue note (2e mode)");
+scalesDict_fr.set("8bebop_maj,2,diff:7major_nat;6", "Dorien + Blue note (2e mode)");
 scalesDict_fr.set("8bebop_maj,7,diff:7minor_harm;1", "Bebop mineur harmonique (7e mode)");
 
 scalesDict_fr.set("8bebop_min_melo,1,diff:7minor_melo;1", "Bebop mineur mélodique");
