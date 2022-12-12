@@ -72,6 +72,8 @@ chords4Dict.set("7sus2flat5", [0, 2, 6, 10]);
 chords4Dict.set("6sus2", [0, 2, 7, 9]);
 chords4Dict.set("7Msus4sharp5", [0, 5, 8, 11]);
 chords4Dict.set("7Msus4sharpsharp5", [0, 5, 9, 11]);
+chords4Dict.set("7Maddsharp11(no5)", [0, 4, 11, 18]);
+chords4Dict.set("susb9", [0, 5, 7, 13]);
 chords4Dict.set("m7add4(no5)", [0, 3, 5, 10]);
 chords4Dict.set("m6Madd4(no5)", [0, 3, 5, 9]);
 chords4Dict.set("13M(modern)", [0, 4, 11, 21]);
