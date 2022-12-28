@@ -416,6 +416,21 @@ function initChordsFretboardHTML(noteFondamental: number, noteBass: number,
 
         //chordsFretboardHTML += `${canvas.outerHTML}\r\n`;
         chordsFretboardHTML += canvas.outerHTML;
+
+        // create play chord button
+        let buttonPlayChord: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+        buttonPlayChord.id = "generated_chords_play_chord" + i.toString();
+        buttonPlayChord.innerText = `${getString("chord")} ♪`;
+        buttonPlayChord.disabled = !hasAudio;
+
+        // create play arpeggio button
+        let buttonPlayArpeggio: HTMLButtonElement = <HTMLButtonElement>document.createElement('button');
+        buttonPlayArpeggio.id = "generated_chords_play_arpeggio" + i.toString();
+        buttonPlayArpeggio.innerText = `${getString("arpeggio")} ♪`;
+        buttonPlayArpeggio.disabled = !hasAudio;
+
+        chordsFretboardHTML += buttonPlayChord.outerHTML;
+        chordsFretboardHTML += buttonPlayArpeggio.outerHTML;
     }
 
     return chordsFretboardHTML;
@@ -542,10 +557,15 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
         let noteFondamental = getChordExplorerFondamental();
 
         // display notes positions
+        let currentNoteValuesAbs : Array<number> = [];
         for (let i = 1; i <= nbStrings; i++)
         {
             const j = positions[i - 1];
             const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
+            const currentNoteValueAbs = getCaseNoteValueAbs(tuningValues, i, j);
+
+            if (currentNoteValue >= 0)
+                currentNoteValuesAbs.push(currentNoteValueAbs);
             
             // display note
 
@@ -557,6 +577,26 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
 
             displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote, nbStrings, xFretChordStep, yFretMarginChordBottom, startFret);
         }
+
+        // update buttons callbacks
+        
+        let currentChordsNoteValues : Array<number> = [];
+        let bassChordValue = currentNoteValuesAbs[0];
+        currentChordsNoteValues.push(0);
+        for (let index = 1; index < currentNoteValuesAbs.length; index++)
+        {
+            const noteChordValue = currentNoteValuesAbs[index];
+            currentChordsNoteValues.push(noteChordValue - bassChordValue);
+        }
+        bassChordValue -= 36;
+
+        let buttonPlayChord: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`generated_chords_play_chord${index.toString()}`);
+        if (buttonPlayChord)
+            buttonPlayChord.setAttribute("onClick", `playChord(${bassChordValue}, [${currentChordsNoteValues.toString()}], 0, 0)`);
+
+        let buttonPlayArpeggio: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`generated_chords_play_arpeggio${index.toString()}`);
+        if (buttonPlayArpeggio)
+            buttonPlayArpeggio.setAttribute("onClick", `playChord(${bassChordValue}, [${currentChordsNoteValues.toString()}], 0, 0.25)`);
     }
 }
 
