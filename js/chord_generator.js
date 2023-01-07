@@ -464,6 +464,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
         return;
     }
     // generate fretboard images
+    generatedGuitarChords.classList.add("flex-container");
     generatedGuitarChords.innerHTML = initChordsFretboardHTML(noteFondamental, noteBass, chordSelected, freeNotesValues, positionsArray.length);
     updateChordFretboard(positionsArray, showBarres);
 }

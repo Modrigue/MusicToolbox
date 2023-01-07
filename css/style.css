@@ -465,6 +465,18 @@ p
     white-space: normal;
 }
 
+.div-generatedchord
+{
+    margin-left: 35px;
+}
+
+.button-generatedchord
+{
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 30px;
+}
+
 /* from https://stackoverflow.com/questions/13694062/css-left-center-right-align-text-on-same-line */
 
 #options_chord_explorer, #options_chord_tester
@@ -483,4 +495,18 @@ p
 .align-right {
     flex: 1;
     text-align: right;
+}
+
+/* from https://codepen.io/tortoise10h/pen/WKXQVP, https://jsfiddle.net/k7fzdn80/1/ */
+
+.flex-container{
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
 }

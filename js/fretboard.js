@@ -5,7 +5,7 @@ let yFretMargin = 20;
 let yFretStep = 32;
 let xFretScaleStep = 60; // used for scale explorer
 let xFretChordStep = 50; // used for chord explorer
-const yFretMarginChordBottom = 20;
+const yFretMarginChordBottom = 10;
 // colors
 const colorFretsStrings = "silver";
 const colorFretsStringsQTones = "#E4E4E4";
@@ -302,31 +302,35 @@ function initChordsFretboardHTML(noteFondamental, noteBass, chordSelected, freeN
     const nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     let chordsFretboardHTML = "";
     for (let i = 0; i < nbPositions; i++) {
-        if (i > 0)
-            chordsFretboardHTML += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        let canvas = document.createElement('canvas');
+        let divGeneratedChord = document.createElement('div');
+        let canvasGeneratedChord = document.createElement('canvas');
         const idText = "generated_chords_fretboard" + i.toString();
-        canvas.id = idText;
+        canvasGeneratedChord.id = idText;
         //canvas.className = "canvas_generated_chords_fretboard";
-        canvas.width = xFretMargin + 5 * xFretChordStep;
-        canvas.height = getCanvasHeight(nbStrings) + yFretMarginChordBottom;
+        canvasGeneratedChord.width = xFretMargin + 5 * xFretChordStep;
+        canvasGeneratedChord.height = getCanvasHeight(nbStrings) + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
         let callbackStr = `saveFretboardChordImage(\"${idText}\", ${noteFondamental}, ${noteBass},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`;
-        canvas.setAttribute("onclick", callbackStr);
-        //chordsFretboardHTML += `${canvas.outerHTML}\r\n`;
-        chordsFretboardHTML += canvas.outerHTML;
+        canvasGeneratedChord.setAttribute("onclick", callbackStr);
         // create play chord button
         let buttonPlayChord = document.createElement('button');
         buttonPlayChord.id = "generated_chords_play_chord" + i.toString();
         buttonPlayChord.innerText = `${getString("chord")} ♪`;
         buttonPlayChord.disabled = !hasAudio;
+        buttonPlayChord.classList.add('button-generatedchord');
         // create play arpeggio button
         let buttonPlayArpeggio = document.createElement('button');
         buttonPlayArpeggio.id = "generated_chords_play_arpeggio" + i.toString();
         buttonPlayArpeggio.innerText = `${getString("arpeggio")} ♪`;
         buttonPlayArpeggio.disabled = !hasAudio;
-        chordsFretboardHTML += buttonPlayChord.outerHTML;
-        chordsFretboardHTML += buttonPlayArpeggio.outerHTML;
+        buttonPlayChord.classList.add('button-generatedchord');
+        let divButtons = document.createElement('div');
+        divButtons.appendChild(buttonPlayChord);
+        divButtons.appendChild(buttonPlayArpeggio);
+        divButtons.classList.add('div-generatedchord');
+        divGeneratedChord.appendChild(canvasGeneratedChord);
+        divGeneratedChord.appendChild(divButtons);
+        chordsFretboardHTML += divGeneratedChord.outerHTML;
     }
     return chordsFretboardHTML;
 }
