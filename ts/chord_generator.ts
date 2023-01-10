@@ -561,6 +561,7 @@ function updateFoundChordElements()
     const foundChords: Array<[number, string]> = findChords(selectedNotesValues);
     let foundChordsStr = "";
     let index = 0;
+
     for (let noteChord of foundChords)
     {
         const noteValue = noteChord[0];
@@ -574,15 +575,30 @@ function updateFoundChordElements()
         const noteName = getNoteName(noteValue);
         const chordNoteName = getCompactChordNotation(noteName, chordId);
 
+        // compute found bass value if pertinent
+        let foundBassValue = -1;
+        if (bassValue < 0)
+        {
+            if (noteValue != fondamentalValue)
+                foundBassValue = fondamentalValue;
+        }
+        else
+        {
+            if (noteValue != bassValue)
+                foundBassValue = bassValue;
+        }
+
         // build button
         let button = document.createElement('button');
-        button.innerText = chordNoteName;
-        button.classList.add("border-left-radius");
+        button.innerText = chordNoteName + (foundBassValue >= 0 ? ` / ${getNoteName(foundBassValue)}` : "");
+        //button.classList.add("border-left-radius");
 
         // build URL
         let url = window.location.pathname;
         url += "?note=" + noteValue.toString();
         url += "&chord=" + chordId;
+        if (foundBassValue >= 0)
+            url += "&bass=" + foundBassValue;
         url += "&lang=" + culture;
         url += "&guitar_nb_strings=" + getSelectedGuitarNbStrings("chord_explorer_guitar_nb_strings");
         url += "&guitar_tuning=" + getSelectedGuitarTuningId("chord_explorer_guitar_tuning");
@@ -594,14 +610,14 @@ function updateFoundChordElements()
             foundChordsStr += " ";
         foundChordsStr += button.outerHTML;
 
-        // build play button
-        const chordValues = getChordValues(chordId);
-        let buttonPlay = document.createElement('button');
-        buttonPlay.innerText = "♪";
-        buttonPlay.classList.add("border-right-radius");
-        buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0)`);
-        buttonPlay.disabled = !hasAudio;
-        foundChordsStr += `${buttonPlay.outerHTML}\r\n`;
+        //// disbaled: build play button
+        //const chordValues = getChordValues(chordId);
+        //let buttonPlay = document.createElement('button');
+        //buttonPlay.innerText = "♪";
+        //buttonPlay.classList.add("border-right-radius");
+        //buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0, ${foundBassValue})`);
+        //buttonPlay.disabled = !hasAudio;
+        //foundChordsStr += `${buttonPlay.outerHTML}\r\n`;
         
         index++;
     }
