@@ -553,39 +553,91 @@ function updateFoundChordElements()
             intervalValues.push((noteValue - fondamentalValue) % 12);
     }
 
+    // update found chords text
     fundamentalSelected = fondamentalValue.toString();
+    const foundChordsTexts: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_found_chords_texts');
+    
+    // 1st pass: display entire relative chords
+    let foundChords: Array<[number, string]> = findChords(selectedNotesValues);
+    let foundChordsStr = getFoundChordsButtonsHTML(foundChords, fondamentalValue, bassValue, true, selectedMode);
+    
+    // 2nd pass with bass: display relative chords with bass
+    if (bassValue >= 0 && bassValue != fondamentalValue && selectedNotesValues.indexOf(bassValue) >= 0)
+    {
+        let selectedNotesValuesWoBass: Array<number> = [];
+        for (const noteValue of selectedNotesValues)
+        {
+            if (noteValue != bassValue)
+                selectedNotesValuesWoBass.push(noteValue);
+        }
+        
+        foundChords = findChords(selectedNotesValuesWoBass);
+        foundChordsStr += getFoundChordsButtonsHTML(foundChords, fondamentalValue, bassValue, false, selectedMode);
+    }
+    // 2nd pass without bass: display relative chords with fondamental as bass
+    else
+    {
+        if (selectedNotesValues != null && selectedNotesValues.length >= 4)
+        {
+            let selectedNotesValuesWoFondamental: Array<number> = [];
+            for (const noteValue of selectedNotesValues)
+            {
+                if (noteValue != fondamentalValue)
+                    selectedNotesValuesWoFondamental.push(noteValue);
+            }
+            
+            foundChords = findChords(selectedNotesValuesWoFondamental);
+            foundChordsStr += getFoundChordsButtonsHTML(foundChords, fondamentalValue, fondamentalValue, false, selectedMode);
+        }
+    }
+
+    foundChordsTexts.innerHTML = foundChordsStr;
+
+    // update play chord button callback
+    let buttonPlayChord: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_chord");
+    buttonPlayChord.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0, ${bassValue})`);
+    buttonPlayChord.disabled = !hasAudio;
+
+    // update play arpeggio button callback
+    let buttonPlayArpeggio: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_arpeggio");
+    buttonPlayArpeggio.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0.25, ${bassValue})`);
+    buttonPlayArpeggio.disabled = !hasAudio;
+}
+
+function getFoundChordsButtonsHTML(foundChords: Array<[number, string]>, fondamentalValue: number, bassValue: number,
+    entireChords: boolean, selectedMode: string): string
+{
+    let foundChordsStr = "";
     const culture = getSelectedCulture();
 
-    // update found chords text
-    const foundChordsTexts: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_found_chords_texts');
-    const foundChords: Array<[number, string]> = findChords(selectedNotesValues);
-    let foundChordsStr = "";
     let index = 0;
-
     for (let noteChord of foundChords)
     {
         const noteValue = noteChord[0];
         const chordId = noteChord[1];
 
+        let foundBassValue = entireChords ? -1 : bassValue;
+
         // skip already selected chord
-        if (selectedMode == "name")
-        if (noteValue == fondamentalValue)
+        if (selectedMode == "name" && noteValue == fondamentalValue)
             continue;
 
         const noteName = getNoteName(noteValue);
         const chordNoteName = getCompactChordNotation(noteName, chordId);
 
-        // compute found bass value if pertinent
-        let foundBassValue = -1;
-        if (bassValue < 0)
+        // entire chords mode: compute found bass value if pertinent
+        if (entireChords)
         {
-            if (noteValue != fondamentalValue)
-                foundBassValue = fondamentalValue;
-        }
-        else
-        {
-            if (noteValue != bassValue)
-                foundBassValue = bassValue;
+            if (bassValue < 0)
+            {
+                if (noteValue != fondamentalValue)
+                    foundBassValue = fondamentalValue;
+            }
+            else
+            {
+                if (noteValue != bassValue)
+                    foundBassValue = bassValue;
+            }
         }
 
         // build button
@@ -610,7 +662,7 @@ function updateFoundChordElements()
             foundChordsStr += " ";
         foundChordsStr += button.outerHTML;
 
-        //// disbaled: build play button
+        //// disabled: build play button
         //const chordValues = getChordValues(chordId);
         //let buttonPlay = document.createElement('button');
         //buttonPlay.innerText = "♪";
@@ -618,21 +670,11 @@ function updateFoundChordElements()
         //buttonPlay.setAttribute("onClick", `playChord(${noteValue}, [${chordValues.toString()}], 0, 0, ${foundBassValue})`);
         //buttonPlay.disabled = !hasAudio;
         //foundChordsStr += `${buttonPlay.outerHTML}\r\n`;
-        
+
         index++;
     }
 
-    foundChordsTexts.innerHTML = foundChordsStr;
-
-    // update play chord button callback
-    let buttonPlayChord: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_chord");
-    buttonPlayChord.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0, ${bassValue})`);
-    buttonPlayChord.disabled = !hasAudio;
-
-    // update play arpeggio button callback
-    let buttonPlayArpeggio: HTMLButtonElement = <HTMLButtonElement>document.getElementById("play_found_arpeggio");
-    buttonPlayArpeggio.setAttribute("onClick", `playChord(${fundamentalSelected}, [${intervalValues.toString()}], 0, 0.25, ${bassValue})`);
-    buttonPlayArpeggio.disabled = !hasAudio;
+    return foundChordsStr;
 }
 
 function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false)
