@@ -1,30 +1,34 @@
 function getChordExplorerFondamental(): number
 {
-    // get fundamental given mode
-    let noteFondamental = -1;
-    if (getSelectedChordGeneratorMode() == "name")
+    let fondamentalValue = -1;
+    if (chordExplorerUpdateMode == "name")
     {
         const noteExplorerChordInput: HTMLInputElement = <HTMLInputElement>document.getElementById('chord_explorer_fundamental');
         const noteSelected: string = noteExplorerChordInput.value;
-        noteFondamental = parseInt(noteSelected);
+        fondamentalValue = parseInt(noteSelected);     
     }
     else
     {
         const selectedNotesValues = getSelectedChordExplorerNotes();
-        noteFondamental = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
+        fondamentalValue = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
     }
 
-    return noteFondamental;
+    return fondamentalValue;
+}
+
+function getChordExplorerChordId(): string
+{
+    const chordSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_chord');
+    return chordSelector.value;
 }
 
 function getChordExplorerChordValues(): Array<number>
 {
     let chordValues: Array<number> = [];
-    if (getSelectedChordGeneratorMode() == "name")
+    if (chordExplorerUpdateMode == "name")
     {
-        const chordSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_chord');
-        const chordSelected = chordSelector.value;
-        chordValues = getChordValues(chordSelected);        
+        const chordSelectedId = getChordExplorerChordId();
+        chordValues = getChordValues(chordSelectedId);        
     }
     else
     {
@@ -42,21 +46,21 @@ function getChordExplorerChordValues(): Array<number>
 
 function getChordExplorerBassValue(): number
 {
-    if (getSelectedChordGeneratorMode() != "name")
-        return -1;
-    
     const bassSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_bass');
     const bassSelected = bassSelector.value;
     const bassValue = parseInt(bassSelected);
+
+    if (bassValue < 0)
+    {
+        const selectedNotesValues = getSelectedChordExplorerNotes();
+        const bassValue = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
+    }
 
     return bassValue;
 }
 
 function getChordExplorerBassInterval(fondamentalValue: number): number
 {
-    if (getSelectedChordGeneratorMode() != "name")
-        return -1;
-    
     const bassValue = getChordExplorerBassValue();
     const bassInterval = (bassValue >= 0) ? (bassValue - fondamentalValue + 12) % 12 : -1;
 

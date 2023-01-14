@@ -325,7 +325,7 @@ function updateFretboard(id: string, noteValue: number, scaleValues: Array<numbe
                 let chordName = "";
                 let bassValue = -1;
                 let freeNotesSelected: Array<number> = [];
-                if (getSelectedChordGeneratorMode() == "name")
+                if (scaleChordName != null && scaleChordName.length > 0)
                 {
                     chordName = scaleChordName;
                     bassValue = getChordExplorerBassValue()
@@ -410,6 +410,7 @@ function initChordsFretboardHTML(noteFondamental: number, noteBass: number,
         canvasGeneratedChord.width = xFretMargin + 5*xFretChordStep;
         canvasGeneratedChord.height = getCanvasHeight(nbStrings) + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
+        
         let callbackStr = `saveFretboardChordImage(\"${idText}\", ${noteFondamental}, ${noteBass},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`
         canvasGeneratedChord.setAttribute("onclick", callbackStr);
 
@@ -624,9 +625,10 @@ function saveFretboardChordImage(id: string, fondamental: number, bass: number, 
 {    
     let canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id);
     let canvasImage: string = canvasElement.toDataURL('image/png');
+    let prefix = (id == "chord_explorer_canvas_guitar") ? "Fretboard" : getString("chord");
     let filename = "";
 
-    if (freeNotesStr == null || freeNotesStr.length == 0)
+    if (chordId != null && chordId.length > 0)
     {
         // chord name mode
         let fondamentalText = getNoteName(fondamental);
@@ -644,7 +646,7 @@ function saveFretboardChordImage(id: string, fondamental: number, bass: number, 
         else if (chordId == "m")
             chordText = "min";
 
-        filename = `${getString("chord")}-${fondamentalText}-${chordText}`;
+        filename = `${prefix}-${fondamentalText}-${chordText}`;
 
         if (bass >= 0 && bass != fondamental)
             filename += `-${getString("bass")}-${getNoteName(bass)}`;
@@ -668,7 +670,7 @@ function saveFretboardChordImage(id: string, fondamental: number, bass: number, 
             index++;
         }
 
-        filename = `${getString("fretboard")}-${notesStr}.png`;
+        filename = `${prefix}-${notesStr}.png`;
     }
 
     // this can be used to download any image from webpage to local disk

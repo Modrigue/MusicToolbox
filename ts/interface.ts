@@ -10,6 +10,8 @@ let instrumentLoadingId = 0;
 
 let browserSupportsAudio = true;
 
+let chordExplorerUpdateMode: string = "";
+
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 
@@ -66,13 +68,13 @@ window.onload = function()
     (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleFinder")).addEventListener("change", updateShowQuarterTonesInScaleFinder);
 
     // chord explorer
-    (<HTMLSelectElement>document.getElementById('chord_explorer_fundamental')).addEventListener("change", update);
-    (<HTMLSelectElement>document.getElementById('chord_explorer_chord')).addEventListener("change", update);
-    (<HTMLSelectElement>document.getElementById('chord_explorer_bass')).addEventListener("change", update);
-    for (let i = 1; i <= 6; i++)
+    (<HTMLSelectElement>document.getElementById('chord_explorer_fundamental')).addEventListener("change", () => { updateChordExplorer("name")});
+    (<HTMLSelectElement>document.getElementById('chord_explorer_chord')).addEventListener("change", () => { updateChordExplorer("name")});
+    (<HTMLSelectElement>document.getElementById('chord_explorer_bass')).addEventListener("change", () => { updateChordExplorer("name")});
+    for (let i = 0; i <= 6; i++)
     {
         const id: string = i.toString();
-        (<HTMLSelectElement>document.getElementById(`chord_explorer_note${id}`)).addEventListener("change", update);
+        (<HTMLSelectElement>document.getElementById(`chord_explorer_note${id}`)).addEventListener("change", () => { updateChordExplorer("notes")});
     }
     (<HTMLSelectElement>document.getElementById("chord_explorer_guitar_nb_strings")).addEventListener("change", () => onNbStringsChanged('chord_explorer'));
     (<HTMLSelectElement>document.getElementById("chord_explorer_guitar_tuning")).addEventListener("change", update);
@@ -169,7 +171,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');
     updateNbStringsForChordSelector();
-    for (let i = 1; i <= 6; i++)
+    for (let i = 0; i <= 6; i++)
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
     
     // update chord tester selectors
@@ -188,6 +190,17 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     // update scale keyboard selectors
     updateOctaveSelector(`scale_explorer_start_octave`, 0, 4);
     updateInstrumentSelector(`scale_explorer_instrument`);
+}
+
+// update chord explorer given mode (chord name / notes)
+function updateChordExplorer(mode: string)
+{
+    if (chordExplorerUpdateMode != "")
+        return;
+
+    chordExplorerUpdateMode = mode;
+    update();
+    chordExplorerUpdateMode = "";
 }
 
 // get selected text from selector
@@ -403,25 +416,69 @@ function update(): void
             updateChordGeneratorMode();
             updateChordSelectorGivenNbStrings('chord_explorer_chord');
             updateNbStringsForChordSelector();
-            updateFoundChordElements();
-            updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
 
-            // get selected notes and chord values
+            // update selected notes and chord values
             const fondamental: number = getChordExplorerFondamental();
-            let chordName = "";
+            let chordId = "";
             const chordValues = getChordExplorerChordValues();
-            let chordValuesToDisplay = cloneIntegerArray(chordValues);
-            if (getSelectedChordGeneratorMode() == "name")
+            let chordValuesToDisplay = cloneIntegerArray(chordValues);        
+            switch(chordExplorerUpdateMode)
             {
-                const chordSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_chord');
-                chordName = chordSelector.value;
+                // chord name: update notes selectors
+                case "name":
+                    {
+                        chordId = getChordExplorerChordId();
 
-                const bassInterval = getChordExplorerBassInterval(fondamental);
-                if (bassInterval >= 0)
-                    chordValuesToDisplay.push(bassInterval);
+                        const bassInterval = getChordExplorerBassInterval(fondamental);
+                        if (bassInterval >= 0 && chordValuesToDisplay.indexOf(bassInterval) == -1)
+                            chordValuesToDisplay.unshift(bassInterval);
+
+                        // update notes selectors
+                        for (let i = 0; i <= 6; i++)
+                        {
+                            const chordExplorerNoteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${i}`);
+                            chordExplorerNoteSelector.value = (i < chordValuesToDisplay.length) ? 
+                                addToNoteValue(fondamental, chordValuesToDisplay[i]).toString() : "-1";
+                        }
+
+                        break;
+                    }
+                
+                // notes: update chord selectors
+                case "notes":
+                default:
+                    {
+                        const chordExplorerFundamentalSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_fundamental'));
+                        const chordExplorerChordSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_chord'));
+                        const chordExplorerBassSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_bass'));
+                        
+                        // take 1st selected note as fundamental or bass
+                        let selectedNotesValues = getSelectedChordExplorerNotes();
+                        let foundChords: Array<[number, string]> = findChords(selectedNotesValues);
+
+                        if (foundChords != null && foundChords.length > 0)
+                        {
+                            let chordFondamentalValue = foundChords[0][0];
+                            chordId = foundChords[0][1];
+                            
+                            chordExplorerFundamentalSelector.value = chordFondamentalValue.toString();
+                            chordExplorerChordSelector.value = chordId;
+                        }
+                        else if (selectedNotesValues != null && selectedNotesValues.length > 0)
+                        {
+                            let chordFondamentalValue = selectedNotesValues[0];
+                            chordExplorerFundamentalSelector.value = chordFondamentalValue.toString();
+                            chordExplorerChordSelector.value = "-1";
+                            chordExplorerBassSelector.value = "-1";
+                        }
+                        
+                        break;
+                    }
             }
             
-            updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordName);
+            updateFoundChordElements();
+            updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
+            updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordId);
 
             setVisible('section_found_scales', false);
             setVisible('negative_scale', false);
@@ -577,27 +634,12 @@ function setEnabled(id: string, status: boolean): void
 
 function updateChordGeneratorMode(): void
 {
-    // get selected mode
-    let selectedMode: string = getSelectedChordGeneratorMode();
-    const nameMode: boolean = (selectedMode == "name");
-
     // get select nb. of strings
     const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
-    
-    // name mode
-    setEnabled("chord_explorer_fundamental", nameMode);
-    setEnabled("chord_explorer_chord", nameMode);
-    setEnabled("chord_explorer_bass", nameMode);
-    setEnabled("chord_explorer_arpeggio_notes", nameMode);
-    setEnabled("chord_explorer_arpeggio_intervals", nameMode);
-    setVisible("chord_explorer_arpeggio_texts", nameMode);
 
     // notes mode
-    for (let i = 1; i <= 6; i++)
+    for (let i = 0; i <= 6; i++)
     {
-        const enableSelector: boolean = !nameMode && (i <= nbStrings);
-        setEnabled(`chord_explorer_note${i}`, enableSelector);
-
         // if note index exceeds nb. of strings, reset note
         if (i > nbStrings)
         {
@@ -720,7 +762,7 @@ function updateLocales(): void
 
     // update computed data
     updateSelectors();
-    update();
+    updateChordExplorer("name"); // forces update and notes prefilled given chord name in chord explorer
 }
 
 function updateShowQuarterTonesInScaleExplorer()

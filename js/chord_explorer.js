@@ -1,24 +1,26 @@
 "use strict";
 function getChordExplorerFondamental() {
-    // get fundamental given mode
-    let noteFondamental = -1;
-    if (getSelectedChordGeneratorMode() == "name") {
+    let fondamentalValue = -1;
+    if (chordExplorerUpdateMode == "name") {
         const noteExplorerChordInput = document.getElementById('chord_explorer_fundamental');
         const noteSelected = noteExplorerChordInput.value;
-        noteFondamental = parseInt(noteSelected);
+        fondamentalValue = parseInt(noteSelected);
     }
     else {
         const selectedNotesValues = getSelectedChordExplorerNotes();
-        noteFondamental = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
+        fondamentalValue = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
     }
-    return noteFondamental;
+    return fondamentalValue;
+}
+function getChordExplorerChordId() {
+    const chordSelector = document.getElementById('chord_explorer_chord');
+    return chordSelector.value;
 }
 function getChordExplorerChordValues() {
     let chordValues = [];
-    if (getSelectedChordGeneratorMode() == "name") {
-        const chordSelector = document.getElementById('chord_explorer_chord');
-        const chordSelected = chordSelector.value;
-        chordValues = getChordValues(chordSelected);
+    if (chordExplorerUpdateMode == "name") {
+        const chordSelectedId = getChordExplorerChordId();
+        chordValues = getChordValues(chordSelectedId);
     }
     else {
         // take 1st selected note as fundamental
@@ -31,16 +33,16 @@ function getChordExplorerChordValues() {
     return chordValues;
 }
 function getChordExplorerBassValue() {
-    if (getSelectedChordGeneratorMode() != "name")
-        return -1;
     const bassSelector = document.getElementById('chord_explorer_bass');
     const bassSelected = bassSelector.value;
     const bassValue = parseInt(bassSelected);
+    if (bassValue < 0) {
+        const selectedNotesValues = getSelectedChordExplorerNotes();
+        const bassValue = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
+    }
     return bassValue;
 }
 function getChordExplorerBassInterval(fondamentalValue) {
-    if (getSelectedChordGeneratorMode() != "name")
-        return -1;
     const bassValue = getChordExplorerBassValue();
     const bassInterval = (bassValue >= 0) ? (bassValue - fondamentalValue + 12) % 12 : -1;
     return bassInterval;

@@ -252,29 +252,26 @@
 
   <div id ='page_chord_explorer' style="display: none">
     <div>
-      <input type="radio" id="radioChordExplorerName" name="chord_explorer_mode" value="name" checked onchange="update()">
-      <label class="input-label" id="radioChordExplorerNameLabel" for="radioChordExplorerName">Name:</label>
+      <label class="label" id="radioChordExplorerNameLabel">Name:</label>
       <select name="chord_explorer_fundamental" id="chord_explorer_fundamental"></select>
       <select name="chord_explorer_chord" id="chord_explorer_chord"></select>
       &nbsp;
       <span id="chord_explorer_bass_text">Bass:</span>
       <select name="chord_explorer_bass" id="chord_explorer_bass"></select>
       <span class="chord_explorer_arpeggio" id="chord_explorer_arpeggio_texts" style='float: right;'>
-        <span id="chord_explorer_arpeggio_notes">?</span>
-        &nbsp;|&nbsp;
         <span id="chord_explorer_arpeggio_intervals">?</span>
       </span>
     </div>
 
     <div>
-      <input type="radio" id="radioChordExplorerNotes" name="chord_explorer_mode" value="notes" onchange="update()">
-      <label class="input-label" id="radioChordExplorerNotesLabel" for="radioChordExplorerNotes">Notes:</label>
-      <select name="chord_explorer_note1" id="chord_explorer_note1" disabled></select>
-      <select name="chord_explorer_note2" id="chord_explorer_note2" disabled></select>
-      <select name="chord_explorer_note3" id="chord_explorer_note3" disabled></select>
-      <select name="chord_explorer_note4" id="chord_explorer_note4" disabled></select>
-      <select name="chord_explorer_note5" id="chord_explorer_note5" disabled></select>
-      <select name="chord_explorer_note6" id="chord_explorer_note6" disabled></select>
+      <label class="label" id="radioChordExplorerNotesLabel">Notes:</label>
+      <select name="chord_explorer_note0" id="chord_explorer_note0"></select>
+      <select name="chord_explorer_note1" id="chord_explorer_note1"></select>
+      <select name="chord_explorer_note2" id="chord_explorer_note2"></select>
+      <select name="chord_explorer_note3" id="chord_explorer_note3"></select>
+      <select name="chord_explorer_note4" id="chord_explorer_note4"></select>
+      <select name="chord_explorer_note5" id="chord_explorer_note5"></select>
+      <select name="chord_explorer_note6" id="chord_explorer_note6"></select>
       <span class="chord_explorer_found_chords" id="chord_explorer_found_chords_texts" style='float: right;'></span>
     </div>
 
