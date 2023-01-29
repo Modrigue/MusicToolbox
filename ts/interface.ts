@@ -173,6 +173,9 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     updateNbStringsForChordSelector();
     for (let i = 0; i <= 6; i++)
         updateNoteSelector(`chord_explorer_note${i}`, -1, true);
+    chordExplorerUpdateMode = "name";
+    updateChordExplorerElements();
+    chordExplorerUpdateMode = "";
     
     // update chord tester selectors
     updateNoteSelector(`chord_tester_start_note`, 0, false);
@@ -201,6 +204,81 @@ function updateChordExplorer(mode: string)
     chordExplorerUpdateMode = mode;
     update();
     chordExplorerUpdateMode = "";
+}
+
+// update chord explorer widgets
+function updateChordExplorerElements()
+{
+    const checkboxBarres: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxBarres");
+    const checkboxEmptyStrings: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxEmptyStrings");
+    
+    updateChordGeneratorMode();
+    updateChordSelectorGivenNbStrings('chord_explorer_chord');
+    updateNbStringsForChordSelector();
+
+    // update selected notes and chord values
+    const fondamental: number = getChordExplorerFondamental();
+    let chordId = "";
+    const chordValues = getChordExplorerChordValues();
+    let chordValuesToDisplay = cloneIntegerArray(chordValues);        
+    switch(chordExplorerUpdateMode)
+    {
+        // chord name: update notes selectors
+        case "name":
+            {
+                chordId = getChordExplorerChordId();
+
+                const bassInterval = getChordExplorerBassInterval(fondamental);
+                if (bassInterval >= 0 && chordValuesToDisplay.indexOf(bassInterval) == -1)
+                    chordValuesToDisplay.unshift(bassInterval);
+
+                // update notes selectors
+                for (let i = 0; i <= 6; i++)
+                {
+                    const chordExplorerNoteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${i}`);
+                    chordExplorerNoteSelector.value = (i < chordValuesToDisplay.length) ? 
+                        addToNoteValue(fondamental, chordValuesToDisplay[i]).toString() : "-1";
+                }
+
+                break;
+            }
+        
+        // notes: update chord selectors
+        case "notes":
+        default:
+            {
+                const chordExplorerFundamentalSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_fundamental'));
+                const chordExplorerChordSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_chord'));
+                const chordExplorerBassSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_bass'));
+                
+                // take 1st selected note as fundamental or bass
+                let selectedNotesValues = getSelectedChordExplorerNotes();
+                let foundChords: Array<[number, string]> = findChords(selectedNotesValues);
+
+                if (foundChords != null && foundChords.length > 0)
+                {
+                    let chordFondamentalValue = foundChords[0][0];
+                    chordId = foundChords[0][1];
+                    
+                    chordExplorerFundamentalSelector.value = chordFondamentalValue.toString();
+                    chordExplorerChordSelector.value = chordId;
+                }
+                else if (selectedNotesValues != null && selectedNotesValues.length > 0)
+                {
+                    let chordFondamentalValue = selectedNotesValues[0];
+                    chordExplorerFundamentalSelector.value = chordFondamentalValue.toString();
+                    chordExplorerChordSelector.value = "-1";
+                    chordExplorerBassSelector.value = "-1";
+                }
+                
+                break;
+            }
+    }
+    
+    updateFoundChordElements();
+    updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
+    updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordId);
+
 }
 
 // get selected text from selector
@@ -410,75 +488,7 @@ function update(): void
 
         case "page_chord_explorer":
         {
-            const checkboxBarres: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxBarres");
-            const checkboxEmptyStrings: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxEmptyStrings");
-            
-            updateChordGeneratorMode();
-            updateChordSelectorGivenNbStrings('chord_explorer_chord');
-            updateNbStringsForChordSelector();
-
-            // update selected notes and chord values
-            const fondamental: number = getChordExplorerFondamental();
-            let chordId = "";
-            const chordValues = getChordExplorerChordValues();
-            let chordValuesToDisplay = cloneIntegerArray(chordValues);        
-            switch(chordExplorerUpdateMode)
-            {
-                // chord name: update notes selectors
-                case "name":
-                    {
-                        chordId = getChordExplorerChordId();
-
-                        const bassInterval = getChordExplorerBassInterval(fondamental);
-                        if (bassInterval >= 0 && chordValuesToDisplay.indexOf(bassInterval) == -1)
-                            chordValuesToDisplay.unshift(bassInterval);
-
-                        // update notes selectors
-                        for (let i = 0; i <= 6; i++)
-                        {
-                            const chordExplorerNoteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${i}`);
-                            chordExplorerNoteSelector.value = (i < chordValuesToDisplay.length) ? 
-                                addToNoteValue(fondamental, chordValuesToDisplay[i]).toString() : "-1";
-                        }
-
-                        break;
-                    }
-                
-                // notes: update chord selectors
-                case "notes":
-                default:
-                    {
-                        const chordExplorerFundamentalSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_fundamental'));
-                        const chordExplorerChordSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_chord'));
-                        const chordExplorerBassSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_bass'));
-                        
-                        // take 1st selected note as fundamental or bass
-                        let selectedNotesValues = getSelectedChordExplorerNotes();
-                        let foundChords: Array<[number, string]> = findChords(selectedNotesValues);
-
-                        if (foundChords != null && foundChords.length > 0)
-                        {
-                            let chordFondamentalValue = foundChords[0][0];
-                            chordId = foundChords[0][1];
-                            
-                            chordExplorerFundamentalSelector.value = chordFondamentalValue.toString();
-                            chordExplorerChordSelector.value = chordId;
-                        }
-                        else if (selectedNotesValues != null && selectedNotesValues.length > 0)
-                        {
-                            let chordFondamentalValue = selectedNotesValues[0];
-                            chordExplorerFundamentalSelector.value = chordFondamentalValue.toString();
-                            chordExplorerChordSelector.value = "-1";
-                            chordExplorerBassSelector.value = "-1";
-                        }
-                        
-                        break;
-                    }
-            }
-            
-            updateFoundChordElements();
-            updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
-            updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordId);
+            updateChordExplorerElements();
 
             setVisible('section_found_scales', false);
             setVisible('negative_scale', false);
