@@ -171,8 +171,19 @@ function updateChordExplorerElements() {
             {
                 chordId = getChordExplorerChordId();
                 const bassInterval = getChordExplorerBassInterval(fondamental);
-                if (bassInterval >= 0 && chordValuesToDisplay.indexOf(bassInterval) == -1)
-                    chordValuesToDisplay.unshift(bassInterval);
+                if (bassInterval >= 0) {
+                    if (chordValuesToDisplay.indexOf(bassInterval) == -1) // not part of the chord, insert in 1st position
+                        chordValuesToDisplay.unshift(bassInterval);
+                    else {
+                        // reverse chord: permute array
+                        for (let i = 0; i < chordValuesToDisplay.length; i++) {
+                            const lastInterval = chordValuesToDisplay.pop();
+                            chordValuesToDisplay.unshift(lastInterval);
+                            if (lastInterval == bassInterval)
+                                break;
+                        }
+                    }
+                }
                 // update notes selectors
                 for (let i = 0; i <= 6; i++) {
                     const chordExplorerNoteSelector = document.getElementById(`chord_explorer_note${i}`);
