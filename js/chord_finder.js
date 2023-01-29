@@ -1,16 +1,36 @@
 "use strict";
 // find chords from notes
-function findChords(notesValues, onlyFirstNoteAsFundamental = false) {
-    if (notesValues == null || notesValues.length < 2 || notesValues.length > 6)
+function findChords(notesValues, onlyFirstNoteAsFundamental = false, firstNoteAsBass = false) {
+    if (notesValues == null || notesValues.length < 2 || notesValues.length > 7)
+        return [];
+    let chordsArray = new Array();
+    // 1st pass: find entire chords, without bass
+    chordsArray = findEntireChords(notesValues, onlyFirstNoteAsFundamental, firstNoteAsBass);
+    // 2nd pass: find relative chords with bass
+    if (firstNoteAsBass) {
+        let firstNote = notesValues[0];
+        let notesValuesWoBass = [];
+        for (const noteValue of notesValues) {
+            if (noteValue != firstNote)
+                notesValuesWoBass.push(noteValue);
+        }
+        chordsArray = chordsArray.concat(findChords(notesValuesWoBass));
+    }
+    return chordsArray;
+}
+// find entire chords (without bass) from notes
+function findEntireChords(notesValues, onlyFirstNoteAsFundamental = false, firstNoteAsBass = false) {
+    if (notesValues == null || notesValues.length < 2 || notesValues.length > 7)
         return [];
     let chordsArray = new Array();
     const nbNotesInChord = notesValues.length;
-    const chordsDict = getChordDictionary(nbNotesInChord);
     // switch fundamental and compute intervals
+    let firstNote = notesValues[0];
     for (let i = 0; i < nbNotesInChord; i++) {
         if (onlyFirstNoteAsFundamental && i > 0)
             break;
         let fundamental = notesValues[i];
+        let bass = (firstNoteAsBass && fundamental != firstNote) ? firstNote : -1;
         let intervalsValues = new Array();
         for (let value of notesValues) {
             const interval = (value - fundamental + 10 * 12) % 12;
@@ -22,7 +42,7 @@ function findChords(notesValues, onlyFirstNoteAsFundamental = false) {
         const chordsIdsFound = getChordsIdsWithOctave(intervalsValues);
         for (let chordId of chordsIdsFound) {
             if (chordId != null && chordId != "" && chordId != "?")
-                chordsArray.push([fundamental, chordId]);
+                chordsArray.push([fundamental, chordId, bass]);
         }
     }
     return chordsArray;

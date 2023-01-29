@@ -564,38 +564,38 @@ function updateFoundChordElements()
     const foundChordsTexts: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_found_chords_texts');
     
     // 1st pass: display entire relative chords
-    let foundChords: Array<[number, string]> = findChords(selectedNotesValues);
-    let foundChordsStr = getFoundChordsButtonsHTML(foundChords, fondamentalValue, bassValue, true, selectedMode);
+    let foundChords: Array<[number, string, number]> = findChords(selectedNotesValues, false, true);
+    let foundChordsStr = getFoundChordsButtonsHTML(foundChords, fondamentalValue, bassValue, selectedMode);
     
-    // 2nd pass with bass: display relative chords with bass
-    if (bassValue >= 0 && bassValue != fondamentalValue && selectedNotesValues.indexOf(bassValue) >= 0)
-    {
-        let selectedNotesValuesWoBass: Array<number> = [];
-        for (const noteValue of selectedNotesValues)
-        {
-            if (noteValue != bassValue)
-                selectedNotesValuesWoBass.push(noteValue);
-        }
-        
-        foundChords = findChords(selectedNotesValuesWoBass);
-        foundChordsStr += getFoundChordsButtonsHTML(foundChords, fondamentalValue, bassValue, false, selectedMode);
-    }
-    // 2nd pass without bass: display relative chords with fondamental as bass
-    else
-    {
-        if (selectedNotesValues != null && selectedNotesValues.length >= 4)
-        {
-            let selectedNotesValuesWoFondamental: Array<number> = [];
-            for (const noteValue of selectedNotesValues)
-            {
-                if (noteValue != fondamentalValue)
-                    selectedNotesValuesWoFondamental.push(noteValue);
-            }
-            
-            foundChords = findChords(selectedNotesValuesWoFondamental);
-            foundChordsStr += getFoundChordsButtonsHTML(foundChords, fondamentalValue, fondamentalValue, false, selectedMode);
-        }
-    }
+    //// 2nd pass with bass: display relative chords with bass
+    //if (bassValue >= 0 && bassValue != fondamentalValue && selectedNotesValues.indexOf(bassValue) >= 0)
+    //{
+    //    let selectedNotesValuesWoBass: Array<number> = [];
+    //    for (const noteValue of selectedNotesValues)
+    //    {
+    //        if (noteValue != bassValue)
+    //            selectedNotesValuesWoBass.push(noteValue);
+    //    }
+    //    
+    //    foundChords = findChords(selectedNotesValuesWoBass);
+    //    foundChordsStr += getFoundChordsButtonsHTML(foundChords, fondamentalValue, bassValue, false, selectedMode);
+    //}
+    //// 2nd pass without bass: display relative chords with fondamental as bass
+    //else
+    //{
+    //    if (selectedNotesValues != null && selectedNotesValues.length >= 4)
+    //    {
+    //        let selectedNotesValuesWoFondamental: Array<number> = [];
+    //        for (const noteValue of selectedNotesValues)
+    //        {
+    //            if (noteValue != fondamentalValue)
+    //                selectedNotesValuesWoFondamental.push(noteValue);
+    //        }
+    //        
+    //        foundChords = findChords(selectedNotesValuesWoFondamental);
+    //        foundChordsStr += getFoundChordsButtonsHTML(foundChords, fondamentalValue, fondamentalValue, false, selectedMode);
+    //    }
+    //}
 
     foundChordsTexts.innerHTML = foundChordsStr;
 
@@ -610,8 +610,8 @@ function updateFoundChordElements()
     buttonPlayArpeggio.disabled = !hasAudio;
 }
 
-function getFoundChordsButtonsHTML(foundChords: Array<[number, string]>, fondamentalValue: number, bassValue: number,
-    entireChords: boolean, selectedMode: string): string
+function getFoundChordsButtonsHTML(foundChords: Array<[number, string, number]>, fondamentalValue: number, bassValue: number,
+    selectedMode: string): string
 {
     let foundChordsStr = "";
     const culture = getSelectedCulture();
@@ -621,8 +621,7 @@ function getFoundChordsButtonsHTML(foundChords: Array<[number, string]>, fondame
     {
         const noteValue = noteChord[0];
         const chordId = noteChord[1];
-
-        let foundBassValue = entireChords ? -1 : bassValue;
+        let foundBassValue = noteChord[2];
 
         // skip already selected chord
         if (selectedMode == "name" && noteValue == fondamentalValue)
@@ -631,19 +630,15 @@ function getFoundChordsButtonsHTML(foundChords: Array<[number, string]>, fondame
         const noteName = getNoteName(noteValue);
         const chordNoteName = getCompactChordNotation(noteName, chordId);
 
-        // entire chords mode: compute found bass value if pertinent
-        if (entireChords)
+        if (bassValue < 0)
         {
-            if (bassValue < 0)
-            {
-                if (noteValue != fondamentalValue)
-                    foundBassValue = fondamentalValue;
-            }
-            else
-            {
-                if (noteValue != bassValue)
-                    foundBassValue = bassValue;
-            }
+            if (noteValue != fondamentalValue)
+                foundBassValue = fondamentalValue;
+        }
+        else
+        {
+            if (noteValue != bassValue)
+                foundBassValue = bassValue;
         }
 
         // build button

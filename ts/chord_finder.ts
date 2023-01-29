@@ -1,21 +1,53 @@
 // find chords from notes
 function findChords(notesValues: Array<number>,
-    onlyFirstNoteAsFundamental: boolean = false): Array<[number, string]>
+    onlyFirstNoteAsFundamental: boolean = false,
+    firstNoteAsBass: boolean = false): Array<[number, string, number]>
 {
-    if (notesValues == null || notesValues.length < 2 || notesValues.length > 6)
+    if (notesValues == null || notesValues.length < 2 || notesValues.length > 7)
         return [];
 
-    let chordsArray: Array<[number, string]> = new Array<[number, string]>();
+    let chordsArray: Array<[number, string, number]> = new Array<[number, string, number]>();
+    
+    // 1st pass: find entire chords, without bass
+    chordsArray = findEntireChords(notesValues, onlyFirstNoteAsFundamental, firstNoteAsBass);
+
+    // 2nd pass: find relative chords with bass
+    if (firstNoteAsBass)
+    {
+        let firstNote: number = notesValues[0];
+        let notesValuesWoBass: Array<number> = [];
+        for (const noteValue of notesValues)
+        {
+            if (noteValue != firstNote)
+            notesValuesWoBass.push(noteValue);
+        }
+        
+        chordsArray = chordsArray.concat(findChords(notesValuesWoBass));
+    }
+
+    return chordsArray;
+}
+
+// find entire chords (without bass) from notes
+function findEntireChords(notesValues: Array<number>,
+    onlyFirstNoteAsFundamental: boolean = false,
+    firstNoteAsBass: boolean = false): Array<[number, string, number]>
+{
+    if (notesValues == null || notesValues.length < 2 || notesValues.length > 7)
+        return [];
+
+    let chordsArray: Array<[number, string, number]> = new Array<[number, string, number]>();
     const nbNotesInChord: number = notesValues.length;
-    const chordsDict: Map<string, Array<number>> = getChordDictionary(nbNotesInChord);
 
     // switch fundamental and compute intervals
+    let firstNote: number = notesValues[0];
     for (let i = 0; i < nbNotesInChord; i++)
     {
         if (onlyFirstNoteAsFundamental && i > 0)
             break;
 
         let fundamental: number = notesValues[i];
+        let bass = (firstNoteAsBass && fundamental != firstNote) ? firstNote : -1;
         let intervalsValues: Array<number> = new Array<number>();
         for (let value of notesValues)
         {
@@ -31,7 +63,7 @@ function findChords(notesValues: Array<number>,
         for (let chordId of chordsIdsFound)
         {
             if (chordId !=  null && chordId !=  "" && chordId !=  "?")
-                chordsArray.push([fundamental, chordId]);
+                chordsArray.push([fundamental, chordId, bass]);
         }
     }
 
@@ -226,9 +258,9 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
 }
 
 function findChordInScales(scaleValues: Array<number>,
-    nbNotesMax: number): Map<number,Array<[number, string]>>
+    nbNotesMax: number): Map<number,Array<[number, string, number]>>
 {
-    let chordsArray: Array<[number, string]> = new Array<[number, string]>();
+    let chordsArray: Array<[number, string, number]> = new Array<[number, string, number]>();
     const nbNotesInScale: number = scaleValues.length;
 
     for (let i: number = 0; i < nbNotesInScale; i++)
@@ -264,7 +296,7 @@ function findChordInScales(scaleValues: Array<number>,
     }
 
     // sort given number of notes in chords
-    let foundChordsDict: Map<number,Array<[number, string]>> = new Map<number,Array<[number, string]>>();
+    let foundChordsDict: Map<number,Array<[number, string, number]>> = new Map<number,Array<[number, string, number]>>();
     for (let nbNotesInChord = 2; nbNotesInChord <= 6; nbNotesInChord++)
     {
         let foundChordsNbNotes = [];

@@ -175,7 +175,7 @@ function updateChordExplorerElements() {
                     if (chordValuesToDisplay.indexOf(bassInterval) == -1) // not part of the chord, insert in 1st position
                         chordValuesToDisplay.unshift(bassInterval);
                     else {
-                        // reverse chord: permute array
+                        // inverse chord: permute array
                         for (let i = 0; i < chordValuesToDisplay.length; i++) {
                             const lastInterval = chordValuesToDisplay.pop();
                             chordValuesToDisplay.unshift(lastInterval);
@@ -201,12 +201,14 @@ function updateChordExplorerElements() {
                 const chordExplorerBassSelector = document.getElementById('chord_explorer_bass');
                 // take 1st selected note as fundamental or bass
                 let selectedNotesValues = getSelectedChordExplorerNotes();
-                let foundChords = findChords(selectedNotesValues);
+                let foundChords = findChords(selectedNotesValues, false, true);
                 if (foundChords != null && foundChords.length > 0) {
                     let chordFondamentalValue = foundChords[0][0];
                     chordId = foundChords[0][1];
+                    let chordBassValue = foundChords[0][2];
                     chordExplorerFundamentalSelector.value = chordFondamentalValue.toString();
                     chordExplorerChordSelector.value = chordId;
+                    chordExplorerBassSelector.value = chordBassValue.toString();
                 }
                 else if (selectedNotesValues != null && selectedNotesValues.length > 0) {
                     let chordFondamentalValue = selectedNotesValues[0];

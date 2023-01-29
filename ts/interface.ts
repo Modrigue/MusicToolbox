@@ -219,8 +219,8 @@ function updateChordExplorerElements()
     // update selected notes and chord values
     const fondamental: number = getChordExplorerFondamental();
     let chordId = "";
-    const chordValues = getChordExplorerChordValues();
-    let chordValuesToDisplay = cloneIntegerArray(chordValues);        
+    const chordValues: Array<number> = getChordExplorerChordValues();
+    let chordValuesToDisplay: Array<number> = cloneIntegerArray(chordValues);        
     switch(chordExplorerUpdateMode)
     {
         // chord name: update notes selectors
@@ -266,15 +266,17 @@ function updateChordExplorerElements()
                 
                 // take 1st selected note as fundamental or bass
                 let selectedNotesValues = getSelectedChordExplorerNotes();
-                let foundChords: Array<[number, string]> = findChords(selectedNotesValues);
+                let foundChords: Array<[number, string, number]> = findChords(selectedNotesValues, false, true);
 
                 if (foundChords != null && foundChords.length > 0)
                 {
                     let chordFondamentalValue = foundChords[0][0];
                     chordId = foundChords[0][1];
+                    let chordBassValue = foundChords[0][2];
                     
                     chordExplorerFundamentalSelector.value = chordFondamentalValue.toString();
                     chordExplorerChordSelector.value = chordId;
+                    chordExplorerBassSelector.value = chordBassValue.toString();
                 }
                 else if (selectedNotesValues != null && selectedNotesValues.length > 0)
                 {
