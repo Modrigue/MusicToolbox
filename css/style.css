@@ -25,10 +25,15 @@ header
     --color-neap: mediumseagreen;
     --color-aug6: darkgreen;
 
-    /* colors used in chord tester */
+    /* colors used for chord tester */
     --color-key1: Crimson;
     --color-key2: RoyalBlue;
     --color-key-common: Purple;
+
+    /* colors used for intervals semi-steps in scale explorer */
+    --color-semi-step1: sienna;
+    --color-semi-step3: DarkOrchid;
+    --color-semi-step4: DarkViolet;
 }
 
 /* responsive header */
@@ -400,17 +405,17 @@ canvas
 
 .table-body-cell-step-1
 {
-    color: sienna;
+    color: var(--color-semi-step1);
 }
 
 .table-body-cell-step-3
 {
-    color: DarkOrchid;
+    color: var(--color-semi-step3);
 }
 
 .table-body-cell-step-4
 {
-    color: DarkViolet;
+    color: var(--color-semi-step4);
 }
 
 .bolden
