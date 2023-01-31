@@ -17,6 +17,20 @@ header
     flex-wrap: wrap;
 }
 
+/* global color values */
+:root
+{
+    --color-tonic: firebrick;
+    --color-char: dodgerblue;
+    --color-neap: mediumseagreen;
+    --color-aug6: darkgreen;
+
+    /* colors used in chord tester */
+    --color-key1: Crimson;
+    --color-key2: RoyalBlue;
+    --color-key-common: Purple;
+}
+
 /* responsive header */
 @media (max-width: 500px)
 {
@@ -231,7 +245,7 @@ canvas
 
 .table-body-cell-tonic, .table-body-cell-tonic-interactive, .button-tonic-interactive, .span-tonic
 {
-    color: firebrick;
+    color: var(--color-tonic);
 }
 
 .table-body-cell-tonic-interactive
@@ -241,7 +255,7 @@ canvas
 
 .table-body-cell-tonic-interactive:hover, .button-tonic-interactive:hover
 {
-    background-color: firebrick;
+    background-color: var(--color-tonic);
     color: white;
 }
 
@@ -251,14 +265,14 @@ canvas
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     border: 1px solid grey;
-    background-color: firebrick;
+    background-color: var(--color-tonic);
     color: white;
 }
 
 
 .table-body-cell-char, .table-body-cell-char-interactive, .button-char-interactive, .span-char
 {
-    color: dodgerblue;
+    color: var(--color-char);
 }
 
 .table-body-cell-char-interactive
@@ -268,7 +282,7 @@ canvas
 
 .table-body-cell-char-interactive:hover, .button-char-interactive:hover
 {
-    background-color: dodgerblue;
+    background-color: var(--color-char);
     color: white;
 }
 
@@ -278,14 +292,14 @@ canvas
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     border: 1px solid grey;
-    background-color: dodgerblue;
+    background-color: var(--color-char);
     color: white;
 }
 
 
 .table-body-cell-neap, .table-body-cell-neap-interactive, .button-neap-interactive, .span-neap
 {
-    color: mediumseagreen;
+    color: var(--color-neap);
 }
 
 .table-body-cell-neap-interactive
@@ -295,14 +309,14 @@ canvas
 
 .table-body-cell-neap-interactive:hover, .button-neap-interactive:hover
 {
-    background-color: mediumseagreen;
+    background-color: var(--color-neap);
     color: white;
 }
 
 
 .table-body-cell-aug6, .table-body-cell-aug6-interactive, .button-aug6-interactive, .span-aug6
 {
-    color: darkgreen;
+    color: var(--color-aug6);
 }
 
 .table-body-cell-aug6-interactive
@@ -312,7 +326,7 @@ canvas
 
 .table-body-cell-aug6-interactive:hover, .button-aug6-interactive:hover
 {
-    background-color: darkgreen;
+    background-color: var(--color-aug6);
     color: white;
 }
 
@@ -335,7 +349,7 @@ canvas
 
 .table-body-cell-key1, .table-body-cell-key1-interactive, .button-key1-interactive, .span-key1
 {
-    color: Crimson;
+    color: var(--color-key1);
 }
 
 .table-body-cell-key1-interactive
@@ -345,14 +359,14 @@ canvas
 
 .table-body-cell-key1-interactive:hover, .button-key1-interactive:hover
 {
-    background-color: Crimson;
+    background-color: var(--color-key1);
     color: white;
 }
 
 
 .table-body-cell-key2, .table-body-cell-key2-interactive, .button-key2-interactive, .span-key2
 {
-    color: RoyalBlue;
+    color: var(--color-key2);
 }
 
 .table-body-cell-key2-interactive
@@ -362,14 +376,14 @@ canvas
 
 .table-body-cell-key2-interactive:hover, .button-key2-interactive:hover
 {
-    background-color: RoyalBlue;
+    background-color: var(--color-key2);
     color: white;
 }
 
 
 .table-body-cell-keyc, .table-body-cell-keyc-interactive, .button-keyc-interactive, .span-keyc
 {
-    color: Purple;
+    color: var(--color-key-common);
 }
 
 .table-body-cell-keyc-interactive
@@ -379,7 +393,7 @@ canvas
 
 .table-body-cell-keyc-interactive:hover, .button-keyc-interactive:hover
 {
-    background-color: Purple;
+    background-color: var(--color-key-common);
     color: white;
 }
 

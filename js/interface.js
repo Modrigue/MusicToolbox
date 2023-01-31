@@ -411,8 +411,9 @@ function update() {
                 }
                 // update keys colors if 2 keys selected
                 const has2Keys = (hasKeys[0] && hasKeys[1]);
-                const key1Color = has2Keys ? "Crimson" : "";
-                const key2Color = has2Keys ? "RoyalBlue" : "";
+                const style = getComputedStyle(document.body);
+                const key1Color = has2Keys ? style.getPropertyValue('--color-key1') : "";
+                const key2Color = has2Keys ? style.getPropertyValue('--color-key2') : "";
                 const keyColors = [key1Color, key2Color];
                 for (let i = 1; i <= 2; i++) {
                     document.getElementById(`select_key_text_chord_tester${i}`).style.color = keyColors[i - 1];
