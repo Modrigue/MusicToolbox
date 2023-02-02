@@ -436,9 +436,9 @@ function getArpeggioNotesText(fondamentalValue: number, chordValues: Array<numbe
     return arpeggioNotesStr;
 }
 
-function getArpeggioIntervals(chordValues: Array<number>, bassInterval: number = -1): string
+function getArpeggioIntervals(chordValues: Array<number>, bassInterval: number = -1): Array<string>
 {
-    let arpeggioIntervalsStr = "";
+    let arpeggioIntervals = new Array<string>();
     let chordValuesToDisplay = (bassInterval > 0) ?
         getChordIntervalsWithBass(0, chordValues, bassInterval) :
         cloneIntegerArray(chordValues);
@@ -449,6 +449,18 @@ function getArpeggioIntervals(chordValues: Array<number>, bassInterval: number =
     chordValuesToDisplay.forEach(function (intervalValue)
     {
       let intervalName = getIntervalChordNotation(intervalValue);
+      arpeggioIntervals.push(intervalName);
+    });
+
+    return arpeggioIntervals;
+}
+
+function getArpeggioIntervalsConcat(chordValues: Array<number>, bassInterval: number = -1): string
+{
+    let arpeggioIntervalsStr = "";
+    let arpeggioIntervals = getArpeggioIntervals(chordValues, bassInterval);
+    arpeggioIntervals.forEach(function (intervalName)
+    {
       arpeggioIntervalsStr += `${intervalName}, `;
     });
     arpeggioIntervalsStr = arpeggioIntervalsStr.slice(0, -2);

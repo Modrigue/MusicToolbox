@@ -54,7 +54,7 @@ function getChordsIdsWithOctave(intervalsValues) {
     const chordsDict = getChordDictionary(nbNotesInChord);
     // compute all intervals combinations with octave
     getIntervalsWithOctave(intervalsValues, intervalsValuesArray);
-    // serach corresponding chord ids
+    // search corresponding chord ids
     for (let intervalsValuesFound of intervalsValuesArray) {
         const chordId = getKeyFromArrayValue(chordsDict, intervalsValuesFound);
         if (chordId != null && chordId != "" && chordId != "?")

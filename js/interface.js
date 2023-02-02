@@ -554,9 +554,9 @@ function updateLocales() {
         elem.innerText = getString("tonic");
     document.getElementById("checkboxQuarterTonesScaleFinderLabel").innerText = getString("quarter_tones");
     // chord explorer
-    document.getElementById("radioChordExplorerNameLabel").innerText = getString("name");
-    document.getElementById("radioChordExplorerNotesLabel").innerText = getString("notes");
-    document.getElementById("chord_explorer_bass_text").innerText = getString("bass_chord_explorer");
+    //(<HTMLLabelElement>document.getElementById("radioChordExplorerNameLabel")).innerText = getString("name");
+    //(<HTMLLabelElement>document.getElementById("radioChordExplorerNotesLabel")).innerText = getString("notes");
+    //(<HTMLSpanElement>document.getElementById("chord_explorer_bass_text")).innerText = getString("bass_chord_explorer");
     document.getElementById("play_found_chord").innerText = `${getString("chord")} ♪`;
     document.getElementById("play_found_arpeggio").innerText = `${getString("arpeggio")} ♪`;
     document.getElementById("chord_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");

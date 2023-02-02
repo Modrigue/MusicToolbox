@@ -549,6 +549,8 @@ function updateFoundChordElements()
                     // compute chord relative values given fundamental
                     for (let noteValue of selectedNotesValues)
                         intervalValues.push((noteValue - fondamentalValue) % 12);
+                    
+                    // handle octaves at search? (ie. add9,...)
                 }
 
                 break;
@@ -556,8 +558,19 @@ function updateFoundChordElements()
     }
 
     // update intervals
-    const intervalsArpeggio: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_arpeggio_intervals');
-    intervalsArpeggio.innerHTML = getArpeggioIntervals(intervalValues, bassInterval);
+    const chordIntervals = getArpeggioIntervals(intervalValues, bassInterval);
+    let indexInterval = 0;
+    
+    for (let indexNote = 0; indexNote < 7; indexNote++)
+    {
+        const noteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${indexNote}`);
+        const hasInterval = (indexInterval < chordIntervals.length && noteSelector.value != "-1");
+        const intervalName = hasInterval ? chordIntervals[indexInterval] : "";
+        
+        (<HTMLLabelElement>document.getElementById(`chord_explorer_interval${indexNote}`)).innerText = intervalName;
+        if (hasInterval)
+            indexInterval++;
+    }
 
     // update found chords text
     fundamentalSelected = fondamentalValue.toString();

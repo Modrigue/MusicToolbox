@@ -19,7 +19,7 @@ function findChords(notesValues: Array<number>,
         for (const noteValue of notesValues)
         {
             if (noteValue != firstNote)
-            notesValuesWoBass.push(noteValue);
+                notesValuesWoBass.push(noteValue);
         }
         
         chordsArray = chordsArray.concat(findChords(notesValuesWoBass));
@@ -81,7 +81,7 @@ function getChordsIdsWithOctave(intervalsValues: Array<number>): Array<string>
     // compute all intervals combinations with octave
     getIntervalsWithOctave(intervalsValues, intervalsValuesArray);
 
-    // serach corresponding chord ids
+    // search corresponding chord ids
     for (let intervalsValuesFound of intervalsValuesArray)
     {
         const chordId = getKeyFromArrayValue(chordsDict, intervalsValuesFound);

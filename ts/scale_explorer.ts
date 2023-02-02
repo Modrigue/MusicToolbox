@@ -448,7 +448,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
       classString = "table-body-cell-tonic";
 
     arpeggiosIntervalsRowHTML += /*html*/`<div class=${classString}>`;
-    arpeggiosIntervalsRowHTML += getArpeggioIntervals(chordValues);
+    arpeggiosIntervalsRowHTML += getArpeggioIntervalsConcat(chordValues);
     arpeggiosIntervalsRowHTML += "</div>";
   });
   arpeggiosIntervalsRowHTML += "</div>";

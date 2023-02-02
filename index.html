@@ -11,7 +11,7 @@
     <meta http-equiv="Expires" content="0" />
     <link rel="apple-touch-icon" href="img/G_clef.png">
     <link rel="icon" href="img/G_clef.png">
-    <link rel="stylesheet" href="css/style.css?version=1.7">
+    <link rel="stylesheet" href="css/style.css?version=1.8">
     <script src="js/notes.js"></script>
     <script src="js/intervals.js"></script>
     <script src="js/scales/scala.js"></script>
@@ -251,42 +251,49 @@
   <!-- ########################## CHORDS EXPLORER ######################### -->
 
   <div id ='page_chord_explorer' style="display: none">
-    <div>
-      <label class="label" id="radioChordExplorerNameLabel">Name:</label>
-      <select name="chord_explorer_fundamental" id="chord_explorer_fundamental"></select>
-      <select name="chord_explorer_chord" id="chord_explorer_chord"></select>
-      &nbsp;
-      <span id="chord_explorer_bass_text">Bass:</span>
-      <select name="chord_explorer_bass" id="chord_explorer_bass"></select>
-      <span class="chord_explorer_arpeggio" id="chord_explorer_arpeggio_texts" style='float: right;'>
-        <span id="chord_explorer_arpeggio_intervals">?</span>
-      </span>
-    </div>
+    
+    <div class='chord-explorer-container'>
+      <!--label class="label" id="radioChordExplorerNameLabel">Name:</label-->
+      <div><select name="chord_explorer_fundamental" id="chord_explorer_fundamental"></select></div>
+      <div class='chord-explorer-grid-cell-3'><select name="chord_explorer_chord" id="chord_explorer_chord" width="100%" style="width: 100%;"></select></div>
+      <div class='chord-explorer-grid-cell-2'><label id="chord_explorer_bass_text">/</label></div>
+      <div><select name="chord_explorer_bass" id="chord_explorer_bass"></select></div>
 
-    <div>
-      <label class="label" id="radioChordExplorerNotesLabel">Notes:</label>
-      <select name="chord_explorer_note0" id="chord_explorer_note0"></select>
-      <select name="chord_explorer_note1" id="chord_explorer_note1"></select>
-      <select name="chord_explorer_note2" id="chord_explorer_note2"></select>
-      <select name="chord_explorer_note3" id="chord_explorer_note3"></select>
-      <select name="chord_explorer_note4" id="chord_explorer_note4"></select>
-      <select name="chord_explorer_note5" id="chord_explorer_note5"></select>
-      <select name="chord_explorer_note6" id="chord_explorer_note6"></select>
-      <span class="chord_explorer_found_chords" id="chord_explorer_found_chords_texts" style='float: right;'></span>
+      <!--label class="label" id="radioChordExplorerNotesLabel">Notes:</label-->
+      <div><select name="chord_explorer_note0" id="chord_explorer_note0"></select></div>
+      <div><select name="chord_explorer_note1" id="chord_explorer_note1"></select></div>
+      <div><select name="chord_explorer_note2" id="chord_explorer_note2"></select></div>
+      <div><select name="chord_explorer_note3" id="chord_explorer_note3"></select></div>
+      <div><select name="chord_explorer_note4" id="chord_explorer_note4"></select></div>
+      <div><select name="chord_explorer_note5" id="chord_explorer_note5"></select></div>
+      <div><select name="chord_explorer_note6" id="chord_explorer_note6"></select></div>
+
+      <!--label class="label" id="labelChordExplorerIntervals">Intervals:</label-->
+      <div class="chord_explorer_arpeggio"><label id="chord_explorer_interval0"></select></div>
+      <div class="chord_explorer_arpeggio"><label id="chord_explorer_interval1"></select></div>
+      <div class="chord_explorer_arpeggio"><label id="chord_explorer_interval2"></select></div>
+      <div class="chord_explorer_arpeggio"><label id="chord_explorer_interval3"></select></div>
+      <div class="chord_explorer_arpeggio"><label id="chord_explorer_interval4"></select></div>
+      <div class="chord_explorer_arpeggio"><label id="chord_explorer_interval5"></select></div>
+      <div class="chord_explorer_arpeggio"><label id="chord_explorer_interval6"></select></div>
     </div>
 
     <br>
+    <div class='align-center'>
+        <span class="chord_explorer_found_chords" id="chord_explorer_found_chords_texts"></span>
+    </div>
+
     <div id='options_chord_explorer'>
       <p class='align-left'>
-        <button id="play_found_chord">Chord ♪</button>
-        <button id="play_found_arpeggio">Arpeggio ♪</button>
-      </p>
-
-      <p class='align-center'>
         <span id="chord_explorer_guitar_nb_strings_text">Nb. of strings:</span>
         <select name="chord_explorer_guitar_nb_strings" id="chord_explorer_guitar_nb_strings"></select>
         <span id="chord_explorer_guitar_tuning_text">Tuning:</span>
         <select name="chord_explorer_guitar_tuning" id="chord_explorer_guitar_tuning"></select>
+      </p>
+
+      <p class='align-center'>
+        <button id="play_found_chord">Chord ♪</button>
+        <button id="play_found_arpeggio">Arpeggio ♪</button>
       </p>
 
       <p class='align-right'>
