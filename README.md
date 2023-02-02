@@ -10,6 +10,6 @@ Easy to use online music scale and chords generator, finder and player.
 * Adjustable guitar nb. of strings and tuning,
 * Play along with the scale keyboard (incl. microtonal / xenharmonic scales).
 
-[Try it here](http://ngourier.free.fr/musictoolbox/)
+[Try it here](https://modrigue.github.io/WebMusicScaleGenerator/)
 
 _Uses [MIDI.js](https://github.com/mudcube/MIDI.js/) to play notes and [js soundfonts](https://cindyjs.org/dist/v0.8.8/soundfonts/)._
