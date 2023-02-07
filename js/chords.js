@@ -30,7 +30,8 @@ chords3Dict.set("7M(no3)", [0, 7, 11]);
 chords3Dict.set("m7(no3)", [0, 7, 10]);
 chords3Dict.set("m7flat5(no3)", [0, 6, 10]);
 chords3Dict.set("6M(no5)", [0, 4, 9]);
-chords3Dict.set("6(no5)", [0, 3, 9]);
+chords3Dict.set("m6(no5)", [0, 3, 8]);
+chords3Dict.set("dor(no5)", [0, 3, 9]);
 chords3Dict.set("6sus4(no5)", [0, 5, 9]);
 chords3Dict.set("6flat5(no3)", [0, 6, 9]);
 chords3Dict.set("madd4(no5)", [0, 3, 5]);
@@ -62,7 +63,7 @@ chords4Dict.set("7Mflat5", [0, 4, 6, 11]);
 chords4Dict.set("6M", [0, 4, 7, 9]);
 chords4Dict.set("6", [0, 4, 7, 8]);
 chords4Dict.set("m6", [0, 3, 7, 8]);
-chords4Dict.set("m6M", [0, 3, 7, 9]);
+chords4Dict.set("dor", [0, 3, 7, 9]);
 chords4Dict.set("6flat5", [0, 4, 6, 9]);
 chords4Dict.set("dim7", [0, 3, 6, 9]);
 chords4Dict.set("sus2add6flat5", [0, 2, 6, 9]);
@@ -75,7 +76,7 @@ chords4Dict.set("7Msus4sharpsharp5", [0, 5, 9, 11]);
 chords4Dict.set("7Maddsharp11(no5)", [0, 4, 11, 18]);
 chords4Dict.set("susb9", [0, 5, 7, 13]);
 chords4Dict.set("m7add4(no5)", [0, 3, 5, 10]);
-chords4Dict.set("m6Madd4(no5)", [0, 3, 5, 9]);
+chords4Dict.set("doradd4(no5)", [0, 3, 5, 9]);
 chords4Dict.set("13M(modern)", [0, 4, 11, 21]);
 chords4Dict.set("13(modern)", [0, 4, 10, 21]);
 chords4Dict.set("m13(modern)", [0, 3, 10, 21]);
@@ -313,8 +314,8 @@ function getAltChordNotation(chordId) {
             return "dim, °";
         case "aug":
             return "aug, +";
-        case "m6M":
-            return "m6M, dor";
+        case "dor":
+            return "dor, m6M";
         case "mystic":
             return "mystic, prom";
     }
