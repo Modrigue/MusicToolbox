@@ -1,4 +1,4 @@
-function getChordExplorerFondamental(): number
+function getChordExplorerFondamentalValue(): number
 {
     let fondamentalValue = -1;
     if (chordExplorerUpdateMode == "name")

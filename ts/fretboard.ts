@@ -559,7 +559,7 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
         }
 
         // get fundamental given mode
-        let noteFondamental = getChordExplorerFondamental();
+        let noteFondamental = getChordExplorerFondamentalValue();
 
         // display notes positions
         let currentNoteValuesAbs : Array<number> = [];

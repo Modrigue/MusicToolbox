@@ -167,7 +167,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     // update chord explorer selectors
     updateNoteSelector('chord_explorer_fundamental', 0, false);
     initChordSelector('chord_explorer_chord', "M", false);
-    updateNoteSelector("chord_explorer_bass", -1, true, false, true);
+    updateNoteSelector("chord_explorer_bass", -1, true, false, false);
     initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');
     updateNbStringsForChordSelector();
@@ -212,12 +212,12 @@ function updateChordExplorerElements()
     const checkboxBarres: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxBarres");
     const checkboxEmptyStrings: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxEmptyStrings");
     
-    updateChordGeneratorMode();
+    updateChordExplorerMode();
     updateChordSelectorGivenNbStrings('chord_explorer_chord');
     updateNbStringsForChordSelector();
 
     // update selected notes and chord values
-    const fondamental: number = getChordExplorerFondamental();
+    const fondamental: number = getChordExplorerFondamentalValue();
     let chordId = "";
     const chordValues: Array<number> = getChordExplorerChordValues();
     let chordValuesToDisplay: Array<number> = cloneIntegerArray(chordValues);        
@@ -258,7 +258,7 @@ function updateChordExplorerElements()
         
         // notes: update chord selectors
         case "notes":
-        default:
+        //default:
             {
                 const chordExplorerFundamentalSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_fundamental'));
                 const chordExplorerChordSelector = (<HTMLSelectElement>document.getElementById('chord_explorer_chord'));
@@ -291,9 +291,8 @@ function updateChordExplorerElements()
     }
     
     updateFoundChordElements();
-    updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
     updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordId);
-
+    updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
 }
 
 // get selected text from selector
@@ -658,7 +657,7 @@ function setEnabled(id: string, status: boolean): void
     }
 }
 
-function updateChordGeneratorMode(): void
+function updateChordExplorerMode(): void
 {
     // get select nb. of strings
     const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');

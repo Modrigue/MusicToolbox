@@ -1,5 +1,5 @@
 "use strict";
-function getChordExplorerFondamental() {
+function getChordExplorerFondamentalValue() {
     let fondamentalValue = -1;
     if (chordExplorerUpdateMode == "name") {
         const noteExplorerChordInput = document.getElementById('chord_explorer_fundamental');

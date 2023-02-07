@@ -424,7 +424,7 @@ function updateChordFretboard(positionsArray, showBarres = true) {
             }
         }
         // get fundamental given mode
-        let noteFondamental = getChordExplorerFondamental();
+        let noteFondamental = getChordExplorerFondamentalValue();
         // display notes positions
         let currentNoteValuesAbs = [];
         for (let i = 1; i <= nbStrings; i++) {
