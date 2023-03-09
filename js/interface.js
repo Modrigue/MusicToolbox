@@ -527,8 +527,7 @@ function updateLocales() {
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
-    document.getElementById("welcome_message").innerText =
-        browserSupportsAudio ? "" : getString("audio_not_suppoted");
+    document.getElementById("welcome_message").innerText = browserSupportsAudio ? "" : getString("audio_not_supported");
     // scale explorer
     document.getElementById("select_key_text").innerText = getString("select_key");
     document.getElementById("header_scale_finder").innerText = getString("header_scale_finder");

@@ -709,8 +709,7 @@ function updateLocales(): void
     (<HTMLHeadElement>document.getElementById("welcome_title")).innerText = getString("welcome_title");
     (<HTMLHeadElement>document.getElementById("welcome_subtitle")).innerText = getString("welcome_subtitle");
 
-    (<HTMLSpanElement>document.getElementById("welcome_message")).innerText =
-        browserSupportsAudio ? "" : getString("audio_not_suppoted");
+    (<HTMLSpanElement>document.getElementById("welcome_message")).innerText = browserSupportsAudio ? "" : getString("audio_not_supported");
 
     // scale explorer
 

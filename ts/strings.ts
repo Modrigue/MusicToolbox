@@ -1,7 +1,7 @@
 // international
 const stringsDict_int: Map<string, string> = new Map<string, string>();
 stringsDict_int.set("arpeggio", "Arpeggio");
-stringsDict_int.set("audio_not_suppoted", "⚠ Audio features may not work with your browser ⚠\nYou can use either Chrome or Firefox to enable audio on the website");
+stringsDict_int.set("audio_not_supported", "⚠ Audio features may not work with your browser ⚠\nYou can use either Chrome, Edge or Brave to enable audio on the website");
 stringsDict_int.set("bass", "Bass");
 stringsDict_int.set("bass_chord_explorer", "Bass:");
 stringsDict_int.set("chord", "Chord");
@@ -75,7 +75,7 @@ stringsDict_int.set("welcome_title", "Welcome to the Music Toolbox");
 // french
 const stringsDict_fr: Map<string, string> = new Map<string, string>();
 stringsDict_fr.set("arpeggio", "Arpège");
-stringsDict_fr.set("audio_not_suppoted", "⚠ Les fonctionnalités audio pourraient ne pas marcher votre navigateur web ⚠\nVous pouvez utiliser Chrome ou Firefox pour activer l'audio sur le site");
+stringsDict_fr.set("audio_not_supported", "⚠ Les fonctionnalités audio pourraient ne pas marcher votre navigateur web ⚠\nVous pouvez utiliser  Chrome, Edge ou Brave pour activer l'audio sur le site");
 stringsDict_fr.set("bass", "Basse");
 stringsDict_fr.set("bass_chord_explorer", "Basse :");
 stringsDict_fr.set("chord", "Accord");

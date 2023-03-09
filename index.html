@@ -410,7 +410,6 @@
       
     </div>
 
-
     <script>
       // init: ensure immediate selected page display
       initLanguage();
@@ -420,8 +419,9 @@
       initPagefromURLParams();
 
       // display message given detected browser
+      // NOTE: recent audio authorization issue with Firefox
       //console.log(platform);
-      browserSupportsAudio = (platform.name != "Safari");
+      browserSupportsAudio = (platform.name != "Safari" && platform.name != "Firefox");
       if (!browserSupportsAudio)
         updateLocales();
     </script>
