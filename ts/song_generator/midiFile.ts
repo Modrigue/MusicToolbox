@@ -33,9 +33,46 @@ class MidiFile
         this.Tracks[trackIndex].NoteOff(note, deltaTime);
     }
 
+    public NotesOn(trackIndex: number, deltaTime: number, notes: Array<number>, velocity: number)
+    {
+        if (notes == null || notes.length == 0)
+            return;
+        
+        for (const note of notes)
+            this.NoteOn(trackIndex, deltaTime, note, velocity);
+    }
+
+    public NotesOff(trackIndex: number, deltaTime: number, notes: Array<number>)
+    {
+        if (notes == null || notes.length == 0)
+            return;
+
+        this.NoteOff(trackIndex, deltaTime, notes[0]);
+
+        if (notes.length > 1)
+            for (let i = 0; i < notes.length; i++)
+            {
+                const note = notes[i];
+                this.NoteOff(trackIndex, 0, note);
+            }   
+    }
+
+    // from: http://midi.teragonaudio.com/tech/midifile/tempo.htm
+    // Format 0: tempo changes are scattered throughout the one MTrk
+    // Format 1: first MTrk should consist of only the tempo and time signature events,
+    //           so that it could be read by some device capable of generating a "tempo map".
+    //           It is best not to place MIDI events in this MTrk.
+    // Format 2: each MTrk should begin with at least one initial tempo and time signature event.
+
     public Tempo(trackIndex: number, bpm: number)
     {
         this.Tracks[trackIndex].Tempo(bpm);
+    }
+
+    // from: http://midi.teragonaudio.com/tech/midifile/time.htm
+    public TimeSignature(trackIndex: number, numerator: number, denominator: number)
+    {
+        this.Tracks[trackIndex].TimeSignature(numerator, denominator);
     }
 
     public ToBytes(): Uint8Array
@@ -82,7 +119,9 @@ function createExampleMidiFile(saveFile: boolean = false): void
     const quarterNote = 16; // division
 
     let midiFile = new MidiFile(1, 2, quarterNote);
+    //let midiFile = new MidiFile(0, 1, quarterNote);
     midiFile.Tempo(0, 110);
+    //midiFile.TimeSignature(0, 6, 8);
 
     // track 0: melody
 
@@ -100,22 +139,22 @@ function createExampleMidiFile(saveFile: boolean = false): void
 
     // track 1: chords
 
-    midiFile.NoteOn(1, 0, C4, 96); midiFile.NoteOn(1, 0, E4, 96); midiFile.NoteOn(1, 0, G4, 96);
-    midiFile.NoteOff(1, 4*quarterNote, C4); midiFile.NoteOff(1, 0, E4); midiFile.NoteOff(1, 0, G4);
+    /*midiFile.NotesOn(1, 0, [C4, E4, G4], 96);
+    midiFile.NotesOff(1, 4*quarterNote, [C4, E4, G4]);
 
-    midiFile.NoteOn(1, 0, E4, 96); midiFile.NoteOn(1, 0, G4, 96); midiFile.NoteOn(1, 0, B3, 96);
-    midiFile.NoteOff(1, 4*quarterNote, E4); midiFile.NoteOff(1, 0, G4); midiFile.NoteOff(1, 0, B3);
+    midiFile.NotesOn(1, 0, [B3, E4, G4], 96);
+    midiFile.NotesOff(1, 4*quarterNote, [B3, E4, G4]);
 
-    midiFile.NoteOn(1, 0, C4, 96); midiFile.NoteOn(1, 0, E4, 96); midiFile.NoteOn(1, 0, G4, 96);
-    midiFile.NoteOff(1, 2*quarterNote, C4); midiFile.NoteOff(1, 0, E4); midiFile.NoteOff(1, 0, G4);
+    midiFile.NotesOn(1, 0, [C4, E4, G4], 96);
+    midiFile.NotesOff(1, 2*quarterNote, [C4, E4, G4]);
 
     midiFile.NoteOn(1, 0, D4, 96); midiFile.NoteOn(1, 0, F4, 96); midiFile.NoteOn(1, 0, A4, 96);
     midiFile.NoteOff(1, 1*quarterNote, F4);
     midiFile.NoteOn(1, 0, E4, 96); midiFile.NoteOff(1, 1*quarterNote, E4); // transition note in chord
     midiFile.NoteOff(1, 0*1*quarterNote, D4); midiFile.NoteOff(1, 0, A4);
 
-    midiFile.NoteOn(1, 0, C4, 96); midiFile.NoteOn(1, 0, E4, 96); midiFile.NoteOn(1, 0, G4, 96);
-    midiFile.NoteOff(1, 2*quarterNote, C4); midiFile.NoteOff(1, 0, E4); midiFile.NoteOff(1, 0, G4);
+    midiFile.NotesOn(1, 0, [C4, E4, G4], 96);
+    midiFile.NotesOff(1, 2*quarterNote, [C4, E4, G4]);*/
 
     const bytes = midiFile.ToBytes();
     //displayHexBytesArray(bytes);

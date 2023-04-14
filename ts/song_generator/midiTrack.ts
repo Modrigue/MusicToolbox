@@ -81,4 +81,11 @@ class MidiTrack
         //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
+
+    public TimeSignature(numerator: number, denominator: number): void
+    {
+        const event: MidiTrackEvent = TimeSignatureEvent(numerator, denominator);
+        //displayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
 }
