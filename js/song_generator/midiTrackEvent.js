@@ -18,6 +18,7 @@ class MidiTrackEvent {
         let bytesData = Uint8Array.from(this.Data);
         //displayHexBytesArray(bytesData);
         let bytes = new Uint8Array([...bytesLength, ...bytesData]);
+        //displayHexBytesArray(bytes, false);
         return bytes;
     }
 }
@@ -49,7 +50,7 @@ function TimeSignatureEvent(numerator, denominator) {
     const tsHeaderArray = [0xFF, 0x58, 0x04];
     const tsValuesArray = [numerator, Math.floor(Math.log2(denominator)), 0x18, 0x08];
     const tsArray = tsHeaderArray.concat(tsValuesArray);
-    displayHexArray(tsArray);
+    //displayHexArray(tsArray);
     return new MidiTrackEvent(0, tsArray);
 }
 //# sourceMappingURL=midiTrackEvent.js.map

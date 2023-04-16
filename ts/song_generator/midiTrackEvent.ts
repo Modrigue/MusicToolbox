@@ -30,6 +30,7 @@ class MidiTrackEvent
         //displayHexBytesArray(bytesData);
 
         let bytes = new Uint8Array([...bytesLength, ...bytesData]);
+        //displayHexBytesArray(bytes, false);
         return bytes;
     }
 }
@@ -75,7 +76,7 @@ function TimeSignatureEvent(numerator: number, denominator: number): MidiTrackEv
     const tsHeaderArray : Array<number> = [0xFF, 0x58, 0x04];
     const tsValuesArray : Array<number> = [numerator, Math.floor(Math.log2(denominator)), 0x18, 0x08];
     const tsArray : Array<number> = tsHeaderArray.concat(tsValuesArray);
-    displayHexArray(tsArray);
+    //displayHexArray(tsArray);
 
     return new MidiTrackEvent(0, tsArray);
 }

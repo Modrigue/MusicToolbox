@@ -75,9 +75,10 @@ function displayHexArray(array: Array<number>): void
     console.log(hexArrayString);
 }
 
-function displayHexBytesArray(array: Uint8Array): void
+function displayHexBytesArray(array: Uint8Array, displayColumns: boolean = true): void
 {
-    console.log("00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
+    if (displayColumns)
+        console.log("00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
     
     let hexArrayString = "";
     let index = 0;
@@ -131,6 +132,15 @@ function toBytesInt24(value: number): Uint8Array
 {
     const array = new Uint8Array([
          (value & 0x00ff0000) >> 16,
+         (value & 0x0000ff00) >> 8,
+         (value & 0x000000ff)
+    ]);
+    return array;
+}
+
+function toBytesInt16(value: number): Uint8Array
+{
+    const array = new Uint8Array([
          (value & 0x0000ff00) >> 8,
          (value & 0x000000ff)
     ]);

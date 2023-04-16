@@ -51,8 +51,9 @@ function displayHexArray(array) {
     }
     console.log(hexArrayString);
 }
-function displayHexBytesArray(array) {
-    console.log("00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
+function displayHexBytesArray(array, displayColumns = true) {
+    if (displayColumns)
+        console.log("00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
     let hexArrayString = "";
     let index = 0;
     for (const value of array) {
@@ -91,6 +92,13 @@ function toBytesInt32(value) {
 function toBytesInt24(value) {
     const array = new Uint8Array([
         (value & 0x00ff0000) >> 16,
+        (value & 0x0000ff00) >> 8,
+        (value & 0x000000ff)
+    ]);
+    return array;
+}
+function toBytesInt16(value) {
+    const array = new Uint8Array([
         (value & 0x0000ff00) >> 8,
         (value & 0x000000ff)
     ]);
