@@ -63,13 +63,13 @@ class MidiTrack {
         //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
-    Tempo(bpm) {
-        const event = TempoEvent(bpm);
+    Tempo(bpm, deltaTime) {
+        const event = TempoEvent(bpm, deltaTime);
         //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
-    TimeSignature(numerator, denominator) {
-        const event = TimeSignatureEvent(numerator, denominator);
+    TimeSignature(numerator, denominator, deltaTime) {
+        const event = TimeSignatureEvent(numerator, denominator, deltaTime);
         //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }

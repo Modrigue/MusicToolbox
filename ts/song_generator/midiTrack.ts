@@ -96,16 +96,16 @@ class MidiTrack
         this.AddEvent(event);
     }
 
-    public Tempo(bpm: number): void
+    public Tempo(bpm: number, deltaTime: number): void
     {
-        const event: MidiTrackEvent = TempoEvent(bpm);
+        const event: MidiTrackEvent = TempoEvent(bpm, deltaTime);
         //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
-    public TimeSignature(numerator: number, denominator: number): void
+    public TimeSignature(numerator: number, denominator: number, deltaTime: number): void
     {
-        const event: MidiTrackEvent = TimeSignatureEvent(numerator, denominator);
+        const event: MidiTrackEvent = TimeSignatureEvent(numerator, denominator, deltaTime);
         //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }

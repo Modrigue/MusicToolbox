@@ -80,15 +80,15 @@ class MidiFile
     //           It is best not to place MIDI events in this MTrk.
     // Format 2: each MTrk should begin with at least one initial tempo and time signature event.
 
-    public Tempo(trackIndex: number, bpm: number)
+    public Tempo(trackIndex: number, bpm: number, deltaTime: number)
     {
-        this.Tracks[trackIndex].Tempo(bpm);
+        this.Tracks[trackIndex].Tempo(bpm, deltaTime);
     }
 
     // from: http://midi.teragonaudio.com/tech/midifile/time.htm
-    public TimeSignature(trackIndex: number, numerator: number, denominator: number)
+    public TimeSignature(trackIndex: number, numerator: number, denominator: number, deltaTime: number)
     {
-        this.Tracks[trackIndex].TimeSignature(numerator, denominator);
+        this.Tracks[trackIndex].TimeSignature(numerator, denominator, deltaTime);
     }
 
     public ToBytes(): Uint8Array
@@ -139,8 +139,12 @@ function createExampleMidiFile(saveFile: boolean = false): void
 
     // track 0: tempo and time signature informations
 
-    midiFile.Tempo(0, 110);
-    midiFile.TimeSignature(0, 4, 4);
+    midiFile.Tempo(0, 110, 0);
+    midiFile.TimeSignature(0, 4, 4, 0);
+    //midiFile.Tempo(0, 125, 4*qNote);
+    //midiFile.TimeSignature(0, 5, 4, /*4*/0*qNote);
+    //midiFile.Tempo(0, 140, 2*qNote);
+    //midiFile.TimeSignature(0, 3, 4, /*5*/3*qNote);
     const vel = 102;
 
     // track 1: melody
@@ -177,8 +181,8 @@ function createExampleMidiFile(saveFile: boolean = false): void
 
     midiFile.NoteOn(channel2Id, 0, D4, vel); midiFile.NoteOn(channel2Id, 0, F4, vel); midiFile.NoteOn(channel2Id, 0, A4, vel);
     midiFile.NoteOff(channel2Id, 1*qNote, F4);
-    midiFile.NoteOn(channel2Id, 0, E4, vel); midiFile.NoteOff(channel2Id, 1*qNote, E4); // transition note in chord
-    midiFile.NoteOff(channel2Id, 0*1*qNote, D4); midiFile.NoteOff(1, 0, A4);
+    midiFile.NoteOn(channel2Id, 0, G4, vel); midiFile.NoteOff(channel2Id, 1*qNote, G4); // transition note in chord
+    midiFile.NoteOff(channel2Id, 0*1*qNote, D4); midiFile.NoteOff(channel2Id, 0, A4);
 
     midiFile.NotesOn(channel2Id, 0, [C4, E4, G4], vel);
     midiFile.NotesOff(channel2Id, 2*qNote, [C4, E4, G4]);

@@ -80,7 +80,7 @@ function ControlChangeEntrySliderEvent(channel: number, refParam: number = 0): M
     return new MidiTrackEvent(0, data);
 }
 
-function TempoEvent(bpm: number): MidiTrackEvent
+function TempoEvent(bpm: number, deltaTime: number): MidiTrackEvent
 {
     const tempoDuration = 60000000/bpm; // in microseconds per quarter note
     const bytesDuration = toBytesInt24(tempoDuration);
@@ -91,16 +91,15 @@ function TempoEvent(bpm: number): MidiTrackEvent
     const tempoArray : Array<number> = tempoHeaderArray.concat(bytesDurationArray);
     //displayHexArray(tempoArray);
 
-    return new MidiTrackEvent(0, tempoArray);
+    return new MidiTrackEvent(deltaTime, tempoArray);
 }
 
-// incomplete
-function TimeSignatureEvent(numerator: number, denominator: number): MidiTrackEvent
+function TimeSignatureEvent(numerator: number, denominator: number, deltaTime: number): MidiTrackEvent
 {
     const tsHeaderArray : Array<number> = [0xFF, 0x58, 0x04];
     const tsValuesArray : Array<number> = [numerator, Math.floor(Math.log2(denominator)), 0x18, 0x08];
     const tsArray : Array<number> = tsHeaderArray.concat(tsValuesArray);
     //displayHexArray(tsArray);
 
-    return new MidiTrackEvent(0, tsArray);
+    return new MidiTrackEvent(deltaTime, tsArray);
 }
