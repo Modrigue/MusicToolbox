@@ -13,12 +13,12 @@ class MidiTrackEvent {
     ToBytes() {
         const arrayLength = toVariableLengthQuantity(this.DeltaTime);
         //console.log(this.DeltaTime);
-        let bytesLength = Uint8Array.from(arrayLength);
+        let bytesLength = Uint8Array.from(arrayLength).reverse(); // big endian
         //displayHexBytesArray(bytesLength);
         let bytesData = Uint8Array.from(this.Data);
         //displayHexBytesArray(bytesData);
         let bytes = new Uint8Array([...bytesLength, ...bytesData]);
-        //displayHexBytesArray(bytes, false);
+        //displayHexBytesArray(bytes);
         return bytes;
     }
 }
@@ -34,6 +34,21 @@ function NoteOffTrackEvent(channel, note, deltaTime) {
     const start = 0x80 + (channel & 0xF); // note off event = "98" + <channel_nibble>
     const data = [start, note, 0 /*velocity*/];
     return new MidiTrackEvent(deltaTime, data);
+}
+function ControlChangeFineEvent(channel, refParam = 0) {
+    const start = 0xB0 + (channel & 0xF);
+    const data = [start, 100, refParam];
+    return new MidiTrackEvent(0, data);
+}
+function ControlChangeCoarseEvent(channel, refParam = 0) {
+    const start = 0xB0 + (channel & 0xF);
+    const data = [start, 101, refParam];
+    return new MidiTrackEvent(0, data);
+}
+function ControlChangeEntrySliderEvent(channel, refParam = 0) {
+    const start = 0xB0 + (channel & 0xF);
+    const data = [start, 6, refParam];
+    return new MidiTrackEvent(0, data);
 }
 function TempoEvent(bpm) {
     const tempoDuration = 60000000 / bpm; // in microseconds per quarter note

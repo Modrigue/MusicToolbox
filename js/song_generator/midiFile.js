@@ -2,9 +2,10 @@
 // from https://www.youtube.com/watch?v=VeV4gyjyqSg
 class MidiFile {
     constructor(format, nbTracks, division) {
-        this.Header = new MidiHeader(format, nbTracks, division);
+        // add track 0
+        this.Header = new MidiHeader(format, nbTracks + 1, division);
         this.Tracks = new Array();
-        for (let i = 0; i < nbTracks; i++) {
+        for (let i = 0; i < nbTracks + 1; i++) {
             const track = new MidiTrack(i);
             this.Tracks.push(track);
         }
@@ -35,6 +36,15 @@ class MidiFile {
                 const note = notes[i];
                 this.NoteOff(trackIndex, 0, note);
             }
+    }
+    ControlChangeFine(trackIndex, refParam = 0) {
+        this.Tracks[trackIndex].ControlChangeFine(refParam);
+    }
+    ControlChangeCoarse(trackIndex, refParam = 0) {
+        this.Tracks[trackIndex].ControlChangeCoarse(refParam);
+    }
+    ControlChangeEntrySlider(trackIndex, refParam = 0) {
+        this.Tracks[trackIndex].ControlChangeEntrySlider(refParam);
     }
     // from: http://midi.teragonaudio.com/tech/midifile/tempo.htm
     // Format 0: tempo changes are scattered throughout the one MTrk
@@ -79,51 +89,58 @@ function createExampleMidiFile(saveFile = false) {
     const C5 = 5 * octave + 0;
     const D5 = 5 * octave + 2;
     const E5 = 5 * octave + 4;
-    const quarterNote = 16; // division
-    let midiFile = new MidiFile(1, 2, quarterNote);
-    //let midiFile = new MidiFile(0, 1, quarterNote);
+    const qNote = 480; // quarter-note division
+    let midiFile = new MidiFile(1, 2, qNote);
+    //let midiFile = new MidiFile(0, 1, qNote);
+    // track 0: tempo and time signature informations
     midiFile.Tempo(0, 110);
-    //midiFile.TimeSignature(0, 6, 8);
-    // track 0: melody
-    midiFile.NoteOn(0, 0, C5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, C5);
-    midiFile.NoteOn(0, 0, C5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, C5);
-    midiFile.NoteOn(0, 0, C5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, C5);
-    midiFile.NoteOn(0, 0, D5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, D5);
-    midiFile.NoteOn(0, 0, E5, 96);
-    midiFile.NoteOff(0, 2 * quarterNote, E5);
-    midiFile.NoteOn(0, 0, D5, 96);
-    midiFile.NoteOff(0, 2 * quarterNote, D5);
-    midiFile.NoteOn(0, 0, C5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, C5);
-    midiFile.NoteOn(0, 0, E5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, E5);
-    midiFile.NoteOn(0, 0, D5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, D5);
-    midiFile.NoteOn(0, 0, D5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, D5);
-    midiFile.NoteOn(0, 0, C5, 96);
-    midiFile.NoteOff(0, 1 * quarterNote, C5);
-    // track 1: chords
-    /*midiFile.NotesOn(1, 0, [C4, E4, G4], 96);
-    midiFile.NotesOff(1, 4*quarterNote, [C4, E4, G4]);
-
-    midiFile.NotesOn(1, 0, [B3, E4, G4], 96);
-    midiFile.NotesOff(1, 4*quarterNote, [B3, E4, G4]);
-
-    midiFile.NotesOn(1, 0, [C4, E4, G4], 96);
-    midiFile.NotesOff(1, 2*quarterNote, [C4, E4, G4]);
-
-    midiFile.NoteOn(1, 0, D4, 96); midiFile.NoteOn(1, 0, F4, 96); midiFile.NoteOn(1, 0, A4, 96);
-    midiFile.NoteOff(1, 1*quarterNote, F4);
-    midiFile.NoteOn(1, 0, E4, 96); midiFile.NoteOff(1, 1*quarterNote, E4); // transition note in chord
-    midiFile.NoteOff(1, 0*1*quarterNote, D4); midiFile.NoteOff(1, 0, A4);
-
-    midiFile.NotesOn(1, 0, [C4, E4, G4], 96);
-    midiFile.NotesOff(1, 2*quarterNote, [C4, E4, G4]);*/
+    midiFile.TimeSignature(0, 4, 4);
+    const vel = 102;
+    // track 1: melody
+    //midiFile.ControlChangeCoarse(1);
+    //midiFile.ControlChangeFine(1);
+    //midiFile.ControlChangeEntrySlider(1, 6);
+    const channel1Id = 1;
+    midiFile.NoteOn(channel1Id, 0, C5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, C5);
+    midiFile.NoteOn(channel1Id, 0, C5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, C5);
+    midiFile.NoteOn(channel1Id, 0, C5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, C5);
+    midiFile.NoteOn(channel1Id, 0, D5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, D5);
+    midiFile.NoteOn(channel1Id, 0, E5, vel);
+    midiFile.NoteOff(channel1Id, 2 * qNote, E5);
+    midiFile.NoteOn(channel1Id, 0, D5, vel);
+    midiFile.NoteOff(channel1Id, 2 * qNote, D5);
+    midiFile.NoteOn(channel1Id, 0, C5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, C5);
+    midiFile.NoteOn(channel1Id, 0, E5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, E5);
+    midiFile.NoteOn(channel1Id, 0, D5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, D5);
+    midiFile.NoteOn(channel1Id, 0, D5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, D5);
+    midiFile.NoteOn(channel1Id, 0, C5, vel);
+    midiFile.NoteOff(channel1Id, 1 * qNote, C5);
+    // track 2: chords
+    const channel2Id = 2;
+    midiFile.NotesOn(channel2Id, 0, [C4, E4, G4], vel);
+    midiFile.NotesOff(channel2Id, 4 * qNote, [C4, E4, G4]);
+    midiFile.NotesOn(channel2Id, 0, [B3, E4, G4], vel);
+    midiFile.NotesOff(channel2Id, 4 * qNote, [B3, E4, G4]);
+    midiFile.NotesOn(channel2Id, 0, [C4, E4, G4], vel);
+    midiFile.NotesOff(channel2Id, 2 * qNote, [C4, E4, G4]);
+    midiFile.NoteOn(channel2Id, 0, D4, vel);
+    midiFile.NoteOn(channel2Id, 0, F4, vel);
+    midiFile.NoteOn(channel2Id, 0, A4, vel);
+    midiFile.NoteOff(channel2Id, 1 * qNote, F4);
+    midiFile.NoteOn(channel2Id, 0, E4, vel);
+    midiFile.NoteOff(channel2Id, 1 * qNote, E4); // transition note in chord
+    midiFile.NoteOff(channel2Id, 0 * 1 * qNote, D4);
+    midiFile.NoteOff(1, 0, A4);
+    midiFile.NotesOn(channel2Id, 0, [C4, E4, G4], vel);
+    midiFile.NotesOff(channel2Id, 2 * qNote, [C4, E4, G4]);
     const bytes = midiFile.ToBytes();
     //displayHexBytesArray(bytes);
     // save midi file

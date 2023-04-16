@@ -40,11 +40,27 @@ class MidiTrack {
         return trackBytes;
     }
     NoteOn(note, deltaTime, velocity) {
-        const event = NoteOnTrackEvent(this.channel, note, deltaTime, velocity);
+        const event = NoteOnTrackEvent(this.channel - 1, note, deltaTime, velocity);
+        //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
     NoteOff(note, deltaTime) {
-        const event = NoteOffTrackEvent(this.channel, note, deltaTime);
+        const event = NoteOffTrackEvent(this.channel - 1, note, deltaTime);
+        this.AddEvent(event);
+    }
+    ControlChangeFine(refParam = 0) {
+        const event = ControlChangeFineEvent(this.channel - 1, refParam);
+        //displayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+    ControlChangeCoarse(refParam = 0) {
+        const event = ControlChangeCoarseEvent(this.channel - 1, refParam);
+        //displayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+    ControlChangeEntrySlider(refParam = 0) {
+        const event = ControlChangeEntrySliderEvent(this.channel - 1, refParam);
+        //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
     Tempo(bpm) {

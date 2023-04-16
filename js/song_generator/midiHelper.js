@@ -31,13 +31,6 @@ function testVariablelengthExamples() {
     toVariableLengthQuantity(0x08000000);
     toVariableLengthQuantity(0x0FFFFFFF);
 }
-function fillByteArray(array, size) {
-    const byte0 = Uint8Array.from([0]);
-    let resArray = new Uint8Array(array);
-    while (resArray.length < size)
-        resArray = new Uint8Array([...byte0, ...resArray]);
-    return resArray;
-}
 // display functions
 function displayHexArray(array) {
     let hexArrayString = "";
@@ -51,7 +44,7 @@ function displayHexArray(array) {
     }
     console.log(hexArrayString);
 }
-function displayHexBytesArray(array, displayColumns = true) {
+function displayHexBytesArray(array, displayColumns = false) {
     if (displayColumns)
         console.log("00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
     let hexArrayString = "";

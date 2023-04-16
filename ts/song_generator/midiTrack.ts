@@ -64,13 +64,35 @@ class MidiTrack
 
     public NoteOn(note: number, deltaTime: number, velocity: number): void
     {
-        const event: MidiTrackEvent = NoteOnTrackEvent(this.channel, note, deltaTime, velocity);
+        const event: MidiTrackEvent = NoteOnTrackEvent(this.channel - 1, note, deltaTime, velocity);
+        //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
     public NoteOff(note: number, deltaTime: number): void
     {
-        const event: MidiTrackEvent = NoteOffTrackEvent(this.channel, note, deltaTime);
+        const event: MidiTrackEvent = NoteOffTrackEvent(this.channel - 1, note, deltaTime);
+        this.AddEvent(event);
+    }
+
+    public ControlChangeFine(refParam: number = 0): void
+    {
+        const event: MidiTrackEvent = ControlChangeFineEvent(this.channel - 1, refParam);
+        //displayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+
+    public ControlChangeCoarse(refParam: number = 0): void
+    {
+        const event: MidiTrackEvent = ControlChangeCoarseEvent(this.channel - 1, refParam);
+        //displayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+
+    public ControlChangeEntrySlider(refParam: number = 0): void
+    {
+        const event: MidiTrackEvent = ControlChangeEntrySliderEvent(this.channel - 1, refParam);
+        //displayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
