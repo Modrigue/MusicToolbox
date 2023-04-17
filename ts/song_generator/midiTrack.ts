@@ -44,11 +44,11 @@ class MidiTrack
 
         let utf8Encode = new TextEncoder();
         let typeBytes = utf8Encode.encode(this.Type);
-        //displayHexBytesArray(typeBytes);
+        //DisplayHexBytesArray(typeBytes);
 
         let lengthBytes = ToBytesInt32(this.Length());
         //console.log("Length = " + this.Length());
-        //displayHexBytesArray(lengthBytes);
+        //DisplayHexBytesArray(lengthBytes);
 
         let trackBytes = new Uint8Array([ ...typeBytes, ...lengthBytes]);
 
@@ -62,10 +62,24 @@ class MidiTrack
         return trackBytes;
     }
 
+    public Tempo(bpm: number, deltaTime: number): void
+    {
+        const event: MidiTrackEvent = TempoEvent(bpm, deltaTime);
+        //DisplayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+
+    public TimeSignature(numerator: number, denominator: number, deltaTime: number): void
+    {
+        const event: MidiTrackEvent = TimeSignatureEvent(numerator, denominator, deltaTime);
+        //DisplayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+
     public NoteOn(note: number, deltaTime: number, velocity: number): void
     {
         const event: MidiTrackEvent = NoteOnTrackEvent(this.channel - 1, note, deltaTime, velocity);
-        //displayHexBytesArray(event.ToBytes());
+        //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
@@ -75,38 +89,31 @@ class MidiTrack
         this.AddEvent(event);
     }
 
+    public PitchBend(cents: number, deltaTime: number): void
+    {
+        const event: MidiTrackEvent = PitchBendEvent(this.channel - 1, cents, deltaTime);
+        //DisplayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+
     public ControlChangeFine(refParam: number = 0): void
     {
         const event: MidiTrackEvent = ControlChangeFineEvent(this.channel - 1, refParam);
-        //displayHexBytesArray(event.ToBytes());
+        //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
     public ControlChangeCoarse(refParam: number = 0): void
     {
         const event: MidiTrackEvent = ControlChangeCoarseEvent(this.channel - 1, refParam);
-        //displayHexBytesArray(event.ToBytes());
+        //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
     public ControlChangeEntrySlider(refParam: number = 0): void
     {
         const event: MidiTrackEvent = ControlChangeEntrySliderEvent(this.channel - 1, refParam);
-        //displayHexBytesArray(event.ToBytes());
-        this.AddEvent(event);
-    }
-
-    public Tempo(bpm: number, deltaTime: number): void
-    {
-        const event: MidiTrackEvent = TempoEvent(bpm, deltaTime);
-        //displayHexBytesArray(event.ToBytes());
-        this.AddEvent(event);
-    }
-
-    public TimeSignature(numerator: number, denominator: number, deltaTime: number): void
-    {
-        const event: MidiTrackEvent = TimeSignatureEvent(numerator, denominator, deltaTime);
-        //displayHexBytesArray(event.ToBytes());
+        //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 }

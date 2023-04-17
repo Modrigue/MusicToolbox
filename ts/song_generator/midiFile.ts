@@ -18,14 +18,26 @@ class MidiFile
         }
     }
 
-    //constructor(format: number, tracks: Array<MidiTrack>, division: number)
-    //{
-    //    this.Header = new MidiHeader(format, tracks.length, division);
-    //    this.Tracks = tracks;
-    //}
+    // from: http://midi.teragonaudio.com/tech/midifile/tempo.htm
+    // Format 0: tempo changes are scattered throughout the one MTrk
+    // Format 1: first MTrk should consist of only the tempo and time signature events,
+    //           so that it could be read by some device capable of generating a "tempo map".
+    //           It is best not to place MIDI events in this MTrk.
+    // Format 2: each MTrk should begin with at least one initial tempo and time signature event.
+
+    public Tempo(trackIndex: number, bpm: number, deltaTime: number)
+    {
+        this.Tracks[trackIndex].Tempo(bpm, deltaTime);
+    }
+
+    // from: http://midi.teragonaudio.com/tech/midifile/time.htm
+    public TimeSignature(trackIndex: number, numerator: number, denominator: number, deltaTime: number)
+    {
+        this.Tracks[trackIndex].TimeSignature(numerator, denominator, deltaTime);
+    }
 
     public NoteOn(trackIndex: number, deltaTime: number, note: number, velocity: number)
-    {
+    {    
         this.Tracks[trackIndex].NoteOn(note, deltaTime, velocity);
     }
 
@@ -58,6 +70,11 @@ class MidiFile
             }   
     }
 
+    public PitchBend(trackIndex: number, deltaTime: number, cents: number = 0)
+    {
+        this.Tracks[trackIndex].PitchBend(cents, deltaTime);
+    }
+
     public ControlChangeFine(trackIndex: number, refParam: number = 0)
     {
         this.Tracks[trackIndex].ControlChangeFine(refParam);
@@ -71,24 +88,6 @@ class MidiFile
     public ControlChangeEntrySlider(trackIndex: number, refParam: number = 0)
     {
         this.Tracks[trackIndex].ControlChangeEntrySlider(refParam);
-    }
-
-    // from: http://midi.teragonaudio.com/tech/midifile/tempo.htm
-    // Format 0: tempo changes are scattered throughout the one MTrk
-    // Format 1: first MTrk should consist of only the tempo and time signature events,
-    //           so that it could be read by some device capable of generating a "tempo map".
-    //           It is best not to place MIDI events in this MTrk.
-    // Format 2: each MTrk should begin with at least one initial tempo and time signature event.
-
-    public Tempo(trackIndex: number, bpm: number, deltaTime: number)
-    {
-        this.Tracks[trackIndex].Tempo(bpm, deltaTime);
-    }
-
-    // from: http://midi.teragonaudio.com/tech/midifile/time.htm
-    public TimeSignature(trackIndex: number, numerator: number, denominator: number, deltaTime: number)
-    {
-        this.Tracks[trackIndex].TimeSignature(numerator, denominator, deltaTime);
     }
 
     public ToBytes(): Uint8Array
@@ -107,7 +106,7 @@ class MidiFile
                 tracksBytes = new Uint8Array([ ...tracksBytes, ...trackBytes]);    
             }
 
-        //displayHexBytesArray(headerBytes);
+        //DisplayHexBytesArray(headerBytes);
 
         let bytes = new Uint8Array([ ...headerBytes, ...tracksBytes]);
         return bytes;
@@ -157,10 +156,14 @@ function createExampleMidiFile(saveFile: boolean = false): void
     midiFile.NoteOn(channel1Id, 0, C5, vel); midiFile.NoteOff(channel1Id, 1*qNote, C5);
     midiFile.NoteOn(channel1Id, 0, C5, vel); midiFile.NoteOff(channel1Id, 1*qNote, C5);
     midiFile.NoteOn(channel1Id, 0, D5, vel); midiFile.NoteOff(channel1Id, 1*qNote, D5);
+    //midiFile.PitchBend(channel1Id, 0, 50);
     midiFile.NoteOn(channel1Id, 0, E5, vel); midiFile.NoteOff(channel1Id, 2*qNote, E5);
+    //midiFile.PitchBend(channel1Id, 0, 0);
     midiFile.NoteOn(channel1Id, 0, D5, vel); midiFile.NoteOff(channel1Id, 2*qNote, D5);
     midiFile.NoteOn(channel1Id, 0, C5, vel); midiFile.NoteOff(channel1Id, 1*qNote, C5);
+    //midiFile.PitchBend(channel1Id, 0, 50);
     midiFile.NoteOn(channel1Id, 0, E5, vel); midiFile.NoteOff(channel1Id, 1*qNote, E5);
+    //midiFile.PitchBend(channel1Id, 0, 0);
     midiFile.NoteOn(channel1Id, 0, D5, vel); midiFile.NoteOff(channel1Id, 1*qNote, D5);
     midiFile.NoteOn(channel1Id, 0, D5, vel); midiFile.NoteOff(channel1Id, 1*qNote, D5);
     midiFile.NoteOn(channel1Id, 0, C5, vel); midiFile.NoteOff(channel1Id, 1*qNote, C5);
@@ -188,7 +191,7 @@ function createExampleMidiFile(saveFile: boolean = false): void
     midiFile.NotesOff(channel2Id, 2*qNote, [C4, E4, G4]);
 
     const bytes = midiFile.ToBytes();
-    //displayHexBytesArray(bytes);
+    //DisplayHexBytesArray(bytes);
     
     // save midi file
     if (saveFile)

@@ -34,10 +34,10 @@ class MidiHeader
         let nbTracksBytes = ToBytesInt16(this.NbTracks)
 
         let divisionBytes = ToBytesInt16(this.Division);
-        //displayHexBytesArray(divisionBytes, false);
+        //DisplayHexBytesArray(divisionBytes, false);
 
         let headerBytes = new Uint8Array([ ...typeBytes, ...lengthBytes, ...formatBytes, ...nbTracksBytes, ...divisionBytes]);
-        //displayHexBytesArray(headerBytes);
+        //DisplayHexBytesArray(headerBytes);
         return headerBytes;
     }
 }
