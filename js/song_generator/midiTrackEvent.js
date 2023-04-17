@@ -11,7 +11,7 @@ class MidiTrackEvent {
         return bytes.length;
     }
     ToBytes() {
-        const arrayLength = toVariableLengthQuantity(this.DeltaTime);
+        const arrayLength = ToVariableLengthQuantity(this.DeltaTime);
         //console.log(this.DeltaTime);
         let bytesLength = Uint8Array.from(arrayLength).reverse(); // big endian
         //displayHexBytesArray(bytesLength);
@@ -52,7 +52,7 @@ function ControlChangeEntrySliderEvent(channel, refParam = 0) {
 }
 function TempoEvent(bpm, deltaTime) {
     const tempoDuration = 60000000 / bpm; // in microseconds per quarter note
-    const bytesDuration = toBytesInt24(tempoDuration);
+    const bytesDuration = ToBytesInt24(tempoDuration);
     //displayHexBytesArray(bytesDuration);
     const bytesDurationArray = [bytesDuration[0], bytesDuration[1], bytesDuration[2]];
     const tempoHeaderArray = [0xFF, 0x51, 0x03];

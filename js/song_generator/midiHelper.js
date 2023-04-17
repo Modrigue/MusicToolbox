@@ -1,6 +1,6 @@
 "use strict";
 // compress duration value
-function toVariableLengthQuantity(value) {
+function ToVariableLengthQuantity(value) {
     let temp = value;
     let bytes = new Array();
     while (temp > 0) {
@@ -16,35 +16,35 @@ function toVariableLengthQuantity(value) {
     return bytes;
 }
 // test examples from MIDI specifications
-function testVariablelengthExamples() {
+function TestVariablelengthExamples() {
     console.log("MIDI specifications examples:");
-    toVariableLengthQuantity(0x00000000);
-    toVariableLengthQuantity(0x00000040);
-    toVariableLengthQuantity(0x0000007F);
-    toVariableLengthQuantity(0x00000080);
-    toVariableLengthQuantity(0x00002000);
-    toVariableLengthQuantity(0x00003FFF);
-    toVariableLengthQuantity(0x00004000);
-    toVariableLengthQuantity(0x00100000);
-    toVariableLengthQuantity(0x001FFFFF);
-    toVariableLengthQuantity(0x00200000);
-    toVariableLengthQuantity(0x08000000);
-    toVariableLengthQuantity(0x0FFFFFFF);
+    ToVariableLengthQuantity(0x00000000);
+    ToVariableLengthQuantity(0x00000040);
+    ToVariableLengthQuantity(0x0000007F);
+    ToVariableLengthQuantity(0x00000080);
+    ToVariableLengthQuantity(0x00002000);
+    ToVariableLengthQuantity(0x00003FFF);
+    ToVariableLengthQuantity(0x00004000);
+    ToVariableLengthQuantity(0x00100000);
+    ToVariableLengthQuantity(0x001FFFFF);
+    ToVariableLengthQuantity(0x00200000);
+    ToVariableLengthQuantity(0x08000000);
+    ToVariableLengthQuantity(0x0FFFFFFF);
 }
 // display functions
-function displayHexArray(array) {
+function DisplayHexArray(array) {
     let hexArrayString = "";
     let index = 0;
     for (const value of array) {
         if (index > 0)
             hexArrayString += " ";
-        let hexString = toHexString(value);
+        let hexString = ToHexString(value);
         hexArrayString += hexString;
         index++;
     }
     console.log(hexArrayString);
 }
-function displayHexBytesArray(array, displayColumns = false) {
+function DisplayHexBytesArray(array, displayColumns = false) {
     if (displayColumns)
         console.log("00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n");
     let hexArrayString = "";
@@ -54,26 +54,26 @@ function displayHexBytesArray(array, displayColumns = false) {
             hexArrayString += "\n";
         else if (index > 0)
             hexArrayString += " ";
-        let hexString = toHexString(value);
+        let hexString = ToHexString(value);
         hexArrayString += hexString;
         index++;
     }
     console.log(hexArrayString);
     console.log("\n");
 }
-function toHexString(value) {
+function ToHexString(value) {
     let hexString = value.toString(16);
     // add '0' prefix if necessary
     if (hexString.length % 2 == 1)
         hexString = "0" + hexString;
     return hexString.toUpperCase();
 }
-function toBinString(value) {
+function ToBinString(value) {
     let binString = value.toString(2);
     return binString;
 }
 // from: https://stackoverflow.com/questions/15761790/convert-a-32bit-integer-into-4-bytes-of-data-in-javascript
-function toBytesInt32(value) {
+function ToBytesInt32(value) {
     const array = new Uint8Array([
         (value & 0xff000000) >> 24,
         (value & 0x00ff0000) >> 16,
@@ -82,7 +82,7 @@ function toBytesInt32(value) {
     ]);
     return array;
 }
-function toBytesInt24(value) {
+function ToBytesInt24(value) {
     const array = new Uint8Array([
         (value & 0x00ff0000) >> 16,
         (value & 0x0000ff00) >> 8,
@@ -90,11 +90,31 @@ function toBytesInt24(value) {
     ]);
     return array;
 }
-function toBytesInt16(value) {
+function ToBytesInt16(value) {
     const array = new Uint8Array([
         (value & 0x0000ff00) >> 8,
         (value & 0x000000ff)
     ]);
     return array;
+}
+// from: https://www.mixagesoftware.com/en/midikit/help/HTML/midi_events.html
+// 2 bytes
+// The pitch value is defined by both parameters of the MIDI Channel Event by joining them in the format of yyyyyyyxxxxxxx,
+// where the y characters represent the last 7 bits of the 2nd parameter
+// and the x characters represent the last 7 bits of the 1st parameter.
+function ToPitchBendBytes(cents) {
+    let value = toPicthBendValue(cents);
+    let array = new Uint8Array([
+        (value & 0x00007f00) >> 7,
+        (value & 0x0000007f)
+    ]);
+    array = array.reverse(); // big endian
+    //DisplayHexBytesArray(array);
+    return array;
+}
+// [0; 16383]
+// values < 8192 decrease the pitch, while values > 8192 increase the pitch.
+function toPicthBendValue(cents) {
+    return Math.floor(8192 * (1 + cents / 200.));
 }
 //# sourceMappingURL=midiHelper.js.map

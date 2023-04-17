@@ -27,13 +27,13 @@ class MidiHeader
         let utf8Encode = new TextEncoder();
         let typeBytes = utf8Encode.encode(this.Type);
 
-        let lengthBytes = toBytesInt32(this.Length);
+        let lengthBytes = ToBytesInt32(this.Length);
 
-        let formatBytes = toBytesInt16(this.Format);
+        let formatBytes = ToBytesInt16(this.Format);
 
-        let nbTracksBytes = toBytesInt16(this.NbTracks)
+        let nbTracksBytes = ToBytesInt16(this.NbTracks)
 
-        let divisionBytes = toBytesInt16(this.Division);
+        let divisionBytes = ToBytesInt16(this.Division);
         //displayHexBytesArray(divisionBytes, false);
 
         let headerBytes = new Uint8Array([ ...typeBytes, ...lengthBytes, ...formatBytes, ...nbTracksBytes, ...divisionBytes]);

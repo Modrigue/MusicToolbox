@@ -46,7 +46,7 @@ class MidiTrack
         let typeBytes = utf8Encode.encode(this.Type);
         //displayHexBytesArray(typeBytes);
 
-        let lengthBytes = toBytesInt32(this.Length());
+        let lengthBytes = ToBytesInt32(this.Length());
         //console.log("Length = " + this.Length());
         //displayHexBytesArray(lengthBytes);
 
