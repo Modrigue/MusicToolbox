@@ -1,6 +1,6 @@
 
-// compress duration value
-function ToVariableLengthQuantity(value: number) : Array<number>
+// compress duration value to bytes
+function ToVariableLengthBytes(value: number) : Array<number>
 {
     let temp = value;
     let bytes = new Array<number>();
@@ -29,18 +29,18 @@ function TestVariablelengthExamples(): void
 {
     console.log("MIDI specifications examples:");
     
-    ToVariableLengthQuantity(0x00000000);
-    ToVariableLengthQuantity(0x00000040);
-    ToVariableLengthQuantity(0x0000007F);
-    ToVariableLengthQuantity(0x00000080);
-    ToVariableLengthQuantity(0x00002000);
-    ToVariableLengthQuantity(0x00003FFF);
-    ToVariableLengthQuantity(0x00004000);
-    ToVariableLengthQuantity(0x00100000);
-    ToVariableLengthQuantity(0x001FFFFF);
-    ToVariableLengthQuantity(0x00200000);
-    ToVariableLengthQuantity(0x08000000);
-    ToVariableLengthQuantity(0x0FFFFFFF);
+    ToVariableLengthBytes(0x00000000);
+    ToVariableLengthBytes(0x00000040);
+    ToVariableLengthBytes(0x0000007F);
+    ToVariableLengthBytes(0x00000080);
+    ToVariableLengthBytes(0x00002000);
+    ToVariableLengthBytes(0x00003FFF);
+    ToVariableLengthBytes(0x00004000);
+    ToVariableLengthBytes(0x00100000);
+    ToVariableLengthBytes(0x001FFFFF);
+    ToVariableLengthBytes(0x00200000);
+    ToVariableLengthBytes(0x08000000);
+    ToVariableLengthBytes(0x0FFFFFFF);
 }
 
 // display functions

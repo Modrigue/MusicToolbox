@@ -1,14 +1,23 @@
-const endTrackEventData: Array<number> = [0xFF, 0x2F, 0x00];
+const headerEndTrack:       Array<number> = [0xFF, 0x2F, 0x00];
+const headerTempo:          Array<number> = [0xFF, 0x51, 0x03];
+const headerTimeSignature : Array<number> = [0xFF, 0x58, 0x04];
 
 class MidiTrackEvent
 {
+    Type: MidiTrackEventType; 
     DeltaTime: number;
     Data: Array<number>;    // byte array
 
-    constructor(deltaTime: number, data: Array<number>)
+    // for specific events only
+    AuxValue: number;
+
+    constructor(deltaTime: number, data: Array<number>, type: MidiTrackEventType, auxValue: number = 0)
     {
+        this.Type = type;
         this.DeltaTime = deltaTime;
         this.Data = data;
+
+        this.AuxValue = auxValue;
     }
 
     public Length(): number
@@ -20,7 +29,7 @@ class MidiTrackEvent
 
     ToBytes(): Uint8Array
     {
-        const arrayLength = ToVariableLengthQuantity(this.DeltaTime);
+        const arrayLength = ToVariableLengthBytes(this.DeltaTime);
         //console.log(this.DeltaTime);
         
         let bytesLength = Uint8Array.from(arrayLength).reverse(); // big endian
@@ -37,7 +46,7 @@ class MidiTrackEvent
 
 function EndTrackEvent(): MidiTrackEvent
 {
-    return new MidiTrackEvent(0, endTrackEventData);
+    return new MidiTrackEvent(0, headerEndTrack, MidiTrackEventType.END_TRACK);
 }
 
 function TempoEvent(bpm: number, deltaTime: number): MidiTrackEvent
@@ -47,21 +56,19 @@ function TempoEvent(bpm: number, deltaTime: number): MidiTrackEvent
     //DisplayHexBytesArray(bytesDuration);
 
     const bytesDurationArray : Array<number> = [bytesDuration[0], bytesDuration[1], bytesDuration[2]];
-    const tempoHeaderArray : Array<number> = [0xFF, 0x51, 0x03];
-    const tempoArray : Array<number> = tempoHeaderArray.concat(bytesDurationArray);
+    const tempoArray : Array<number> = headerTempo.concat(bytesDurationArray);
     //displayHexArray(tempoArray);
 
-    return new MidiTrackEvent(deltaTime, tempoArray);
+    return new MidiTrackEvent(deltaTime, tempoArray, MidiTrackEventType.TEMPO, bpm);
 }
 
 function TimeSignatureEvent(numerator: number, denominator: number, deltaTime: number): MidiTrackEvent
 {
-    const tsHeaderArray : Array<number> = [0xFF, 0x58, 0x04];
     const tsValuesArray : Array<number> = [numerator, Math.floor(Math.log2(denominator)), 0x18, 0x08];
-    const tsArray : Array<number> = tsHeaderArray.concat(tsValuesArray);
+    const tsArray : Array<number> = headerTimeSignature.concat(tsValuesArray);
     //displayHexArray(tsArray);
 
-    return new MidiTrackEvent(deltaTime, tsArray);
+    return new MidiTrackEvent(deltaTime, tsArray, MidiTrackEventType.TIME_SIGNATURE);
 }
 
 function NoteOnTrackEvent(channel: number, note: number, deltaTime: number, velocity: number): MidiTrackEvent
@@ -69,15 +76,15 @@ function NoteOnTrackEvent(channel: number, note: number, deltaTime: number, velo
     const start: number = 0x90 + (channel & 0xF); // note on event = "9" + <channel_nibble>
     const data : Array<number> = [start, note, velocity];
     
-    return new MidiTrackEvent(deltaTime, data);
+    return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.NOTE_ON);
 }
 
 function NoteOffTrackEvent(channel: number, note: number, deltaTime: number): MidiTrackEvent
 {
-    const start: number = 0x80 + (channel & 0xF); // note off event = "98" + <channel_nibble>
+    const start: number = 0x80 + (channel & 0xF); // note off event = "8" + <channel_nibble>
     const data : Array<number> = [start, note, 0 /*velocity*/];
     
-    return new MidiTrackEvent(deltaTime, data);
+    return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.NOTE_OFF);
 }
 
 function PitchBendEvent(channel: number, cents: number, deltaTime: number): MidiTrackEvent
@@ -86,7 +93,7 @@ function PitchBendEvent(channel: number, cents: number, deltaTime: number): Midi
     const valuesArray : Array<number> = Array.from(ToPitchBendBytes(cents));
     const data : Array<number> = [start].concat(valuesArray);
 
-    return new MidiTrackEvent(deltaTime, data);
+    return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.PICTH_BEND, cents);
 }
 
 function ControlChangeFineEvent(channel: number, refParam: number = 0): MidiTrackEvent
@@ -94,7 +101,7 @@ function ControlChangeFineEvent(channel: number, refParam: number = 0): MidiTrac
     const start: number = 0xB0 + (channel & 0xF);
     const data : Array<number> = [start, 100, refParam];
     
-    return new MidiTrackEvent(0, data);
+    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_FINE);
 }
 
 function ControlChangeCoarseEvent(channel: number, refParam: number = 0): MidiTrackEvent
@@ -102,7 +109,7 @@ function ControlChangeCoarseEvent(channel: number, refParam: number = 0): MidiTr
     const start: number = 0xB0 + (channel & 0xF);
     const data : Array<number> = [start, 101, refParam];
     
-    return new MidiTrackEvent(0, data);
+    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_COARSE);
 }
 
 function ControlChangeEntrySliderEvent(channel: number, refParam: number = 0): MidiTrackEvent
@@ -110,5 +117,5 @@ function ControlChangeEntrySliderEvent(channel: number, refParam: number = 0): M
     const start: number = 0xB0 + (channel & 0xF);
     const data : Array<number> = [start, 6, refParam];
     
-    return new MidiTrackEvent(0, data);
+    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_ENTRY_SLIDER);
 }

@@ -2,11 +2,16 @@
 
 class MidiFile
 {
-    Header: MidiHeader;
+    Header : MidiHeader;
     Tracks : Array<MidiTrack>;
+    Format : number;
+    Division : number;
 
     constructor(format: number, nbTracks: number, division: number)
     {
+        this.Format = format;
+        this.Division = division;
+        
         // add track 0
         this.Header = new MidiHeader(format, nbTracks + 1, division);
 
@@ -111,9 +116,84 @@ class MidiFile
         let bytes = new Uint8Array([ ...headerBytes, ...tracksBytes]);
         return bytes;
     }
+
+    public Save(path: string)
+    {
+        const bytes = this.ToBytes();
+        //DisplayHexBytesArray(bytes);
+        
+        var blob = new Blob([bytes], {type: "application/octet-stream"});
+
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = path;
+        link.click();
+    }
+
+    public Play()
+    {
+        if (this.Tracks == null || this.Tracks.length == 0)
+            return;
+        
+        let tempo = 120; // default if not specified
+        MIDI.setVolume(channelPlay, volumePlay);
+
+        switch(this.Format)
+        {
+            case 1:
+            {
+                // TODO: handle tempo changes
+                const track0 = this.Tracks[0];
+                for (const event of track0.Events)
+                {
+                    switch (event.Type)
+                    {
+                        case MidiTrackEventType.TEMPO:
+                        {
+                            tempo = event.AuxValue;
+                            break;
+                        }
+                    }
+                }
+                
+                for (let i = 1; i < this.Tracks.length; i++)
+                {
+                    let timeCursor = 0;
+                    const track = this.Tracks[i];
+                    for (const event of track.Events)
+                    {
+                        switch (event.Type)
+                        {
+                            case MidiTrackEventType.NOTE_ON:
+                            case MidiTrackEventType.NOTE_OFF:
+                            {
+                                const data = event.Data;
+                                const noteValueInt = data[1];
+                                const velocity = data[2];
+                                timeCursor += event.DeltaTime / this.Division * 60 / tempo;
+                                //console.log(noteValueInt, velocity, timeCursor);
+                                
+                                if (event.Type == MidiTrackEventType.NOTE_ON)
+                                    MIDI.noteOn(channelPlay, noteValueInt, velocity, timeCursor, 0/*pitchBend*/);
+                                else if (event.Type == MidiTrackEventType.NOTE_OFF)
+                                    MIDI.noteOff(channelPlay, noteValueInt, timeCursor);
+                                
+                                break;
+                            }
+                        
+                            default:
+                                break;
+                        }
+                    }
+                }
+                
+                break;
+            }
+        }
+    }
 }
 
-function createExampleMidiFile(saveFile: boolean = false): void
+function testExampleMidiFile(save: boolean = false, play: boolean = false): void
 {
     const octave = 12;
     
@@ -190,21 +270,10 @@ function createExampleMidiFile(saveFile: boolean = false): void
     midiFile.NotesOn(channel2Id, 0, [C4, E4, G4], vel);
     midiFile.NotesOff(channel2Id, 2*qNote, [C4, E4, G4]);
 
-    const bytes = midiFile.ToBytes();
-    //DisplayHexBytesArray(bytes);
-    
     // save midi file
-    if (saveFile)
-    {
-        //const ia = new Uint8Array(bytes);
-        //var file = new File([ia], "example.mid", {type: "application/octet-stream"});
-        //document.location = <string>(URL.createObjectURL(file));
+    if (save)
+        midiFile.Save("example.mid")
 
-        var blob = new Blob([bytes], {type: "application/octet-stream"}); // change resultByte to bytes
-
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = "example.mid";
-        link.click();
-    }
+    if (play)
+        midiFile.Play();
 }

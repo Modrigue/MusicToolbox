@@ -1,0 +1,18 @@
+enum MidiTrackEventType
+{
+    UNKNOWN,
+
+    END_TRACK,
+
+    TEMPO,
+    TIME_SIGNATURE,
+
+    NOTE_ON,
+    NOTE_OFF,
+
+    PICTH_BEND,
+    
+    CONTROL_CHANGE_FINE,
+    CONTROL_CHANGE_COARSE,
+    CONTROL_CHANGE_ENTRY_SLIDER
+};
