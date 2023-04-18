@@ -159,6 +159,8 @@ class MidiFile
                 for (let i = 1; i < this.Tracks.length; i++)
                 {
                     let timeCursor = 0;
+                    let pitchBend = 0;
+
                     const track = this.Tracks[i];
                     for (const event of track.Events)
                     {
@@ -174,10 +176,18 @@ class MidiFile
                                 //console.log(noteValueInt, velocity, timeCursor);
                                 
                                 if (event.Type == MidiTrackEventType.NOTE_ON)
-                                    MIDI.noteOn(channelPlay, noteValueInt, velocity, timeCursor, 0/*pitchBend*/);
+                                    MIDI.noteOn(channelPlay, noteValueInt, velocity, timeCursor, pitchBend);
                                 else if (event.Type == MidiTrackEventType.NOTE_OFF)
                                     MIDI.noteOff(channelPlay, noteValueInt, timeCursor);
                                 
+                                break;
+                            }
+
+                            case MidiTrackEventType.PICTH_BEND:
+                            {
+                                const cents = event.AuxValue;
+                                timeCursor += event.DeltaTime / this.Division * 60 / tempo;
+                                pitchBend = cents / 100 / 8 / 2; // 1/8/2 = 1/2 tone = 100 cents
                                 break;
                             }
                         
