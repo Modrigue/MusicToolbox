@@ -135,6 +135,21 @@ function ToBytesInt16(value: number): Uint8Array
     return array;
 }
 
+
+///////////////////////////////// PITCH BEND //////////////////////////////////
+
+
+function ToNoteValueInt(noteValue: number): number
+{
+    return Math.floor(noteValue);
+}
+
+function ToNoteValueCents(noteValue: number): number
+{
+    return Math.round(100*(noteValue - Math.floor(noteValue)));
+}
+
+
 // from: https://www.mixagesoftware.com/en/midikit/help/HTML/midi_events.html
 
 // 2 bytes
@@ -153,7 +168,6 @@ function ToPitchBendBytes(cents: number): Uint8Array
 
     return array;
 }
-
 
 // [0; 16383]
 // values < 8192 decrease the pitch, while values > 8192 increase the pitch.

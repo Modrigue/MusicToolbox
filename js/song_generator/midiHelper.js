@@ -97,6 +97,13 @@ function ToBytesInt16(value) {
     ]);
     return array;
 }
+///////////////////////////////// PITCH BEND //////////////////////////////////
+function ToNoteValueInt(noteValue) {
+    return Math.floor(noteValue);
+}
+function ToNoteValueCents(noteValue) {
+    return Math.round(100 * (noteValue - Math.floor(noteValue)));
+}
 // from: https://www.mixagesoftware.com/en/midikit/help/HTML/midi_events.html
 // 2 bytes
 // The pitch value is defined by both parameters of the MIDI Channel Event by joining them in the format of yyyyyyyxxxxxxx,

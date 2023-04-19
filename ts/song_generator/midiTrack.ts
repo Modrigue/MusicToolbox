@@ -2,6 +2,7 @@ class MidiTrack
 {
     public Type: string;       // "MTrk", constant
     public Events: Array<MidiTrackEvent>;
+    public Muted: boolean;
 
     private channel: number;    // 4 bytes
     
@@ -10,6 +11,8 @@ class MidiTrack
         this.Type = "MTrk";
         this.Events = new Array<MidiTrackEvent>();
         this.channel = channel;
+
+        this.Muted = false;
 
         // add end of track event
         this.AddEvent(EndTrackEvent());
@@ -69,6 +72,32 @@ class MidiTrack
         this.AddEvent(event);
     }
 
+    // update existing tempo event
+    public UpdateTempo(bpmNew: number, tempoEventIndex: number): void
+    {
+        let indexTempo = 0;
+        let index = 0;
+        for (let event of this.Events)
+        {
+            if (event.Type == MidiTrackEventType.TEMPO)
+            {
+                if (indexTempo == tempoEventIndex)
+                {
+                    const deltaTime = event.DeltaTime;
+                    this.Events[index] = TempoEvent(bpmNew, deltaTime); // replace event
+                    //console.log(event);
+                    //console.log(this.Events);
+                    
+                    break;
+                }
+
+                indexTempo++;
+            }
+            
+            index++;
+        }
+    }
+
     public TimeSignature(numerator: number, denominator: number, deltaTime: number): void
     {
         const event: MidiTrackEvent = TimeSignatureEvent(numerator, denominator, deltaTime);
@@ -115,5 +144,37 @@ class MidiTrack
         const event: MidiTrackEvent = ControlChangeEntrySliderEvent(this.channel - 1, refParam);
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
+    }
+
+    public GetNbNotes(): number
+    {
+        // count NoteOn events
+        let nbNotes = 0;
+        for (const event of this.Events)
+            if (event.Type == MidiTrackEventType.NOTE_ON)
+                nbNotes++; 
+
+        // fallback if not found
+        return nbNotes;
+    }
+
+
+    public GetNoteValue(index: number): number
+    {
+        // get note by NoteOn index event
+        let indexCur = 0;
+        for (const event of this.Events)
+        {
+            if (event.Type == MidiTrackEventType.NOTE_ON)
+            {
+                if (indexCur == index)
+                    return event.Data[1];
+
+                indexCur++;
+            }    
+        }
+
+        // fallback if not found
+        return -1;
     }
 }

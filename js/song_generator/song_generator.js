@@ -1,5 +1,7 @@
 "use strict";
-let generatedSong = new Song();
+const qNote = 480; // quarter-note division
+let generatedMidi = new MidiFile(1, 2, qNote);
+let hasGeneratedMidi = false;
 function generateNewSong() {
     // get selected tonic
     const tonicSelected = document.getElementById(`song_generator_tonic`).value;
@@ -15,41 +17,50 @@ function generateNewSong() {
     const tempo = parseInt(tempoSelected);
     // get selected tracks
     let tracksSelected = getSelectedTracks();
+    // generate song
+    generatedMidi = new MidiFile(1, 2, qNote);
+    // track 0: tempo and time signature informations
+    generatedMidi.Tempo(0, tempo, 0);
+    generatedMidi.TimeSignature(0, 4, 4, 0);
     // generate tracks
-    let track1 = generatedSong.tracks[0];
-    let track2 = generatedSong.tracks[1];
+    let track1 = new MidiTrack(1);
+    let track2 = new MidiTrack(2);
     if (tracksSelected[0] && !tracksSelected[1]) {
-        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, track2);
+        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, qNote, 1, track2);
     }
     else if (!tracksSelected[0] && tracksSelected[1]) {
-        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, qNote, 2, track1);
     }
     else if (tracksSelected[0] && tracksSelected[1]) {
-        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2);
-        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, qNote, 1);
+        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, qNote, 2, track1);
     }
-    generatedSong = new Song([track1, track2]);
-    generatedSong.Tempo = tempo;
+    generatedMidi.Tracks[1] = track1;
+    generatedMidi.Tracks[2] = track2;
+    hasGeneratedMidi = true;
     updateSongGeneratorPage();
     setEnabled("song_generator_play", true);
-    //generatedSong.Log();
+    setEnabled("song_generator_save", true);
 }
 function playGeneratedSong() {
-    if (generatedSong == null)
+    if (generatedMidi == null)
         return;
     // get selected tempo
     const tempoSelected = document.getElementById(`song_generator_tempo`).value;
     const tempo = parseInt(tempoSelected);
-    generatedSong.Tempo = tempo;
+    generatedMidi.UpdateTempo(0, tempo, 0 /*general tempo*/);
     // get selected tracks
     let tracksSelected = getSelectedTracks();
-    generatedSong.EnableTracks(tracksSelected);
-    generatedSong.Play();
-    //playTestTrack(tempoValue, tonicValue, 2);
-    //playTestSong(tempoValue, tonicValue, 2);
+    generatedMidi.EnableTracks(tracksSelected);
+    generatedMidi.Play();
+}
+function saveGeneratedSong() {
+    const fileName = `Counterpoint_1-1`;
+    generatedMidi.Save(`${fileName}.mid`);
 }
 function resetGeneratedSong() {
-    generatedSong = new Song();
+    generatedMidi = new MidiFile(1, 2, qNote);
+    ;
     updateSongGeneratorPage();
 }
 function getSelectedTracks() {
@@ -60,10 +71,9 @@ function getSelectedTracks() {
     return tracksSelected;
 }
 function updateSongGeneratorPage() {
-    const hasSong = (generatedSong != null && generatedSong.tracks != null && generatedSong.tracks.length > 0);
     // get selected tracks
     let tracksSelected = getSelectedTracks();
-    generatedSong.EnableTracks(tracksSelected);
+    generatedMidi.EnableTracks(tracksSelected);
     let nbTracksSelected = 0;
     for (let i = 0; i < 2; i++)
         if (tracksSelected[i])
@@ -72,84 +82,40 @@ function updateSongGeneratorPage() {
         `${getString("generate_new_song")}` : `${getString("generate_new_track")}`;
     const hasSelectedTracks = (nbTracksSelected > 0);
     setEnabled('song_generator_generate', hasSelectedTracks);
-    setEnabled('song_generator_play', hasSong && hasSelectedTracks);
+    setEnabled('song_generator_play', hasGeneratedMidi && hasSelectedTracks);
     // update generated song texts if existing
-    for (let i = 1; i <= 2; i++) {
+    /*for (let i = 1; i <= 2; i++)
+    {
         let trackText = "";
         let trackColor = "silver";
-        if (hasSong) {
-            const track = generatedSong.tracks[i - 1];
-            if (track != null) {
+
+        if (hasSong)
+        {
+            const track = midiFile.Tracks[i];
+            if (track != null)
+            {
                 trackText = track.Text();
                 trackColor = track.muted ? "silver" : "black";
             }
         }
-        document.getElementById(`song_generator_track_text${i}`).innerText = trackText;
-        document.getElementById(`song_generator_track_text${i}`).style.color = trackColor;
-    }
-    setEnabled("song_generator_reset", hasSong);
+
+        (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).innerText = trackText;
+        (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).style.color = trackColor;
+    }*/
+    setEnabled("song_generator_reset", hasGeneratedMidi);
     // for debug purposes
-    if (false)
-        if (hasSong) {
-            let intervalsStr = "";
-            for (let i = 0; i < generatedSong.tracks[0].notes.length; i++) {
-                const noteValue0 = generatedSong.tracks[0].GetNoteValue(i);
-                const noteValue1 = generatedSong.tracks[1].GetNoteValue(i);
-                intervalsStr += getIntervalBetweenNotes(noteValue1, noteValue0) + " ";
-            }
-            intervalsStr = intervalsStr.trim();
-            document.getElementById(`song_generator_tracks_intervals`).innerText = intervalsStr;
+    /*if (false)
+    if (hasSong)
+    {
+        let intervalsStr = "";
+        for (let i = 0; i < generatedSong.tracks[0].notes.length; i++)
+        {
+            const noteValue0 = generatedSong.tracks[0].GetNoteValue(i);
+            const noteValue1 = generatedSong.tracks[1].GetNoteValue(i);
+            intervalsStr += getIntervalBetweenNotes(noteValue1, noteValue0) + " ";
         }
-}
-///////////////////////////////// TEST FUNCTIONS //////////////////////////////
-function playTestTrack(tempo, note, octave) {
-    let notes = [];
-    notes.push(new Note(0, 0, 1, 0));
-    notes.push(new Note(0, 0, 1, 1));
-    notes.push(new Note(0, 0, 1, 2));
-    notes.push(new Note(2, 0, 1, 3));
-    notes.push(new Note(4, 0, 1, 4));
-    notes.push(new Note(2, 0, 1, 6));
-    notes.push(new Note(0, 0, 1, 8));
-    notes.push(new Note(4, 0, 1, 9));
-    notes.push(new Note(2, 0, 1, 10));
-    notes.push(new Note(2, 0, 1, 11));
-    notes.push(new Note(0, 0, 1, 12));
-    const track = new Track(notes);
-    track.Transpose(note + 12 * octave);
-    track.Play(tempo);
-}
-function playTestSong(tempo, note, octave) {
-    let notes1 = [];
-    notes1.push(new Note(0, 0, 1, 0));
-    notes1.push(new Note(0, 0, 1, 1));
-    notes1.push(new Note(0, 0, 1, 2));
-    notes1.push(new Note(2, 0, 1, 3));
-    notes1.push(new Note(4, 0, 1, 4));
-    notes1.push(new Note(2, 0, 1, 6));
-    notes1.push(new Note(0, 0, 1, 8));
-    notes1.push(new Note(4, 0, 1, 9));
-    notes1.push(new Note(2, 0, 1, 10));
-    notes1.push(new Note(2, 0, 1, 11));
-    notes1.push(new Note(0, 0, 1, 12));
-    const track1 = new Track(notes1);
-    let notes2 = [];
-    notes2.push(new Note(4, 0, 1, 0));
-    notes2.push(new Note(4, 0, 1, 1));
-    notes2.push(new Note(4, 0, 1, 2));
-    notes2.push(new Note(5, 0, 1, 3));
-    notes2.push(new Note(7, 0, 1, 4));
-    notes2.push(new Note(5, 0, 1, 6));
-    notes2.push(new Note(4, 0, 1, 8));
-    notes2.push(new Note(7, 0, 1, 9));
-    notes2.push(new Note(5, 0, 1, 10));
-    notes2.push(new Note(5, 0, 1, 11));
-    notes2.push(new Note(4, 0, 1, 12));
-    const track2 = new Track(notes2);
-    const song = new Song([track1, track2]);
-    song.Transpose(note + 12 * octave);
-    song.Tempo = tempo;
-    //song.Log();
-    song.Play();
+        intervalsStr = intervalsStr.trim();
+        (<HTMLSpanElement>document.getElementById(`song_generator_tracks_intervals`)).innerText = intervalsStr;
+    }*/
 }
 //# sourceMappingURL=song_generator.js.map

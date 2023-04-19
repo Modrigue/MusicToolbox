@@ -4,6 +4,7 @@ class MidiTrack {
         this.Type = "MTrk";
         this.Events = new Array();
         this.channel = channel;
+        this.Muted = false;
         // add end of track event
         this.AddEvent(EndTrackEvent());
     }
@@ -44,6 +45,24 @@ class MidiTrack {
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
+    // update existing tempo event
+    UpdateTempo(bpmNew, tempoEventIndex) {
+        let indexTempo = 0;
+        let index = 0;
+        for (let event of this.Events) {
+            if (event.Type == MidiTrackEventType.TEMPO) {
+                if (indexTempo == tempoEventIndex) {
+                    const deltaTime = event.DeltaTime;
+                    this.Events[index] = TempoEvent(bpmNew, deltaTime); // replace event
+                    //console.log(event);
+                    //console.log(this.Events);
+                    break;
+                }
+                indexTempo++;
+            }
+            index++;
+        }
+    }
     TimeSignature(numerator, denominator, deltaTime) {
         const event = TimeSignatureEvent(numerator, denominator, deltaTime);
         //DisplayHexBytesArray(event.ToBytes());
@@ -77,6 +96,28 @@ class MidiTrack {
         const event = ControlChangeEntrySliderEvent(this.channel - 1, refParam);
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
+    }
+    GetNbNotes() {
+        // count NoteOn events
+        let nbNotes = 0;
+        for (const event of this.Events)
+            if (event.Type == MidiTrackEventType.NOTE_ON)
+                nbNotes++;
+        // fallback if not found
+        return nbNotes;
+    }
+    GetNoteValue(index) {
+        // get note by NoteOn index event
+        let indexCur = 0;
+        for (const event of this.Events) {
+            if (event.Type == MidiTrackEventType.NOTE_ON) {
+                if (indexCur == index)
+                    return event.Data[1];
+                indexCur++;
+            }
+        }
+        // fallback if not found
+        return -1;
     }
 }
 //# sourceMappingURL=midiTrack.js.map

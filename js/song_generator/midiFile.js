@@ -21,6 +21,10 @@ class MidiFile {
     Tempo(trackIndex, bpm, deltaTime) {
         this.Tracks[trackIndex].Tempo(bpm, deltaTime);
     }
+    // update existing tempo event
+    UpdateTempo(trackIndex, bpmNew, tempoEventIndex) {
+        this.Tracks[trackIndex].UpdateTempo(bpmNew, tempoEventIndex);
+    }
     // from: http://midi.teragonaudio.com/tech/midifile/time.htm
     TimeSignature(trackIndex, numerator, denominator, deltaTime) {
         this.Tracks[trackIndex].TimeSignature(numerator, denominator, deltaTime);
@@ -75,6 +79,13 @@ class MidiFile {
         let bytes = new Uint8Array([...headerBytes, ...tracksBytes]);
         return bytes;
     }
+    EnableTracks(enabledTracks) {
+        let index = 1;
+        for (const status of enabledTracks) {
+            this.Tracks[index].Muted = !status;
+            index++;
+        }
+    }
     Save(path) {
         const bytes = this.ToBytes();
         //DisplayHexBytesArray(bytes);
@@ -92,7 +103,7 @@ class MidiFile {
         switch (this.Format) {
             case 1:
                 {
-                    // TODO: handle tempo changes
+                    // build tempo map
                     const track0 = this.Tracks[0];
                     for (const event of track0.Events) {
                         switch (event.Type) {
@@ -103,10 +114,14 @@ class MidiFile {
                                 }
                         }
                     }
+                    // TODO: get current tempo function
+                    // play tracks
                     for (let i = 1; i < this.Tracks.length; i++) {
                         let timeCursor = 0;
                         let pitchBend = 0;
                         const track = this.Tracks[i];
+                        if (track.Muted) // do not play if muted
+                            continue;
                         for (const event of track.Events) {
                             switch (event.Type) {
                                 case MidiTrackEventType.NOTE_ON:

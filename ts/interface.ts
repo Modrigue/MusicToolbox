@@ -99,6 +99,7 @@ window.onload = function()
     (<HTMLSelectElement>document.getElementById(`song_generator_nb_bars`)).addEventListener("change", generateNewSong);
     (<HTMLButtonElement>document.getElementById('song_generator_generate')).addEventListener("click", generateNewSong);
     (<HTMLButtonElement>document.getElementById('song_generator_play')).addEventListener("click", playGeneratedSong);
+    (<HTMLButtonElement>document.getElementById('song_generator_save')).addEventListener("click", saveGeneratedSong);
     (<HTMLButtonElement>document.getElementById('song_generator_reset')).addEventListener("click", resetGeneratedSong);
     for (let i = 1; i <= 2; i++)
         (<HTMLInputElement>document.getElementById(`song_generator_checkbox_track${i}`)).addEventListener("change", updateSongGeneratorPage);
@@ -776,6 +777,7 @@ function updateLocales(): void
     (<HTMLButtonElement>document.getElementById("song_generator_tempo_text")).innerText = `${getString("tempo")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_play")).innerText = `${getString("listen")} ♪`;
+    (<HTMLButtonElement>document.getElementById("song_generator_save")).innerText = `${getString("save")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_reset")).innerText = getString("reset");
     updateSongGeneratorPage();
 

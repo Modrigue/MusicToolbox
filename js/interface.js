@@ -76,6 +76,7 @@ window.onload = function () {
     document.getElementById(`song_generator_nb_bars`).addEventListener("change", generateNewSong);
     document.getElementById('song_generator_generate').addEventListener("click", generateNewSong);
     document.getElementById('song_generator_play').addEventListener("click", playGeneratedSong);
+    document.getElementById('song_generator_save').addEventListener("click", saveGeneratedSong);
     document.getElementById('song_generator_reset').addEventListener("click", resetGeneratedSong);
     for (let i = 1; i <= 2; i++)
         document.getElementById(`song_generator_checkbox_track${i}`).addEventListener("change", updateSongGeneratorPage);
@@ -581,6 +582,7 @@ function updateLocales() {
     document.getElementById("song_generator_tempo_text").innerText = `${getString("tempo")}`;
     document.getElementById("song_generator_checkbox_track1_text").innerText = `${getString("bass")}`;
     document.getElementById("song_generator_play").innerText = `${getString("listen")} ♪`;
+    document.getElementById("song_generator_save").innerText = `${getString("save")}`;
     document.getElementById("song_generator_reset").innerText = getString("reset");
     updateSongGeneratorPage();
     // footer

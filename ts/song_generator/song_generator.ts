@@ -1,4 +1,6 @@
-let generatedSong: Song = new Song();
+const qNote = 480; // quarter-note division
+let generatedMidi = new MidiFile(1, 2, qNote);
+let hasGeneratedMidi = false;
 
 function generateNewSong(): void
 {
@@ -21,54 +23,65 @@ function generateNewSong(): void
     // get selected tracks
     let tracksSelected = getSelectedTracks();
 
+    // generate song
+
+    generatedMidi = new MidiFile(1, 2, qNote);
+
+    // track 0: tempo and time signature informations
+    generatedMidi.Tempo(0, tempo, 0);
+    generatedMidi.TimeSignature(0, 4, 4, 0);
+
     // generate tracks
-    let track1 = generatedSong.tracks[0];
-    let track2 = generatedSong.tracks[1];
+    let track1 = new MidiTrack(1);
+    let track2 = new MidiTrack(2);
     if (tracksSelected[0] && !tracksSelected[1])
     {
-        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, track2);
+        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, qNote, 1, track2);
     }
     else if (!tracksSelected[0] && tracksSelected[1])
     {
-        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, qNote, 2, track1);
     }
     else if (tracksSelected[0] && tracksSelected[1])
     {
-        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2);
-        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, track1);
+        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, qNote, 1);
+        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, qNote, 2, track1);
     }
-    generatedSong = new Song([track1, track2]);
-    generatedSong.Tempo = tempo;
+    generatedMidi.Tracks[1] = track1;
+    generatedMidi.Tracks[2] = track2;
 
+    hasGeneratedMidi = true;
     updateSongGeneratorPage();
-
     setEnabled("song_generator_play", true);
-    //generatedSong.Log();
+    setEnabled("song_generator_save", true);
 }
 
 function playGeneratedSong(): void
 {
-    if (generatedSong == null)
+    if (generatedMidi == null)
         return;
     
     // get selected tempo
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
     const tempo: number = parseInt(tempoSelected);
-    generatedSong.Tempo = tempo;
+    generatedMidi.UpdateTempo(0, tempo, 0 /*general tempo*/);
 
     // get selected tracks
     let tracksSelected = getSelectedTracks();
-    generatedSong.EnableTracks(tracksSelected);
+    generatedMidi.EnableTracks(tracksSelected);
 
-    generatedSong.Play();
+    generatedMidi.Play();
+}
 
-    //playTestTrack(tempoValue, tonicValue, 2);
-    //playTestSong(tempoValue, tonicValue, 2);
+function saveGeneratedSong(): void
+{
+    const fileName = `Counterpoint_1-1`;
+    generatedMidi.Save(`${fileName}.mid`);
 }
 
 function resetGeneratedSong(): void
 {
-    generatedSong = new Song();
+    generatedMidi = new MidiFile(1, 2, qNote);;
     updateSongGeneratorPage();
 }
 
@@ -84,12 +97,10 @@ function getSelectedTracks(): Array<boolean>
 
 function updateSongGeneratorPage(): void
 {
-    const hasSong = (generatedSong != null && generatedSong.tracks != null && generatedSong.tracks.length > 0);
-    
     // get selected tracks
 
     let tracksSelected = getSelectedTracks();
-    generatedSong.EnableTracks(tracksSelected);
+    generatedMidi.EnableTracks(tracksSelected);
 
     let nbTracksSelected = 0;
     for (let i = 0; i < 2; i++)
@@ -101,18 +112,18 @@ function updateSongGeneratorPage(): void
     
     const hasSelectedTracks = (nbTracksSelected > 0);
     setEnabled('song_generator_generate', hasSelectedTracks);
-    setEnabled('song_generator_play', hasSong && hasSelectedTracks);
+    setEnabled('song_generator_play', hasGeneratedMidi && hasSelectedTracks);
     
     // update generated song texts if existing
 
-    for (let i = 1; i <= 2; i++)
+    /*for (let i = 1; i <= 2; i++)
     {
         let trackText = "";
         let trackColor = "silver";
 
         if (hasSong)
         {
-            const track = generatedSong.tracks[i-1];
+            const track = midiFile.Tracks[i];
             if (track != null)
             {
                 trackText = track.Text();
@@ -122,12 +133,12 @@ function updateSongGeneratorPage(): void
 
         (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).innerText = trackText;
         (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).style.color = trackColor;
-    }
+    }*/
 
-    setEnabled("song_generator_reset", hasSong);
+    setEnabled("song_generator_reset", hasGeneratedMidi);
     
     // for debug purposes
-    if (false)
+    /*if (false)
     if (hasSong)
     {
         let intervalsStr = "";
@@ -139,69 +150,5 @@ function updateSongGeneratorPage(): void
         }
         intervalsStr = intervalsStr.trim();
         (<HTMLSpanElement>document.getElementById(`song_generator_tracks_intervals`)).innerText = intervalsStr;
-    }
-}
-
-
-///////////////////////////////// TEST FUNCTIONS //////////////////////////////
-
-
-function playTestTrack(tempo: number, note:number, octave: number): void
-{
-    let notes: Array<Note> = [];
-
-    notes.push(new Note(0, 0, 1, 0));
-    notes.push(new Note(0, 0, 1, 1));
-    notes.push(new Note(0, 0, 1, 2));
-    notes.push(new Note(2, 0, 1, 3));
-    notes.push(new Note(4, 0, 1, 4));
-
-    notes.push(new Note(2, 0, 1, 6));
-
-    notes.push(new Note(0, 0, 1, 8));
-    notes.push(new Note(4, 0, 1, 9));
-    notes.push(new Note(2, 0, 1, 10));
-    notes.push(new Note(2, 0, 1, 11));
-    notes.push(new Note(0, 0, 1, 12));
-
-    const track = new Track(notes);
-    track.Transpose(note + 12*octave);
-    track.Play(tempo);
-}
-
-function playTestSong(tempo: number, note:number, octave: number): void
-{
-    let notes1: Array<Note> = [];
-    notes1.push(new Note(0, 0, 1, 0));
-    notes1.push(new Note(0, 0, 1, 1));
-    notes1.push(new Note(0, 0, 1, 2));
-    notes1.push(new Note(2, 0, 1, 3));
-    notes1.push(new Note(4, 0, 1, 4));
-    notes1.push(new Note(2, 0, 1, 6));
-    notes1.push(new Note(0, 0, 1, 8));
-    notes1.push(new Note(4, 0, 1, 9));
-    notes1.push(new Note(2, 0, 1, 10));
-    notes1.push(new Note(2, 0, 1, 11));
-    notes1.push(new Note(0, 0, 1, 12));
-    const track1 = new Track(notes1);
-
-    let notes2: Array<Note> = [];
-    notes2.push(new Note(4, 0, 1, 0));
-    notes2.push(new Note(4, 0, 1, 1));
-    notes2.push(new Note(4, 0, 1, 2));
-    notes2.push(new Note(5, 0, 1, 3));
-    notes2.push(new Note(7, 0, 1, 4));
-    notes2.push(new Note(5, 0, 1, 6));
-    notes2.push(new Note(4, 0, 1, 8));
-    notes2.push(new Note(7, 0, 1, 9));
-    notes2.push(new Note(5, 0, 1, 10));
-    notes2.push(new Note(5, 0, 1, 11));
-    notes2.push(new Note(4, 0, 1, 12));
-    const track2 = new Track(notes2);
-
-    const song = new Song([track1, track2]);
-    song.Transpose(note + 12*octave);
-    song.Tempo = tempo;
-    //song.Log();
-    song.Play();
+    }*/
 }

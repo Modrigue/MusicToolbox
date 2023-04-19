@@ -2,12 +2,12 @@ const perfectConsonances   = [0, 7];                 // octave and 5th
 const imperfectConsonances = [3, 4, 8, 9];           // 3rds and 6ths
 const dissonances          = [1, 2, 5, 6, 10, 11];   // 2nds, 4ths and 7ths
 
-function generateCounterpointTrack11(tonicValue: number, scaleValues: Array<number>, nbBars: number, octave: number,
-    trackExisting: Track = new Track()): Track
+function generateCounterpointTrack11(tonicValue: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
+    channelId: number, trackExisting: (MidiTrack | null) = null): MidiTrack
 {
-    let track = new Track();
+    let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
-    const hasExistingTrack = (trackExisting.notes != null && trackExisting.notes.length > 0);
+    //const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
 
     // build allowed scale notes array
     let scaleNotesValues: Array<number> = [];
@@ -20,7 +20,7 @@ function generateCounterpointTrack11(tonicValue: number, scaleValues: Array<numb
     }  
 
     // 1st note = tonic
-    track.AddNote(new Note(tonicValue, octave, 4, 0));
+    addNoteEvent(track, tonicValue, octave, 4*qNote);
 
     // generate random notes in scale
     const nbTries = 10000;
@@ -50,7 +50,7 @@ function generateCounterpointTrack11(tonicValue: number, scaleValues: Array<numb
         // ok, add note
         const valueNext = noteValueNext % 12;
         const octaveNext = Math.floor(noteValueNext / 12) - 2;
-        track.AddNote(new Note(valueNext, octaveNext, 4, 4*barIndex));
+        addNoteEvent(track, valueNext, octaveNext, 4*qNote);
 
         curNoteIndex = nextNoteIndex;
     }
@@ -58,7 +58,7 @@ function generateCounterpointTrack11(tonicValue: number, scaleValues: Array<numb
     // last note: fetch nearest tonic
     let distMin = -1;
     let octaveEnd = -1;
-    const lastNoteValue = track.GetNoteValue(track.notes.length - 1);
+    const lastNoteValue = track.GetNoteValue(track.GetNbNotes() - 1);
     for (let octaveCur = octave - 1; octaveCur <= octave; octaveCur++)
     {
         const dist = Math.abs(lastNoteValue - (tonicValue + 12*(octaveCur + 2)));
@@ -69,18 +69,18 @@ function generateCounterpointTrack11(tonicValue: number, scaleValues: Array<numb
         }
     }
 
-    track.AddNote(new Note(tonicValue, octaveEnd, 4, 4*(nbBars - 1)));
+    addNoteEvent(track, tonicValue, octaveEnd, 4*qNote);
     //console.log(track.LogText());
     return track;
 }
 
 function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbBars: number,
-    trackCurrent: Track, trackExisting: Track = new Track()): boolean
+    trackCurrent: MidiTrack, trackExisting: (MidiTrack | null) = null): boolean
 {
     if (noteValue < 0)
         return false;
     
-    const hasExistingTrack = (trackExisting.notes != null && trackExisting.notes.length > 0);
+    const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
 
     // do not set tonic at starting or ending bars (except final bar)
     const range = 2;
@@ -89,19 +89,19 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
         return false;
 
     //// do not allow 2 consecutive unissons
-    //if (trackCurrent.notes.length > 2)
+    //if (trackCurrent.GetNbNotes() > 2)
     //{
-    //    const lastNoteValue1 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 1);
-    //    const lastNoteValue2 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 2);
+    //    const lastNoteValue1 = trackCurrent.GetNoteValue(trackCurrent.GetNbNotes() - 1);
+    //    const lastNoteValue2 = trackCurrent.GetNoteValue(trackCurrent.GetNbNotes() - 2);
     //
     //    if (lastNoteValue1 == lastNoteValue2 && noteValue == lastNoteValue1)
     //        return false;
     //}
 
     // do not allow unisson
-    if (trackCurrent.notes.length > 1)
+    if (trackCurrent.Events.length > 1)
     {
-        const lastNoteValue1 = trackCurrent.GetNoteValue(trackCurrent.notes.length - 1);
+        const lastNoteValue1 = trackCurrent.GetNoteValue(trackCurrent.GetNbNotes() - 1);
         if (noteValue == lastNoteValue1)
             return false;
     }
@@ -110,7 +110,7 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
     if (hasExistingTrack)
     {
         // compute current candidate interval with existing track note
-        const existingNoteValue1 = trackExisting.GetNoteValue(barIndex);
+        const existingNoteValue1 = (<MidiTrack>trackExisting).GetNoteValue(barIndex);
         const curInterval1 = getIntervalBetweenNotes(noteValue, existingNoteValue1);
 
         // avoid dissonant intervals
@@ -119,7 +119,7 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
         if (isMicrotonalInterval(curInterval1))
             return false;
 
-        const existingNoteValue2 = trackExisting.GetNoteValue(barIndex - 1);
+        const existingNoteValue2 = (<MidiTrack>trackExisting).GetNoteValue(barIndex - 1);
         const curNoteValue2 = trackCurrent.GetNoteValue(barIndex - 1);
         const curInterval2 = getIntervalBetweenNotes(curNoteValue2, existingNoteValue2);
 
@@ -144,7 +144,7 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
         // no 3 consecutive 3rds and 6ths
         if (barIndex >= 2)
         {
-            const existingNoteValue3 = trackExisting.GetNoteValue(barIndex - 2);
+            const existingNoteValue3 = (<MidiTrack>trackExisting).GetNoteValue(barIndex - 2);
             const curNoteValue3 = trackCurrent.GetNoteValue(barIndex - 2);
             const curInterval3 = getIntervalBetweenNotes(curNoteValue3, existingNoteValue3);
 
@@ -155,6 +155,25 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
     }
 
     return true;
+}
+
+function addNoteEvent(track : MidiTrack, note: number, octave: number, duration: number)
+{
+    const vel = 102;
+    let noteValue = note + 12*(octave + 2);
+    let noteValueInt = ToNoteValueInt(noteValue);
+
+    // handle pitch bend if specified
+    let cents = ToNoteValueCents(noteValue);
+    const hasPitchBend = (cents != 0);
+    if (hasPitchBend)
+        track.PitchBend(cents, 0);
+
+    track.NoteOn(noteValueInt, 0, vel);
+    track.NoteOff(noteValueInt, 4*qNote);
+
+    if (hasPitchBend)
+        track.PitchBend(0, 0);
 }
 
 function getIntervalBetweenNotes(noteValue1: number, noteValue2: number): number
