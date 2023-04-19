@@ -1,5 +1,9 @@
 const qNote = 480; // quarter-note division
+
 let generatedMidi = new MidiFile(1, 2, qNote);
+generatedMidi.Tempo(0, 120, 0);
+generatedMidi.TimeSignature(0, 4, 4, 0);
+
 let hasGeneratedMidi = false;
 
 function generateNewSong(): void
@@ -25,15 +29,12 @@ function generateNewSong(): void
 
     // generate song
 
-    generatedMidi = new MidiFile(1, 2, qNote);
-
-    // track 0: tempo and time signature informations
-    generatedMidi.Tempo(0, tempo, 0);
-    generatedMidi.TimeSignature(0, 4, 4, 0);
+    // track 0: set selected tempo
+    generatedMidi.UpdateTempo(0, tempo, 0);
 
     // generate tracks
-    let track1 = new MidiTrack(1);
-    let track2 = new MidiTrack(2);
+    let track1 = generatedMidi.Tracks[1];
+    let track2 = generatedMidi.Tracks[2];
     if (tracksSelected[0] && !tracksSelected[1])
     {
         track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, qNote, 1, track2);
@@ -47,6 +48,8 @@ function generateNewSong(): void
         track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, qNote, 1);
         track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, qNote, 2, track1);
     }
+
+    // update generated tracks
     generatedMidi.Tracks[1] = track1;
     generatedMidi.Tracks[2] = track2;
 
