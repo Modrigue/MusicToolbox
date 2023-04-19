@@ -78,7 +78,10 @@ function playGeneratedSong(): void
 
 function saveGeneratedSong(): void
 {
-    const fileName = `Counterpoint_1-1`;
+    const tonicName: string = getSelectorText("song_generator_tonic");
+    const scaleName: string = getSelectorText("song_generator_scale");
+    
+    const fileName = `${getString("counterpoint")} 1-1 - ${tonicName} ${scaleName}`;
     generatedMidi.Save(`${fileName}.mid`);
 }
 
