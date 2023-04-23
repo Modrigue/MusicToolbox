@@ -2,19 +2,79 @@
 const perfectConsonances = [0, 7]; // octave and 5th
 const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
 const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
+function generateCounterpointTrack12(tonicValue, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 2], trackExisting = null) {
+    let track = new MidiTrack(channelId);
+    const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
+    // rhythm array to circle
+    const nbRhythms = rhythmFactorArray.length;
+    // build 1:1 counterpoint
+    const track11 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, qNote, channelId, trackExisting);
+    const track11NbNotes = track11.GetNbNotes();
+    // build allowed scale notes array
+    let scaleNotesValues = [];
+    for (let octaveCur = octave - 1; octaveCur <= octave; octaveCur++)
+        for (const scaleValue of scaleValues)
+            scaleNotesValues.push(tonicValue + scaleValue + 12 * (octaveCur + 2));
+    let index = 0;
+    for (const event of track11.Events) {
+        if (event.Type != MidiTrackEventType.NOTE_OFF)
+            continue;
+        const noteValue = track11.GetNoteValue(index);
+        const note = noteValue % 12;
+        const octave = Math.floor(noteValue / 12) - 2;
+        const duration = event.DeltaTime;
+        const rhythmsFactor = rhythmFactorArray[index % nbRhythms];
+        // 1st note: start with delay to enhance separation effect
+        if (index == 0 && hasExistingTrack) {
+            addNoteEvent(track, note, octave, rhythmsFactor * duration, (1 - rhythmsFactor) * duration);
+            // TODO: at last bar, replace 1st note by consonnant interval and set tonic as 2nd note
+        }
+        else {
+            addNoteEvent(track, note, octave, 0, rhythmsFactor * duration);
+            if (index < track11NbNotes - 1) {
+                // create new note
+                const noteCurIndex = scaleNotesValues.indexOf(note + 12 * (octave + 2));
+                const noteValueNext = track11.GetNoteValue(index + 1);
+                const noteNext = noteValueNext % 12;
+                const octaveNext = Math.floor(noteValueNext / 12) - 2;
+                let noteNextIndex = scaleNotesValues.indexOf(noteNext + 12 * (octaveNext + 2));
+                let noteNewIndex = getRandomGaussianNumber(noteCurIndex - 2, noteNextIndex + 2);
+                noteNewIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, noteNewIndex));
+                let noteValueNew = scaleNotesValues[noteNewIndex];
+                // at penultimate bar, prevent tonic as 2nd note            
+                if (index == track11NbNotes - 2) {
+                    const nbTries = 10000;
+                    for (let i = 0; i < nbTries; i++)
+                        if (noteValueNew % 12 != tonicValue)
+                            break;
+                        else {
+                            noteNewIndex = getRandomNumber(noteCurIndex - 2, noteNextIndex + 2);
+                            noteNewIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, noteNewIndex));
+                            noteValueNew = scaleNotesValues[noteNewIndex];
+                        }
+                }
+                //console.log(noteCurIndex, noteNewIndex, noteNextIndex);
+                const noteNew = noteValueNew % 12;
+                const octaveNew = Math.floor(noteValueNew / 12) - 2;
+                // TODO: apply counterpoint rules to accept new note
+                addNoteEvent(track, noteNew, octaveNew, 0, (1 - rhythmsFactor) * duration);
+            }
+        }
+        index++;
+    }
+    return track;
+}
 function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, qNote, channelId, trackExisting = null) {
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     //const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
     // build allowed scale notes array
     let scaleNotesValues = [];
-    for (let octaveCur = octave - 1; octaveCur <= octave; octaveCur++) {
-        for (const scaleValue of scaleValues) {
+    for (let octaveCur = octave - 1; octaveCur <= octave; octaveCur++)
+        for (const scaleValue of scaleValues)
             scaleNotesValues.push(tonicValue + scaleValue + 12 * (octaveCur + 2));
-        }
-    }
     // 1st note = tonic
-    addNoteEvent(track, tonicValue, octave, 4 * qNote);
+    addNoteEvent(track, tonicValue, octave, 0, 4 * qNote);
     // generate random notes in scale
     const nbTries = 10000;
     let curNoteIndex = scaleNotesValues.indexOf(tonicValue + 12 * (octave + 2));
@@ -38,7 +98,7 @@ function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, qN
         // ok, add note
         const valueNext = noteValueNext % 12;
         const octaveNext = Math.floor(noteValueNext / 12) - 2;
-        addNoteEvent(track, valueNext, octaveNext, 4 * qNote);
+        addNoteEvent(track, valueNext, octaveNext, 0, 4 * qNote);
         curNoteIndex = nextNoteIndex;
     }
     // last note: fetch nearest tonic
@@ -52,7 +112,7 @@ function generateCounterpointTrack11(tonicValue, scaleValues, nbBars, octave, qN
             octaveEnd = octaveCur;
         }
     }
-    addNoteEvent(track, tonicValue, octaveEnd, 4 * qNote);
+    addNoteEvent(track, tonicValue, octaveEnd, 0, 4 * qNote);
     //console.log(track.LogText());
     return track;
 }
@@ -118,7 +178,7 @@ function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, track
     }
     return true;
 }
-function addNoteEvent(track, note, octave, duration) {
+function addNoteEvent(track, note, octave, start, duration) {
     const vel = 102;
     let noteValue = note + 12 * (octave + 2);
     let noteValueInt = ToNoteValueInt(noteValue);
@@ -127,8 +187,8 @@ function addNoteEvent(track, note, octave, duration) {
     const hasPitchBend = (cents != 0);
     if (hasPitchBend)
         track.PitchBend(cents, 0);
-    track.NoteOn(noteValueInt, 0, vel);
-    track.NoteOff(noteValueInt, 4 * qNote);
+    track.NoteOn(noteValueInt, start, vel);
+    track.NoteOff(noteValueInt, duration);
     if (hasPitchBend)
         track.PitchBend(0, 0);
 }
