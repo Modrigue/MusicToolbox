@@ -2,6 +2,7 @@
 const perfectConsonances = [0, 7]; // octave and 5th
 const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
 const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
+const intervalCounterpoint11RangeFactor = 0.8;
 function generateCounterpointTrack12(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 2], trackExisting = null) {
     let track = new MidiTrack(channelId);
     const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
@@ -96,8 +97,7 @@ function generateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, 
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     //const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
-    const intervalRangeFactor = 0.75;
-    const intervalRange = Math.round(intervalRangeFactor * nbNotesInScale);
+    const intervalRange = Math.round(intervalCounterpoint11RangeFactor * nbNotesInScale);
     // build allowed scale notes array
     const scaleNotesValues = getScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
     // 1st note = tonic

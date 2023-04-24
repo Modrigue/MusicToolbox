@@ -94,6 +94,7 @@ window.onload = function()
     }
 
     // song generator
+    (<HTMLSelectElement>document.getElementById(`song_generator_type`)).addEventListener("change", generateNewSong);
     (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).addEventListener("change", generateNewSong);
     (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).addEventListener("change", generateNewSong);
     (<HTMLSelectElement>document.getElementById(`song_generator_nb_bars`)).addEventListener("change", generateNewSong);
@@ -188,6 +189,7 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     }
 
     // update song generator selectors
+    updateSongTypeSelector('song_generator_type');
     updateNoteSelector(`song_generator_tonic`, 0, false);
     updateScaleSelector(`song_generator_scale`, "7major_nat,1");
 
@@ -772,7 +774,7 @@ function updateLocales(): void
     // song generator
     (<HTMLSpanElement>document.getElementById(`song_generator_select_key_text`)).innerText = getString("select_key");
     (<HTMLSpanElement>document.getElementById(`song_generator_header`)).innerText = getString("page_experimental");
-    (<HTMLSpanElement>document.getElementById(`song_generator_type_text`)).innerText = getString("counterpoint") + " 1:1";
+    (<HTMLSpanElement>document.getElementById(`song_generator_type_text`)).innerText = getString("type");
     (<HTMLButtonElement>document.getElementById("song_generator_nb_bars_text")).innerText = `${getString("nb_bars")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_tempo_text")).innerText = `${getString("tempo")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;

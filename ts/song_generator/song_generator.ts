@@ -1,3 +1,7 @@
+const generatedSongTypes: Map<string, string> = new Map<string, string>();
+generatedSongTypes.set("counterpoint 2:1" , "counterpoint_2-1");
+generatedSongTypes.set("counterpoint 1:1" , "counterpoint_1-1");
+
 const qNote = 480; // quarter-note division
 
 let generatedMidi = new MidiFile(1, 2, qNote);
@@ -29,27 +33,37 @@ function generateNewSong(): void
 
     // generate song
 
+    const selectedTypeId = getSelectedSongType('song_generator_type');
+    const rhythmFactor2Array: Array<number> = [1/2, 3/4];
+
     // track 0: set selected tempo
     generatedMidi.UpdateTempo(0, tempo, 0);
 
     // generate tracks
-    let track1 = generatedMidi.Tracks[1];
+    let track1 = generatedMidi.Tracks[1]; // bass
     let track2 = generatedMidi.Tracks[2];
     if (tracksSelected[0] && !tracksSelected[1])
     {
-        track1 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1, track2);
+        //if (selectedTypeId == "counterpoint_2-1")
+        //    TODO
+        //else
+            track1 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1, track2);
     }
     else if (!tracksSelected[0] && tracksSelected[1])
     {
-        track2 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
+        if (selectedTypeId == "counterpoint_2-1")
+            track2 = generateCounterpointTrack12(tonic, scaleValues, nbBars, 4, qNote, 2, rhythmFactor2Array, track1);
+        else
+            track2 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
     }
     else if (tracksSelected[0] && tracksSelected[1])
     {
         track1 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1);
-        track2 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
-
-        //const rhythmFactorArray: Array<number> = [1/2, 3/4];
-        //track2 = generateCounterpointTrack12(tonic, scaleValues, nbBars, 4, qNote, 2, rhythmFactorArray, track1);
+        
+        if (selectedTypeId == "counterpoint_2-1")
+            track2 = generateCounterpointTrack12(tonic, scaleValues, nbBars, 4, qNote, 2, rhythmFactor2Array, track1);
+        else
+            track2 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
     }
 
     // update generated tracks
@@ -86,7 +100,7 @@ function saveGeneratedSong(): void
     const tonicName: string = getSelectorText("song_generator_tonic");
     const scaleName: string = getSelectorText("song_generator_scale");
     
-    const fileName = `${getString("counterpoint")} 1-1 - ${tonicName} ${scaleName}`;
+    const fileName = `${getSelectedSongTypeText('song_generator_type')} - ${tonicName} ${scaleName}`;
     generatedMidi.Save(`${fileName}.mid`);
 }
 
@@ -124,28 +138,6 @@ function updateSongGeneratorPage(): void
     const hasSelectedTracks = (nbTracksSelected > 0);
     setEnabled('song_generator_generate', hasSelectedTracks);
     setEnabled('song_generator_play', hasGeneratedMidi && hasSelectedTracks);
-    
-    // update generated song texts if existing
-
-    /*for (let i = 1; i <= 2; i++)
-    {
-        let trackText = "";
-        let trackColor = "silver";
-
-        if (hasSong)
-        {
-            const track = midiFile.Tracks[i];
-            if (track != null)
-            {
-                trackText = track.Text();
-                trackColor = track.muted ? "silver" : "black";
-            }
-        }
-
-        (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).innerText = trackText;
-        (<HTMLSpanElement>document.getElementById(`song_generator_track_text${i}`)).style.color = trackColor;
-    }*/
-
     setEnabled("song_generator_reset", hasGeneratedMidi);
     
     // for debug purposes
@@ -162,4 +154,53 @@ function updateSongGeneratorPage(): void
         intervalsStr = intervalsStr.trim();
         (<HTMLSpanElement>document.getElementById(`song_generator_tracks_intervals`)).innerText = intervalsStr;
     }*/
+}
+
+function updateSongTypeSelector(id: string)
+{
+    // get selector
+    const typeSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    const initialized = (typeSelect.options != null && typeSelect.options.length > 0);
+
+    if (!initialized)
+    {
+        // add song types
+        for (const [key, value] of generatedSongTypes)
+        {
+            let option = document.createElement('option');
+            option.value = key;
+            option.innerHTML = key.replace("counterpoint", getString("counterpoint"));
+            typeSelect.appendChild(option);
+        }
+}
+    else
+    {
+        // update
+        for (const option of typeSelect.options)
+        {
+            const key = option.value;
+            option.innerHTML = key.replace("counterpoint", getString("counterpoint"));
+        }
+    }
+
+    // disable if only 1 option
+    typeSelect.disabled = (typeSelect.options.length <= 1);
+}
+
+function getSelectedSongType(id: string): string
+{
+    const typeSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    const typeString = typeSelect.value;
+
+    const typeId = <string>generatedSongTypes.get(typeString);
+    return typeId;
+}
+
+function getSelectedSongTypeText(id: string): string
+{
+    const typeSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    const typeIndex = typeSelect.selectedIndex;
+    const typeText = typeSelect.options[typeIndex].text;
+
+    return typeText;
 }
