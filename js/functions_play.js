@@ -71,6 +71,9 @@ function playNote(noteValue, delay) {
     MIDI.noteOff(channelPlay, note, delay + length);
 }
 function playScale(noteValue, scaleValues, bass = false, backwards = false) {
+    // for test purposes only
+    //testExampleMidiFile(false, true);
+    //return;
     const duration = bass ? 0.5 : 1;
     let noteBassValue = noteValue - 12; // tonic at inferior octave
     let scaleValuesToPlay = cloneIntegerArray(scaleValues);

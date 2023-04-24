@@ -105,6 +105,10 @@ function playNote(noteValue: number, delay: number): void
 function playScale(noteValue: number, scaleValues: Array<number>,
     bass: boolean = false, backwards: boolean = false): void
 {
+    // for test purposes only
+    //testExampleMidiFile(false, true);
+    //return;
+    
     const duration: number = bass ? 0.5 : 1;
 
     let noteBassValue = noteValue - 12; // tonic at inferior octave

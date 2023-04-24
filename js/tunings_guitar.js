@@ -28,7 +28,7 @@ guitarTuningsDict.set(6, guitarTunings6Dict);
 guitarTuningsDict.set(7, guitarTunings7Dict);
 ///////////////////////////////// GUITAR TUNING ///////////////////////////////
 function initGuitarTuningSelector(id, useURLParams = true, nbStrings = 6, tuningId = "Standard") {
-    // get selecor
+    // get selector
     const tuningSelect = document.getElementById(id);
     const initialized = (tuningSelect.options != null && tuningSelect.options.length > 0);
     if (initialized) // nop if already initialized

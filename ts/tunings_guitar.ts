@@ -35,7 +35,7 @@ guitarTuningsDict.set(7, guitarTunings7Dict);
 
 function initGuitarTuningSelector(id: string, useURLParams: boolean = true, nbStrings: number = 6, tuningId: string = "Standard"): void
 {
-    // get selecor
+    // get selector
     const tuningSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const initialized = (tuningSelect.options != null && tuningSelect.options.length > 0);
     if (initialized) // nop if already initialized
