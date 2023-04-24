@@ -62,6 +62,21 @@ notesDicts.set("fr", notesDict_fr);
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 
+function GetNoteFromValue(noteValue: number): number
+{
+    return (noteValue % 12);
+}
+
+function GetOctaveFromValue(noteValue: number): number
+{
+    return (Math.floor(noteValue / 12) - 2);
+}
+
+function GetNoteValueFromNoteOctave(note: number, octave: number): number
+{
+    return (note + 12*(octave + 2));
+}
+
 // add interval to note value
 function addToNoteValue(noteValue: number, interval: number): number
 {

@@ -10,7 +10,7 @@ function generateNewSong(): void
 {
     // get selected tonic
     const tonicSelected: string = (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).value;
-    const tonicValue: number = parseInt(tonicSelected);
+    const tonic: number = parseInt(tonicSelected);
 
     // get selected scale
     const scaleId = (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).value;
@@ -37,19 +37,19 @@ function generateNewSong(): void
     let track2 = generatedMidi.Tracks[2];
     if (tracksSelected[0] && !tracksSelected[1])
     {
-        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, qNote, 1, track2);
+        track1 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1, track2);
     }
     else if (!tracksSelected[0] && tracksSelected[1])
     {
-        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, qNote, 2, track1);
+        track2 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
     }
     else if (tracksSelected[0] && tracksSelected[1])
     {
-        track1 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 2, qNote, 1);
-        track2 = generateCounterpointTrack11(tonicValue, scaleValues, nbBars, 4, qNote, 2, track1);
+        track1 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1);
+        track2 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
 
         //const rhythmFactorArray: Array<number> = [1/2, 3/4];
-        //track2 = generateCounterpointTrack12(tonicValue, scaleValues, nbBars, 4, qNote, 2, rhythmFactorArray, track1);
+        //track2 = generateCounterpointTrack12(tonic, scaleValues, nbBars, 4, qNote, 2, rhythmFactorArray, track1);
     }
 
     // update generated tracks
