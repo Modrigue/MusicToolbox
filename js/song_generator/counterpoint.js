@@ -147,6 +147,17 @@ function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, track
     if (noteValue < 0)
         return false;
     const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
+    // melodic fluency
+    // TODO: do not allow too much leaps
+    // TODO: after big ascending leap, force small descending intervals
+    // TODO: after big leap, fill gap with intermediate scale notes
+    // TODO: set highest and lowest notes as 4ths, 5ths or 8ves of the tonic
+    // TODO: set highest and lowest notes appear only once
+    // 1:1
+    // TODO: allow 5th as start note in counterpoint above (but not in counterpoint below)
+    // TODO: force contrary motion in penultimate bar (to avoid direct octave)
+    // 2:1
+    // TODO: allow dissonant intervals for 2nd notes iff. passing tones
     // do not set tonic at starting or ending bars (except final bar)
     const range = 2;
     if (GetNoteFromValue(noteValue) == GetNoteFromValue(tonicValue))
