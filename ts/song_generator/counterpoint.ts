@@ -5,16 +5,16 @@ const dissonances          = [1, 2, 5, 6, 10, 11];   // 2nds, 4ths and 7ths
 const intervalCounterpoint11RangeFactor = 0.8;
 
 function generateCounterpointTrack12(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<number> = [1/2], trackExisting: (MidiTrack | null) = null): MidiTrack
+    channelId: number, rhythmFactorArray: Array<number> = [1/2], trackCF: (MidiTrack | null) = null): MidiTrack
 {
     let track = new MidiTrack(channelId);
-    const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
+    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 0);
     
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
 
     // build 1:1 counterpoint
-    const track11 = generateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackExisting);
+    const track11 = generateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
     const track11NbNotes = track11.GetNbNotes();
 
     // build allowed scale notes array
@@ -34,7 +34,7 @@ function generateCounterpointTrack12(tonic: number, scaleValues: Array<number>, 
         const rhythmsFactor = rhythmFactorArray[index1 % nbRhythms];
 
         // 1st bar: start with delay to enhance separation effect
-        if (index1 == 0  && hasExistingTrack)
+        if (index1 == 0  && hasTrackCF)
         {
             // no 1st note
             addNoteEvent(track, note1, octave1, rhythmsFactor*duration, (1 - rhythmsFactor)*duration);
@@ -134,11 +134,11 @@ function generateCounterpointTrack12(tonic: number, scaleValues: Array<number>, 
 
 
 function generateCounterpointTrack11(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, trackExisting: (MidiTrack | null) = null): MidiTrack
+    channelId: number, trackCF: (MidiTrack | null) = null): MidiTrack
 {    
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
-    //const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
+    //const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 0);
 
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor*nbNotesInScale);
 
@@ -170,7 +170,7 @@ function generateCounterpointTrack11(tonic: number, scaleValues: Array<number>, 
             noteValueNext = scaleNotesValues[nextNoteIndex];
             //console.log(curNoteIndex, indexIntervalNext, nextNoteIndex, noteValueNext);
 
-            if (acceptNote(noteValueNext, tonic, barIndex, nbBars, track, trackExisting))
+            if (acceptNote(noteValueNext, tonic, barIndex, nbBars, track, trackCF))
                 break;
         }
 
@@ -200,18 +200,18 @@ function generateCounterpointTrack11(tonic: number, scaleValues: Array<number>, 
 }
 
 function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbBars: number,
-    trackCurrent: MidiTrack, trackExisting: (MidiTrack | null) = null): boolean
+    trackCurrent: MidiTrack, trackCF: (MidiTrack | null) = null): boolean
 {
     if (noteValue < 0)
         return false;
     
-    const hasExistingTrack = (trackExisting != null && trackExisting.Events != null && trackExisting.Events.length > 0);
+    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 0);
 
     // melodic fluency
     // TODO: do not allow too much leaps
-    // TODO: after big ascending leap, force small descending intervals
+    // TODO: after big ascending, resp. desc. leap, force small descending, resp. asc. intervals
     // TODO: after big leap, fill gap with intermediate scale notes
-    // TODO: set highest and lowest notes as 4ths, 5ths or 8ves of the tonic
+    // TODO: set highest and lowest notes as 5ths or 8ves of the tonic
     // TODO: set highest and lowest notes appear only once
 
     // 1:1
@@ -219,7 +219,11 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
     // TODO: force contrary motion in penultimate bar (to avoid direct octave)
     
     // 2:1
+    // TODO: forbid tone reptition for 1st and 2nd notes
     // TODO: allow dissonant intervals for 2nd notes iff. passing tones
+    // TODO: allow direct 5ths/8ves for 2nd notes
+    // TODO: allow direct 5ths/8ves for 1st notes iff. contrary motion
+    // TODO: avoid consecutive tone repetition for 2nd notes of 2 consecutive bars
 
     // do not set tonic at starting or ending bars (except final bar)
     const range = 2;
@@ -246,10 +250,10 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
     }
 
     // apply counterpoint rules
-    if (hasExistingTrack)
+    if (hasTrackCF)
     {
         // compute current candidate interval with existing track note
-        const existingNoteValue1 = (<MidiTrack>trackExisting).GetNoteValue(barIndex);
+        const existingNoteValue1 = (<MidiTrack>trackCF).GetNoteValue(barIndex);
         const curInterval1 = getIntervalBetweenNotes(noteValue, existingNoteValue1);
 
         // avoid dissonant intervals
@@ -258,7 +262,7 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
         if (isMicrotonalInterval(curInterval1))
             return false;
 
-        const existingNoteValue2 = (<MidiTrack>trackExisting).GetNoteValue(barIndex - 1);
+        const existingNoteValue2 = (<MidiTrack>trackCF).GetNoteValue(barIndex - 1);
         const curNoteValue2 = trackCurrent.GetNoteValue(barIndex - 1);
         const curInterval2 = getIntervalBetweenNotes(curNoteValue2, existingNoteValue2);
 
@@ -283,7 +287,7 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
         // no 3 consecutive 3rds and 6ths
         if (barIndex >= 2)
         {
-            const existingNoteValue3 = (<MidiTrack>trackExisting).GetNoteValue(barIndex - 2);
+            const existingNoteValue3 = (<MidiTrack>trackCF).GetNoteValue(barIndex - 2);
             const curNoteValue3 = trackCurrent.GetNoteValue(barIndex - 2);
             const curInterval3 = getIntervalBetweenNotes(curNoteValue3, existingNoteValue3);
 
