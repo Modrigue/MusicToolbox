@@ -1,4 +1,4 @@
-const perfectConsonances   = [0, 7];                 // octave and 5th
+const perfectConsonances   = [0, 7];                 // unison, 8ves and 5ths
 const imperfectConsonances = [3, 4, 8, 9];           // 3rds and 6ths
 const dissonances          = [1, 2, 5, 6, 10, 11];   // 2nds, 4ths and 7ths
 
@@ -210,13 +210,18 @@ function acceptNote(noteValue: number, tonicValue: number, barIndex: number, nbB
     // melodic fluency
     // TODO: do not allow too much leaps
     // TODO: after big ascending, resp. desc. leap, force small descending, resp. asc. intervals
+    //       big = > major 3rd
+    //       more important for upward leaps
     // TODO: after big leap, fill gap with intermediate scale notes
-    // TODO: set highest and lowest notes as 5ths or 8ves of the tonic
+    // TODO: set highest and lowest notes as 3rds, 5ths, 6ths or 8ves of the tonic
     // TODO: set highest and lowest notes appear only once
+    // TODO: no consecutive same notes for cantus firmus
 
     // 1:1
-    // TODO: allow 5th as start note in counterpoint above (but not in counterpoint below)
+    // TODO: allow 3rds and 5ths as start note in counterpoint above (but not in counterpoint below)
     // TODO: force contrary motion in penultimate bar (to avoid direct octave)
+    // TODO: prevent 2 consecutive perfect consonnances
+    // TODO: prevent melodies' lowest/highest points happening at the same time
     
     // 2:1
     // TODO: forbid tone reptition for 1st and 2nd notes
