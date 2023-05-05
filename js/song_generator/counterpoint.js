@@ -4,8 +4,19 @@ const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
 const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
 const intervalCounterpoint11RangeFactor = 0.8;
 function generateCounterpointTrack12(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 2], trackCF = null) {
+    // generate track candidate and check its melodic fluency
+    const nbTries = 10000;
     let track = new MidiTrack(channelId);
-    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 0);
+    for (let i = 0; i < nbTries; i++) {
+        track = generateCounterpointTrack12Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
+        if (hasMelodicFluency(track, tonic, octave))
+            break;
+    }
+    return track;
+}
+function generateCounterpointTrack12Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 2], trackCF = null) {
+    let track = new MidiTrack(channelId);
+    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
     // build 1:1 counterpoint
@@ -94,13 +105,25 @@ function generateCounterpointTrack12(tonic, scaleValues, nbBars, octave, qNote, 
     return track;
 }
 function generateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
+    // generate track candidate and check its melodic fluency
+    const nbTries = 10000;
+    let track = new MidiTrack(channelId);
+    for (let i = 0; i < nbTries; i++) {
+        track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
+        if (hasMelodicFluency(track, tonic, octave))
+            break;
+    }
+    return track;
+}
+function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
-    //const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 0);
+    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor * nbNotesInScale);
     // build allowed scale notes array
     const scaleNotesValues = getScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
     // 1st note = tonic
+    // TODO: allow 3rds and 5ths as start note in counterpoint above (but not in counterpoint below)
     addNoteEvent(track, tonic, octave, 0, 4 * qNote);
     // generate random notes in scale
     const nbTries = 10000;
@@ -120,7 +143,7 @@ function generateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, 
             nextNoteIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, nextNoteIndex));
             noteValueNext = scaleNotesValues[nextNoteIndex];
             //console.log(curNoteIndex, indexIntervalNext, nextNoteIndex, noteValueNext);
-            if (acceptNote(noteValueNext, tonic, barIndex, nbBars, track, trackCF))
+            if (acceptNote11(noteValueNext, tonic, barIndex, nbBars, track, trackCF))
                 break;
         }
         // ok, add note
@@ -143,26 +166,15 @@ function generateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, 
     //console.log(track.LogText());
     return track;
 }
-function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, trackCF = null) {
+function acceptNote11(noteValue, tonicValue, barIndex, nbBars, trackCurrent, trackCF = null) {
     if (noteValue < 0)
         return false;
-    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 0);
-    // melodic fluency
-    // TODO: do not allow too much leaps
-    // TODO: after big ascending, resp. desc. leap, force small descending, resp. asc. intervals
-    //       big = > major 3rd
-    //       more important for upward leaps
-    // TODO: after big leap, fill gap with intermediate scale notes
-    // TODO: set highest and lowest notes as 3rds, 5ths, 6ths or 8ves of the tonic
-    // TODO: set highest and lowest notes appear only once
-    // TODO: no consecutive same notes for cantus firmus
+    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // 1:1
-    // TODO: allow 3rds and 5ths as start note in counterpoint above (but not in counterpoint below)
     // TODO: force contrary motion in penultimate bar (to avoid direct octave)
-    // TODO: prevent 2 consecutive perfect consonnances
     // TODO: prevent melodies' lowest/highest points happening at the same time
     // 2:1
-    // TODO: forbid tone reptition for 1st and 2nd notes
+    // TODO: forbid tone repetition for 1st and 2nd notes
     // TODO: allow dissonant intervals for 2nd notes iff. passing tones
     // TODO: allow direct 5ths/8ves for 2nd notes
     // TODO: allow direct 5ths/8ves for 1st notes iff. contrary motion
@@ -181,8 +193,8 @@ function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, track
     //    if (lastNoteValue1 == lastNoteValue2 && noteValue == lastNoteValue1)
     //        return false;
     //}
-    // do not allow unisson
-    if (trackCurrent.Events.length > 1) {
+    // if cantus firmus, do not allow unisson
+    if (!hasTrackCF && trackCurrent.Events.length > 1) {
         const lastNoteValue1 = trackCurrent.GetNoteValue(trackCurrent.GetNbNotes() - 1);
         if (noteValue == lastNoteValue1)
             return false;
@@ -213,7 +225,10 @@ function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, track
         const hasSameMotion = (curMotion == existingMotion);
         if (hasSameMotion && (curInterval1 == 0 || curInterval1 == 7))
             return false;
-        // no 3 consecutive 3rds and 6ths
+        // avoid 2 consecutive perfect consonnances
+        if (perfectConsonances.indexOf(curInterval1) >= 0 && perfectConsonances.indexOf(curInterval2) >= 0)
+            return false;
+        // avoid 3 consecutive 3rds and 6ths
         if (barIndex >= 2) {
             const existingNoteValue3 = trackCF.GetNoteValue(barIndex - 2);
             const curNoteValue3 = trackCurrent.GetNoteValue(barIndex - 2);
@@ -223,6 +238,65 @@ function acceptNote(noteValue, tonicValue, barIndex, nbBars, trackCurrent, track
                     return false;
         }
     }
+    return true;
+}
+function hasMelodicFluency(track, tonic, octave) {
+    // TODO: do not allow too much big leaps
+    // TODO: after big ascending, resp. desc. leap, force small descending, resp. asc. intervals
+    //       big = > |major 3rd|
+    //       more important for upward leaps
+    // TODO: after big leap, fill gap with intermediate scale notes
+    // TODO: limit nb. of unissons?
+    const tonicValue = GetNoteValueFromNoteOctave(tonic, octave);
+    // compute highest and lowest note values
+    let nbNotes = 0;
+    let noteValueMax = -1;
+    let noteValueMin = Number.MAX_SAFE_INTEGER;
+    for (const event of track.Events) {
+        if (event.Type != MidiTrackEventType.NOTE_OFF)
+            continue;
+        const noteValue = track.GetNoteValue(nbNotes);
+        if (noteValue > noteValueMax)
+            noteValueMax = noteValue;
+        if (noteValue < noteValueMin)
+            noteValueMin = noteValue;
+        nbNotes++;
+    }
+    if (noteValueMax == tonicValue)
+        return false;
+    // ensure highest and lowest notes perfect/imperfect consonances
+    const intervalMax = getIntervalBetweenNotes(noteValueMax, tonicValue);
+    const intervalMin = getIntervalBetweenNotes(tonicValue, noteValueMin);
+    if (perfectConsonances.indexOf(intervalMax) < 0 && imperfectConsonances.indexOf(intervalMax) < 0)
+        return false;
+    if (perfectConsonances.indexOf(intervalMin) < 0 && imperfectConsonances.indexOf(intervalMin) < 0)
+        return false;
+    //console.log(tonicValue, noteValueMin, noteValueMax, intervalMin, intervalMax);
+    // compute highest and lowest note values nb. of occurrences
+    // (do not count 1st and last notes)
+    let noteValueMaxNb = 0;
+    let noteValueMinNb = 0;
+    let index = 0;
+    for (const event of track.Events) {
+        if (event.Type != MidiTrackEventType.NOTE_OFF)
+            continue;
+        if (index == 0) {
+            index++;
+            continue;
+        }
+        else if (index == nbNotes - 1)
+            continue;
+        const noteValue = track.GetNoteValue(index);
+        if (noteValue == noteValueMax)
+            noteValueMaxNb++;
+        if (noteValue == noteValueMin)
+            noteValueMinNb++;
+        index++;
+    }
+    // ensure highest and lowest notes appear only once
+    if (noteValueMaxNb != 1 || noteValueMinNb != 1)
+        return false;
+    //console.log("MELODIC FLUENCY OK");
     return true;
 }
 function addNoteValueEvent(track, noteValue, start, duration) {
