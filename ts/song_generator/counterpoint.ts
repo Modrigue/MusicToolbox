@@ -332,13 +332,6 @@ function acceptNote11(noteValue: number, tonicValue: number, barIndex: number, n
 
 function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number): Boolean
 {
-    // TODO: do not allow too much big leaps
-    // TODO: after big ascending, resp. desc. leap, force small descending, resp. asc. intervals
-    //       big = > |major 3rd|
-    //       more important for upward leaps
-    // TODO: after big leap, fill gap with intermediate scale notes
-    // TODO: limit nb. of unissons?
-
     const tonicValue = GetNoteValueFromNoteOctave(tonic, octave);
 
     // compute highest and lowest note values
@@ -402,6 +395,50 @@ function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number): Bo
     // ensure highest and lowest notes appear only once
     if (noteValueMaxNb != 1 || noteValueMinNb != 1)
         return false;
+
+    // prevent too much unisons and big leaps (|big leap| => major 3rd interval)
+
+    const nbUnisonsAllowed = Math.floor(nbNotes / 8) + 1; // arbitrary
+    let nbUnisons = 0;
+    
+    const intervalBigLeapMin = 5;
+    let nbBigLeapsAsc = 0;
+    let nbBigLeapsDesc = 0;
+    const nbBigLeapsAllowed = Math.floor(nbNotes / 8) + 1; // arbitrary
+
+    index = 0;
+    for (const event of track.Events)
+    {
+        if (event.Type != MidiTrackEventType.NOTE_OFF)
+            continue;
+        
+        if (index == 0)
+        {
+            index++;
+            continue;
+        }
+
+        const noteValueCur = track.GetNoteValue(index);
+        const noteValuePrev = track.GetNoteValue(index - 1);
+
+        if (noteValueCur == noteValuePrev)
+            nbUnisons++;
+        if (noteValueCur - noteValuePrev >= intervalBigLeapMin)
+            nbBigLeapsAsc++;
+        if (noteValueCur - noteValuePrev <= -intervalBigLeapMin)
+            nbBigLeapsDesc++;
+
+        index++;
+    }
+
+    if (nbUnisons > nbUnisonsAllowed)
+        return false;
+    if (nbBigLeapsAsc > nbBigLeapsAllowed || nbBigLeapsDesc > nbBigLeapsAllowed)
+        return false;
+
+    // TODO: after big ascending, resp. desc. leap, force small descending, resp. asc. intervals
+    //       more important for upward leaps
+    // TODO: after big leap, fill gap with intermediate scale notes
 
     //console.log("MELODIC FLUENCY OK");
     return true;
