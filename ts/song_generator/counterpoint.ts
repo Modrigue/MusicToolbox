@@ -13,7 +13,7 @@ function generateCounterpointTrack12(tonic: number, scaleValues: Array<number>, 
     for (let i = 0; i < nbTries; i++)
     {
         track = generateCounterpointTrack12Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
-        if (hasMelodicFluency(track, tonic, octave))
+        if (hasMelodicFluency(track, tonic, octave, scaleValues))
             break;
     }
 
@@ -157,7 +157,7 @@ function generateCounterpointTrack11(tonic: number, scaleValues: Array<number>, 
     for (let i = 0; i < nbTries; i++)
     {
         track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
-        if (hasMelodicFluency(track, tonic, octave))
+        if (hasMelodicFluency(track, tonic, octave, scaleValues))
             break;
     }
 
@@ -259,7 +259,7 @@ function acceptNote11(noteValue: number, tonicValue: number, barIndex: number, n
 
     // 1:1
     // TODO: force contrary motion in penultimate bar (to avoid direct octave)
-    // TODO: prevent melodies' lowest/highest points happening at the same time
+    // TODO: prevent melodies' lowest/highest points happening at the same bar
     
     // 2:1
     // TODO: forbid tone repetition for 1st and 2nd notes
@@ -267,6 +267,7 @@ function acceptNote11(noteValue: number, tonicValue: number, barIndex: number, n
     // TODO: allow direct 5ths/8ves for 2nd notes
     // TODO: allow direct 5ths/8ves for 1st notes iff. contrary motion
     // TODO: avoid consecutive tone repetition for 2nd notes of 2 consecutive bars
+    // TODO: prevent melodies' lowest/highest points happening at the same bar
 
     // do not set tonic at starting or ending bars (except final bar)
     const range = 2;
@@ -347,9 +348,10 @@ function acceptNote11(noteValue: number, tonicValue: number, barIndex: number, n
     return true;
 }
 
-function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number): Boolean
+function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number, scaleValues: Array<number>): Boolean
 {
     const tonicValue = GetNoteValueFromNoteOctave(tonic, octave);
+    const nbNotesInScale = scaleValues.length;
 
     // compute highest and lowest note values
     let nbNotes = 0;
@@ -421,6 +423,8 @@ function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number): Bo
     const intervalBigLeapMin = 5;
     let nbBigLeapsAsc = 0;
     let nbBigLeapsDesc = 0;
+    let indexBigLeapAsc = -1;
+    let indexBigLeapDesc = -1;
     const nbBigLeapsAllowed = Math.floor(nbNotes / 8) + 1; // arbitrary
 
     index = 0;
@@ -437,13 +441,58 @@ function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number): Bo
 
         const noteValueCur = track.GetNoteValue(index);
         const noteValuePrev = track.GetNoteValue(index - 1);
+        const intervalCur = noteValueCur - noteValuePrev;
 
-        if (noteValueCur == noteValuePrev)
+        const notePrev = GetNoteFromValue(noteValuePrev);
+        const octavePrev = GetOctaveFromValue(noteValuePrev);
+
+        // after big ascending leaps, ensure smallest descending intervals (in scale)
+        if (nbNotesInScale >= 7)
+        if (indexBigLeapAsc >= 0 && (index == indexBigLeapAsc + 1 || index == indexBigLeapAsc + 2))
+        { 
+            // compute expected smallest descending interval in scale
+            const scaleIntervalPrev = (notePrev - tonic + 12) % 12;
+            const scaleIntervalPrevPos = scaleValues.indexOf(scaleIntervalPrev)
+            if (scaleIntervalPrevPos >= 0)
+            {
+                const scaleIntervalCurPosExpected = (scaleIntervalPrevPos - 1 + nbNotesInScale) % nbNotesInScale;
+                const scaleIntervalCurExpected = scaleValues[scaleIntervalCurPosExpected];
+                const noteValueCurExpected = GetNoteValueFromNoteOctave(tonic + scaleIntervalCurExpected, octavePrev);
+
+                if (noteValueCur != noteValueCurExpected)
+                    return false;
+            }
+        }
+
+        // after big descending leaps, ensure small ascending intervals
+        if (nbNotesInScale >= 7)
+        if (indexBigLeapDesc >= 0 && (index == indexBigLeapDesc + 1 || index == indexBigLeapDesc + 2))
+            if (intervalCur < 0 || intervalCur >= intervalBigLeapMin)
+                return false;
+
+        // count unisions and big leaps
+        if (intervalCur == 0)
             nbUnisons++;
-        if (noteValueCur - noteValuePrev >= intervalBigLeapMin)
+        if (intervalCur >= intervalBigLeapMin)
+        {
             nbBigLeapsAsc++;
-        if (noteValueCur - noteValuePrev <= -intervalBigLeapMin)
+            indexBigLeapAsc = index;
+
+            // prevent big ascending leap in penultimate bars
+            if (nbNotesInScale >= 7)
+            if (index == nbNotes - 1 || index == nbNotes - 2)
+                return false;
+        }
+        if (intervalCur <= -intervalBigLeapMin)
+        {
             nbBigLeapsDesc++;
+            indexBigLeapDesc = index;
+
+            // prevent big descending leap in penultimate bars?
+            //if (nbNotesInScale >= 7)
+            //if (index == nbNotes - 1 || index == nbNotes - 2)
+            //    return false;
+        }
 
         index++;
     }
@@ -452,10 +501,6 @@ function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number): Bo
         return false;
     if (nbBigLeapsAsc > nbBigLeapsAllowed || nbBigLeapsDesc > nbBigLeapsAllowed)
         return false;
-
-    // TODO: after big ascending, resp. desc. leap, force small descending, resp. asc. intervals
-    //       more important for upward leaps
-    // TODO: after big leap, fill gap with intermediate scale notes
 
     //console.log("MELODIC FLUENCY OK");
     return true;
