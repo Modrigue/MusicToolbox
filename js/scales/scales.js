@@ -366,4 +366,12 @@ function isOctaveScale(scaleValues) {
         return false;
     return true;
 }
+// build scale notes array from octaves range
+function GetScaleNotesOctaveRangeValues(tonicValue, scaleValues, octave) {
+    const scaleNotesValues = [];
+    for (let octaveCur = octave - 1; octaveCur <= octave; octaveCur++)
+        for (const scaleValue of scaleValues)
+            scaleNotesValues.push(tonicValue + scaleValue + 12 * (octaveCur + 2));
+    return scaleNotesValues;
+}
 //# sourceMappingURL=scales.js.map

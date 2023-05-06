@@ -1,15 +1,22 @@
 "use strict";
-function getRandomNumber(minNumber, maxNumber /* included */) {
+function GetRandomNumber(minNumber, maxNumber /* included */) {
     return Math.floor(minNumber + (maxNumber + 1 - minNumber) * Math.random());
 }
-function getRandomGaussianNumber(minNumber, maxNumber /* included */) {
+function GetRandomGaussianNumber(minNumber, maxNumber /* included */) {
     return Math.floor(minNumber + (maxNumber + 1 - minNumber) * randomGauss());
+}
+function GetRandomNoteValueInScale(indexMin, indexMax, scaleNotesValues, gaussian = true) {
+    if (scaleNotesValues == null || scaleNotesValues.length == 0)
+        return -1;
+    let noteIndex = gaussian ? GetRandomGaussianNumber(indexMin, indexMax) : GetRandomNumber(indexMin, indexMax);
+    noteIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, noteIndex));
+    return scaleNotesValues[noteIndex];
 }
 function getRandomArrayElement(array) {
     if (array == null || array.length == 0)
         return null;
     const nbElements = array.length;
-    const index = getRandomNumber(0, nbElements - 1);
+    const index = GetRandomNumber(0, nbElements - 1);
     return array[index];
 }
 function randomGauss() {

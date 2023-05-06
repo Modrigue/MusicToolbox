@@ -120,4 +120,23 @@ class MidiTrack {
         return -1;
     }
 }
+function AddNoteValueEvent(track, noteValue, start, duration) {
+    const note = GetNoteFromValue(noteValue);
+    const octave = GetOctaveFromValue(noteValue);
+    AddNoteEvent(track, note, octave, start, duration);
+}
+function AddNoteEvent(track, note, octave, start, duration) {
+    const vel = 102;
+    let noteValue = GetNoteValueFromNoteOctave(note, octave);
+    let noteValueInt = ToNoteValueInt(noteValue);
+    // handle pitch bend if specified
+    let cents = ToNoteValueCents(noteValue);
+    const hasPitchBend = (cents != 0);
+    if (hasPitchBend)
+        track.PitchBend(cents, 0);
+    track.NoteOn(noteValueInt, start, vel);
+    track.NoteOff(noteValueInt, duration);
+    if (hasPitchBend)
+        track.PitchBend(0, 0);
+}
 //# sourceMappingURL=midiTrack.js.map

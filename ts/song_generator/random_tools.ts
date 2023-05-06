@@ -1,11 +1,21 @@
-function getRandomNumber(minNumber: number, maxNumber: number /* included */): number
+function GetRandomNumber(minNumber: number, maxNumber: number /* included */): number
 {
     return Math.floor(minNumber + (maxNumber + 1 - minNumber)*Math.random());
 }
 
-function getRandomGaussianNumber(minNumber: number, maxNumber: number /* included */): number
+function GetRandomGaussianNumber(minNumber: number, maxNumber: number /* included */): number
 {
     return Math.floor(minNumber + (maxNumber + 1 - minNumber)*randomGauss());
+}
+
+function GetRandomNoteValueInScale(indexMin: number, indexMax: number, scaleNotesValues: Array<number>, gaussian: boolean = true): number
+{
+    if (scaleNotesValues == null || scaleNotesValues.length == 0)
+        return - 1;
+    
+    let noteIndex = gaussian ? GetRandomGaussianNumber(indexMin, indexMax) : GetRandomNumber(indexMin, indexMax);
+    noteIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, noteIndex));
+    return scaleNotesValues[noteIndex];
 }
 
 function getRandomArrayElement<T>(array: Array<T>): (T | null)
@@ -14,7 +24,7 @@ function getRandomArrayElement<T>(array: Array<T>): (T | null)
         return null;
 
     const nbElements = array.length;
-    const index = getRandomNumber(0, nbElements - 1);
+    const index = GetRandomNumber(0, nbElements - 1);
     
     return array[index];
 }

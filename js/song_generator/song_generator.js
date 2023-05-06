@@ -34,20 +34,20 @@ function generateNewSong() {
         //if (selectedTypeId == "counterpoint_2-1")
         //    TODO
         //else
-        track1 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1, track2);
+        track1 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1, track2);
     }
     else if (!tracksSelected[0] && tracksSelected[1]) {
         if (selectedTypeId == "counterpoint_2-1")
-            track2 = generateCounterpointTrack12(tonic, scaleValues, nbBars, 4, qNote, 2, rhythmFactor2Array, track1);
+            track2 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, 4, qNote, 2, rhythmFactor2Array, track1);
         else
-            track2 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
+            track2 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
     }
     else if (tracksSelected[0] && tracksSelected[1]) {
-        track1 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1);
+        track1 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1);
         if (selectedTypeId == "counterpoint_2-1")
-            track2 = generateCounterpointTrack12(tonic, scaleValues, nbBars, 4, qNote, 2, rhythmFactor2Array, track1);
+            track2 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, 4, qNote, 2, rhythmFactor2Array, track1);
         else
-            track2 = generateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
+            track2 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, 4, qNote, 2, track1);
     }
     // update generated tracks
     generatedMidi.Tracks[1] = track1;

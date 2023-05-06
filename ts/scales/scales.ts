@@ -453,3 +453,14 @@ function isOctaveScale(scaleValues: Array<number>): boolean
 
     return true;
 }
+
+// build scale notes array from octaves range
+function GetScaleNotesOctaveRangeValues(tonicValue: number, scaleValues: Array<number>, octave: number): Array<number>
+{
+    const scaleNotesValues: Array<number> = [];
+    for (let octaveCur = octave - 1; octaveCur <= octave; octaveCur++)
+        for (const scaleValue of scaleValues)
+            scaleNotesValues.push(tonicValue + scaleValue + 12*(octaveCur + 2)); 
+
+    return scaleNotesValues;
+}

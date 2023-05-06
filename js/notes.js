@@ -66,6 +66,18 @@ function GetOctaveFromValue(noteValue) {
 function GetNoteValueFromNoteOctave(note, octave) {
     return (note + 12 * (octave + 2));
 }
+function GetIntervalBetweenNotes(noteValue1, noteValue2) {
+    const note1 = (noteValue1 % 12);
+    const note2 = (noteValue2 % 12);
+    return (note1 - note2 + 12) % 12;
+}
+function GetMotionBetweenNotes(noteValuePrev, noteValueNext) {
+    if (noteValueNext > noteValuePrev)
+        return 1;
+    else if (noteValueNext < noteValuePrev)
+        return -1;
+    return 0;
+}
 // add interval to note value
 function addToNoteValue(noteValue, interval) {
     return ((noteValue + interval + 12) % 12);
