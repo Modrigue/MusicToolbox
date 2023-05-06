@@ -8,6 +8,17 @@ function getRandomGaussianNumber(minNumber: number, maxNumber: number /* include
     return Math.floor(minNumber + (maxNumber + 1 - minNumber)*randomGauss());
 }
 
+function getRandomArrayElement<T>(array: Array<T>): (T | null)
+{
+    if (array == null || array.length == 0)
+        return null;
+
+    const nbElements = array.length;
+    const index = getRandomNumber(0, nbElements - 1);
+    
+    return array[index];
+}
+
 function randomGauss()
 {
     const nbRandomCalls = 3;

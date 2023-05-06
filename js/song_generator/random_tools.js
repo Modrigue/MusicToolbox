@@ -5,6 +5,13 @@ function getRandomNumber(minNumber, maxNumber /* included */) {
 function getRandomGaussianNumber(minNumber, maxNumber /* included */) {
     return Math.floor(minNumber + (maxNumber + 1 - minNumber) * randomGauss());
 }
+function getRandomArrayElement(array) {
+    if (array == null || array.length == 0)
+        return null;
+    const nbElements = array.length;
+    const index = getRandomNumber(0, nbElements - 1);
+    return array[index];
+}
 function randomGauss() {
     const nbRandomCalls = 3;
     let res = 0;

@@ -176,9 +176,26 @@ function generateCounterpointTrack11Candidate(tonic: number, scaleValues: Array<
     // build allowed scale notes array
     const scaleNotesValues = getScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
  
-    // 1st note = tonic
-    // TODO: allow 3rds and 5ths as start note in counterpoint above (but not in counterpoint below)
-    addNoteEvent(track, tonic, octave, 0, 4*qNote);
+    // allow tonic as 1st note
+    // in counterpoint above only: allow 3rds and 5ths (in scale) as start note
+    let startIntervals: Array<number> = [0]; // tonic
+    if (hasTrackCF)
+    {
+        const noteValueStartCF = (<MidiTrack>trackCF).GetNoteValue(0);
+        const octaveCF = GetOctaveFromValue(noteValueStartCF);
+        let isCounterpointAbove = (octave > octaveCF);
+
+        if (isCounterpointAbove)
+        {
+            let startIntervalsAllowed: Array<number> = [3, 4, 7, -5 /*5th below*/];
+            for (const interval of startIntervalsAllowed)
+                if (scaleValues.indexOf((interval + 12) % 12) >= 0)
+                    startIntervals.push(interval);
+        }
+    }
+
+    const startInterval = <number>getRandomArrayElement(startIntervals);
+    addNoteEvent(track, tonic + startInterval, octave, 0, 4*qNote);
 
     // generate random notes in scale
     const nbTries = 10000;
