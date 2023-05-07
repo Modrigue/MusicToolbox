@@ -1,21 +1,32 @@
 function GenerateCounterpointTrack21(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<number> = [1/2], trackCF: (MidiTrack | null) = null): MidiTrack
+    channelId: number, rhythmFactorArray: Array<number> = [1/2], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 { 
-    // generate track candidate and check its melodic fluency
+    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
+    
+    // generate candidate track and check its melodic fluency and coherency
     const nbTries = 10000;
-    let track = new MidiTrack(channelId);
+    let track = null;
+    let success = false;
     for (let i = 0; i < nbTries; i++)
     {
-        track = generateCounterpointTrack12Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
-        if (hasMelodicFluency(track, tonic, octave, scaleValues))
-            break;
+        track = generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
+        if (track == null)
+            return null;
+
+        if (hasTrackCF)
+            success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint21(<MidiTrack>trackCF, track));
+        else
+            success = hasMelodicFluency(track, tonic, octave, scaleValues);
+
+        if (success)
+            return track;
     }
 
-    return track;
+    return null;
 }
 
-function generateCounterpointTrack12Candidate(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<number> = [1/2], trackCF: (MidiTrack | null) = null): MidiTrack
+function generateCounterpointTrack21Candidate(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
+    channelId: number, rhythmFactorArray: Array<number> = [1/2], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 {
     let track = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
@@ -25,6 +36,9 @@ function generateCounterpointTrack12Candidate(tonic: number, scaleValues: Array<
 
     // build 1:1 counterpoint
     const track11 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
+    if (track11 == null)
+        return null;
+
     const track11NbNotes = track11.GetNbNotes();
 
     // TODO: forbid tone repetition for 1st and 2nd notes
@@ -147,4 +161,57 @@ function generateCounterpointTrack12Candidate(tonic: number, scaleValues: Array<
     }
 
     return track;
-} 
+}
+
+function checkCounterpoint21(track1: MidiTrack, track2: MidiTrack): boolean
+{
+    // force contrary motion in penultimate bar (to avoid direct octave)?
+
+    // prevent melodies' lowest/highest points happening at close bars
+
+    let nbNotes: Array<number> = [-1, -1];
+    let indexTrack = 0;
+    let noteValuesMax: Array<number> = [-1, -1];
+    let noteValuesMin: Array<number> = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
+    let indexValuesMax: Array<number> = [-1, -1];
+    let indexValuesMin: Array<number> = [-1, -1];
+    for (const track of [track1, track2])
+    {
+        nbNotes[indexTrack] = track.GetNbNotes();
+        let indexNote = 0;
+        for (const event of track.Events)
+        {
+            if (event.Type != MidiTrackEventType.NOTE_OFF)
+                continue;
+                
+            const noteValue = track.GetNoteValue(indexNote);
+    
+            if (noteValue > noteValuesMax[indexTrack])
+            {
+                noteValuesMax[indexTrack] = noteValue;
+                indexValuesMax[indexTrack] = indexNote;
+            }
+            if (noteValue < noteValuesMin[indexTrack])
+            {
+                noteValuesMin[indexTrack] = noteValue;
+                indexValuesMin[indexTrack] = indexNote;
+            }
+    
+            indexNote++;
+        }
+
+        indexTrack++;
+    }
+
+    // set track with highest nb. of notes as counterpoint above
+    const indexTrackBelow = (nbNotes[1] < nbNotes[0]) ? 1 : 0;
+    const indexTrackAbove = 1 - indexTrackBelow;
+
+    // prevent close highest and lowest notes
+    if (Math.abs(indexValuesMax[indexTrackBelow] - 0.5*indexValuesMax[indexTrackAbove]) <= 1)
+        return false;
+    if (Math.abs(indexValuesMin[indexTrackBelow] - 0.5*indexValuesMin[indexTrackAbove]) <= 1)
+        return false;
+
+    return true;
+}

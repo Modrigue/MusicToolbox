@@ -16,9 +16,9 @@ function GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, 
         else
             success = hasMelodicFluency(track, tonic, octave, scaleValues);
         if (success)
-            break;
+            return track;
     }
-    return track;
+    return null;
 }
 function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
     let track = new MidiTrack(channelId);
@@ -151,7 +151,7 @@ function acceptNoteInCounterpoint11(noteValue, tonicValue, barIndex, nbBars, tra
 }
 function checkCounterpoint11(track1, track2) {
     // force contrary motion in penultimate bar (to avoid direct octave)?
-    // prevent melodies' lowest/highest points happening at the same bar
+    // prevent melodies' lowest/highest points happening at close bars
     let indexTrack = 0;
     let noteValuesMax = [-1, -1];
     let noteValuesMin = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
@@ -175,9 +175,10 @@ function checkCounterpoint11(track1, track2) {
         }
         indexTrack++;
     }
-    if (indexValuesMax[0] == indexValuesMax[1])
+    // prevent close highest and lowest notes
+    if (Math.abs(indexValuesMax[0] - indexValuesMax[1]) <= 1)
         return false;
-    if (indexValuesMin[0] == indexValuesMin[1])
+    if (Math.abs(indexValuesMin[0] - indexValuesMin[1]) <= 1)
         return false;
     return true;
 }

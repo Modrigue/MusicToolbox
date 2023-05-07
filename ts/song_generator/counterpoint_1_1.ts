@@ -6,7 +6,7 @@ const intervalCounterpoint11RangeFactor = 0.8;
 
 
 function GenerateCounterpointTrack11(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, trackCF: (MidiTrack | null) = null): MidiTrack
+    channelId: number, trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 { 
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     
@@ -17,17 +17,17 @@ function GenerateCounterpointTrack11(tonic: number, scaleValues: Array<number>, 
     for (let i = 0; i < nbTries; i++)
     {
         track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
-        
+
         if (hasTrackCF)
             success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(<MidiTrack>trackCF, track));
         else
             success = hasMelodicFluency(track, tonic, octave, scaleValues);
 
         if (success)
-            break;
+            return track;
     }
 
-    return track;
+    return null;
 }
 
 function generateCounterpointTrack11Candidate(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
@@ -206,7 +206,7 @@ function checkCounterpoint11(track1: MidiTrack, track2: MidiTrack): boolean
 {
     // force contrary motion in penultimate bar (to avoid direct octave)?
 
-    // prevent melodies' lowest/highest points happening at the same bar
+    // prevent melodies' lowest/highest points happening at close bars
 
     let indexTrack = 0;
     let noteValuesMax: Array<number> = [-1, -1];
@@ -240,9 +240,10 @@ function checkCounterpoint11(track1: MidiTrack, track2: MidiTrack): boolean
         indexTrack++;
     }
 
-    if (indexValuesMax[0] == indexValuesMax[1])
+    // prevent close highest and lowest notes
+    if (Math.abs(indexValuesMax[0] - indexValuesMax[1]) <= 1)
         return false;
-    if (indexValuesMin[0] == indexValuesMin[1])
+    if (Math.abs(indexValuesMin[0] - indexValuesMin[1]) <= 1)
         return false;
 
     return true;
