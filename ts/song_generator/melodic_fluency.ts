@@ -1,4 +1,4 @@
-function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number, scaleValues: Array<number>): Boolean
+function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number, scaleValues: Array<number>): boolean
 {
     const tonicValue = GetNoteValueFromNoteOctave(tonic, octave);
     const nbNotesInScale = scaleValues.length;

@@ -4,12 +4,18 @@ const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
 const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
 const intervalCounterpoint11RangeFactor = 0.8;
 function GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
-    // generate track candidate and check its melodic fluency
+    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
+    // generate candidate track and check its melodic fluency and coherency
     const nbTries = 10000;
     let track = new MidiTrack(channelId);
+    let success = false;
     for (let i = 0; i < nbTries; i++) {
         track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
-        if (hasMelodicFluency(track, tonic, octave, scaleValues))
+        if (hasTrackCF)
+            success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(trackCF, track));
+        else
+            success = hasMelodicFluency(track, tonic, octave, scaleValues);
+        if (success)
             break;
     }
     return track;
@@ -39,11 +45,11 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
     AddNoteEvent(track, tonic + startInterval, octave, 0, 4 * qNote);
     // generate random notes in scale
     const nbTries = 10000;
-    let curNoteValue = GetNoteValueFromNoteOctave(tonic, octave);
-    let curNoteIndex = scaleNotesValues.indexOf(curNoteValue);
+    let noteCurValue = GetNoteValueFromNoteOctave(tonic, octave);
+    let noteCurIndex = scaleNotesValues.indexOf(noteCurValue);
     for (let barIndex = 1; barIndex < nbBars - 1; barIndex++) {
-        let noteValueNext = -1;
-        let nextNoteIndex = -1;
+        let noteNextValue = -1;
+        let noteNextIndex = -1;
         for (let i = 0; i < nbTries; i++) 
         //while (!acceptNote(noteValueNext, tonicValue, barIndex, nbBars, track, trackExisting))
         {
@@ -51,16 +57,16 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
             let indexIntervalNext = GetRandomGaussianNumber(-intervalRange + 1, intervalRange - 1);
             //while (indexIntervalNext == 0)
             //    indexIntervalNext = getRandomNumber(-nbNotesInScale, nbNotesInScale);
-            nextNoteIndex = curNoteIndex + indexIntervalNext;
-            nextNoteIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, nextNoteIndex));
-            noteValueNext = scaleNotesValues[nextNoteIndex];
+            noteNextIndex = noteCurIndex + indexIntervalNext;
+            noteNextIndex = Math.min(scaleNotesValues.length - 1, Math.max(0, noteNextIndex));
+            noteNextValue = scaleNotesValues[noteNextIndex];
             //console.log(curNoteIndex, indexIntervalNext, nextNoteIndex, noteValueNext);
-            if (acceptNote11(noteValueNext, tonic, barIndex, nbBars, track, trackCF))
+            if (acceptNoteInCounterpoint11(noteNextValue, tonic, barIndex, nbBars, track, trackCF))
                 break;
         }
         // ok, add note
-        AddNoteValueEvent(track, noteValueNext, 0, 4 * qNote);
-        curNoteIndex = nextNoteIndex;
+        AddNoteValueEvent(track, noteNextValue, 0, 4 * qNote);
+        noteCurIndex = noteNextIndex;
     }
     // last note: fetch nearest tonic
     let distMin = -1;
@@ -74,13 +80,11 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
             octaveEnd = octaveCur;
         }
     }
-    // TODO: force contrary motion in penultimate bar (to avoid direct octave)?
-    // TODO: prevent melodies' lowest/highest points happening at the same bar
     AddNoteEvent(track, tonic, octaveEnd, 0, 4 * qNote);
     //console.log(track.LogText());
     return track;
 }
-function acceptNote11(noteValue, tonicValue, barIndex, nbBars, trackCurrent, trackCF = null) {
+function acceptNoteInCounterpoint11(noteValue, tonicValue, barIndex, nbBars, trackCurrent, trackCF = null) {
     if (noteValue < 0)
         return false;
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
@@ -143,6 +147,38 @@ function acceptNote11(noteValue, tonicValue, barIndex, nbBars, trackCurrent, tra
                     return false;
         }
     }
+    return true;
+}
+function checkCounterpoint11(track1, track2) {
+    // force contrary motion in penultimate bar (to avoid direct octave)?
+    // prevent melodies' lowest/highest points happening at the same bar
+    let indexTrack = 0;
+    let noteValuesMax = [-1, -1];
+    let noteValuesMin = [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER];
+    let indexValuesMax = [-1, -1];
+    let indexValuesMin = [-1, -1];
+    for (const track of [track1, track2]) {
+        let indexNote = 0;
+        for (const event of track.Events) {
+            if (event.Type != MidiTrackEventType.NOTE_OFF)
+                continue;
+            const noteValue = track.GetNoteValue(indexNote);
+            if (noteValue > noteValuesMax[indexTrack]) {
+                noteValuesMax[indexTrack] = noteValue;
+                indexValuesMax[indexTrack] = indexNote;
+            }
+            if (noteValue < noteValuesMin[indexTrack]) {
+                noteValuesMin[indexTrack] = noteValue;
+                indexValuesMin[indexTrack] = indexNote;
+            }
+            indexNote++;
+        }
+        indexTrack++;
+    }
+    if (indexValuesMax[0] == indexValuesMax[1])
+        return false;
+    if (indexValuesMin[0] == indexValuesMin[1])
+        return false;
     return true;
 }
 //# sourceMappingURL=counterpoint_1_1.js.map
