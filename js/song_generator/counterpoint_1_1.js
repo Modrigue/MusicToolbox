@@ -111,31 +111,33 @@ function acceptNoteInCounterpoint11(noteValue, tonicValue, barIndex, nbBars, tra
     // apply counterpoint rules
     if (hasTrackCF) {
         // compute current candidate interval with existing track note
-        const existingNoteValue1 = trackCF.GetNoteValue(barIndex);
-        const curInterval1 = GetIntervalBetweenNotes(noteValue, existingNoteValue1);
+        const note1CFValue = trackCF.GetNoteValue(barIndex);
+        const interval1 = GetIntervalBetweenNotes(noteValue, note1CFValue);
         // avoid dissonant intervals
-        if (dissonances.indexOf(curInterval1) >= 0)
+        if (dissonances.indexOf(interval1) >= 0)
             return false;
-        if (isMicrotonalInterval(curInterval1))
+        if (isMicrotonalInterval(interval1))
             return false;
-        const existingNoteValue2 = trackCF.GetNoteValue(barIndex - 1);
-        const curNoteValue2 = trackCurrent.GetNoteValue(barIndex - 1);
-        const curInterval2 = GetIntervalBetweenNotes(curNoteValue2, existingNoteValue2);
+        const note2CFValue = trackCF.GetNoteValue(barIndex - 1);
+        const note2CurValue = trackCurrent.GetNoteValue(barIndex - 1);
+        const interval2 = GetIntervalBetweenNotes(note2CurValue, note2CFValue);
         // avoid parallel octaves and 5ths
-        if (curInterval1 == 7 && curInterval2 == 7)
+        if (interval1 == 7 && interval2 == 7)
             return false;
-        if (curInterval1 == 0 && curInterval2 == 0)
+        if (interval1 == 5 && interval2 == 5)
             return false;
-        if (curInterval1 == 0 && barIndex == nbBars - 2)
+        if (interval1 == 0 && interval2 == 0)
+            return false;
+        if (interval1 == 0 && barIndex == nbBars - 2)
             return false;
         // avoid direct octaves and 5ths
-        const curMotion = GetMotionBetweenNotes(curNoteValue2, noteValue);
-        const existingMotion = GetMotionBetweenNotes(existingNoteValue2, existingNoteValue1);
-        const hasSameMotion = (curMotion == existingMotion);
-        if (hasSameMotion && (curInterval1 == 0 || curInterval1 == 7))
+        const curMotion = GetMotionBetweenNotes(note2CurValue, noteValue);
+        const cfMotion = GetMotionBetweenNotes(note2CFValue, note1CFValue);
+        const hasSameMotion = (curMotion == cfMotion);
+        if (hasSameMotion && (interval1 == 0 || interval1 == 7 || interval1 == 5))
             return false;
         // avoid 2 consecutive perfect consonnances
-        if (perfectConsonances.indexOf(curInterval1) >= 0 && perfectConsonances.indexOf(curInterval2) >= 0)
+        if (perfectConsonances.indexOf(interval1) >= 0 && perfectConsonances.indexOf(interval2) >= 0)
             return false;
         // avoid 3 consecutive 3rds and 6ths
         if (barIndex >= 2) {
@@ -143,7 +145,7 @@ function acceptNoteInCounterpoint11(noteValue, tonicValue, barIndex, nbBars, tra
             const curNoteValue3 = trackCurrent.GetNoteValue(barIndex - 2);
             const curInterval3 = GetIntervalBetweenNotes(curNoteValue3, existingNoteValue3);
             if (imperfectConsonances.indexOf(curInterval3) >= 0)
-                if (curInterval3 == curInterval2 && curInterval2 == curInterval1)
+                if (curInterval3 == interval2 && interval2 == interval1)
                     return false;
         }
     }

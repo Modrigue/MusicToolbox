@@ -19,7 +19,7 @@ function GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, 
     return null;
 }
 function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 2], trackCF = null) {
-    let track = new MidiTrack(channelId);
+    let track21 = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
@@ -28,13 +28,7 @@ function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave
     if (track11 == null)
         return null;
     const track11NbNotes = track11.GetNbNotes();
-    // TODO: forbid tone repetition for 1st and 2nd notes
-    // TODO: allow dissonant intervals for 2nd notes iff. passing tones
-    // TODO: allow direct 5ths/8ves for 2nd notes
-    // TODO: allow direct 5ths/8ves for 1st notes iff. contrary motion
-    // TODO: avoid consecutive tone repetition for 2nd notes of 2 consecutive bars
-    // TODO: prevent melodies' lowest/highest points happening at the same bar
-    // build allowed scale notes array
+    // build scale notes values array
     const scaleNotesValues = GetScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
     let index1 = 0;
     for (const event of track11.Events) {
@@ -43,21 +37,21 @@ function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave
         const note1Value = track11.GetNoteValue(index1);
         const note1 = GetNoteFromValue(note1Value);
         const octave1 = GetOctaveFromValue(note1Value);
+        const note1Index = scaleNotesValues.indexOf(note1Value);
         const duration = event.DeltaTime;
+        const note1ValueNext = track11.GetNoteValue(index1 + 1);
+        let note1NextIndex = scaleNotesValues.indexOf(note1ValueNext);
         const rhythmsFactor = rhythmFactorArray[index1 % nbRhythms];
         // 1st bar: start with delay to enhance separation effect
         if (index1 == 0 && hasTrackCF) {
             // no 1st note
-            AddNoteEvent(track, note1, octave1, rhythmsFactor * duration, (1 - rhythmsFactor) * duration);
+            AddNoteEvent(track21, note1, octave1, rhythmsFactor * duration, (1 - rhythmsFactor) * duration);
         }
         // last bar: replace 1st note by consonnant interval and set tonic as 2nd note
         else if (index1 == track11NbNotes - 1) {
             // replace 1st note with new value
-            const note1Index = scaleNotesValues.indexOf(note1Value);
-            const track2NbNotes = track.GetNbNotes();
-            const note2ValuePrev = track.GetNoteValue(track2NbNotes - 1);
-            const note2Prev = GetNoteFromValue(note2ValuePrev);
-            const octave2Prev = GetOctaveFromValue(note2ValuePrev);
+            const track21NbNotes = track21.GetNbNotes();
+            const note2ValuePrev = track21.GetNoteValue(track21NbNotes - 1);
             let note2PrevIndex = scaleNotesValues.indexOf(note2ValuePrev);
             let note1ValueNew = GetRandomNoteValueInScale(note2PrevIndex - 1, note1Index + 1, scaleNotesValues);
             // prevent tonic
@@ -69,52 +63,89 @@ function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave
                 else // generate new note
                     note1ValueNew = GetRandomNoteValueInScale(note2PrevIndex - 1, note1Index + 1, scaleNotesValues);
             }
-            AddNoteValueEvent(track, note1ValueNew, 0, rhythmsFactor * duration);
+            AddNoteValueEvent(track21, note1ValueNew, 0, rhythmsFactor * duration);
             // set tonic as 2nd note
-            AddNoteEvent(track, note1, octave1, 0, (1 - rhythmsFactor) * duration);
+            AddNoteEvent(track21, note1, octave1, 0, (1 - rhythmsFactor) * duration);
         }
         else {
             // keep existing note as 1st bar note
-            AddNoteEvent(track, note1, octave1, 0, rhythmsFactor * duration);
+            AddNoteEvent(track21, note1, octave1, 0, rhythmsFactor * duration);
             // create new 2nd note
-            const note1Index = scaleNotesValues.indexOf(note1Value);
-            const note1ValueNext = track11.GetNoteValue(index1 + 1);
-            const note1Next = GetNoteFromValue(note1ValueNext);
-            const octave1Next = GetOctaveFromValue(note1ValueNext);
-            let note1NextIndex = scaleNotesValues.indexOf(note1ValueNext);
-            let note2ValueNew = GetRandomNoteValueInScale(note1Index - 2, note1NextIndex + 2, scaleNotesValues);
-            // prevent specific notes
+            let note2ValueNew = -1;
             const nbTries = 10000;
             for (let i = 0; i < nbTries; i++) {
-                let acceptNote = false;
-                // at penultimate bar, prevent tonic as 2nd note
-                if (index1 == track11NbNotes - 2)
-                    acceptNote = (GetNoteFromValue(note2ValueNew) != tonic);
-                // prevent 3 consecutive same notes
-                else if (index1 < track11NbNotes - 2) {
-                    // new 2nd note between 2 existing consecutive same notes
-                    let has3ConsecutiveSameNotes = (note1Value == note1ValueNext && note2ValueNew == note1ValueNext);
-                    // new 2nd note after 1 new and 1 existing consecutive same notes
-                    const track2NbNotes = track.GetNbNotes();
-                    if (track2NbNotes >= 2) {
-                        const note2ValuePrev = track.GetNoteValue(track2NbNotes - 2);
-                        has3ConsecutiveSameNotes = has3ConsecutiveSameNotes
-                            || (note2ValuePrev == note1Value && note2ValueNew == note2ValuePrev);
-                    }
-                    acceptNote = !has3ConsecutiveSameNotes;
-                }
-                if (acceptNote)
+                note2ValueNew = GetRandomNoteValueInScale(note1Index - 2, note1NextIndex + 2, scaleNotesValues);
+                if (acceptNoteInCounterpoint21(note2ValueNew, tonic, index1, nbBars, track21, track11, trackCF))
                     break;
-                else // generate new note
-                    note2ValueNew = GetRandomNoteValueInScale(note1Index - 2, note1NextIndex + 2, scaleNotesValues);
-                //console.log(noteCurIndex, noteNewIndex, noteNextIndex);
             }
-            // TODO: apply counterpoint rules to accept new note
-            AddNoteValueEvent(track, note2ValueNew, 0, (1 - rhythmsFactor) * duration);
+            AddNoteValueEvent(track21, note2ValueNew, 0, (1 - rhythmsFactor) * duration);
         }
         index1++;
     }
-    return track;
+    return track21;
+}
+function acceptNoteInCounterpoint21(note2Value, tonicValue, barIndex, nbBars, track21, track11, trackCF = null) {
+    const track11NbNotes = track11.GetNbNotes();
+    const track21NbNotes = track21.GetNbNotes();
+    const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
+    const note1Value = track11.GetNoteValue(barIndex);
+    const note1ValueNext = track11.GetNoteValue(barIndex + 1);
+    const note2ValuePrev = track21.GetNoteValue(track21NbNotes - 1);
+    // prevent tone repetition for 1st and 2nd notes
+    if (GetNoteFromValue(note2Value) == GetNoteFromValue(note1Value))
+        return false;
+    // prevent consecutive tone repetition for 2nd notes of 2 consecutive bars
+    if (GetNoteFromValue(note2Value) == GetNoteFromValue(note2ValuePrev))
+        return false;
+    if (hasTrackCF) {
+        if (0 < barIndex && barIndex < track11NbNotes - 1) {
+            // compute current candidate interval with existing track note
+            const noteCFValue = trackCF.GetNoteValue(barIndex);
+            const noteCFValueNext = trackCF.GetNoteValue(barIndex + 1);
+            const intervalNext = GetIntervalBetweenNotes(note1ValueNext, noteCFValueNext);
+            const intervalCur = GetIntervalBetweenNotes(note2Value, noteCFValue);
+            // prevent parallel octaves and 5ths
+            if (intervalCur == 7 && intervalNext == 7)
+                return false;
+            if (intervalCur == 5 && intervalNext == 5)
+                return false;
+            if (intervalCur == 0 && intervalNext == 0)
+                return false;
+            // prevent direct 5ths/8ves for 2nd notes
+            const motion12 = GetMotionBetweenNotes(note1Value, note2Value);
+            const motionCF = GetMotionBetweenNotes(noteCFValue, noteCFValueNext);
+            const hasSameMotion = (motion12 == motionCF);
+            if (hasSameMotion && (intervalCur == 0 || intervalCur == 7 || intervalCur == 5))
+                return false;
+            // allow dissonant intervals for 2nd notes iff. passing tones
+            if (dissonances.indexOf(intervalCur) >= 0) {
+                const motion1To2 = GetMotionBetweenNotes(note1Value, note2Value);
+                const motion2ToNext = GetMotionBetweenNotes(note2Value, note1ValueNext);
+                if (motion1To2 != motion2ToNext)
+                    return false;
+            }
+        }
+    }
+    // at penultimate bar, prevent tonic as 2nd note
+    if (barIndex == track11NbNotes - 2) {
+        if (GetNoteFromValue(note2Value) == GetNoteFromValue(tonicValue))
+            return false;
+    }
+    // prevent 3 consecutive same notes
+    else if (barIndex < track11NbNotes - 2) {
+        // new 2nd note between 2 existing consecutive same notes
+        let has3ConsecutiveSameNotes = (note1Value == note1ValueNext && note2Value == note1ValueNext);
+        // new 2nd note after 1 new and 1 existing consecutive same notes
+        const track21NbNotes = track21.GetNbNotes();
+        if (track21NbNotes >= 2) {
+            const note2ValuePrev = track21.GetNoteValue(track21NbNotes - 2);
+            has3ConsecutiveSameNotes = has3ConsecutiveSameNotes
+                || (note2ValuePrev == note1Value && note2Value == note2ValuePrev);
+        }
+        if (has3ConsecutiveSameNotes)
+            return false;
+    }
+    return true;
 }
 function checkCounterpoint21(track1, track2) {
     // force contrary motion in penultimate bar (to avoid direct octave)?

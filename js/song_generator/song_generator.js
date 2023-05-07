@@ -49,7 +49,7 @@ function generateNewSong() {
     }
     else if (tracksSelected[0] && tracksSelected[1]) {
         // regenate CF track if no counterpoint melody generated
-        const nbTries = 10000;
+        const nbTries = 100;
         let trackCandidate2 = null;
         for (let i = 0; i < nbTries; i++) {
             trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, 2, qNote, 1);
