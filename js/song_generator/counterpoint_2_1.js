@@ -124,6 +124,9 @@ function acceptNoteInCounterpoint21(note2Value, tonicValue, barIndex, nbBars, tr
                 if (motion1To2 != motion2ToNext)
                     return false;
             }
+            // TODO: prevent dissonant neighbors with consonant suspension:
+            //  - 2nd note forming dissonant interval
+            //    with 1st note of current bar == 1st note of the next bar
         }
     }
     // at penultimate bar, prevent tonic as 2nd note

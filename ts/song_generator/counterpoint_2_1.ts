@@ -172,6 +172,9 @@ function acceptNoteInCounterpoint21(note2Value: number, tonicValue: number, barI
                     return false;
             }
 
+            // TODO: prevent dissonant neighbors with consonant suspension:
+            //  - 2nd note forming dissonant interval
+            //    with 1st note of current bar == 1st note of the next bar
         }
     }
 
