@@ -30,6 +30,7 @@ scaleFamiliesDict.set("6prom_nap", [0, 1, 4, 6, 9, 10]);
 scaleFamiliesDict.set("6tritone", [0, 1, 4, 6, 7, 10]);
 scaleFamiliesDict.set("6tritone_semi", [0, 1, 2, 6, 7, 8]);
 scaleFamiliesDict.set("6istrian", [0, 1, 3, 4, 6, 7]);
+scaleFamiliesDict.set("6satie", [0, 2, 3, 6, 7, 9]);
 // 5 notes
 scaleFamiliesDict.set("5major_penta", [0, 2, 4, 7, 9]);
 scaleFamiliesDict.set("5javanese", [0, 4, 5, 7, 11]);
@@ -135,6 +136,7 @@ scalesDict_int.set("6prom_nap,1", "Prometheus neapolitan");
 scalesDict_int.set("6tritone,1", "Tritone / Petrushka");
 scalesDict_int.set("6tritone_semi,1", "Two-semitone tritone");
 scalesDict_int.set("6istrian,1", "Istrian");
+scalesDict_int.set("6satie,1", "Satie");
 scalesDict_int.set("6others,sep", "");
 scalesDict_int.set("5notes", "------------------------ 5 NOTES ------------------------");
 scalesDict_int.set("5major_penta,1", "Major pentatonic / Mongolian");
