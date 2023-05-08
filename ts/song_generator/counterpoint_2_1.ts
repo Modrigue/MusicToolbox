@@ -145,36 +145,38 @@ function acceptNoteInCounterpoint21(note2Value: number, tonicValue: number, barI
             // compute current candidate interval with existing track note
             const noteCFValue = (<MidiTrack>trackCF).GetNoteValue(barIndex);
             const noteCFValueNext = (<MidiTrack>trackCF).GetNoteValue(barIndex + 1);
-            const intervalNext = GetIntervalBetweenNotes(note1ValueNext, noteCFValueNext);
-            const intervalCur = GetIntervalBetweenNotes(note2Value, noteCFValue);
+            const interval1Next = GetIntervalBetweenNotes(note1ValueNext, noteCFValueNext);
+            const interval2Cur = GetIntervalBetweenNotes(note2Value, noteCFValue);
 
             // prevent parallel octaves and 5ths
-            if (intervalCur == 7 && intervalNext == 7)
+            if (interval2Cur == 7 && interval1Next == 7)
                 return false;
-            if (intervalCur == 5 && intervalNext == 5)
+            if (interval2Cur == 5 && interval1Next == 5)
                 return false;
-            if (intervalCur == 0 && intervalNext == 0)
+            if (interval2Cur == 0 && interval1Next == 0)
                 return false;
 
             // prevent direct 5ths/8ves for 2nd notes
             const motion12 = GetMotionBetweenNotes(note1Value, note2Value);
             const motionCF = GetMotionBetweenNotes(noteCFValue, noteCFValueNext);
             const hasSameMotion = (motion12 == motionCF);
-            if (hasSameMotion && (intervalCur == 0 || intervalCur == 7 || intervalCur == 5))
+            if (hasSameMotion && (interval2Cur == 0 || interval2Cur == 7 || interval2Cur == 5))
                 return false;
 
             // allow dissonant intervals for 2nd notes iff. passing tones
-            if (dissonances.indexOf(intervalCur) >= 0)
+            if (dissonances.indexOf(interval2Cur) >= 0)
             {
                 const motion1To2 = GetMotionBetweenNotes(note1Value, note2Value);
                 const motion2ToNext = GetMotionBetweenNotes(note2Value, note1ValueNext);
                 if (motion1To2 != motion2ToNext)
                     return false;
-            }
 
-            // TODO: prevent dissonant neighbors with consonant suspension:
-            //  - 2nd note forming dissonant interval
-            //    with 1st note of current bar == 1st note of the next bar
+                // prevent dissonant neighbors with consonant suspension:
+                //  2nd note forming dissonant interval
+                //  with 1st note of current bar == 1st note of the next bar
+                if (noteCFValue == noteCFValueNext)
+                    return false;
+            }
         }
     }
 
