@@ -168,7 +168,7 @@ function acceptNoteInCounterpoint11(noteValue: number, tonicValue: number, barIn
 
         if (interval1 == 7 && interval2 == 7)
             return false;
-        if (interval1 == 5 && interval2 == 5)
+        else if (interval1 == 5 && interval2 == 5)
             return false;
 
         if (interval1 == 0 && interval2 == 0)

@@ -55,7 +55,7 @@ function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number, sca
         const noteValue = track.GetNoteValue(index);
         if (noteValue == noteValueMax)
             noteValueMaxNb++;
-        if (noteValue == noteValueMin)
+        else if (noteValue == noteValueMin)
             noteValueMinNb++;
         
         index++;
@@ -123,7 +123,7 @@ function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number, sca
         // count unisions and big leaps
         if (intervalCur == 0)
             nbUnisons++;
-        if (intervalCur >= intervalBigLeapMin)
+        else if (intervalCur >= intervalBigLeapMin)
         {
             nbBigLeapsAsc++;
             indexBigLeapAsc = index;
@@ -133,7 +133,7 @@ function hasMelodicFluency(track : MidiTrack, tonic: number, octave: number, sca
             if (index == nbNotes - 1 || index == nbNotes - 2)
                 return false;
         }
-        if (intervalCur <= -intervalBigLeapMin)
+        else if (intervalCur <= -intervalBigLeapMin)
         {
             nbBigLeapsDesc++;
             indexBigLeapDesc = index;

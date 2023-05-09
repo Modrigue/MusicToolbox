@@ -190,4 +190,33 @@ function checkCounterpoint21(track1, track2) {
         return false;
     return true;
 }
+// reduce 2:1 counterpoint track to 1 note per bar track
+function ReduceTrack21(track21, channelId) {
+    let track11 = new MidiTrack(channelId);
+    const track21NbNotes = track21.GetNbNotes();
+    // build reduced 1 note par bar track
+    let noteIndex = 1;
+    for (const event of track21.Events) {
+        if (event.Type != MidiTrackEventType.NOTE_OFF)
+            continue;
+        // take only 1st bar note,
+        // except for 1st bar when 1st note starts on half bar
+        // and for last bar when 2nd note is tonic
+        let skipNote = ((noteIndex % 2) == 1);
+        if (noteIndex == 1) // 2nd note of first bar
+            skipNote == false;
+        else if (noteIndex == track21NbNotes - 2) // 1st note of last bar
+            skipNote == true;
+        else if (noteIndex == track21NbNotes - 1) // 2nd note of last bar
+            skipNote == false;
+        if (skipNote) {
+            noteIndex++;
+            continue;
+        }
+        const noteValue = track21.GetNoteValue(noteIndex);
+        AddNoteValueEvent(track11, noteValue, 0, 4 * qNote);
+        noteIndex++;
+    }
+    return track11;
+}
 //# sourceMappingURL=counterpoint_2_1.js.map
