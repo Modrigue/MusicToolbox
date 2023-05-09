@@ -2,7 +2,7 @@
 function GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 2], trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
-    const nbTries = 10000;
+    const nbTries = 1000;
     let track = null;
     let success = false;
     for (let i = 0; i < nbTries; i++) {

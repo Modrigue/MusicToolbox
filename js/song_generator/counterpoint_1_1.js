@@ -6,7 +6,7 @@ const intervalCounterpoint11RangeFactor = 0.8;
 function GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
-    const nbTries = 10000;
+    const nbTries = 1000;
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++) {
