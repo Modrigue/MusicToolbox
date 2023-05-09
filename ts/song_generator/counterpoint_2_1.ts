@@ -277,7 +277,7 @@ function ReduceTrack21(track21: MidiTrack, channelId: number): MidiTrack
         // take only 1st bar note,
         // except for 1st bar when 1st note starts on half bar
         // and for last bar when 2nd note is tonic
-        let skipNote = ((noteIndex % 2) == 1);
+        let skipNote = ((noteIndex % 2) != 0);
         if (noteIndex == 1)                         // 2nd note of first bar
             skipNote == false;
         else if (noteIndex == track21NbNotes - 2)   // 1st note of last bar

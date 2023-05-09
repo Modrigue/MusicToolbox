@@ -1,5 +1,6 @@
 "use strict";
 const generatedSongTypes = new Map();
+generatedSongTypes.set("counterpoint 4:1", "counterpoint_4-1");
 generatedSongTypes.set("counterpoint 2:1", "counterpoint_2-1");
 generatedSongTypes.set("counterpoint 1:1", "counterpoint_1-1");
 const qNote = 480; // quarter-note division
@@ -24,7 +25,8 @@ function generateNewSong() {
     let tracksSelected = getSelectedTracks();
     // generate song
     const selectedTypeId = getSelectedSongType('song_generator_type');
-    const rhythmFactor2Array = [1 / 2, 3 / 4];
+    const rhythmFactor21Array = [1 / 2, 3 / 4];
+    const rhythmFactor41Array = [1 / 4, 1 / 4, 1 / 4, 1 / 4];
     const octave1 = 2;
     const octave2 = 4;
     const channelId1 = 1;
@@ -36,21 +38,36 @@ function generateNewSong() {
     let track2 = generatedMidi.Tracks[2];
     let trackCandidate = null;
     if (tracksSelected[0] && !tracksSelected[1]) {
-        if (selectedTypeId == "counterpoint_2-1") {
-            // reduce 2:1 counterpoint track to 1 note per bar track
-            let track2Reduced = ReduceTrack21(track2, channelId2);
-            trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1, track2Reduced);
+        switch (selectedTypeId) {
+            case "counterpoint_4-1":
+                // reduce 4:1 counterpoint track to 1 note per bar track
+                let track4Reduced = ReduceTrack41(track2, channelId2);
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1, track4Reduced);
+                break;
+            case "counterpoint_2-1":
+                // reduce 2:1 counterpoint track to 1 note per bar track
+                let track2Reduced = ReduceTrack21(track2, channelId2);
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1, track2Reduced);
+                break;
+            default:
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1, track2);
+                break;
         }
-        else
-            trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1, track2);
         if (trackCandidate != null)
             track1 = trackCandidate;
     }
     else if (!tracksSelected[0] && tracksSelected[1]) {
-        if (selectedTypeId == "counterpoint_2-1")
-            trackCandidate = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor2Array, track1);
-        else
-            trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave2, qNote, channelId2, track1);
+        switch (selectedTypeId) {
+            case "counterpoint_4-1":
+                trackCandidate = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor41Array, track1);
+                break;
+            case "counterpoint_2-1":
+                trackCandidate = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor21Array, track1);
+                break;
+            default:
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave2, qNote, channelId2, track1);
+                break;
+        }
         if (trackCandidate != null)
             track2 = trackCandidate;
     }
@@ -61,8 +78,10 @@ function generateNewSong() {
         for (let i = 0; i < nbTries; i++) {
             trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1);
             if (trackCandidate != null) {
-                if (selectedTypeId == "counterpoint_2-1")
-                    trackCandidate2 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor2Array, trackCandidate);
+                if (selectedTypeId == "counterpoint_4-1")
+                    trackCandidate2 = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor41Array, trackCandidate);
+                else if (selectedTypeId == "counterpoint_2-1")
+                    trackCandidate2 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor21Array, trackCandidate);
                 else
                     trackCandidate2 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave2, qNote, channelId2, trackCandidate);
             }
