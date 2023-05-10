@@ -63,6 +63,7 @@ scaleFamiliesDict.set("5slendro",        [2.31, 4.74, 7.17, 9.55, 12.08]);
 scaleFamiliesDict.set("7thai_ranat",     [0, 1.61, 3.46, 5.26, 6.86, 8.62, 10.28571]);
 
 // equal temperament subsets
+// TODO: refactor to compute scale values in function
 scaleFamiliesDict.set("22approx_128edo",    [0, 0.53273, 1.04955, 1.67462, 2.15891, 2.74582, 3.31349, 3.86314, 4.39587, 4.91269, 5.41453, 5.99815, 6.56273, 7.10948, 7.63950, 8.15376, 8.73505, 9.29744, 9.84215, 10.37023, 10.88269, 11.45036]);
 scaleFamiliesDict.set("6augment_21edo",     [0, 2.2857143, 4, 6.2857143, 8, 10.2857143]);
 scaleFamiliesDict.set("10blackwood_15edo",  [0, 1.6, 2.4, 4.0, 4.8, 6.4, 7.2, 8.8, 9.6, 11.2]);
@@ -81,6 +82,7 @@ scaleFamiliesDict.set("11machine_28edo",    [0, 1.2857143, 2.1428571, 3.4285714,
 scaleFamiliesDict.set("7mavila_16edo",      [0, 1.5, 3, 5.25, 6.75, 8.25, 9.75]);
 scaleFamiliesDict.set("9mavila_16edo",      [0, 0.75, 2.25, 3.75, 5.25, 6, 7.5, 9, 10.5]);
 scaleFamiliesDict.set("19meantone_31edo",   [0, 0.38710, 1.16129, 1.54839, 2.32258, 3.09677, 3.48387, 4.25806, 5.03226, 5.41935, 6.19355, 6.58065, 7.35484, 8.12903, 8.51613, 9.29032, 10.06452, 10.45161, 11.22581]);
+scaleFamiliesDict.set("6mothra_31edo",      [0, 12*6/31, 12*12/31, 12*18/31, 12*24/31, 12*30/31]);
 scaleFamiliesDict.set("9orwell_22edo",      [0, 1.09091, 2.72727, 3.81818, 5.45455, 6.54545, 8.18182, 9.27273, 10.90909]);
 scaleFamiliesDict.set("12pajara_22edo",     [0, 1.09091, 2.18182, 3.27273, 4.36364, 5.45455, 6.00000, 7.09091, 8.18182, 9.27273, 10.36364, 11.45455]);
 //scaleFamiliesDict.set("7pepperoni_271edo",  [0, 2.0811808, 2.8782288, 4.9594096, 7.0405904, 7.8376384, 9.9188192]);
@@ -206,6 +208,7 @@ scalesDict_int.set("11machine_28edo,1",   "Machine[11] (28-EDO)");
 scalesDict_int.set("7mavila_16edo,1",     "Mavila[7] (16-EDO)");
 scalesDict_int.set("9mavila_16edo,1",     "Mavila[9] (16-EDO)");
 scalesDict_int.set("19meantone_31edo,1",  "MeanTone[19] (31-EDO)");
+scalesDict_int.set("6mothra_31edo,1",     "Mothra[6] (31-EDO)");
 scalesDict_int.set("9orwell_22edo,1",     "Orwell[9] (22-EDO)");
 scalesDict_int.set("12pajara_22edo,1",    "Pajara[12] (22-EDO)");
 //scalesDict_int.set("7pepperoni_271edo,1", "Pepperoni[7] (271-EDO)");
