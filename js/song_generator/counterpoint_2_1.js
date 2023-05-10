@@ -1,5 +1,5 @@
 "use strict";
-function GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 2], trackCF = null) {
+function GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
     const nbTries = 1000;
@@ -18,7 +18,7 @@ function GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, 
     }
     return null;
 }
-function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 2], trackCF = null) {
+function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
     let track21 = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // rhythm array to circle
@@ -41,11 +41,12 @@ function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave
         const duration = event.DeltaTime;
         const note1ValueNext = track11.GetNoteValue(index1 + 1);
         let note1NextIndex = scaleNotesValues.indexOf(note1ValueNext);
-        const rhythmsFactor = rhythmFactorArray[index1 % nbRhythms];
+        const rhythmsArray = rhythmFactorArray[index1 % nbRhythms];
+        const rhythmsFactor1 = rhythmsArray[0];
         // 1st bar: start with delay to enhance separation effect
         if (index1 == 0 && hasTrackCF) {
             // no 1st note
-            AddNoteEvent(track21, note1, octave1, rhythmsFactor * duration, (1 - rhythmsFactor) * duration);
+            AddNoteEvent(track21, note1, octave1, rhythmsFactor1 * duration, (1 - rhythmsFactor1) * duration);
         }
         // last bar: replace 1st note by consonnant interval and set tonic as 2nd note
         else if (index1 == track11NbNotes - 1) {
@@ -63,13 +64,13 @@ function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave
                 else // generate new note
                     note1ValueNew = GetRandomNoteValueInScale(note2PrevIndex - 1, note1Index + 1, scaleNotesValues);
             }
-            AddNoteValueEvent(track21, note1ValueNew, 0, rhythmsFactor * duration);
+            AddNoteValueEvent(track21, note1ValueNew, 0, rhythmsFactor1 * duration);
             // set tonic as 2nd note
-            AddNoteEvent(track21, note1, octave1, 0, (1 - rhythmsFactor) * duration);
+            AddNoteEvent(track21, note1, octave1, 0, (1 - rhythmsFactor1) * duration);
         }
         else {
             // keep existing note as 1st bar note
-            AddNoteEvent(track21, note1, octave1, 0, rhythmsFactor * duration);
+            AddNoteEvent(track21, note1, octave1, 0, rhythmsFactor1 * duration);
             // create new 2nd note
             let note2ValueNew = -1;
             const nbTries = 10000;
@@ -78,7 +79,7 @@ function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave
                 if (acceptNoteInCounterpoint21(note2ValueNew, tonic, index1, nbBars, track21, track11, trackCF))
                     break;
             }
-            AddNoteValueEvent(track21, note2ValueNew, 0, (1 - rhythmsFactor) * duration);
+            AddNoteValueEvent(track21, note2ValueNew, 0, (1 - rhythmsFactor1) * duration);
         }
         index1++;
     }

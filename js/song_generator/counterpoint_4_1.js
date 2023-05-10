@@ -1,5 +1,5 @@
 "use strict";
-function GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 4, 1 / 4, 1 / 4, 1 / 4], trackCF = null) {
+function GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 4, 1 / 4, 1 / 4, 1 / 4]], trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
     const nbTries = 1000;
@@ -19,13 +19,13 @@ function GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave, qNote, 
     }
     return null;
 }
-function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [1 / 4, 1 / 4, 1 / 4, 1 / 4], trackCF = null) {
+function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 4, 1 / 4, 1 / 4, 1 / 4]], trackCF = null) {
     let track41 = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
     // build 2:1 counterpoint
-    const track21 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, [1 / 2], trackCF);
+    const track21 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, [[1 / 2, 1 / 2]], trackCF);
     if (track21 == null)
         return null;
     const track21NbNotes = track21.GetNbNotes();
@@ -52,7 +52,8 @@ function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave
             AddNoteValueEvent(track41, note21Value, 0, qNote);
             AddNoteValueEvent(track41, note21Value, 0, qNote);
         }
-        //const rhythmsFactor = rhythmFactorArray[index21 % nbRhythms];
+        //const rhythmsArray = rhythmFactorArray[index21 % nbRhythms];
+        //const rhythmsFactor1 = rhythmsArray[0];
         index21++;
     }
     return track41;

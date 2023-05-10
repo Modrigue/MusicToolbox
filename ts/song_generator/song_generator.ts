@@ -35,8 +35,8 @@ function generateNewSong(): void
     // generate song
 
     const selectedTypeId = getSelectedSongType('song_generator_type');
-    const rhythmFactor21Array: Array<number> = [1/2, 3/4];
-    const rhythmFactor41Array: Array<number> = [1/4, 1/4, 1/4, 1/4];
+    const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], [3/4, 1/4]];
+    const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4]];
 
     const octave1 = 2;
     const octave2 = 4;

@@ -1,5 +1,5 @@
 function GenerateCounterpointTrack41(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<number> = [1/4, 1/4, 1/4, 1/4], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
+    channelId: number, rhythmFactorArray: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4]], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 { 
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     
@@ -26,7 +26,7 @@ function GenerateCounterpointTrack41(tonic: number, scaleValues: Array<number>, 
 }
 
 function generateCounterpointTrack41Candidate(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<number> = [1/4, 1/4, 1/4, 1/4], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
+    channelId: number, rhythmFactorArray: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4]], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 {
     let track41 = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
@@ -35,7 +35,7 @@ function generateCounterpointTrack41Candidate(tonic: number, scaleValues: Array<
     const nbRhythms = rhythmFactorArray.length;
 
     // build 2:1 counterpoint
-    const track21 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, [1/2], trackCF);
+    const track21 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, [[1/2, 1/2]], trackCF);
     if (track21 == null)
         return null;
 
@@ -71,7 +71,8 @@ function generateCounterpointTrack41Candidate(tonic: number, scaleValues: Array<
             AddNoteValueEvent(track41, note21Value, 0, qNote);
         }
 
-        //const rhythmsFactor = rhythmFactorArray[index21 % nbRhythms];
+        //const rhythmsArray = rhythmFactorArray[index21 % nbRhythms];
+        //const rhythmsFactor1 = rhythmsArray[0];
 
         index21++;
     }

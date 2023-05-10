@@ -25,8 +25,8 @@ function generateNewSong() {
     let tracksSelected = getSelectedTracks();
     // generate song
     const selectedTypeId = getSelectedSongType('song_generator_type');
-    const rhythmFactor21Array = [1 / 2, 3 / 4];
-    const rhythmFactor41Array = [1 / 4, 1 / 4, 1 / 4, 1 / 4];
+    const rhythmFactor21Array = [[1 / 2, 1 / 2], [3 / 4, 1 / 4]];
+    const rhythmFactor41Array = [[1 / 4, 1 / 4, 1 / 4, 1 / 4]];
     const octave1 = 2;
     const octave2 = 4;
     const channelId1 = 1;
