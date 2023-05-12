@@ -56,10 +56,10 @@ scaleFamiliesDict.set("7thai_ranat", [0, 1.61, 3.46, 5.26, 6.86, 8.62, 10.28571]
 // equal temperament subsets
 // TODO: refactor to compute scale values in function
 scaleFamiliesDict.set("22approx_128edo", [0, 0.53273, 1.04955, 1.67462, 2.15891, 2.74582, 3.31349, 3.86314, 4.39587, 4.91269, 5.41453, 5.99815, 6.56273, 7.10948, 7.63950, 8.15376, 8.73505, 9.29744, 9.84215, 10.37023, 10.88269, 11.45036]);
-scaleFamiliesDict.set("6augment_21edo", getEDOSubsetScaleValues(21, [0, 4, 7, 11, 14, 18]));
-scaleFamiliesDict.set("10blackwood_15edo", getEDOSubsetScaleValues(15, [0, 2, 3, 5, 6, 8, 9, 11, 12, 14]));
+scaleFamiliesDict.set("6augment_21edo", getEDOSubsetScaleValues(21, [0, 4, 7, 11, 14, 18])); // 434343
+scaleFamiliesDict.set("10blackwood_15edo", getEDOSubsetScaleValues(15, [0, 2, 3, 5, 6, 8, 9, 11, 12, 14])); // 2121212121
 scaleFamiliesDict.set("7cata_246edo", [0, 0.6829268, 3.1707317, 3.8536585, 6.3414634, 7.0243902, 9.5121951]);
-scaleFamiliesDict.set("8father_13edo", getEDOSubsetScaleValues(13, [0, 2, 4, 5, 7, 9, 10, 12]));
+scaleFamiliesDict.set("8father_13edo", getEDOSubsetScaleValues(13, [0, 2, 4, 5, 7, 9, 10, 12])); // 22122121
 scaleFamiliesDict.set("12flattone_26edo", [0, 0.46154, 1.84615, 2.30769, 3.69231, 5.07692, 5.53846, 6.92308, 7.38462, 8.76923, 9.23077, 10.61538]);
 scaleFamiliesDict.set("10ganymede_22edo", [0, 1.50637, 2.89210, 4.17508, 5.93718, 7.01955, 8.03822, 9.46195, 9.91165, 10.77744]);
 scaleFamiliesDict.set("7hutington_400edo", [0, 1.29, 3.57, 4.86, 6.15, 8.43, 9.72]);
@@ -72,15 +72,15 @@ scaleFamiliesDict.set("11machine_28edo", [0, 1.2857143, 2.1428571, 3.4285714, 4.
 scaleFamiliesDict.set("7mavila_16edo", [0, 1.5, 3, 5.25, 6.75, 8.25, 9.75]);
 scaleFamiliesDict.set("9mavila_16edo", [0, 0.75, 2.25, 3.75, 5.25, 6, 7.5, 9, 10.5]);
 scaleFamiliesDict.set("19meantone_31edo", [0, 0.38710, 1.16129, 1.54839, 2.32258, 3.09677, 3.48387, 4.25806, 5.03226, 5.41935, 6.19355, 6.58065, 7.35484, 8.12903, 8.51613, 9.29032, 10.06452, 10.45161, 11.22581]);
-scaleFamiliesDict.set("6mothra_31edo", getEDOSubsetScaleValues(31, [0, 6, 12, 18, 24, 30]));
-scaleFamiliesDict.set("9orwell_22edo", [0, 1.09091, 2.72727, 3.81818, 5.45455, 6.54545, 8.18182, 9.27273, 10.90909]);
-scaleFamiliesDict.set("12pajara_22edo", [0, 1.09091, 2.18182, 3.27273, 4.36364, 5.45455, 6.00000, 7.09091, 8.18182, 9.27273, 10.36364, 11.45455]);
+scaleFamiliesDict.set("6mothra_31edo", getEDOSubsetScaleValues(31, [0, 6, 12, 18, 24, 30])); // 666661
+scaleFamiliesDict.set("9orwell_22edo", getEDOSubsetScaleValues(22, [0, 2, 5, 7, 10, 12, 15, 17, 20])); // 232323232
+scaleFamiliesDict.set("12pajara_22edo", getEDOSubsetScaleValues(22, [0, 2, 4, 6, 8, 10, 11, 13, 15, 17, 19, 21])); // 222221222221
 //scaleFamiliesDict.set("7pepperoni_271edo",  [0, 2.0811808, 2.8782288, 4.9594096, 7.0405904, 7.8376384, 9.9188192]);
-scaleFamiliesDict.set("7porcupine_22edo", [0, 1.6363636, 3.2727273, 4.9090909, 7.0909091, 8.7272727, 10.3636364]);
-scaleFamiliesDict.set("8porcupine_22edo", [0, 1.63636, 3.27273, 4.90909, 6.54545, 8.18182, 9.81818, 11.45455]);
-scaleFamiliesDict.set("5radon_128edo", [0, 2.34375, 4.68750, 7.03125, 9.65625]);
-scaleFamiliesDict.set("7rast_17edo", [0, 2.11765, 3.52941, 4.94118, 7.05882, 9.17647, 10.58824]);
-scaleFamiliesDict.set("7roulette_37edo", [0, 1.9459459, 3.8918919, 5.8378378, 7.7837838, 9.7297297, 10.0540541]);
+scaleFamiliesDict.set("7porcupine_22edo", getEDOSubsetScaleValues(22, [0, 3, 6, 9, 13, 16, 19])); // 333433
+scaleFamiliesDict.set("8porcupine_22edo", getEDOSubsetScaleValues(22, [0, 3, 6, 9, 12, 15, 18, 21])); // 33333331
+scaleFamiliesDict.set("5radon_128edo", getEDOSubsetScaleValues(128, [0, 25, 50, 75, 103])); // 25 25 25 28 25
+scaleFamiliesDict.set("7rast_17edo", getEDOSubsetScaleValues(17, [0, 3, 5, 7, 10, 13, 15])); // 3223322
+scaleFamiliesDict.set("7roulette_37edo", getEDOSubsetScaleValues(37, [0, 6, 12, 18, 24, 30, 31])); // 6666616
 scaleFamiliesDict.set("5score_20edo", [0, 4.2, 5.4, 9.6, 10.8]);
 scaleFamiliesDict.set("7score_20edo", [0, 3.0, 4.2, 5.4, 8.4, 9.6, 10.8]);
 scaleFamiliesDict.set("5sensi_46edo", [0, 3.1304348, 4.4347826, 7.5652174, 8.8695652]);
