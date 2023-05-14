@@ -55,14 +55,13 @@ scaleFamiliesDict.set("5slendro", [2.31, 4.74, 7.17, 9.55, 12.08]);
 scaleFamiliesDict.set("7thai_ranat", [0, 1.61, 3.46, 5.26, 6.86, 8.62, 10.28571]);
 // equal temperament subsets
 // TODO: refactor to compute scale values in function
-scaleFamiliesDict.set("22approx_128edo", [0, 0.53273, 1.04955, 1.67462, 2.15891, 2.74582, 3.31349, 3.86314, 4.39587, 4.91269, 5.41453, 5.99815, 6.56273, 7.10948, 7.63950, 8.15376, 8.73505, 9.29744, 9.84215, 10.37023, 10.88269, 11.45036]);
+//scaleFamiliesDict.set("22approx_128edo",    [0, 0.53273, 1.04955, 1.67462, 2.15891, 2.74582, 3.31349, 3.86314, 4.39587, 4.91269, 5.41453, 5.99815, 6.56273, 7.10948, 7.63950, 8.15376, 8.73505, 9.29744, 9.84215, 10.37023, 10.88269, 11.45036]);
 scaleFamiliesDict.set("6augment_21edo", getEDOSubsetScaleValues(21, [0, 4, 7, 11, 14, 18])); // 4 3 4 3 4 3
 scaleFamiliesDict.set("10blackwood_15edo", getEDOSubsetScaleValues(15, [0, 2, 3, 5, 6, 8, 9, 11, 12, 14])); // 2 1 2 1 2 1 2 1 2 1
-scaleFamiliesDict.set("7cata_246edo", [0, 0.6829268, 3.1707317, 3.8536585, 6.3414634, 7.0243902, 9.5121951]);
+scaleFamiliesDict.set("7cata_246edo", getEDOSubsetScaleValues(246, [0, 14, 65, 79, 130, 144, 195])); // 14 51 14 51 14 51 51
 scaleFamiliesDict.set("8father_13edo", getEDOSubsetScaleValues(13, [0, 2, 4, 5, 7, 9, 10, 12])); // 2 2 1 2 2 1 2 1
-scaleFamiliesDict.set("12flattone_26edo", [0, 0.46154, 1.84615, 2.30769, 3.69231, 5.07692, 5.53846, 6.92308, 7.38462, 8.76923, 9.23077, 10.61538]);
-scaleFamiliesDict.set("10ganymede_22edo", [0, 1.50637, 2.89210, 4.17508, 5.93718, 7.01955, 8.03822, 9.46195, 9.91165, 10.77744]);
-scaleFamiliesDict.set("7hutington_400edo", [0, 1.29, 3.57, 4.86, 6.15, 8.43, 9.72]);
+scaleFamiliesDict.set("12flattone_26edo", getEDOSubsetScaleValues(26, [0, 1, 4, 5, 8, 11, 12, 15, 16, 19, 20, 23])); // 1 3 1 3 3 1 3 1 3 1 3 3
+scaleFamiliesDict.set("7hutington_400edo", getEDOSubsetScaleValues(400, [0, 43, 119, 162, 205, 281, 324])); // 43 76 43 43 76 43 76
 scaleFamiliesDict.set("9island_313edo", [0, 2.03195, 2.49201, 4.52396, 4.98403, 7.01597, 7.47604, 9.50799, 9.96805]);
 scaleFamiliesDict.set("5keen_284edo", [0, 3.1690141, 5.4929577, 7.0140845, 9.3380282]);
 scaleFamiliesDict.set("10lemba_26edo", [0, 1.38462, 2.30769, 3.69231, 4.61538, 6.00000, 7.38462, 8.30769, 9.69231, 10.61538]);
@@ -71,7 +70,7 @@ scaleFamiliesDict.set("6machine_11edo", [0, 2.18182, 4.36364, 6.54545, 8.72727, 
 scaleFamiliesDict.set("11machine_28edo", [0, 1.2857143, 2.1428571, 3.4285714, 4.2857143, 5.5714286, 6.4285714, 7.7142857, 9.0000000, 9.8571429, 11.1428571]);
 scaleFamiliesDict.set("7mavila_16edo", [0, 1.5, 3, 5.25, 6.75, 8.25, 9.75]);
 scaleFamiliesDict.set("9mavila_16edo", [0, 0.75, 2.25, 3.75, 5.25, 6, 7.5, 9, 10.5]);
-scaleFamiliesDict.set("19meantone_31edo", [0, 0.38710, 1.16129, 1.54839, 2.32258, 3.09677, 3.48387, 4.25806, 5.03226, 5.41935, 6.19355, 6.58065, 7.35484, 8.12903, 8.51613, 9.29032, 10.06452, 10.45161, 11.22581]);
+//scaleFamiliesDict.set("19meantone_31edo",   [0, 0.38710, 1.16129, 1.54839, 2.32258, 3.09677, 3.48387, 4.25806, 5.03226, 5.41935, 6.19355, 6.58065, 7.35484, 8.12903, 8.51613, 9.29032, 10.06452, 10.45161, 11.22581]);
 scaleFamiliesDict.set("6mothra_31edo", getEDOSubsetScaleValues(31, [0, 6, 12, 18, 24, 30])); // 6 6 6 6 6 1
 scaleFamiliesDict.set("9orwell_22edo", getEDOSubsetScaleValues(22, [0, 2, 5, 7, 10, 12, 15, 17, 20])); // 2 3 2 3 2 3 2 3 2
 scaleFamiliesDict.set("12pajara_22edo", getEDOSubsetScaleValues(22, [0, 2, 4, 6, 8, 10, 11, 13, 15, 17, 19, 21])); // 2 2 2 2 2 1 2 2 2 2 2 1
@@ -85,10 +84,11 @@ scaleFamiliesDict.set("5score_20edo", getEDOSubsetScaleValues(20, [0, 7, 9, 16, 
 scaleFamiliesDict.set("7score_20edo", getEDOSubsetScaleValues(20, [0, 5, 7, 9, 14, 16, 18])); // 5 2 2 5 2 2 2
 scaleFamiliesDict.set("5sensi_46edo", getEDOSubsetScaleValues(46, [0, 12, 17, 29, 34])); // 12 5 12 5 12
 scaleFamiliesDict.set("11sensi_46edo", getEDOSubsetScaleValues(46, [0, 5, 10, 15, 17, 22, 27, 32, 34, 39, 44])); // 5 5 5 2 5 5 5 2 5 5 2
-scaleFamiliesDict.set("12superpyth_17edo", [0, 0.70588, 1.41176, 2.82353, 3.52941, 4.94118, 5.64706, 6.35294, 7.76471, 8.47059, 9.88235, 10.58824]);
+scaleFamiliesDict.set("12superpyth_17edo", getEDOSubsetScaleValues(17, [0, 1, 2, 4, 5, 7, 8, 9, 11, 12, 14, 15])); // 1 1 2 1 2 1 1 2 1 2 1 2
 scaleFamiliesDict.set("7zeus_tri_99edo", getEDOSubsetScaleValues(99, [0, 13, 32, 45, 58, 77, 90])); // 13 19 13 13 19 13 9
 // misc
 scaleFamiliesDict.set("7archy", [0, 2.1864407, 2.7203390, 4.9067797, 7.0932203, 9.2796610, 9.8135593]);
+scaleFamiliesDict.set("10ganymede", [0, 1.50637, 2.89210, 4.17508, 5.93718, 7.01955, 8.03822, 9.46195, 9.91165, 10.77744]);
 scaleFamiliesDict.set("7glacial", [0, 1.8573, 3.7146, 5.5718, 7.4291, 9.2864, 11.1437]);
 scaleFamiliesDict.set("6hexany1379", [0, 2.03910, 2.66871, 4.70781, 7.01955, 9.68826]);
 scaleFamiliesDict.set("13lovecraft", [0, 0.8275862, 1.9655172, 2.7931034, 3.6206897, 4.7586207, 5.5862069, 6.4137931, 7.5517241, 8.3793103, 9.2068966, 10.0344828, 11.1724138]);
@@ -166,13 +166,12 @@ for (const nbNotes of xenTETScalesNbNotes)
     scalesDict_int.set(`${nbNotes}tet,1`, `${nbNotes}-TET / ${nbNotes}-EDO`);
 scalesDict_int.set("xen_tet,sep", "");
 scalesDict_int.set("xenharmonics_tet_sub", "------- Equal temperaments subsets ------");
-scalesDict_int.set("22approx_128edo,1", "Approx[22] (128-EDO)");
+//scalesDict_int.set("22approx_128edo,1",   "Approx[22] (128-EDO)");
 scalesDict_int.set("6augment_21edo,1", "Augment[6] (21-EDO)");
 scalesDict_int.set("10blackwood_15edo,1", "Blackwood[10] (15-EDO)");
 scalesDict_int.set("7cata_246edo,1", "Cata[7] (246-EDO)");
 scalesDict_int.set("8father_13edo,1", "Father[8] (13-EDO)");
 scalesDict_int.set("12flattone_26edo,1", "FlatTone[12] (26-EDO)");
-scalesDict_int.set("10ganymede_22edo,1", "Ganymede[10] (22-EDO)");
 scalesDict_int.set("7hutington_400edo,1", "Hutington[7] (400-EDO)");
 scalesDict_int.set("9island_313edo,1", "Island / Madag. / Barbados[9] (313-EDO)");
 scalesDict_int.set("5keen_284edo,1", "Keenanismic[5] (284-EDO)");
@@ -182,7 +181,7 @@ scalesDict_int.set("6machine_11edo,1", "Machine[6] (11-EDO)");
 scalesDict_int.set("11machine_28edo,1", "Machine[11] (28-EDO)");
 scalesDict_int.set("7mavila_16edo,1", "Mavila[7] (16-EDO)");
 scalesDict_int.set("9mavila_16edo,1", "Mavila[9] (16-EDO)");
-scalesDict_int.set("19meantone_31edo,1", "MeanTone[19] (31-EDO)");
+//scalesDict_int.set("19meantone_31edo,1",  "MeanTone[19] (31-EDO)");
 scalesDict_int.set("6mothra_31edo,1", "Mothra[6] (31-EDO)");
 scalesDict_int.set("9orwell_22edo,1", "Orwell[9] (22-EDO)");
 scalesDict_int.set("12pajara_22edo,1", "Pajara[12] (22-EDO)");
@@ -201,6 +200,7 @@ scalesDict_int.set("7zeus_tri_99edo,1", "Zeus[7]Tri (99-EDO)");
 scalesDict_int.set("xen_tet_subsets,sep", "");
 scalesDict_int.set("xenharmonics_misc_sub", "------------------- Miscellaneous ------------------");
 scalesDict_int.set("7archy,1", "Archy[7]");
+scalesDict_int.set("10ganymede,1", "Ganymede[10]");
 scalesDict_int.set("7glacial,1", "Glacial[7]");
 scalesDict_int.set("6hexany1379,1", "Hexany[6] 1-3-7-9");
 scalesDict_int.set("13lovecraft,1", "Lovecraft[13]");
