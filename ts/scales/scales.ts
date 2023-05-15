@@ -128,6 +128,7 @@ scalesDict_int.set("7others_blues,sep", "");
 scalesDict_int.set("8notes", "------------------------ 8 NOTES ------------------------");
 
 scalesDict_int.set("8bebop_dom,1,diff:7major_nat;1", "Bebop dominant");
+scalesDict_int.set("8bebop_dom,2,diff:7major_nat;6", "Natural minor + Dorian (2nd mode)");
 scalesDict_int.set("8bebop_dom,4", "Ichikosucho (4th mode)");
 scalesDict_int.set("8bebop_dom,5,diff:7major_nat;2", "Bebop Dorian / Bebop minor (5th mode)");
 scalesDict_int.set("8bebop_dom,sep", "");
@@ -259,6 +260,7 @@ scalesDict_fr.set("7major_hung,1", "Hongrois majeur");
 scalesDict_fr.set("7verdi_enigm,1", "Enigmatique de Verdi");
 
 scalesDict_fr.set("8bebop_dom,1,diff:7major_nat;1", "Bebop dominant");
+scalesDict_fr.set("8bebop_dom,2,diff:7major_nat;6", "Mineure naturelle + Dorien (2e mode)");
 scalesDict_fr.set("8bebop_dom,5,diff:7major_nat;2", "Bebop dorien / Bebop mineur (5e mode)");
 
 scalesDict_fr.set("8bebop_maj,1,diff:7major_nat;1", "Bebop majeur");
