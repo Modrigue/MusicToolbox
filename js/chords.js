@@ -34,12 +34,14 @@ chords3Dict.set("m6(no5)", [0, 3, 8]);
 chords3Dict.set("dor(no5)", [0, 3, 9]);
 chords3Dict.set("6sus4(no5)", [0, 5, 9]);
 chords3Dict.set("6flat5(no3)", [0, 6, 9]);
+chords3Dict.set("add4(no5)", [0, 4, 5]);
 chords3Dict.set("madd4(no5)", [0, 3, 5]);
 chords3Dict.set("sus2add4(no5)", [0, 2, 5]);
 chords3Dict.set("65", [0, 7, 9]);
 chords3Dict.set("m65", [0, 7, 8]);
 // microtonal chords with 3 notes
-chords3Dict.set("neutral", [0, 3.5, 7]);
+chords3Dict.set("neu", [0, 3.5, 7]);
+chords3Dict.set("neu65", [0, 7, 8.5]);
 chords3Dict.set("sus4‡6", [0, 5, 8.5]);
 // chords with 4 notes
 const chords4Dict = new Map();
@@ -49,8 +51,8 @@ chords4Dict.set("m7", [0, 3, 7, 10]);
 chords4Dict.set("m7M", [0, 3, 7, 11]);
 chords4Dict.set("add9", [0, 4, 7, 14]);
 chords4Dict.set("madd9", [0, 3, 7, 14]);
-chords4Dict.set("add11", [0, 4, 5, 7]);
-chords4Dict.set("madd11", [0, 3, 5, 7]);
+chords4Dict.set("add11", [0, 4, 7, 17]);
+chords4Dict.set("madd11", [0, 3, 7, 17]);
 chords4Dict.set("7Msus2", [0, 2, 7, 11]);
 chords4Dict.set("7Msus4", [0, 5, 7, 11]);
 chords4Dict.set("m7sus2", [0, 2, 7, 10]);
@@ -86,6 +88,11 @@ chords4Dict.set("Fr+6", [0, 4, 6, 10]); // French augmented 6th
 chords4Dict.set("hendrix(no5)", [0, 4, 10, 15]); // Hendrix
 chords4Dict.set("dream", [0, 5, 6, 7]);
 chords4Dict.set("tristan", [0, 6, 10, 15]);
+// microtonal chords with 4 notes
+chords4Dict.set("neu7sus2", [0, 2, 7, 10.5]);
+chords4Dict.set("neu7sus4", [0, 5, 7, 10.5]);
+chords4Dict.set("neuadd9", [0, 3.5, 7, 14]);
+chords4Dict.set("neuadd11", [0, 3.5, 5, 17]);
 // chords with 5 notes
 const chords5Dict = new Map();
 chords5Dict.set("9M", [0, 4, 7, 11, 14]);
@@ -125,6 +132,9 @@ chords5Dict.set("beta", [0, 3, 6, 9, 11]);
 chords5Dict.set("gamma", [0, 3, 6, 8, 11]);
 chords5Dict.set("elektra", [0, 7, 9, 13, 16]);
 chords5Dict.set("farben", [0, 8, 11, 16, 21]);
+// microtonal chords with 5 notes
+chords5Dict.set("neu9sus", [0, 5, 7, 10.5, 14]);
+chords5Dict.set("neu9sus", [0, 5, 7, 10.5, 14]);
 // chords with 6 notes
 const chords6Dict = new Map();
 chords6Dict.set("11M", [0, 4, 7, 11, 14, 17]);
