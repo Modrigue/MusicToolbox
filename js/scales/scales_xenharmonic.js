@@ -12,21 +12,17 @@ for (const nbNotes of xenTETScalesNbNotes)
 //  https://en.xen.wiki/w/Category:Pages_with_Scala_files
 //  https://en.xen.wiki/w/List_of_Scala_files
 // just intonation scales
-scaleFamiliesDict.set("7ji_major", [0, 2.04, 3.86, 4.98, 7.02, 8.84, 10.88]);
-scaleFamiliesDict.set("7ji_minor", [0, 2.04, 3.16, 4.98, 7.02, 8.14, 10.18]);
-scaleFamiliesDict.set("7ji_indian", [0, 2.04, 3.86, 4.98, 7.02, 9.06, 10.88]);
-scaleFamiliesDict.set("43ji_harry_partch", [
-    0, 0.21506, 0.53273, 0.84467, 1.11731, 1.50637, 1.65004, 1.82404, 2.03910, 2.31174,
-    2.66871, 2.94135, 3.15641, 3.47408, 3.86314, 4.17508, 4.35084, 4.70781, 4.98045, 5.19551,
-    5.51318, 5.82512, 6.17488, 6.48682, 6.80449, 7.01955, 7.29219, 7.64916, 7.82492, 8.13686,
-    8.52592, 8.84359, 9.05865, 9.33129, 9.68826, 9.96090, 10.17596, 10.34996, 10.49363, 10.88269,
-    11.15533, 11.46727, 11.78494
-]);
-scaleFamiliesDict.set("12ji_kg_centaur", [0, 0.8467, 2.03910, 2.66871, 3.86314, 4.98045, 5.82512, 7.01955, 7.64916, 8.84359, 9.68826, 10.88269]);
-scaleFamiliesDict.set("12ji_kg_centaura_sub", [0, 1.19443, 1.82404, 3.33041, 3.86314, 4.98045, 6.17488, 7.01955, 8.21398, 8.84359, 10.34996, 10.88269]);
-scaleFamiliesDict.set("12ji_kg_centaura_harm", [0, 0.53273, 2.03910, 2.66871, 3.86314, 4.98045, 5.51318, 7.01955, 7.64916, 8.84359, 9.68826, 10.88269]);
-scaleFamiliesDict.set("12ji_pythagorean", [0, 0.90225, 2.03910, 2.94135, 4.07820, 4.98045, 5.88270, 7.01955, 7.92180, 9.05865, 9.96090, 10.86315]);
-scaleFamiliesDict.set("12ji_wendy_carlos_sj", [0, 1.04955, 2.03910, 3.15641, 3.86314, 4.98045, 5.51318, 7.01955, 8.40528, 8.84359, 9.68826, 10.88269]);
+scaleFamiliesDict.set("7ji_major", getRatiosScaleValues([0, 9 / 8, 5 / 4, 4 / 3, 3 / 2, 5 / 3, 15 / 8]));
+scaleFamiliesDict.set("7ji_minor", getRatiosScaleValues([0, 9 / 8, 6 / 5, 4 / 3, 3 / 2, 8 / 5, 9 / 5]));
+scaleFamiliesDict.set("7ji_indian", getRatiosScaleValues([0, 9 / 8, 5 / 4, 4 / 3, 3 / 2, 27 / 16, 15 / 8]));
+scaleFamiliesDict.set("43ji_harry_partch", getRatiosScaleValues([0, 81 / 80, 33 / 32, 21 / 20, 16 / 15, 12 / 11, 11 / 10, 10 / 9, 9 / 8, 8 / 7, 7 / 6,
+    32 / 27, 6 / 5, 11 / 9, 5 / 4, 14 / 11, 9 / 7, 21 / 16, 4 / 3, 27 / 20, 11 / 8, 7 / 5, 10 / 7, 16 / 11, 40 / 27, 3 / 2, 32 / 21, 14 / 9, 11 / 7, 8 / 5, 18 / 11, 5 / 3,
+    27 / 16, 12 / 7, 7 / 4, 16 / 9, 9 / 5, 20 / 11, 11 / 6, 15 / 8, 40 / 21, 64 / 33, 160 / 81]));
+scaleFamiliesDict.set("12ji_kg_centaur", getRatiosScaleValues([0, 21 / 20, 9 / 8, 7 / 6, 5 / 4, 4 / 3, 7 / 5, 3 / 2, 14 / 9, 5 / 3, 7 / 4, 15 / 8]));
+scaleFamiliesDict.set("12ji_kg_centaura_sub", getRatiosScaleValues([0, 15 / 14, 10 / 9, 40 / 33, 5 / 4, 4 / 3, 10 / 7, 3 / 2, 45 / 28, 5 / 3, 20 / 11, 15 / 8]));
+scaleFamiliesDict.set("12ji_kg_centaura_harm", getRatiosScaleValues([0, 33 / 32, 9 / 8, 7 / 6, 5 / 4, 4 / 3, 11 / 8, 3 / 2, 14 / 9, 5 / 3, 7 / 4, 15 / 8]));
+scaleFamiliesDict.set("12ji_pythagorean", getRatiosScaleValues([0, 256 / 243, 9 / 8, 32 / 27, 81 / 64, 4 / 3, 1024 / 729, 3 / 2, 128 / 81, 27 / 16, 16 / 9, 4096 / 2187]));
+scaleFamiliesDict.set("12ji_wendy_carlos_sj", getRatiosScaleValues([0, 17 / 16, 9 / 8, 6 / 5, 5 / 4, 4 / 3, 11 / 8, 3 / 2, 13 / 8, 5 / 3, 7 / 4, 15 / 8]));
 scaleFamiliesDict.set("12ji_werckmeister_3", [0, 1.0782, 2.0391, 3.1172, 4.0196, 5.0391, 6.0587, 7.0196, 8.0978, 9.0000, 10.0782, 11.0391]);
 scaleFamiliesDict.set("12ji_young_1799", [0, 1.060, 1.980, 3.062, 4.001, 5.020, 6.040, 6.979, 8.061, 8.981, 10.041, 11.020]);
 scaleFamiliesDict.set("7ji_zarlino", [0, 2.03910, 3.86314, 4.98045, 7.01955, 8.84359, 10.88269]);
@@ -41,11 +37,12 @@ scaleFamiliesDict.set("7balafon4", [1.51, 3.45, 5.26, 6.60, 8.61, 10.25, 11.41])
 scaleFamiliesDict.set("7balafon5", [1.69, 3.50, 5.43, 7.09, 8.94, 10.40, 12.05]);
 scaleFamiliesDict.set("7balafon6", [1.14, 3.50, 5.50, 6.87, 8.38, 10.32, 11.96]);
 scaleFamiliesDict.set("5balafon7", [0, 2.02, 3.70, 6.85, 9.03]);
-scaleFamiliesDict.set("7didymus", [0, 1.11731, 1.82404, 4.98045, 7.01955, 8.13686, 8.84359]);
+scaleFamiliesDict.set("7didymus", getRatiosScaleValues([0, 16 / 15, 10 / 9, 4 / 3, 3 / 2, 8 / 5, 5 / 3]));
 scaleFamiliesDict.set("5hirajoshi_trad", [0, 1.85, 3.37, 6.83, 7.90]);
 scaleFamiliesDict.set("7pelog_norm", [1.20, 2.70, 5.40, 6.70, 7.85, 9.50, 12.15]);
-scaleFamiliesDict.set("7ptolemy_di", [0, 0.90225, 2.94135, 4.98045, 7.01955, 7.92180, 9.96090]);
-scaleFamiliesDict.set("7ptolemy_he", [0, 1.50637, 3.15641, 4.98045, 7.01955, 8.52592, 10.17596]);
+//scaleFamiliesDict.set("7ptolemy_di",     [0, 0.90225, 2.94135, 4.98045, 7.01955, 7.92180, 9.96090]);
+scaleFamiliesDict.set("7ptolemy_di", getRatiosScaleValues([0, 256 / 243, 32 / 27, 4 / 3, 3 / 2, 128 / 81, 16 / 9]));
+scaleFamiliesDict.set("7ptolemy_he", getRatiosScaleValues([0, 12 / 11, 6 / 5, 4 / 3, 3 / 2, 18 / 11, 9 / 5]));
 scaleFamiliesDict.set("7raga_bageshri", [0, 1.82404, 2.94135, 4.98045, 7.01955, 8.84359, 9.96090]);
 scaleFamiliesDict.set("8raga_bhairavi", [0, 1.11731, 2.03910, 3.15641, 5.19551, 7.01955, 8.13686, 10.17596]);
 scaleFamiliesDict.set("7raga_kafi", [0, 2.03910, 2.94135, 4.98045, 7.01955, 8.84359, 9.96090]);
@@ -57,10 +54,12 @@ scaleFamiliesDict.set("7thai_ranat", [0, 1.61, 3.46, 5.26, 6.86, 8.62, 10.28571]
 // TODO: refactor to compute scale values in function
 //scaleFamiliesDict.set("22approx_128edo",    [0, 0.53273, 1.04955, 1.67462, 2.15891, 2.74582, 3.31349, 3.86314, 4.39587, 4.91269, 5.41453, 5.99815, 6.56273, 7.10948, 7.63950, 8.15376, 8.73505, 9.29744, 9.84215, 10.37023, 10.88269, 11.45036]);
 scaleFamiliesDict.set("6augment_21edo", getEDOSubsetScaleValues(21, [0, 4, 7, 11, 14, 18])); // 4 3 4 3 4 3
+scaleFamiliesDict.set("10blackdye_27edo", getEDOSubsetScaleValues(27, [0, 1, 5, 7, 11, 12, 16, 18, 22, 23])); // 1 4 2 4 1 4 2 4 1 4
 scaleFamiliesDict.set("10blackwood_15edo", getEDOSubsetScaleValues(15, [0, 2, 3, 5, 6, 8, 9, 11, 12, 14])); // 2 1 2 1 2 1 2 1 2 1
 scaleFamiliesDict.set("7cata_246edo", getEDOSubsetScaleValues(246, [0, 14, 65, 79, 130, 144, 195])); // 14 51 14 51 14 51 51
 scaleFamiliesDict.set("8father_13edo", getEDOSubsetScaleValues(13, [0, 2, 4, 5, 7, 9, 10, 12])); // 2 2 1 2 2 1 2 1
 scaleFamiliesDict.set("12flattone_26edo", getEDOSubsetScaleValues(26, [0, 1, 4, 5, 8, 11, 12, 15, 16, 19, 20, 23])); // 1 3 1 3 3 1 3 1 3 1 3 3
+scaleFamiliesDict.set("8harmonic_31edo", getEDOSubsetScaleValues(31, [0, 5, 10, 14, 18, 22, 25, 28])); // 5 5 4 4 4 3 3 3
 scaleFamiliesDict.set("7hutington_400edo", getEDOSubsetScaleValues(400, [0, 43, 119, 162, 205, 281, 324])); // 43 76 43 43 76 43 76
 scaleFamiliesDict.set("9island_313edo", getEDOSubsetScaleValues(313, [0, 53, 65, 118, 130, 183, 195, 248, 260])); // 53 12 53 12 53 12 53 12 53
 scaleFamiliesDict.set("5keen_284edo", getEDOSubsetScaleValues(284, [0, 75, 130, 166, 221])); // 75 55 36 55 63
@@ -85,6 +84,7 @@ scaleFamiliesDict.set("7score_20edo", getEDOSubsetScaleValues(20, [0, 5, 7, 9, 1
 scaleFamiliesDict.set("5sensi_46edo", getEDOSubsetScaleValues(46, [0, 12, 17, 29, 34])); // 12 5 12 5 12
 scaleFamiliesDict.set("11sensi_46edo", getEDOSubsetScaleValues(46, [0, 5, 10, 15, 17, 22, 27, 32, 34, 39, 44])); // 5 5 5 2 5 5 5 2 5 5 2
 scaleFamiliesDict.set("12superpyth_17edo", getEDOSubsetScaleValues(17, [0, 1, 2, 4, 5, 7, 8, 9, 11, 12, 14, 15])); // 1 1 2 1 2 1 1 2 1 2 1 2
+scaleFamiliesDict.set("7zarlino_29edo", getEDOSubsetScaleValues(29, [0, 5, 9, 14, 17, 22, 26])); // 5 4 5 3 5 3 3
 scaleFamiliesDict.set("7zeus_tri_99edo", getEDOSubsetScaleValues(99, [0, 13, 32, 45, 58, 77, 90])); // 13 19 13 13 19 13 9
 // misc
 scaleFamiliesDict.set("7archy", [0, 2.1864407, 2.7203390, 4.9067797, 7.0932203, 9.2796610, 9.8135593]);
@@ -94,7 +94,9 @@ scaleFamiliesDict.set("6hexany1379", [0, 2.03910, 2.66871, 4.70781, 7.01955, 9.6
 scaleFamiliesDict.set("13lovecraft", [0, 0.8275862, 1.9655172, 2.7931034, 3.6206897, 4.7586207, 5.5862069, 6.4137931, 7.5517241, 8.3793103, 9.2068966, 10.0344828, 11.1724138]);
 scaleFamiliesDict.set("19madagascar", [0, 0.6517572, 1.3801917, 1.8402556, 2.4920128, 3.1437700, 3.8722045, 4.5239617, 4.9840256, 5.6357827, 6.3642173, 7.0159744, 7.4760383, 8.1277955, 8.8562300, 9.5079872, 10.1597444, 10.6198083, 11.3482428]);
 scaleFamiliesDict.set("7magic", [0, 3.2275862, 3.8068966, 7.0344828, 7.6137931, 10.8413793, 11.4206897]);
+scaleFamiliesDict.set("12meantone", [0, 1.139284, 1.944286, 3.083571, 3.888573, 5.027857, 5.832859, 6.972143, 8.111427, 8.916429, 10.055713, 10.860716]);
 scaleFamiliesDict.set("7myna", [0, 2.6966292, 3.1011236, 5.7977528, 6.2022472, 8.8988764, 9.3033708]);
+scaleFamiliesDict.set("7orgone", [0, 2.298849, 3.233717, 5.532566, 6.467434, 8.766283, 9.701151]);
 scaleFamiliesDict.set("5orwell", [0, 2.7142857, 3.8571429, 6.5714286, 9.2857143]);
 scaleFamiliesDict.set("5pygmy", [0, 2.31174, 4.70781, 7.01955, 9.68826]);
 scaleFamiliesDict.set("10pygmy", [0, 2, 2.31174, 4, 4.70781, 7.01955, 9, 9.68826, 10, 11]);
@@ -113,6 +115,7 @@ scaleFamiliesDict.set("88cent_et", [0.88]);
 scaleFamiliesDict.set("13bohlen_pierce", [1.46304, 2.92608, 4.38913, 5.85217, 7.31521, 8.77825, 10.24130, 11.70434, 13.16738, 14.63042, 16.09347, 17.55651, 19.01955]);
 scaleFamiliesDict.set("13bohlen_pierce_ji", [1.33238, 3.01847, 4.35084, 5.82512, 7.36931, 8.84359, 10.17596, 11.65024, 13.19443, 14.66871, 16.00108, 17.68717, 19.01955]);
 scaleFamiliesDict.set("8golden_ratio", [1.2155, 1.9667, 3.1821, 4.3976, 5.1488, 6.3642, 7.1154, 8.3309]);
+scaleFamiliesDict.set("12marveldene", [1.1601264, 2.3202527, 3.1692766, 4.3294029, 4.9984142, 6.1585405, 7.0075644, 8.1676907, 9.3278170, 9.9968282, 11.3369672, 12.0059784]);
 scaleFamiliesDict.set("5mersh", [0.86265, 2.17449, 4.10520, 5.89714, 6.83627]);
 scaleFamiliesDict.set("15porcupine", [1.0301585, 1.6273726, 2.2245866, 3.2547451, 3.8519592, 4.8821177, 5.4793318, 6.5094903, 7.1067043, 8.1368629, 8.7340769, 9.7642354, 10.3614495, 11.3916080, 11.9888220]);
 scaleFamiliesDict.set("22porcupine", [0.5972140, 1.0301585, 1.6273726, 2.2245866, 2.6575311, 3.2547451, 3.8519592, 4.2849037, 4.8821177, 5.4793318, 5.9122762, 6.5094903, 7.1067043, 7.7039184, 8.1368629, 8.7340769, 9.3312909, 9.7642354, 10.3614495, 10.9586635, 11.3916080, 11.9888220]);
@@ -168,10 +171,12 @@ scalesDict_int.set("xen_tet,sep", "");
 scalesDict_int.set("xenharmonics_tet_sub", "------- Equal temperaments subsets ------");
 //scalesDict_int.set("22approx_128edo,1",   "Approx[22] (128-EDO)");
 scalesDict_int.set("6augment_21edo,1", "Augment[6] (21-EDO)");
+scalesDict_int.set("10blackdye_27edo,1", "Blackdye[10] (27-EDO)");
 scalesDict_int.set("10blackwood_15edo,1", "Blackwood[10] (15-EDO)");
 scalesDict_int.set("7cata_246edo,1", "Cata[7] (246-EDO)");
 scalesDict_int.set("8father_13edo,1", "Father[8] (13-EDO)");
 scalesDict_int.set("12flattone_26edo,1", "FlatTone[12] (26-EDO)");
+scalesDict_int.set("8harmonic_31edo,1", "Harmonic[8] (31-EDO)");
 scalesDict_int.set("7hutington_400edo,1", "Hutington[7] (400-EDO)");
 scalesDict_int.set("9island_313edo,1", "Island / Madag. / Barbados[9] (313-EDO)");
 scalesDict_int.set("5keen_284edo,1", "Keenanismic[5] (284-EDO)");
@@ -196,6 +201,7 @@ scalesDict_int.set("7score_20edo,1", "Score[7] (20-EDO)");
 scalesDict_int.set("5sensi_46edo,1", "Sensi[5] (46-EDO)");
 scalesDict_int.set("11sensi_46edo,1", "Sensi[11] (46-EDO)");
 scalesDict_int.set("12superpyth_17edo,1", "SuperPyth[12] (17-EDO)");
+scalesDict_int.set("7zarlino_29edo,1", "Zarlino[7] (29-EDO)");
 scalesDict_int.set("7zeus_tri_99edo,1", "Zeus[7]Tri (99-EDO)");
 scalesDict_int.set("xen_tet_subsets,sep", "");
 scalesDict_int.set("xenharmonics_misc_sub", "------------------- Miscellaneous ------------------");
@@ -206,7 +212,9 @@ scalesDict_int.set("6hexany1379,1", "Hexany[6] 1-3-7-9");
 scalesDict_int.set("13lovecraft,1", "Lovecraft[13]");
 scalesDict_int.set("19madagascar,1", "Madagascar[19]");
 scalesDict_int.set("7magic,1", "Magic[7]");
+scalesDict_int.set("12meantone,1", "Meantone[12]");
 scalesDict_int.set("7myna,1", "Myna[7]");
+scalesDict_int.set("7orgone,1", "Orgone[7]");
 scalesDict_int.set("5orwell,1", "Orwell[5]");
 scalesDict_int.set("5pygmy,1", "Pygmy[5]");
 scalesDict_int.set("10pygmy,1", "Pygmy[10]");
@@ -226,6 +234,7 @@ scalesDict_int.set("88cent_et,1", "88 cent equal temperament");
 scalesDict_int.set("13bohlen_pierce,1", "Bohlen-Pierce equal (13EDO3)");
 scalesDict_int.set("13bohlen_pierce_ji,1", "Bohlen-Pierce just intonation");
 scalesDict_int.set("8golden_ratio,1", "Golden ratio");
+scalesDict_int.set("12marveldene,1", "Marveldene");
 scalesDict_int.set("5mersh,1", "Mersh");
 scalesDict_int.set("15porcupine,1", "Porcupine[15]");
 scalesDict_int.set("22porcupine,1", "Porcupine[22]");
@@ -261,6 +270,14 @@ function getEDOSubsetScaleValues(temperament, indexes) {
     let scaleValues = [];
     for (const i of indexes)
         scaleValues.push(12 * i / temperament);
+    return scaleValues;
+}
+function getRatiosScaleValues(ratios) {
+    if (ratios == null || ratios.length == 0)
+        return [];
+    let scaleValues = [];
+    for (const ratio of ratios)
+        scaleValues.push((ratio == 0) ? 0 : 12 * Math.log2(ratio));
     return scaleValues;
 }
 //# sourceMappingURL=scales_xenharmonic.js.map
