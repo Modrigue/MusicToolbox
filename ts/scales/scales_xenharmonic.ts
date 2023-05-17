@@ -95,6 +95,7 @@ scaleFamiliesDict.set("7zeus_tri_99edo",    getEDOSubsetScaleValues(99,  [0, 13,
 scaleFamiliesDict.set("7archy",             [0, 2.1864407, 2.7203390, 4.9067797, 7.0932203, 9.2796610, 9.8135593]);
 scaleFamiliesDict.set("10ganymede",         [0, 1.50637, 2.89210, 4.17508, 5.93718, 7.01955, 8.03822, 9.46195, 9.91165, 10.77744]);
 scaleFamiliesDict.set("7glacial",           [0, 1.8573, 3.7146, 5.5718, 7.4291, 9.2864, 11.1437]);
+scaleFamiliesDict.set("8harmonic",          getHarmonicSeriesScaleValues(8 ,16));
 scaleFamiliesDict.set("6hexany1379",        [0, 2.03910, 2.66871, 4.70781, 7.01955, 9.68826]);
 scaleFamiliesDict.set("13lovecraft",        [0, 0.8275862, 1.9655172, 2.7931034, 3.6206897, 4.7586207, 5.5862069, 6.4137931, 7.5517241, 8.3793103, 9.2068966, 10.0344828, 11.1724138]);
 scaleFamiliesDict.set("19madagascar",       [0, 0.6517572, 1.3801917, 1.8402556, 2.4920128, 3.1437700, 3.8722045, 4.5239617, 4.9840256, 5.6357827, 6.3642173, 7.0159744, 7.4760383, 8.1277955, 8.8562300, 9.5079872, 10.1597444, 10.6198083, 11.3482428]);
@@ -110,6 +111,7 @@ scaleFamiliesDict.set("7silver",            [0, 1.2813142, 3.5728953, 4.8542094,
 scaleFamiliesDict.set("5slendric",          [0, 2.3368421, 4.6736842, 7.0105263, 9.6631579]);
 scaleFamiliesDict.set("8star",              [0, 0.7792208, 3.1168831, 3.8961039, 6.2337662, 7.0129870, 8.8831169, 10.1298701]);
 scaleFamiliesDict.set("7suhajira",          [0, 2.1583055, 3.5395764, 4.9208473, 7.0791527, 8.4604236, 10.6187291]);
+scaleFamiliesDict.set("8subharmonic",       getSubharmonicSeriesScaleValues(8, 16));
 scaleFamiliesDict.set("17supermariner",     [0, 0.45258, 1.76639, 2.21897, 2.67155, 3.12412, 4.43794, 4.89052, 5.34309, 6.65691, 7.10948, 7.56206, 8.87588, 9.32845, 9.78103, 10.23361, 11.54742]);
 scaleFamiliesDict.set("10syntonic_dipenta", [0, 0.21506, 2.03910, 3.15641, 4.98045, 5.19551, 7.01955, 8.13686, 9.96090, 10.17596]);
 scaleFamiliesDict.set("7tetrachordal",      [0, 1.82404, 3.47408, 4.98045, 7.01955, 8.84359, 10.49363]);
@@ -229,6 +231,7 @@ scalesDict_int.set("xenharmonics_misc_sub", "------------------- Miscellaneous -
 scalesDict_int.set("7archy,1", "Archy[7]");
 scalesDict_int.set("10ganymede,1",  "Ganymede[10]");
 scalesDict_int.set("7glacial,1", "Glacial[7]");
+scalesDict_int.set("8harmonic,1", "Harmonic[8]");
 scalesDict_int.set("6hexany1379,1", "Hexany[6] 1-3-7-9");
 scalesDict_int.set("13lovecraft,1", "Lovecraft[13]");
 scalesDict_int.set("19madagascar,1", "Madagascar[19]");
@@ -243,6 +246,7 @@ scalesDict_int.set("11semaphore,1", "Semaphore[11]");
 scalesDict_int.set("7silver,1", "Silver[7]");
 scalesDict_int.set("5slendric,1", "Slendric[5]");
 scalesDict_int.set("8star,1", "Star[8]");
+scalesDict_int.set("8subharmonic,1", "Subharmonic[8]");
 scalesDict_int.set("7suhajira,1", "Suhajira[7]");
 scalesDict_int.set("17supermariner,1", "Supermariner[17]");
 scalesDict_int.set("10syntonic_dipenta,1", "Syntonic dipentatonic");
@@ -295,6 +299,8 @@ scalesDict_fr.set("13bohlen_pierce_ji,1", "Bohlen-Pierce intonation juste");
 scalesDict_fr.set("8golden_ratio,1", "Nombre d'or");
 
 
+// Scales computations functions
+
 function getEDOScaleValues(temperament: number): Array<number>
 {
     let scaleValues: Array<number> = [];
@@ -326,4 +332,32 @@ function getRatiosScaleValues(ratios: Array<number>): Array<number>
         scaleValues.push((ratio == 0) ? 0 : 12 * Math.log2(ratio));
 
     return scaleValues;
+}
+
+function getHarmonicSeriesScaleValues(valueMin: number, valueMax: number): Array<number>
+{
+    let ratios = [];
+
+    const hasOctave = ((valueMax / valueMin) % 2 == 0);
+    if (hasOctave)
+        ratios.push(0);
+
+    for (let value = valueMin + 1; value <= (hasOctave ? valueMax - 1 : valueMax); value++)
+        ratios.push(value / valueMin)
+
+    return getRatiosScaleValues(ratios);
+}
+
+function getSubharmonicSeriesScaleValues(valueMin: number, valueMax: number): Array<number>
+{
+    let ratios = [];
+
+    const hasOctave = ((valueMax / valueMin) % 2 == 0);
+    if (hasOctave)
+        ratios.push(0);
+
+    for (let value = valueMax - 1; value >= (hasOctave ? valueMin + 1 : valueMin); value--)
+        ratios.push(valueMax / value)
+
+    return getRatiosScaleValues(ratios);
 }
