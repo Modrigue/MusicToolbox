@@ -93,10 +93,15 @@ chords4Dict.set("dream",              [0, 5, 6, 7]);
 chords4Dict.set("tristan",            [0, 6, 10, 15]);
 
 // microtonal chords with 4 notes
+chords4Dict.set("7harm",              [0, 4, 7, 9.5]); // harmonic 7th / microtonal dominant 7th
+chords4Dict.set("m7harm",             [0, 3, 7, 9.5]); // minor harmonic 7th
+chords4Dict.set("7harm‡11(no5)",      [0, 4, 9.5, 17.5]);
+chords4Dict.set("neu7",               [0, 3.5, 7, 10.5]);
 chords4Dict.set("neu7sus2",           [0, 2, 7, 10.5]);
 chords4Dict.set("neu7sus4",           [0, 5, 7, 10.5]);
 chords4Dict.set("neuadd9",            [0, 3.5, 7, 14]);
 chords4Dict.set("neuadd11",           [0, 3.5, 5, 17]);
+chords4Dict.set("13harm",             [0, 3, 4.5, 8.5]); // harmonic 13h
 
 // chords with 5 notes
 const chords5Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
@@ -139,6 +144,9 @@ chords5Dict.set("elektra",          [0, 7, 9, 13, 16]);
 chords5Dict.set("farben",           [0, 8, 11, 16, 21]);
 
 // microtonal chords with 5 notes
+chords5Dict.set("7harm‡b9",         [0, 4, 7, 9.5, 12.5]);
+chords5Dict.set("7harm‡11",         [0, 4, 7, 9.5, 17.5]);
+chords5Dict.set("7harm‡11d13(no5)", [0, 4, 9.5, 17.5, 20.5]);
 chords5Dict.set("neu9sus",          [0, 5, 7, 10.5, 14]);
 chords5Dict.set("neu9sus",          [0, 5, 7, 10.5, 14]);
 
@@ -158,6 +166,9 @@ chords6Dict.set("m13(no5)",          [0, 3, 10, 14, 17, 21]);
 chords6Dict.set("m13M(no5)",         [0, 3, 11, 14, 17, 21]);
 chords6Dict.set("bridge",            [0, 3, 7, 14, 18, 21]);
 chords6Dict.set("mystic",            [0, 6, 10, 16, 21, 26]);
+
+// microtonal chords with 6 notes
+chords6Dict.set("7harm‡11d13",       [0, 4, 7, 9.5, 17.5, 20.5]);
 
 // disabled for now: chords with 7 notes
 const chords7Dict: Map<string, Array<number>> = new Map<string, Array<number>>();

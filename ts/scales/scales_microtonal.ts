@@ -5,6 +5,7 @@ scaleFamiliesDict.set("8jiharkah",        [0, 2, 4, 5, 7, 9, 10, 10.5]);
 scaleFamiliesDict.set("8mehayar",         [0, 1.5, 3, 5, 7, 8, 8.5, 10]);
 scaleFamiliesDict.set("8kirdan",          [0, 2, 3, 3.5, 5, 7, 9, 10.5]);
 scaleFamiliesDict.set("8tet",             [0, 1.5, 3, 4.5, 6, 7.5, 9, 10.5]);
+scaleFamiliesDict.set("8harmonic_approx", [0, 2, 4, 5.5, 7, 8.5, 9.5, 11]);
 
 // 7 notes microtonal
 scaleFamiliesDict.set("7hijaz",           [0, 1, 4, 5, 7, 8.5, 10]);
@@ -20,7 +21,6 @@ scaleFamiliesDict.set("7nairuzb2",        [0, 1, 3.5, 5, 7, 8.5, 10]);
 // other microtonal
 scaleFamiliesDict.set("5tet_approx",      [0, 2.5, 5, 7, 9.5]);
 scaleFamiliesDict.set("6blues_micro",     [0, 3.5, 5, 6, 7, 10.5]);
-scaleFamiliesDict.set("8harmonic_approx", [0, 2, 4, 5.5, 7, 8.5, 9.5, 11]);
 scaleFamiliesDict.set("9island_approx",   [0, 2, 2.5, 4.5, 5, 7, 7.5, 9.5, 10]);
 
 
@@ -39,6 +39,7 @@ scalesDict_int.set("8mehayar,1,diff:7major_nat;6", "Mehayar / Hoseni / Rahaw");
 scalesDict_int.set("8notes_quarter_tones,sep", "");
 
 scalesDict_int.set("8tet,1", "8-TET / 8-EDO");
+scalesDict_int.set("8harmonic_approx,1,diff:7major_nat;1", "Harmonic[8] (Approximation)");
 scalesDict_int.set("8tet,sep", "");
 
 scalesDict_int.set("7notes_quarter_tones", "--------------- 7 NOTES ¼ TONES ---------------");
@@ -76,7 +77,6 @@ scalesDict_int.set("microtonal_others", "--------------- OTHERS ¼ TONES -------
 
 scalesDict_int.set("5tet_approx,1,diff:5major_penta;4", "5-TET / 5-EDO (Approximation)");
 scalesDict_int.set("6blues_micro,1,diff:6blues;1", "Blues (Microtonal)");
-scalesDict_int.set("8harmonic_approx,1,diff:7major_nat;1", "Harmonic[8] (Approximation)");
 scalesDict_int.set("9island_approx,1", "Island / Madag. / Barbados[9] (Approx.)");
 scalesDict_int.set("5notes_quarter_tones,sep", "");
 
