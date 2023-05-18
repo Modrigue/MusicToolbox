@@ -36,7 +36,19 @@ chords6Dict.set("h7h11h13",         [0, 4, 7, 9.5, 17.5, 20.5]);
 
 // microtonal chords functions
 
-function isMicrotonalChord(chordValues: Array<number>): boolean
+function isMicrotonalChord(chordId: string): boolean
+{
+    const chordValues = getChordValues(chordId);
+    return areMicrotonalChordValues(chordValues);
+}
+
+function isXenharmonicChord(chordId: string): boolean
+{
+    const chordValues = getChordValues(chordId);
+    return areXenharmonicChordValues(chordValues);
+}
+
+function areMicrotonalChordValues(chordValues: Array<number>): boolean
 {
     for (const value of chordValues)
         if (isMicrotonalInterval(value))
@@ -45,7 +57,7 @@ function isMicrotonalChord(chordValues: Array<number>): boolean
     return false;
 }
 
-function isXenharmonicChord(chordValues: Array<number>): boolean
+function areXenharmonicChordValues(chordValues: Array<number>): boolean
 {
     for (const value of chordValues)
         if (isXenharmonicInterval(value))

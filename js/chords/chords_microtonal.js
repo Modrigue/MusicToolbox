@@ -31,13 +31,21 @@ chords5Dict.set("n9sus", [0, 5, 7, 10.5, 14]);
 // microtonal chords with 6 notes
 chords6Dict.set("h7h11h13", [0, 4, 7, 9.5, 17.5, 20.5]);
 // microtonal chords functions
-function isMicrotonalChord(chordValues) {
+function isMicrotonalChord(chordId) {
+    const chordValues = getChordValues(chordId);
+    return areMicrotonalChordValues(chordValues);
+}
+function isXenharmonicChord(chordId) {
+    const chordValues = getChordValues(chordId);
+    return areXenharmonicChordValues(chordValues);
+}
+function areMicrotonalChordValues(chordValues) {
     for (const value of chordValues)
         if (isMicrotonalInterval(value))
             return true;
     return false;
 }
-function isXenharmonicChord(chordValues) {
+function areXenharmonicChordValues(chordValues) {
     for (const value of chordValues)
         if (isXenharmonicInterval(value))
             return true;

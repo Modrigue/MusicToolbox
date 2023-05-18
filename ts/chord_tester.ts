@@ -5,7 +5,7 @@ const commonChords: Array<string> = [
 ];
 
 function updateChordTesterTables(noteStartValue: number, octaveStartValue: number,
-    keys: Array<[number, string]> = []) : void
+    keys: Array<[number, string]> = [], includeMicrotonalChords: boolean = false) : void
 {
     const nbKeys = (keys != null) ? keys.length : 0;
     let keyNotesHTML = "";
@@ -59,6 +59,10 @@ function updateChordTesterTables(noteStartValue: number, octaveStartValue: numbe
         for (const [chordId, chordValues] of chordsDict)
         {
             let chordsRowHTML = /*html*/`<div class=\"resp-table-row\">`;
+
+            // TODO: only show microtonal chord if option checked
+            if (!includeMicrotonalChords && isMicrotonalChord(chordId))
+                continue;
 
             // if show common chords only, skip non-common chords
             if (commonChordsOnly && commonChords.indexOf(chordId) < 0)

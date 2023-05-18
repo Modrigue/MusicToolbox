@@ -4,7 +4,7 @@ const commonChords = [
     /* 4 notes */ "7M", "7", "m7", "add9", "madd9", "add11", "madd11", "m7flat5", "dor",
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
-function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
+function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], includeMicrotonalChords = false) {
     const nbKeys = (keys != null) ? keys.length : 0;
     let keyNotesHTML = "";
     // get scale notes values if specified
@@ -41,6 +41,9 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
         // list all chords with current nb. notes
         for (const [chordId, chordValues] of chordsDict) {
             let chordsRowHTML = /*html*/ `<div class=\"resp-table-row\">`;
+            // TODO: only show microtonal chord if option checked
+            if (!includeMicrotonalChords && isMicrotonalChord(chordId))
+                continue;
             // if show common chords only, skip non-common chords
             if (commonChordsOnly && commonChords.indexOf(chordId) < 0)
                 continue;

@@ -173,7 +173,9 @@ chordsDicts.set(6, chords6Dict);
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 
-function initChordSelector(id: string, defaultChordId: string = "-1", firstChordEmpty: boolean = false): void
+// TODO: handle microtonal chords
+function initChordSelector(id: string, defaultChordId: string = "-1",
+    firstChordEmpty: boolean = false, includeMicrotonalChords: boolean = false): void
 {
     // get chord selector
     const chordSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
@@ -220,7 +222,13 @@ function initChordSelector(id: string, defaultChordId: string = "-1", firstChord
             option.disabled = (nbNotesInChord > nbStrings);
             if (key == defaultChordId && !option.disabled)
                 option.selected = true;
-            chordSelect.appendChild(option);
+
+            let includeChord = true;
+            if (!includeMicrotonalChords && isMicrotonalChord(key))
+                includeChord = false;
+
+            if (includeChord)
+                chordSelect.appendChild(option);
         }
 
         // add separator
