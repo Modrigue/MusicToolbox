@@ -1,7 +1,7 @@
 // microtonal approximated harmonics
-// h7  = 9.5 (7/4)
-// h11 = 5.5 (11/8)
-// h13 = 8.5 (13/8)
+// h7  = 9.5, ‡6 (7/4)
+// h11 = 5.5, ‡4 (11/8)
+// h13 = 8.5, d6 (13/8)
 
 // microtonal chords with 3 notes
 chords3Dict.set("n",                [0, 3.5, 7]);
@@ -11,6 +11,12 @@ chords3Dict.set("h7sus2",           [0, 2, 9.5]);
 chords3Dict.set("h13sus4",          [0, 5, 8.5]);
 chords3Dict.set("h13sus2",          [0, 2, 8.5]);
 chords3Dict.set("h11sus2",          [0, 2, 5.5]);
+chords3Dict.set("d5",               [0, 4, 6.5]);
+chords3Dict.set("nd5",              [0, 3.5, 6.5]);
+chords3Dict.set("mind5",            [0, 3, 6.5]);
+chords3Dict.set("addh13(no5)",      [0, 4, 8.5]);
+chords3Dict.set("naddh13(no5)",     [0, 3.5, 8.5]);
+chords3Dict.set("maddh13(no5)",     [0, 3, 8.5]);
 
 // microtonal chords with 4 notes
 chords4Dict.set("h7",               [0, 4, 7, 9.5]);     // harmonic 7th / microtonal dominant 7th

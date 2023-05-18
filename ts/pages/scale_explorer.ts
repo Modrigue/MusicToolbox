@@ -380,7 +380,10 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
     const noteValue = scaleNotesValues[index];
     const noteName = getNoteName(noteValue);
 
-    const chordName = getKeyFromArrayValue(chordsDict, chordValues);
+    let chordName = getKeyFromArrayValue(chordsDict, chordValues);
+    if (chordName == "?")
+      chordName = getArpeggioIntervalsConcat(chordValues).replace(/, /g, "").slice(1);
+
     const chordNoteName = getCompactChordNotation(noteName, chordName);
     const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step})`;
 
@@ -404,7 +407,10 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
   let chordsRomanRowHTML = "<div class=\"resp-table-row\" style=\"color:gray;font-style:italic;\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
-    const chordName = getKeyFromArrayValue(chordsDict, chordValues);
+    let chordName = getKeyFromArrayValue(chordsDict, chordValues);
+    if (chordName == "?")
+      chordName = getArpeggioIntervalsConcat(chordValues).replace(/, /g, "").slice(1);
+    
     const romanChord = getRomanChord(index, chordName, nbNotesInChords, scaleValues);
 
     const noteValue = scaleNotesValues[index];

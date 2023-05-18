@@ -407,9 +407,9 @@ function update(): void
     const scaleNotesValuesMicrotonal: boolean = isMicrotonalScale(scaleNotesValues);
 
     // build chords 3,4 notes and quartal harmonization tables
-    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
-    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
-    const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
+    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesChromatic && !scaleValuesXenharmonic);
+    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesXenharmonic);
+    const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesXenharmonic);
     (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal) : "";
     (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
     (<HTMLParagraphElement>document.getElementById('chordsQ_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal, 3) : "";

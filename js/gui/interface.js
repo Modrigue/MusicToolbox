@@ -304,9 +304,9 @@ function update() {
     document.getElementById('scale_result').innerHTML = getScaleNotesTableHTML(tonicNoteValue, scaleValues, charIntervals, scaleName);
     const scaleNotesValuesMicrotonal = isMicrotonalScale(scaleNotesValues);
     // build chords 3,4 notes and quartal harmonization tables
-    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
-    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
-    const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesMicrotonal && !scaleValuesXenharmonic);
+    const showChords3 = (nbNotesInScale >= 6 && !scaleValuesChromatic && !scaleValuesXenharmonic);
+    const showChords4 = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesXenharmonic);
+    const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesXenharmonic);
     document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal) : "";
     document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
     document.getElementById('chordsQ_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal, 3) : "";
