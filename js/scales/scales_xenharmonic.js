@@ -114,7 +114,7 @@ scaleFamiliesDict.set("9triphi", [0, 1.5278640, 3.0557281, 4, 5.5278640, 7.05572
 // no octave
 scaleFamiliesDict.set("65cent_et", [0.65]);
 scaleFamiliesDict.set("88cent_et", [0.88]);
-scaleFamiliesDict.set("13bohlen_pierce", [1.46304, 2.92608, 4.38913, 5.85217, 7.31521, 8.77825, 10.24130, 11.70434, 13.16738, 14.63042, 16.09347, 17.55651, 19.01955]);
+scaleFamiliesDict.set("13bohlen_pierce", getEDOScaleValues(13, 3 / 1));
 scaleFamiliesDict.set("13bohlen_pierce_ji", [1.33238, 3.01847, 4.35084, 5.82512, 7.36931, 8.84359, 10.17596, 11.65024, 13.19443, 14.66871, 16.00108, 17.68717, 19.01955]);
 scaleFamiliesDict.set("8golden_ratio", [1.2155, 1.9667, 3.1821, 4.3976, 5.1488, 6.3642, 7.1154, 8.3309]);
 scaleFamiliesDict.set("12marveldene", [1.1601264, 2.3202527, 3.1692766, 4.3294029, 4.9984142, 6.1585405, 7.0075644, 8.1676907, 9.3278170, 9.9968282, 11.3369672, 12.0059784]);
@@ -263,18 +263,25 @@ scalesDict_fr.set("xenharmonics_no_sub", "--------------------- Sans octave ----
 scalesDict_fr.set("13bohlen_pierce_ji,1", "Bohlen-Pierce intonation juste");
 scalesDict_fr.set("8golden_ratio,1", "Nombre d'or");
 // Scales computations functions
-function getEDOScaleValues(temperament) {
+function getEDOScaleValues(temperament, intervalToDivide = 2) {
     let scaleValues = [];
-    for (let i = 0; i < temperament; i++)
-        scaleValues.push(12 * i / temperament);
+    const isOctave = (intervalToDivide == 2);
+    for (let i = (isOctave ? 0 : 1); i <= (isOctave ? temperament - 1 : temperament); i++)
+        scaleValues.push(12 * Math.log2(intervalToDivide) * i / temperament);
     return scaleValues;
 }
-function getEDOSubsetScaleValues(temperament, indexes) {
+function getEDOSubsetScaleValues(temperament, indexes, intervalToDivide = 2) {
     if (indexes == null || indexes.length == 0)
         return [];
     let scaleValues = [];
+    const isOctave = (intervalToDivide == 2);
     for (const i of indexes)
-        scaleValues.push(12 * i / temperament);
+        scaleValues.push(12 * Math.log2(intervalToDivide) * i / temperament);
+    // handle non-octave scale
+    if (!isOctave) {
+        scaleValues.shift();
+        scaleValues.push(12 * Math.log2(intervalToDivide));
+    }
     return scaleValues;
 }
 function getRatiosScaleValues(ratios) {
