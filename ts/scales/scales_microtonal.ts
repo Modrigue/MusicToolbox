@@ -1,3 +1,6 @@
+// 24-TET
+scaleFamiliesDict.set("24tet", [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5]);
+
 // 8 notes microtonal
 scaleFamiliesDict.set("8bastanikar",      [0, 1.5, 3.5, 5, 6.5, 7.5, 10.5, 11.5]);
 scaleFamiliesDict.set("8dalanshin",       [0, 1, 2, 3.5, 5, 7, 9, 10.5]);
@@ -28,6 +31,11 @@ scaleFamiliesDict.set("9island_approx",   [0, 2, 2.5, 4.5, 5, 7, 7.5, 9.5, 10]);
 
 
 // international
+
+scalesDict_int.set("24notes_quarter_tones", "----------------------- ¼ TONES -----------------------");
+
+scalesDict_int.set("24tet,1", `24-TET / 24-EDO`);
+scalesDict_int.set("24tet,sep", "");
 
 scalesDict_int.set("8notes_quarter_tones", "--------------- 8 NOTES ¼ TONES ---------------");
 
@@ -83,6 +91,8 @@ scalesDict_int.set("5notes_quarter_tones,sep", "");
 
 /////////////////////////////////// FRENCH ////////////////////////////////////
 
+
+scalesDict_fr.set("24notes_quarter_tones", "------------------------- ¼ TONS ------------------------");
 
 scalesDict_fr.set("8notes_quarter_tones", "----------------- 8 NOTES ¼ TONS -----------------");
 

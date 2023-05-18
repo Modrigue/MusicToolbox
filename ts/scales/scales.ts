@@ -327,9 +327,10 @@ const scalesToHighlight: Array<string> = ["12tet,1",
     "7major_nat,1", "7major_nat,6", "7minor_harm,1", "7minor_melo,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
     "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7saba", "7sikah_baladi,1",
-    "8bebop_dom,1", "8bebop_maj,1", "8dim,1",
+    "8bebop_dom,1", "8bebop_maj,1", "8dim,1", "8harmonic_approx",
     "6blues,1", "6strange,1", "6aug,1",
-    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1"
+    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1",
+    "24tet,1"
 ];
 
 function hightlightScale(id: string): boolean

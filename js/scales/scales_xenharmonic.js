@@ -1,7 +1,7 @@
 "use strict";
 // xenharmonics
 // equal-temperament scales
-const xenTETScalesNbNotes = [5, 7, 9, 10, 11, 13, 14, 15, 16, 17, 19, 22, 23, 24, 26, 28, 29, 31];
+const xenTETScalesNbNotes = [5, 7, 9, 10, 11, 13, 14, 15, 16, 17, 19, 22, 23 /*, 24*/, 26, 28, 29, 31];
 for (const nbNotes of xenTETScalesNbNotes)
     scaleFamiliesDict.set(`${nbNotes}tet`, getEDOScaleValues(nbNotes));
 // sources:
