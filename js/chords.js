@@ -40,8 +40,8 @@ chords3Dict.set("sus2add4(no5)", [0, 2, 5]);
 chords3Dict.set("65", [0, 7, 9]);
 chords3Dict.set("m65", [0, 7, 8]);
 // microtonal chords with 3 notes
-chords3Dict.set("neu", [0, 3.5, 7]);
-chords3Dict.set("neu65", [0, 7, 8.5]);
+chords3Dict.set("n", [0, 3.5, 7]);
+chords3Dict.set("n65", [0, 7, 8.5]);
 chords3Dict.set("sus4‡6", [0, 5, 8.5]);
 // chords with 4 notes
 const chords4Dict = new Map();
@@ -89,15 +89,25 @@ chords4Dict.set("hendrix(no5)", [0, 4, 10, 15]); // Hendrix
 chords4Dict.set("dream", [0, 5, 6, 7]);
 chords4Dict.set("tristan", [0, 6, 10, 15]);
 // microtonal chords with 4 notes
-chords4Dict.set("7harm", [0, 4, 7, 9.5]); // harmonic 7th / microtonal dominant 7th
-chords4Dict.set("m7harm", [0, 3, 7, 9.5]); // minor harmonic 7th
-chords4Dict.set("7harm‡11(no5)", [0, 4, 9.5, 17.5]);
-chords4Dict.set("neu7", [0, 3.5, 7, 10.5]);
-chords4Dict.set("neu7sus2", [0, 2, 7, 10.5]);
-chords4Dict.set("neu7sus4", [0, 5, 7, 10.5]);
-chords4Dict.set("neuadd9", [0, 3.5, 7, 14]);
-chords4Dict.set("neuadd11", [0, 3.5, 5, 17]);
-chords4Dict.set("13harm", [0, 3, 4.5, 8.5]); // harmonic 13h
+chords4Dict.set("h7", [0, 4, 7, 9.5]); // harmonic 7th / microtonal dominant 7th
+chords4Dict.set("nh7", [0, 3.5, 7, 9.5]); // neutral harmonic 7th
+chords4Dict.set("mh7", [0, 3, 7, 9.5]); // minor harmonic 7th
+chords4Dict.set("nh7flat5", [0, 3.5, 6, 9.5]); // neutral diminished 7th
+chords4Dict.set("h13", [0, 3, 5.5, 8.5]); // harmonic 13th
+chords4Dict.set("nh13", [0, 3.5, 5.5, 8.5]); // neutral harmonic 13th
+chords4Dict.set("addh13", [0, 4, 7, 8.5]);
+chords4Dict.set("naddh13", [0, 3.5, 7, 8.5]);
+chords4Dict.set("maddh13", [0, 3, 7, 8.5]);
+chords4Dict.set("addh11", [0, 4, 7, 17.5]);
+chords4Dict.set("naddh11", [0, 3.5, 7, 17.5]);
+chords4Dict.set("maddh11", [0, 3, 7, 17.5]);
+chords4Dict.set("h7‡11(no5)", [0, 4, 9.5, 17.5]);
+chords4Dict.set("n7", [0, 3.5, 7, 10.5]);
+chords4Dict.set("n7sus2", [0, 2, 7, 10.5]);
+chords4Dict.set("n7sus4", [0, 5, 7, 10.5]);
+chords4Dict.set("nadd9", [0, 3.5, 7, 14]);
+chords4Dict.set("nadd11", [0, 3.5, 5, 17]);
+chords4Dict.set("19to15", [0, 3, 6.5, 9.5]); // 19th to 15th
 // chords with 5 notes
 const chords5Dict = new Map();
 chords5Dict.set("9M", [0, 4, 7, 11, 14]);
@@ -138,11 +148,10 @@ chords5Dict.set("gamma", [0, 3, 6, 8, 11]);
 chords5Dict.set("elektra", [0, 7, 9, 13, 16]);
 chords5Dict.set("farben", [0, 8, 11, 16, 21]);
 // microtonal chords with 5 notes
-chords5Dict.set("7harm‡b9", [0, 4, 7, 9.5, 12.5]);
-chords5Dict.set("7harm‡11", [0, 4, 7, 9.5, 17.5]);
-chords5Dict.set("7harm‡11d13(no5)", [0, 4, 9.5, 17.5, 20.5]);
-chords5Dict.set("neu9sus", [0, 5, 7, 10.5, 14]);
-chords5Dict.set("neu9sus", [0, 5, 7, 10.5, 14]);
+chords5Dict.set("h7‡b9", [0, 4, 7, 9.5, 12.5]);
+chords5Dict.set("h7‡11", [0, 4, 7, 9.5, 17.5]);
+chords5Dict.set("h7‡11d13(no5)", [0, 4, 9.5, 17.5, 20.5]);
+chords5Dict.set("n9sus", [0, 5, 7, 10.5, 14]);
 // chords with 6 notes
 const chords6Dict = new Map();
 chords6Dict.set("11M", [0, 4, 7, 11, 14, 17]);
@@ -160,7 +169,7 @@ chords6Dict.set("m13M(no5)", [0, 3, 11, 14, 17, 21]);
 chords6Dict.set("bridge", [0, 3, 7, 14, 18, 21]);
 chords6Dict.set("mystic", [0, 6, 10, 16, 21, 26]);
 // microtonal chords with 6 notes
-chords6Dict.set("7harm‡11d13", [0, 4, 7, 9.5, 17.5, 20.5]);
+chords6Dict.set("h7‡11d13", [0, 4, 7, 9.5, 17.5, 20.5]);
 // disabled for now: chords with 7 notes
 const chords7Dict = new Map();
 chords7Dict.set("13M", [0, 4, 7, 11, 14, 17, 21]);
