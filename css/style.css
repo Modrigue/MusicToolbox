@@ -227,6 +227,11 @@ canvas
     border: 1px solid grey;
 }
 
+.table-body-cell-small
+{
+    font-size: 10px;
+}
+
 .table-body-cell-interactive
 {
     cursor: pointer;

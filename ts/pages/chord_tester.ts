@@ -5,9 +5,10 @@ const commonChords: Array<string> = [
 ];
 
 function updateChordTesterTables(noteStartValue: number, octaveStartValue: number,
-    keys: Array<[number, string]> = [], includeMicrotonalChords: boolean = false) : void
+    keys: Array<[number, string]> = [], qTones: boolean = false) : void
 {
     const nbKeys = (keys != null) ? keys.length : 0;
+    const noteStep = (qTones ? 0.5 : 1);
     let keyNotesHTML = "";
     
     // get scale notes values if specified
@@ -61,7 +62,7 @@ function updateChordTesterTables(noteStartValue: number, octaveStartValue: numbe
             let chordsRowHTML = /*html*/`<div class=\"resp-table-row\">`;
 
             // TODO: only show microtonal chord if option checked
-            if (!includeMicrotonalChords && isMicrotonalChord(chordId))
+            if (!qTones && isMicrotonalChord(chordId))
                 continue;
 
             // if show common chords only, skip non-common chords
@@ -69,7 +70,7 @@ function updateChordTesterTables(noteStartValue: number, octaveStartValue: numbe
                 continue;
 
             hasChordsWithNbNotes = true;
-            for (let noteValue = noteStartValue; noteValue < 12 + noteStartValue; noteValue++)
+            for (let noteValue = noteStartValue; noteValue < 12 + noteStartValue; noteValue += noteStep)
             {
                 const noteValueInOctave = (noteValue % 12);
                 const noteName = getNoteName(noteValueInOctave);
@@ -127,6 +128,9 @@ function updateChordTesterTables(noteStartValue: number, octaveStartValue: numbe
                     classString += "-interactive";
 
                 divChord.classList.add(classString);
+
+                if(qTones)
+                    divChord.classList.add("table-body-cell-small");
 
                 // set notes as tooltip
                 divChord.title =

@@ -4,8 +4,9 @@ const commonChords = [
     /* 4 notes */ "7M", "7", "m7", "add9", "madd9", "add11", "madd11", "m7flat5", "dor",
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
-function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], includeMicrotonalChords = false) {
+function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], qTones = false) {
     const nbKeys = (keys != null) ? keys.length : 0;
+    const noteStep = (qTones ? 0.5 : 1);
     let keyNotesHTML = "";
     // get scale notes values if specified
     let scaleNotesValuesArray = [];
@@ -42,13 +43,13 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], in
         for (const [chordId, chordValues] of chordsDict) {
             let chordsRowHTML = /*html*/ `<div class=\"resp-table-row\">`;
             // TODO: only show microtonal chord if option checked
-            if (!includeMicrotonalChords && isMicrotonalChord(chordId))
+            if (!qTones && isMicrotonalChord(chordId))
                 continue;
             // if show common chords only, skip non-common chords
             if (commonChordsOnly && commonChords.indexOf(chordId) < 0)
                 continue;
             hasChordsWithNbNotes = true;
-            for (let noteValue = noteStartValue; noteValue < 12 + noteStartValue; noteValue++) {
+            for (let noteValue = noteStartValue; noteValue < 12 + noteStartValue; noteValue += noteStep) {
                 const noteValueInOctave = (noteValue % 12);
                 const noteName = getNoteName(noteValueInOctave);
                 const callbackString = `playChordTest(${noteValue + 12 * (octaveStartValue - 2)}, [${chordValues.toString()}])`;
@@ -93,6 +94,8 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], in
                 if (hasAudio)
                     classString += "-interactive";
                 divChord.classList.add(classString);
+                if (qTones)
+                    divChord.classList.add("table-body-cell-small");
                 // set notes as tooltip
                 divChord.title =
                     getArpeggioNotesText(noteValue, chordValues).replace(/<span>/g, "").replace(/<\/span>/g, "");
