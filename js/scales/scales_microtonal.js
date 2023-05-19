@@ -1,13 +1,13 @@
 "use strict";
 // 24-TET
-scaleFamiliesDict.set("24tet", [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5]);
+scaleFamiliesDict.set("24tet", getEDOScaleValues(24));
 // 8 notes microtonal
 scaleFamiliesDict.set("8bastanikar", [0, 1.5, 3.5, 5, 6.5, 7.5, 10.5, 11.5]);
 scaleFamiliesDict.set("8dalanshin", [0, 1, 2, 3.5, 5, 7, 9, 10.5]);
 scaleFamiliesDict.set("8jiharkah", [0, 2, 4, 5, 7, 9, 10, 10.5]);
 scaleFamiliesDict.set("8mehayar", [0, 1.5, 3, 5, 7, 8, 8.5, 10]);
 scaleFamiliesDict.set("8kirdan", [0, 2, 3, 3.5, 5, 7, 9, 10.5]);
-scaleFamiliesDict.set("8tet", [0, 1.5, 3, 4.5, 6, 7.5, 9, 10.5]);
+scaleFamiliesDict.set("8tet", getEDOScaleValues(8));
 scaleFamiliesDict.set("8harmonic_approx", [0, 2, 4, 5.5, 7, 8.5, 9.5, 11]);
 // 7 notes microtonal
 scaleFamiliesDict.set("7hijaz", [0, 1, 4, 5, 7, 8.5, 10]);
@@ -29,6 +29,8 @@ scalesDict_int.set("24notes_quarter_tones", "----------------------- ¼ TONES --
 scalesDict_int.set("24tet,1", `24-TET / 24-EDO`);
 scalesDict_int.set("24tet,sep", "");
 scalesDict_int.set("8notes_quarter_tones", "--------------- 8 NOTES ¼ TONES ---------------");
+scalesDict_int.set("8harmonic_approx,1,diff:7major_nat;1", "Harmonic[8] (Approximation)");
+scalesDict_int.set("8tet_harm,sep", "");
 scalesDict_int.set("8jiharkah,1,diff:8bebop_dom;1", "Jiharkah");
 scalesDict_int.set("8bastanikar,1,diff:8bebop_dom;1", "Bastanikar");
 scalesDict_int.set("8dalanshin,1", "Dalanshin");
@@ -36,7 +38,6 @@ scalesDict_int.set("8kirdan,1", "Kirdan");
 scalesDict_int.set("8mehayar,1,diff:7major_nat;6", "Mehayar / Hoseni / Rahaw");
 scalesDict_int.set("8notes_quarter_tones,sep", "");
 scalesDict_int.set("8tet,1", "8-TET / 8-EDO");
-scalesDict_int.set("8harmonic_approx,1,diff:7major_nat;1", "Harmonic[8] (Approximation)");
 scalesDict_int.set("8tet,sep", "");
 scalesDict_int.set("7notes_quarter_tones", "--------------- 7 NOTES ¼ TONES ---------------");
 scalesDict_int.set("7hijaz,1,diff:7minor_harm;5", "Hijaz");
