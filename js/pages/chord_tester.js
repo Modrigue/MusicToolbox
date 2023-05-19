@@ -1,7 +1,7 @@
 "use strict";
 const commonChords = [
     /* 3 notes */ "M", "m", "sus2", "sus4", "dim", "aug",
-    /* 4 notes */ "7M", "7", "m7", "add9", "madd9", "add11", "madd11", "m7flat5", "dor",
+    /* 4 notes */ "7M", "7", "m7", "add9", "madd9", "add11", "madd11", "m7flat5", "dim7", "dor",
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
 function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], qTones = false) {
