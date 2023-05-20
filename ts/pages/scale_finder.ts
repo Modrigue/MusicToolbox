@@ -176,6 +176,11 @@ function findScalesFromNotesHTML()
     let notesValues = getSelectedNotesChordsFinderValues();
     const tonicValue = getSelectedTonicValue();
 
+    // update found notes label
+    const foundNotesLabel: HTMLSpanElement = <HTMLSpanElement>document.getElementById("scale_finder_found_notes_text");
+    if (notesValues == null || notesValues.length == 0)
+        foundNotesLabel.innerHTML = "&nbsp;";
+
     if (notesValues == null || notesValues.length < 2)
         return getString("min_2_notes");
 
@@ -183,10 +188,6 @@ function findScalesFromNotesHTML()
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleFinder")).checked;
 
     // update found notes label
-    const foundNotesLabel: HTMLSpanElement = <HTMLSpanElement>document.getElementById("scale_finder_found_notes_text");
-    if (notesValues == null || notesValues.length == 0)
-        foundNotesLabel.innerHTML = "&nbsp;";
-    else
     {
         let notesValuesSorted: Array<number> = new Array<number>();
         for (let note of notesValues)

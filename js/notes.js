@@ -82,7 +82,7 @@ function GetMotionBetweenNotes(noteValuePrev, noteValueNext) {
 function addToNoteValue(noteValue, interval) {
     return ((noteValue + interval + 12) % 12);
 }
-function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, showMicrotones = false, reset = false) {
+function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, showQTones = false, reset = false) {
     // get selected culture
     const lang = getSelectedCulture();
     // get note selecor
@@ -115,8 +115,8 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, s
         }
         // init
         for (const [key, value] of notesDict) {
-            // don't handle microtones if option not set
-            if (!showMicrotones && isMicrotonalInterval(key))
+            // don't handle quartertones if option not set
+            if (!showQTones && isMicrotonalInterval(key))
                 continue;
             let option = document.createElement('option');
             option.value = key.toString();
@@ -130,8 +130,8 @@ function updateNoteSelector(id, defaultNoteValue = -1, firstNoteEmpty = false, s
         // update
         let index = firstNoteEmpty ? 1 : 0;
         for (const [key, value] of notesDict) {
-            // don't handle microtones if option not set
-            if (!showMicrotones && isMicrotonalInterval(key))
+            // don't handle quartertones if option not set
+            if (!showQTones && isMicrotonalInterval(key))
                 continue;
             // if empty note, nop
             if (key == -1)

@@ -120,14 +120,15 @@ function findScalesFromNotesHTML() {
     let finderScalesHTML = getString("scales_compatible") + " ";
     let notesValues = getSelectedNotesChordsFinderValues();
     const tonicValue = getSelectedTonicValue();
-    if (notesValues == null || notesValues.length < 2)
-        return getString("min_2_notes");
-    const findQuarterTones = document.getElementById("checkboxQuarterTonesScaleFinder").checked;
     // update found notes label
     const foundNotesLabel = document.getElementById("scale_finder_found_notes_text");
     if (notesValues == null || notesValues.length == 0)
         foundNotesLabel.innerHTML = "&nbsp;";
-    else {
+    if (notesValues == null || notesValues.length < 2)
+        return getString("min_2_notes");
+    const findQuarterTones = document.getElementById("checkboxQuarterTonesScaleFinder").checked;
+    // update found notes label
+    {
         let notesValuesSorted = new Array();
         for (let note of notesValues) {
             //const noteValue = /*parseInt*/parseFloat(note);

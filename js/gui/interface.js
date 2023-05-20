@@ -96,12 +96,12 @@ function initShowQuarterTones() {
     updateShowQuarterTonesInScaleExplorer();
 }
 ////////////////////////////////// SELECTORS //////////////////////////////////
-function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes = false) {
+function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false) {
     // show quarter tones?
-    const showQuarterTonesInScaleExplorer = document.getElementById("checkboxQuarterTonesScaleExplorer").checked;
-    const showQuarterTonesInScaleFinder = document.getElementById("checkboxQuarterTonesScaleFinder").checked;
+    const showQTonesInScaleExplorer = document.getElementById("checkboxQuarterTonesScaleExplorer").checked;
+    const showQTonesInScaleFinder = document.getElementById("checkboxQuarterTonesScaleFinder").checked;
     // update scale explorer selectors
-    updateNoteSelector('note', 0, false, showQuarterTonesInScaleExplorer, resetScaleExplorerNotes);
+    updateNoteSelector('note', 0, false, showQTonesInScaleExplorer, resetScaleExplorer);
     updateScaleSelector('scale', "7major_nat,1", true, true);
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
@@ -117,10 +117,10 @@ function updateSelectors(resetScaleExplorerNotes = false, resetScaleFinderNotes 
     // update scale finder selectors
     for (let i = 1; i <= 8; i++) {
         const id = i.toString();
-        updateNoteSelector(`note_finder${id}`, -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
-        initChordSelector(`chord_finder${id}`, "-1", true);
+        updateNoteSelector(`note_finder${id}`, -1, true, showQTonesInScaleFinder, resetScaleFinder);
+        initChordSelector(`chord_finder${id}`, "-1", true, showQTonesInScaleFinder, resetScaleFinder);
     }
-    updateNoteSelector('note_finder_tonic', -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes);
+    updateNoteSelector('note_finder_tonic', -1, true, showQTonesInScaleFinder, resetScaleFinder);
     // update chord explorer selectors
     updateNoteSelector('chord_explorer_fundamental', 0, false);
     initChordSelector('chord_explorer_chord', "M", false);
@@ -596,11 +596,11 @@ function updateLocales() {
     updateChordExplorer("name"); // forces update and notes prefilled given chord name in chord explorer
 }
 function updateShowQuarterTonesInScaleExplorer() {
-    updateSelectors(true /*resetScaleFinderNotes*/);
+    updateSelectors(true /*resetScaleExplorer*/);
     update();
 }
 function updateShowQuarterTonesInScaleFinder() {
-    updateSelectors(false /*resetScaleExplorerNotes*/, true /*resetScaleFinderNotes*/);
+    updateSelectors(false /*resetScaleExplorer*/, true /*resetScaleFinder*/);
     update();
 }
 function getSelectorIndexFromValue(selector, value) {

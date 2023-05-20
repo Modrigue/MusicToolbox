@@ -101,7 +101,7 @@ function addToNoteValue(noteValue: number, interval: number): number
 }
 
 function updateNoteSelector(id: string, defaultNoteValue: number = -1,
-    firstNoteEmpty: boolean = false, showMicrotones: boolean = false,
+    firstNoteEmpty: boolean = false, showQTones: boolean = false,
     reset: boolean = false): void
 {
     // get selected culture
@@ -147,8 +147,8 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1,
         // init
         for (const [key, value] of notesDict)
         {
-            // don't handle microtones if option not set
-            if (!showMicrotones && isMicrotonalInterval(key))
+            // don't handle quartertones if option not set
+            if (!showQTones && isMicrotonalInterval(key))
                 continue;
 
             let option = document.createElement('option');
@@ -165,8 +165,8 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1,
         let index = firstNoteEmpty ? 1 : 0;
         for (const [key, value] of notesDict)
         {
-            // don't handle microtones if option not set
-            if (!showMicrotones && isMicrotonalInterval(key))
+            // don't handle quartertones if option not set
+            if (!showQTones && isMicrotonalInterval(key))
                 continue;
 
             // if empty note, nop

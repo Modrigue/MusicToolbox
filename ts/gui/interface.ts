@@ -130,16 +130,16 @@ function initShowQuarterTones(): void
 
 ////////////////////////////////// SELECTORS //////////////////////////////////
 
-function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFinderNotes: boolean = false): void
+function updateSelectors(resetScaleExplorer: boolean = false, resetScaleFinder: boolean = false): void
 {
     // show quarter tones?
-    const showQuarterTonesInScaleExplorer =
+    const showQTonesInScaleExplorer =
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer")).checked;
-    const showQuarterTonesInScaleFinder =
+    const showQTonesInScaleFinder =
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleFinder")).checked;
   
     // update scale explorer selectors
-    updateNoteSelector('note', 0, false, showQuarterTonesInScaleExplorer, resetScaleExplorerNotes);
+    updateNoteSelector('note', 0, false, showQTonesInScaleExplorer, resetScaleExplorer);
     updateScaleSelector('scale', "7major_nat,1", true, true);
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
@@ -161,10 +161,11 @@ function updateSelectors(resetScaleExplorerNotes: boolean = false, resetScaleFin
     for (let i = 1; i <= 8; i++)
     {
         const id: string = i.toString();
-        updateNoteSelector(`note_finder${id}`, -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes);   
-        initChordSelector(`chord_finder${id}`, "-1", true);   
+        
+        updateNoteSelector(`note_finder${id}`, -1, true, showQTonesInScaleFinder, resetScaleFinder);   
+        initChordSelector(`chord_finder${id}`, "-1", true, showQTonesInScaleFinder, resetScaleFinder);   
     }
-    updateNoteSelector('note_finder_tonic', -1, true, showQuarterTonesInScaleFinder, resetScaleFinderNotes); 
+    updateNoteSelector('note_finder_tonic', -1, true, showQTonesInScaleFinder, resetScaleFinder); 
     
     // update chord explorer selectors
     updateNoteSelector('chord_explorer_fundamental', 0, false);
@@ -795,13 +796,13 @@ function updateLocales(): void
 
 function updateShowQuarterTonesInScaleExplorer()
 {
-    updateSelectors(true /*resetScaleFinderNotes*/);
+    updateSelectors(true /*resetScaleExplorer*/);
     update();
 }
 
 function updateShowQuarterTonesInScaleFinder()
 {
-    updateSelectors(false /*resetScaleExplorerNotes*/, true /*resetScaleFinderNotes*/);
+    updateSelectors(false /*resetScaleExplorer*/, true /*resetScaleFinder*/);
     update();
 }
 

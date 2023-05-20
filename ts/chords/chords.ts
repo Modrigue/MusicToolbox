@@ -175,10 +175,17 @@ chordsDicts.set(6, chords6Dict);
 
 // TODO: handle microtonal chords
 function initChordSelector(id: string, defaultChordId: string = "-1",
-    firstChordEmpty: boolean = false, includeMicrotonalChords: boolean = false): void
+    firstChordEmpty: boolean = false, showQTonesChords: boolean = false,
+    reset: boolean = false): void
 {
     // get chord selector
     const chordSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    
+    // if reset option set, remove all options
+    if (reset)
+        while (chordSelect.firstChild)
+            chordSelect.firstChild.remove();
+    
     const initialized = (chordSelect.options != null && chordSelect.options.length > 0);
     if (initialized) // nop if already initialized
         return;
@@ -224,7 +231,7 @@ function initChordSelector(id: string, defaultChordId: string = "-1",
                 option.selected = true;
 
             let includeChord = true;
-            if (!includeMicrotonalChords && isMicrotonalChord(key))
+            if (!showQTonesChords && isMicrotonalChord(key))
                 includeChord = false;
 
             if (includeChord)
