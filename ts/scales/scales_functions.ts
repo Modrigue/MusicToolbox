@@ -1,5 +1,7 @@
 // update scale selector
-function updateScaleSelector(id: string, defaultScaleId: string, includesQTones = true, includesExtraScales = false): void
+function updateScaleSelector(id: string, defaultScaleId: string,
+    includesChromatic = true, includesQTones = true, includesXen = false,
+    reset = false): void
 {
     const scaleSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const initialized: boolean = (scaleSelect.options != null && scaleSelect.options.length > 0);
@@ -9,17 +11,23 @@ function updateScaleSelector(id: string, defaultScaleId: string, includesQTones 
     if (scaleParamValue != "")
       defaultScaleId = scaleParamValue;
   
-    if (!initialized)
+    // if reset option set, remove all options
+    if (reset)
+        while (scaleSelect.firstChild)
+            scaleSelect.firstChild.remove();
+
+    if (!initialized || reset)
     {
         // init
         for (const [key , value] of scalesDict_int)
         {
+            if (!includesChromatic && (key.startsWith("12tet") || key.startsWith("24tet")))
+                continue;
+
             if (!includesQTones && key.includes("quarter_tones"))
                 break;
 
-            if (!includesExtraScales && key.startsWith("12tet"))
-                continue;
-            if (!includesExtraScales && key.startsWith("xenharmonics"))
+            if (!includesXen && key.startsWith("xenharmonics"))
                 break;
             
             const scaleName = getScaleString(key);
@@ -58,9 +66,9 @@ function updateScaleSelector(id: string, defaultScaleId: string, includesQTones 
             if (!includesQTones && key.includes("quarter_tones"))
                 break;
             
-            if (!includesExtraScales && key.startsWith("12tet"))
+            if (!includesXen && key.startsWith("12tet"))
                 continue;
-            if (!includesExtraScales && key.includes("xenharmonics"))
+            if (!includesXen && key.includes("xenharmonics"))
                 break;
             
             scaleSelect.options[scaleValue].innerHTML = getScaleString(key);

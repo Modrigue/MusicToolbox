@@ -70,6 +70,7 @@ window.onload = function () {
         document.getElementById(`chord_tester_tonic${i}`).addEventListener("change", update);
         document.getElementById(`chord_tester_scale${i}`).addEventListener("change", update);
     }
+    document.getElementById("checkboxQuarterTonesChordTester").addEventListener("change", updateShowQuarterTonesInChordTester);
     // song generator
     document.getElementById(`song_generator_type`).addEventListener("change", generateNewSong);
     document.getElementById(`song_generator_tonic`).addEventListener("change", generateNewSong);
@@ -96,13 +97,14 @@ function initShowQuarterTones() {
     updateShowQuarterTonesInScaleExplorer();
 }
 ////////////////////////////////// SELECTORS //////////////////////////////////
-function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false) {
+function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, resetChordTester = false) {
     // show quarter tones?
     const showQTonesInScaleExplorer = document.getElementById("checkboxQuarterTonesScaleExplorer").checked;
     const showQTonesInScaleFinder = document.getElementById("checkboxQuarterTonesScaleFinder").checked;
+    const showQTonesInChordTester = document.getElementById("checkboxQuarterTonesChordTester").checked;
     // update scale explorer selectors
     updateNoteSelector('note', 0, false, showQTonesInScaleExplorer, resetScaleExplorer);
-    updateScaleSelector('scale', "7major_nat,1", true, true);
+    updateScaleSelector('scale', "7major_nat,1", true, true, true);
     initGuitarNbStringsSelector('scale_explorer_guitar_nb_strings');
     initGuitarTuningSelector('scale_explorer_guitar_tuning');
     // update scale position on guitar selector
@@ -134,11 +136,11 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false) {
     updateChordExplorerElements();
     chordExplorerUpdateMode = "";
     // update chord tester selectors
-    updateNoteSelector(`chord_tester_start_note`, 0, false);
+    updateNoteSelector(`chord_tester_start_note`, 0, false, showQTonesInChordTester, resetChordTester);
     updateOctaveSelector(`chord_tester_start_octave`, 0, 4, 2, false);
     for (let i = 1; i <= 2; i++) {
-        updateNoteSelector(`chord_tester_tonic${i}`, ((i == 1) ? 0 : 7), false);
-        updateScaleSelector(`chord_tester_scale${i}`, "7major_nat,1", false /* no quarter tones */);
+        updateNoteSelector(`chord_tester_tonic${i}`, ((i == 1) ? 0 : 7), false, showQTonesInChordTester, resetChordTester);
+        updateScaleSelector(`chord_tester_scale${i}`, "7major_nat,1", false, showQTonesInChordTester, false, resetChordTester);
     }
     // update song generator selectors
     updateSongTypeSelector('song_generator_type');
@@ -391,7 +393,7 @@ function update() {
             {
                 // get selected start note
                 const noteStartSelected = document.getElementById(`chord_tester_start_note`).value;
-                const noteStartValue = parseInt(noteStartSelected);
+                const noteStartValue = parseFloat(noteStartSelected);
                 // get selected start octave
                 const octaveStartSelected = document.getElementById(`chord_tester_start_octave`).value;
                 const octaveStartValue = parseInt(octaveStartSelected);
@@ -406,7 +408,7 @@ function update() {
                     hasKeys.push(keyChecked);
                     if (keyChecked) {
                         const tonicValueSelected = document.getElementById(`chord_tester_tonic${i}`).value;
-                        const tonicValue = parseInt(tonicValueSelected);
+                        const tonicValue = parseFloat(tonicValueSelected);
                         const scaleId = document.getElementById(`chord_tester_scale${i}`).value;
                         selectedKeys.push([tonicValue, scaleId]);
                         //hasKey = true;
@@ -570,6 +572,7 @@ function updateLocales() {
     document.getElementById("radioChordTesterChordsLabel").innerText = getString("play_chords");
     document.getElementById("radioChordTesterArpeggiosLabel").innerText = getString("play_arpeggios");
     document.getElementById("checkboxCommonChordsLabel").innerText = getString("show_common_chords_only");
+    document.getElementById("checkboxQuarterTonesChordTesterLabel").innerText = getString("quarter_tones");
     let startElements = document.getElementsByClassName("start");
     for (let elem of startElements)
         elem.innerText = getString("start");
@@ -601,6 +604,10 @@ function updateShowQuarterTonesInScaleExplorer() {
 }
 function updateShowQuarterTonesInScaleFinder() {
     updateSelectors(false /*resetScaleExplorer*/, true /*resetScaleFinder*/);
+    update();
+}
+function updateShowQuarterTonesInChordTester() {
+    updateSelectors(false /*resetScaleExplorer*/, false /*resetScaleFinder*/, true /*resetChordTester*/);
     update();
 }
 function getSelectorIndexFromValue(selector, value) {

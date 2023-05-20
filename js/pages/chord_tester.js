@@ -1,10 +1,11 @@
 "use strict";
 const commonChords = [
     /* 3 notes */ "M", "m", "sus2", "sus4", "dim", "aug",
-    /* 4 notes */ "7M", "7", "m7", "add9", "madd9", "add11", "madd11", "m7flat5", "dim7", "dor",
+    /* 4 notes */ "7M", "7", "m7", "add9", "madd9", "add11", "madd11", "m7flat5", "dim7", "dor", "h7",
     /* 5 notes */ "9M", "9", "m9", "6slash9"
 ];
-function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], qTones = false) {
+function updateChordTesterTables(noteStartValue, octaveStartValue, keys = []) {
+    const qTones = document.getElementById("checkboxQuarterTonesChordTester").checked;
     const nbKeys = (keys != null) ? keys.length : 0;
     const noteStep = (qTones ? 0.5 : 1);
     let keyNotesHTML = "";
@@ -31,7 +32,7 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], qT
     }
     else if (nbKeys == 2) {
         // display keys notes with corresponding colors
-        keyNotesHTML = get2KeysNotesText(scaleNotesValuesArray);
+        keyNotesHTML = get2KeysNotesText(scaleNotesValuesArray, qTones);
     }
     keyNotes.innerHTML = keyNotesHTML;
     let chordsTablesHTML = "";
@@ -131,11 +132,12 @@ function playChordTest(noteValue, chordValues) {
         0.25 : 0;
     playChord(noteValue, chordValues, 0, delay);
 }
-function get2KeysNotesText(scaleNotesValuesArray) {
+function get2KeysNotesText(scaleNotesValuesArray, qTones = false) {
     if (scaleNotesValuesArray == null || scaleNotesValuesArray.length != 2)
         return "";
     let keysNotesStr = "";
-    for (let noteValue = 0; noteValue < 12; noteValue++) {
+    const noteStep = (qTones ? 0.5 : 1);
+    for (let noteValue = 0; noteValue < 12; noteValue += noteStep) {
         const isInKey1 = (scaleNotesValuesArray[0].indexOf(noteValue) >= 0);
         const isInKey2 = (scaleNotesValuesArray[1].indexOf(noteValue) >= 0);
         if (!isInKey1 && !isInKey2)
