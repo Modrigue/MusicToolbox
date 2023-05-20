@@ -222,7 +222,7 @@ function getScaleNotesTableHTML(noteValue, scaleValues, charIntervals, scaleName
             classString = "table-body-cell-char";
         // TODO: no italic if xenharmonic interval?
         // display alternate notation if 7-notes cale
-        const intervalString = (nbNotesInScale == 7 && !isMicrotonalInterval(intervalValue) && !isXenharmonicInterval(intervalValue)) ?
+        const intervalString = (nbNotesInScale == 7 && !isQuarterToneInterval(intervalValue) && !isXenharmonicInterval(intervalValue)) ?
             getIntervalString(intervalName, intervalNameAlt) : intervalName;
         intervalsScaleRowHTML += `<div class=${classString}>`;
         intervalsScaleRowHTML += intervalString;

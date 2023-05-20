@@ -116,7 +116,7 @@ function acceptNoteInCounterpoint11(noteValue, tonicValue, barIndex, nbBars, tra
         // avoid dissonant intervals
         if (dissonances.indexOf(interval1) >= 0)
             return false;
-        if (isMicrotonalInterval(interval1))
+        if (isQuarterToneInterval(interval1))
             return false;
         const note2CFValue = trackCF.GetNoteValue(barIndex - 1);
         const note2CurValue = trackCurrent.GetNoteValue(barIndex - 1);

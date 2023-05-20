@@ -24,7 +24,7 @@ function updateScaleSelector(id, defaultScaleId, includesQTones = true, includes
             if (hightlightScale(key))
                 option.classList.add('bolden');
             // notes seperator
-            if (key.match(regexNbNotes) || key.startsWith("microtonal") || key.startsWith("xenharmonics")) {
+            if (key.match(regexNbNotes) || key.startsWith("qtones") || key.startsWith("xenharmonics")) {
                 option.classList.add('bolden');
                 option.disabled = true;
             }
@@ -76,9 +76,9 @@ function GetScaleNotesOctaveRangeValues(tonicValue, scaleValues, octave) {
     return scaleNotesValues;
 }
 ////////////////////////////////// XENHARMONICS ///////////////////////////////
-function isMicrotonalScale(notesValues) {
+function isQuarterToneScale(notesValues) {
     for (const noteValue of notesValues)
-        if (isMicrotonalInterval(noteValue))
+        if (isQuarterToneInterval(noteValue))
             return true;
     return false;
 }

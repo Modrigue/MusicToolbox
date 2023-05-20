@@ -98,7 +98,7 @@ function getIntervalKeyFromValue(value) {
     }
     return -1;
 }
-function isMicrotonalInterval(interval) {
+function isQuarterToneInterval(interval) {
     return (interval - Math.floor(interval) == 0.5);
 }
 function isXenharmonicInterval(interval) {

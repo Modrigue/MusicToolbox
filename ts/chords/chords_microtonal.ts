@@ -1,9 +1,9 @@
-// microtonal approximated harmonics
+// quarter tone approximated harmonics
 // h7  = 9.5, ‡6 (7/4)
 // h11 = 5.5, ‡4 (11/8)
 // h13 = 8.5, d6 (13/8)
 
-// microtonal chords with 3 notes
+// quarter tone chords with 3 notes
 chords3Dict.set("n",                [0, 3.5, 7]);
 chords3Dict.set("n65",              [0, 7, 8.5]);
 chords3Dict.set("h7sus4",           [0, 5, 9.5]);
@@ -18,8 +18,8 @@ chords3Dict.set("addh13(no5)",      [0, 4, 8.5]);
 chords3Dict.set("naddh13(no5)",     [0, 3.5, 8.5]);
 chords3Dict.set("maddh13(no5)",     [0, 3, 8.5]);
 
-// microtonal chords with 4 notes
-chords4Dict.set("h7",               [0, 4, 7, 9.5]);     // harmonic 7th / microtonal dominant 7th
+// quarter tone chords with 4 notes
+chords4Dict.set("h7",               [0, 4, 7, 9.5]);     // harmonic 7th / quartertone dominant 7th
 chords4Dict.set("nh7",              [0, 3.5, 7, 9.5]);   // neutral harmonic 7th
 chords4Dict.set("mh7",              [0, 3, 7, 9.5]);     // minor harmonic 7th
 chords4Dict.set("nh7flat5",         [0, 3.5, 6, 9.5]);   // neutral diminished 7th
@@ -39,22 +39,22 @@ chords4Dict.set("nadd9",            [0, 3.5, 7, 14]);
 chords4Dict.set("nadd11",           [0, 3.5, 5, 17]);
 chords4Dict.set("19to15",           [0, 3, 6.5, 9.5]); // 19th to 15th
 
-// microtonal chords with 5 notes
+// quarter tone chords with 5 notes
 chords5Dict.set("h7‡b9",            [0, 4, 7, 9.5, 12.5]);
 chords5Dict.set("h7h11",            [0, 4, 7, 9.5, 17.5]);
 chords5Dict.set("h7h11h13(no5)",    [0, 4, 9.5, 17.5, 20.5]);
 chords5Dict.set("n9sus",            [0, 5, 7, 10.5, 14]);
 
-// microtonal chords with 6 notes
+// quarter tone chords with 6 notes
 chords6Dict.set("h7h11h13",         [0, 4, 7, 9.5, 17.5, 20.5]);
 
 
-// microtonal chords functions
+// quarter tone chords functions
 
-function isMicrotonalChord(chordId: string): boolean
+function isQuarterToneChord(chordId: string): boolean
 {
     const chordValues = getChordValues(chordId);
-    return areMicrotonalChordValues(chordValues);
+    return areQuarterToneChordValues(chordValues);
 }
 
 function isXenharmonicChord(chordId: string): boolean
@@ -63,10 +63,10 @@ function isXenharmonicChord(chordId: string): boolean
     return areXenharmonicChordValues(chordValues);
 }
 
-function areMicrotonalChordValues(chordValues: Array<number>): boolean
+function areQuarterToneChordValues(chordValues: Array<number>): boolean
 {
     for (const value of chordValues)
-        if (isMicrotonalInterval(value))
+        if (isQuarterToneInterval(value))
             return true;
 
     return false;

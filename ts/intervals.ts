@@ -126,7 +126,7 @@ function getIntervalKeyFromValue(value: string): number
     return -1;
 }
 
-function isMicrotonalInterval(interval: number): boolean
+function isQuarterToneInterval(interval: number): boolean
 {
     return (interval - Math.floor(interval) == 0.5);  
 }

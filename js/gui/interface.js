@@ -92,7 +92,7 @@ function initLanguage() {
 function initShowQuarterTones() {
     const tonicValue = parseNoteParameter();
     const checkboxQuarterTones = document.getElementById('checkboxQuarterTonesScaleExplorer');
-    checkboxQuarterTones.checked = isMicrotonalInterval(tonicValue);
+    checkboxQuarterTones.checked = isQuarterToneInterval(tonicValue);
     updateShowQuarterTonesInScaleExplorer();
 }
 ////////////////////////////////// SELECTORS //////////////////////////////////
@@ -296,20 +296,20 @@ function update() {
     const scaleValues = getScaleValues();
     const charIntervals = getScaleCharIntervals();
     const nbNotesInScale = scaleValues.length;
-    const scaleValuesMicrotonal = isMicrotonalScale(scaleValues);
+    const scaleValuesQTones = isQuarterToneScale(scaleValues);
     const scaleValuesXenharmonic = isXenharmonicScale(scaleValues);
     const scaleValuesChromatic = isChromaticScale(scaleValues);
     // build scale notes list
     const scaleNotesValues = getScaleNotesValues(tonicNoteValue, scaleValues);
     document.getElementById('scale_result').innerHTML = getScaleNotesTableHTML(tonicNoteValue, scaleValues, charIntervals, scaleName);
-    const scaleNotesValuesMicrotonal = isMicrotonalScale(scaleNotesValues);
+    const scaleNotesValuesQTones = isQuarterToneScale(scaleNotesValues);
     // build chords 3,4 notes and quartal harmonization tables
     const showChords3 = (nbNotesInScale >= 6 && !scaleValuesChromatic && !scaleValuesXenharmonic);
     const showChords4 = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesXenharmonic);
     const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesXenharmonic);
-    document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal) : "";
-    document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesMicrotonal) : "";
-    document.getElementById('chordsQ_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesMicrotonal, 3) : "";
+    document.getElementById('chords3_result').innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesQTones) : "";
+    document.getElementById('chords4_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesQTones) : "";
+    document.getElementById('chordsQ_result').innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesQTones, 3) : "";
     // update scale finder chords selectors
     let has1NoteSelected = false;
     for (let i = 1; i <= 8; i++) {
@@ -339,8 +339,8 @@ function update() {
     switch (pageSelected) {
         case "page_scale_explorer":
             if (!scaleValuesChromatic && !scaleValuesXenharmonic) {
-                foundScales.innerHTML = getRelativeScalesHTML(tonicNoteValue, scaleValues, scaleNotesValuesMicrotonal);
-                negativeScale.innerHTML = getNegativeScaleHTML(tonicNoteValue, scaleValues, scaleNotesValuesMicrotonal);
+                foundScales.innerHTML = getRelativeScalesHTML(tonicNoteValue, scaleValues, scaleNotesValuesQTones);
+                negativeScale.innerHTML = getNegativeScaleHTML(tonicNoteValue, scaleValues, scaleNotesValuesQTones);
             }
             setVisible('section_found_scales', !scaleValuesChromatic && !scaleValuesXenharmonic);
             setVisible('negative_scale', !scaleValuesChromatic && !scaleValuesXenharmonic);
@@ -360,7 +360,7 @@ function update() {
             //setEnabled("checkboxChords4", showChords4);
             //setEnabled("checkboxChords", isXen);
             const checkboxQuarterTones = document.getElementById("checkboxQuarterTonesScaleExplorer");
-            const hasQuarterTones = (scaleValuesMicrotonal || scaleNotesValuesMicrotonal);
+            const hasQuarterTones = (scaleValuesQTones || scaleNotesValuesQTones);
             // update fretboard
             const position = getSelectedGuitarPosition('scale_explorer_guitar_position');
             updateFretboard("scale_explorer_canvas_guitar", tonicNoteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position);

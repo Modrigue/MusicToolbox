@@ -42,8 +42,8 @@ function updateChordTesterTables(noteStartValue, octaveStartValue, keys = [], qT
         // list all chords with current nb. notes
         for (const [chordId, chordValues] of chordsDict) {
             let chordsRowHTML = /*html*/ `<div class=\"resp-table-row\">`;
-            // TODO: only show microtonal chord if option checked
-            if (!qTones && isMicrotonalChord(chordId))
+            // TODO: only show quarter tone chord if option checked
+            if (!qTones && isQuarterToneChord(chordId))
                 continue;
             // if show common chords only, skip non-common chords
             if (commonChordsOnly && commonChords.indexOf(chordId) < 0)

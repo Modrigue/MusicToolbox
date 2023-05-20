@@ -61,8 +61,8 @@ function updateChordTesterTables(noteStartValue: number, octaveStartValue: numbe
         {
             let chordsRowHTML = /*html*/`<div class=\"resp-table-row\">`;
 
-            // TODO: only show microtonal chord if option checked
-            if (!qTones && isMicrotonalChord(chordId))
+            // TODO: only show quarter tone chord if option checked
+            if (!qTones && isQuarterToneChord(chordId))
                 continue;
 
             // if show common chords only, skip non-common chords

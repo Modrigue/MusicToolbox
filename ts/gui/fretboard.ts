@@ -73,7 +73,7 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
         // position
         const xFretStart = showQuarterTones ?
             3/4 * xFretStep : 
-            (isMicrotonalInterval(j) ? 0 : xFretStep / 2);
+            (isQuarterToneInterval(j) ? 0 : xFretStep / 2);
         let x = xFretMargin + (j - 1) * xFretStep + xFretStart;
         if (j <= 0)
             x = xFretMargin - 40 + 40 / 2 - 1;
@@ -81,8 +81,8 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
         if (x > xFretLast)
             return;
 
-        // do not show bent microtonal notes on empty strings
-        if (!showQuarterTones && isMicrotonalInterval(j))
+        // do not show bent quarter tone notes on empty strings
+        if (!showQuarterTones && isQuarterToneInterval(j))
         if (j < 1)
             return;
 
@@ -102,8 +102,8 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
         ctx.fill();
         ctx.closePath();
 
-        // if note microtonal but not guitar, draw bend hint
-        if (!showQuarterTones && isMicrotonalInterval(j))
+        // if note is quarter tone but mode not checked, draw bend hint
+        if (!showQuarterTones && isQuarterToneInterval(j))
         {
             ctx.beginPath();
             ctx.lineTo(x, y - radius);
@@ -208,7 +208,7 @@ function updateFretboard(id: string, noteValue: number, scaleValues: Array<numbe
     for (let x = xFretMargin; x <= xFretLast; x += halfToneInc*xFretScaleStep) 
     {
         const isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
-        const isFretQuarterTone = isMicrotonalInterval(indexFret);
+        const isFretQuarterTone = isQuarterToneInterval(indexFret);
 
         ctx.beginPath();
         ctx.strokeStyle = isFretOctave ?

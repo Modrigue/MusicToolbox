@@ -148,7 +148,7 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1,
         for (const [key, value] of notesDict)
         {
             // don't handle quartertones if option not set
-            if (!showQTones && isMicrotonalInterval(key))
+            if (!showQTones && isQuarterToneInterval(key))
                 continue;
 
             let option = document.createElement('option');
@@ -166,7 +166,7 @@ function updateNoteSelector(id: string, defaultNoteValue: number = -1,
         for (const [key, value] of notesDict)
         {
             // don't handle quartertones if option not set
-            if (!showQTones && isMicrotonalInterval(key))
+            if (!showQTones && isQuarterToneInterval(key))
                 continue;
 
             // if empty note, nop
