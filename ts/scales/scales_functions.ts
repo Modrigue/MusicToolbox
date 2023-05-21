@@ -214,3 +214,33 @@ function getSubharmonicSeriesScaleValues(valueMin: number, valueMax: number): Ar
 
     return getRatiosScaleValues(ratios);
 }
+
+function getChordEnumerationScaleValues(values: Array<number>, invert: boolean = false): Array<number>
+{
+    if (values == null || values.length <= 1)
+        return [];
+
+    let ratios = [];
+
+    const nbNotesInScale = values.length - 1;
+    const valuesSorted = values.sort();
+    const valueMin = valuesSorted[0];
+    const valueMax = valuesSorted[nbNotesInScale];
+
+    const hasOctave = ((valueMax / valueMin) % 2 == 0);
+    if (hasOctave)
+        ratios.push(0);
+
+    if (invert)
+    {
+        for (let index = nbNotesInScale - 1; index >= (hasOctave ? 1 : 0); index--)
+            ratios.push(valueMax / valuesSorted[index])
+    }
+    else
+    {
+        for (let index = 1; index <= (hasOctave ? nbNotesInScale - 1 : nbNotesInScale); index++)
+            ratios.push(valuesSorted[index] / valueMin)
+    }
+
+    return getRatiosScaleValues(ratios);
+}

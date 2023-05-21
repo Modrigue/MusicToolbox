@@ -116,6 +116,7 @@ scaleFamiliesDict.set("17supermariner",     [0, 0.45258, 1.76639, 2.21897, 2.671
 scaleFamiliesDict.set("10syntonic_dipenta", [0, 0.21506, 2.03910, 3.15641, 4.98045, 5.19551, 7.01955, 8.13686, 9.96090, 10.17596]);
 scaleFamiliesDict.set("7tetrachordal",      [0, 1.82404, 3.47408, 4.98045, 7.01955, 8.84359, 10.49363]);
 scaleFamiliesDict.set("9triphi",            [0, 1.5278640, 3.0557281, 4, 5.5278640, 7.0557281, 8, 9.5278640, 11.0557281]);
+scaleFamiliesDict.set("12undecimal",        getChordEnumerationScaleValues([22,23,25,26,28,30,31,33,35,37,39,42, 44]));
 
 // no octave
 scaleFamiliesDict.set("65cent_et",          [0.65]);
@@ -252,6 +253,7 @@ scalesDict_int.set("17supermariner,1", "Supermariner[17]");
 scalesDict_int.set("10syntonic_dipenta,1", "Syntonic dipentatonic");
 scalesDict_int.set("7tetrachordal,1", "Tetrachordal[7]");
 scalesDict_int.set("9triphi,1", "Triphi[9]");
+scalesDict_int.set("12undecimal,1", "Undecimal[12]");
 scalesDict_int.set("xen_misc,sep", "");
 
 scalesDict_int.set("xenharmonics_no_sub", "------------------ Without octave -----------------");
