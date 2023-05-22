@@ -173,7 +173,6 @@ chordsDicts.set(6, chords6Dict);
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 
-// TODO: handle quartertone chords
 function initChordSelector(id: string, defaultChordId: string = "-1",
     firstChordEmpty: boolean = false, showQTonesChords: boolean = false,
     reset: boolean = false): void

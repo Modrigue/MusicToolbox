@@ -73,5 +73,5 @@ function parseCultureParameter()
 // open URL in new tab
 function openNewTab(url: string): void
 { 
-    window.open(url, "_blank"); 
+  window.open(url, "_blank"); 
 }

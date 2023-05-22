@@ -164,7 +164,6 @@ chordsDicts.set(5, chords5Dict);
 chordsDicts.set(6, chords6Dict);
 //chordsDicts.set(7, chords7Dict);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
-// TODO: handle quartertone chords
 function initChordSelector(id, defaultChordId = "-1", firstChordEmpty = false, showQTonesChords = false, reset = false) {
     // get chord selector
     const chordSelect = document.getElementById(id);

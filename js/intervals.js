@@ -26,6 +26,7 @@ intervalsDict.set(10.5, "d7");
 intervalsDict.set(11, "7");
 intervalsDict.set(11.5, "⧥7");
 // >= 1 octave
+intervalsDict.set(12.5, "d♭9");
 intervalsDict.set(13, "♭9");
 intervalsDict.set(13.5, "d9");
 intervalsDict.set(14, "9");

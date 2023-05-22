@@ -38,7 +38,7 @@ chords4Dict.set("nadd9", [0, 3.5, 7, 14]);
 chords4Dict.set("nadd11", [0, 3.5, 5, 17]);
 chords4Dict.set("19to15", [0, 3, 6.5, 9.5]); // 19th to 15th
 // quarter tone chords with 5 notes
-chords5Dict.set("h7‡b9", [0, 4, 7, 9.5, 12.5]);
+chords5Dict.set("h7db9", [0, 4, 7, 9.5, 12.5]);
 chords5Dict.set("h7h11", [0, 4, 7, 9.5, 17.5]);
 chords5Dict.set("h7h11h13(no5)", [0, 4, 9.5, 17.5, 20.5]);
 chords5Dict.set("n9sus", [0, 5, 7, 10.5, 14]);
