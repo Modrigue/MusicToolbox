@@ -88,6 +88,7 @@ scaleFamiliesDict.set("7score_20edo",       getEDOSubsetScaleValues(20 , [0, 5, 
 scaleFamiliesDict.set("5sensi_46edo",       getEDOSubsetScaleValues(46 , [0, 12, 17, 29, 34])); // 12 5 12 5 12
 scaleFamiliesDict.set("11sensi_46edo",      getEDOSubsetScaleValues(46 , [0, 5, 10, 15, 17, 22, 27, 32, 34, 39, 44])); // 5 5 5 2 5 5 5 2 5 5 2
 scaleFamiliesDict.set("12superpyth_17edo",  getEDOSubsetScaleValues(17,  [0, 1, 2, 4, 5, 7, 8, 9, 11, 12, 14, 15])); // 1 1 2 1 2 1 1 2 1 2 1 2
+scaleFamiliesDict.set("7tetracot_34edo",    getEDOSubsetScaleValues(34,  [0, 5, 10, 15, 20, 25, 30])); // 5 5 5 5 5 5 4
 scaleFamiliesDict.set("7zarlino_29edo",     getEDOSubsetScaleValues(29,  [0, 5, 9, 14, 17, 22, 26])); // 5 4 5 3 5 3 3
 scaleFamiliesDict.set("7zeus_tri_99edo",    getEDOSubsetScaleValues(99,  [0, 13, 32, 45, 58, 77, 90])); // 13 19 13 13 19 13 9
 
@@ -223,6 +224,7 @@ scalesDict_int.set("7score_20edo,1",      "Score[7] (20-EDO)");
 scalesDict_int.set("5sensi_46edo,1",      "Sensi[5] (46-EDO)");
 scalesDict_int.set("11sensi_46edo,1",     "Sensi[11] (46-EDO)");
 scalesDict_int.set("12superpyth_17edo,1", "SuperPyth[12] (17-EDO)");
+scalesDict_int.set("7tetracot_34edo,1",   "Tetracot[7] (34-EDO)");
 scalesDict_int.set("7zarlino_29edo,1",    "Zarlino[7] (29-EDO)");
 scalesDict_int.set("7zeus_tri_99edo,1",   "Zeus[7]Tri (99-EDO)");
 scalesDict_int.set("xen_tet_subsets,sep", "");
