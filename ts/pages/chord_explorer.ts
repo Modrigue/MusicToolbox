@@ -5,7 +5,7 @@ function getChordExplorerFondamentalValue(): number
     {
         const noteExplorerChordInput: HTMLInputElement = <HTMLInputElement>document.getElementById('chord_explorer_fundamental');
         const noteSelected: string = noteExplorerChordInput.value;
-        fondamentalValue = parseInt(noteSelected);     
+        fondamentalValue = parseFloat(noteSelected);     
     }
     else
     {
@@ -48,7 +48,7 @@ function getChordExplorerBassValue(): number
 {
     const bassSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById('chord_explorer_bass');
     const bassSelected = bassSelector.value;
-    const bassValue = parseInt(bassSelected);
+    const bassValue = parseFloat(bassSelected);
 
     if (bassValue < 0)
     {

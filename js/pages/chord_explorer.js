@@ -4,7 +4,7 @@ function getChordExplorerFondamentalValue() {
     if (chordExplorerUpdateMode == "name") {
         const noteExplorerChordInput = document.getElementById('chord_explorer_fundamental');
         const noteSelected = noteExplorerChordInput.value;
-        fondamentalValue = parseInt(noteSelected);
+        fondamentalValue = parseFloat(noteSelected);
     }
     else {
         const selectedNotesValues = getSelectedChordExplorerNotes();
@@ -35,7 +35,7 @@ function getChordExplorerChordValues() {
 function getChordExplorerBassValue() {
     const bassSelector = document.getElementById('chord_explorer_bass');
     const bassSelected = bassSelector.value;
-    const bassValue = parseInt(bassSelected);
+    const bassValue = parseFloat(bassSelected);
     if (bassValue < 0) {
         const selectedNotesValues = getSelectedChordExplorerNotes();
         const bassValue = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;

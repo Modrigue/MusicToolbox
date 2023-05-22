@@ -9,6 +9,7 @@ let instrumentsLoading = false;
 let instrumentLoadingId = 0;
 
 let browserSupportsAudio = true;
+let languageInitialized = false;
 
 let chordExplorerUpdateMode: string = "";
 let showSongGeneration = false;
@@ -93,6 +94,7 @@ window.onload = function()
     (<HTMLInputElement>document.getElementById("checkboxBarres")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("checkboxEmptyStrings")).addEventListener("change", update);
     (<HTMLInputElement>document.getElementById("chord_explorer_nb_strings_max")).addEventListener("change", update);
+    (<HTMLInputElement>document.getElementById("checkboxQuarterTonesChordExplorer")).addEventListener("change", updateShowQuarterTonesInChordExplorer);
 
     // chord tester
     (<HTMLInputElement>document.getElementById("checkboxCommonChords")).addEventListener("change", update);
@@ -121,14 +123,16 @@ window.onload = function()
 
 function initLanguage(): void
 {
-  const defaultLang: string = <string>parseCultureParameter();
-  const checkboxLanguage: HTMLInputElement = <HTMLInputElement>document.getElementById('checkboxLanguage');
+    languageInitialized = false;
+    const defaultLang: string = <string>parseCultureParameter();
+    const checkboxLanguage: HTMLInputElement = <HTMLInputElement>document.getElementById('checkboxLanguage');
 
-  checkboxLanguage.checked = (defaultLang == "fr");
+    checkboxLanguage.checked = (defaultLang == "fr");
 
-  document.title = getString("title"); // force update
+    document.title = getString("title"); // force update
 
-  updateLocales();
+    updateLocales();
+    languageInitialized = true;
 }
 
 function initShowQuarterTones(): void
@@ -143,8 +147,19 @@ function initShowQuarterTones(): void
 
 ////////////////////////////////// SELECTORS //////////////////////////////////
 
-function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, resetChordTester = false): void
+function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, resetChordTester = false, resetChordExplorer = false): void
 {
+    // specific: if quarter tone chord in URL parameters, check chord explorer checkbox (only at 1st load)
+    if (!languageInitialized)
+    {
+        const chordParamValue = parseParameterById("chord");
+        if (chordParamValue != null && chordParamValue != "")
+        {
+            if (isQuarterToneChord(chordParamValue))
+            (<HTMLInputElement>document.getElementById("checkboxQuarterTonesChordExplorer")).checked = true;
+        }
+    }
+    
     // show quarter tones?
     const showQTonesInScaleExplorer =
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleExplorer")).checked;
@@ -152,6 +167,8 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesScaleFinder")).checked;
     const showQTonesInChordTester =
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesChordTester")).checked;
+    const showQTonesInChordExplorer =
+        (<HTMLInputElement>document.getElementById("checkboxQuarterTonesChordExplorer")).checked;
   
     // update scale explorer selectors
     updateNoteSelector('note', 0, false, showQTonesInScaleExplorer, resetScaleExplorer);
@@ -183,14 +200,14 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
     updateNoteSelector('note_finder_tonic', -1, true, showQTonesInScaleFinder, resetScaleFinder); 
     
     // update chord explorer selectors
-    updateNoteSelector('chord_explorer_fundamental', 0, false);
-    initChordSelector('chord_explorer_chord', "M", false);
-    updateNoteSelector("chord_explorer_bass", -1, true, false, false);
+    updateNoteSelector('chord_explorer_fundamental', 0, false, showQTonesInChordExplorer, resetChordExplorer);
+    initChordSelector('chord_explorer_chord', "M", false, showQTonesInChordExplorer, resetChordExplorer);
+    updateNoteSelector("chord_explorer_bass", -1, true, showQTonesInChordExplorer, resetChordExplorer);
     initGuitarNbStringsSelector('chord_explorer_guitar_nb_strings');
     initGuitarTuningSelector('chord_explorer_guitar_tuning');
     updateNbStringsForChordSelector();
     for (let i = 0; i <= 6; i++)
-        updateNoteSelector(`chord_explorer_note${i}`, -1, true);
+        updateNoteSelector(`chord_explorer_note${i}`, -1, true, showQTonesInChordExplorer, resetChordExplorer);
     chordExplorerUpdateMode = "name";
     updateChordExplorerElements();
     chordExplorerUpdateMode = "";
@@ -230,6 +247,7 @@ function updateChordExplorerElements()
 {
     const checkboxBarres: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxBarres");
     const checkboxEmptyStrings: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxEmptyStrings");
+    const checkboxQNotes: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxQuarterTonesChordExplorer");
     
     updateChordExplorerMode();
     updateChordSelectorGivenNbStrings('chord_explorer_chord');
@@ -310,8 +328,8 @@ function updateChordExplorerElements()
     }
     
     updateFoundChordElements();
-    updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordId);
-    updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked);
+    updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordId, checkboxQNotes.checked);
+    updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked, checkboxQNotes.checked);
 }
 
 // get selected text from selector
@@ -426,9 +444,9 @@ function update(): void
     const showChords3 = (nbNotesInScale >= 6 && !scaleValuesChromatic && !scaleValuesXenharmonic);
     const showChords4 = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesXenharmonic);
     const showChordsQ = (nbNotesInScale >= 7 && !scaleValuesChromatic && !scaleValuesXenharmonic);
-    (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesQTones) : "";
-    (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4, !scaleNotesValuesQTones) : "";
-    (<HTMLParagraphElement>document.getElementById('chordsQ_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, !scaleNotesValuesQTones, 3) : "";
+    (<HTMLParagraphElement>document.getElementById('chords3_result')).innerHTML = showChords3 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3) : "";
+    (<HTMLParagraphElement>document.getElementById('chords4_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 4) : "";
+    (<HTMLParagraphElement>document.getElementById('chordsQ_result')).innerHTML = showChords4 ? getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, 3, 3) : "";
 
     // update scale finder chords selectors
     let has1NoteSelected: boolean = false;
@@ -772,6 +790,7 @@ function updateLocales(): void
     (<HTMLSpanElement>document.getElementById("chord_explorer_nb_strings_max_text")).innerText = getString("chord_explorer_nb_strings_max_text");
     (<HTMLLabelElement>document.getElementById("checkboxBarresLabel")).innerText = getString("show_barres");
     (<HTMLLabelElement>document.getElementById("checkboxEmptyStringsLabel")).innerText = getString("show_empty_strings");
+    (<HTMLLabelElement>document.getElementById("checkboxQuarterTonesChordExplorerLabel")).innerText = getString("quarter_tones");
     
     // chord tester
 
@@ -825,6 +844,12 @@ function updateShowQuarterTonesInScaleFinder()
 function updateShowQuarterTonesInChordTester()
 {
     updateSelectors(false /*resetScaleExplorer*/, false /*resetScaleFinder*/, true /*resetChordTester*/);
+    update();
+}
+
+function updateShowQuarterTonesInChordExplorer()
+{
+    updateSelectors(false /*resetScaleExplorer*/, false /*resetScaleFinder*/, false /*resetChordTester*/, true /*resetChordExplorer*/);
     update();
 }
 

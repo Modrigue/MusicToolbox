@@ -6,8 +6,8 @@ let cRange: number = 0;
 let cEmptyStrings: number = 4;
 
 function getNotesPositionsOnString(noteValue: number, stringValue: number,
-    posMin: number, posMax: number,
-    includeEmptyString: boolean = false): Array<number>
+    posMin: number, posMax: number, includeEmptyString: boolean = false,
+    qTones = false): Array<number>
 {
     let positions = [];
 
@@ -16,7 +16,8 @@ function getNotesPositionsOnString(noteValue: number, stringValue: number,
         positions.push(0);
 
     // browse positions range on string
-    for (let pos = posMin; pos <= posMax; pos++)
+    const posStep = (qTones ? 0.5 : 1);
+    for (let pos = posMin; pos <= posMax; pos += posStep)
     {
         const curNoteValue = (stringValue + pos) % 12;
         if (curNoteValue == noteValue && positions.indexOf(pos) < 0)
@@ -27,7 +28,7 @@ function getNotesPositionsOnString(noteValue: number, stringValue: number,
 }
 
 function generateChords(notesValues: Array<number>, nbStrings: number = 99,
-    includeEmptyStrings = false, noteBass = -1): Array<Array<number>>
+    includeEmptyStrings = false, noteBass = -1, qTones = false): Array<Array<number>>
 {
     if (notesValues == null || notesValues.length < 2)
         return new Array<Array<number>>();
@@ -43,7 +44,7 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
     for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++)
     {
         const bassNote = (noteBass >= 0) ? noteBass : fundamental;
-        const positionsString0 = getNotesPositionsOnString(bassNote, tuningValues[startString], 0, 11, true);
+        const positionsString0 = getNotesPositionsOnString(bassNote, tuningValues[startString], 0, 11, true, qTones);
         for (let p0 of positionsString0)
         {
             // get start positions
@@ -53,7 +54,8 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
             startPositions.push(p0);
 
             // init algorithm
-            addChordNoteOnString(notesValues, noteBass, startString, startString + 1, startPositions, chordsPositions, tuningValues, nbStrings, includeEmptyStrings);
+            addChordNoteOnString(notesValues, noteBass, startString, startString + 1, startPositions, chordsPositions,
+                tuningValues, nbStrings, includeEmptyStrings, qTones);
         }
     }
 
@@ -81,7 +83,7 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
     startIndex: number, stringIndex: number,
     positionsCur: Array<number>, chordsPositions: Array<Array<number>>,
     tuningValues: Array<number>, nbStrings: number = 99, includeEmptyStrings = false,
-    chordAddedArray: Array<Array<number>> = [])
+    qTones = false, chordAddedArray: Array<Array<number>> = [])
 {
     // secure
     const nbStringsTotal: number = tuningValues.length;
@@ -99,7 +101,7 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
             if (noteValue == (positionsCur[positionsCur.length - 1] + tuningValues[stringIndex - 1]) % 12)
                 continue;
 
-        const positionsOnString = getNotesPositionsOnString(noteValue, tuningValues[stringIndex], range[0], range[1], includeEmptyStrings);
+        const positionsOnString = getNotesPositionsOnString(noteValue, tuningValues[stringIndex], range[0], range[1], includeEmptyStrings, qTones);
 
         for (let pos of positionsOnString)
         {
@@ -129,7 +131,8 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
             // find notes on next string
             let chordAddedArrayCurrent: Array<Array<number>> = new Array<Array<number>>();
             if (continueSearch)
-                addChordNoteOnString(notesValues, bass, startIndex, stringIndex + 1, positionsCandidate, chordsPositions, tuningValues, nbStrings, includeEmptyStrings, chordAddedArrayCurrent);
+                addChordNoteOnString(notesValues, bass, startIndex, stringIndex + 1, positionsCandidate, chordsPositions,
+                    tuningValues, nbStrings, includeEmptyStrings, qTones, chordAddedArrayCurrent);
 
             // update added chord positions array
             for (let chordPos of chordAddedArrayCurrent)
@@ -489,7 +492,7 @@ function getSelectedChordExplorerNotes(): Array<number>
     for (let i = 0; i <= 6; i++)
     {
         const chordExplorerNoteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${i}`);
-        const value = parseInt(chordExplorerNoteSelector.value);
+        const value = parseFloat(chordExplorerNoteSelector.value);
         if (value >= 0 && noteValues.indexOf(value) < 0 && !chordExplorerNoteSelector.disabled)
             noteValues.push(value);
     }
@@ -691,7 +694,7 @@ function getFoundChordsButtonsHTML(foundChords: Array<[number, string, number]>,
     return foundChordsStr;
 }
 
-function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false)
+function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false, showQTones = false)
 {
     const generatedGuitarChords: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('generated_guitar_chords');
     generatedGuitarChords.classList.add("flex-container");
@@ -737,7 +740,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     const nbStringsSelectedStr = (<HTMLSelectElement>document.getElementById('chord_explorer_nb_strings_max')).value;
     const nbStringsSelected = parseInt(nbStringsSelectedStr);
     //console.log(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass, selectedMode); 
-    const positionsArray: Array<Array<number>> = generateChords(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass);
+    const positionsArray: Array<Array<number>> = generateChords(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass, showQTones); 
     if (positionsArray == null || positionsArray.length == 0)
     {        
         generatedGuitarChords.innerHTML = getString("no_result");
@@ -748,7 +751,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     let selectedFondamentalValue = getChordExplorerFondamentalValue();
     let selectedBassValue = getChordExplorerBassValue();
     generatedGuitarChords.innerHTML = initChordsFretboardHTML(selectedFondamentalValue, selectedBassValue, chordSelectedId, freeNotesValues, positionsArray.length);
-    updateChordFretboard(positionsArray, showBarres);
+    updateChordFretboard(positionsArray, showBarres, showQTones);
 }
 
 // disable incoherent number of strings options

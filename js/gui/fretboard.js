@@ -38,7 +38,7 @@ function getCaseNoteValueAbs(tuningValues, i, j, nbStrings = 6) {
     return (octavesString[i - 1] * 12 + tuningValues[i - 1] + j);
 }
 // <i> has offset 1
-function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0, showQuarterTones = false) {
+function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xFretScaleStep, marginBottom = 0, startFret = 0, showQTones = false) {
     let canvas = document.getElementById(id);
     if (canvas.getContext) {
         let ctx = canvas.getContext("2d");
@@ -52,7 +52,7 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         if (startFret > 0 && j > 0)
             j -= startFret - 1;
         // position
-        const xFretStart = showQuarterTones ?
+        const xFretStart = showQTones ?
             3 / 4 * xFretStep :
             (isQuarterToneInterval(j) ? 0 : xFretStep / 2);
         let x = xFretMargin + (j - 1) * xFretStep + xFretStart;
@@ -62,7 +62,7 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         if (x > xFretLast)
             return;
         // do not show bent quarter tone notes on empty strings
-        if (!showQuarterTones && isQuarterToneInterval(j))
+        if (!showQTones && isQuarterToneInterval(j))
             if (j < 1)
                 return;
         // handle not hit string
@@ -79,7 +79,7 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         ctx.fill();
         ctx.closePath();
         // if note is quarter tone but mode not checked, draw bend hint
-        if (!showQuarterTones && isQuarterToneInterval(j)) {
+        if (!showQTones && isQuarterToneInterval(j)) {
             ctx.beginPath();
             ctx.lineTo(x, y - radius);
             ctx.lineTo(x + radius, y - radius);
@@ -110,7 +110,7 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         ctx.fillText(text, x + xShift, y + yShift);
     }
 }
-function updateFretboard(id, noteValue, scaleValues, charIntervals = [], scaleChordName = "", showQuarterTones = false, position = -1) {
+function updateFretboard(id, noteValue, scaleValues, charIntervals = [], scaleChordName = "", showQTones = false, position = -1) {
     const nbStrings = getSelectedGuitarNbStrings(id.replace('canvas_guitar', 'guitar_nb_strings'));
     let canvas = document.getElementById(id);
     if (!canvas.getContext)
@@ -157,7 +157,7 @@ function updateFretboard(id, noteValue, scaleValues, charIntervals = [], scaleCh
     }
     // vertical lines
     indexFret = 0;
-    const halfToneInc = showQuarterTones ? 0.5 : 1;
+    const halfToneInc = showQTones ? 0.5 : 1;
     for (let x = xFretMargin; x <= xFretLast; x += halfToneInc * xFretScaleStep) {
         const isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
         const isFretQuarterTone = isQuarterToneInterval(indexFret);
@@ -234,7 +234,7 @@ function updateFretboard(id, noteValue, scaleValues, charIntervals = [], scaleCh
             if (charIntervals != null && charIntervals.length > 0 && charIntervals.indexOf(indexNote) >= 0)
                 colorNote = displayNote ? colorNoteChar : colorNoteCharDisabled; // characteristic note
             //if (displayNote)
-            displayNoteOnFretboard(id, i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQuarterTones);
+            displayNoteOnFretboard(id, i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQTones);
         }
     }
     // update save callback
@@ -334,7 +334,7 @@ function initChordsFretboardHTML(noteFondamental, noteBass, chordSelected, freeN
     }
     return chordsFretboardHTML;
 }
-function updateChordFretboard(positionsArray, showBarres = true) {
+function updateChordFretboard(positionsArray, showBarres = true, showQTones = false) {
     const nbStrings = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     const tuningValues = getSelectedGuitarTuningValue("chord_explorer_guitar_tuning");
     const nbPositions = positionsArray.length;
@@ -382,15 +382,19 @@ function updateChordFretboard(positionsArray, showBarres = true) {
             }
             // vertical lines
             indexFret = 0;
-            for (let x = xFretMargin; x <= xFretLast; x += xFretChordStep) {
-                let isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
+            const halfToneInc = showQTones ? 0.5 : 1;
+            for (let x = xFretMargin; x <= xFretLast; x += xFretChordStep * halfToneInc) {
+                const isFretOctave = ((indexFret == 0) || ((indexFret + 1) % 12) == 0);
+                const isFretQuarterTone = isQuarterToneInterval(indexFret);
                 ctx.beginPath();
-                ctx.strokeStyle = isFretOctave ? colorFretsOctave : colorFretsStrings;
+                ctx.strokeStyle = isFretOctave ?
+                    colorFretsOctave :
+                    (isFretQuarterTone ? colorFretsStringsQTones : colorFretsStrings);
                 ctx.moveTo(x, yFretMargin);
                 ctx.lineTo(x, canvas.height - yFretMarginChordBottom - yFretMargin);
                 ctx.stroke();
                 ctx.closePath();
-                indexFret++;
+                indexFret += halfToneInc;
             }
             // display start fret number if > 0
             if (startFret > 0) {
@@ -415,6 +419,8 @@ function updateChordFretboard(positionsArray, showBarres = true) {
                     let x = xFretMargin + (posBarre - 1) * xFretChordStep + xFretChordStep / 2 - 1;
                     let yMin = yFretMargin + (nbStrings - stringMin - 1) * yStep - 1;
                     let yMax = yFretMargin + (nbStrings - stringMax - 1) * yStep - 1;
+                    if (showQTones)
+                        x += 0.5 * xFretChordStep * halfToneInc;
                     // fill barre
                     ctx.beginPath();
                     ctx.fillStyle = colorNoteNormal;
@@ -438,7 +444,7 @@ function updateChordFretboard(positionsArray, showBarres = true) {
             let colorNote = colorNoteNormal;
             if (currentNoteValue == noteFondamental)
                 colorNote = colorNoteTonic;
-            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote, nbStrings, xFretChordStep, yFretMarginChordBottom, startFret);
+            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote, nbStrings, xFretChordStep, yFretMarginChordBottom, startFret, showQTones);
         }
         // update buttons callbacks
         let currentChordsNoteValues = [];

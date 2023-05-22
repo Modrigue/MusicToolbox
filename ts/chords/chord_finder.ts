@@ -203,8 +203,7 @@ function findChordsFromScaleScalesHTML(tonicValue: number, scaleValues: Array<nu
                     button.classList.add("button-char-interactive");
 
                 // build chord URL (if not microtonal/xenharmonic)
-                if (!isQuarterToneScale(chordValues))
-                if (!isQuarterToneInterval(noteValue) && !isXenharmonicInterval(noteValue))
+                if (!isXenharmonicInterval(noteValue))
                 {
                     let url = window.location.pathname;
                     url += "?note=" + noteValue.toString();

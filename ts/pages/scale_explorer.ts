@@ -340,7 +340,7 @@ function getScaleNotesTableHTML(noteValue: number, scaleValues: Array<number>,
 }
 
 function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<number>,
-  charIntervals: Array<number>, nbNotesInChords: number, showChordsDetails: boolean = true,
+  charIntervals: Array<number>, nbNotesInChords: number,
   step: number = 2 /* 3 for quartal harmonization */): string
 {
   let chordValuesArray: Array<Array<number>> = new Array<Array<number>>();
@@ -460,13 +460,15 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
   arpeggiosIntervalsRowHTML += "</div>";
 
   // chords details
-  const imgMagnifier = new Image();
-  imgMagnifier.src = showChordsDetails ? 'img/magnifier_16.png' : 'img/magnifier_grey_16.png';
+  let imgMagnifier = new Image();
   imgMagnifier.alt = "MAG";
   let chordsDetailsRowHTML = "<div class=\"resp-table-row\">";
   chordValuesArray.forEach(function (chordValues, index)
   {
     const chordId = getKeyFromArrayValue(chordsDict, chordValues);
+
+    const showChordsDetails = (chordId != "?" && !isXenharmonicChord(chordId));
+    imgMagnifier.src = showChordsDetails ? 'img/magnifier_16.png' : 'img/magnifier_grey_16.png';
 
     // build URL
     let url = window.location.pathname;
