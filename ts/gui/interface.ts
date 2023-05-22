@@ -1,4 +1,4 @@
-const pagesArray: Array<string> =
+let pagesArray: Array<string> =
     ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"/*, "page_song_generator"*/];
 let pageSelected: string = "";
 
@@ -11,7 +11,7 @@ let instrumentLoadingId = 0;
 let browserSupportsAudio = true;
 
 let chordExplorerUpdateMode: string = "";
-
+let showSongGeneration = false;
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 
@@ -32,6 +32,18 @@ window.onload = function()
     (<HTMLButtonElement>document.getElementById("checkboxLanguage")).addEventListener("change", updateLocales);
 
     //(<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadDefaultInstrument);
+
+    if (showSongGeneration)
+    {
+        let buttonSongGen = document.createElement('button');
+        buttonSongGen.classList.add("button-page");
+        buttonSongGen.id = "button_page_song_generator";
+        buttonSongGen.innerText = "Generate a song";
+        const checkboxLanguageSpan = <HTMLSpanElement>document.getElementById("checkboxLanguageSpan");
+        checkboxLanguageSpan.insertAdjacentElement('beforebegin', buttonSongGen);
+
+        pagesArray.push("page_song_generator");
+    }
 
     // pages
     for (const page of pagesArray)

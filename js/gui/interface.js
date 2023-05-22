@@ -1,5 +1,5 @@
 "use strict";
-const pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester" /*, "page_song_generator"*/];
+let pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester" /*, "page_song_generator"*/];
 let pageSelected = "";
 let hasAudio = false;
 let instrumentsLoaded = [];
@@ -7,6 +7,7 @@ let instrumentsLoading = false;
 let instrumentLoadingId = 0;
 let browserSupportsAudio = true;
 let chordExplorerUpdateMode = "";
+let showSongGeneration = false;
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms
@@ -19,6 +20,15 @@ window.onload = function () {
     loadDefaultInstrument();
     document.getElementById("checkboxLanguage").addEventListener("change", updateLocales);
     //(<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadDefaultInstrument);
+    if (showSongGeneration) {
+        let buttonSongGen = document.createElement('button');
+        buttonSongGen.classList.add("button-page");
+        buttonSongGen.id = "button_page_song_generator";
+        buttonSongGen.innerText = "Generate a song";
+        const checkboxLanguageSpan = document.getElementById("checkboxLanguageSpan");
+        checkboxLanguageSpan.insertAdjacentElement('beforebegin', buttonSongGen);
+        pagesArray.push("page_song_generator");
+    }
     // pages
     for (const page of pagesArray)
         document.getElementById(`button_${page}`).addEventListener("click", () => selectPage(page));
