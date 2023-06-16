@@ -45,6 +45,7 @@ scaleFamiliesDict.set("5pelog_barang",    [0, 2, 6, 7, 9]);
 scaleFamiliesDict.set("5jap_in",          [0, 1, 5, 7, 8]);
 scaleFamiliesDict.set("5jap_insen",       [0, 1, 5, 7, 10]);
 scaleFamiliesDict.set("5dom_penta",       [0, 2, 4, 7, 10]);
+scaleFamiliesDict.set("5min_harm_penta",  [0, 3, 5, 7, 11]);
 scaleFamiliesDict.set("5bartok_penta",    [0, 4, 6, 7, 10]);
 scaleFamiliesDict.set("5phryg6_penta",    [0, 1, 3, 7, 9]);
 scaleFamiliesDict.set("5majorb6_penta",   [0, 2, 4, 7, 8]);
@@ -190,6 +191,7 @@ scalesDict_int.set("5pelog_bem_sep", "");
 scalesDict_int.set("5dom_penta,1,diff:5major_penta;1", "Dominant Pentatonic");
 scalesDict_int.set("5dom_penta,4,diff:5major_penta;5", "Dorian Pentatonic (4th mode)");
 scalesDict_int.set("5dom_penta_sep", "");
+scalesDict_int.set("5min_harm_penta,1,diff:5major_penta;5", "Minor Harmonic Pentatonic");
 scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Bartok Pentatonic");
 scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
 scalesDict_int.set("5majorb6_penta,1,diff:5major_penta;1", "Major Pentatonic ♭6");
@@ -310,6 +312,8 @@ scalesDict_fr.set("5pelog_barang,2", "Pentatonique Mixolydien / Hindou (2e mode)
 
 scalesDict_fr.set("5dom_penta,1,diff:5major_penta;1", "Pentatonique dominante");
 scalesDict_fr.set("5dom_penta,4,diff:5major_penta;5", "Pentatonique dorienne (4e mode)");
+
+scalesDict_fr.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonique Mineure Harmonique");
 scalesDict_fr.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonique Bartok");
 scalesDict_fr.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonique majeure ♭6");
 scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique phrygien ♮6");
