@@ -283,7 +283,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
         const noteName = getNoteName(noteValue);
         let chordName = getKeyFromArrayValue(chordsDict, chordValues);
         if (chordName == "?")
-            chordName = getArpeggioIntervalsConcat(chordValues).replace(/, /g, "").slice(1);
+            chordName = getArpeggioIntervalsString(chordValues).replace(/, /g, "").slice(1);
         const chordNoteName = getCompactChordNotation(noteName, chordName);
         const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step})`;
         // highlight if tonic note
@@ -304,7 +304,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
     chordValuesArray.forEach(function (chordValues, index) {
         let chordName = getKeyFromArrayValue(chordsDict, chordValues);
         if (chordName == "?")
-            chordName = getArpeggioIntervalsConcat(chordValues).replace(/, /g, "").slice(1);
+            chordName = getArpeggioIntervalsString(chordValues).replace(/, /g, "").slice(1);
         const romanChord = getRomanChord(index, chordName, nbNotesInChords, scaleValues);
         const noteValue = scaleNotesValues[index];
         // highlight if tonic degree
@@ -339,7 +339,7 @@ function getChordsTableHTML(scaleValues, scaleNotesValues, charIntervals, nbNote
         if (index == 0)
             classString = "table-body-cell-tonic";
         arpeggiosIntervalsRowHTML += /*html*/ `<div class=${classString}>`;
-        arpeggiosIntervalsRowHTML += getArpeggioIntervalsConcat(chordValues);
+        arpeggiosIntervalsRowHTML += getArpeggioIntervalsString(chordValues);
         arpeggiosIntervalsRowHTML += "</div>";
     });
     arpeggiosIntervalsRowHTML += "</div>";

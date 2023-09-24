@@ -13,13 +13,13 @@ const colorFretsStringsQTones: string = "#E4E4E4";
 const colorFretsOctave: string = "dimgrey";
 const colorHintFret: string = "whitesmoke";
 
-const colorNoteTonic: string = "firebrick";
-const colorNoteNormal: string = "dimgrey";
-const colorNoteChar: string = "dodgerblue";
+const colorNoteNormal = getComputedStyle(document.documentElement).getPropertyValue('--color-normal');
+const colorNoteTonic  = getComputedStyle(document.documentElement).getPropertyValue('--color-tonic');
+const colorNoteChar   = getComputedStyle(document.documentElement).getPropertyValue('--color-char');
 
-const colorNoteTonicDisabled: string = "mistyrose";
-const colorNoteNormalDisabled: string = "gainsboro";
-const colorNoteCharDisabled: string = "#C8E8FF";
+const colorNoteNormalDisabled = getComputedStyle(document.documentElement).getPropertyValue('--color-normal-disabled');
+const colorNoteTonicDisabled  = getComputedStyle(document.documentElement).getPropertyValue('--color-tonic-disabled');
+const colorNoteCharDisabled   = getComputedStyle(document.documentElement).getPropertyValue('--color-char-disabled');
 
 function getCaseNoteValue(tuningValues: Array<number>, i: number, j: number): number
 {
@@ -51,7 +51,8 @@ function getCaseNoteValueAbs(tuningValues: Array<number>, i: number, j: number, 
 // <i> has offset 1
 function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
     color: string, nbStrings: number, xFretStep: number = xFretScaleStep,
-    marginBottom: number = 0, startFret: number = 0, showQTones: boolean = false): void
+    marginBottom: number = 0, startFret: number = 0,
+    showQTones: boolean = false, showIntervals: boolean = false): void
 {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(id);
     if (canvas.getContext) 
@@ -119,20 +120,17 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
         const lang = getSelectedCulture();
         let xShift = 0;
         let yShift = 0;
-        switch (lang)
+        if (lang == "fr" && !showIntervals)
         {
-            case "fr":
                 ctx.font = "13px Arial";
                 xShift = -9 - 2*(text.length - 2);
                 yShift = 4; //6;
-                break;
-
-            case "int":
-            default:
+        }
+        else
+        {
                 ctx.font = "18px Arial";
                 xShift = (text.length == 2) ? -12 : -6;
                 yShift = 6;
-                break;
         }
         ctx.fillStyle = "white";
         ctx.fillText(text, x + xShift, y + yShift); 
@@ -141,7 +139,7 @@ function displayNoteOnFretboard(id: string, i: number, j: number, text: string,
 
 function updateFretboard(id: string, noteValue: number, scaleValues: Array<number>,
     charIntervals: Array<number> = [], scaleChordName: string = "",
-    showQTones: boolean = false, position: number = -1): void
+    showQTones: boolean = false, showIntervals = false, position: number = -1): void
 {
     const nbStrings: number = getSelectedGuitarNbStrings(id.replace('canvas_guitar', 'guitar_nb_strings'));
 
@@ -259,7 +257,14 @@ function updateFretboard(id: string, noteValue: number, scaleValues: Array<numbe
 
             // display note
             let displayNote = true;
-            const currentNote = getNoteName(currentNoteValue);
+            let currentNoteText = "";
+            if (showIntervals)
+            {
+                const currentInterval = GetIntervalBetweenNotes(currentNoteValue, noteValue);
+                currentNoteText = <string>intervalsDict.get(currentInterval);
+            }
+            else
+                currentNoteText = getNoteName(currentNoteValue);
 
             // if position set, display only notes with corresponding position
             if (position >= 0)
@@ -303,12 +308,19 @@ function updateFretboard(id: string, noteValue: number, scaleValues: Array<numbe
             if (currentNoteValue == noteValue)
                 colorNote = displayNote ? colorNoteTonic : colorNoteTonicDisabled;
 
-            const indexNote = scaleNotesValues.indexOf(currentNoteValue);
-            if (charIntervals != null && charIntervals.length > 0 && charIntervals.indexOf(indexNote) >= 0)
-                colorNote = displayNote ? colorNoteChar : colorNoteCharDisabled; // characteristic note
+            // scale explorer: highlight scale characteristic notes
+            if (id == "scale_explorer_canvas_guitar")
+            {
+                const indexNote = scaleNotesValues.indexOf(currentNoteValue);
+                if (charIntervals != null && charIntervals.length > 0 && charIntervals.indexOf(indexNote) >= 0)
+                    colorNote = displayNote ? colorNoteChar : colorNoteCharDisabled; // characteristic note
+            }
+            // chord explorer: highlight intervals
+            else
+                colorNote = GetColorFromNotes(currentNoteValue, noteValue, displayNote);
 
             //if (displayNote)
-            displayNoteOnFretboard(id, i, j, currentNote, colorNote, nbStrings, xFretScaleStep, 0, 0, showQTones);
+            displayNoteOnFretboard(id, i, j, currentNoteText, colorNote, nbStrings, xFretScaleStep, 0, 0, showQTones, showIntervals);
         }
     }
 
@@ -441,7 +453,7 @@ function initChordsFretboardHTML(noteFondamental: number, noteBass: number,
     return chordsFretboardHTML;
 }
 
-function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres = true, showQTones = false)
+function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres = true, showQTones = false, showIntervals = false)
 {
     const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
     const tuningValues: Array<number> = getSelectedGuitarTuningValue("chord_explorer_guitar_tuning");
@@ -581,14 +593,18 @@ function updateChordFretboard(positionsArray: Array<Array<number>>, showBarres =
             
             // display note
 
-            let currentNote = (currentNoteValue >= 0) ? getNoteName(currentNoteValue) : "X";
+            let currentNoteText = "";
+            if (showIntervals)
+            {
+                const currentInterval = GetIntervalBetweenNotes(currentNoteValue, noteFondamental);
+                currentNoteText = (currentNoteValue >= 0) ? <string>intervalsDict.get(currentInterval) : "X";
+            }
+            else
+                currentNoteText = (currentNoteValue >= 0) ? getNoteName(currentNoteValue) : "X";
 
-            let colorNote = colorNoteNormal;
-            if (currentNoteValue == noteFondamental)
-                colorNote = colorNoteTonic;
-
-            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNote, colorNote,
-                nbStrings, xFretChordStep, yFretMarginChordBottom, startFret, showQTones);
+            const colorNote = GetColorFromNotes(currentNoteValue, noteFondamental);
+            displayNoteOnFretboard(`generated_chords_fretboard${index.toString()}`, i, j, currentNoteText, colorNote,
+                nbStrings, xFretChordStep, yFretMarginChordBottom, startFret, showQTones, showIntervals);
         }
 
         // update buttons callbacks
@@ -627,6 +643,32 @@ function getStartFret(positions: Array<number>)
     const startFret = (posMax > 5) ? posMin : 0;
 
     return startFret;
+}
+
+function GetColorFromNotes(noteCur : number, noteRef: number, enabled: boolean = true): string
+{
+    //console.log(noteCur, noteRef, GetIntervalBetweenNotes(noteCur, noteRef));
+    return GetColorFromInterval(GetIntervalBetweenNotes(noteCur, noteRef), enabled);
+}
+
+function GetColorFromInterval(intervalValue : number, enabled: boolean = true): string
+{
+    intervalValue = (intervalValue + 12) % 12;
+
+    if (isQuarterToneInterval(intervalValue) || isXenharmonicInterval(intervalValue))
+        return enabled ?
+            getComputedStyle(document.documentElement).getPropertyValue('--color-normal') :
+            getComputedStyle(document.documentElement).getPropertyValue('--color-normal-disabled') ;
+
+    switch (intervalValue)
+    {
+        case 0:
+            return enabled ?
+                getComputedStyle(document.documentElement).getPropertyValue('--color-tonic') : colorNoteTonicDisabled;
+        default:
+            return enabled ?
+                getComputedStyle(document.documentElement).getPropertyValue(`--color-chord-explorer-${intervalValue}`) : colorNoteNormalDisabled;
+    }
 }
 
 function saveFretboardChordImage(id: string, fondamental: number, bass: number, chordId: string, freeNotesStr: string): void

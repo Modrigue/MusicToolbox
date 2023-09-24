@@ -20,10 +20,29 @@ header
 /* global color values */
 :root
 {
+    --color-normal: dimgrey;
     --color-tonic: firebrick;
     --color-char: dodgerblue;
     --color-neap: mediumseagreen;
     --color-aug6: darkgreen;
+
+    /* colors used for chord explorer */
+    --color-chord-explorer-0: var(--color-tonic);   /* fondamental */
+    --color-chord-explorer-1: hotpink;            /* 2nds */
+    --color-chord-explorer-2: mediumvioletred;
+    --color-chord-explorer-3: mediumseagreen;     /* 3rds */
+    --color-chord-explorer-4: darkgreen;
+    --color-chord-explorer-5: teal;               /* 4th */
+    --color-chord-explorer-6: darkslategray;      /* tritone */
+    --color-chord-explorer-7: indigo;             /* 5th */
+    --color-chord-explorer-8: peru;               /* 6ths */
+    --color-chord-explorer-9: sienna;
+    --color-chord-explorer-10: dodgerblue;        /* 7ths */
+    --color-chord-explorer-11: RoyalBlue;
+
+    --color-normal-disabled: gainsboro;
+    --color-tonic-disabled: mistyrose;
+    --color-char-disabled: #C8E8FF;
 
     /* colors used for chord tester */
     --color-key1: Crimson;

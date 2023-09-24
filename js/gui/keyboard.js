@@ -10,9 +10,9 @@ const hFactorBlackKeyQTones = 0.5;
 const wFactorGreyKeyQTones = 0.5;
 const hFactorGreyKeyQTones = 0.75;
 // colors
-const colorPianoNoteTonic = "firebrick";
-const colorPianoNoteNormal = "dimgrey";
-const colorPianoNoteChar = "dodgerblue";
+const colorPianoNoteNormal = getComputedStyle(document.documentElement).getPropertyValue('--color-normal');
+const colorPianoNoteTonic = getComputedStyle(document.documentElement).getPropertyValue('--color-tonic');
+const colorPianoNoteChar = getComputedStyle(document.documentElement).getPropertyValue('--color-char');
 const colorPianoGreyKey = "#E0E0E0";
 const colorPianoGreyKeyBorder = "#888888";
 // notes position on keyboard dictionnary

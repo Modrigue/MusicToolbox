@@ -42,6 +42,7 @@ window.onload = function () {
     document.getElementById("checkboxGuitar").addEventListener("change", () => toggleDisplay('scale_explorer_guitar_display'));
     document.getElementById("checkboxKeyboard").addEventListener("change", () => toggleDisplay('scale_explorer_scale_keyboard_display'));
     document.getElementById("checkboxQuarterTonesScaleExplorer").addEventListener("change", updateShowQuarterTonesInScaleExplorer);
+    document.getElementById("checkboxIntervalFretboardScaleExplorer").addEventListener("change", update);
     document.getElementById("scale_explorer_guitar_nb_strings").addEventListener("change", () => onNbStringsChanged('scale_explorer'));
     document.getElementById("scale_explorer_guitar_tuning").addEventListener("change", update);
     document.getElementById("scale_explorer_guitar_position").addEventListener("change", update);
@@ -73,6 +74,7 @@ window.onload = function () {
     document.getElementById("checkboxEmptyStrings").addEventListener("change", update);
     document.getElementById("chord_explorer_nb_strings_max").addEventListener("change", update);
     document.getElementById("checkboxQuarterTonesChordExplorer").addEventListener("change", updateShowQuarterTonesInChordExplorer);
+    document.getElementById("checkboxIntervalFretboardChordExplorer").addEventListener("change", update);
     // chord tester
     document.getElementById("checkboxCommonChords").addEventListener("change", update);
     document.getElementById("chord_tester_start_note").addEventListener("change", update);
@@ -186,6 +188,7 @@ function updateChordExplorerElements() {
     const checkboxBarres = document.getElementById("checkboxBarres");
     const checkboxEmptyStrings = document.getElementById("checkboxEmptyStrings");
     const checkboxQNotes = document.getElementById("checkboxQuarterTonesChordExplorer");
+    const checkboxShowIntervals = document.getElementById("checkboxIntervalFretboardChordExplorer");
     updateChordExplorerMode();
     updateChordSelectorGivenNbStrings('chord_explorer_chord');
     updateNbStringsForChordSelector();
@@ -249,8 +252,8 @@ function updateChordExplorerElements() {
             }
     }
     updateFoundChordElements();
-    updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordId, checkboxQNotes.checked);
-    updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked, checkboxQNotes.checked);
+    updateFretboard("chord_explorer_canvas_guitar", fondamental, chordValuesToDisplay, [], chordId, checkboxQNotes.checked, checkboxShowIntervals.checked);
+    updateGeneratedChordsOnFretboard(checkboxBarres.checked, checkboxEmptyStrings.checked, checkboxQNotes.checked, checkboxShowIntervals.checked);
 }
 // get selected text from selector
 function getSelectorText(id) {
@@ -387,10 +390,11 @@ function update() {
             //setEnabled("checkboxChords", isXen);
             const checkboxQuarterTones = document.getElementById("checkboxQuarterTonesScaleExplorer");
             const hasQuarterTones = (scaleValuesQTones || scaleNotesValuesQTones);
+            const checkboxShowIntervals = document.getElementById("checkboxIntervalFretboardScaleExplorer");
             // update fretboard
             const position = getSelectedGuitarPosition('scale_explorer_guitar_position');
-            updateFretboard("scale_explorer_canvas_guitar", tonicNoteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position);
-            updateFretboard("scale_explorer_canvas_guitar", tonicNoteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, position); // HACK to ensure correct drawing
+            updateFretboard("scale_explorer_canvas_guitar", tonicNoteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, checkboxShowIntervals.checked, position);
+            updateFretboard("scale_explorer_canvas_guitar", tonicNoteValue, scaleValues, charIntervals, scaleName, /*hasQuarterTones ||*/ checkboxQuarterTones.checked, checkboxShowIntervals.checked, position); // HACK to ensure correct drawing
             // disabled: update keyboard
             //updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked);
             //updateKeyboard(noteValue, scaleValues, charIntervals, scaleName, hasQuarterTones || checkboxQuarterTones.checked); // HACK to ensure correct drawing
@@ -564,6 +568,7 @@ function updateLocales() {
     document.getElementById("checkboxGuitarLabel").innerText = getString("guitar");
     document.getElementById("checkboxKeyboardLabel").innerText = getString("keyboard");
     document.getElementById("checkboxQuarterTonesScaleExplorerLabel").innerText = getString("quarter_tones");
+    document.getElementById("checkboxIntervalFretboardScaleExplorerLabel").innerText = getString("intervals");
     document.getElementById("scale_explorer_guitar_nb_strings_text").innerText = getString("nb_strings");
     document.getElementById("scale_explorer_guitar_tuning_text").innerText = getString("tuning");
     document.getElementById("scale_explorer_guitar_position_text").innerText = getString("position");
@@ -593,6 +598,7 @@ function updateLocales() {
     document.getElementById("checkboxBarresLabel").innerText = getString("show_barres");
     document.getElementById("checkboxEmptyStringsLabel").innerText = getString("show_empty_strings");
     document.getElementById("checkboxQuarterTonesChordExplorerLabel").innerText = getString("quarter_tones");
+    document.getElementById("checkboxIntervalFretboardChordExplorerLabel").innerText = getString("intervals");
     // chord tester
     document.getElementById("radioChordTesterChordsLabel").innerText = getString("play_chords");
     document.getElementById("radioChordTesterArpeggiosLabel").innerText = getString("play_arpeggios");

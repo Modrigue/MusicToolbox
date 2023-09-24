@@ -382,7 +382,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
 
     let chordName = getKeyFromArrayValue(chordsDict, chordValues);
     if (chordName == "?")
-      chordName = getArpeggioIntervalsConcat(chordValues).replace(/, /g, "").slice(1);
+      chordName = getArpeggioIntervalsString(chordValues).replace(/, /g, "").slice(1);
 
     const chordNoteName = getCompactChordNotation(noteName, chordName);
     const callbackString = `onPlayChordInScale(${nbNotesInChords},${index},${step})`;
@@ -409,7 +409,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
   {
     let chordName = getKeyFromArrayValue(chordsDict, chordValues);
     if (chordName == "?")
-      chordName = getArpeggioIntervalsConcat(chordValues).replace(/, /g, "").slice(1);
+      chordName = getArpeggioIntervalsString(chordValues).replace(/, /g, "").slice(1);
     
     const romanChord = getRomanChord(index, chordName, nbNotesInChords, scaleValues);
 
@@ -454,7 +454,7 @@ function getChordsTableHTML(scaleValues: Array<number>, scaleNotesValues: Array<
       classString = "table-body-cell-tonic";
 
     arpeggiosIntervalsRowHTML += /*html*/`<div class=${classString}>`;
-    arpeggiosIntervalsRowHTML += getArpeggioIntervalsConcat(chordValues);
+    arpeggiosIntervalsRowHTML += getArpeggioIntervalsString(chordValues);
     arpeggiosIntervalsRowHTML += "</div>";
   });
   arpeggiosIntervalsRowHTML += "</div>";

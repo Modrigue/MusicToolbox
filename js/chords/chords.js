@@ -364,22 +364,25 @@ function getArpeggioNotesText(fondamentalValue, chordValues, noteTonic = -1, cha
     arpeggioNotesStr = arpeggioNotesStr.slice(0, -2);
     return arpeggioNotesStr;
 }
-function getArpeggioIntervals(chordValues, bassInterval = -1) {
-    let arpeggioIntervals = new Array();
-    let chordValuesToDisplay = (bassInterval > 0) ?
-        getChordIntervalsWithBass(0, chordValues, bassInterval) :
-        cloneIntegerArray(chordValues);
+function getArpeggioIntervalsValues(chordValues, bassInterval = -1) {
+    let intervalsValues = (bassInterval > 0) ?
+        getChordIntervalsWithBass(0, chordValues, bassInterval) : cloneIntegerArray(chordValues);
     //if (bassInterval >= 0)
     //    console.log(chordValuesToDisplay);
+    return intervalsValues;
+}
+function getArpeggioIntervalsNames(chordValues, bassInterval = -1) {
+    let arpeggioIntervals = new Array();
+    const chordValuesToDisplay = getArpeggioIntervalsValues(chordValues, bassInterval);
     chordValuesToDisplay.forEach(function (intervalValue) {
         let intervalName = getIntervalChordNotation(intervalValue);
         arpeggioIntervals.push(intervalName);
     });
     return arpeggioIntervals;
 }
-function getArpeggioIntervalsConcat(chordValues, bassInterval = -1) {
+function getArpeggioIntervalsString(chordValues, bassInterval = -1) {
     let arpeggioIntervalsStr = "";
-    let arpeggioIntervals = getArpeggioIntervals(chordValues, bassInterval);
+    let arpeggioIntervals = getArpeggioIntervalsNames(chordValues, bassInterval);
     arpeggioIntervals.forEach(function (intervalName) {
         arpeggioIntervalsStr += `${intervalName}, `;
     });

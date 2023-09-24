@@ -11,7 +11,7 @@
     <meta http-equiv="Expires" content="0" />
     <link rel="apple-touch-icon" href="img/G_clef.png">
     <link rel="icon" href="img/G_clef.png">
-    <link rel="stylesheet" href="css/style.css?version=1.9">
+    <link rel="stylesheet" href="css/style.css?version=1.10">
     <script src="js/notes.js"></script>
     <script src="js/intervals.js"></script>
     <script src="js/scales/scala.js"></script>
@@ -188,6 +188,9 @@
           &nbsp;&nbsp;
           <span id="scale_explorer_guitar_position_text">Position:</span>
           <select name="scale_explorer_guitar_position" id="scale_explorer_guitar_position"></select>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="checkbox" id="checkboxIntervalFretboardScaleExplorer" name="checkboxIntervalFretboardScaleExplorer">
+          <label class="input-label" id="checkboxIntervalFretboardScaleExplorerLabel" for="checkboxIntervalFretboardScaleExplorer">Intervals</label>
         </p>
         <canvas id="scale_explorer_canvas_guitar" width="600" height="200">
           Your browser does not support the canvas element.
@@ -248,6 +251,7 @@
       <input type="checkbox" id="checkboxQuarterTonesScaleFinder" name="checkboxQuarterTonesScaleFinder">
       <label class="input-label" id="checkboxQuarterTonesScaleFinderLabel" for="checkboxQuarterTonesScaleFinder">¼ tones</label>
     </p>
+    
   </div>
 
   <!-- ########################## RELATIVE SCALES ######################### -->
@@ -328,9 +332,14 @@
         </select>
         <span id="chord_explorer_nb_strings_max_text">strings played</span>
       </p>
+
     </div>
 
-    <br>
+    <p class='align-center'>
+      <input type="checkbox" id="checkboxIntervalFretboardChordExplorer" name="checkboxIntervalFretboardChordExplorer">
+      <label class="input-label" id="checkboxIntervalFretboardChordExplorerLabel" for="checkboxIntervalFretboardChordExplorer">Intervals</label>
+    </p>
+
     <div id='section_guitar_chords' class='is-grouped'>
       <canvas id="chord_explorer_canvas_guitar" width="600" height="200">
         Your browser does not support the canvas element.

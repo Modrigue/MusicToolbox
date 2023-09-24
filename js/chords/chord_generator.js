@@ -383,15 +383,20 @@ function updateFoundChordElements() {
             }
     }
     // update intervals
-    const chordIntervals = getArpeggioIntervals(intervalValues, bassInterval);
+    const chordIntervalsValues = getArpeggioIntervalsValues(intervalValues, bassInterval);
+    const chordIntervalsNames = getArpeggioIntervalsNames(intervalValues, bassInterval);
     let indexInterval = 0;
     for (let indexNote = 0; indexNote < 7; indexNote++) {
         const noteSelector = document.getElementById(`chord_explorer_note${indexNote}`);
-        const hasInterval = (indexInterval < chordIntervals.length && noteSelector.value != "-1");
-        const intervalName = hasInterval ? chordIntervals[indexInterval] : "";
-        document.getElementById(`chord_explorer_interval${indexNote}`).innerText = intervalName;
+        const hasInterval = (indexInterval < chordIntervalsNames.length && noteSelector.value != "-1");
+        const intervalName = hasInterval ? chordIntervalsNames[indexInterval] : "";
+        const intervalLabel = document.getElementById(`chord_explorer_interval${indexNote}`);
+        intervalLabel.innerText = intervalName;
         if (hasInterval)
             indexInterval++;
+        const intervalValue = chordIntervalsValues[indexNote];
+        noteSelector.style.color = GetColorFromInterval(intervalValue);
+        intervalLabel.style.color = GetColorFromInterval(intervalValue);
     }
     // update found chords text
     fundamentalSelected = fondamentalValue.toString();
@@ -489,7 +494,7 @@ function getFoundChordsButtonsHTML(foundChords, fondamentalValue, bassValue, sel
     }
     return foundChordsStr;
 }
-function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false, showQTones = false) {
+function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false, showQTones = false, showIntervals = false) {
     const generatedGuitarChords = document.getElementById('generated_guitar_chords');
     generatedGuitarChords.classList.add("flex-container");
     let chordNotesValues = new Array();
@@ -540,7 +545,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     let selectedFondamentalValue = getChordExplorerFondamentalValue();
     let selectedBassValue = getChordExplorerBassValue();
     generatedGuitarChords.innerHTML = initChordsFretboardHTML(selectedFondamentalValue, selectedBassValue, chordSelectedId, freeNotesValues, positionsArray.length);
-    updateChordFretboard(positionsArray, showBarres, showQTones);
+    updateChordFretboard(positionsArray, showBarres, showQTones, showIntervals);
 }
 // disable incoherent number of strings options
 function updateNbStringsForChordSelector() {

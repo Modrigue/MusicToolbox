@@ -448,15 +448,21 @@ function getArpeggioNotesText(fondamentalValue: number, chordValues: Array<numbe
     return arpeggioNotesStr;
 }
 
-function getArpeggioIntervals(chordValues: Array<number>, bassInterval: number = -1): Array<string>
+function getArpeggioIntervalsValues(chordValues: Array<number>, bassInterval: number = -1): Array<number>
 {
-    let arpeggioIntervals = new Array<string>();
-    let chordValuesToDisplay = (bassInterval > 0) ?
-        getChordIntervalsWithBass(0, chordValues, bassInterval) :
-        cloneIntegerArray(chordValues);
+    let intervalsValues = (bassInterval > 0) ?
+        getChordIntervalsWithBass(0, chordValues, bassInterval) : cloneIntegerArray(chordValues);
 
     //if (bassInterval >= 0)
     //    console.log(chordValuesToDisplay);
+
+    return intervalsValues;
+}
+
+function getArpeggioIntervalsNames(chordValues: Array<number>, bassInterval: number = -1): Array<string>
+{
+    let arpeggioIntervals = new Array<string>();
+    const chordValuesToDisplay = getArpeggioIntervalsValues(chordValues, bassInterval);
 
     chordValuesToDisplay.forEach(function (intervalValue)
     {
@@ -467,10 +473,10 @@ function getArpeggioIntervals(chordValues: Array<number>, bassInterval: number =
     return arpeggioIntervals;
 }
 
-function getArpeggioIntervalsConcat(chordValues: Array<number>, bassInterval: number = -1): string
+function getArpeggioIntervalsString(chordValues: Array<number>, bassInterval: number = -1): string
 {
     let arpeggioIntervalsStr = "";
-    let arpeggioIntervals = getArpeggioIntervals(chordValues, bassInterval);
+    let arpeggioIntervals = getArpeggioIntervalsNames(chordValues, bassInterval);
     arpeggioIntervals.forEach(function (intervalName)
     {
       arpeggioIntervalsStr += `${intervalName}, `;
