@@ -1,5 +1,5 @@
 let pagesArray: Array<string> =
-    ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"/*, "page_song_generator"*/];
+    ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"];
 let pageSelected: string = "";
 
 
@@ -10,9 +10,12 @@ let instrumentLoadingId = 0;
 
 let browserSupportsAudio = true;
 let languageInitialized = false;
-
 let chordExplorerUpdateMode: string = "";
+
+/* Experimental */
 let showSongGeneration = false;
+if (showSongGeneration)
+    pagesArray.push("page_song_generator");
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 

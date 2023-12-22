@@ -1,5 +1,5 @@
 "use strict";
-let pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester" /*, "page_song_generator"*/];
+let pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"];
 let pageSelected = "";
 let hasAudio = false;
 let instrumentsLoaded = [];
@@ -8,7 +8,10 @@ let instrumentLoadingId = 0;
 let browserSupportsAudio = true;
 let languageInitialized = false;
 let chordExplorerUpdateMode = "";
+/* Experimental */
 let showSongGeneration = false;
+if (showSongGeneration)
+    pagesArray.push("page_song_generator");
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms
