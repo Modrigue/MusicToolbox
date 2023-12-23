@@ -1,18 +1,20 @@
 const generatedSongTypes: Map<string, string> = new Map<string, string>();
-generatedSongTypes.set("counterpoint 4:1" , "counterpoint_4-1");
-generatedSongTypes.set("counterpoint 2:1" , "counterpoint_2-1");
+generatedSongTypes.set("sequence"         , "sequence");
 generatedSongTypes.set("counterpoint 1:1" , "counterpoint_1-1");
+generatedSongTypes.set("counterpoint 2:1" , "counterpoint_2-1");
+generatedSongTypes.set("counterpoint 4:1" , "counterpoint_4-1");
 
 const qNote = 480; // quarter-note division
 
 let generatedMidi = new MidiFile(1, 2, qNote);
-generatedMidi.Tempo(0, 120, 0);
-generatedMidi.TimeSignature(0, 4, 4, 0);
-
 let hasGeneratedMidi = false;
+resetGeneratedSong(false);
 
-function generateNewSong(): void
+function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */): void
 {
+    const selectedTypeId = getSelectedSongType('song_generator_type');
+    const isCounterpoint = selectedTypeId.startsWith("counterpoint");
+    
     // get selected tonic
     const tonicSelected: string = (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).value;
     const tonic: number = parseInt(tonicSelected);
@@ -25,103 +27,143 @@ function generateNewSong(): void
     const nbBarsSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_nb_bars`)).value;
     const nbBars: number = parseInt(nbBarsSelected);
 
+    const octaves = [4, 2];
+
+    // used for counterpoints
+    const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], /*[1/2, 1/2]*/[3/4, 1/4]];
+    const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4]];
+
     // get selected tempo
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
     const tempo: number = parseInt(tempoSelected);
 
-    // get selected tracks
-    let tracksSelected = getSelectedTracks();
-
-    // generate song
-
-    const selectedTypeId = getSelectedSongType('song_generator_type');
-    const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], [3/4, 1/4]];
-    const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4]];
-
-    const octave1 = 2;
-    const octave2 = 4;
-    const channelId1 = 1;
-    const channelId2 = 2;
-
     // track 0: set selected tempo
     generatedMidi.UpdateTempo(0, tempo, 0);
+    
 
-    // generate tracks
-    let track1 = generatedMidi.Tracks[1]; // bass
-    let track2 = generatedMidi.Tracks[2];
-    let trackCandidate = null;
-    if (tracksSelected[0] && !tracksSelected[1])
+    if (trackIndex <= 0)
     {
-        switch(selectedTypeId)
+        let tracksSelected = getSelectedTracks();
+
+        // if counterpoint, generate both tracks at once
+        if (isCounterpoint)
         {
-            case "counterpoint_4-1":
-                // reduce 4:1 counterpoint track to 1 note per bar track
-                let track4Reduced = ReduceTrack41(track2, channelId2);
-                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1, track4Reduced);
-                break;
-            case "counterpoint_2-1":
-                // reduce 2:1 counterpoint track to 1 note per bar track
-                let track2Reduced = ReduceTrack21(track2, channelId2);
-                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1, track2Reduced);
-                break;
-            default:
-                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1, track2);
-                break;
-        }
+            let trackH  = generatedMidi.Tracks[1];
+            let trackCF = generatedMidi.Tracks[2]; // bass
+
+            // regenerate CF track if no counterpoint melody generated
+            const nbTries = 100;
+            let trackCandidateCF = null, trackCandidateH = null;
             
-        if (trackCandidate != null)
-            track1 = <MidiTrack>trackCandidate;
-    }
-    else if (!tracksSelected[0] && tracksSelected[1])
-    {
-        switch(selectedTypeId)
-        {
-            case "counterpoint_4-1":
-                trackCandidate = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor41Array, track1);
-                break;
-            case "counterpoint_2-1":
-                trackCandidate = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor21Array, track1);
-                break;
-            default:
-                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave2, qNote, channelId2, track1);
-                break;
-        }
-
-        if (trackCandidate != null)
-            track2 = <MidiTrack>trackCandidate;
-    }
-    else if (tracksSelected[0] && tracksSelected[1])
-    {
-        // regenate CF track if no counterpoint melody generated
-        const nbTries = 100;
-        let trackCandidate2 = null;
-        for (let i = 0; i < nbTries; i++)
-        {
-            trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave1, qNote, channelId1);
-            if (trackCandidate != null)
+            switch(selectedTypeId)
             {
-                if (selectedTypeId == "counterpoint_4-1")
-                    trackCandidate2 = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor41Array, trackCandidate);
-                else if (selectedTypeId == "counterpoint_2-1")
-                    trackCandidate2 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave2, qNote, channelId2, rhythmFactor21Array, trackCandidate);
-                else
-                    trackCandidate2 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave2, qNote, channelId2, trackCandidate);
-            }
-            
-            if (trackCandidate != null && trackCandidate2 != null)
-                break;
-        }
+                case "counterpoint_1-1":
+                case "counterpoint_2-1":
+                case "counterpoint_4-1":
+                    for (let i = 0; i < nbTries; i++)
+                    {
+                        // generate CF then counterpoint
+                        trackCandidateCF = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[1], qNote, 2);
+                        if (trackCandidateCF != null)
+                        {
+                            if (selectedTypeId == "counterpoint_4-1")
+                                trackCandidateH = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor41Array, trackCandidateCF);
+                            else if (selectedTypeId == "counterpoint_2-1")
+                                trackCandidateH = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor21Array, trackCandidateCF);
+                            else
+                                trackCandidateH = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[0], qNote, 1, trackCandidateCF);
+                        }
 
-        if (trackCandidate != null)
-            track1 = <MidiTrack>trackCandidate;
-        if (trackCandidate2 != null)
-            track2 = <MidiTrack>trackCandidate2;
+                        if (trackCandidateCF != null && trackCandidateH != null)
+                            break;
+                    }
+                    break;
+            }
+        
+            if (trackCandidateCF != null)
+                trackCF = <MidiTrack>trackCandidateCF;
+            if (trackCandidateH != null)
+                trackH = <MidiTrack>trackCandidateH;
+
+            // update generated tracks
+            generatedMidi.Tracks[1] = trackH;
+            generatedMidi.Tracks[2] = trackCF;
+
+            finalizeTrackGeneration();
+            return;
+        }
+        else    // generate track separately
+        {
+            for (let i = 1; i <= 2; i++)
+                if (tracksSelected[i - 1])
+                    generateNewTrack(i);
+        }
+            
+        return;
     }
 
-    // update generated tracks
-    generatedMidi.Tracks[1] = track1;
-    generatedMidi.Tracks[2] = track2;
+    // get number of loops
+    const nbNotesPerBarSelector = <HTMLInputElement>document.getElementById(`song_generator_nb_notes_per_bar`)
+    const nbNotesPerBarSelected: string = nbNotesPerBarSelector.value;
+    const nbNotesPerBar: number = parseInt(nbNotesPerBarSelected);
 
+    // generate song/track
+    nbNotesPerBarSelector.disabled = isCounterpoint;
+
+    if (isCounterpoint && nbBars <= 5)
+        return;
+
+    // generate tracks    
+    let track = generatedMidi.Tracks[trackIndex];
+    let trackOther = generatedMidi.Tracks[3 - trackIndex];
+    let trackCandidate = null;
+    switch(selectedTypeId)
+    {
+        case "sequence":
+            trackCandidate = GenerateSequence(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], qNote, trackIndex);
+            break;
+
+        case "counterpoint_4-1":
+            if (trackIndex == 1)
+            {
+                trackCandidate = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor41Array, trackOther);
+            }
+            else    // bass
+            {
+                // reduce 4:1 counterpoint high track to 1 note per bar track
+                let trackHReduced = ReduceTrack41(trackOther, 1);
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
+            }
+            break;
+        case "counterpoint_2-1":
+
+            if (trackIndex == 1)
+            {
+                trackCandidate = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor21Array, trackOther);
+            }
+            else    // bass
+            {
+                // reduce 2:1 counterpoint high track to 1 note per bar track
+                let trackHReduced = ReduceTrack21(trackOther, 1);
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
+            }
+            break;
+        default:
+            trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackOther);
+            break;
+    }
+        
+    if (trackCandidate != null)
+        track = <MidiTrack>trackCandidate;
+    
+
+    // update generated track
+    generatedMidi.Tracks[trackIndex] = track;
+    finalizeTrackGeneration();
+}
+
+function finalizeTrackGeneration()
+{
     hasGeneratedMidi = true;
     updateSongGeneratorPage();
     setEnabled("song_generator_play", true);
@@ -132,7 +174,7 @@ function playGeneratedSong(): void
 {
     if (generatedMidi == null)
         return;
-    
+
     // get selected tempo
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
     const tempo: number = parseInt(tempoSelected);
@@ -142,7 +184,11 @@ function playGeneratedSong(): void
     let tracksSelected = getSelectedTracks();
     generatedMidi.EnableTracks(tracksSelected);
 
-    generatedMidi.Play();
+    // get number of loops
+    const nbLoopsSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_nb_loops`)).value;
+    const nbLoops: number = parseInt(nbLoopsSelected);
+
+    generatedMidi.Play(nbLoops);
 }
 
 function saveGeneratedSong(): void
@@ -156,10 +202,15 @@ function saveGeneratedSong(): void
     generatedMidi.Save(`${fileName}.mid`);
 }
 
-function resetGeneratedSong(): void
+function resetGeneratedSong(updatePage: Boolean = true): void
 {
-    generatedMidi = new MidiFile(1, 2, qNote);;
-    updateSongGeneratorPage();
+    generatedMidi = new MidiFile(1, 2, qNote);
+    generatedMidi.Tempo(0, 120, 0);
+    generatedMidi.TimeSignature(0, 4, 4, 0);
+    hasGeneratedMidi = false;
+
+    if (updatePage)
+        updateSongGeneratorPage();
 }
 
 function getSelectedTracks(): Array<boolean>
@@ -191,6 +242,7 @@ function updateSongGeneratorPage(): void
     setEnabled('song_generator_generate', hasSelectedTracks);
     setEnabled('song_generator_play', hasGeneratedMidi && hasSelectedTracks);
     setEnabled("song_generator_reset", hasGeneratedMidi);
+    setEnabled("song_generator_save", hasGeneratedMidi);
     
     // for debug purposes
     /*if (false)
@@ -221,7 +273,11 @@ function updateSongTypeSelector(id: string)
         {
             let option = document.createElement('option');
             option.value = key;
-            option.innerHTML = key.replace("counterpoint", getString("counterpoint"));
+            if (key.startsWith("counterpoint"))
+                option.innerHTML = key.replace("counterpoint", getString("counterpoint"));
+            else
+                option.innerHTML = getString(key);
+            
             typeSelect.appendChild(option);
         }
 }
@@ -231,7 +287,10 @@ function updateSongTypeSelector(id: string)
         for (const option of typeSelect.options)
         {
             const key = option.value;
-            option.innerHTML = key.replace("counterpoint", getString("counterpoint"));
+            if (key.startsWith("counterpoint"))
+                option.innerHTML = key.replace("counterpoint", getString("counterpoint"));
+            else
+                option.innerHTML = getString(key);
         }
     }
 

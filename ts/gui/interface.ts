@@ -114,14 +114,21 @@ window.onload = function()
     (<HTMLInputElement>document.getElementById("checkboxQuarterTonesChordTester")).addEventListener("change", updateShowQuarterTonesInChordTester);
 
     // song generator
-    (<HTMLSelectElement>document.getElementById(`song_generator_type`)).addEventListener("change", generateNewSong);
-    (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).addEventListener("change", generateNewSong);
-    (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).addEventListener("change", generateNewSong);
-    (<HTMLSelectElement>document.getElementById(`song_generator_nb_bars`)).addEventListener("change", generateNewSong);
-    (<HTMLButtonElement>document.getElementById('song_generator_generate')).addEventListener("click", generateNewSong);
+
+    (<HTMLSelectElement>document.getElementById(`song_generator_type`)).addEventListener("change", () => { resetGeneratedSong() });
+    (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).addEventListener("change", () => { resetGeneratedSong() });
+    (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).addEventListener("change", () => { resetGeneratedSong() });
+    (<HTMLSelectElement>document.getElementById(`song_generator_nb_bars`)).addEventListener("change", () => { resetGeneratedSong() });
+    (<HTMLSelectElement>document.getElementById(`song_generator_nb_notes_per_bar`)).addEventListener("change", () => { resetGeneratedSong() });
+    
+    (<HTMLButtonElement>document.getElementById('song_generator_generate')).addEventListener("click", () => { generateNewTrack() });
+    for (let i = 1; i <= 2; i++)
+        (<HTMLButtonElement>document.getElementById(`song_generator_generate_track${i}`)).addEventListener("click", () => { generateNewTrack(i) });
+    
     (<HTMLButtonElement>document.getElementById('song_generator_play')).addEventListener("click", playGeneratedSong);
     (<HTMLButtonElement>document.getElementById('song_generator_save')).addEventListener("click", saveGeneratedSong);
-    (<HTMLButtonElement>document.getElementById('song_generator_reset')).addEventListener("click", resetGeneratedSong);
+    (<HTMLButtonElement>document.getElementById('song_generator_reset')).addEventListener("click", () => { resetGeneratedSong() });
+    
     for (let i = 1; i <= 2; i++)
         (<HTMLInputElement>document.getElementById(`song_generator_checkbox_track${i}`)).addEventListener("change", updateSongGeneratorPage);
 }
@@ -229,7 +236,7 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
     // update song generator selectors
     updateSongTypeSelector('song_generator_type');
     updateNoteSelector(`song_generator_tonic`, 0, false);
-    updateScaleSelector(`song_generator_scale`, "7major_nat,1");
+    updateScaleSelector(`song_generator_scale`, "7major_nat,1", true, true, true);
 
     // update scale keyboard selectors
     updateOctaveSelector(`scale_explorer_start_octave`, 0, 4);
@@ -383,11 +390,15 @@ function initPagefromURLParams(): void
 
 function selectPage(pageId: string = ""): void
 {
-   for (let id of pagesArray)
+    for (let id of pagesArray)
     {
+    
         let button: HTMLButtonElement = <HTMLButtonElement>document.getElementById(`button_${id}`);
-        const buttonSelected: boolean = (id == pageId);
-        button.className = buttonSelected ? "button-page-selected" :  "button-page";
+        if (button != null)
+        {
+            const buttonSelected: boolean = (id == pageId);
+            button.className = buttonSelected ? "button-page-selected" :  "button-page";
+        }
     }
     pageSelected = pageId;
 
@@ -822,8 +833,10 @@ function updateLocales(): void
     (<HTMLSpanElement>document.getElementById(`song_generator_header`)).innerText = getString("page_experimental");
     (<HTMLSpanElement>document.getElementById(`song_generator_type_text`)).innerText = getString("type");
     (<HTMLButtonElement>document.getElementById("song_generator_nb_bars_text")).innerText = `${getString("nb_bars")}`;
+    (<HTMLButtonElement>document.getElementById("song_generator_nb_loops_text")).innerText = `${getString("nb_loops")}`;
+    (<HTMLButtonElement>document.getElementById("song_generator_nb_notes_per_bar_text")).innerText = `${getString("nb_notes_per_bar")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_tempo_text")).innerText = `${getString("tempo")}`;
-    (<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;
+    //(<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_play")).innerText = `${getString("listen")} ♪`;
     (<HTMLButtonElement>document.getElementById("song_generator_save")).innerText = `${getString("save")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_reset")).innerText = getString("reset");

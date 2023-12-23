@@ -146,7 +146,7 @@ class MidiFile
         link.click();
     }
 
-    public Play()
+    public Play(nbLoops: number = 1)
     {
         if (this.Tracks == null || this.Tracks.length == 0)
             return;
@@ -178,43 +178,46 @@ class MidiFile
                 for (let i = 1; i < this.Tracks.length; i++)
                 {
                     let timeCursor = 0;
-                    let pitchBend = 0;
-
-                    const track = this.Tracks[i];
-                    if (track.Muted) // do not play if muted
-                        continue;
-
-                    for (const event of track.Events)
+                    for (let loopIndex = 0; loopIndex < nbLoops; loopIndex++)
                     {
-                        switch (event.Type)
-                        {
-                            case MidiTrackEventType.NOTE_ON:
-                            case MidiTrackEventType.NOTE_OFF:
-                            {
-                                const data = event.Data;
-                                const noteValueInt = data[1];
-                                const velocity = data[2];
-                                timeCursor += event.DeltaTime / this.Division * 60 / tempo;
-                                //console.log(noteValueInt, velocity, timeCursor);
-                                
-                                if (event.Type == MidiTrackEventType.NOTE_ON)
-                                    MIDI.noteOn(channelPlay, noteValueInt, velocity, timeCursor, pitchBend);
-                                else if (event.Type == MidiTrackEventType.NOTE_OFF)
-                                    MIDI.noteOff(channelPlay, noteValueInt, timeCursor);
-                                
-                                break;
-                            }
+                        let pitchBend = 0;
 
-                            case MidiTrackEventType.PICTH_BEND:
+                        const track = this.Tracks[i];
+                        if (track.Muted) // do not play if muted
+                            continue;
+
+                        for (const event of track.Events)
+                        {
+                            switch (event.Type)
                             {
-                                const cents = event.AuxValue;
-                                timeCursor += event.DeltaTime / this.Division * 60 / tempo;
-                                pitchBend = cents / 100 / 8 / 2; // 1/8/2 = 1/2 tone = 100 cents
-                                break;
+                                case MidiTrackEventType.NOTE_ON:
+                                case MidiTrackEventType.NOTE_OFF:
+                                {
+                                    const data = event.Data;
+                                    const noteValueInt = data[1];
+                                    const velocity = data[2];
+                                    timeCursor += event.DeltaTime / this.Division * 60 / tempo;
+                                    //console.log(noteValueInt, velocity, timeCursor);
+                                    
+                                    if (event.Type == MidiTrackEventType.NOTE_ON)
+                                        MIDI.noteOn(channelPlay, noteValueInt, velocity, timeCursor, pitchBend);
+                                    else if (event.Type == MidiTrackEventType.NOTE_OFF)
+                                        MIDI.noteOff(channelPlay, noteValueInt, timeCursor);
+                                    
+                                    break;
+                                }
+
+                                case MidiTrackEventType.PICTH_BEND:
+                                {
+                                    const cents = event.AuxValue;
+                                    timeCursor += event.DeltaTime / this.Division * 60 / tempo;
+                                    pitchBend = cents / 100 / 8 / 2; // 1/8/2 = 1/2 tone = 100 cents
+                                    break;
+                                }
+                            
+                                default:
+                                    break;
                             }
-                        
-                            default:
-                                break;
                         }
                     }
                 }
