@@ -115,7 +115,7 @@ window.onload = function()
 
     // song generator
 
-    (<HTMLSelectElement>document.getElementById(`song_generator_type`)).addEventListener("change", () => { resetGeneratedSong() });
+    (<HTMLSelectElement>document.getElementById(`song_generator_type`)).addEventListener("change", updateShowXenInSongGenerator);
     (<HTMLSelectElement>document.getElementById(`song_generator_tonic`)).addEventListener("change", () => { resetGeneratedSong() });
     (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).addEventListener("change", () => { resetGeneratedSong() });
     (<HTMLSelectElement>document.getElementById(`song_generator_nb_bars`)).addEventListener("change", () => { resetGeneratedSong() });
@@ -159,7 +159,8 @@ function initShowQuarterTones(): void
 
 ////////////////////////////////// SELECTORS //////////////////////////////////
 
-function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, resetChordTester = false, resetChordExplorer = false): void
+function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, resetChordTester = false,
+    resetChordExplorer = false, resetSongGeneration = false): void
 {
     // specific: if quarter tone chord in URL parameters, check chord explorer checkbox (only at 1st load)
     if (!languageInitialized)
@@ -235,8 +236,13 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
 
     // update song generator selectors
     updateSongTypeSelector('song_generator_type');
+    //(<HTMLSelectElement>document.getElementById(`song_generator_type`)).selectedIndex = 3;
     updateNoteSelector(`song_generator_tonic`, 0, false);
-    updateScaleSelector(`song_generator_scale`, "7major_nat,1", true, true, true);
+    const selectedTypeId = getSelectedSongType('song_generator_type');
+    const isCounterpoint = selectedTypeId.startsWith("counterpoint");
+    updateScaleSelector(`song_generator_scale`, "7major_nat,1", true, true, !isCounterpoint, resetSongGeneration);
+    if (resetSongGeneration)
+        resetGeneratedSong();
 
     // update scale keyboard selectors
     updateOctaveSelector(`scale_explorer_start_octave`, 0, 4);
@@ -873,6 +879,13 @@ function updateShowQuarterTonesInChordTester()
 function updateShowQuarterTonesInChordExplorer()
 {
     updateSelectors(false /*resetScaleExplorer*/, false /*resetScaleFinder*/, false /*resetChordTester*/, true /*resetChordExplorer*/);
+    update();
+}
+
+function updateShowXenInSongGenerator()
+{
+    updateSelectors(false /*resetScaleExplorer*/, false /*resetScaleFinder*/, false /*resetChordTester*/
+        , false /*resetChordExplorer*/, true /* resetSG */);
     update();
 }
 

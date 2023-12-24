@@ -6,11 +6,11 @@ function updateScaleSelector(id: string, defaultScaleId: string,
     const scaleSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const initialized: boolean = (scaleSelect.options != null && scaleSelect.options.length > 0);
     const regexNbNotes = /(\d+)notes/;
- 
+
     const scaleParamValue = parseParameterById("scale");
     if (scaleParamValue != "")
-      defaultScaleId = scaleParamValue;
-  
+        defaultScaleId = scaleParamValue;
+
     // if reset option set, remove all options
     if (reset)
         while (scaleSelect.firstChild)
@@ -66,8 +66,9 @@ function updateScaleSelector(id: string, defaultScaleId: string,
             if (!includesQTones && key.includes("quarter_tones"))
                 break;
             
-            if (!includesXen && key.startsWith("12tet"))
+            if (!includesChromatic && key.startsWith("12tet"))
                 continue;
+            
             if (!includesXen && key.includes("xenharmonics"))
                 break;
             
@@ -80,15 +81,15 @@ function updateScaleSelector(id: string, defaultScaleId: string,
 // get scale notes values given tonic and scale
 function getScaleNotesValues(noteValue: number, scaleValues: Array<number>): Array<number>
 {
-  let scaleNotesValues: Array<number> = new Array<number>();
+    let scaleNotesValues: Array<number> = new Array<number>();
 
-  scaleValues.forEach(function (interval, index)
-  {
-    const newNoteValue: number = addToNoteValue(noteValue, interval);
-    scaleNotesValues.push(newNoteValue);
-  });
+    scaleValues.forEach(function (interval, index)
+    {
+        const newNoteValue: number = addToNoteValue(noteValue, interval);
+        scaleNotesValues.push(newNoteValue);
+    });
 
-  return scaleNotesValues;
+    return scaleNotesValues;
 }
 
 // consider 24-TET as chromatic
