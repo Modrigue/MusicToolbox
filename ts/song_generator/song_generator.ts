@@ -103,13 +103,8 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     }
 
     // get number of loops
-    const nbNotesPerBarSelector = <HTMLInputElement>document.getElementById(`song_generator_nb_notes_per_bar`)
-    const nbNotesPerBarSelected: string = nbNotesPerBarSelector.value;
+    const nbNotesPerBarSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_nb_notes_per_bar`)).value;
     const nbNotesPerBar: number = parseInt(nbNotesPerBarSelected);
-
-    // generate song/track
-    nbNotesPerBarSelector.disabled = isCounterpoint;
-
     if (isCounterpoint && nbBars <= 5)
         return;
 
@@ -242,7 +237,14 @@ function updateSongGeneratorPage(): void
     setEnabled('song_generator_play', hasGeneratedMidi && hasSelectedTracks);
     setEnabled("song_generator_reset", hasGeneratedMidi);
     setEnabled("song_generator_save", hasGeneratedMidi);
-    
+
+    const selectedTypeId = getSelectedSongType('song_generator_type');
+    if (selectedTypeId != null)
+    {
+        const isCounterpoint = selectedTypeId.startsWith("counterpoint");
+        setEnabled("song_generator_nb_notes_per_bar", !isCounterpoint);
+    }
+
     // for debug purposes
     /*if (false)
     if (hasSong)
