@@ -31,7 +31,7 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
 
     // used for counterpoints
     const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], /*[1/2, 1/2]*/[3/4, 1/4]];
-    const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4]];
+    const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4], [1/8, 3/8, 2/8, 2/8]];
 
     // get selected tempo
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
@@ -156,7 +156,6 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     if (trackCandidate != null)
         track = <MidiTrack>trackCandidate;
     
-
     // update generated track
     generatedMidi.Tracks[trackIndex] = track;
     finalizeTrackGeneration();

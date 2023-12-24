@@ -105,7 +105,6 @@ function generateCounterpointTrack21Candidate(tonic: number, scaleValues: Array<
             const nbTries = 10000;
             for (let i = 0; i < nbTries; i++)
             {
-
                 note2ValueNew = GetRandomNoteValueInScale(note1Index - 2, note1NextIndex + 2, scaleNotesValues);
                 if (acceptNoteInCounterpoint21(note2ValueNew, tonic, index1, nbBars, track21, track11, trackCF))
                     break;
