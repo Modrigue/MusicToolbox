@@ -2,6 +2,7 @@ const generatedSongTypes: Map<string, string> = new Map<string, string>();
 generatedSongTypes.set("sequence"         , "sequence");
 generatedSongTypes.set("counterpoint 1:1" , "counterpoint_1-1");
 generatedSongTypes.set("counterpoint 2:1" , "counterpoint_2-1");
+generatedSongTypes.set("counterpoint 3:1" , "counterpoint_3-1");
 generatedSongTypes.set("counterpoint 4:1" , "counterpoint_4-1");
 
 const qNote = 480; // quarter-note division
@@ -31,6 +32,7 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
 
     // used for counterpoints
     const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], /*[1/2, 1/2]*/[3/4, 1/4]];
+    const rhythmFactor31Array: Array<Array<number>> = [[1/3, 1/3, 1/3]];
     const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4], [1/8, 3/8, 2/8, 2/8]];
 
     // get selected tempo
@@ -38,8 +40,7 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     const tempo: number = parseInt(tempoSelected);
 
     // track 0: set selected tempo
-    generatedMidi.UpdateTempo(0, tempo, 0);
-    
+    generatedMidi.UpdateTempo(0, tempo, 0);  
 
     if (trackIndex <= 0)
     {
@@ -59,6 +60,7 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
             {
                 case "counterpoint_1-1":
                 case "counterpoint_2-1":
+                case "counterpoint_3-1":
                 case "counterpoint_4-1":
                     for (let i = 0; i < nbTries; i++)
                     {
@@ -68,6 +70,8 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
                         {
                             if (selectedTypeId == "counterpoint_4-1")
                                 trackCandidateH = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor41Array, trackCandidateCF);
+                                else if (selectedTypeId == "counterpoint_3-1")
+                                trackCandidateH = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor31Array, trackCandidateCF);
                             else if (selectedTypeId == "counterpoint_2-1")
                                 trackCandidateH = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor21Array, trackCandidateCF);
                             else
@@ -127,6 +131,19 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
             {
                 // reduce 4:1 counterpoint high track to 1 note per bar track
                 let trackHReduced = ReduceTrack41(trackOther, 1);
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
+            }
+            break;
+        case "counterpoint_3-1":
+
+            if (trackIndex == 1)
+            {
+                trackCandidate = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor21Array, trackOther);
+            }
+            else    // bass
+            {
+                // reduce 3:1 counterpoint high track to 1 note per bar track
+                let trackHReduced = ReduceTrack31(trackOther, 1);
                 trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
             }
             break;
