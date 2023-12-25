@@ -138,7 +138,7 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
 
             if (trackIndex == 1)
             {
-                trackCandidate = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor21Array, trackOther);
+                trackCandidate = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor31Array, trackOther);
             }
             else    // bass
             {
