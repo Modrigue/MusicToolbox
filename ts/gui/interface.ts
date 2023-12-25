@@ -133,6 +133,7 @@ window.onload = function()
     {
         (<HTMLInputElement>document.getElementById(`song_generator_checkbox_track${i}`)).addEventListener("change", updateSongGeneratorPage);
         (<HTMLInputElement>document.getElementById(`song_generator_octave_track${i}`)).addEventListener("change", () => { resetGeneratedSong() });
+        (<HTMLInputElement>document.getElementById(`song_generator_freq_track${i}`)).addEventListener("change", () => { updateSongGeneratorPage(); resetGeneratedSong() });
     }
 }
 
@@ -852,7 +853,10 @@ function updateLocales(): void
     (<HTMLButtonElement>document.getElementById("song_generator_reset")).innerText = getString("reset");
 
     for (let i = 1; i <= 2; i++)
+    {
         (<HTMLSpanElement>document.getElementById(`song_generator_octave_track${i}_text`)).innerText = getString("octave");
+        (<HTMLSpanElement>document.getElementById(`song_generator_freq_track${i}_text`)).innerText = getString("frequency");
+    }
 
     updateSongGeneratorPage();
 

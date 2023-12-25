@@ -1,6 +1,6 @@
 
-function GenerateSequence(tonic: number, scaleValues: Array<number>, nbBars: number, nbNotesPerBar: number,
-    octave: number, qNote: number, channelId: number): (MidiTrack | null)
+function GenerateSequenceTrack(tonic: number, scaleValues: Array<number>, nbBars: number, nbNotesPerBar: number,
+    octave: number, freq: number, qNote: number, channelId: number): (MidiTrack | null)
 { 
     //const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     //
@@ -10,7 +10,7 @@ function GenerateSequence(tonic: number, scaleValues: Array<number>, nbBars: num
     let success = false;
     for (let i = 0; i < nbTries; i++)
     {
-        track = generateSequenceCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, qNote, channelId);
+        track = generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
     //
     //    if (hasTrackCF)
     //        success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(<MidiTrack>trackCF, track));
@@ -25,12 +25,12 @@ function GenerateSequence(tonic: number, scaleValues: Array<number>, nbBars: num
     return null;
 }
 
-function generateSequenceCandidate(tonic: number, scaleValues: Array<number>, nbBars: number,
-    nbNotesPerBar: number, octave: number, qNote: number, channelId: number): MidiTrack
+function generateSequenceTrackCandidate(tonic: number, scaleValues: Array<number>, nbBars: number,
+    nbNotesPerBar: number, octave: number, freq: number, qNote: number, channelId: number): MidiTrack
 {    
     let track = new MidiTrack(channelId);
+    
     const nbNotesInScale = scaleValues.length;
-
     const intervalRange = Math.round(0.8*nbNotesInScale);
 
     // build allowed scale notes array
@@ -40,7 +40,14 @@ function generateSequenceCandidate(tonic: number, scaleValues: Array<number>, nb
     let startIntervals: Array<number> = [0]; //scaleValues;
 
     const startInterval = <number>getRandomArrayElement(startIntervals);
-    AddNoteEvent(track, tonic + startInterval, octave, 0, 4*qNote/nbNotesPerBar);
+    let startPosition = 0;
+    const duration = 4*qNote/nbNotesPerBar;
+
+    // 1st note appears?
+    if (noteAppears(freq))
+        AddNoteEvent(track, tonic + startInterval, octave, 0, 4*qNote/nbNotesPerBar);
+    else
+        startPosition += duration;
 
     // generate random notes in scale
     const nbTries = 10000;
@@ -48,6 +55,14 @@ function generateSequenceCandidate(tonic: number, scaleValues: Array<number>, nb
     let noteCurIndex = scaleNotesValues.indexOf(noteCurValue);
     for (let barIndex = 1; barIndex < nbNotesPerBar*nbBars; barIndex++)
     {
+        // following note appears?
+        if (!noteAppears(freq))
+        {
+            startPosition += duration;
+            continue;
+        }
+        
+        // note appears at next position
         let noteNextValue = -1;
         let noteNextIndex = -1;
         for (let i = 0; i < nbTries; i++)
@@ -69,9 +84,16 @@ function generateSequenceCandidate(tonic: number, scaleValues: Array<number>, nb
         }
 
         // ok, add note
-        AddNoteValueEvent(track, noteNextValue, 0, 4*qNote/nbNotesPerBar);
+        AddNoteValueEvent(track, noteNextValue, startPosition, duration);
+        startPosition = 0;
         noteCurIndex = noteNextIndex;
     }
 
     return track;
+}
+
+function noteAppears(freq: number) : boolean
+{
+    let score = 100*Math.random();
+    return (score <= freq);
 }

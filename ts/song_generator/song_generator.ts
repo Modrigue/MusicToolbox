@@ -28,12 +28,18 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     const nbBarsSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_nb_bars`)).value;
     const nbBars: number = parseInt(nbBarsSelected);
 
+    // get octaves and notes apparition frequencies
     const octaves: Array<number> = [];
+    const frequencies: Array<number> = [];
     for (let i = 1; i <= 2; i++)
     {
         const octaveSelected = (<HTMLInputElement>document.getElementById(`song_generator_octave_track${i}`)).value;
         const octave: number = parseInt(octaveSelected);
         octaves.push(octave);
+
+        const freqSelected = (<HTMLInputElement>document.getElementById(`song_generator_freq_track${i}`)).value;
+        const freq: number = parseInt(freqSelected);
+        frequencies.push(freq);
     }
 
     // used for counterpoints
@@ -125,7 +131,7 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     switch(selectedTypeId)
     {
         case "sequence":
-            trackCandidate = GenerateSequence(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], qNote, trackIndex);
+            trackCandidate = GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
             break;
 
         case "counterpoint_4-1":
@@ -266,6 +272,8 @@ function updateSongGeneratorPage(): void
     {
         const isCounterpoint = selectedTypeId.startsWith("counterpoint");
         setEnabled("song_generator_nb_notes_per_bar", !isCounterpoint);
+        for (let i = 1; i <= 2; i++)
+            setEnabled(`song_generator_freq_track${i}`, !isCounterpoint);
     }
 
     // for debug purposes
