@@ -9,9 +9,9 @@ function GenerateSequenceTrack(tonic: number, scaleValues: Array<number>, nbBars
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++)
-    {
+    {        
         track = generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
-    //
+    
     //    if (hasTrackCF)
     //        success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(<MidiTrack>trackCF, track));
     //    else

@@ -207,19 +207,29 @@ function updateInstrumentSelector(id: string): void
     }
 }
 
-function onInstrumentSelected(id: string)
+function onInstrumentSelected(selectorId: string)
 {
-    const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(selectorId);
     const instrId: number = parseInt(instrSelect.value);
 
     // check if instrument is loaded
     const instrLoaded = (instrumentsLoaded.indexOf(instrId) >= 0);
     if (!instrLoaded)
-        loadSelectedInstrument();
+        loadSelectedInstrument(selectorId);
     else
     {
         // update current instrument and volume
-        MIDI.channels[0].program = instrId - 1;
+        const channelId = getChannelIdFromSelector(selectorId);
+        MIDI.channels[channelId].program = instrId - 1;
         volumePlay = <number>instrumentsVolumesDict.get(instrId);
     }
+}
+
+function getChannelIdFromSelector(selectorId: string) : number
+{
+    for (let i = 1; i <= 2; i++)
+        if (selectorId == `song_generator_instrument_track${i}`)
+            return i;    
+
+    return channelSE; // default
 }

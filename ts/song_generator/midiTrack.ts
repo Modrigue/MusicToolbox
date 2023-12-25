@@ -4,13 +4,16 @@ class MidiTrack
     public Events: Array<MidiTrackEvent>;
     public Muted: boolean;
 
-    private channel: number;    // 4 bytes
+    public Channel: number;    // 4 bytes
+    public InstrumentId: number;
     
     constructor(channel: number)
     {
         this.Type = "MTrk";
         this.Events = new Array<MidiTrackEvent>();
-        this.channel = channel;
+        this.Channel = channel;
+        this.InstrumentId = 1; // default, piano
+        this.SetInstrument(this.InstrumentId);
 
         this.Muted = false;
 
@@ -107,41 +110,41 @@ class MidiTrack
 
     public NoteOn(note: number, deltaTime: number, velocity: number): void
     {
-        const event: MidiTrackEvent = NoteOnTrackEvent(this.channel - 1, note, deltaTime, velocity);
+        const event: MidiTrackEvent = NoteOnTrackEvent(this.Channel - 1, note, deltaTime, velocity);
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
     public NoteOff(note: number, deltaTime: number): void
     {
-        const event: MidiTrackEvent = NoteOffTrackEvent(this.channel - 1, note, deltaTime);
+        const event: MidiTrackEvent = NoteOffTrackEvent(this.Channel - 1, note, deltaTime);
         this.AddEvent(event);
     }
 
     public PitchBend(cents: number, deltaTime: number): void
     {
-        const event: MidiTrackEvent = PitchBendEvent(this.channel - 1, cents, deltaTime);
+        const event: MidiTrackEvent = PitchBendEvent(this.Channel - 1, cents, deltaTime);
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
     public ControlChangeFine(refParam: number = 0): void
     {
-        const event: MidiTrackEvent = ControlChangeFineEvent(this.channel - 1, refParam);
+        const event: MidiTrackEvent = ControlChangeFineEvent(this.Channel - 1, refParam);
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
     public ControlChangeCoarse(refParam: number = 0): void
     {
-        const event: MidiTrackEvent = ControlChangeCoarseEvent(this.channel - 1, refParam);
+        const event: MidiTrackEvent = ControlChangeCoarseEvent(this.Channel - 1, refParam);
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
 
     public ControlChangeEntrySlider(refParam: number = 0): void
     {
-        const event: MidiTrackEvent = ControlChangeEntrySliderEvent(this.channel - 1, refParam);
+        const event: MidiTrackEvent = ControlChangeEntrySliderEvent(this.Channel - 1, refParam);
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
@@ -176,6 +179,12 @@ class MidiTrack
 
         // fallback if not found
         return -1;
+    }
+
+    public SetInstrument(instrumentId: number = 0) : void
+    {
+        this.InstrumentId = instrumentId;
+        MIDI.channels[this.Channel].program = instrumentId - 1;
     }
 }
 

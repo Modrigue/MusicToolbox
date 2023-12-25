@@ -7,6 +7,7 @@ let hasAudio = false;
 let instrumentsLoaded: Array<number> = [];
 let instrumentsLoading = false;
 let instrumentLoadingId = 0;
+let instrumentLoadingSelectorId = "";
 
 let browserSupportsAudio = true;
 let languageInitialized = false;
@@ -134,6 +135,8 @@ window.onload = function()
         (<HTMLInputElement>document.getElementById(`song_generator_checkbox_track${i}`)).addEventListener("change", updateSongGeneratorPage);
         (<HTMLInputElement>document.getElementById(`song_generator_octave_track${i}`)).addEventListener("change", () => { resetGeneratedSong() });
         (<HTMLInputElement>document.getElementById(`song_generator_freq_track${i}`)).addEventListener("change", () => { updateSongGeneratorPage(); resetGeneratedSong() });
+        const selectInstrument = <HTMLSelectElement>document.getElementById(`song_generator_instrument_track${i}`);
+        selectInstrument.addEventListener("change", () => { selectInstrument.blur(); onInstrumentSelected(`song_generator_instrument_track${i}`)});
     }
 }
 
@@ -153,12 +156,12 @@ function initLanguage(): void
 
 function initShowQuarterTones(): void
 {
-  const tonicValue: number = parseNoteParameter();
+    const tonicValue: number = parseNoteParameter();
 
-  const checkboxQuarterTones = <HTMLInputElement>document.getElementById('checkboxQuarterTonesScaleExplorer');
-  checkboxQuarterTones.checked = isQuarterToneInterval(tonicValue);
+    const checkboxQuarterTones = <HTMLInputElement>document.getElementById('checkboxQuarterTonesScaleExplorer');
+    checkboxQuarterTones.checked = isQuarterToneInterval(tonicValue);
 
-  updateShowQuarterTonesInScaleExplorer();
+    updateShowQuarterTonesInScaleExplorer();
 }
 
 ////////////////////////////////// SELECTORS //////////////////////////////////
@@ -186,7 +189,7 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesChordTester")).checked;
     const showQTonesInChordExplorer =
         (<HTMLInputElement>document.getElementById("checkboxQuarterTonesChordExplorer")).checked;
-  
+
     // update scale explorer selectors
     updateNoteSelector('note', 0, false, showQTonesInScaleExplorer, resetScaleExplorer);
     updateScaleSelector('scale', "7major_nat,1", true, true, true);
@@ -245,8 +248,12 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
     const selectedTypeId = getSelectedSongType('song_generator_type');
     const isCounterpoint = selectedTypeId.startsWith("counterpoint");
     updateScaleSelector(`song_generator_scale`, "7major_nat,1", true, true, !isCounterpoint, resetSongGeneration);
+    
     if (resetSongGeneration)
         resetGeneratedSong();
+
+    for (let i = 1; i <= 2; i++)
+        updateInstrumentSelector(`song_generator_instrument_track${i}`);
 
     // update scale keyboard selectors
     updateOctaveSelector(`scale_explorer_start_octave`, 0, 4);
@@ -658,21 +665,23 @@ function onResize(): void
     update();
 }
 
-function loadSelectedInstrument()
+function loadSelectedInstrument(selectorId: string)
 {
     // get selected instrument
-    const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`scale_explorer_instrument`);
+    const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(selectorId);
     const instrId: number = parseInt(instrSelect.value);
     
     // check if instrument has already been loaded
     if (instrumentsLoaded.indexOf(instrId) >= 0)
         return;
 
-    setEnabled('scale_explorer_instrument', false);
+    setEnabled(selectorId, false);
+
     instrumentsLoading = true;
     updateLocales();
     
     instrumentLoadingId = instrId;
+    instrumentLoadingSelectorId = selectorId;
     const instrument = <string>instrumentsDict_int.get(instrId);
     loadSoundfont(instrument);
 }
@@ -680,13 +689,14 @@ function loadSelectedInstrument()
 function onNewInstrumentLoaded()
 {
     instrumentsLoaded.push(instrumentLoadingId);
-    setEnabled('scale_explorer_instrument', true);
+    setEnabled(instrumentLoadingSelectorId, true);
 
     hasAudio = true;
     instrumentsLoading = false;
 
-    // update current instrument and volume
-    MIDI.channels[0].program = instrumentLoadingId - 1;
+    // update current channel with its instrument and corresponding volume
+    const channelId = getChannelIdFromSelector(instrumentLoadingSelectorId);
+    MIDI.channels[channelId].program = instrumentLoadingId - 1;    
     volumePlay = <number>instrumentsVolumesDict.get(instrumentLoadingId);
 
     updateLocales();

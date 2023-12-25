@@ -152,7 +152,6 @@ class MidiFile
             return;
         
         let tempo = 120; // default if not specified
-        MIDI.setVolume(channelPlay, volumePlay);
 
         switch(this.Format)
         {
@@ -177,12 +176,15 @@ class MidiFile
                 // play tracks
                 for (let i = 1; i < this.Tracks.length; i++)
                 {
+                    const track = this.Tracks[i];
+                    let channel = track.Channel;
+                    MIDI.setVolume(channel, volumePlay);
+
                     let timeCursor = 0;
                     for (let loopIndex = 0; loopIndex < nbLoops; loopIndex++)
                     {
                         let pitchBend = 0;
 
-                        const track = this.Tracks[i];
                         if (track.Muted) // do not play if muted
                             continue;
 
@@ -200,9 +202,9 @@ class MidiFile
                                     //console.log(noteValueInt, velocity, timeCursor);
                                     
                                     if (event.Type == MidiTrackEventType.NOTE_ON)
-                                        MIDI.noteOn(channelPlay, noteValueInt, velocity, timeCursor, pitchBend);
+                                        MIDI.noteOn(channel, noteValueInt, velocity, timeCursor, pitchBend);
                                     else if (event.Type == MidiTrackEventType.NOTE_OFF)
-                                        MIDI.noteOff(channelPlay, noteValueInt, timeCursor);
+                                        MIDI.noteOff(channel, noteValueInt, timeCursor);
                                     
                                     break;
                                 }

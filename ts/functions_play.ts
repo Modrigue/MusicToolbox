@@ -3,7 +3,7 @@
 // soundfonts from: https://cindyjs.org/dist/v0.8.8/soundfonts/
 declare let MIDI: any;
 
-let channelPlay = 0;
+let channelSE = 0;
 let volumePlay: number = 80;
 
 //let notesListened: Array<number> = [];
@@ -17,6 +17,7 @@ function loadDefaultInstrument(): void
 {
     instrumentsLoading = true;
     instrumentLoadingId = 1;
+    instrumentLoadingSelectorId = 'scale_explorer_instrument';
     
     updateLocales(); // force text update
 
@@ -97,9 +98,9 @@ function playNote(noteValue: number, delay: number): void
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
 
     // play the note
-    MIDI.setVolume(channelPlay, volumePlay);
-    MIDI.noteOn(channelPlay, note, velocity, delay, pitchBend);
-    MIDI.noteOff(channelPlay, note, delay + length);
+    MIDI.setVolume(channelSE, volumePlay);
+    MIDI.noteOn(channelSE, note, velocity, delay, pitchBend);
+    MIDI.noteOff(channelSE, note, delay + length);
 }
 
 function playScale(noteValue: number, scaleValues: Array<number>,
@@ -244,7 +245,7 @@ function onPlayNoteInScale(index: number): void
     const scaleValues: Array<number> = getScaleValues();
     let scaleValuesToPlay: Array<number> = cloneIntegerArray(scaleValues);
     if (!isOctaveScale(scaleValuesToPlay))
-      scaleValuesToPlay.unshift(0);
+        scaleValuesToPlay.unshift(0);
 
     const intervalValue: number = scaleValuesToPlay[index];
 
@@ -260,8 +261,8 @@ function onPlayChords(nbNotesInChords: number, step: number = 2): void
     let chordValuesArray: Array<Array<number>> = new Array<Array<number>>();
     scaleValues.forEach(function (noteValue, index)
     {
-      const chordValues: Array<number> = getChordNumberInScale(scaleValues, index, nbNotesInChords, step);
-      chordValuesArray.push(chordValues);
+        const chordValues: Array<number> = getChordNumberInScale(scaleValues, index, nbNotesInChords, step);
+        chordValuesArray.push(chordValues);
     });
 
     const duration: number = 1;
@@ -290,46 +291,46 @@ let notesPressed: Array<number> = [];
 
 function playScaleKeyboardNotePosition(position: number, status: boolean): void
 {
-  // get tonic value and scale values
-  const tonicValue = getSelectedNoteValue("note");
-  const scaleId = (<HTMLSelectElement>document.getElementById("scale")).value;
-  const scaleValues: Array<number> = getScaleValues(scaleId);
-  const scaleValuesPositions = getScaleValuesPositions(scaleValues);
-  const scaleCharIntervals = getScaleCharIntervals(scaleId); 
+    // get tonic value and scale values
+    const tonicValue = getSelectedNoteValue("note");
+    const scaleId = (<HTMLSelectElement>document.getElementById("scale")).value;
+    const scaleValues: Array<number> = getScaleValues(scaleId);
+    const scaleValuesPositions = getScaleValuesPositions(scaleValues);
+    const scaleCharIntervals = getScaleCharIntervals(scaleId); 
 
-  // get selected start octave
-  const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`scale_explorer_start_octave`)).value;
-  const octaveStartValue: number = parseInt(octaveStartSelected);
-  const noteValueMinOctave = 12*octaveStartValue + noteValueMin;
+    // get selected start octave
+    const octaveStartSelected: string = (<HTMLSelectElement>document.getElementById(`scale_explorer_start_octave`)).value;
+    const octaveStartValue: number = parseInt(octaveStartSelected);
+    const noteValueMinOctave = 12*octaveStartValue + noteValueMin;
 
-  const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[position];
-  //console.log(noteValue, position, scaleValuesPositions[position]);
-  
-  // compute pitch bend if non-integer value
-  let pitchBend = noteValue - Math.floor(noteValue);
-  pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
+    const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[position];
+    //console.log(noteValue, position, scaleValuesPositions[position]);
+    
+    // compute pitch bend if non-integer value
+    let pitchBend = noteValue - Math.floor(noteValue);
+    pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
 
-  if (status)
-  {
-    // play note
-    if(notesPressed.indexOf(noteValue) < 0 && noteValue <= noteValueMax)
+    if (status)
     {
-        MIDI.setVolume(channelPlay, volumePlay);
-        MIDI.noteOn(channelPlay, Math.floor(noteValue), 60, 0, pitchBend);
-        notesPressed.push(noteValue);
+        // play note
+        if(notesPressed.indexOf(noteValue) < 0 && noteValue <= noteValueMax)
+        {
+            MIDI.setVolume(channelSE, volumePlay);
+            MIDI.noteOn(channelSE, Math.floor(noteValue), 60, 0, pitchBend);
+            notesPressed.push(noteValue);
+        }
     }
-  }
-  else
-  {
-    // release note if pressed
-    const noteIndex = notesPressed.indexOf(noteValue, 0);
-    if(noteIndex >= 0 && noteValue <= noteValueMax)
+    else
     {
-      MIDI.noteOff(channelPlay, Math.floor(noteValue));
-      notesPressed.splice(noteIndex, 1);
+        // release note if pressed
+        const noteIndex = notesPressed.indexOf(noteValue, 0);
+        if(noteIndex >= 0 && noteValue <= noteValueMax)
+        {
+            MIDI.noteOff(channelSE, Math.floor(noteValue));
+            notesPressed.splice(noteIndex, 1);
+        }
     }
-  }
 
-  updateScaleKeyboard(tonicValue, scaleValues, octaveStartValue, scaleCharIntervals);
-  //console.log(notesPressed);
+    updateScaleKeyboard(tonicValue, scaleValues, octaveStartValue, scaleCharIntervals);
+    //console.log(notesPressed);
 }
