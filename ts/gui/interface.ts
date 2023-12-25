@@ -130,7 +130,10 @@ window.onload = function()
     (<HTMLButtonElement>document.getElementById('song_generator_reset')).addEventListener("click", () => { resetGeneratedSong() });
     
     for (let i = 1; i <= 2; i++)
+    {
         (<HTMLInputElement>document.getElementById(`song_generator_checkbox_track${i}`)).addEventListener("change", updateSongGeneratorPage);
+        (<HTMLInputElement>document.getElementById(`song_generator_octave_track${i}`)).addEventListener("change", () => { resetGeneratedSong() });
+    }
 }
 
 function initLanguage(): void
@@ -835,6 +838,7 @@ function updateLocales(): void
     (<HTMLSpanElement>document.getElementById(`key_notes_chord_tester_text`)).innerText = getString("notes");
 
     // song generator
+
     (<HTMLSpanElement>document.getElementById(`song_generator_select_key_text`)).innerText = getString("select_key");
     (<HTMLSpanElement>document.getElementById(`song_generator_header`)).innerText = getString("page_experimental");
     (<HTMLSpanElement>document.getElementById(`song_generator_type_text`)).innerText = getString("type");
@@ -846,6 +850,10 @@ function updateLocales(): void
     (<HTMLButtonElement>document.getElementById("song_generator_play")).innerText = `${getString("listen")} ♪`;
     (<HTMLButtonElement>document.getElementById("song_generator_save")).innerText = `${getString("save")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_reset")).innerText = getString("reset");
+
+    for (let i = 1; i <= 2; i++)
+        (<HTMLSpanElement>document.getElementById(`song_generator_octave_track${i}_text`)).innerText = getString("octave");
+
     updateSongGeneratorPage();
 
     // footer

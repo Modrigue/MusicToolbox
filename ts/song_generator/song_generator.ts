@@ -28,7 +28,13 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     const nbBarsSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_nb_bars`)).value;
     const nbBars: number = parseInt(nbBarsSelected);
 
-    const octaves = [4, 2];
+    const octaves: Array<number> = [];
+    for (let i = 1; i <= 2; i++)
+    {
+        const octaveSelected = (<HTMLInputElement>document.getElementById(`song_generator_octave_track${i}`)).value;
+        const octave: number = parseInt(octaveSelected);
+        octaves.push(octave);
+    }
 
     // used for counterpoints
     const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], /*[1/2, 1/2]*/[3/4, 1/4]];
