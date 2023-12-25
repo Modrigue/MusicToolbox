@@ -191,6 +191,15 @@ function finalizeTrackGeneration()
     updateSongGeneratorPage();
     setEnabled("song_generator_play", true);
     setEnabled("song_generator_save", true);
+
+    // set track instruments
+    for (let i = 1; i <= 2; i++)
+    {
+        const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`song_generator_instrument_track${i}`);
+        const instrId: number = parseInt(instrSelect.value);
+
+        generatedMidi.UpdateInstrument(i, instrId);
+    }
 }
 
 function playGeneratedSong(): void

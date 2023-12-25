@@ -694,11 +694,7 @@ function onNewInstrumentLoaded()
     hasAudio = true;
     instrumentsLoading = false;
 
-    // update current channel with its instrument and corresponding volume
-    const channelId = getChannelIdFromSelector(instrumentLoadingSelectorId);
-    MIDI.channels[channelId].program = instrumentLoadingId - 1;    
-    volumePlay = <number>instrumentsVolumesDict.get(instrumentLoadingId);
-
+    updateSelectedInstrument(instrumentLoadingId, instrumentLoadingSelectorId);
     updateLocales();
 }
 

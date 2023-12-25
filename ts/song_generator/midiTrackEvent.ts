@@ -2,6 +2,9 @@ const headerEndTrack:       Array<number> = [0xFF, 0x2F, 0x00];
 const headerTempo:          Array<number> = [0xFF, 0x51, 0x03];
 const headerTimeSignature : Array<number> = [0xFF, 0x58, 0x04];
 
+// links:
+// https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html
+
 class MidiTrackEvent
 {
     Type: MidiTrackEventType; 
@@ -85,6 +88,15 @@ function NoteOffTrackEvent(channel: number, note: number, deltaTime: number): Mi
     const data : Array<number> = [start, note, 0 /*velocity*/];
     
     return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.NOTE_OFF);
+}
+
+function InstrumentEvent(channel: number, instrumentId: number, deltaTime: number): MidiTrackEvent
+{
+    const start: number = 0xC0 + (channel & 0xF);
+    const data : Array<number> = [start, instrumentId - 1];
+    //console.log(DisplayHexArray(data));
+    
+    return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.INSTRUMENT, instrumentId);
 }
 
 function PitchBendEvent(channel: number, cents: number, deltaTime: number): MidiTrackEvent

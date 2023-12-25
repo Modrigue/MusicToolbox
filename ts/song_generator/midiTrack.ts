@@ -13,12 +13,15 @@ class MidiTrack
         this.Events = new Array<MidiTrackEvent>();
         this.Channel = channel;
         this.InstrumentId = 1; // default, piano
-        this.SetInstrument(this.InstrumentId);
+        this.UpdateInstrument(this.InstrumentId);
 
         this.Muted = false;
 
         // add end of track event
         this.AddEvent(EndTrackEvent());
+
+        // add instrument event
+        this.AddEvent(InstrumentEvent(channel, this.InstrumentId, 0));
     }
 
     public AddEvent(event: MidiTrackEvent): void
@@ -167,24 +170,36 @@ class MidiTrack
         // get note by NoteOn index event
         let indexCur = 0;
         for (const event of this.Events)
-        {
             if (event.Type == MidiTrackEventType.NOTE_ON)
             {
                 if (indexCur == index)
                     return event.Data[1];
 
                 indexCur++;
-            }    
-        }
+            }
 
         // fallback if not found
         return -1;
     }
 
-    public SetInstrument(instrumentId: number = 0) : void
+    public UpdateInstrument(instrumentId: number = 1) : void
     {
         this.InstrumentId = instrumentId;
         MIDI.channels[this.Channel].program = instrumentId - 1;
+
+        // update instrument event
+        let index = 0;
+        for (let event of this.Events)
+        {
+            if (event.Type == MidiTrackEventType.INSTRUMENT)
+            {
+                const deltaTime = event.DeltaTime;
+                event = InstrumentEvent(this.Channel, instrumentId, deltaTime);
+                this.Events[index] = event;
+                
+            }
+            index++;
+        }
     }
 }
 

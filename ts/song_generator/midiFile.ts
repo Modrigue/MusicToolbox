@@ -81,6 +81,11 @@ class MidiFile
             }   
     }
 
+    public UpdateInstrument(trackIndex: number, instrumentId: number = 1)
+    {
+        this.Tracks[trackIndex].UpdateInstrument(instrumentId);
+    }
+
     public PitchBend(trackIndex: number, deltaTime: number, cents: number = 0)
     {
         this.Tracks[trackIndex].PitchBend(cents, deltaTime);

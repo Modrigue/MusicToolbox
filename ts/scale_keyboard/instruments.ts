@@ -217,12 +217,20 @@ function onInstrumentSelected(selectorId: string)
     if (!instrLoaded)
         loadSelectedInstrument(selectorId);
     else
-    {
-        // update current instrument and volume
-        const channelId = getChannelIdFromSelector(selectorId);
-        MIDI.channels[channelId].program = instrId - 1;
-        volumePlay = <number>instrumentsVolumesDict.get(instrId);
-    }
+        updateSelectedInstrument(instrumentLoadingId, selectorId);
+}
+
+function updateSelectedInstrument(instrumentId: number, selectorId: string)
+{
+    // update current instrument and volume
+    const channelId = getChannelIdFromSelector(selectorId);
+    MIDI.channels[channelId].program = instrumentId - 1;
+    volumePlay = <number>instrumentsVolumesDict.get(instrumentId);
+
+    // update generated song track instrument if existing
+    for (let i = 1; i <= 2; i++)
+    if (generatedMidi!= null && instrumentLoadingSelectorId == `song_generator_instrument_track${i}`)
+        generatedMidi.UpdateInstrument(i, instrumentLoadingId);
 }
 
 function getChannelIdFromSelector(selectorId: string) : number

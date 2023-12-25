@@ -7,6 +7,8 @@ enum MidiTrackEventType
     TEMPO,
     TIME_SIGNATURE,
 
+    INSTRUMENT,
+
     NOTE_ON,
     NOTE_OFF,
 
