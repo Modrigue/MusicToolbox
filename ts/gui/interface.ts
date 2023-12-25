@@ -856,6 +856,7 @@ function updateLocales(): void
     {
         (<HTMLSpanElement>document.getElementById(`song_generator_octave_track${i}_text`)).innerText = getString("octave");
         (<HTMLSpanElement>document.getElementById(`song_generator_freq_track${i}_text`)).innerText = getString("frequency");
+        (<HTMLButtonElement>document.getElementById(`song_generator_generate_track${i}`)).innerText =getString("generate");
     }
 
     updateSongGeneratorPage();
