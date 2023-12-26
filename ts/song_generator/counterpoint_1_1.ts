@@ -1,3 +1,5 @@
+// source: https://www.youtube.com/@JacobGran
+
 const perfectConsonances   = [0, 7];                 // unison, 8ves and 5ths
 const imperfectConsonances = [3, 4, 8, 9];           // 3rds and 6ths
 const dissonances          = [1, 2, 5, 6, 10, 11];   // 2nds, 4ths and 7ths

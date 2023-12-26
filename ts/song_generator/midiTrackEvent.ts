@@ -108,6 +108,23 @@ function PitchBendEvent(channel: number, cents: number, deltaTime: number): Midi
     return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.PICTH_BEND, cents);
 }
 
+function ControlChangeEntrySliderEvent(channel: number, refParam: number = 0): MidiTrackEvent
+{
+    const start: number = 0xB0 + (channel & 0xF);
+    const data : Array<number> = [start, 6, refParam];
+    
+    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_ENTRY_SLIDER);
+}
+
+function ControlChangeVolumeEvent(channel: number, volume: number = 0): MidiTrackEvent
+{
+    const start: number = 0xB0 + (channel & 0xF);
+    const data : Array<number> = [start, 7, volume];
+    //console.log(DisplayHexArray(data));
+    
+    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_ENTRY_SLIDER);
+}
+
 function ControlChangeFineEvent(channel: number, refParam: number = 0): MidiTrackEvent
 {
     const start: number = 0xB0 + (channel & 0xF);
@@ -122,12 +139,4 @@ function ControlChangeCoarseEvent(channel: number, refParam: number = 0): MidiTr
     const data : Array<number> = [start, 101, refParam];
     
     return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_COARSE);
-}
-
-function ControlChangeEntrySliderEvent(channel: number, refParam: number = 0): MidiTrackEvent
-{
-    const start: number = 0xB0 + (channel & 0xF);
-    const data : Array<number> = [start, 6, refParam];
-    
-    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_ENTRY_SLIDER);
 }

@@ -91,6 +91,16 @@ class MidiFile
         this.Tracks[trackIndex].PitchBend(cents, deltaTime);
     }
 
+    public ControlChangeEntrySlider(trackIndex: number, refParam: number = 0)
+    {
+        this.Tracks[trackIndex].ControlChangeEntrySlider(refParam);
+    }
+
+    public ControlChangeVolume(trackIndex: number, volume: number = 0)
+    {
+        this.Tracks[trackIndex].ControlChangeVolume(volume);
+    }
+
     public ControlChangeFine(trackIndex: number, refParam: number = 0)
     {
         this.Tracks[trackIndex].ControlChangeFine(refParam);
@@ -99,11 +109,6 @@ class MidiFile
     public ControlChangeCoarse(trackIndex: number, refParam: number = 0)
     {
         this.Tracks[trackIndex].ControlChangeCoarse(refParam);
-    }
-
-    public ControlChangeEntrySlider(trackIndex: number, refParam: number = 0)
-    {
-        this.Tracks[trackIndex].ControlChangeEntrySlider(refParam);
     }
 
     public ToBytes(): Uint8Array

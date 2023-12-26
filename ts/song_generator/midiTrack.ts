@@ -6,6 +6,7 @@ class MidiTrack
 
     public Channel: number;    // 4 bytes
     public InstrumentId: number;
+    public Volume: number;
     
     constructor(channel: number)
     {
@@ -15,6 +16,7 @@ class MidiTrack
         this.InstrumentId = 1; // default, piano
         this.UpdateInstrument(this.InstrumentId);
 
+        this.Volume = 80;
         this.Muted = false;
 
         // add end of track event
@@ -131,6 +133,20 @@ class MidiTrack
         this.AddEvent(event);
     }
 
+    public ControlChangeEntrySlider(refParam: number = 0): void
+    {
+        const event: MidiTrackEvent = ControlChangeEntrySliderEvent(this.Channel - 1, refParam);
+        //DisplayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+
+    public ControlChangeVolume(volume: number = 0): void
+    {
+        const event: MidiTrackEvent = ControlChangeVolumeEvent(this.Channel - 1, volume);
+        //DisplayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+
     public ControlChangeFine(refParam: number = 0): void
     {
         const event: MidiTrackEvent = ControlChangeFineEvent(this.Channel - 1, refParam);
@@ -141,13 +157,6 @@ class MidiTrack
     public ControlChangeCoarse(refParam: number = 0): void
     {
         const event: MidiTrackEvent = ControlChangeCoarseEvent(this.Channel - 1, refParam);
-        //DisplayHexBytesArray(event.ToBytes());
-        this.AddEvent(event);
-    }
-
-    public ControlChangeEntrySlider(refParam: number = 0): void
-    {
-        const event: MidiTrackEvent = ControlChangeEntrySliderEvent(this.Channel - 1, refParam);
         //DisplayHexBytesArray(event.ToBytes());
         this.AddEvent(event);
     }
