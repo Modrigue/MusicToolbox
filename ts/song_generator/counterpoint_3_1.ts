@@ -180,13 +180,13 @@ function acceptNoteInCounterpoint31(note3Value: number, tonicValue: number, barI
             {
                 // prevent dissonant intervals on both 2nd and 3rd notes of the same bar
                 const interval3_2nd = GetIntervalBetweenNotes(note3ValuePrev, noteCFValue);
-                if (dissonances.indexOf(interval3_2nd) >= 0 && dissonances.indexOf(interval3Cur))
+                if (isDissonantInterval(interval3_2nd) && isDissonantInterval(interval3Cur))
                     return false;
 
                 // prevent dissonant neighbors with consonant suspension:
                 //  - 3rd note forming dissonant interval
                 //    with 2nd note of current bar == 1st note of the next bar
-                if (dissonances.indexOf(interval3Cur) >= 0 && interval1Next == 0)
+                if (isDissonantInterval(interval3Cur) && interval1Next == 0)
                     return false;
 
                 // prevent consonant neighbor tones in bars:
@@ -200,7 +200,7 @@ function acceptNoteInCounterpoint31(note3Value: number, tonicValue: number, barI
                     return false;
 
                 // allow embellishing tones on 2nd notes iff:
-                if (dissonances.indexOf(interval3_2nd) >= 0)
+                if (isDissonantInterval(interval3_2nd))
                 {
                     let accept = false;
 

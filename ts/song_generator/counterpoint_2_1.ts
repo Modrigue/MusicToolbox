@@ -164,7 +164,7 @@ function acceptNoteInCounterpoint21(note2Value: number, tonicValue: number, barI
                 return false;
 
             // allow dissonant intervals for 2nd notes iff. passing tones
-            if (dissonances.indexOf(interval2Cur) >= 0)
+            if (isDissonantInterval(interval2Cur))
             {
                 const motion1To2 = GetMotionBetweenNotes(note1Value, note2Value);
                 const motion2ToNext = GetMotionBetweenNotes(note2Value, note1ValueNext);

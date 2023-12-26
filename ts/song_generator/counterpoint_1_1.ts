@@ -43,7 +43,7 @@ function generateCounterpointTrack11Candidate(tonic: number, scaleValues: Array<
 
     // build allowed scale notes array
     const scaleNotesValues = GetScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
- 
+
     // allow tonic as 1st note
     // in counterpoint above only: allow 3rds and 5ths (in scale) as start note
     let startIntervals: Array<number> = [0]; // tonic
@@ -157,7 +157,7 @@ function acceptNoteInCounterpoint11(noteValue: number, tonicValue: number, barIn
         const interval1 = GetIntervalBetweenNotes(noteValue, note1CFValue);
 
         // avoid dissonant intervals
-        if (dissonances.indexOf(interval1) >= 0)
+        if (isDissonantInterval(interval1))
             return false;
         if (isQuarterToneInterval(interval1))
             return false;
@@ -251,4 +251,15 @@ function checkCounterpoint11(track1: MidiTrack, track2: MidiTrack): boolean
         return false;
 
     return true;
+}
+
+function isDissonantInterval(interval: number) : boolean
+{
+    if (isQuarterToneInterval(interval))
+        return true;
+
+    if ((dissonances.indexOf(interval) >= 0))
+        return true;
+
+    return false;
 }

@@ -146,7 +146,7 @@ function acceptNoteInCounterpoint41(note4Value: number, tonicValue: number, barI
                 // on 4th note, allow only dissonnant intervals if passing tones
                 const motion4_34 = GetMotionBetweenNotes(note2Value, note4Value);
                 const motion4NextBar = GetMotionBetweenNotes(note4Value, note2ValueNext);
-                if (dissonances.indexOf(interval4Cur) >= 0)
+                if (isDissonantInterval(interval4Cur))
                     if (motion4_34 != motion4NextBar)
                         return false;
 
@@ -178,8 +178,7 @@ function acceptNoteInCounterpoint41(note4Value: number, tonicValue: number, barI
             // on 3rd note, allow only disonnant intervals
             // if 2nd and 4th notes form consonant intervals
             const interval2Cur = GetIntervalBetweenNotes(note2Value, noteCFValue);
-            if (dissonances.indexOf(interval2Cur) >= 0)
-                if (dissonances.indexOf(interval4Cur) >= 0)
+            if (isDissonantInterval(interval2Cur) && isDissonantInterval(interval4Cur))
                 return false;
 
             // TODO: Nota cambiata:?
