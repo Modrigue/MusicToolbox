@@ -1,9 +1,13 @@
 const generatedSongTypes: Map<string, string> = new Map<string, string>();
-generatedSongTypes.set("sequence"         , "sequence");
-generatedSongTypes.set("counterpoint 1:1" , "counterpoint_1-1");
-generatedSongTypes.set("counterpoint 2:1" , "counterpoint_2-1");
-generatedSongTypes.set("counterpoint 3:1" , "counterpoint_3-1");
-generatedSongTypes.set("counterpoint 4:1" , "counterpoint_4-1");
+generatedSongTypes.set("sequence"                 , "sequence");
+generatedSongTypes.set("counterpoint 1:1"         , "counterpoint_1-1");
+generatedSongTypes.set("counterpoint 2:1"         , "counterpoint_2-1");
+generatedSongTypes.set("counterpoint 3:1"         , "counterpoint_3-1");
+generatedSongTypes.set("counterpoint 4:1"         , "counterpoint_4-1");
+generatedSongTypes.set("counterpoint 4th species" , "counterpoint_4th-s");
+
+const regexCounterpoint1_3S = new RegExp('^counterpoint(.*?)\\d(.*)\\d$');
+const regexCounterpoint4_5S = new RegExp('^counterpoint(.*?)\\dth(.*?)$');
 
 const qNote = 480; // quarter-note division
 
@@ -46,6 +50,7 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], /*[1/2, 1/2]*/[3/4, 1/4]];
     const rhythmFactor31Array: Array<Array<number>> = [[1/3, 1/3, 1/3], [1/2, 1/4, 1/4]];
     const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4], [1/8, 3/8, 2/8, 2/8]];
+    const rhythmFactor4SArray: Array<Array<number>> = [[1/2, 1/2], [1/4, 3/4]];
 
     // get selected tempo
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
@@ -74,15 +79,18 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
                 case "counterpoint_2-1":
                 case "counterpoint_3-1":
                 case "counterpoint_4-1":
+                case "counterpoint_4th-s":
                     for (let i = 0; i < nbTries; i++)
                     {
                         // generate CF then counterpoint
                         trackCandidateCF = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[1], qNote, 2);
                         if (trackCandidateCF != null)
                         {
-                            if (selectedTypeId == "counterpoint_4-1")
+                            if (selectedTypeId == "counterpoint_4th-s")
+                                trackCandidateH = GenerateCounterpointTrack4S(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor4SArray, trackCandidateCF);
+                            else if (selectedTypeId == "counterpoint_4-1")
                                 trackCandidateH = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor41Array, trackCandidateCF);
-                                else if (selectedTypeId == "counterpoint_3-1")
+                            else if (selectedTypeId == "counterpoint_3-1")
                                 trackCandidateH = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor31Array, trackCandidateCF);
                             else if (selectedTypeId == "counterpoint_2-1")
                                 trackCandidateH = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor21Array, trackCandidateCF);
@@ -133,6 +141,18 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
         case "sequence":
             trackCandidate = GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
             break;
+
+        case "counterpoint_4th-s":
+            if (trackIndex == 1)
+            {
+                trackCandidate = GenerateCounterpointTrack4S(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor4SArray, trackOther);
+            }
+            else    // bass
+            {
+                // reduce 4th species counterpoint high track to 1 note per bar track
+                //let trackHReduced = ReduceTrack4S(trackOther, 1);
+                //trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
+            }
 
         case "counterpoint_4-1":
             if (trackIndex == 1)
@@ -281,6 +301,7 @@ function updateSongGeneratorPage(): void
     {
         const isCounterpoint = selectedTypeId.startsWith("counterpoint");
         setEnabled("song_generator_nb_notes_per_bar", !isCounterpoint);
+        setEnabled("song_generator_generate_track2", !regexCounterpoint4_5S.test(selectedTypeId));
         for (let i = 1; i <= 2; i++)
             setEnabled(`song_generator_freq_track${i}`, !isCounterpoint);
     }
@@ -314,11 +335,7 @@ function updateSongTypeSelector(id: string)
         {
             let option = document.createElement('option');
             option.value = key;
-            if (key.startsWith("counterpoint"))
-                option.innerHTML = key.replace("counterpoint", getString("counterpoint"));
-            else
-                option.innerHTML = getString(key);
-            
+            option.innerHTML = getCounterpointTypeText(key);
             typeSelect.appendChild(option);
         }
 }
@@ -326,17 +343,26 @@ function updateSongTypeSelector(id: string)
     {
         // update
         for (const option of typeSelect.options)
-        {
-            const key = option.value;
-            if (key.startsWith("counterpoint"))
-                option.innerHTML = key.replace("counterpoint", getString("counterpoint"));
-            else
-                option.innerHTML = getString(key);
-        }
+            option.innerHTML = getCounterpointTypeText(option.value);
     }
 
     // disable if only 1 option
     typeSelect.disabled = (typeSelect.options.length <= 1);
+}
+
+function getCounterpointTypeText(key: string) : string
+{
+    if (regexCounterpoint1_3S.test(key))
+        return key.replace("counterpoint", getString("counterpoint"));
+    else if (regexCounterpoint4_5S.test(key))
+    {
+        let text = key.replace("counterpoint", getString("counterpoint"))
+        text = text.replace("th", getString("th"));
+        text = text.replace("species", getString("species"));
+        return text;
+    }
+    else
+        return getString(key);
 }
 
 function getSelectedSongType(id: string): string
