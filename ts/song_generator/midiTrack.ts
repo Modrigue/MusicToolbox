@@ -238,3 +238,71 @@ function AddNoteEvent(track : MidiTrack, note: number, octave: number, start: nu
     if (hasPitchBend)
         track.PitchBend(0, 0);
 }
+
+// chords
+
+function AddChordValuesEvent(track : MidiTrack, notesValues: Array<number>, cents: number, start: number, duration: number)
+{
+    const vel = 102;
+
+    // handle pitch bend if specified
+    const hasPitchBend = (cents != 0);
+    if (hasPitchBend)
+        track.PitchBend(cents, 0);
+
+    let index = 0;
+    for (const noteValue of notesValues)
+    {
+        const noteStart = (index == 0) ? start : 0;
+        track.NoteOn(ToNoteValueInt(noteValue), noteStart, vel);
+        index++;
+    }
+
+    index = 0;
+    for (const noteValue of notesValues)
+    {
+        const noteDuration = (index == 0) ? duration : 0;
+        track.NoteOff(ToNoteValueInt(noteValue), noteDuration);
+        index++;
+    }
+
+    if (hasPitchBend)
+        track.PitchBend(0, 0);
+}
+
+function AddChordValuesOnEvent(track : MidiTrack, notesValues: Array<number>, cents: number, start: number)
+{
+    const vel = 102;
+
+    // handle pitch bend if specified
+    const hasPitchBend = (cents != 0);
+    if (hasPitchBend)
+        track.PitchBend(cents, 0);
+
+    let index = 0;
+    for (const noteValue of notesValues)
+    {
+        const noteStart = (index == 0) ? start : 0;
+        track.NoteOn(ToNoteValueInt(noteValue), noteStart, vel);
+        index++;
+    }
+}
+
+function AddChordValuesOffEvent(track : MidiTrack, notesValues: Array<number>, cents: number, duration: number)
+{
+    const vel = 102;
+
+    // handle pitch bend if specified
+    const hasPitchBend = (cents != 0);
+
+    let index = 0;
+    for (const noteValue of notesValues)
+    {
+        const noteDuration = (index == 0) ? duration : 0;
+        track.NoteOff(ToNoteValueInt(noteValue), noteDuration);
+        index++;
+    }
+
+    if (hasPitchBend)
+        track.PitchBend(0, 0);
+}

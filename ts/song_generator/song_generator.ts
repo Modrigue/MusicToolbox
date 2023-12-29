@@ -1,4 +1,5 @@
 const generatedSongTypes: Map<string, string> = new Map<string, string>();
+generatedSongTypes.set("chords_progression"       , "chords_progression");
 generatedSongTypes.set("sequence"                 , "sequence");
 generatedSongTypes.set("counterpoint 1:1"         , "counterpoint_1-1");
 generatedSongTypes.set("counterpoint 2:1"         , "counterpoint_2-1");
@@ -138,6 +139,17 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     let trackCandidate = null;
     switch(selectedTypeId)
     {
+        case "chords_progression":
+            if (trackIndex == 1)
+            {
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            }
+            else
+            {
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            }
+            break;
+        
         case "sequence":
             trackCandidate = GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
             break;
@@ -300,10 +312,11 @@ function updateSongGeneratorPage(): void
     if (selectedTypeId != null)
     {
         const isCounterpoint = selectedTypeId.startsWith("counterpoint");
-        setEnabled("song_generator_nb_notes_per_bar", !isCounterpoint);
+        const isSequence = (selectedTypeId == "sequence");
+        setEnabled("song_generator_nb_notes_per_bar", isSequence);
         setEnabled("song_generator_generate_track2", !regexCounterpoint4_5S.test(selectedTypeId));
         for (let i = 1; i <= 2; i++)
-            setEnabled(`song_generator_freq_track${i}`, !isCounterpoint);
+            setEnabled(`song_generator_freq_track${i}`, isSequence);
     }
 
     // for debug purposes
@@ -335,7 +348,7 @@ function updateSongTypeSelector(id: string)
         {
             let option = document.createElement('option');
             option.value = key;
-            option.innerHTML = getCounterpointTypeText(key);
+            option.innerHTML = getSongTypeText(key);
             typeSelect.appendChild(option);
         }
 }
@@ -343,14 +356,14 @@ function updateSongTypeSelector(id: string)
     {
         // update
         for (const option of typeSelect.options)
-            option.innerHTML = getCounterpointTypeText(option.value);
+            option.innerHTML = getSongTypeText(option.value);
     }
 
     // disable if only 1 option
     typeSelect.disabled = (typeSelect.options.length <= 1);
 }
 
-function getCounterpointTypeText(key: string) : string
+function getSongTypeText(key: string) : string
 {
     if (regexCounterpoint1_3S.test(key))
         return key.replace("counterpoint", getString("counterpoint"));

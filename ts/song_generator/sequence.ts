@@ -1,4 +1,3 @@
-
 function GenerateSequenceTrack(tonic: number, scaleValues: Array<number>, nbBars: number, nbNotesPerBar: number,
     octave: number, freq: number, qNote: number, channelId: number): (MidiTrack | null)
 { 
