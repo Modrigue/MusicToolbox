@@ -246,9 +246,11 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
     //(<HTMLSelectElement>document.getElementById(`song_generator_type`)).selectedIndex = 3;
     updateNoteSelector(`song_generator_tonic`, 0, false);
     const selectedTypeId = getSelectedSongType('song_generator_type');
+    const isArpeggiosProg = (selectedTypeId == "arpeggios_progression");
     const isSequence = (selectedTypeId == "sequence");
     const isCounterpoint = selectedTypeId.startsWith("counterpoint");
-    updateScaleSelector(`song_generator_scale`, "7major_nat,1", true, (isSequence || isCounterpoint), isSequence, resetSongGeneration);
+    updateScaleSelector(`song_generator_scale`, "7major_nat,1", true, (isSequence || isArpeggiosProg || isCounterpoint),
+        (isSequence || isArpeggiosProg), resetSongGeneration);
     
     if (resetSongGeneration)
         resetGeneratedSong();

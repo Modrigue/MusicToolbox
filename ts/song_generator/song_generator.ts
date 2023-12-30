@@ -1,5 +1,6 @@
 const generatedSongTypes: Map<string, string> = new Map<string, string>();
 generatedSongTypes.set("chords_progression"       , "chords_progression");
+generatedSongTypes.set("arpeggios_progression"    , "arpeggios_progression");
 generatedSongTypes.set("sequence"                 , "sequence");
 generatedSongTypes.set("counterpoint 1:1"         , "counterpoint_1-1");
 generatedSongTypes.set("counterpoint 2:1"         , "counterpoint_2-1");
@@ -141,13 +142,16 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     {
         case "chords_progression":
             if (trackIndex == 1)
-            {
-                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
-            }
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
             else
-            {
-                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
-            }
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            break;
+
+        case "arpeggios_progression":
+            if (trackIndex == 1)
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            else
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
             break;
         
         case "sequence":
@@ -312,8 +316,9 @@ function updateSongGeneratorPage(): void
     if (selectedTypeId != null)
     {
         const isCounterpoint = selectedTypeId.startsWith("counterpoint");
+        const isArpeggiosProg = (selectedTypeId == "arpeggios_progression");
         const isSequence = (selectedTypeId == "sequence");
-        setEnabled("song_generator_nb_notes_per_bar", isSequence);
+        setEnabled("song_generator_nb_notes_per_bar", (isSequence || isArpeggiosProg));
         setEnabled("song_generator_generate_track2", !regexCounterpoint4_5S.test(selectedTypeId));
         for (let i = 1; i <= 2; i++)
             setEnabled(`song_generator_freq_track${i}`, isSequence);

@@ -8,7 +8,7 @@ function GenerateChordsProgTrack(tonic: number, scaleValues: Array<number>, nbBa
     for (let i = 0; i < nbTries; i++)
     {        
         track = generateChordsProgTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
-        success = hasChordsProgTrackCharChords(track, tonic, scaleValues);
+        success = hasChordsProgTrackCharNotes(track, tonic, scaleValues);        
         if (success)
             return track;
     }
@@ -23,7 +23,6 @@ function generateChordsProgTrackCandidate(tonic: number, scaleValues: Array<numb
     
     const nbNotesInScale = scaleValues.length;
     const intervalRange = Math.round(0.8*nbNotesInScale);
-    nbNotesPerBar = 1; // temp
 
     // build allowed scale notes array
     const scaleNotesValues = GetScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
@@ -31,16 +30,19 @@ function generateChordsProgTrackCandidate(tonic: number, scaleValues: Array<numb
     //let startIntervals: Array<number> = [0]; //scaleValues;
     //const startInterval = 0; //<number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const duration = 4*qNote/nbNotesPerBar;
+    const barDuration = 4*qNote;
 
-    // 1st chord: tonic scale chord
+    // 1st chord: tonic scale chord / arpeggio
     //const tonicValue1st = scaleNotesValues[0] + startInterval;
     const chordValues1st = [ scaleNotesValues[0], scaleNotesValues[2], scaleNotesValues[4] ];
-    AddChordValuesEvent(track, chordValues1st, 0, 0, duration);
+    if (nbNotesPerBar == 1)
+        AddChordValuesEvent(track, chordValues1st, 0, 0, barDuration);
+    else       
+        addChordAsArpeggios(track, chordValues1st, startPosition, barDuration/nbNotesPerBar, nbNotesPerBar);
 
     // generate random chords in scale
     const nbTries = 10000;
-    for (let barIndex = 1; barIndex < nbNotesPerBar*nbBars; barIndex++)
+    for (let barIndex = 1; barIndex < nbBars; barIndex++)
     {
         //// following note appears?
         //if (!noteAppears(freq))
@@ -53,7 +55,7 @@ function generateChordsProgTrackCandidate(tonic: number, scaleValues: Array<numb
         for (let i = 0; i < nbTries; i++)
         {
             chordValuesNext = [];
-            const nbNotesInChord = 3;
+            const nbNotesInChord = 3; //GetRandomNumber(3, 4);
             for (let index = 0; index < nbNotesInChord; index++)
             {
                 // get random step
@@ -69,8 +71,12 @@ function generateChordsProgTrackCandidate(tonic: number, scaleValues: Array<numb
                 break;
         }
 
-        // ok, add chord
-        AddChordValuesEvent(track, chordValuesNext, 0, startPosition, duration);
+        // ok, add chord / arpeggios
+        if (nbNotesPerBar == 1)
+            AddChordValuesEvent(track, chordValuesNext, 0, startPosition, barDuration);
+        else
+            addChordAsArpeggios(track, chordValuesNext, startPosition, barDuration/nbNotesPerBar, nbNotesPerBar);
+
         startPosition = 0;
     }
 
@@ -81,7 +87,24 @@ function generateChordsProgTrackCandidate(tonic: number, scaleValues: Array<numb
 function acceptChordInChordsProg(chordsValues: Array<number>, tonicValue: number, barIndex: number, nbBars: number,
     track: MidiTrack, intervalRange: number): boolean
 {
+    if (containsDuplicates(chordsValues))
+        return false;
+    
     return true;
+}
+
+function addChordAsArpeggios(track: MidiTrack, chordValues: Array<number>, startPosition: number,
+    duration : number, nbNotesPerBar: number)
+{
+    chordValues = chordValues.sort((a, b) => a - b);            
+    const nbNotesInChord = chordValues.length;
+    //console.log(chordValues);
+    
+    for (let indexNote = 0; indexNote < nbNotesPerBar; indexNote++)
+    {
+        const noteValue = chordValues[indexNote % nbNotesInChord];
+        AddNoteValueEvent(track, noteValue, startPosition, duration);            
+    }
 }
 
 
@@ -112,7 +135,6 @@ function generateChordsProgBassTrackCandidate(tonic: number, scaleValues: Array<
     
     const nbNotesInScale = scaleValues.length;
     const intervalRange = Math.round(0.8*nbNotesInScale);
-    nbNotesPerBar = 1; // temp
 
     // build allowed scale notes array
     const scaleNotesValues = GetScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
@@ -183,7 +205,7 @@ function generateChordsProgBassTrackCandidate(tonic: number, scaleValues: Array<
                 const data = event.Data;
                 const noteValueInt = data[1];
                 const velocity = data[2];
-                //console.log(noteValueInt, velocity, timeCursor);
+                //console.log(noteValueInt, cents, velocity);
                 
                 const notesValues = [noteValueInt, noteValueInt - 12];
                 if (event.Type == MidiTrackEventType.NOTE_ON)
@@ -196,8 +218,7 @@ function generateChordsProgBassTrackCandidate(tonic: number, scaleValues: Array<
 
             case MidiTrackEventType.PICTH_BEND:
             {
-                const cents = event.AuxValue;
-                //pitchBend = cents / 100 / 8 / 2; // 1/8/2 = 1/2 tone = 100 cents
+                cents = event.AuxValue;
                 break;
             }
         
@@ -225,7 +246,7 @@ function acceptNoteInChordsProgBass(noteValue: number, tonicValue: number, barIn
     return true;
 }
 
-function hasChordsProgTrackCharChords(track : MidiTrack, tonic: number, scaleValues: Array<number>) : boolean
+function hasChordsProgTrackCharNotes(track : MidiTrack, tonic: number, scaleValues: Array<number>) : boolean
 {
     // get scale characteristic intervals
     const scaleId = (<HTMLSelectElement>document.getElementById("song_generator_scale")).value;
@@ -240,22 +261,36 @@ function hasChordsProgTrackCharChords(track : MidiTrack, tonic: number, scaleVal
     let charNotesValues = new Array<number>();
     for (const index of charIntervals)
     {
-        const charNoteValue = scaleValues[index];
+        const charNoteValue = (tonic + scaleValues[index]) % 12;
         charNotesValues.push(charNoteValue);
     }
 
     // check if all scale characteristic intervals are present
+    let pitchBend = 0;
     for (const event of track.Events)
     {
-        if (event.Type != MidiTrackEventType.NOTE_ON)    
-            continue;
+        switch(event.Type)
+        {
+            case MidiTrackEventType.NOTE_ON:
+            {
+                // check if played interval is characteristic
+                const data = event.Data;
+                const noteValueInt = data[1];
+                const noteValue = noteValueInt + pitchBend;                
+                const index = charNotesValues.indexOf(noteValue % 12);
+                if (index >= 0)
+                    charNotesValues.splice(index, 1);
 
-        // check if played interval is characteristic
-        const data = event.Data;
-        const noteValueInt = data[1];
-        const index = charNotesValues.indexOf(noteValueInt % 12);
-        if (index >= 0)
-            charNotesValues.splice(index, 1);
+                break;
+            }
+
+            case MidiTrackEventType.PICTH_BEND:
+            {
+                const cents = event.AuxValue;
+                pitchBend = cents / 100; // 1/8/2 = 1/2 tone = 100 cents
+                break;
+            }
+        }
     }
     
     return (charNotesValues == null || charNotesValues.length == 0);

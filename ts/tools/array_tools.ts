@@ -155,3 +155,12 @@ function getKeyFromArrayValue(dict: Map<string, Array<number>>, value: Array<num
     // not found
     return "?";
 }
+
+// from: https://bobbyhadz.com/blog/javascript-check-if-array-contains-duplicates
+function containsDuplicates<T>(array: Array<T>) : boolean
+{
+  if (array.length !== new Set(array).size)
+    return true;
+
+  return false;
+}
