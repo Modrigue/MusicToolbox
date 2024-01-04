@@ -51,17 +51,23 @@ class MidiFile {
                 this.NoteOff(trackIndex, 0, note);
             }
     }
+    UpdateInstrument(trackIndex, instrumentId = 1) {
+        this.Tracks[trackIndex].UpdateInstrument(instrumentId);
+    }
     PitchBend(trackIndex, deltaTime, cents = 0) {
         this.Tracks[trackIndex].PitchBend(cents, deltaTime);
+    }
+    ControlChangeEntrySlider(trackIndex, refParam = 0) {
+        this.Tracks[trackIndex].ControlChangeEntrySlider(refParam);
+    }
+    ControlChangeVolume(trackIndex, volume = 0) {
+        this.Tracks[trackIndex].ControlChangeVolume(volume);
     }
     ControlChangeFine(trackIndex, refParam = 0) {
         this.Tracks[trackIndex].ControlChangeFine(refParam);
     }
     ControlChangeCoarse(trackIndex, refParam = 0) {
         this.Tracks[trackIndex].ControlChangeCoarse(refParam);
-    }
-    ControlChangeEntrySlider(trackIndex, refParam = 0) {
-        this.Tracks[trackIndex].ControlChangeEntrySlider(refParam);
     }
     ToBytes() {
         let headerBytes = this.Header.ToBytes();
@@ -95,11 +101,10 @@ class MidiFile {
         link.download = path;
         link.click();
     }
-    Play() {
+    Play(nbLoops = 1) {
         if (this.Tracks == null || this.Tracks.length == 0)
             return;
         let tempo = 120; // default if not specified
-        MIDI.setVolume(channelPlay, volumePlay);
         switch (this.Format) {
             case 1:
                 {
@@ -117,36 +122,40 @@ class MidiFile {
                     // TODO: get current tempo function
                     // play tracks
                     for (let i = 1; i < this.Tracks.length; i++) {
-                        let timeCursor = 0;
-                        let pitchBend = 0;
                         const track = this.Tracks[i];
-                        if (track.Muted) // do not play if muted
-                            continue;
-                        for (const event of track.Events) {
-                            switch (event.Type) {
-                                case MidiTrackEventType.NOTE_ON:
-                                case MidiTrackEventType.NOTE_OFF:
-                                    {
-                                        const data = event.Data;
-                                        const noteValueInt = data[1];
-                                        const velocity = data[2];
-                                        timeCursor += event.DeltaTime / this.Division * 60 / tempo;
-                                        //console.log(noteValueInt, velocity, timeCursor);
-                                        if (event.Type == MidiTrackEventType.NOTE_ON)
-                                            MIDI.noteOn(channelPlay, noteValueInt, velocity, timeCursor, pitchBend);
-                                        else if (event.Type == MidiTrackEventType.NOTE_OFF)
-                                            MIDI.noteOff(channelPlay, noteValueInt, timeCursor);
+                        let channel = track.Channel;
+                        MIDI.setVolume(channel, volumePlay);
+                        let timeCursor = 0;
+                        for (let loopIndex = 0; loopIndex < nbLoops; loopIndex++) {
+                            let pitchBend = 0;
+                            if (track.Muted) // do not play if muted
+                                continue;
+                            for (const event of track.Events) {
+                                switch (event.Type) {
+                                    case MidiTrackEventType.NOTE_ON:
+                                    case MidiTrackEventType.NOTE_OFF:
+                                        {
+                                            const data = event.Data;
+                                            const noteValueInt = data[1];
+                                            const velocity = data[2];
+                                            timeCursor += event.DeltaTime / this.Division * 60 / tempo;
+                                            //console.log(noteValueInt, velocity, timeCursor);
+                                            if (event.Type == MidiTrackEventType.NOTE_ON)
+                                                MIDI.noteOn(channel, noteValueInt, velocity, timeCursor, pitchBend);
+                                            else if (event.Type == MidiTrackEventType.NOTE_OFF)
+                                                MIDI.noteOff(channel, noteValueInt, timeCursor);
+                                            break;
+                                        }
+                                    case MidiTrackEventType.PICTH_BEND:
+                                        {
+                                            const cents = event.AuxValue;
+                                            timeCursor += event.DeltaTime / this.Division * 60 / tempo;
+                                            pitchBend = cents / 100 / 8 / 2; // 1/8/2 = 1/2 tone = 100 cents
+                                            break;
+                                        }
+                                    default:
                                         break;
-                                    }
-                                case MidiTrackEventType.PICTH_BEND:
-                                    {
-                                        const cents = event.AuxValue;
-                                        timeCursor += event.DeltaTime / this.Division * 60 / tempo;
-                                        pitchBend = cents / 100 / 8 / 2; // 1/8/2 = 1/2 tone = 100 cents
-                                        break;
-                                    }
-                                default:
-                                    break;
+                                }
                             }
                         }
                     }

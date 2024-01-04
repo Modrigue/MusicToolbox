@@ -1,5 +1,5 @@
 "use strict";
-let channelPlay = 0;
+let channelSE = 0;
 let volumePlay = 80;
 //let notesListened: Array<number> = [];
 function loadJSFile(file) {
@@ -8,6 +8,7 @@ function loadJSFile(file) {
 function loadDefaultInstrument() {
     instrumentsLoading = true;
     instrumentLoadingId = 1;
+    instrumentLoadingSelectorId = 'scale_explorer_instrument';
     updateLocales(); // force text update
     // init MIDI plugin / soundfont
     MIDI.loadPlugin({
@@ -66,9 +67,9 @@ function playNote(noteValue, delay) {
     let pitchBend = noteValue - Math.floor(noteValue);
     pitchBend *= 1 / 8 / 2; // 1/8/2 = 1/2 tone
     // play the note
-    MIDI.setVolume(channelPlay, volumePlay);
-    MIDI.noteOn(channelPlay, note, velocity, delay, pitchBend);
-    MIDI.noteOff(channelPlay, note, delay + length);
+    MIDI.setVolume(channelSE, volumePlay);
+    MIDI.noteOn(channelSE, note, velocity, delay, pitchBend);
+    MIDI.noteOff(channelSE, note, delay + length);
 }
 function playScale(noteValue, scaleValues, bass = false, backwards = false) {
     // for test purposes only
@@ -216,8 +217,8 @@ function playScaleKeyboardNotePosition(position, status) {
     if (status) {
         // play note
         if (notesPressed.indexOf(noteValue) < 0 && noteValue <= noteValueMax) {
-            MIDI.setVolume(channelPlay, volumePlay);
-            MIDI.noteOn(channelPlay, Math.floor(noteValue), 60, 0, pitchBend);
+            MIDI.setVolume(channelSE, volumePlay);
+            MIDI.noteOn(channelSE, Math.floor(noteValue), 60, 0, pitchBend);
             notesPressed.push(noteValue);
         }
     }
@@ -225,7 +226,7 @@ function playScaleKeyboardNotePosition(position, status) {
         // release note if pressed
         const noteIndex = notesPressed.indexOf(noteValue, 0);
         if (noteIndex >= 0 && noteValue <= noteValueMax) {
-            MIDI.noteOff(channelPlay, Math.floor(noteValue));
+            MIDI.noteOff(channelSE, Math.floor(noteValue));
             notesPressed.splice(noteIndex, 1);
         }
     }

@@ -56,6 +56,7 @@ scaleFamiliesDict.set("7thai_ranat", [0, 1.61, 3.46, 5.26, 6.86, 8.62, 10.28571]
 scaleFamiliesDict.set("6augment_21edo", getEDOSubsetScaleValues(21, [0, 4, 7, 11, 14, 18])); // 4 3 4 3 4 3
 scaleFamiliesDict.set("10blackdye_27edo", getEDOSubsetScaleValues(27, [0, 1, 5, 7, 11, 12, 16, 18, 22, 23])); // 1 4 2 4 1 4 2 4 1 4
 scaleFamiliesDict.set("10blackwood_15edo", getEDOSubsetScaleValues(15, [0, 2, 3, 5, 6, 8, 9, 11, 12, 14])); // 2 1 2 1 2 1 2 1 2 1
+scaleFamiliesDict.set("17blastoff_321edo", getEDOSubsetScaleValues(321, [0, 25, 37, 62, 74, 99, 111, 136, 148, 173, 185, 210, 222, 247, 259, 284, 296])); // 25 12 25 12 25 12 25 12 25 12 25 12 25 12 25 12 25
 scaleFamiliesDict.set("7cata_246edo", getEDOSubsetScaleValues(246, [0, 14, 65, 79, 130, 144, 195])); // 14 51 14 51 14 51 51
 scaleFamiliesDict.set("8father_13edo", getEDOSubsetScaleValues(13, [0, 2, 4, 5, 7, 9, 10, 12])); // 2 2 1 2 2 1 2 1
 scaleFamiliesDict.set("12flattone_26edo", getEDOSubsetScaleValues(26, [0, 1, 4, 5, 8, 11, 12, 15, 16, 19, 20, 23])); // 1 3 1 3 3 1 3 1 3 1 3 3
@@ -177,6 +178,7 @@ scalesDict_int.set("xenharmonics_tet_sub", "------- Equal temperaments subsets -
 scalesDict_int.set("6augment_21edo,1", "Augment[6] (21-EDO)");
 scalesDict_int.set("10blackdye_27edo,1", "Blackdye[10] (27-EDO)");
 scalesDict_int.set("10blackwood_15edo,1", "Blackwood[10] (15-EDO)");
+scalesDict_int.set("17blastoff_321edo,1", "Blastoff[17] (321-EDO)");
 scalesDict_int.set("7cata_246edo,1", "Cata[7] (246-EDO)");
 scalesDict_int.set("8father_13edo,1", "Father[8] (13-EDO)");
 scalesDict_int.set("12flattone_26edo,1", "FlatTone[12] (26-EDO)");

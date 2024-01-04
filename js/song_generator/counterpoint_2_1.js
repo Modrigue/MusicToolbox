@@ -119,7 +119,7 @@ function acceptNoteInCounterpoint21(note2Value, tonicValue, barIndex, nbBars, tr
             if (hasSameMotion && (interval2Cur == 0 || interval2Cur == 7 || interval2Cur == 5))
                 return false;
             // allow dissonant intervals for 2nd notes iff. passing tones
-            if (dissonances.indexOf(interval2Cur) >= 0) {
+            if (isDissonantInterval(interval2Cur)) {
                 const motion1To2 = GetMotionBetweenNotes(note1Value, note2Value);
                 const motion2ToNext = GetMotionBetweenNotes(note2Value, note1ValueNext);
                 if (motion1To2 != motion2ToNext)

@@ -5,6 +5,7 @@ let hasAudio = false;
 let instrumentsLoaded = [];
 let instrumentsLoading = false;
 let instrumentLoadingId = 0;
+let instrumentLoadingSelectorId = "";
 let browserSupportsAudio = true;
 let languageInitialized = false;
 let chordExplorerUpdateMode = "";
@@ -89,16 +90,24 @@ window.onload = function () {
     }
     document.getElementById("checkboxQuarterTonesChordTester").addEventListener("change", updateShowQuarterTonesInChordTester);
     // song generator
-    document.getElementById(`song_generator_type`).addEventListener("change", generateNewSong);
-    document.getElementById(`song_generator_tonic`).addEventListener("change", generateNewSong);
-    document.getElementById(`song_generator_scale`).addEventListener("change", generateNewSong);
-    document.getElementById(`song_generator_nb_bars`).addEventListener("change", generateNewSong);
-    document.getElementById('song_generator_generate').addEventListener("click", generateNewSong);
+    document.getElementById(`song_generator_type`).addEventListener("change", updateShowXenInSongGenerator);
+    document.getElementById(`song_generator_tonic`).addEventListener("change", () => { resetGeneratedSong(); });
+    document.getElementById(`song_generator_scale`).addEventListener("change", () => { resetGeneratedSong(); });
+    document.getElementById(`song_generator_nb_bars`).addEventListener("change", () => { resetGeneratedSong(); });
+    document.getElementById(`song_generator_nb_notes_per_bar`).addEventListener("change", () => { resetGeneratedSong(); });
+    document.getElementById('song_generator_generate').addEventListener("click", () => { generateNewTrack(); });
+    for (let i = 1; i <= 2; i++)
+        document.getElementById(`song_generator_generate_track${i}`).addEventListener("click", () => { generateNewTrack(i); });
     document.getElementById('song_generator_play').addEventListener("click", playGeneratedSong);
     document.getElementById('song_generator_save').addEventListener("click", saveGeneratedSong);
-    document.getElementById('song_generator_reset').addEventListener("click", resetGeneratedSong);
-    for (let i = 1; i <= 2; i++)
+    document.getElementById('song_generator_reset').addEventListener("click", () => { resetGeneratedSong(); });
+    for (let i = 1; i <= 2; i++) {
         document.getElementById(`song_generator_checkbox_track${i}`).addEventListener("change", updateSongGeneratorPage);
+        document.getElementById(`song_generator_octave_track${i}`).addEventListener("change", () => { resetGeneratedSong(); });
+        document.getElementById(`song_generator_freq_track${i}`).addEventListener("change", () => { updateSongGeneratorPage(); resetGeneratedSong(); });
+        const selectInstrument = document.getElementById(`song_generator_instrument_track${i}`);
+        selectInstrument.addEventListener("change", () => { selectInstrument.blur(); onInstrumentSelected(`song_generator_instrument_track${i}`); });
+    }
 };
 function initLanguage() {
     languageInitialized = false;
@@ -116,7 +125,7 @@ function initShowQuarterTones() {
     updateShowQuarterTonesInScaleExplorer();
 }
 ////////////////////////////////// SELECTORS //////////////////////////////////
-function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, resetChordTester = false, resetChordExplorer = false) {
+function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, resetChordTester = false, resetChordExplorer = false, resetSongGeneration = false) {
     // specific: if quarter tone chord in URL parameters, check chord explorer checkbox (only at 1st load)
     if (!languageInitialized) {
         const chordParamValue = parseParameterById("chord");
@@ -172,8 +181,17 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
     }
     // update song generator selectors
     updateSongTypeSelector('song_generator_type');
+    //(<HTMLSelectElement>document.getElementById(`song_generator_type`)).selectedIndex = 3;
     updateNoteSelector(`song_generator_tonic`, 0, false);
-    updateScaleSelector(`song_generator_scale`, "7major_nat,1");
+    const selectedTypeId = getSelectedSongType('song_generator_type');
+    const isArpeggiosProg = (selectedTypeId == "arpeggios_progression");
+    const isSequence = (selectedTypeId == "sequence");
+    const isCounterpoint = selectedTypeId.startsWith("counterpoint");
+    updateScaleSelector(`song_generator_scale`, "7major_nat,1", true, (isSequence || isArpeggiosProg || isCounterpoint), (isSequence || isArpeggiosProg), resetSongGeneration);
+    if (resetSongGeneration)
+        resetGeneratedSong();
+    for (let i = 1; i <= 2; i++)
+        updateInstrumentSelector(`song_generator_instrument_track${i}`);
     // update scale keyboard selectors
     updateOctaveSelector(`scale_explorer_start_octave`, 0, 4);
     updateInstrumentSelector(`scale_explorer_instrument`);
@@ -292,8 +310,10 @@ function initPagefromURLParams() {
 function selectPage(pageId = "") {
     for (let id of pagesArray) {
         let button = document.getElementById(`button_${id}`);
-        const buttonSelected = (id == pageId);
-        button.className = buttonSelected ? "button-page-selected" : "button-page";
+        if (button != null) {
+            const buttonSelected = (id == pageId);
+            button.className = buttonSelected ? "button-page-selected" : "button-page";
+        }
     }
     pageSelected = pageId;
     update();
@@ -482,28 +502,27 @@ function onResize() {
     scaleExplorerCanvasScaleKeyboard.width = window.innerWidth - 30;
     update();
 }
-function loadSelectedInstrument() {
+function loadSelectedInstrument(selectorId) {
     // get selected instrument
-    const instrSelect = document.getElementById(`scale_explorer_instrument`);
+    const instrSelect = document.getElementById(selectorId);
     const instrId = parseInt(instrSelect.value);
     // check if instrument has already been loaded
     if (instrumentsLoaded.indexOf(instrId) >= 0)
         return;
-    setEnabled('scale_explorer_instrument', false);
+    setEnabled(selectorId, false);
     instrumentsLoading = true;
     updateLocales();
     instrumentLoadingId = instrId;
+    instrumentLoadingSelectorId = selectorId;
     const instrument = instrumentsDict_int.get(instrId);
     loadSoundfont(instrument);
 }
 function onNewInstrumentLoaded() {
     instrumentsLoaded.push(instrumentLoadingId);
-    setEnabled('scale_explorer_instrument', true);
+    setEnabled(instrumentLoadingSelectorId, true);
     hasAudio = true;
     instrumentsLoading = false;
-    // update current instrument and volume
-    MIDI.channels[0].program = instrumentLoadingId - 1;
-    volumePlay = instrumentsVolumesDict.get(instrumentLoadingId);
+    updateSelectedInstrument(instrumentLoadingId, instrumentLoadingSelectorId);
     updateLocales();
 }
 function toggleDisplay(id) {
@@ -618,11 +637,18 @@ function updateLocales() {
     document.getElementById(`song_generator_header`).innerText = getString("page_experimental");
     document.getElementById(`song_generator_type_text`).innerText = getString("type");
     document.getElementById("song_generator_nb_bars_text").innerText = `${getString("nb_bars")}`;
+    document.getElementById("song_generator_nb_loops_text").innerText = `${getString("nb_loops")}`;
+    document.getElementById("song_generator_nb_notes_per_bar_text").innerText = `${getString("nb_notes_per_bar")}`;
     document.getElementById("song_generator_tempo_text").innerText = `${getString("tempo")}`;
-    document.getElementById("song_generator_checkbox_track1_text").innerText = `${getString("bass")}`;
+    //(<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;
     document.getElementById("song_generator_play").innerText = `${getString("listen")} ♪`;
     document.getElementById("song_generator_save").innerText = `${getString("save")}`;
     document.getElementById("song_generator_reset").innerText = getString("reset");
+    for (let i = 1; i <= 2; i++) {
+        document.getElementById(`song_generator_octave_track${i}_text`).innerText = getString("octave");
+        document.getElementById(`song_generator_freq_track${i}_text`).innerText = getString("frequency");
+        document.getElementById(`song_generator_generate_track${i}`).innerText = getString("generate");
+    }
     updateSongGeneratorPage();
     // footer
     let footerCompos = document.getElementById("compos_footer");
@@ -646,6 +672,10 @@ function updateShowQuarterTonesInChordTester() {
 }
 function updateShowQuarterTonesInChordExplorer() {
     updateSelectors(false /*resetScaleExplorer*/, false /*resetScaleFinder*/, false /*resetChordTester*/, true /*resetChordExplorer*/);
+    update();
+}
+function updateShowXenInSongGenerator() {
+    updateSelectors(false /*resetScaleExplorer*/, false /*resetScaleFinder*/, false /*resetChordTester*/, false /*resetChordExplorer*/, true /* resetSG */);
     update();
 }
 function getSelectorIndexFromValue(selector, value) {

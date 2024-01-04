@@ -173,17 +173,30 @@ function updateInstrumentSelector(id) {
         }
     }
 }
-function onInstrumentSelected(id) {
-    const instrSelect = document.getElementById(id);
+function onInstrumentSelected(selectorId) {
+    const instrSelect = document.getElementById(selectorId);
     const instrId = parseInt(instrSelect.value);
     // check if instrument is loaded
     const instrLoaded = (instrumentsLoaded.indexOf(instrId) >= 0);
     if (!instrLoaded)
-        loadSelectedInstrument();
-    else {
-        // update current instrument and volume
-        MIDI.channels[0].program = instrId - 1;
-        volumePlay = instrumentsVolumesDict.get(instrId);
-    }
+        loadSelectedInstrument(selectorId);
+    else
+        updateSelectedInstrument(instrumentLoadingId, selectorId);
+}
+function updateSelectedInstrument(instrumentId, selectorId) {
+    // update current instrument and volume
+    const channelId = getChannelIdFromSelector(selectorId);
+    MIDI.channels[channelId].program = instrumentId - 1;
+    volumePlay = instrumentsVolumesDict.get(instrumentId);
+    // update generated song track instrument if existing
+    for (let i = 1; i <= 2; i++)
+        if (generatedMidi != null && instrumentLoadingSelectorId == `song_generator_instrument_track${i}`)
+            generatedMidi.UpdateInstrument(i, instrumentLoadingId);
+}
+function getChannelIdFromSelector(selectorId) {
+    for (let i = 1; i <= 2; i++)
+        if (selectorId == `song_generator_instrument_track${i}`)
+            return i;
+    return channelSE; // default
 }
 //# sourceMappingURL=instruments.js.map

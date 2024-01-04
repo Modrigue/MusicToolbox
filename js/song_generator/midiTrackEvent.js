@@ -2,6 +2,8 @@
 const headerEndTrack = [0xFF, 0x2F, 0x00];
 const headerTempo = [0xFF, 0x51, 0x03];
 const headerTimeSignature = [0xFF, 0x58, 0x04];
+// links:
+// https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html
 class MidiTrackEvent {
     constructor(deltaTime, data, type, auxValue = 0) {
         this.Type = type;
@@ -54,11 +56,28 @@ function NoteOffTrackEvent(channel, note, deltaTime) {
     const data = [start, note, 0 /*velocity*/];
     return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.NOTE_OFF);
 }
+function InstrumentEvent(channel, instrumentId, deltaTime) {
+    const start = 0xC0 + (channel & 0xF);
+    const data = [start, instrumentId - 1];
+    //console.log(DisplayHexArray(data));
+    return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.INSTRUMENT, instrumentId);
+}
 function PitchBendEvent(channel, cents, deltaTime) {
     const start = 0xE0 + (channel & 0xF);
     const valuesArray = Array.from(ToPitchBendBytes(cents));
     const data = [start].concat(valuesArray);
     return new MidiTrackEvent(deltaTime, data, MidiTrackEventType.PICTH_BEND, cents);
+}
+function ControlChangeEntrySliderEvent(channel, refParam = 0) {
+    const start = 0xB0 + (channel & 0xF);
+    const data = [start, 6, refParam];
+    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_ENTRY_SLIDER);
+}
+function ControlChangeVolumeEvent(channel, volume = 0) {
+    const start = 0xB0 + (channel & 0xF);
+    const data = [start, 7, volume];
+    //console.log(DisplayHexArray(data));
+    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_ENTRY_SLIDER);
 }
 function ControlChangeFineEvent(channel, refParam = 0) {
     const start = 0xB0 + (channel & 0xF);
@@ -69,10 +88,5 @@ function ControlChangeCoarseEvent(channel, refParam = 0) {
     const start = 0xB0 + (channel & 0xF);
     const data = [start, 101, refParam];
     return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_COARSE);
-}
-function ControlChangeEntrySliderEvent(channel, refParam = 0) {
-    const start = 0xB0 + (channel & 0xF);
-    const data = [start, 6, refParam];
-    return new MidiTrackEvent(0, data, MidiTrackEventType.CONTROL_CHANGE_ENTRY_SLIDER);
 }
 //# sourceMappingURL=midiTrackEvent.js.map

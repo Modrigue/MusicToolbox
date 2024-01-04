@@ -47,7 +47,7 @@ function updateScaleSelector(id, defaultScaleId, includesChromatic = true, inclu
         for (const [key, value] of scalesDict_int) {
             if (!includesQTones && key.includes("quarter_tones"))
                 break;
-            if (!includesXen && key.startsWith("12tet"))
+            if (!includesChromatic && key.startsWith("12tet"))
                 continue;
             if (!includesXen && key.includes("xenharmonics"))
                 break;

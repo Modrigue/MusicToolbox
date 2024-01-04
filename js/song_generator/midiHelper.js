@@ -110,7 +110,7 @@ function ToNoteValueCents(noteValue) {
 // where the y characters represent the last 7 bits of the 2nd parameter
 // and the x characters represent the last 7 bits of the 1st parameter.
 function ToPitchBendBytes(cents) {
-    let value = toPicthBendValue(cents);
+    let value = toPitchBendValue(cents);
     let array = new Uint8Array([
         (value & 0x00007f00) >> 7,
         (value & 0x0000007f)
@@ -121,7 +121,7 @@ function ToPitchBendBytes(cents) {
 }
 // [0; 16383]
 // values < 8192 decrease the pitch, while values > 8192 increase the pitch.
-function toPicthBendValue(cents) {
+function toPitchBendValue(cents) {
     return Math.floor(8192 * (1 + cents / 200.));
 }
 //# sourceMappingURL=midiHelper.js.map

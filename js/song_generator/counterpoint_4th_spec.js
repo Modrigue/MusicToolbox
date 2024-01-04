@@ -1,19 +1,17 @@
 "use strict";
-// source: https://www.youtube.com/@JacobGran
-const perfectConsonances = [0, 7]; // unison, 8ves and 5ths
-const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
-const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
-const intervalCounterpoint11RangeFactor = 0.8;
-function GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
+// sources:
+// https://www.youtube.com/watch?v=olvz-4tKiRc
+// https://www.youtube.com/watch?v=g-4dw1T3v30
+function GenerateCounterpointTrack4S(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
     const nbTries = 1000;
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
+        track = generateCounterpointTrack4SCandidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
         if (hasTrackCF)
-            success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(trackCF, track));
+            success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint4S(trackCF, track));
         else
             success = hasMelodicFluency(track, tonic, octave, scaleValues);
         if (success)
@@ -21,10 +19,12 @@ function GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, 
     }
     return null;
 }
-function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
+function generateCounterpointTrack4SCandidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
+    // rhythm array to circle
+    const nbRhythms = rhythmFactorArray.length;
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor * nbNotesInScale);
     // build allowed scale notes array
     const scaleNotesValues = GetScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
@@ -43,7 +43,10 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
         }
     }
     const startInterval = getRandomArrayElement(startIntervals);
-    AddNoteEvent(track, tonic + startInterval, octave, 0, 4 * qNote);
+    // set rhythm in 1st and 2nd bars
+    const rhythmsArray0 = rhythmFactorArray[0];
+    const rhythmsArray1 = rhythmFactorArray[1 % nbRhythms];
+    AddNoteEvent(track, tonic + startInterval, octave, rhythmsArray0[0] * 4 * qNote, (rhythmsArray0[1] + rhythmsArray1[0]) * 4 * qNote);
     // generate random notes in scale
     const nbTries = 10000;
     let noteCurValue = GetNoteValueFromNoteOctave(tonic, octave);
@@ -51,6 +54,8 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
     for (let barIndex = 1; barIndex < nbBars - 1; barIndex++) {
         let noteNextValue = -1;
         let noteNextIndex = -1;
+        const rhythmsArrayCur = rhythmFactorArray[barIndex % nbRhythms];
+        const rhythmsArrayNext = rhythmFactorArray[(barIndex + 1) % nbRhythms];
         for (let i = 0; i < nbTries; i++) 
         //while (!acceptNote(noteValueNext, tonicValue, barIndex, nbBars, track, trackExisting))
         {
@@ -66,7 +71,7 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
                 break;
         }
         // ok, add note
-        AddNoteValueEvent(track, noteNextValue, 0, 4 * qNote);
+        AddNoteValueEvent(track, noteNextValue, 0, (rhythmsArrayCur[1] + rhythmsArrayNext[0]) * 4 * qNote);
         noteCurIndex = noteNextIndex;
     }
     // last note: fetch nearest tonic
@@ -81,11 +86,13 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
             octaveEnd = octaveCur;
         }
     }
-    AddNoteEvent(track, tonic, octaveEnd, 0, 4 * qNote);
+    const rhythmsArrayLast = rhythmFactorArray[(nbBars - 1) % nbRhythms];
+    AddNoteEvent(track, tonic, octaveEnd, 0, rhythmsArrayLast[1] * 4 * qNote);
     //console.log(track.LogText());
     return track;
 }
-function acceptNoteInCounterpoint11(noteValue, tonicValue, barIndex, nbBars, trackCurrent, trackCF = null) {
+// reduced track must respect 1:1 counterpoint rules
+function acceptNoteInCounterpoint4S(noteValue, tonicValue, barIndex, nbBars, trackCurrent, trackCF = null) {
     if (noteValue < 0)
         return false;
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
@@ -114,10 +121,12 @@ function acceptNoteInCounterpoint11(noteValue, tonicValue, barIndex, nbBars, tra
         // compute current candidate interval with existing track note
         const note1CFValue = trackCF.GetNoteValue(barIndex);
         const interval1 = GetIntervalBetweenNotes(noteValue, note1CFValue);
-        // avoid dissonant intervals
-        if (isDissonantInterval(interval1))
-            return false;
-        if (isQuarterToneInterval(interval1))
+        // compute interval formed by syncope at next bar
+        const note1CFSyncValue = trackCF.GetNoteValue(barIndex + 1);
+        const interval1Sync = GetIntervalBetweenNotes(noteValue, note1CFSyncValue);
+        // dissonant syncopes must be prepared as consonances on previous upbeats
+        // dissonant syncopes must resolve (downwards?) by step to a consonance
+        if (isDissonantInterval(interval1Sync) && isDissonantInterval(interval1))
             return false;
         const note2CFValue = trackCF.GetNoteValue(barIndex - 1);
         const note2CurValue = trackCurrent.GetNoteValue(barIndex - 1);
@@ -149,10 +158,11 @@ function acceptNoteInCounterpoint11(noteValue, tonicValue, barIndex, nbBars, tra
                 if (curInterval3 == interval2 && interval2 == interval1)
                     return false;
         }
+        // (at penultimate bar, resolve (upwards?) to tonic)
     }
     return true;
 }
-function checkCounterpoint11(track1, track2) {
+function checkCounterpoint4S(track1, track2) {
     // force contrary motion in penultimate bar (to avoid direct octave)?
     // prevent melodies' lowest/highest points happening at close bars
     let indexTrack = 0;
@@ -185,11 +195,4 @@ function checkCounterpoint11(track1, track2) {
         return false;
     return true;
 }
-function isDissonantInterval(interval) {
-    if (isQuarterToneInterval(interval))
-        return true;
-    if ((dissonances.indexOf(interval) >= 0))
-        return true;
-    return false;
-}
-//# sourceMappingURL=counterpoint_1_1.js.map
+//# sourceMappingURL=counterpoint_4th_spec.js.map

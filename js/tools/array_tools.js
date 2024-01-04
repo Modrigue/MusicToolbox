@@ -107,4 +107,10 @@ function getKeyFromArrayValue(dict, value) {
     // not found
     return "?";
 }
+// from: https://bobbyhadz.com/blog/javascript-check-if-array-contains-duplicates
+function containsDuplicates(array) {
+    if (array.length !== new Set(array).size)
+        return true;
+    return false;
+}
 //# sourceMappingURL=array_tools.js.map
