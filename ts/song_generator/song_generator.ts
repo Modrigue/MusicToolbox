@@ -1,4 +1,5 @@
 const generatedSongTypes: Map<string, string> = new Map<string, string>();
+generatedSongTypes.set("chords+melody"            , "chords+melody");
 generatedSongTypes.set("chords_progression"       , "chords_progression");
 generatedSongTypes.set("arpeggios_progression"    , "arpeggios_progression");
 generatedSongTypes.set("sequence"                 , "sequence");
@@ -140,6 +141,13 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     let trackCandidate = null;
     switch(selectedTypeId)
     {
+        case "chords+melody":
+            if (trackIndex == 1)
+                trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            else
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            break;
+
         case "chords_progression":
             if (trackIndex == 1)
                 trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
@@ -316,12 +324,14 @@ function updateSongGeneratorPage(): void
     if (selectedTypeId != null)
     {
         const isCounterpoint = selectedTypeId.startsWith("counterpoint");
+        const isChordsMelody = (selectedTypeId == "chords+melody");
         const isArpeggiosProg = (selectedTypeId == "arpeggios_progression");
         const isSequence = (selectedTypeId == "sequence");
-        setEnabled("song_generator_nb_notes_per_bar", (isSequence || isArpeggiosProg));
+        setEnabled("song_generator_nb_notes_per_bar", (isSequence || isChordsMelody || isArpeggiosProg));
         setEnabled("song_generator_generate_track2", !regexCounterpoint4_5S.test(selectedTypeId));
-        for (let i = 1; i <= 2; i++)
-            setEnabled(`song_generator_freq_track${i}`, isSequence);
+        
+        setEnabled(`song_generator_freq_track1`, (isSequence || isChordsMelody));
+        setEnabled(`song_generator_freq_track2`, isSequence);
     }
 
     // for debug purposes
