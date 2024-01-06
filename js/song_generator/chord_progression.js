@@ -73,7 +73,7 @@ function addChordAsArpeggios(track, chordValues, startPosition, duration, nbNote
     //console.log(chordValues);
     for (let indexNote = 0; indexNote < nbNotesPerBar; indexNote++) {
         const noteValue = chordValues[indexNote % nbNotesInChord];
-        AddNoteValueEvent(track, noteValue, startPosition, duration);
+        AddNoteMonoValueEvent(track, noteValue, startPosition, duration);
     }
 }
 // bass
@@ -103,7 +103,7 @@ function generateChordsProgBassTrackCandidate(tonic, scaleValues, nbBars, nbNote
     const duration = 4 * qNote / nbNotesPerBar;
     // 1st note appears?
     //if (noteAppears(freq))
-    AddNoteEvent(track, tonic + startInterval, octave, 0, 4 * qNote / nbNotesPerBar);
+    AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4 * qNote / nbNotesPerBar);
     //else
     //    startPosition += duration;
     // generate random notes in scale
@@ -135,7 +135,7 @@ function generateChordsProgBassTrackCandidate(tonic, scaleValues, nbBars, nbNote
                 break;
         }
         // ok, add note doubled at inferior octave
-        AddNoteValueEvent(track, noteNextValue, startPosition, duration);
+        AddNoteMonoValueEvent(track, noteNextValue, startPosition, duration);
         startPosition = 0;
         noteCurIndex = noteNextIndex;
     }

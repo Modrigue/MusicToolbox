@@ -46,7 +46,7 @@ function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave
         const rhythmsArray = rhythmFactorArray[barIndex % nbRhythms];
         if (index21 == 0 && hasTrackCF) {
             // 1st note on 4th beat
-            AddNoteValueEvent(track41, note21Value, 3 * qNote, qNote);
+            AddNoteMonoValueEvent(track41, note21Value, 3 * qNote, qNote);
             //// 1st notes: 3rd and 4th beats
             //AddNoteValueEvent(track41, note21Value, 2*qNote, qNote);
             //AddNoteValueEvent(track41, note21Value, 0, qNote);
@@ -65,8 +65,8 @@ function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave
                     break;
             }
             const note21PosInBar = ((index21 + 1) % 2);
-            AddNoteValueEvent(track41, note21Value, 0, rhythmsArray[2 * note21PosInBar] * 2 * duration);
-            AddNoteValueEvent(track41, note4ValueNew, 0, rhythmsArray[2 * note21PosInBar + 1] * 2 * duration);
+            AddNoteMonoValueEvent(track41, note21Value, 0, rhythmsArray[2 * note21PosInBar] * 2 * duration);
+            AddNoteMonoValueEvent(track41, note4ValueNew, 0, rhythmsArray[2 * note21PosInBar + 1] * 2 * duration);
         }
         index21++;
     }
@@ -202,7 +202,7 @@ function ReduceTrack41(track41, channelId) {
             continue;
         }
         const noteValue = track41.GetNoteValue(noteIndex);
-        AddNoteValueEvent(track11, noteValue, 0, 4 * qNote);
+        AddNoteMonoValueEvent(track11, noteValue, 0, 4 * qNote);
         noteIndex++;
     }
     return track11;

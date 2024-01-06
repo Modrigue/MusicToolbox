@@ -143,12 +143,12 @@ class MidiTrack {
         }
     }
 }
-function AddNoteValueEvent(track, noteValue, start, duration) {
+function AddNoteMonoValueEvent(track, noteValue, start, duration) {
     const note = GetNoteFromValue(noteValue);
     const octave = GetOctaveFromValue(noteValue);
-    AddNoteEvent(track, note, octave, start, duration);
+    AddNoteMonoEvent(track, note, octave, start, duration);
 }
-function AddNoteEvent(track, note, octave, start, duration) {
+function AddNoteMonoEvent(track, note, octave, start, duration) {
     const vel = 102;
     let noteValue = GetNoteValueFromNoteOctave(note, octave);
     let noteValueInt = ToNoteValueInt(noteValue);

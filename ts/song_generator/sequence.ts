@@ -44,7 +44,7 @@ function generateSequenceTrackCandidate(tonic: number, scaleValues: Array<number
 
     // 1st note appears?
     if (noteAppears(freq))
-        AddNoteEvent(track, tonic + startInterval, octave, 0, 4*qNote/nbNotesPerBar);
+        AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4*qNote/nbNotesPerBar);
     else
         startPosition += duration;
 
@@ -83,7 +83,7 @@ function generateSequenceTrackCandidate(tonic: number, scaleValues: Array<number
         }
 
         // ok, add note
-        AddNoteValueEvent(track, noteNextValue, startPosition, duration);
+        AddNoteMonoValueEvent(track, noteNextValue, startPosition, duration);
         startPosition = 0;
         noteCurIndex = noteNextIndex;
     }

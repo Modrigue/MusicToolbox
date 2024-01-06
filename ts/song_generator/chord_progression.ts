@@ -103,7 +103,7 @@ function addChordAsArpeggios(track: MidiTrack, chordValues: Array<number>, start
     for (let indexNote = 0; indexNote < nbNotesPerBar; indexNote++)
     {
         const noteValue = chordValues[indexNote % nbNotesInChord];
-        AddNoteValueEvent(track, noteValue, startPosition, duration);            
+        AddNoteMonoValueEvent(track, noteValue, startPosition, duration);            
     }
 }
 
@@ -148,7 +148,7 @@ function generateChordsProgBassTrackCandidate(tonic: number, scaleValues: Array<
 
     // 1st note appears?
     //if (noteAppears(freq))
-        AddNoteEvent(track, tonic + startInterval, octave, 0, 4*qNote/nbNotesPerBar);
+        AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4*qNote/nbNotesPerBar);
     //else
     //    startPosition += duration;
 
@@ -187,7 +187,7 @@ function generateChordsProgBassTrackCandidate(tonic: number, scaleValues: Array<
         }
 
         // ok, add note doubled at inferior octave
-        AddNoteValueEvent(track, noteNextValue, startPosition, duration);
+        AddNoteMonoValueEvent(track, noteNextValue, startPosition, duration);
         startPosition = 0;
         noteCurIndex = noteNextIndex;
     }

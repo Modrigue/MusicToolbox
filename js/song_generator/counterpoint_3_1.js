@@ -45,7 +45,7 @@ function generateCounterpointTrack31Candidate(tonic, scaleValues, nbBars, octave
         // 1st bar: start with delay to enhance separation effect
         if (index1 == 0 && hasTrackCF) {
             // no 1st note
-            AddNoteEvent(track31, note1, octave1, (1 - rhythmsArray[2]) * duration, rhythmsArray[2] * duration);
+            AddNoteMonoEvent(track31, note1, octave1, (1 - rhythmsArray[2]) * duration, rhythmsArray[2] * duration);
         }
         // last bar: replace 1st note by consonnant interval and set tonic as 2nd note
         else if (index1 == track11NbNotes - 1) {
@@ -63,13 +63,13 @@ function generateCounterpointTrack31Candidate(tonic, scaleValues, nbBars, octave
                 else // generate new note
                     note1ValueNew = GetRandomNoteValueInScale(note3PrevIndex - 1, note1Index + 1, scaleNotesValues);
             }
-            AddNoteValueEvent(track31, note1ValueNew, 0, rhythmsArray[0] * duration);
+            AddNoteMonoValueEvent(track31, note1ValueNew, 0, rhythmsArray[0] * duration);
             // set tonic as 2nd note
-            AddNoteEvent(track31, note1, octave1, 0, rhythmsArray[1] * duration);
+            AddNoteMonoEvent(track31, note1, octave1, 0, rhythmsArray[1] * duration);
         }
         else {
             // keep existing note as 1st bar note
-            AddNoteEvent(track31, note1, octave1, 0, rhythmsArray[0] * duration);
+            AddNoteMonoEvent(track31, note1, octave1, 0, rhythmsArray[0] * duration);
             // create new 2nd note in bar
             let note32ValueNew = -1;
             const nbTries = 10000;
@@ -78,7 +78,7 @@ function generateCounterpointTrack31Candidate(tonic, scaleValues, nbBars, octave
                 if (acceptNoteInCounterpoint31(note32ValueNew, tonic, index1, nbBars, track31, track11, trackCF))
                     break;
             }
-            AddNoteValueEvent(track31, note32ValueNew, 0, rhythmsArray[1] * duration);
+            AddNoteMonoValueEvent(track31, note32ValueNew, 0, rhythmsArray[1] * duration);
             // create new 3rd note in bat
             let note33ValueNew = -1;
             for (let i = 0; i < nbTries; i++) {
@@ -86,7 +86,7 @@ function generateCounterpointTrack31Candidate(tonic, scaleValues, nbBars, octave
                 if (acceptNoteInCounterpoint31(note33ValueNew, tonic, index1, nbBars, track31, track11, trackCF))
                     break;
             }
-            AddNoteValueEvent(track31, note33ValueNew, 0, rhythmsArray[2] * duration);
+            AddNoteMonoValueEvent(track31, note33ValueNew, 0, rhythmsArray[2] * duration);
         }
         index1++;
     }
@@ -260,7 +260,7 @@ function ReduceTrack31(track31, channelId) {
             continue;
         }
         const noteValue = track31.GetNoteValue(noteIndex);
-        AddNoteValueEvent(track11, noteValue, 0, 4 * qNote);
+        AddNoteMonoValueEvent(track11, noteValue, 0, 4 * qNote);
         noteIndex++;
     }
     return track11;

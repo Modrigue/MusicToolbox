@@ -66,7 +66,7 @@ function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<
     // set rhythm in 1st and 2nd bars
     const rhythmsArray0 = rhythmFactorArray[0];
     const rhythmsArray1 = rhythmFactorArray[1 % nbRhythms];
-    AddNoteEvent(track, tonic + startInterval, octave, rhythmsArray0[0]*4*qNote,
+    AddNoteMonoEvent(track, tonic + startInterval, octave, rhythmsArray0[0]*4*qNote,
         (rhythmsArray0[1] + rhythmsArray1[0])*4*qNote);
 
     // generate random notes in scale
@@ -100,7 +100,7 @@ function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<
         }
 
         // ok, add note
-        AddNoteValueEvent(track, noteNextValue, 0, (rhythmsArrayCur[1] + rhythmsArrayNext[0])*4*qNote);
+        AddNoteMonoValueEvent(track, noteNextValue, 0, (rhythmsArrayCur[1] + rhythmsArrayNext[0])*4*qNote);
         noteCurIndex = noteNextIndex;
     }
 
@@ -120,7 +120,7 @@ function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<
     }
 
     const rhythmsArrayLast = rhythmFactorArray[(nbBars - 1) % nbRhythms];
-    AddNoteEvent(track, tonic, octaveEnd, 0, rhythmsArrayLast[1]*4*qNote);
+    AddNoteMonoEvent(track, tonic, octaveEnd, 0, rhythmsArrayLast[1]*4*qNote);
     //console.log(track.LogText());
 
     return track;

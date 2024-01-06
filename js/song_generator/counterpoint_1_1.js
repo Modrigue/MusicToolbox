@@ -43,7 +43,7 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
         }
     }
     const startInterval = getRandomArrayElement(startIntervals);
-    AddNoteEvent(track, tonic + startInterval, octave, 0, 4 * qNote);
+    AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4 * qNote);
     // generate random notes in scale
     const nbTries = 10000;
     let noteCurValue = GetNoteValueFromNoteOctave(tonic, octave);
@@ -66,7 +66,7 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
                 break;
         }
         // ok, add note
-        AddNoteValueEvent(track, noteNextValue, 0, 4 * qNote);
+        AddNoteMonoValueEvent(track, noteNextValue, 0, 4 * qNote);
         noteCurIndex = noteNextIndex;
     }
     // last note: fetch nearest tonic
@@ -81,7 +81,7 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
             octaveEnd = octaveCur;
         }
     }
-    AddNoteEvent(track, tonic, octaveEnd, 0, 4 * qNote);
+    AddNoteMonoEvent(track, tonic, octaveEnd, 0, 4 * qNote);
     //console.log(track.LogText());
     return track;
 }

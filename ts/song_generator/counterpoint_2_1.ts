@@ -66,7 +66,7 @@ function generateCounterpointTrack21Candidate(tonic: number, scaleValues: Array<
         if (index1 == 0  && hasTrackCF)
         {
             // no 1st note
-            AddNoteEvent(track21, note1, octave1, rhythmsFactor1*duration, (1 - rhythmsFactor1)*duration);
+            AddNoteMonoEvent(track21, note1, octave1, rhythmsFactor1*duration, (1 - rhythmsFactor1)*duration);
         }
         // last bar: replace 1st note by consonnant interval and set tonic as 2nd note
         else if (index1 == track11NbNotes - 1)
@@ -90,15 +90,15 @@ function generateCounterpointTrack21Candidate(tonic: number, scaleValues: Array<
                     note1ValueNew = GetRandomNoteValueInScale(note2PrevIndex - 1, note1Index + 1, scaleNotesValues);
             }
 
-            AddNoteValueEvent(track21, note1ValueNew, 0, rhythmsFactor1*duration);
+            AddNoteMonoValueEvent(track21, note1ValueNew, 0, rhythmsFactor1*duration);
 
             // set tonic as 2nd note
-            AddNoteEvent(track21, note1, octave1, 0, (1 - rhythmsFactor1)*duration);
+            AddNoteMonoEvent(track21, note1, octave1, 0, (1 - rhythmsFactor1)*duration);
         }
         else
         {
             // keep existing note as 1st bar note
-            AddNoteEvent(track21, note1, octave1, 0, rhythmsFactor1*duration);
+            AddNoteMonoEvent(track21, note1, octave1, 0, rhythmsFactor1*duration);
             
             // create new 2nd note
             let note2ValueNew = -1;
@@ -110,7 +110,7 @@ function generateCounterpointTrack21Candidate(tonic: number, scaleValues: Array<
                     break;
             }
             
-            AddNoteValueEvent(track21, note2ValueNew, 0, (1 - rhythmsFactor1)*duration);
+            AddNoteMonoValueEvent(track21, note2ValueNew, 0, (1 - rhythmsFactor1)*duration);
         }
 
         index1++;
@@ -292,7 +292,7 @@ function ReduceTrack21(track21: MidiTrack, channelId: number): MidiTrack
         }
 
         const noteValue = track21.GetNoteValue(noteIndex);
-        AddNoteValueEvent(track11, noteValue, 0, 4*qNote)
+        AddNoteMonoValueEvent(track11, noteValue, 0, 4*qNote)
 
         noteIndex++;
     }
