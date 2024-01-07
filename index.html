@@ -11,7 +11,7 @@
     <meta http-equiv="Expires" content="0" />
     <link rel="apple-touch-icon" href="img/G_clef.png">
     <link rel="icon" href="img/G_clef.png">
-    <link rel="stylesheet" href="css/style.css?version=1.10">
+    <link rel="stylesheet" href="css/style.css?version=1.11">
     <script src="js/notes.js"></script>
     <script src="js/intervals.js"></script>
     <script src="js/scales/scala.js"></script>
@@ -404,7 +404,6 @@
     <!-- ################## SONG GENERATOR (EXPERIMENTAL) ################# -->
 
     <div id ='page_song_generator' style="display: none">
-      
       <p class='align-center'>
         <em><span id="song_generator_header" style="color: grey">This page is experimental and under development</span></em>
         <br/><br/>
@@ -426,43 +425,71 @@
         &nbsp;
         <span id="song_generator_tempo_text">Tempo:</span>
         <input type="number" id="song_generator_tempo" min="20" max="5000" width="10" value="120"/>
-        <br/><br/>
-        <!-- Track 1 -->
-        <input type="checkbox" id="song_generator_checkbox_track1" name="song_generator_checkbox_track1" checked>
-        <span id="song_generator_checkbox_track1_text">Track 1</span>
-        &nbsp;
-        <select name="song_generator_instrument_track1" id="song_generator_instrument_track1"></select>
-        &nbsp;
-        <span id="song_generator_octave_track1_text">Octave:</span>
-        <input type="number" id="song_generator_octave_track1" min="0" max="6" style="width: 35px;" value="4"/>
-        &nbsp;
-        <span id="song_generator_freq_track1_text">Frequency:</span>
-        <input type="number" id="song_generator_freq_track1" min="0" max="100" style="width: 40px;" value="100"/>
-        &nbsp;
-        <button id="song_generator_generate_track1"><span class="play">Generate</span></button>
-        <br/><br/>
-        <!-- Track 2 -->
-        <input type="checkbox" id="song_generator_checkbox_track2" name="song_generator_checkbox_track2" checked>
-        <span id="song_generator_checkbox_track2_text">Track 2</span>
-        &nbsp;
-        <select name="song_generator_instrument_track2" id="song_generator_instrument_track2"></select>
-        &nbsp;
-        <span id="song_generator_octave_track2_text">Octave:</span>
-        <input type="number" id="song_generator_octave_track2" min="0" max="6" style="width: 35px;" value="2"/>
-        &nbsp;
-        <span id="song_generator_freq_track2_text">Frequency:</span>
-        <input type="number" id="song_generator_freq_track2" min="0" max="100" style="width: 40px;" value="100"/>
-        &nbsp;
-        <button id="song_generator_generate_track2"><span class="play">Generate</span></button>
-        <br/><br/>
+        <br/>
+      </p>
+
+      <p class='align-center'>
+        <div class='song-gen-tracks'>
+          <table>
+            <tr>
+              <td>
+                <input type="checkbox" id="song_generator_checkbox_track1" name="song_generator_checkbox_track1" checked>
+                <span id="song_generator_checkbox_track1_text">Track 1</span>
+              </td>
+
+              <td>
+                <select name="song_generator_instrument_track1" id="song_generator_instrument_track1"></select>
+              </td>
+  
+              <td>
+                <span id="song_generator_octave_track1_text">Octave:</span>
+                &nbsp;
+                <input type="number" id="song_generator_octave_track1" min="0" max="6" style="width: 35px;" value="4"/>
+              </td>
+  
+              <td>
+                <span id="song_generator_freq_track1_text">Frequency:</span>
+                &nbsp;
+                <input type="number" id="song_generator_freq_track1" min="0" max="100" style="width: 40px;" value="100"/>
+              </div>
+  
+              <td>
+                <button id="song_generator_generate_track1"><span class="play">Generate</span></button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" id="song_generator_checkbox_track2" name="song_generator_checkbox_track2" checked>
+                <span id="song_generator_checkbox_track2_text">Track 2</span>
+              </td>
+
+              <td>
+                <select name="song_generator_instrument_track2" id="song_generator_instrument_track2"></select>
+              </td>
+  
+              <td>
+                <span id="song_generator_octave_track2_text">Octave:</span>
+                &nbsp;
+                <input type="number" id="song_generator_octave_track2" min="0" max="6" style="width: 35px;" value="4"/>
+              </td>
+  
+              <td>
+                <span id="song_generator_freq_track2_text">Frequency:</span>
+                &nbsp;
+                <input type="number" id="song_generator_freq_track2" min="0" max="100" style="width: 40px;" value="100"/>
+              </div>
+  
+              <td>
+                <button id="song_generator_generate_track2"><span class="play">Generate</span></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </p>
+
+      <p class='align-center'>
         <button id="song_generator_generate"><span class="play">Generate new song</span></button>
         &nbsp;
-        <!--span id="song_generator_track_text2"></span>
-        <br/>
-        <span id="song_generator_track_text1"></span>
-        <br/>
-        <span id="song_generator_tracks_intervals"></span>
-        <br/-->
         <button id="song_generator_play" disabled><span class="play">Play ♪</span></button>
         &nbsp;
         <button id="song_generator_save" disabled><span class="play">Save</span></button>

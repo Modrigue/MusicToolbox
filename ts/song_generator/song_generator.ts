@@ -306,6 +306,10 @@ function updateSongGeneratorPage(): void
     let tracksSelected = getSelectedTracks();
     generatedMidi.EnableTracks(tracksSelected);
 
+    for (let i = 1; i <= 2; i++)
+        (<HTMLButtonElement>document.getElementById(`song_generator_checkbox_track${i}_text`)).innerText
+            = `${getString("track")} ${i}`; // default
+
     let nbTracksSelected = 0;
     for (let i = 0; i < 2; i++)
         if (tracksSelected[i])
