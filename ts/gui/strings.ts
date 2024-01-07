@@ -1,6 +1,7 @@
 // international
 const stringsDict_int: Map<string, string> = new Map<string, string>();
 stringsDict_int.set("arpeggio", "Arpeggio");
+stringsDict_int.set("arpeggios", "Arpeggios");
 stringsDict_int.set("arpeggios_progression", "Arpeggios progression");
 stringsDict_int.set("audio_not_supported", "⚠ Audio features may not work with your browser ⚠\nYou can use either Chrome, Edge or Brave to enable audio on the website");
 stringsDict_int.set("bass", "Bass");
@@ -34,6 +35,7 @@ stringsDict_int.set("instruments_not_loaded", "No instruments loaded");
 stringsDict_int.set("intervals", "Intervals");
 stringsDict_int.set("listen", "Listen");
 stringsDict_int.set("listen_backwards", "Listen backwards");
+stringsDict_int.set("melody", "Melody");
 stringsDict_int.set("min_2_notes", "At least 2 notes needed");
 stringsDict_int.set("N_notes", "{%1} notes:");
 stringsDict_int.set("name", "Name:");
@@ -90,6 +92,7 @@ stringsDict_int.set("welcome_title", "Welcome to the Music Toolbox");
 // french
 const stringsDict_fr: Map<string, string> = new Map<string, string>();
 stringsDict_fr.set("arpeggio", "Arpège");
+stringsDict_fr.set("arpeggios", "Arpèges");
 stringsDict_fr.set("arpeggios_progression", "Progression d'arpèges");
 stringsDict_fr.set("audio_not_supported", "⚠ Les fonctionnalités audio pourraient ne pas marcher votre navigateur web ⚠\nVous pouvez utiliser  Chrome, Edge ou Brave pour activer l'audio sur le site");
 stringsDict_fr.set("bass", "Basse");
@@ -123,6 +126,7 @@ stringsDict_fr.set("instruments_not_loaded", "Pas d'instruments chargés");
 stringsDict_fr.set("intervals", "Intervalles");
 stringsDict_fr.set("listen", "Écouter");
 stringsDict_fr.set("listen_backwards", "Écouter à l'envers");
+stringsDict_fr.set("melody", "Mélodie");
 stringsDict_fr.set("min_2_notes", "Au moins 2 notes requises");
 stringsDict_fr.set("N_notes", "{%1} notes :");
 stringsDict_fr.set("name", "Nom :");

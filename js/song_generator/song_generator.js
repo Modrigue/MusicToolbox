@@ -256,12 +256,32 @@ function updateSongGeneratorPage() {
     if (selectedTypeId != null) {
         const isCounterpoint = selectedTypeId.startsWith("counterpoint");
         const isChordsMelody = (selectedTypeId == "chords+melody");
+        const isChordsProg = (selectedTypeId == "chords_progression");
         const isArpeggiosProg = (selectedTypeId == "arpeggios_progression");
         const isSequence = (selectedTypeId == "sequence");
         setEnabled("song_generator_nb_notes_per_bar", (isSequence || isChordsMelody || isArpeggiosProg));
         setEnabled("song_generator_generate_track2", !regexCounterpoint4_5S.test(selectedTypeId));
         setEnabled(`song_generator_freq_track1`, (isSequence || isChordsMelody));
         setEnabled(`song_generator_freq_track2`, isSequence);
+        // update track texts
+        const track1Text = document.getElementById(`song_generator_checkbox_track1_text`);
+        const track2Text = document.getElementById(`song_generator_checkbox_track2_text`);
+        if (isChordsMelody) {
+            track1Text.innerText = getString("melody");
+            track2Text.innerText = getString("chords");
+        }
+        else if (isChordsProg) {
+            track1Text.innerText = getString("chords");
+            track2Text.innerText = getString("bass");
+        }
+        else if (isArpeggiosProg) {
+            track1Text.innerText = getString("arpeggios");
+            track2Text.innerText = getString("bass");
+        }
+        else if (isCounterpoint) {
+            track1Text.innerText = getString("counterpoint");
+            track2Text.innerText = "Cantus firmus";
+        }
     }
     // for debug purposes
     /*if (false)
