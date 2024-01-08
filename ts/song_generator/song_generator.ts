@@ -1,5 +1,6 @@
 const generatedSongTypes: Map<string, string> = new Map<string, string>();
 generatedSongTypes.set("chords+melody"            , "chords+melody");
+generatedSongTypes.set("bass+melody"            , "bass+melody");
 generatedSongTypes.set("chords_progression"       , "chords_progression");
 generatedSongTypes.set("arpeggios_progression"    , "arpeggios_progression");
 generatedSongTypes.set("sequence"                 , "sequence");
@@ -146,6 +147,13 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
                 trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
             else
                 trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            break;
+
+        case "bass+melody":
+            if (trackIndex == 1)
+                trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            else
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
             break;
 
         case "chords_progression":
@@ -329,13 +337,14 @@ function updateSongGeneratorPage(): void
     {
         const isCounterpoint = selectedTypeId.startsWith("counterpoint");
         const isChordsMelody = (selectedTypeId == "chords+melody");
+        const isBassMelody = (selectedTypeId == "bass+melody");
         const isChordsProg = (selectedTypeId == "chords_progression");
         const isArpeggiosProg = (selectedTypeId == "arpeggios_progression");
         const isSequence = (selectedTypeId == "sequence");
 
-        setEnabled("song_generator_nb_notes_per_bar", (isSequence || isChordsMelody || isArpeggiosProg));
+        setEnabled("song_generator_nb_notes_per_bar", (isSequence || isChordsMelody || isBassMelody || isArpeggiosProg));
         setEnabled("song_generator_generate_track2", !regexCounterpoint4_5S.test(selectedTypeId));
-        setEnabled(`song_generator_freq_track1`, (isSequence || isChordsMelody));
+        setEnabled(`song_generator_freq_track1`, (isSequence || isChordsMelody || isBassMelody));
         setEnabled(`song_generator_freq_track2`, isSequence);
 
         // update track texts
@@ -346,6 +355,11 @@ function updateSongGeneratorPage(): void
         {
             track1Text.innerText = getString("melody");
             track2Text.innerText = getString("chords");
+        }
+        else if (isBassMelody)
+        {
+            track1Text.innerText = getString("melody");
+            track2Text.innerText = getString("bass");
         }
         else if (isChordsProg)
         {
