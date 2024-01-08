@@ -3,12 +3,12 @@ function GenerateMelodyTrack(tonic: number, scaleValues: Array<number>, nbBars: 
 { 
 
     // generate candidate track and check its coherency
-    const nbTries = 100/*0*/;
+    const nbTries = 1000;
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++)
     {        
-        track = generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
+        track = generateMelodyTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
     
         //success = hasMelodicFluency(track, tonic, octave, scaleValues); // disable notes after leaps check?
         success = true;
@@ -19,7 +19,6 @@ function GenerateMelodyTrack(tonic: number, scaleValues: Array<number>, nbBars: 
     return null;
 }
 
-// TODO: allow various notes durations
 function generateMelodyTrackCandidate(tonic: number, scaleValues: Array<number>, nbBars: number,
     nbNotesPerBar: number, octave: number, freq: number, qNote: number, channelId: number): MidiTrack
 {    
@@ -27,6 +26,7 @@ function generateMelodyTrackCandidate(tonic: number, scaleValues: Array<number>,
     
     const nbNotesInScale = scaleValues.length;
     const intervalRange = Math.round(0.8*nbNotesInScale);
+    const durationMaxFactor = nbNotesPerBar/2; // <=> note duration max. = 1/2 bar
 
     // build allowed scale notes array
     const scaleNotesValues = GetScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
@@ -36,24 +36,29 @@ function generateMelodyTrackCandidate(tonic: number, scaleValues: Array<number>,
 
     const startInterval = <number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const duration = 4*qNote/nbNotesPerBar;
-
-    // 1st note appears?
-    if (noteAppears(freq))
-        AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4*qNote/nbNotesPerBar);
-    else
-        startPosition += duration;
+    const durationMin = 4*qNote/nbNotesPerBar;
+    const durationTrack = nbNotesPerBar*durationMin*nbBars;
 
     // generate random notes in scale
     const nbTries = 10000;
     let noteCurValue = GetNoteValueFromNoteOctave(tonic, octave);
     let noteCurIndex = scaleNotesValues.indexOf(noteCurValue);
-    for (let barIndex = 1; barIndex < nbNotesPerBar*nbBars; barIndex++)
+    let timeCursor = 0;
+    for (let noteIndex = 0; noteIndex < nbNotesPerBar*nbBars; noteIndex++)
     {
+        // end if of specified bars reached
+        if (timeCursor >= durationTrack)
+            break;
+        
+        // get random note duration
+        const durationNb = GetRandomNumber(1, durationMaxFactor);
+        let durationCur = durationNb*durationMin;
+
         // following note appears?
         if (!noteAppears(freq))
         {
-            startPosition += duration;
+            startPosition += durationCur;
+            timeCursor += durationCur;
             continue;
         }
         
@@ -78,10 +83,17 @@ function generateMelodyTrackCandidate(tonic: number, scaleValues: Array<number>,
             //    break;
         }
 
+        // simulate new note duration and truncate it if necessary
+        if (timeCursor + startPosition >= durationTrack)
+            break;
+        else if (timeCursor + startPosition + durationCur > durationTrack)
+            durationCur = durationTrack - startPosition - timeCursor;
+
         // ok, add note
-        AddNoteMonoValueEvent(track, noteNextValue, startPosition, duration);
+        AddNoteMonoValueEvent(track, noteNextValue, startPosition, durationCur);
         startPosition = 0;
         noteCurIndex = noteNextIndex;
+        timeCursor += durationCur;
     }
 
     return track;
