@@ -856,6 +856,7 @@ function updateLocales(): void
     (<HTMLButtonElement>document.getElementById("song_generator_nb_loops_text")).innerText = `${getString("nb_loops")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_nb_notes_per_bar_text")).innerText = `${getString("nb_notes_per_bar")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_tempo_text")).innerText = `${getString("tempo")}`;
+    (<HTMLButtonElement>document.getElementById("song_generator_time_signature_text")).innerText = `${getString("time_signature")}`;
     //(<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;
     (<HTMLButtonElement>document.getElementById("song_generator_play")).innerText = `${getString("listen")} ♪`;
     (<HTMLButtonElement>document.getElementById("song_generator_save")).innerText = `${getString("save")}`;

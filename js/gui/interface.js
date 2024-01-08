@@ -640,6 +640,7 @@ function updateLocales() {
     document.getElementById("song_generator_nb_loops_text").innerText = `${getString("nb_loops")}`;
     document.getElementById("song_generator_nb_notes_per_bar_text").innerText = `${getString("nb_notes_per_bar")}`;
     document.getElementById("song_generator_tempo_text").innerText = `${getString("tempo")}`;
+    document.getElementById("song_generator_time_signature_text").innerText = `${getString("time_signature")}`;
     //(<HTMLButtonElement>document.getElementById("song_generator_checkbox_track1_text")).innerText = `${getString("bass")}`;
     document.getElementById("song_generator_play").innerText = `${getString("listen")} ♪`;
     document.getElementById("song_generator_save").innerText = `${getString("save")}`;
