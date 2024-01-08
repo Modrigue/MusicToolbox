@@ -1,5 +1,5 @@
 let pagesArray: Array<string> =
-    ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"];
+    ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected: string = "";
 
 
@@ -13,10 +13,6 @@ let browserSupportsAudio = true;
 let languageInitialized = false;
 let chordExplorerUpdateMode: string = "";
 
-/* Experimental */
-let showSongGeneration = false;
-if (showSongGeneration)
-    pagesArray.push("page_song_generator");
 
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 
@@ -35,20 +31,7 @@ window.onload = function()
     loadDefaultInstrument();
 
     (<HTMLButtonElement>document.getElementById("checkboxLanguage")).addEventListener("change", updateLocales);
-
     //(<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadDefaultInstrument);
-
-    if (showSongGeneration)
-    {
-        let buttonSongGen = document.createElement('button');
-        buttonSongGen.classList.add("button-page");
-        buttonSongGen.id = "button_page_song_generator";
-        buttonSongGen.innerText = "Generate a song";
-        const checkboxLanguageSpan = <HTMLSpanElement>document.getElementById("checkboxLanguageSpan");
-        checkboxLanguageSpan.insertAdjacentElement('beforebegin', buttonSongGen);
-
-        pagesArray.push("page_song_generator");
-    }
 
     // pages
     for (const page of pagesArray)
@@ -773,11 +756,8 @@ function updateLocales(): void
     document.title = getString("title");
 
     // pages buttons
-    (<HTMLButtonElement>document.getElementById("button_page_chord_tester")).innerText = getString("page_chord_tester");
-    (<HTMLButtonElement>document.getElementById("button_page_chord_explorer")).innerText = getString("page_chord_explorer");
-    (<HTMLButtonElement>document.getElementById("button_page_scale_explorer")).innerText = getString("page_scale_explorer");
-    (<HTMLButtonElement>document.getElementById("button_page_scale_finder")).innerText = getString("page_scale_finder");
-    //(<HTMLButtonElement>document.getElementById("button_page_song_generator")).innerText = getString("page_song_generator");
+    for (let pageId of pagesArray)
+        (<HTMLButtonElement>document.getElementById(`button_${pageId}`)).innerText = getString(pageId);
 
     // welcome
 

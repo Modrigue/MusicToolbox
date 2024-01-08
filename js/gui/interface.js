@@ -1,5 +1,5 @@
 "use strict";
-let pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester"];
+let pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected = "";
 let hasAudio = false;
 let instrumentsLoaded = [];
@@ -9,10 +9,6 @@ let instrumentLoadingSelectorId = "";
 let browserSupportsAudio = true;
 let languageInitialized = false;
 let chordExplorerUpdateMode = "";
-/* Experimental */
-let showSongGeneration = false;
-if (showSongGeneration)
-    pagesArray.push("page_song_generator");
 ///////////////////////////////// INITIALIZATION //////////////////////////////
 window.onload = function () {
     // test chord positions finder algorithms
@@ -25,15 +21,6 @@ window.onload = function () {
     loadDefaultInstrument();
     document.getElementById("checkboxLanguage").addEventListener("change", updateLocales);
     //(<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadDefaultInstrument);
-    if (showSongGeneration) {
-        let buttonSongGen = document.createElement('button');
-        buttonSongGen.classList.add("button-page");
-        buttonSongGen.id = "button_page_song_generator";
-        buttonSongGen.innerText = "Generate a song";
-        const checkboxLanguageSpan = document.getElementById("checkboxLanguageSpan");
-        checkboxLanguageSpan.insertAdjacentElement('beforebegin', buttonSongGen);
-        pagesArray.push("page_song_generator");
-    }
     // pages
     for (const page of pagesArray)
         document.getElementById(`button_${page}`).addEventListener("click", () => selectPage(page));
@@ -574,11 +561,8 @@ function resetScaleFinder() {
 function updateLocales() {
     document.title = getString("title");
     // pages buttons
-    document.getElementById("button_page_chord_tester").innerText = getString("page_chord_tester");
-    document.getElementById("button_page_chord_explorer").innerText = getString("page_chord_explorer");
-    document.getElementById("button_page_scale_explorer").innerText = getString("page_scale_explorer");
-    document.getElementById("button_page_scale_finder").innerText = getString("page_scale_finder");
-    //(<HTMLButtonElement>document.getElementById("button_page_song_generator")).innerText = getString("page_song_generator");
+    for (let pageId of pagesArray)
+        document.getElementById(`button_${pageId}`).innerText = getString(pageId);
     // welcome
     document.getElementById("welcome_title").innerText = getString("welcome_title");
     document.getElementById("welcome_subtitle").innerText = getString("welcome_subtitle");
