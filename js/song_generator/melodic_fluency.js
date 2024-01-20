@@ -1,11 +1,11 @@
 "use strict";
-function GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId) {
+function GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum = 4, timeSignDen = 4) {
     // generate candidate track and check its coherency
     const nbTries = 1000;
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateMelodyTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
+        track = generateMelodyTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum, timeSignDen);
         //success = hasMelodicFluency(track, tonic, octave, scaleValues); // disable notes after leaps check?
         success = true;
         if (success)
@@ -13,7 +13,7 @@ function GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, 
     }
     return null;
 }
-function generateMelodyTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId) {
+function generateMelodyTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum = 4, timeSignDen = 4) {
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     const intervalRange = Math.round(0.8 * nbNotesInScale);
@@ -24,7 +24,7 @@ function generateMelodyTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar,
     let startIntervals = [0]; //scaleValues;
     const startInterval = getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const durationMin = 4 * qNote / nbNotesPerBar;
+    const durationMin = timeSignNum * qNote / nbNotesPerBar;
     const durationTrack = nbNotesPerBar * durationMin * nbBars;
     // generate random notes in scale
     const nbTries = 10000;

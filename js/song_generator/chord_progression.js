@@ -1,18 +1,18 @@
 "use strict";
-function GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId) {
+function GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum = 4, timeSignDen = 4) {
     // generate candidate track and check its coherency
     const nbTries = 1000;
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateChordsProgTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
+        track = generateChordsProgTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum, timeSignDen);
         success = hasChordsProgTrackCharNotes(track, tonic, scaleValues);
         if (success)
             return track;
     }
     return null;
 }
-function generateChordsProgTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId) {
+function generateChordsProgTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum = 4, timeSignDen = 4) {
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     const intervalRange = Math.round(0.8 * nbNotesInScale);
@@ -21,7 +21,7 @@ function generateChordsProgTrackCandidate(tonic, scaleValues, nbBars, nbNotesPer
     //let startIntervals: Array<number> = [0]; //scaleValues;
     //const startInterval = 0; //<number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const barDuration = 4 * qNote;
+    const barDuration = timeSignNum * qNote;
     // 1st chord: tonic scale chord / arpeggio
     //const tonicValue1st = scaleNotesValues[0] + startInterval;
     const chordValues1st = [scaleNotesValues[0], scaleNotesValues[2], scaleNotesValues[4]];
@@ -77,20 +77,20 @@ function addChordAsArpeggios(track, chordValues, startPosition, duration, nbNote
     }
 }
 // bass
-function GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId) {
+function GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum = 4, timeSignDen = 4) {
     // generate candidate track and check its coherency
     const nbTries = 1000;
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateChordsProgBassTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
+        track = generateChordsProgBassTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum, timeSignDen);
         success = true;
         if (success)
             return track;
     }
     return null;
 }
-function generateChordsProgBassTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId) {
+function generateChordsProgBassTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum = 4, timeSignDen = 4) {
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     const intervalRange = Math.round(0.8 * nbNotesInScale);
@@ -100,10 +100,10 @@ function generateChordsProgBassTrackCandidate(tonic, scaleValues, nbBars, nbNote
     let startIntervals = [0]; //scaleValues;
     const startInterval = 0; //<number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const duration = 4 * qNote / nbNotesPerBar;
+    const duration = timeSignNum * qNote / nbNotesPerBar;
     // 1st note appears?
     //if (noteAppears(freq))
-    AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4 * qNote / nbNotesPerBar);
+    AddNoteMonoEvent(track, tonic + startInterval, octave, 0, duration);
     //else
     //    startPosition += duration;
     // generate random notes in scale

@@ -4,14 +4,14 @@ const perfectConsonances = [0, 7]; // unison, 8ves and 5ths
 const imperfectConsonances = [3, 4, 8, 9]; // 3rds and 6ths
 const dissonances = [1, 2, 5, 6, 10, 11]; // 2nds, 4ths and 7ths
 const intervalCounterpoint11RangeFactor = 0.8;
-function GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
+function GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum = 4, timeSignDen = 4, trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
     const nbTries = 1000;
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
+        track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum, timeSignDen, trackCF);
         if (hasTrackCF)
             success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(trackCF, track));
         else
@@ -21,10 +21,11 @@ function GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, 
     }
     return null;
 }
-function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF = null) {
+function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum = 4, timeSignDen = 4, trackCF = null) {
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
+    const barDuration = timeSignNum * qNote;
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor * nbNotesInScale);
     // build allowed scale notes array
     const scaleNotesValues = GetScaleNotesOctaveRangeValues(tonic, scaleValues, octave);
@@ -43,7 +44,7 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
         }
     }
     const startInterval = getRandomArrayElement(startIntervals);
-    AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4 * qNote);
+    AddNoteMonoEvent(track, tonic + startInterval, octave, 0, barDuration);
     // generate random notes in scale
     const nbTries = 10000;
     let noteCurValue = GetNoteValueFromNoteOctave(tonic, octave);
@@ -66,7 +67,7 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
                 break;
         }
         // ok, add note
-        AddNoteMonoValueEvent(track, noteNextValue, 0, 4 * qNote);
+        AddNoteMonoValueEvent(track, noteNextValue, 0, barDuration);
         noteCurIndex = noteNextIndex;
     }
     // last note: fetch nearest tonic
@@ -81,7 +82,7 @@ function generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave
             octaveEnd = octaveCur;
         }
     }
-    AddNoteMonoEvent(track, tonic, octaveEnd, 0, 4 * qNote);
+    AddNoteMonoEvent(track, tonic, octaveEnd, 0, barDuration);
     //console.log(track.LogText());
     return track;
 }

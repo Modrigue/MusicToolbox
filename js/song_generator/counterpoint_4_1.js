@@ -1,12 +1,12 @@
 "use strict";
-function GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 4, 1 / 4, 1 / 4, 1 / 4]], trackCF = null) {
+function GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum = 4, timeSignDen = 4, rhythmFactorArray = [[1 / 4, 1 / 4, 1 / 4, 1 / 4]], trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
     const nbTries = 1000;
     let track = null;
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
+        track = generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum, timeSignDen, rhythmFactorArray, trackCF);
         if (track == null)
             return null;
         if (hasTrackCF)
@@ -18,13 +18,13 @@ function GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octave, qNote, 
     }
     return null;
 }
-function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 4, 1 / 4, 1 / 4, 1 / 4]], trackCF = null) {
+function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum = 4, timeSignDen = 4, rhythmFactorArray = [[1 / 4, 1 / 4, 1 / 4, 1 / 4]], trackCF = null) {
     let track41 = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
     // build 2:1 counterpoint
-    const track21 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, [[1 / 2, 1 / 2]], trackCF);
+    const track21 = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum, timeSignDen, [[1 / 2, 1 / 2]], trackCF);
     if (track21 == null)
         return null;
     const track21NbNotes = track21.GetNbNotes();
@@ -46,7 +46,7 @@ function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave
         const rhythmsArray = rhythmFactorArray[barIndex % nbRhythms];
         if (index21 == 0 && hasTrackCF) {
             // 1st note on 4th beat
-            AddNoteMonoValueEvent(track41, note21Value, 3 * qNote, qNote);
+            AddNoteMonoValueEvent(track41, note21Value, (timeSignNum - 1) * qNote, qNote);
             //// 1st notes: 3rd and 4th beats
             //AddNoteValueEvent(track41, note21Value, 2*qNote, qNote);
             //AddNoteValueEvent(track41, note21Value, 0, qNote);

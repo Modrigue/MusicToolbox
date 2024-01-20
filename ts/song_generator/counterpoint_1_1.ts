@@ -8,7 +8,8 @@ const intervalCounterpoint11RangeFactor = 0.8;
 
 
 function GenerateCounterpointTrack11(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, trackCF: (MidiTrack | null) = null): (MidiTrack | null)
+    channelId: number, timeSignNum: number = 4, timeSignDen: number = 4,
+    trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 { 
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     
@@ -18,7 +19,8 @@ function GenerateCounterpointTrack11(tonic: number, scaleValues: Array<number>, 
     let success = false;
     for (let i = 0; i < nbTries; i++)
     {
-        track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
+        track = generateCounterpointTrack11Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId,
+            timeSignNum, timeSignDen, trackCF);
 
         if (hasTrackCF)
             success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(<MidiTrack>trackCF, track));
@@ -33,12 +35,14 @@ function GenerateCounterpointTrack11(tonic: number, scaleValues: Array<number>, 
 }
 
 function generateCounterpointTrack11Candidate(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, trackCF: (MidiTrack | null) = null): MidiTrack
+    channelId: number, timeSignNum: number = 4, timeSignDen: number = 4,
+    trackCF: (MidiTrack | null) = null): MidiTrack
 {    
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
 
+    const barDuration = timeSignNum*qNote;
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor*nbNotesInScale);
 
     // build allowed scale notes array
@@ -63,7 +67,7 @@ function generateCounterpointTrack11Candidate(tonic: number, scaleValues: Array<
     }
 
     const startInterval = <number>getRandomArrayElement(startIntervals);
-    AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4*qNote);
+    AddNoteMonoEvent(track, tonic + startInterval, octave, 0, barDuration);
 
     // generate random notes in scale
     const nbTries = 10000;
@@ -92,7 +96,7 @@ function generateCounterpointTrack11Candidate(tonic: number, scaleValues: Array<
         }
 
         // ok, add note
-        AddNoteMonoValueEvent(track, noteNextValue, 0, 4*qNote);
+        AddNoteMonoValueEvent(track, noteNextValue, 0, barDuration);
         noteCurIndex = noteNextIndex;
     }
 
@@ -111,7 +115,7 @@ function generateCounterpointTrack11Candidate(tonic: number, scaleValues: Array<
         }
     }
 
-    AddNoteMonoEvent(track, tonic, octaveEnd, 0, 4*qNote);
+    AddNoteMonoEvent(track, tonic, octaveEnd, 0, barDuration);
     //console.log(track.LogText());
 
     return track;

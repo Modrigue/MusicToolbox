@@ -1,5 +1,6 @@
 function GenerateCounterpointTrack21(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<Array<number>> = [[1/2, 1/2]], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
+    channelId: number, timeSignNum: number = 4, timeSignDen: number = 4,
+    rhythmFactorArray: Array<Array<number>> = [[1/2, 1/2]], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 { 
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     
@@ -9,7 +10,8 @@ function GenerateCounterpointTrack21(tonic: number, scaleValues: Array<number>, 
     let success = false;
     for (let i = 0; i < nbTries; i++)
     {
-        track = generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
+        track = generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote,
+            channelId, timeSignNum, timeSignDen, rhythmFactorArray, trackCF);
         if (track == null)
             return null;
 
@@ -26,7 +28,8 @@ function GenerateCounterpointTrack21(tonic: number, scaleValues: Array<number>, 
 }
 
 function generateCounterpointTrack21Candidate(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<Array<number>> = [[1/2, 1/2]], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
+    channelId: number, timeSignNum: number = 4, timeSignDen: number = 4,
+    rhythmFactorArray: Array<Array<number>> = [[1/2, 1/2]], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 {
     let track21 = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
@@ -35,7 +38,7 @@ function generateCounterpointTrack21Candidate(tonic: number, scaleValues: Array<
     const nbRhythms = rhythmFactorArray.length;
 
     // build 1:1 counterpoint
-    const track11 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
+    const track11 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum, timeSignDen, trackCF);
     if (track11 == null)
         return null;
 

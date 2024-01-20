@@ -1,12 +1,12 @@
 "use strict";
-function GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
+function GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum = 4, timeSignDen = 4, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
     const nbTries = 1000;
     let track = null;
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
+        track = generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum, timeSignDen, rhythmFactorArray, trackCF);
         if (track == null)
             return null;
         if (hasTrackCF)
@@ -18,13 +18,13 @@ function GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octave, qNote, 
     }
     return null;
 }
-function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
+function generateCounterpointTrack21Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum = 4, timeSignDen = 4, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
     let track21 = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
     // build 1:1 counterpoint
-    const track11 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
+    const track11 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum, timeSignDen, trackCF);
     if (track11 == null)
         return null;
     const track11NbNotes = track11.GetNbNotes();

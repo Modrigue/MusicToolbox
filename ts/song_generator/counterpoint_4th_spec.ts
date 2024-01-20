@@ -4,7 +4,8 @@
 
 
 function GenerateCounterpointTrack4S(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<Array<number>> = [[1/2, 1/2]], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
+    channelId: number, timeSignNum: number = 4, timeSignDen: number = 4,
+    rhythmFactorArray: Array<Array<number>> = [[1/2, 1/2]], trackCF: (MidiTrack | null) = null): (MidiTrack | null)
 { 
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     
@@ -14,7 +15,8 @@ function GenerateCounterpointTrack4S(tonic: number, scaleValues: Array<number>, 
     let success = false;
     for (let i = 0; i < nbTries; i++)
     {
-        track = generateCounterpointTrack4SCandidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
+        track = generateCounterpointTrack4SCandidate(tonic, scaleValues, nbBars, octave, qNote,
+            channelId, timeSignNum, timeSignDen, rhythmFactorArray, trackCF);
 
         if (hasTrackCF)
             success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint4S(<MidiTrack>trackCF, track));
@@ -29,7 +31,8 @@ function GenerateCounterpointTrack4S(tonic: number, scaleValues: Array<number>, 
 }
 
 function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<number>, nbBars: number, octave: number, qNote: number, 
-    channelId: number, rhythmFactorArray: Array<Array<number>> = [[1/2, 1/2]], trackCF: (MidiTrack | null) = null): MidiTrack
+    channelId: number, timeSignNum: number = 4, timeSignDen: number = 4,
+    rhythmFactorArray: Array<Array<number>> = [[1/2, 1/2]], trackCF: (MidiTrack | null) = null): MidiTrack
 {    
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
@@ -38,6 +41,7 @@ function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
 
+    const barDuration = timeSignNum*qNote;
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor*nbNotesInScale);
 
     // build allowed scale notes array
@@ -66,8 +70,8 @@ function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<
     // set rhythm in 1st and 2nd bars
     const rhythmsArray0 = rhythmFactorArray[0];
     const rhythmsArray1 = rhythmFactorArray[1 % nbRhythms];
-    AddNoteMonoEvent(track, tonic + startInterval, octave, rhythmsArray0[0]*4*qNote,
-        (rhythmsArray0[1] + rhythmsArray1[0])*4*qNote);
+    AddNoteMonoEvent(track, tonic + startInterval, octave, rhythmsArray0[0]*barDuration,
+        (rhythmsArray0[1] + rhythmsArray1[0])*barDuration);
 
     // generate random notes in scale
     const nbTries = 10000;
@@ -100,7 +104,7 @@ function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<
         }
 
         // ok, add note
-        AddNoteMonoValueEvent(track, noteNextValue, 0, (rhythmsArrayCur[1] + rhythmsArrayNext[0])*4*qNote);
+        AddNoteMonoValueEvent(track, noteNextValue, 0, (rhythmsArrayCur[1] + rhythmsArrayNext[0])*barDuration);
         noteCurIndex = noteNextIndex;
     }
 
@@ -120,7 +124,7 @@ function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<
     }
 
     const rhythmsArrayLast = rhythmFactorArray[(nbBars - 1) % nbRhythms];
-    AddNoteMonoEvent(track, tonic, octaveEnd, 0, rhythmsArrayLast[1]*4*qNote);
+    AddNoteMonoEvent(track, tonic, octaveEnd, 0, rhythmsArrayLast[1]*barDuration);
     //console.log(track.LogText());
 
     return track;

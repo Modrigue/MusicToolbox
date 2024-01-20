@@ -1,16 +1,16 @@
 "use strict";
-function GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 3, 1 / 3, 1 / 3]], trackCF = null) {
+function GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum = 4, timeSignDen = 4, rhythmFactorArray = [[1 / 3, 1 / 3, 1 / 3]], trackCF = null) {
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // generate candidate track and check its melodic fluency and coherency
     const nbTries = 1000;
     let track = null;
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateCounterpointTrack31Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray, trackCF);
+        track = generateCounterpointTrack31Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum, timeSignDen, rhythmFactorArray, trackCF);
         if (track == null)
             return null;
         if (hasTrackCF)
-            success = ( /*hasMelodicFluency(track, tonic, octave, scaleValues) &&*/checkCounterpoint21(trackCF, track));
+            success = ( /*hasMelodicFluency(track, tonic, octave, scaleValues) &&*/checkCounterpoint31(trackCF, track));
         else
             success = true; /*hasMelodicFluency(track, tonic, octave, scaleValues);*/
         if (success)
@@ -18,13 +18,13 @@ function GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octave, qNote, 
     }
     return null;
 }
-function generateCounterpointTrack31Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
+function generateCounterpointTrack31Candidate(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum = 4, timeSignDen = 4, rhythmFactorArray = [[1 / 2, 1 / 2]], trackCF = null) {
     let track31 = new MidiTrack(channelId);
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
     // build 1:1 counterpoint
-    const track11 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, trackCF);
+    const track11 = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octave, qNote, channelId, timeSignNum, timeSignDen, trackCF);
     if (track11 == null)
         return null;
     const track11NbNotes = track11.GetNbNotes();

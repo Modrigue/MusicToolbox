@@ -39,11 +39,15 @@ function generateNewTrack(trackIndex = 0 /* offset 1, 0 = all tracks */) {
         const freq = parseInt(freqSelected);
         frequencies.push(freq);
     }
+    // get time signature
+    const timeSignNumSelected = document.getElementById(`song_generator_time_signature_num`).value;
+    const timeSignNum = parseInt(timeSignNumSelected);
+    const timeSignDen = 4;
     // used for counterpoints
-    const rhythmFactor21Array = [[1 / 2, 1 / 2], /*[1/2, 1/2]*/ [3 / 4, 1 / 4]];
+    const rhythmFactor21Array = [[1 / 2, 1 / 2], /*[1/2, 1/2]*/ [3 / 4, 1 / 4] /*[3/5, 2/5]*/];
     const rhythmFactor31Array = [[1 / 3, 1 / 3, 1 / 3], [1 / 2, 1 / 4, 1 / 4]];
     const rhythmFactor41Array = [[1 / 4, 1 / 4, 1 / 4, 1 / 4], [1 / 8, 3 / 8, 2 / 8, 2 / 8]];
-    const rhythmFactor4SArray = [[1 / 2, 1 / 2], [1 / 4, 3 / 4]];
+    const rhythmFactor4SArray = [[1 / 2, 1 / 2], [1 / 4, 3 / 4] /*[2/5, 3/5]*/];
     // get selected tempo
     const tempoSelected = document.getElementById(`song_generator_tempo`).value;
     const tempo = parseInt(tempoSelected);
@@ -66,18 +70,18 @@ function generateNewTrack(trackIndex = 0 /* offset 1, 0 = all tracks */) {
                 case "counterpoint_4th-s":
                     for (let i = 0; i < nbTries; i++) {
                         // generate CF then counterpoint
-                        trackCandidateCF = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[1], qNote, 2);
+                        trackCandidateCF = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[1], qNote, 2, timeSignNum, timeSignDen);
                         if (trackCandidateCF != null) {
                             if (selectedTypeId == "counterpoint_4th-s")
-                                trackCandidateH = GenerateCounterpointTrack4S(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor4SArray, trackCandidateCF);
+                                trackCandidateH = GenerateCounterpointTrack4S(tonic, scaleValues, nbBars, octaves[0], qNote, 1, timeSignNum, timeSignDen, rhythmFactor4SArray, trackCandidateCF);
                             else if (selectedTypeId == "counterpoint_4-1")
-                                trackCandidateH = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor41Array, trackCandidateCF);
+                                trackCandidateH = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octaves[0], qNote, 1, timeSignNum, timeSignDen, rhythmFactor41Array, trackCandidateCF);
                             else if (selectedTypeId == "counterpoint_3-1")
-                                trackCandidateH = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor31Array, trackCandidateCF);
+                                trackCandidateH = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[0], qNote, 1, timeSignNum, timeSignDen, rhythmFactor31Array, trackCandidateCF);
                             else if (selectedTypeId == "counterpoint_2-1")
-                                trackCandidateH = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octaves[0], qNote, 1, rhythmFactor21Array, trackCandidateCF);
+                                trackCandidateH = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octaves[0], qNote, 1, timeSignNum, timeSignDen, rhythmFactor21Array, trackCandidateCF);
                             else
-                                trackCandidateH = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[0], qNote, 1, trackCandidateCF);
+                                trackCandidateH = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[0], qNote, 1, timeSignNum, timeSignDen, trackCandidateCF);
                         }
                         if (trackCandidateCF != null && trackCandidateH != null)
                             break;
@@ -114,34 +118,34 @@ function generateNewTrack(trackIndex = 0 /* offset 1, 0 = all tracks */) {
     switch (selectedTypeId) {
         case "chords+melody":
             if (trackIndex == 1)
-                trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+                trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
             else
-                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
             break;
         case "bass+melody":
             if (trackIndex == 1)
                 trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
             else
-                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
             break;
         case "chords_progression":
             if (trackIndex == 1)
-                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
             else
-                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
             break;
         case "arpeggios_progression":
             if (trackIndex == 1)
-                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
             else
-                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
             break;
         case "sequence":
-            trackCandidate = GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+            trackCandidate = GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
             break;
         case "counterpoint_4th-s":
             if (trackIndex == 1) {
-                trackCandidate = GenerateCounterpointTrack4S(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor4SArray, trackOther);
+                trackCandidate = GenerateCounterpointTrack4S(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, rhythmFactor4SArray, trackOther);
             }
             else // bass
              {
@@ -151,39 +155,39 @@ function generateNewTrack(trackIndex = 0 /* offset 1, 0 = all tracks */) {
             }
         case "counterpoint_4-1":
             if (trackIndex == 1) {
-                trackCandidate = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor41Array, trackOther);
+                trackCandidate = GenerateCounterpointTrack41(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, rhythmFactor41Array, trackOther);
             }
             else // bass
              {
                 // reduce 4:1 counterpoint high track to 1 note per bar track
                 let trackHReduced = ReduceTrack41(trackOther, 1);
-                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, trackHReduced);
             }
             break;
         case "counterpoint_3-1":
             if (trackIndex == 1) {
-                trackCandidate = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor31Array, trackOther);
+                trackCandidate = GenerateCounterpointTrack31(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, rhythmFactor31Array, trackOther);
             }
             else // bass
              {
                 // reduce 3:1 counterpoint high track to 1 note per bar track
                 let trackHReduced = ReduceTrack31(trackOther, 1);
-                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, trackHReduced);
             }
             break;
         case "counterpoint_2-1":
             if (trackIndex == 1) {
-                trackCandidate = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, rhythmFactor21Array, trackOther);
+                trackCandidate = GenerateCounterpointTrack21(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, rhythmFactor21Array, trackOther);
             }
             else // bass
              {
                 // reduce 2:1 counterpoint high track to 1 note per bar track
                 let trackHReduced = ReduceTrack21(trackOther, 1);
-                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
+                trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, trackHReduced);
             }
             break;
         default:
-            trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackOther);
+            trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, trackOther);
             break;
     }
     if (trackCandidate != null)
@@ -227,9 +231,18 @@ function saveGeneratedSong() {
     generatedMidi.Save(`${fileName}.mid`);
 }
 function resetGeneratedSong(updatePage = true) {
+    //console.log("reset generated song");
     generatedMidi = new MidiFile(1, 2, qNote);
     generatedMidi.Tempo(0, 120, 0);
-    generatedMidi.TimeSignature(0, 4, 4, 0);
+    // get time signature
+    let timeSignNum = 4;
+    let timeSignDen = 4;
+    try {
+        const timeSignNumSelected = document.getElementById(`song_generator_time_signature_num`).value;
+        timeSignNum = parseInt(timeSignNumSelected);
+    }
+    catch (_a) { }
+    generatedMidi.TimeSignature(0, timeSignNum, timeSignDen, 0);
     hasGeneratedMidi = false;
     if (updatePage)
         updateSongGeneratorPage();

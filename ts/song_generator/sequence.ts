@@ -1,5 +1,6 @@
 function GenerateSequenceTrack(tonic: number, scaleValues: Array<number>, nbBars: number, nbNotesPerBar: number,
-    octave: number, freq: number, qNote: number, channelId: number): (MidiTrack | null)
+    octave: number, freq: number, qNote: number, channelId: number,
+    timeSignNum: number = 4, timeSignDen: number = 4): (MidiTrack | null)
 { 
     //const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     //
@@ -9,7 +10,8 @@ function GenerateSequenceTrack(tonic: number, scaleValues: Array<number>, nbBars
     let success = false;
     for (let i = 0; i < nbTries; i++)
     {        
-        track = generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
+        track = generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar,
+            octave, freq, qNote, channelId, timeSignNum, timeSignDen);
     
     //    if (hasTrackCF)
     //        success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(<MidiTrack>trackCF, track));
@@ -25,7 +27,8 @@ function GenerateSequenceTrack(tonic: number, scaleValues: Array<number>, nbBars
 }
 
 function generateSequenceTrackCandidate(tonic: number, scaleValues: Array<number>, nbBars: number,
-    nbNotesPerBar: number, octave: number, freq: number, qNote: number, channelId: number): MidiTrack
+    nbNotesPerBar: number, octave: number, freq: number, qNote: number, channelId: number,
+    timeSignNum: number = 4, timeSignDen: number = 4): MidiTrack
 {    
     let track = new MidiTrack(channelId);
     
@@ -40,11 +43,11 @@ function generateSequenceTrackCandidate(tonic: number, scaleValues: Array<number
 
     const startInterval = <number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const duration = 4*qNote/nbNotesPerBar;
+    const duration = timeSignNum*qNote/nbNotesPerBar;
 
     // 1st note appears?
     if (noteAppears(freq))
-        AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4*qNote/nbNotesPerBar);
+        AddNoteMonoEvent(track, tonic + startInterval, octave, 0, duration);
     else
         startPosition += duration;
 

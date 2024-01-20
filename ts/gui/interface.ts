@@ -104,6 +104,7 @@ window.onload = function()
     (<HTMLSelectElement>document.getElementById(`song_generator_scale`)).addEventListener("change", () => { resetGeneratedSong() });
     (<HTMLSelectElement>document.getElementById(`song_generator_nb_bars`)).addEventListener("change", () => { resetGeneratedSong() });
     (<HTMLSelectElement>document.getElementById(`song_generator_nb_notes_per_bar`)).addEventListener("change", () => { resetGeneratedSong() });
+    (<HTMLSelectElement>document.getElementById(`song_generator_time_signature_num`)).addEventListener("change", () => { resetGeneratedSong() });
     
     (<HTMLButtonElement>document.getElementById('song_generator_generate')).addEventListener("click", () => { generateNewTrack() });
     for (let i = 1; i <= 2; i++)

@@ -1,5 +1,5 @@
 "use strict";
-function GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId) {
+function GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum = 4, timeSignDen = 4) {
     //const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     //
     // generate candidate track and check its coherency
@@ -7,7 +7,7 @@ function GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave
     let track = new MidiTrack(channelId);
     let success = false;
     for (let i = 0; i < nbTries; i++) {
-        track = generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId);
+        track = generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum, timeSignDen);
         //    if (hasTrackCF)
         //        success = (hasMelodicFluency(track, tonic, octave, scaleValues) && checkCounterpoint11(<MidiTrack>trackCF, track));
         //    else
@@ -18,7 +18,7 @@ function GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octave
     }
     return null;
 }
-function generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId) {
+function generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBar, octave, freq, qNote, channelId, timeSignNum = 4, timeSignDen = 4) {
     let track = new MidiTrack(channelId);
     const nbNotesInScale = scaleValues.length;
     const intervalRange = Math.round(0.8 * nbNotesInScale);
@@ -28,10 +28,10 @@ function generateSequenceTrackCandidate(tonic, scaleValues, nbBars, nbNotesPerBa
     let startIntervals = [0]; //scaleValues;
     const startInterval = getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const duration = 4 * qNote / nbNotesPerBar;
+    const duration = timeSignNum * qNote / nbNotesPerBar;
     // 1st note appears?
     if (noteAppears(freq))
-        AddNoteMonoEvent(track, tonic + startInterval, octave, 0, 4 * qNote / nbNotesPerBar);
+        AddNoteMonoEvent(track, tonic + startInterval, octave, 0, duration);
     else
         startPosition += duration;
     // generate random notes in scale
