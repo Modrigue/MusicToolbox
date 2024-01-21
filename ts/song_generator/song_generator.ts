@@ -51,15 +51,15 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     }
 
     // get time signature
-    const timeSignNumSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_time_signature_num`)).value;
-    const timeSignNum = parseInt(timeSignNumSelected);
-    const timeSignDen = 4;
+    const timeSign = getSelectedTimeSignature();
+    let timeSignNum = timeSign[0];
+    let timeSignDen = timeSign[1];
 
     // used for counterpoints
-    const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], /*[1/2, 1/2]*/[3/4, 1/4]/*[3/5, 2/5]*/];
-    const rhythmFactor31Array: Array<Array<number>> = [[1/3, 1/3, 1/3], [1/2, 1/4, 1/4]];
-    const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4], [1/8, 3/8, 2/8, 2/8]];
-    const rhythmFactor4SArray: Array<Array<number>> = [[1/2, 1/2], [1/4, 3/4]/*[2/5, 3/5]*/];
+    const rhythmFactor21Array: Array<Array<number>> = [[1/2, 1/2], /*[1/2, 1/2]*//*[3/4, 1/4]*//*[3/5, 2/5]*/];
+    const rhythmFactor31Array: Array<Array<number>> = [[1/3, 1/3, 1/3]/*, [1/2, 1/4, 1/4]*/];
+    const rhythmFactor41Array: Array<Array<number>> = [[1/4, 1/4, 1/4, 1/4]/*, [1/8, 3/8, 2/8, 2/8]*/];
+    const rhythmFactor4SArray: Array<Array<number>> = [[1/2, 1/2]/*, [1/4, 3/4]*//*[2/5, 3/5]*/];
 
     // get selected tempo
     const tempoSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_tempo`)).value;
@@ -149,34 +149,34 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
     {
         case "chords+melody":
             if (trackIndex == 1)
-                trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
+                trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             else
-                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             break;
 
         case "bass+melody":
             if (trackIndex == 1)
-                trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex);
+                trackCandidate = GenerateMelodyTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             else
-                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             break;
 
         case "chords_progression":
             if (trackIndex == 1)
-                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             else
-                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             break;
 
         case "arpeggios_progression":
             if (trackIndex == 1)
-                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
+                trackCandidate = GenerateChordsProgTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             else
-                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
+                trackCandidate = GenerateChordsProgBassTrack(tonic, scaleValues, nbBars, 1, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             break;
         
         case "sequence":
-            trackCandidate = GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum);
+            trackCandidate = GenerateSequenceTrack(tonic, scaleValues, nbBars, nbNotesPerBar, octaves[trackIndex - 1], frequencies[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen);
             break;
 
         case "counterpoint_4th-s":
@@ -188,7 +188,7 @@ function generateNewTrack(trackIndex: number = 0 /* offset 1, 0 = all tracks */)
             {
                 // reduce 4th species counterpoint high track to 1 note per bar track
                 //let trackHReduced = ReduceTrack4S(trackOther, 1);
-                //trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, trackHReduced);
+                //trackCandidate = GenerateCounterpointTrack11(tonic, scaleValues, nbBars, octaves[trackIndex - 1], qNote, trackIndex, timeSignNum, timeSignDen, trackHReduced);
             }
 
         case "counterpoint_4-1":
@@ -298,20 +298,32 @@ function resetGeneratedSong(updatePage: Boolean = true): void
     generatedMidi.Tempo(0, 120, 0);
 
     // get time signature
-    let timeSignNum = 4;
+    const timeSign = getSelectedTimeSignature();
+    let timeSignNum = timeSign[0];
+    let timeSignDen = timeSign[1];
+    generatedMidi.TimeSignature(0, timeSignNum, timeSignDen, 0);
+
+    hasGeneratedMidi = false;
+
+    if (updatePage)
+        updateSongGeneratorPage();
+}
+
+function getSelectedTimeSignature(): [number, number]
+{
+    let timeSignNum = 4; // default
     let timeSignDen = 4;
     try
     {
         const timeSignNumSelected: string = (<HTMLInputElement>document.getElementById(`song_generator_time_signature_num`)).value;
         timeSignNum = parseInt(timeSignNumSelected);
+
+        const timeSignDenSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById('song_generator_time_signature_den');
+        timeSignDen = parseInt(timeSignDenSelect.value);
     }
     catch {}
 
-    generatedMidi.TimeSignature(0, timeSignNum, timeSignDen, 0);
-    hasGeneratedMidi = false;
-
-    if (updatePage)
-        updateSongGeneratorPage();
+    return [timeSignNum, timeSignDen];
 }
 
 function getSelectedTracks(): Array<boolean>
@@ -427,12 +439,42 @@ function updateSongTypeSelector(id: string)
             option.innerHTML = getSongTypeText(key);
             typeSelect.appendChild(option);
         }
-}
+    }
     else
     {
         // update
         for (const option of typeSelect.options)
             option.innerHTML = getSongTypeText(option.value);
+    }
+
+    // disable if only 1 option
+    typeSelect.disabled = (typeSelect.options.length <= 1);
+}
+
+function updateSongTimeSignSelector(id: string)
+{
+    // get selector
+    const typeSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
+    const initialized = (typeSelect.options != null && typeSelect.options.length > 0);
+
+    if (!initialized)
+    {
+        // add song types
+        for (let power = 0; power <= 6; power++)
+        {
+            const den = Math.pow(2, power);
+            let option = document.createElement('option');
+            option.value = den.toString();
+            option.innerHTML = den.toString();
+            typeSelect.appendChild(option);
+
+            if (den == 4) // default
+                option.selected = true;
+        }
+    }
+    else
+    {
+        // nop
     }
 
     // disable if only 1 option

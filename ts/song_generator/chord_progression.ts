@@ -33,7 +33,7 @@ function generateChordsProgTrackCandidate(tonic: number, scaleValues: Array<numb
     //let startIntervals: Array<number> = [0]; //scaleValues;
     //const startInterval = 0; //<number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const barDuration = timeSignNum*qNote;
+    const barDuration = timeSignNum*qNote*4/timeSignDen;
 
     // 1st chord: tonic scale chord / arpeggio
     //const tonicValue1st = scaleNotesValues[0] + startInterval;
@@ -150,7 +150,7 @@ function generateChordsProgBassTrackCandidate(tonic: number, scaleValues: Array<
 
     const startInterval = 0; //<number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const duration = timeSignNum*qNote/nbNotesPerBar;
+    const duration = timeSignNum*qNote*4/timeSignDen/nbNotesPerBar;
 
     // 1st note appears?
     //if (noteAppears(freq))

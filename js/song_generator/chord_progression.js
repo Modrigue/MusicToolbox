@@ -21,7 +21,7 @@ function generateChordsProgTrackCandidate(tonic, scaleValues, nbBars, nbNotesPer
     //let startIntervals: Array<number> = [0]; //scaleValues;
     //const startInterval = 0; //<number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const barDuration = timeSignNum * qNote;
+    const barDuration = timeSignNum * qNote * 4 / timeSignDen;
     // 1st chord: tonic scale chord / arpeggio
     //const tonicValue1st = scaleNotesValues[0] + startInterval;
     const chordValues1st = [scaleNotesValues[0], scaleNotesValues[2], scaleNotesValues[4]];
@@ -100,7 +100,7 @@ function generateChordsProgBassTrackCandidate(tonic, scaleValues, nbBars, nbNote
     let startIntervals = [0]; //scaleValues;
     const startInterval = 0; //<number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const duration = timeSignNum * qNote / nbNotesPerBar;
+    const duration = timeSignNum * qNote * 4 / timeSignDen / nbNotesPerBar;
     // 1st note appears?
     //if (noteAppears(freq))
     AddNoteMonoEvent(track, tonic + startInterval, octave, 0, duration);

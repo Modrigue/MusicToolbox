@@ -39,7 +39,7 @@ function generateMelodyTrackCandidate(tonic: number, scaleValues: Array<number>,
 
     const startInterval = <number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const durationMin = timeSignNum*qNote/nbNotesPerBar;
+    const durationMin = timeSignNum*qNote*4/timeSignDen/nbNotesPerBar;
     const durationTrack = nbNotesPerBar*durationMin*nbBars;
 
     // generate random notes in scale

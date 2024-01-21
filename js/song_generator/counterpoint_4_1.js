@@ -46,7 +46,7 @@ function generateCounterpointTrack41Candidate(tonic, scaleValues, nbBars, octave
         const rhythmsArray = rhythmFactorArray[barIndex % nbRhythms];
         if (index21 == 0 && hasTrackCF) {
             // 1st note on 4th beat
-            AddNoteMonoValueEvent(track41, note21Value, (timeSignNum - 1) * qNote, qNote);
+            AddNoteMonoValueEvent(track41, note21Value, (timeSignNum - 1) * qNote * 4 / timeSignDen, qNote * 4 / timeSignDen);
             //// 1st notes: 3rd and 4th beats
             //AddNoteValueEvent(track41, note21Value, 2*qNote, qNote);
             //AddNoteValueEvent(track41, note21Value, 0, qNote);

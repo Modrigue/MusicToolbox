@@ -83,6 +83,7 @@ window.onload = function () {
     document.getElementById(`song_generator_nb_bars`).addEventListener("change", () => { resetGeneratedSong(); });
     document.getElementById(`song_generator_nb_notes_per_bar`).addEventListener("change", () => { resetGeneratedSong(); });
     document.getElementById(`song_generator_time_signature_num`).addEventListener("change", () => { resetGeneratedSong(); });
+    document.getElementById(`song_generator_time_signature_den`).addEventListener("change", () => { resetGeneratedSong(); });
     document.getElementById('song_generator_generate').addEventListener("click", () => { generateNewTrack(); });
     for (let i = 1; i <= 2; i++)
         document.getElementById(`song_generator_generate_track${i}`).addEventListener("click", () => { generateNewTrack(i); });
@@ -169,6 +170,7 @@ function updateSelectors(resetScaleExplorer = false, resetScaleFinder = false, r
     }
     // update song generator selectors
     updateSongTypeSelector('song_generator_type');
+    updateSongTimeSignSelector('song_generator_time_signature_den');
     //(<HTMLSelectElement>document.getElementById(`song_generator_type`)).selectedIndex = 3;
     updateNoteSelector(`song_generator_tonic`, 0, false);
     const selectedTypeId = getSelectedSongType('song_generator_type');

@@ -25,7 +25,7 @@ function generateCounterpointTrack4SCandidate(tonic, scaleValues, nbBars, octave
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
-    const barDuration = timeSignNum * qNote;
+    const barDuration = timeSignNum * qNote * 4 / timeSignDen;
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor * nbNotesInScale);
     // build allowed scale notes array
     const scaleNotesValues = GetScaleNotesOctaveRangeValues(tonic, scaleValues, octave);

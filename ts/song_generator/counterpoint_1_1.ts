@@ -42,7 +42,7 @@ function generateCounterpointTrack11Candidate(tonic: number, scaleValues: Array<
     const nbNotesInScale = scaleValues.length;
     const hasTrackCF = (trackCF != null && trackCF.Events != null && trackCF.Events.length > 1);
 
-    const barDuration = timeSignNum*qNote;
+    const barDuration = timeSignNum*qNote*4/timeSignDen;
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor*nbNotesInScale);
 
     // build allowed scale notes array

@@ -43,7 +43,7 @@ function generateSequenceTrackCandidate(tonic: number, scaleValues: Array<number
 
     const startInterval = <number>getRandomArrayElement(startIntervals);
     let startPosition = 0;
-    const duration = timeSignNum*qNote/nbNotesPerBar;
+    const duration = timeSignNum*qNote*4/timeSignDen/nbNotesPerBar;
 
     // 1st note appears?
     if (noteAppears(freq))

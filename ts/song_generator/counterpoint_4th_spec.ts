@@ -41,7 +41,7 @@ function generateCounterpointTrack4SCandidate(tonic: number, scaleValues: Array<
     // rhythm array to circle
     const nbRhythms = rhythmFactorArray.length;
 
-    const barDuration = timeSignNum*qNote;
+    const barDuration = timeSignNum*qNote*4/timeSignDen;
     const intervalRange = Math.round(intervalCounterpoint11RangeFactor*nbNotesInScale);
 
     // build allowed scale notes array
