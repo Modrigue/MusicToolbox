@@ -47,6 +47,12 @@ class MidiFile
         this.Tracks[trackIndex].TimeSignature(numerator, denominator, deltaTime);
     }
 
+    // from: https://ccrma.stanford.edu/~craig/14q/midifile/MidiFileFormat.html
+    public Name(trackIndex: number, name: string, deltaTime: number)
+    {
+        this.Tracks[trackIndex].Name(name, deltaTime);
+    }
+
     public NoteOn(trackIndex: number, deltaTime: number, note: number, velocity: number)
     {    
         this.Tracks[trackIndex].NoteOn(note, deltaTime, velocity);

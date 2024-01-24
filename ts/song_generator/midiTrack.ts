@@ -113,6 +113,13 @@ class MidiTrack
         this.AddEvent(event);
     }
 
+    public Name(name: string, deltaTime: number): void
+    {
+        const event: MidiTrackEvent = NameEvent(name, deltaTime);
+        //DisplayHexBytesArray(event.ToBytes());
+        this.AddEvent(event);
+    }
+
     public NoteOn(note: number, deltaTime: number, velocity: number): void
     {
         const event: MidiTrackEvent = NoteOnTrackEvent(this.Channel - 1, note, deltaTime, velocity);

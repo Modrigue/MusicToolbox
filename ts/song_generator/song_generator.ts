@@ -256,6 +256,9 @@ function finalizeTrackGeneration()
         const instrId: number = parseInt(instrSelect.value);
 
         generatedMidi.UpdateInstrument(i, instrId);
+
+        const trackText: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`song_generator_checkbox_track${i}_text`);
+        generatedMidi.Name(i, trackText.innerText, 0);
     }
 }
 
@@ -404,6 +407,11 @@ function updateSongGeneratorPage(): void
         {
             track1Text.innerText = getString("counterpoint");
             track2Text.innerText = "Cantus firmus";
+        }
+        else if (isSequence)
+        {
+            track1Text.innerText = `${getString("sequence")} 1`;
+            track2Text.innerText = `${getString("sequence")} 2`;
         }
     }
 

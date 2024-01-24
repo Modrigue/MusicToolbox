@@ -206,6 +206,8 @@ function finalizeTrackGeneration() {
         const instrSelect = document.getElementById(`song_generator_instrument_track${i}`);
         const instrId = parseInt(instrSelect.value);
         generatedMidi.UpdateInstrument(i, instrId);
+        const trackText = document.getElementById(`song_generator_checkbox_track${i}_text`);
+        generatedMidi.Name(i, trackText.innerText, 0);
     }
 }
 function playGeneratedSong() {
@@ -314,6 +316,10 @@ function updateSongGeneratorPage() {
         else if (isCounterpoint) {
             track1Text.innerText = getString("counterpoint");
             track2Text.innerText = "Cantus firmus";
+        }
+        else if (isSequence) {
+            track1Text.innerText = `${getString("sequence")} 1`;
+            track2Text.innerText = `${getString("sequence")} 2`;
         }
     }
     // for debug purposes

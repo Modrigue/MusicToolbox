@@ -29,6 +29,10 @@ class MidiFile {
     TimeSignature(trackIndex, numerator, denominator, deltaTime) {
         this.Tracks[trackIndex].TimeSignature(numerator, denominator, deltaTime);
     }
+    // from: https://ccrma.stanford.edu/~craig/14q/midifile/MidiFileFormat.html
+    Name(trackIndex, name, deltaTime) {
+        this.Tracks[trackIndex].Name(name, deltaTime);
+    }
     NoteOn(trackIndex, deltaTime, note, velocity) {
         this.Tracks[trackIndex].NoteOn(note, deltaTime, velocity);
     }

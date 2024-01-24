@@ -2,6 +2,7 @@
 const headerEndTrack = [0xFF, 0x2F, 0x00];
 const headerTempo = [0xFF, 0x51, 0x03];
 const headerTimeSignature = [0xFF, 0x58, 0x04];
+const headerName = [0xFF, 0x03];
 // links:
 // https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html
 class MidiTrackEvent {
@@ -37,14 +38,22 @@ function TempoEvent(bpm, deltaTime) {
     //DisplayHexBytesArray(bytesDuration);
     const bytesDurationArray = [bytesDuration[0], bytesDuration[1], bytesDuration[2]];
     const tempoArray = headerTempo.concat(bytesDurationArray);
-    //displayHexArray(tempoArray);
+    //DisplayHexArray(tempoArray);
     return new MidiTrackEvent(deltaTime, tempoArray, MidiTrackEventType.TEMPO, bpm);
 }
 function TimeSignatureEvent(numerator, denominator, deltaTime) {
     const tsValuesArray = [numerator, Math.floor(Math.log2(denominator)), 0x18, 0x08];
     const tsArray = headerTimeSignature.concat(tsValuesArray);
-    //displayHexArray(tsArray);
+    //DisplayHexArray(tsArray);
     return new MidiTrackEvent(deltaTime, tsArray, MidiTrackEventType.TIME_SIGNATURE);
+}
+function NameEvent(name, deltaTime) {
+    const utf8EncodeText = new TextEncoder();
+    const nameBytesArray = Array.from(utf8EncodeText.encode(name));
+    const nameLength = nameBytesArray.length;
+    const nameArray = headerName.concat(nameLength).concat(nameBytesArray);
+    //DisplayHexArray(nameArray);
+    return new MidiTrackEvent(deltaTime, nameArray, MidiTrackEventType.NAME);
 }
 function NoteOnTrackEvent(channel, note, deltaTime, velocity) {
     const start = 0x90 + (channel & 0xF); // note on event = "9" + <channel_nibble>
