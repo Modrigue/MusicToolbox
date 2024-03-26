@@ -1,27 +1,29 @@
 // guitar tunings with 4 notes (bass)
 const guitarTunings4Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-guitarTunings4Dict.set("standard" , [4, 9,  2, 7]);
-guitarTunings4Dict.set("open_d"   , [2, 9,  2, 6]);
-guitarTunings4Dict.set("open_e7"  , [4, 11, 2, 8]);
-guitarTunings4Dict.set("open_g"   , [7, 11, 2, 7]);
-guitarTunings4Dict.set("dropped_d", [2, 9,  2, 7]);
+guitarTunings4Dict.set("standard" ,  [4, 9,  2, 7]);
+guitarTunings4Dict.set("open_d"   ,  [2, 9,  2, 6]);
+guitarTunings4Dict.set("open_e7"  ,  [4, 11, 2, 8]);
+guitarTunings4Dict.set("open_g"   ,  [7, 11, 2, 7]);
+guitarTunings4Dict.set("dropped_d",  [2, 9,  2, 7]);
 
 // guitar tunings with 7 notes -bass / mandolin)
 const guitarTunings5Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-guitarTunings5Dict.set("standard", [11, 4, 9, 2, 7]);
+guitarTunings5Dict.set("standard",   [11, 4, 9, 2, 7]);
 
 // guitar tunings with 6 notes
 const guitarTunings6Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-guitarTunings6Dict.set("standard" , [4 , 9, 2, 7, 11, 4]);
-guitarTunings6Dict.set("dropped_d", [2 , 9, 2, 7, 11, 4]);
-guitarTunings6Dict.set("open_d"   , [2,  9, 2, 6,  9, 2]);
-guitarTunings6Dict.set("open_e7"  , [4, 11, 2, 8, 11, 4]);
-guitarTunings6Dict.set("open_g"   , [2,  7, 2, 7, 11, 2]);
-guitarTunings6Dict.set("dadgad"   , [2 , 9, 2, 7, 9 , 2]);
+guitarTunings6Dict.set("standard" ,  [4 , 9, 2, 7, 11, 4]);
+guitarTunings6Dict.set("dropped_d",  [2 , 9, 2, 7, 11, 4]);
+guitarTunings6Dict.set("open_d"   ,  [2,  9, 2, 6,  9, 2]);
+guitarTunings6Dict.set("open_e7"  ,  [4, 11, 2, 8, 11, 4]);
+guitarTunings6Dict.set("open_g"   ,  [2,  7, 2, 7, 11, 2]);
+guitarTunings6Dict.set("open_c"   ,  [0,  7, 0, 4,  7, 4]);
+guitarTunings6Dict.set("open_csus2", [0,  7, 0, 2,  7, 2]);
+guitarTunings6Dict.set("dadgad"   ,  [2 , 9, 2, 7, 9 , 2]);
 
 // guitar tunings with 7 notes
 const guitarTunings7Dict: Map<string, Array<number>> = new Map<string, Array<number>>();
-guitarTunings7Dict.set("standard", [11, 4, 9, 2, 7, 11, 4]);
+guitarTunings7Dict.set("standard",   [11, 4, 9, 2, 7, 11, 4]);
 
 // global guitar tunings dictionary
 const guitarTuningsDict: Map<number, Map<string, Array<number>>> = new Map<number, Map<string, Array<number>>>();
