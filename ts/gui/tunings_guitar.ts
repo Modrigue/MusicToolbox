@@ -17,8 +17,8 @@ guitarTunings6Dict.set("dropped_d",  [2 , 9, 2, 7, 11, 4]);
 guitarTunings6Dict.set("open_d"   ,  [2,  9, 2, 6,  9, 2]);
 guitarTunings6Dict.set("open_e7"  ,  [4, 11, 2, 8, 11, 4]);
 guitarTunings6Dict.set("open_g"   ,  [2,  7, 2, 7, 11, 2]);
-guitarTunings6Dict.set("open_c"   ,  [0,  7, 0, 4,  7, 4]);
-guitarTunings6Dict.set("open_csus2", [0,  7, 0, 2,  7, 2]);
+guitarTunings6Dict.set("open_c"   ,  [0,  7, 0, 7,  0, 4]);
+guitarTunings6Dict.set("open_csus2", [0,  7, 2, 7,  0, 2]);
 guitarTunings6Dict.set("dadgad"   ,  [2 , 9, 2, 7, 9 , 2]);
 
 // guitar tunings with 7 notes
