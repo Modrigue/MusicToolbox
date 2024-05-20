@@ -172,7 +172,7 @@ scalesDict_int.set("5major_penta,4", "Blues major / Yo / Ritsusen (4th mode)");
 scalesDict_int.set("5major_penta,sep", "");
 scalesDict_int.set("5jap_in,1", "In / Miyako-Bushi");
 scalesDict_int.set("5jap_in,2", "Chinese (2nd mode)");
-scalesDict_int.set("5jap_in,3", "Hirajoshi (3rd mode)");
+scalesDict_int.set("5jap_in,3", "Hirajoshi / Tezeta (3rd mode)");
 scalesDict_int.set("5jap_in,4", "Iwato (4th mode)");
 scalesDict_int.set("5jap_in,sep", "");
 scalesDict_int.set("5jap_insen,1", "Insen");
@@ -297,7 +297,7 @@ scalesDict_fr.set("5major_penta,4", "Blues majeur / Yo / Ritsusen (4e mode)");
 
 scalesDict_fr.set("5jap_in,1", "In / Miyako-Bushi");
 scalesDict_fr.set("5jap_in,2", "Chinois (2e mode)");
-scalesDict_fr.set("5jap_in,3", "Hirajoshi (3e mode)");
+scalesDict_fr.set("5jap_in,3", "Hirajoshi / Tezeta (3e mode)");
 scalesDict_fr.set("5jap_in,4", "Iwato (4e mode)");
 
 scalesDict_fr.set("5jap_insen,1", "Insen");
