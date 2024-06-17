@@ -139,9 +139,11 @@ scalesDict_int.set("6main,sep", "");
 scalesDict_int.set("6aug,1", "Augmented / Irish / Scottish");
 scalesDict_int.set("6aug,2", "Six-tone symmetrical (2nd mode)");
 scalesDict_int.set("6aug,sep", "");
+scalesDict_int.set("6prom,1", "Prometheus / Mystic");
+scalesDict_int.set("6prom,4", "Mystic tritone (4th mode)");
+scalesDict_int.set("6prom,sep", "");
 scalesDict_int.set("6bb_box,1", "B.B. Box");
 scalesDict_int.set("6major_hexa,1", "Hexatonic major");
-scalesDict_int.set("6prom,1", "Prometheus / Mystic");
 scalesDict_int.set("6prom_nap,1", "Prometheus neapolitan");
 scalesDict_int.set("6tritone,1", "Tritone / Petrushka");
 scalesDict_int.set("6tritone_semi,1", "Two-semitone tritone");
@@ -245,8 +247,9 @@ scalesDict_fr.set("6blues,1,diff:5major_penta;5", "Blues / Penta. mineur + Blue 
 scalesDict_fr.set("6strange,1", "Tons / Etrange / Debussy");
 scalesDict_fr.set("6aug,1", "Augmenté / Irlandais / Ecossais");
 scalesDict_fr.set("6aug,2", "6 tons symétrique (2e mode)");
-scalesDict_fr.set("6major_hexa,1", "Hexatonique majeur");
 scalesDict_fr.set("6prom,1", "Prométhée / Mystique");
+scalesDict_fr.set("6prom,4", "Mystique triton (4e mode)");
+scalesDict_fr.set("6major_hexa,1", "Hexatonique majeur");
 scalesDict_fr.set("6prom_nap,1", "Prométhée napolitain");
 scalesDict_fr.set("6tritone,1", "Triton / Petrouchka");
 scalesDict_fr.set("6tritone_semi,1", "2 semi-tons triton");
@@ -283,7 +286,7 @@ const scalesToHighlight = ["12tet,1",
     "7major_2harm,1", "7major_harm,1", "7major_neap,1", "7minor_neap,1", "7persian,1",
     "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7saba", "7sikah_baladi,1",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1", "8harmonic_approx",
-    "6blues,1", "6strange,1", "6aug,1",
+    "6blues,1", "6strange,1", "6aug,1", "6prom,1",
     "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1",
     "24tet,1"
 ];
