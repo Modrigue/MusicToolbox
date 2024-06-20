@@ -50,6 +50,7 @@ scaleFamiliesDict.set("5bartok_penta",    [0, 4, 6, 7, 10]);
 scaleFamiliesDict.set("5phryg6_penta",    [0, 1, 3, 7, 9]);
 scaleFamiliesDict.set("5majorb6_penta",   [0, 2, 4, 7, 8]);
 scaleFamiliesDict.set("5blues_no4_penta", [0, 3, 6, 7, 10]);
+scaleFamiliesDict.set("5kepler",          [0, 1, 3, 4, 7]);
 
 // chromatic
 scaleFamiliesDict.set("12tet", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
@@ -198,6 +199,7 @@ scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Bartok Pentatonic");
 scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
 scalesDict_int.set("5majorb6_penta,1,diff:5major_penta;1", "Major Pentatonic ♭6");
 scalesDict_int.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
+scalesDict_int.set("5kepler,1", "Kepler");
 scalesDict_int.set("5others,sep", "");
 
 
