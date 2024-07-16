@@ -76,6 +76,7 @@ scaleFamiliesDict.set("7mavila_16edo",      getEDOSubsetScaleValues(16,  [0, 2, 
 scaleFamiliesDict.set("9mavila_16edo",      getEDOSubsetScaleValues(16,  [0, 1, 3, 5, 7, 8, 10, 12, 14])); // 1 2 2 2 1 2 2 2 2
 //scaleFamiliesDict.set("19meantone_31edo",   [0, 0.38710, 1.16129, 1.54839, 2.32258, 3.09677, 3.48387, 4.25806, 5.03226, 5.41935, 6.19355, 6.58065, 7.35484, 8.12903, 8.51613, 9.29032, 10.06452, 10.45161, 11.22581]);
 scaleFamiliesDict.set("6mothra_31edo",      getEDOSubsetScaleValues(31 , [0, 6, 12, 18, 24, 30])); // 6 6 6 6 6 1
+scaleFamiliesDict.set("7neutral_10edo",     getEDOSubsetScaleValues(10 , [0, 1, 3, 4, 6, 7, 9])); // 1 2 1 2 1 1
 scaleFamiliesDict.set("9orwell_22edo",      getEDOSubsetScaleValues(22 , [0, 2, 5, 7, 10, 12, 15, 17, 20])); // 2 3 2 3 2 3 2 3 2
 scaleFamiliesDict.set("12pajara_22edo",     getEDOSubsetScaleValues(22 , [0, 2, 4, 6, 8, 10, 11, 13, 15, 17, 19, 21])); // 2 2 2 2 2 1 2 2 2 2 2 1
 //scaleFamiliesDict.set("7pepperoni_271edo",  [0, 2.0811808, 2.8782288, 4.9594096, 7.0405904, 7.8376384, 9.9188192]);
@@ -213,6 +214,7 @@ scalesDict_int.set("7mavila_16edo,1",     "Mavila[7] (16-EDO)");
 scalesDict_int.set("9mavila_16edo,1",     "Mavila[9] (16-EDO)");
 //scalesDict_int.set("19meantone_31edo,1",  "MeanTone[19] (31-EDO)");
 scalesDict_int.set("6mothra_31edo,1",     "Mothra[6] (31-EDO)");
+scalesDict_int.set("7neutral_10edo,1",    "Neutral[7] (10-EDO)");
 scalesDict_int.set("9orwell_22edo,1",     "Orwell[9] (22-EDO)");
 scalesDict_int.set("12pajara_22edo,1",    "Pajara[12] (22-EDO)");
 //scalesDict_int.set("7pepperoni_271edo,1", "Pepperoni[7] (271-EDO)");
