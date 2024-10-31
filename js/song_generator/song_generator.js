@@ -44,7 +44,7 @@ function generateNewTrack(trackIndex = 0 /* offset 1, 0 = all tracks */) {
     let timeSignNum = timeSign[0];
     let timeSignDen = timeSign[1];
     // used for counterpoints
-    const rhythmFactor21Array = [[1 / 2, 1 / 2],];
+    const rhythmFactor21Array = [[1 / 2, 1 / 2], /*[1/2, 1/2]*/ /*[3/4, 1/4]*/ /*[3/5, 2/5]*/];
     const rhythmFactor31Array = [[1 / 3, 1 / 3, 1 / 3] /*, [1/2, 1/4, 1/4]*/];
     const rhythmFactor41Array = [[1 / 4, 1 / 4, 1 / 4, 1 / 4] /*, [1/8, 3/8, 2/8, 2/8]*/];
     const rhythmFactor4SArray = [[1 / 2, 1 / 2] /*, [1/4, 3/4]*/ /*[2/5, 3/5]*/];

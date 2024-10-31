@@ -57,7 +57,7 @@ function getFoundScalesHTML(notesValues, nbNotes = -1, excludedNote = -1, exclud
     for (let tonicScaleId of foundScales) {
         // get tonic and scale key
         const scaleAttributes = tonicScaleId.split("|");
-        const tonicValue = parseFloat(scaleAttributes[0]);
+        const tonicValue = /*parseInt*/ parseFloat(scaleAttributes[0]);
         const scaleId = scaleAttributes[1];
         // exclude defined note, scale if defined
         if (excludedNote >= 0 && excludedScale != "")
@@ -84,7 +84,7 @@ function getNegativeFoundScaleHTML(notesValues, tonicValue = -1, findQuarterTone
     for (let tonicScaleId of foundScales) {
         // get tonic and scale key
         const scaleAttributes = tonicScaleId.split("|");
-        const tonicValue = parseFloat(scaleAttributes[0]);
+        const tonicValue = /*parseInt*/ parseFloat(scaleAttributes[0]);
         const scaleId = scaleAttributes[1];
         negScalesHTML += getScaleButtonHTML(tonicValue, scaleId);
         nbScales++;
@@ -167,7 +167,7 @@ function getSelectedNotesChordsFinderValues() {
     let notesValues = new Array();
     for (let i = 1; i <= 8; i++) {
         const tonicSelected = document.getElementById(`note_finder${i.toString()}`).value;
-        const tonicValue = parseFloat(tonicSelected);
+        const tonicValue = /*parseInt*/ parseFloat(tonicSelected);
         if (tonicValue < 0)
             continue;
         const chordSelector = document.getElementById(`chord_finder${i.toString()}`);
