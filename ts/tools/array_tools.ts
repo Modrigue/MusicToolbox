@@ -1,5 +1,4 @@
-function arraysEqual<T>(a: Array<T>, b: Array<T>): boolean
-{
+function arraysEqual<T>(a: Array<T>, b: Array<T>): boolean {
   if (a === b)
     return true;
   if (a == null || b == null)
@@ -7,8 +6,7 @@ function arraysEqual<T>(a: Array<T>, b: Array<T>): boolean
   if (a.length !== b.length)
     return false;
 
-  for (let i = 0; i < a.length; ++i)
-  {
+  for (let i = 0; i < a.length; ++i) {
     if (a[i] !== b[i])
       return false;
   }
@@ -16,8 +14,7 @@ function arraysEqual<T>(a: Array<T>, b: Array<T>): boolean
   return true;
 }
 
-function arraysDiff(a: Array<number>, b: Array<number>): Array<number>
-{
+function arraysDiff(a: Array<number>, b: Array<number>): Array<number> {
   let diffArray: Array<number> = new Array<number>();
 
   if (a == null && b != null)
@@ -25,29 +22,24 @@ function arraysDiff(a: Array<number>, b: Array<number>): Array<number>
   if (a != null && b == null)
     return a;
 
-  if (a.length == b.length)
-  {
-    for (let i = 0; i < a.length; i++)
-    {
+  if (a.length == b.length) {
+    for (let i = 0; i < a.length; i++) {
       if (a[i] !== b[i])
         diffArray.push(i);
     }
   }
-  else
-  {
+  else {
     // different lengths
     let A = a;
     let B = b;
-    if (a.length < b.length)
-    {
+    if (a.length < b.length) {
       // ensure A is the biggest array
       A = b;
       B = a;
     }
-    
+
     // find A elements non included in B
-    for (let i = 0; i < A.length; i++)
-    {
+    for (let i = 0; i < A.length; i++) {
       if (B.indexOf(A[i]) < 0)
         diffArray.push(i);
     }
@@ -56,9 +48,8 @@ function arraysDiff(a: Array<number>, b: Array<number>): Array<number>
   return diffArray;
 }
 
-function getArrayItemIndex<T>(array: Array<T>, value: T): number
-{
-  if(array == null)
+function getArrayItemIndex<T>(array: Array<T>, value: T): number {
+  if (array == null)
     return -1;
 
   const length = array.length;
@@ -69,9 +60,8 @@ function getArrayItemIndex<T>(array: Array<T>, value: T): number
   return -1;
 }
 
-function getArrayArrayItemIndex(arrayOfArrays: Array<Array<number>>, arrayValue: Array<number>): number
-{
-  if(arrayOfArrays == null)
+function getArrayArrayItemIndex(arrayOfArrays: Array<Array<number>>, arrayValue: Array<number>): number {
+  if (arrayOfArrays == null)
     return -1;
 
   const length: number = arrayOfArrays.length;
@@ -83,37 +73,32 @@ function getArrayArrayItemIndex(arrayOfArrays: Array<Array<number>>, arrayValue:
 }
 
 
-function arrayRemoveValue<T>(array: Array<T>, value: T): Array<T>
-{
-    if (array == null || array.length == 0)
-        return array;
+function arrayRemoveValue<T>(array: Array<T>, value: T): Array<T> {
+  if (array == null || array.length == 0)
+    return array;
 
-    return array.filter(function(element){ return element != value; });
+  return array.filter(function (element) { return element != value; });
 }
 
-function arrayArrayFilterWithItemLength<T>(array: Array<Array<T>>, lengthMin: number): void
-{
-  for (let j = array.length - 1; j >= 0; j--)
-  {
+function arrayArrayFilterWithItemLength<T>(array: Array<Array<T>>, lengthMin: number): void {
+  for (let j = array.length - 1; j >= 0; j--) {
     if (array[j].length < lengthMin)
       array.splice(j, 1);
   }
 }
 
-function cloneArrayArrayWithItemLength<T>(array: Array<Array<T>>, length: number): Array<Array<T>>
-{
+function cloneArrayArrayWithItemLength<T>(array: Array<Array<T>>, length: number): Array<Array<T>> {
   let arrayCloned: Array<Array<T>> = new Array<Array<T>>();
-  for (let item of array)
-  {
+  for (let item of array) {
     if (item.length == length)
       arrayCloned.push(item)
-;  }
+        ;
+  }
 
   return arrayCloned;
 }
 
-function cloneIntegerArray(array: Array<number>): Array<number>
-{
+function cloneIntegerArray(array: Array<number>): Array<number> {
   //if (array == null || array.length == 0)
   //  return []; 
 
@@ -121,17 +106,16 @@ function cloneIntegerArray(array: Array<number>): Array<number>
 
   for (let value of array)
     arrayCloned.push(value);
-  
+
   return arrayCloned;
 }
 
-function getArrayIntersection<T>(array1: Array<T>, array2: Array<T>): Array<T>
-{
+function getArrayIntersection<T>(array1: Array<T>, array2: Array<T>): Array<T> {
   if (array1 == null || array1.length == 0)
     return [];
   if (array2 == null || array2.length == 0)
     return [];
-  
+
   let arrayInter: Array<T> = [];
 
   for (let item1 of array1)
@@ -141,24 +125,36 @@ function getArrayIntersection<T>(array1: Array<T>, array2: Array<T>): Array<T>
   return arrayInter;
 }
 
-function getKeyFromArrayValue(dict: Map<string, Array<number>>, value: Array<number>): string
-{
+function getKeyFromArrayValue(dict: Map<string, Array<number>>, value: Array<number>): string {
   if (dict == null)
     return "?";
 
-    for(const [key, valueCur] of dict)
-    {
-      if (arraysEqual(valueCur, value))
-        return key;
-    }
+  for (const [key, valueCur] of dict) {
+    if (arraysEqual(valueCur, value))
+      return key;
+  }
 
-    // not found
-    return "?";
+  // not found
+  return "?";
+}
+
+function containsArray<T>(twoDArray: Array<Array<T>>, candidate: Array<T>): boolean {
+  if (twoDArray == null)
+    return false;
+
+  if (twoDArray.length == 0)
+    return false;
+
+  for (const array of twoDArray) {
+    if (arraysEqual(array, candidate))
+      return true;
+  }
+
+  return false;
 }
 
 // from: https://bobbyhadz.com/blog/javascript-check-if-array-contains-duplicates
-function containsDuplicates<T>(array: Array<T>) : boolean
-{
+function containsDuplicates<T>(array: Array<T>): boolean {
   if (array.length !== new Set(array).size)
     return true;
 

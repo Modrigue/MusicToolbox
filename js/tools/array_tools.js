@@ -107,6 +107,17 @@ function getKeyFromArrayValue(dict, value) {
     // not found
     return "?";
 }
+function containsArray(twoDArray, candidate) {
+    if (twoDArray == null)
+        return false;
+    if (twoDArray.length == 0)
+        return false;
+    for (const array of twoDArray) {
+        if (arraysEqual(array, candidate))
+            return true;
+    }
+    return false;
+}
 // from: https://bobbyhadz.com/blog/javascript-check-if-array-contains-duplicates
 function containsDuplicates(array) {
     if (array.length !== new Set(array).size)

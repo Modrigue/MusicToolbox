@@ -7,8 +7,7 @@ let cEmptyStrings: number = 4;
 
 function getNotesPositionsOnString(noteValue: number, stringValue: number,
     posMin: number, posMax: number, includeEmptyString: boolean = false,
-    qTones = false): Array<number>
-{
+    qTones = false): Array<number> {
     let positions = [];
 
     // include empty string if option allowed
@@ -17,8 +16,7 @@ function getNotesPositionsOnString(noteValue: number, stringValue: number,
 
     // browse positions range on string
     const posStep = (qTones ? 0.5 : 1);
-    for (let pos = posMin; pos <= posMax; pos += posStep)
-    {
+    for (let pos = posMin; pos <= posMax; pos += posStep) {
         const curNoteValue = (stringValue + pos) % 12;
         if (curNoteValue == noteValue && positions.indexOf(pos) < 0)
             positions.push(pos);
@@ -28,8 +26,7 @@ function getNotesPositionsOnString(noteValue: number, stringValue: number,
 }
 
 function generateChords(notesValues: Array<number>, nbStrings: number = 99,
-    includeEmptyStrings = false, noteBass = -1, qTones = false): Array<Array<number>>
-{
+    includeEmptyStrings = false, noteBass = -1, qTones = false): Array<Array<number>> {
     if (notesValues == null || notesValues.length < 2)
         return new Array<Array<number>>();
 
@@ -41,19 +38,17 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
     const nbNotes: number = notesValues.length;
 
     // generate all valid chord positions
-    for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++)
-    {
+    for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++) {
         const bassNote = (noteBass >= 0) ? noteBass : fundamental;
         const positionsString0 = getNotesPositionsOnString(bassNote, tuningValues[startString], 0, 11, true, qTones);
-        for (let p0 of positionsString0)
-        {
+        for (let p0 of positionsString0) {
             // get start positions
             let startPositions = [];
             for (let i = 0; i < startString; i++)
                 startPositions.push(-1);
             startPositions.push(p0);
 
-            // init algorithm
+            // start algorithm
             addChordNoteOnString(notesValues, noteBass, startString, startString + 1, startPositions, chordsPositions,
                 tuningValues, nbStrings, includeEmptyStrings, qTones);
         }
@@ -62,16 +57,19 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
     // sort positions
 
     let propertiesArray: Array<ChordPositionsProperties> = new Array<ChordPositionsProperties>();
-    for (let pos of chordsPositions)
-    {
-        let prop: ChordPositionsProperties = new ChordPositionsProperties(pos)
+    for (let pos of chordsPositions) {
+        let prop: ChordPositionsProperties = new ChordPositionsProperties(pos);
         propertiesArray.push(prop);
     }
     propertiesArray.sort(compareChordPositionsProperties);
 
     let sortedChordsPositions = [];
-    for (let prop of propertiesArray)
-        sortedChordsPositions.push(prop.positions);
+    for (let prop of propertiesArray) {
+        // filter duplicates
+        if (!containsArray<number>(sortedChordsPositions, prop.positions))
+            sortedChordsPositions.push(prop.positions);
+    }
+    //console.log(sortedChordsPositions);
 
     return sortedChordsPositions;
 }
@@ -83,8 +81,7 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
     startIndex: number, stringIndex: number,
     positionsCur: Array<number>, chordsPositions: Array<Array<number>>,
     tuningValues: Array<number>, nbStrings: number = 99, includeEmptyStrings = false,
-    qTones = false, chordAddedArray: Array<Array<number>> = [])
-{
+    qTones = false, chordAddedArray: Array<Array<number>> = []) {
     // secure
     const nbStringsTotal: number = tuningValues.length;
     if (stringIndex >= nbStringsTotal)
@@ -92,8 +89,7 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
 
     // find notes on current string
     const isLastString = (stringIndex + 1 == nbStringsTotal);
-    for (let noteValue of notesValues)
-    {
+    for (let noteValue of notesValues) {
         const range = getSearchRange(positionsCur);
 
         // exclude note from previous string
@@ -101,13 +97,12 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
             if (noteValue == (positionsCur[positionsCur.length - 1] + tuningValues[stringIndex - 1]) % 12)
                 continue;
 
+        // get and test next positions in range
         const positionsOnString = getNotesPositionsOnString(noteValue, tuningValues[stringIndex], range[0], range[1], includeEmptyStrings, qTones);
-
-        for (let pos of positionsOnString)
-        {
+        for (let pos of positionsOnString) {
             let positionsCandidate = [...positionsCur];
             positionsCandidate.push(pos);
-            
+
             let valid = chordPositionsValid(notesValues, bass, positionsCandidate, tuningValues, nbStrings);
 
             // fixed number of strings?
@@ -115,15 +110,13 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
 
             // continue search condition
             let continueSearch = !isLastString;
-            if (fixedNbString)
-            {
+            if (fixedNbString) {
                 let positionsNotHit = [...positionsCandidate];
                 positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
                 if (positionsNotHit != null)
                     continueSearch = (positionsNotHit.length != nbStrings);
             }
-            else if (nbStrings <= 0)
-            {
+            else if (nbStrings <= 0) {
                 if (valid)
                     continueSearch = false;
             }
@@ -137,24 +130,27 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
             // update added chord positions array
             for (let chordPos of chordAddedArrayCurrent)
                 chordAddedArray.push(chordPos);
-            
+
             // add chord position if not more complete position has been found
             const addCurrentChord = valid && (!continueSearch || chordAddedArrayCurrent.length == 0);
-            if (addCurrentChord)
-            {
+            if (addCurrentChord) {
                 // complete positions with remaining not hit strings
                 let positionsCandidateComplete = [...positionsCandidate];
                 for (let i = 0; i < nbStringsTotal - stringIndex - 1; i++)
                     positionsCandidateComplete.push(-1);
 
+                // set defined not hit strings
+                for (let i = 1; i <= nbStringsTotal; i++) {
+                    if (!hitChordsStrings[nbStringsTotal - i]) {
+                        //console.log(i, nbStringsTotal);
+                        positionsCandidateComplete[i - 1] = -1;
+                    }
+                }
+
                 // check again
                 valid = chordPositionsValid(notesValues, bass, positionsCandidateComplete, tuningValues, nbStrings);
-
                 if (valid)
-                {
                     chordsPositions.push(positionsCandidateComplete);
-                    //console.log("positionsCandidateComplete", positionsCandidateComplete)
-                }
 
                 chordAddedArray.push(positionsCandidateComplete);
             }
@@ -163,16 +159,14 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
 }
 
 function chordPositionsValid(notesValues: Array<number>, bass: number,
-    positionsCandidate: Array<number>, tuningValues: Array<number>, nbStrings: number = 99): boolean
-{
+    positionsCandidate: Array<number>, tuningValues: Array<number>, nbStrings: number = 99): boolean {
     // check if all notes are included
     if (!chordPositionsIncludeNotes(notesValues, bass, tuningValues, positionsCandidate))
         return false;
-    
+
     // check positions range
     let positionsNotEmpty: Array<number> = removePositionsEmpty(positionsCandidate);
-    if (positionsNotEmpty != null && positionsNotEmpty.length > 1)
-    {
+    if (positionsNotEmpty != null && positionsNotEmpty.length > 1) {
         const posMax: number = Math.min(...positionsNotEmpty);
         const posMin: number = Math.max(...positionsNotEmpty);
         if (posMax - posMin > MAX_CHORD_FRET_RANGE)
@@ -184,8 +178,7 @@ function chordPositionsValid(notesValues: Array<number>, bass: number,
         return false;
 
     // check number of strings used if specified
-    if (nbStrings > 0 && nbStrings <= tuningValues.length)
-    {
+    if (nbStrings > 0 && nbStrings <= tuningValues.length) {
         let positionsNotHit = [...positionsCandidate];
         positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
         if (positionsNotHit.length != nbStrings)
@@ -214,8 +207,7 @@ function chordPositionsValid(notesValues: Array<number>, bass: number,
 }
 
 function chordPositionsIncludeNotes(notesValues: Array<number>, bass: number,
-    tuningValues: Array<number>, positionsCandidate: Array<number>): boolean
-{
+    tuningValues: Array<number>, positionsCandidate: Array<number>): boolean {
     if (notesValues == null || notesValues.length < 2)
         return false;
     if (positionsCandidate == null || positionsCandidate.length < 2)
@@ -226,11 +218,9 @@ function chordPositionsIncludeNotes(notesValues: Array<number>, bass: number,
 
     let notesValuesToFind = [...notesValues];
     let posIndex = 0, stringIndex = 0;
-    for (let pos of positionsCandidate)
-    {
+    for (let pos of positionsCandidate) {
         // string not hit
-        if (pos < 0)
-        {
+        if (pos < 0) {
             stringIndex++;
             continue;
         }
@@ -240,11 +230,10 @@ function chordPositionsIncludeNotes(notesValues: Array<number>, bass: number,
 
         // check bass if specified
         let isBass = false;
-        if (bass >= 0 && posIndex == 0)
-        {
+        if (bass >= 0 && posIndex == 0) {
             if (curNoteValue != bass)
                 return false;
-            
+
             isBass = true;
         }
 
@@ -261,8 +250,7 @@ function chordPositionsIncludeNotes(notesValues: Array<number>, bass: number,
     return (notesValuesToFind.length == 0);
 }
 
-function getSearchRange(positions: Array<number>): [number, number]
-{
+function getSearchRange(positions: Array<number>): [number, number] {
     // do not count empty strings
     let positionsNotEmpty: Array<number> = removePositionsEmpty(positions);
     if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
@@ -270,13 +258,12 @@ function getSearchRange(positions: Array<number>): [number, number]
 
     const posMin: number = Math.max(Math.max(...positionsNotEmpty) - MAX_CHORD_FRET_RANGE, 0);
     const posMax: number = Math.min(...positionsNotEmpty) + MAX_CHORD_FRET_RANGE;
-    
+
     return [posMin, posMax];
 }
 
 // remove empty and not hit strings
-function removePositionsEmpty(positions: Array<number>): Array<number>
-{
+function removePositionsEmpty(positions: Array<number>): Array<number> {
     if (positions == null || positions.length == 0)
         return positions;
 
@@ -290,20 +277,18 @@ function removePositionsEmpty(positions: Array<number>): Array<number>
     return positionsNotEmpty;
 }
 
-function getNbFretsUsed(positions: Array<number>): number
-{
+function getNbFretsUsed(positions: Array<number>): number {
     // do not count empty strings
     let positionsNotEmpty: Array<number> = removePositionsEmpty(positions);
     if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
         return 0;
 
     let fretsUsed: Array<number> = new Array<number>();
-    for (let pos of positionsNotEmpty)
-    {
+    for (let pos of positionsNotEmpty) {
         if (fretsUsed.indexOf(pos) < 0)
             fretsUsed.push(pos);
     }
-    
+
     return fretsUsed.length;
 }
 
@@ -311,8 +296,7 @@ function getNbFretsUsed(positions: Array<number>): number
 ///////////////////////////////// EXPERIMENTAL ////////////////////////////////
 
 
-function getFretWidth(pos: number): number
-{
+function getFretWidth(pos: number): number {
     if (pos < 0)
         return -1;
 
@@ -320,11 +304,10 @@ function getFretWidth(pos: number): number
     return Math.pow(2, - pos / 12.0);
 }
 
-function getPositionX(pos: number): number
-{
+function getPositionX(pos: number): number {
     if (pos < 0)
         return -1;
-    
+
     let x = 0;
     for (let i = 1; i <= pos; i++)
         x += getFretWidth(i);
@@ -332,16 +315,14 @@ function getPositionX(pos: number): number
     return x;
 }
 
-function getStringY(index: number): number
-{
+function getStringY(index: number): number {
     return 1 / 5.0 * index;
 }
 
-function getDistanceXY(pos1: number, index1: number, pos2: number, index2: number)
-{
+function getDistanceXY(pos1: number, index1: number, pos2: number, index2: number) {
     return Math.sqrt(
-        (getPositionX(pos2) - getPositionX(pos1))*(getPositionX(pos2) - getPositionX(pos1))
-      + (getStringY(index2) - getStringY(index1))*(getStringY(index2) - getStringY(index1))
+        (getPositionX(pos2) - getPositionX(pos1)) * (getPositionX(pos2) - getPositionX(pos1))
+        + (getStringY(index2) - getStringY(index1)) * (getStringY(index2) - getStringY(index1))
     );
 }
 
@@ -349,8 +330,7 @@ function getDistanceXY(pos1: number, index1: number, pos2: number, index2: numbe
 //////////////////////////////// METRIC FUNCTIONS /////////////////////////////
 
 
-function getChordPositionsRange(positions: Array<number>): number
-{
+function getChordPositionsRange(positions: Array<number>): number {
     // do not count empty strings
     let positionsNotEmpty: Array<number> = removePositionsEmpty(positions);
     if (positionsNotEmpty == null || positionsNotEmpty.length == 0)
@@ -358,58 +338,52 @@ function getChordPositionsRange(positions: Array<number>): number
 
     const posMax: number = Math.max(...positionsNotEmpty);
     const posMin: number = Math.min(...positionsNotEmpty);
-    
+
     return (posMax - posMin + 1);
 }
 
-function getChordPositionNbEmptyStrings(positions: Array<number>): number
-{
-    return positions.filter(function(pos: number){ return pos < 0; }).length;
+function getChordPositionNbEmptyStrings(positions: Array<number>): number {
+    return positions.filter(function (pos: number) { return pos < 0; }).length;
 }
 
-function getChordPositionStretch(positions: Array<number>): number
-{
+function getChordPositionStretch(positions: Array<number>): number {
     let dist: number = 0;
     let posLast: number = -1;
     let stringLast: number = -1;
     const nbPos: number = positions.length;
 
     // compute sum of distances between positions
-    for (let i: number = 0; i < nbPos; i++)
-    {
+    for (let i: number = 0; i < nbPos; i++) {
         const posCur = positions[i];
 
         // skip if empty
         if (posCur <= 0)
             continue;
-        
+
         // add distance
         if (posLast >= 0 && stringLast >= 0)
             //dist += getDistanceXY(posCur, i, posLast, stringLast);
-            dist += Math.sqrt((posCur - posLast)*(posCur - posLast) + (i - stringLast)*(i - stringLast));
+            dist += Math.sqrt((posCur - posLast) * (posCur - posLast) + (i - stringLast) * (i - stringLast));
 
         // update last non-empty position
         posLast = posCur;
         stringLast = i;
     }
-    
+
     return dist;
 }
 
-function getNbFingersPlaced(positions: Array<number>): number
-{
+function getNbFingersPlaced(positions: Array<number>): number {
     let nbFingers: number = 0;
     let stringsPlaced: Array<number> = new Array<number>();
 
     // browse barres positions
     const barres: Map<number, [number, number]> = computeBarres(positions);
-    for (let [pos, barre] of barres)
-    {
+    for (let [pos, barre] of barres) {
         const minString = barre[0];
         const maxString = barre[1];
 
-        for (let curString = minString; curString <= maxString; curString++)
-        {
+        for (let curString = minString; curString <= maxString; curString++) {
             if (positions[curString] == pos)
                 stringsPlaced.push(curString);
         }
@@ -419,8 +393,7 @@ function getNbFingersPlaced(positions: Array<number>): number
 
     // browse remaining positions
     const nbStrings: number = positions.length;
-    for (let i = 0; i < nbStrings; i++)
-    {
+    for (let i = 0; i < nbStrings; i++) {
         const position = positions[i];
         if (position > 0 && stringsPlaced.indexOf(i) < 0)
             nbFingers++;
@@ -432,8 +405,7 @@ function getNbFingersPlaced(positions: Array<number>): number
 /////////////////////////////// PROPERTIES CLASS //////////////////////////////
 
 
-class ChordPositionsProperties
-{
+class ChordPositionsProperties {
     positions: Array<number>;
 
     maxPosition: number;
@@ -442,21 +414,19 @@ class ChordPositionsProperties
     nbEmptyStrings: number;
 
     constructor(positions: Array<number>,
-        maxPosition: number = -1, range: number = -1, stretch: number = -1, nbEmptyStrings: number = -1)
-    {
-      this.positions = positions;
+        maxPosition: number = -1, range: number = -1, stretch: number = -1, nbEmptyStrings: number = -1) {
+        this.positions = positions;
 
-      this.maxPosition = maxPosition;
-      this.range = range;
-      this.stretch = stretch;
-      this.nbEmptyStrings = nbEmptyStrings;
+        this.maxPosition = maxPosition;
+        this.range = range;
+        this.stretch = stretch;
+        this.nbEmptyStrings = nbEmptyStrings;
 
-      this.computeMetrics();
+        this.computeMetrics();
     }
 
     // compute all metrics
-    computeMetrics()
-    {
+    computeMetrics() {
         this.maxPosition = Math.max(...this.positions);
         this.range = getChordPositionsRange(this.positions);
         this.stretch = getChordPositionStretch(this.positions);
@@ -464,18 +434,16 @@ class ChordPositionsProperties
     }
 }
 
-function getChordPositionsScore(pos: ChordPositionsProperties): number
-{
+function getChordPositionsScore(pos: ChordPositionsProperties): number {
     const maxPos = pos.maxPosition;
     const stretch = pos.stretch;
     const range = pos.range;
-    const nbEmptyStrings = pos.nbEmptyStrings;  
+    const nbEmptyStrings = pos.nbEmptyStrings;
 
-    return cMaxPos*maxPos + cStretch*stretch + +cRange*range + cEmptyStrings*nbEmptyStrings;
+    return cMaxPos * maxPos + cStretch * stretch + +cRange * range + cEmptyStrings * nbEmptyStrings;
 }
 
-function compareChordPositionsProperties(a: ChordPositionsProperties, b: ChordPositionsProperties)
-{
+function compareChordPositionsProperties(a: ChordPositionsProperties, b: ChordPositionsProperties) {
     const scoreA = getChordPositionsScore(a);
     const scoreB = getChordPositionsScore(b);
 
@@ -486,11 +454,9 @@ function compareChordPositionsProperties(a: ChordPositionsProperties, b: ChordPo
 ///////////////////////////////// GUI FUNCTIONS ///////////////////////////////
 
 
-function getSelectedChordExplorerNotes(): Array<number>
-{
+function getSelectedChordExplorerNotes(): Array<number> {
     let noteValues: Array<number> = new Array<number>();
-    for (let i = 0; i <= 6; i++)
-    {
+    for (let i = 0; i <= 6; i++) {
         const chordExplorerNoteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${i}`);
         const value = parseFloat(chordExplorerNoteSelector.value);
         if (value >= 0 && noteValues.indexOf(value) < 0 && !chordExplorerNoteSelector.disabled)
@@ -501,8 +467,7 @@ function getSelectedChordExplorerNotes(): Array<number>
 }
 
 
-function updateFoundChordElements()
-{
+function updateFoundChordElements() {
     let fondamentalValue = -1;
     let bassValue = -1;
     let fundamentalSelected = "";
@@ -512,8 +477,7 @@ function updateFoundChordElements()
     let bassInterval = -1;
 
     let selectedMode: string = chordExplorerUpdateMode;
-    switch(selectedMode)
-    {
+    switch (selectedMode) {
         case "name":
             {
                 // update arpeggios texts
@@ -532,27 +496,25 @@ function updateFoundChordElements()
 
                 break;
             }
-        
+
         case "notes":
         default:
             {
                 // take 1st selected note as fundamental
                 selectedNotesValues = getSelectedChordExplorerNotes();
                 fondamentalValue = (selectedNotesValues.length > 0) ? selectedNotesValues[0] : -1;
-                const selectedChordId = getChordExplorerChordId(); 
-                if (selectedChordId != null && selectedChordId != "")
-                {
+                const selectedChordId = getChordExplorerChordId();
+                if (selectedChordId != null && selectedChordId != "") {
                     // TODO: duplicated code
                     intervalValues = getChordExplorerChordValues();
                     bassValue = getChordExplorerBassValue();
                     const bassInterval = (bassValue >= 0) ? (bassValue - fondamentalValue + 12) % 12 : -1;
                 }
-                else
-                {
+                else {
                     // compute chord relative values given fundamental
                     for (let noteValue of selectedNotesValues)
                         intervalValues.push((noteValue - fondamentalValue) % 12);
-                    
+
                     // handle octaves at search? (ie. add9,...)
                 }
 
@@ -564,9 +526,8 @@ function updateFoundChordElements()
     const chordIntervalsValues = getArpeggioIntervalsValues(intervalValues, bassInterval);
     const chordIntervalsNames = getArpeggioIntervalsNames(intervalValues, bassInterval);
 
-    let indexInterval = 0;    
-    for (let indexNote = 0; indexNote < 7; indexNote++)
-    {
+    let indexInterval = 0;
+    for (let indexNote = 0; indexNote < 7; indexNote++) {
         const noteSelector: HTMLSelectElement = <HTMLSelectElement>document.getElementById(`chord_explorer_note${indexNote}`);
         const hasInterval = (indexInterval < chordIntervalsNames.length && noteSelector.value != "-1");
         const intervalName = hasInterval ? chordIntervalsNames[indexInterval] : "";
@@ -584,11 +545,11 @@ function updateFoundChordElements()
     // update found chords text
     fundamentalSelected = fondamentalValue.toString();
     const foundChordsTexts: HTMLSpanElement = <HTMLSpanElement>document.getElementById('chord_explorer_found_chords_texts');
-    
+
     // 1st pass: display entire relative chords
     let foundChords: Array<[number, string, number]> = findChords(selectedNotesValues, false, true);
     let foundChordsStr = getFoundChordsButtonsHTML(foundChords, fondamentalValue, bassValue, selectedMode);
-    
+
     //// 2nd pass with bass: display relative chords with bass
     //if (bassValue >= 0 && bassValue != fondamentalValue && selectedNotesValues.indexOf(bassValue) >= 0)
     //{
@@ -633,14 +594,12 @@ function updateFoundChordElements()
 }
 
 function getFoundChordsButtonsHTML(foundChords: Array<[number, string, number]>, fondamentalValue: number, bassValue: number,
-    selectedMode: string): string
-{
+    selectedMode: string): string {
     let foundChordsStr = "";
     const culture = getSelectedCulture();
 
     let index = 0;
-    for (let noteChord of foundChords)
-    {
+    for (let noteChord of foundChords) {
         const noteValue = noteChord[0];
         const chordId = noteChord[1];
         let foundBassValue = noteChord[2];
@@ -652,13 +611,11 @@ function getFoundChordsButtonsHTML(foundChords: Array<[number, string, number]>,
         const noteName = getNoteName(noteValue);
         const chordNoteName = getCompactChordNotation(noteName, chordId);
 
-        if (bassValue < 0)
-        {
+        if (bassValue < 0) {
             if (noteValue != fondamentalValue)
                 foundBassValue = fondamentalValue;
         }
-        else
-        {
+        else {
             if (noteValue != bassValue)
                 foundBassValue = bassValue;
         }
@@ -677,7 +634,7 @@ function getFoundChordsButtonsHTML(foundChords: Array<[number, string, number]>,
         url += "&lang=" + culture;
         url += "&guitar_nb_strings=" + getSelectedGuitarNbStrings("chord_explorer_guitar_nb_strings");
         url += "&guitar_tuning=" + getSelectedGuitarTuningId("chord_explorer_guitar_tuning");
-        
+
         const callbackString = `openNewTab(\"${url}\")`;
         button.setAttribute("onClick", callbackString);
 
@@ -700,8 +657,7 @@ function getFoundChordsButtonsHTML(foundChords: Array<[number, string, number]>,
     return foundChordsStr;
 }
 
-function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false, showQTones = false, showIntervals = false)
-{
+function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings = false, showQTones = false, showIntervals = false) {
     const generatedGuitarChords: HTMLParagraphElement = <HTMLParagraphElement>document.getElementById('generated_guitar_chords');
     generatedGuitarChords.classList.add("flex-container");
     let chordNotesValues: Array<number> = new Array<number>();
@@ -712,8 +668,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
 
     // get selected parameters given mode
     let selectedMode: string = chordExplorerUpdateMode; //getSelectedChordGeneratorMode();
-    switch(selectedMode)
-    {
+    switch (selectedMode) {
         /*case "name":
             {
                 noteFondamental = getChordExplorerFondamentalValue();
@@ -746,9 +701,8 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     const nbStringsSelectedStr = (<HTMLSelectElement>document.getElementById('chord_explorer_nb_strings_max')).value;
     const nbStringsSelected = parseInt(nbStringsSelectedStr);
     //console.log(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass, selectedMode); 
-    const positionsArray: Array<Array<number>> = generateChords(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass, showQTones); 
-    if (positionsArray == null || positionsArray.length == 0)
-    {        
+    const positionsArray: Array<Array<number>> = generateChords(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass, showQTones);
+    if (positionsArray == null || positionsArray.length == 0) {
         generatedGuitarChords.innerHTML = getString("no_result");
         return;
     }
@@ -761,8 +715,7 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
 }
 
 // disable incoherent number of strings options
-function updateNbStringsForChordSelector()
-{
+function updateNbStringsForChordSelector() {
     let nbNotesInChord = -1;
     const nbStrings: number = getSelectedGuitarNbStrings('chord_explorer_guitar_nb_strings');
 
@@ -776,11 +729,10 @@ function updateNbStringsForChordSelector()
         const selectedFreeNotes = getSelectedChordExplorerNotes();
         nbNotesInChord = selectedFreeNotes.length;
     }
-    
+
     // enable values given nb. of notes
     let setDefaultValue: boolean = false;
-    for (let i = 2; i <= 7; i++)
-    {
+    for (let i = 2; i <= 7; i++) {
         let option: HTMLOptionElement = <HTMLOptionElement>document.getElementById(`chord_explorer_nb_strings_max_option_${i}`);
         option.disabled = (i < nbNotesInChord) || (i > nbStrings);
 
@@ -789,8 +741,7 @@ function updateNbStringsForChordSelector()
     }
 
     // set default value if needed
-    if (setDefaultValue)
-    {
+    if (setDefaultValue) {
         let option: HTMLOptionElement = <HTMLOptionElement>document.getElementById('chord_explorer_nb_strings_max_option_max');
         option.selected = true;
     }
@@ -799,8 +750,7 @@ function updateNbStringsForChordSelector()
 /////////////////////////////// BARRES FUNCIONS ///////////////////////////////
 
 
-function computeBarres(positions: Array<number>): Map<number, [number, number]>
-{
+function computeBarres(positions: Array<number>): Map<number, [number, number]> {
     if (positions == null || positions.length == 0)
         return new Map<number, [number, number]>();
 
@@ -810,18 +760,15 @@ function computeBarres(positions: Array<number>): Map<number, [number, number]>
     // 1st pass: search for identical frets
     let barresCandidatesDict = new Map<number, Array<number>>();
     let stringIndex = 0;
-    for (let pos of positions)
-    {
-        if (pos <= 0)
-        {
+    for (let pos of positions) {
+        if (pos <= 0) {
             stringIndex++;
             continue;
         }
 
         if (!barresCandidatesDict.has(pos))
             barresCandidatesDict.set(pos, [stringIndex]);
-        else
-        {
+        else {
             let stringsCur: Array<number> = <Array<number>>barresCandidatesDict.get(pos);
             stringsCur.push(stringIndex);
             barresCandidatesDict.set(pos, stringsCur);
@@ -831,10 +778,9 @@ function computeBarres(positions: Array<number>): Map<number, [number, number]>
     }
 
     // 2nd pass: check barres candidates
-    for (let [pos, stringArray] of barresCandidatesDict)
-    {
+    for (let [pos, stringArray] of barresCandidatesDict) {
         if (stringArray.length < 2) // no barre
-            continue; 
+            continue;
 
         // compute extremities
         const stringMin: number = Math.min(...stringArray);
@@ -846,12 +792,10 @@ function computeBarres(positions: Array<number>): Map<number, [number, number]>
 
         // check left positions presence between barre candidate extremities
         let isBarre = true;
-        for (let stringCur = stringMin; stringCur < stringMax; stringCur++)
-        {
+        for (let stringCur = stringMin; stringCur < stringMax; stringCur++) {
             let posCur = positions[stringCur];
-            if (posCur < pos)
-            {
-                isBarre = false; 
+            if (posCur < pos) {
+                isBarre = false;
                 break;
             }
         }
@@ -862,7 +806,7 @@ function computeBarres(positions: Array<number>): Map<number, [number, number]>
         // >=4 strings => must include highest string
         if (barreLength >= 4 && stringMax != nbStrings - 1)
             continue;
-        
+
         // ok, add barre
         barres.set(pos, [stringMin, stringMax]);
     }
@@ -875,8 +819,7 @@ function computeBarres(positions: Array<number>): Map<number, [number, number]>
 //////////////////////////////// TEST FUNCTIONS ///////////////////////////////
 
 
-function testGenerateChordPositions(): void
-{
+function testGenerateChordPositions(): void {
     // coefs start values
     const cMaxPosStart: number = 0;
     const cStretchStart: number = 0;
@@ -894,26 +837,22 @@ function testGenerateChordPositions(): void
 
     // brute-force search
     cMaxPos = cMaxPosStart;
-    for (let i = 0; i < nbSteps; i++, cMaxPos += stepMaxPos)
-    {
+    for (let i = 0; i < nbSteps; i++, cMaxPos += stepMaxPos) {
         //if (stepMaxPos == 0 && i > 0)
         //    continue;
 
         cStretch = cStretchStart;
-        for (let j = 0; j < nbSteps; j++, cStretch += stepStretch)
-        {
+        for (let j = 0; j < nbSteps; j++, cStretch += stepStretch) {
             if (stepStretch == 0 && j > 0)
                 continue;
 
             cRange = cRangeStart;
-            for (let k = 0; k < nbSteps; k++, cRange += stepRange)
-            {
+            for (let k = 0; k < nbSteps; k++, cRange += stepRange) {
                 if (stepRange == 0 && k > 0)
                     continue;
 
                 cEmptyStrings = cNbEmptyStringsStart;
-                for (let l = 0; l < nbSteps; l++, cEmptyStrings += stepNbEmptyStrings)
-                {
+                for (let l = 0; l < nbSteps; l++, cEmptyStrings += stepNbEmptyStrings) {
                     if (stepNbEmptyStrings == 0 && l > 0)
                         continue;
 
@@ -921,8 +860,7 @@ function testGenerateChordPositions(): void
                     const errTotal: number = testGenerateChordPositionsError();
                     //console.log(`${cMaxPos}, ${cStretch}, ${cRange}, ${cEmptyStrings} -> ${errTotal.toFixed(3)}`);
 
-                    if (errMin < 0 || errTotal < errMin)
-                    {
+                    if (errMin < 0 || errTotal < errMin) {
                         errMin = errTotal;
                         coefsBest = []; // init/reset best coefs
                         coefsBest.push(coefsCur);
@@ -938,68 +876,65 @@ function testGenerateChordPositions(): void
     console.log("errMin", errMin);
 }
 
-function testGenerateChordPositionsError(): number
-{    
+function testGenerateChordPositionsError(): number {
     let errTotal = 0;
 
-    errTotal += testChordPositionsError(generateChords([0 , 4 , 7 ]), [-1, 0,2,2,2,0]); // A MAJ
-    errTotal += testChordPositionsError(generateChords([2 , 6 , 9 ]), [-1, 2,4,4,4,2]); // B MAJ
-    errTotal += testChordPositionsError(generateChords([3 , 7 , 10]), [-1, 3,2,0,1,0]); // C MAJ
-    errTotal += testChordPositionsError(generateChords([5 , 9 , 0 ]), [-1,-1,0,2,3,2]); // D MAJ
-    errTotal += testChordPositionsError(generateChords([7 , 11, 2 ]), [ 0, 2,2,1,0,0]); // E MAJ
-    errTotal += testChordPositionsError(generateChords([8 , 0 , 3 ]), [ 1, 3,3,2,1,1]); // F MAJ
-    errTotal += testChordPositionsError(generateChords([10, 2 , 5 ]), [ 3, 2,0,0,0,3]); // G MAJ1
-    errTotal += testChordPositionsError(generateChords([10, 2 , 5 ]), [ 3, 2,0,0,3,3], 1); // G MAJ2
+    errTotal += testChordPositionsError(generateChords([0, 4, 7]), [-1, 0, 2, 2, 2, 0]); // A MAJ
+    errTotal += testChordPositionsError(generateChords([2, 6, 9]), [-1, 2, 4, 4, 4, 2]); // B MAJ
+    errTotal += testChordPositionsError(generateChords([3, 7, 10]), [-1, 3, 2, 0, 1, 0]); // C MAJ
+    errTotal += testChordPositionsError(generateChords([5, 9, 0]), [-1, -1, 0, 2, 3, 2]); // D MAJ
+    errTotal += testChordPositionsError(generateChords([7, 11, 2]), [0, 2, 2, 1, 0, 0]); // E MAJ
+    errTotal += testChordPositionsError(generateChords([8, 0, 3]), [1, 3, 3, 2, 1, 1]); // F MAJ
+    errTotal += testChordPositionsError(generateChords([10, 2, 5]), [3, 2, 0, 0, 0, 3]); // G MAJ1
+    errTotal += testChordPositionsError(generateChords([10, 2, 5]), [3, 2, 0, 0, 3, 3], 1); // G MAJ2
 
-    errTotal += testChordPositionsError(generateChords([0 , 3 , 7 ]), [-1, 0,2,2,1,0]); // A min
-    errTotal += testChordPositionsError(generateChords([2 , 5 , 9 ]), [-1, 2,4,4,3,2]); // B min
-    errTotal += testChordPositionsError(generateChords([5 , 8 , 0 ]), [-1,-1,0,2,3,1]); // D min
-    errTotal += testChordPositionsError(generateChords([7 , 10, 2 ]), [ 0, 2,2,0,0,0]); // E min
-    errTotal += testChordPositionsError(generateChords([8 , 11, 3 ]), [ 1, 3,3,1,1,1]); // F min
+    errTotal += testChordPositionsError(generateChords([0, 3, 7]), [-1, 0, 2, 2, 1, 0]); // A min
+    errTotal += testChordPositionsError(generateChords([2, 5, 9]), [-1, 2, 4, 4, 3, 2]); // B min
+    errTotal += testChordPositionsError(generateChords([5, 8, 0]), [-1, -1, 0, 2, 3, 1]); // D min
+    errTotal += testChordPositionsError(generateChords([7, 10, 2]), [0, 2, 2, 0, 0, 0]); // E min
+    errTotal += testChordPositionsError(generateChords([8, 11, 3]), [1, 3, 3, 1, 1, 1]); // F min
 
-    errTotal += testChordPositionsError(generateChords([0 , 3,  7, 10]), [-1,0,2,0,1,0]); // A min7
-    errTotal += testChordPositionsError(generateChords([5 , 10, 0 ]), [-1,-1,0,2,3,3]); // D sus4
-    errTotal += testChordPositionsError(generateChords([5 , 7 , 0 ]), [-1,-1,0,2,3,0]); // D sus2
-    errTotal += testChordPositionsError(generateChords([7 , 11, 2,9 ]), [0,2,4,1,0,0]); // E add9
-    errTotal += testChordPositionsError(generateChords([7 , 10, 2,9 ]), [0,2,4,0,0,0]); // E madd9
+    errTotal += testChordPositionsError(generateChords([0, 3, 7, 10]), [-1, 0, 2, 0, 1, 0]); // A min7
+    errTotal += testChordPositionsError(generateChords([5, 10, 0]), [-1, -1, 0, 2, 3, 3]); // D sus4
+    errTotal += testChordPositionsError(generateChords([5, 7, 0]), [-1, -1, 0, 2, 3, 0]); // D sus2
+    errTotal += testChordPositionsError(generateChords([7, 11, 2, 9]), [0, 2, 4, 1, 0, 0]); // E add9
+    errTotal += testChordPositionsError(generateChords([7, 10, 2, 9]), [0, 2, 4, 0, 0, 0]); // E madd9
 
     errTotal = Math.sqrt(errTotal);
     return errTotal;
 }
 
 function testChordPositionsError(positions: Array<Array<number>>, positionRef: Array<number>,
-    indexPositionRef: number = 0): number
-{
+    indexPositionRef: number = 0): number {
     const index = getArrayArrayItemIndex(positions, positionRef);
     if (index < 0) // not found
         return 100;
 
     const err = index - indexPositionRef;
 
-    return err*err;
+    return err * err;
 }
 
-function testChordPositionsLog()
-{
-    console.log("A MAJ  ->", getArrayArrayItemIndex(generateChords([0 , 4 , 7 ]), [-1, 0,2,2,2,0]));
-    console.log("B MAJ  ->", getArrayArrayItemIndex(generateChords([2 , 6 , 9 ]), [-1, 2,4,4,4,2]));
-    console.log("C MAJ  ->", getArrayArrayItemIndex(generateChords([3 , 7 , 10]), [-1, 3,2,0,1,0]));
-    console.log("D MAJ  ->", getArrayArrayItemIndex(generateChords([5 , 9 , 0 ]), [-1,-1,0,2,3,2]));//
-    console.log("E MAJ  ->", getArrayArrayItemIndex(generateChords([7 , 11, 2 ]), [ 0, 2,2,1,0,0]));//
-    console.log("F MAJ  ->", getArrayArrayItemIndex(generateChords([8 , 0 , 3 ]), [ 1, 3,3,2,1,1]));//
-    console.log("G MAJ1 ->", getArrayArrayItemIndex(generateChords([10, 2 , 5 ]), [ 3, 2,0,0,0,3]));//
-    console.log("G MAJ2 ->", getArrayArrayItemIndex(generateChords([10, 2 , 5 ]), [ 3, 2,0,0,3,3]))////;
+function testChordPositionsLog() {
+    console.log("A MAJ  ->", getArrayArrayItemIndex(generateChords([0, 4, 7]), [-1, 0, 2, 2, 2, 0]));
+    console.log("B MAJ  ->", getArrayArrayItemIndex(generateChords([2, 6, 9]), [-1, 2, 4, 4, 4, 2]));
+    console.log("C MAJ  ->", getArrayArrayItemIndex(generateChords([3, 7, 10]), [-1, 3, 2, 0, 1, 0]));
+    console.log("D MAJ  ->", getArrayArrayItemIndex(generateChords([5, 9, 0]), [-1, -1, 0, 2, 3, 2]));//
+    console.log("E MAJ  ->", getArrayArrayItemIndex(generateChords([7, 11, 2]), [0, 2, 2, 1, 0, 0]));//
+    console.log("F MAJ  ->", getArrayArrayItemIndex(generateChords([8, 0, 3]), [1, 3, 3, 2, 1, 1]));//
+    console.log("G MAJ1 ->", getArrayArrayItemIndex(generateChords([10, 2, 5]), [3, 2, 0, 0, 0, 3]));//
+    console.log("G MAJ2 ->", getArrayArrayItemIndex(generateChords([10, 2, 5]), [3, 2, 0, 0, 3, 3]))////;
 
-    console.log("A min  ->", getArrayArrayItemIndex(generateChords([0 , 3 , 7 ]), [-1, 0,2,2,1,0]));
-    console.log("B min  ->", getArrayArrayItemIndex(generateChords([2 , 5 , 9 ]), [-1, 2,4,4,3,2]));
-    console.log("D min  ->", getArrayArrayItemIndex(generateChords([5 , 8 , 0 ]), [-1,-1,0,2,3,1]));
-    console.log("E min  ->", getArrayArrayItemIndex(generateChords([7 , 10, 2 ]), [ 0, 2,2,0,0,0]));
-    console.log("F min  ->", getArrayArrayItemIndex(generateChords([8 , 11, 3 ]), [ 1, 3,3,1,1,1]));
-    
-    console.log("A min7 ->", getArrayArrayItemIndex(generateChords([0 , 3,  7, 10]), [-1,0,2,0,1,0]));
-    console.log("B dim  ->", getArrayArrayItemIndex(generateChords([2 , 5,  8]), [-1,2,3,4,3,-1]));
-    console.log("D sus4 ->", getArrayArrayItemIndex(generateChords([5 , 10, 0 ]), [-1,-1,0,2,3,3]));
-    console.log("D sus2 ->", getArrayArrayItemIndex(generateChords([5 , 7 , 0 ]), [-1,-1,0,2,3,0]));
-    console.log("E add9 ->", getArrayArrayItemIndex(generateChords([7 , 11, 2,9 ]), [0,2,4,1,0,0]));
-    console.log("Emadd9 ->", getArrayArrayItemIndex(generateChords([7 , 10, 2,9 ]), [0,2,4,0,0,0]));
+    console.log("A min  ->", getArrayArrayItemIndex(generateChords([0, 3, 7]), [-1, 0, 2, 2, 1, 0]));
+    console.log("B min  ->", getArrayArrayItemIndex(generateChords([2, 5, 9]), [-1, 2, 4, 4, 3, 2]));
+    console.log("D min  ->", getArrayArrayItemIndex(generateChords([5, 8, 0]), [-1, -1, 0, 2, 3, 1]));
+    console.log("E min  ->", getArrayArrayItemIndex(generateChords([7, 10, 2]), [0, 2, 2, 0, 0, 0]));
+    console.log("F min  ->", getArrayArrayItemIndex(generateChords([8, 11, 3]), [1, 3, 3, 1, 1, 1]));
+
+    console.log("A min7 ->", getArrayArrayItemIndex(generateChords([0, 3, 7, 10]), [-1, 0, 2, 0, 1, 0]));
+    console.log("B dim  ->", getArrayArrayItemIndex(generateChords([2, 5, 8]), [-1, 2, 3, 4, 3, -1]));
+    console.log("D sus4 ->", getArrayArrayItemIndex(generateChords([5, 10, 0]), [-1, -1, 0, 2, 3, 3]));
+    console.log("D sus2 ->", getArrayArrayItemIndex(generateChords([5, 7, 0]), [-1, -1, 0, 2, 3, 0]));
+    console.log("E add9 ->", getArrayArrayItemIndex(generateChords([7, 11, 2, 9]), [0, 2, 4, 1, 0, 0]));
+    console.log("Emadd9 ->", getArrayArrayItemIndex(generateChords([7, 10, 2, 9]), [0, 2, 4, 0, 0, 0]));
 }

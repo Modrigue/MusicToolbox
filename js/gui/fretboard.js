@@ -6,6 +6,10 @@ let yFretStep = 32;
 let xFretScaleStep = 60; // used for scale explorer
 let xFretChordStep = 50; // used for chord explorer
 const yFretMarginChordBottom = 10;
+// variables for hit / non-hit chord explorer strings
+let hitChordsStrings = [true, true, true, true, true, true, true]; // reverse string order
+let xPosCECanvas = 0;
+let yPosCECanvas = 0;
 // colors
 const colorFretsStrings = "silver";
 const colorFretsStringsQTones = "#E4E4E4";
@@ -189,6 +193,13 @@ function updateFretboard(id, noteValue, scaleValues, charIntervals = [], scaleCh
         startNotePositionFound = false;
         let hasDisplayedBlueNoteOnString = false;
         let lastDisplayedPosOnString = 0;
+        // handle empty strings in chord explorer fretboard
+        if (id == "chord_explorer_canvas_guitar") {
+            if (!hitChordsStrings[nbStrings - i]) {
+                displayNoteOnFretboard(id, i, -1, "X", colorNoteNormalDisabled, nbStrings, xFretScaleStep, 0, 0, showQTones, showIntervals);
+                continue;
+            }
+        }
         for (let j = 0; j < 3 * 12; j += 0.5) {
             const currentNoteValue = getCaseNoteValue(tuningValues, i, j);
             if (scaleNotesValues.indexOf(currentNoteValue) < 0)
@@ -234,14 +245,16 @@ function updateFretboard(id, noteValue, scaleValues, charIntervals = [], scaleCh
             if (currentNoteValue == noteValue)
                 colorNote = displayNote ? colorNoteTonic : colorNoteTonicDisabled;
             // scale explorer: highlight scale characteristic notes
+            let showEmptyStrings = false;
             if (id == "scale_explorer_canvas_guitar") {
                 const indexNote = scaleNotesValues.indexOf(currentNoteValue);
                 if (charIntervals != null && charIntervals.length > 0 && charIntervals.indexOf(indexNote) >= 0)
                     colorNote = displayNote ? colorNoteChar : colorNoteCharDisabled; // characteristic note
             }
-            // chord explorer: highlight intervals
-            else
+            // chord explorer: highlight intervals and show empty strings
+            else {
                 colorNote = GetColorFromNotes(currentNoteValue, noteValue, displayNote);
+            }
             //if (displayNote)
             displayNoteOnFretboard(id, i, j, currentNoteText, colorNote, nbStrings, xFretScaleStep, 0, 0, showQTones, showIntervals);
         }
@@ -265,7 +278,7 @@ function updateFretboard(id, noteValue, scaleValues, charIntervals = [], scaleCh
                     // get selected notes values
                     freeNotesSelected = getSelectedChordExplorerNotes();
                 }
-                callbackStr = `saveFretboardChordImage(\"chord_explorer_canvas_guitar\", ${noteValue}, ${bassValue},\"${chordName}\", \"${freeNotesSelected.toString()}\")`;
+                callbackStr = `onFretboardChordImageClick(\"chord_explorer_canvas_guitar\", ${noteValue}, ${bassValue},\"${chordName}\", \"${freeNotesSelected.toString()}\")`;
             }
             break;
     }
@@ -319,7 +332,7 @@ function initChordsFretboardHTML(noteFondamental, noteBass, chordSelected, freeN
         canvasGeneratedChord.width = xFretMargin + 5 * xFretChordStep;
         canvasGeneratedChord.height = getCanvasHeight(nbStrings) + yFretMarginChordBottom;
         //canvas.style.border = '1px solid grey';
-        let callbackStr = `saveFretboardChordImage(\"${idText}\", ${noteFondamental}, ${noteBass},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`;
+        let callbackStr = `onFretboardChordImageClick(\"${idText}\", ${noteFondamental}, ${noteBass},\"${chordSelected}\", \"${freeNotesSelected.toString()}\")`;
         canvasGeneratedChord.setAttribute("onclick", callbackStr);
         // create play chord button
         let buttonPlayChord = document.createElement('button');
@@ -506,7 +519,18 @@ function GetColorFromInterval(intervalValue, enabled = true) {
                 getComputedStyle(document.documentElement).getPropertyValue(`--color-chord-explorer-${intervalValue}`) : colorNoteNormalDisabled;
     }
 }
-function saveFretboardChordImage(id, fondamental, bass, chordId, freeNotesStr) {
+function onFretboardChordImageClick(id, fondamental, bass, chordId, freeNotesStr) {
+    // string : toggle hit / no-hit string
+    if (xPosCECanvas < xFretChordStep) {
+        const indexString = Math.floor(yPosCECanvas / yFretStep);
+        //console.log(xPosCECanvas, yPosCECanvas, indexString);
+        if (indexString < 0)
+            return;
+        hitChordsStrings[indexString] = !hitChordsStrings[indexString]; // toggle hit string status
+        updateChordExplorerElements();
+        return;
+    }
+    // fretboard: save image
     let canvasElement = document.getElementById(id);
     let canvasImage = canvasElement.toDataURL('image/png');
     let prefix = (id == "chord_explorer_canvas_guitar") ? "Fretboard" : getString("chord");
@@ -546,7 +570,7 @@ function saveFretboardChordImage(id, fondamental, bass, chordId, freeNotesStr) {
         }
         filename = `${prefix}-${notesStr}.png`;
     }
-    // this can be used to download any image from webpage to local disk
+    // used to download any image from webpage to local disk
     let xhr = new XMLHttpRequest();
     xhr.responseType = 'blob';
     xhr.onload = function () {
@@ -560,6 +584,14 @@ function saveFretboardChordImage(id, fondamental, bass, chordId, freeNotesStr) {
     };
     xhr.open('GET', canvasImage); // This is to download the canvas Image
     xhr.send();
+}
+function onChordExplorerFretboardMouseMove(e) {
+    let chordExplorerGuitarCanvas = document.getElementById("chord_explorer_canvas_guitar");
+    let ctx = chordExplorerGuitarCanvas.getContext("2d");
+    var rect = chordExplorerGuitarCanvas.getBoundingClientRect();
+    xPosCECanvas = e.clientX - rect.left;
+    yPosCECanvas = e.clientY - rect.top;
+    //console.log(e.clientX, e.clientY, chordExplorerGuitarCanvas.offsetLeft, rect.left, rect.top);
 }
 function getCanvasHeight(nbStrings = 6) {
     return 8 + yFretStep * nbStrings;

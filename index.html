@@ -1,139 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <!--meta name="viewport" content="width=device-width, initial-scale=1.0"-->
-    <meta content="music toolbox,scale generator,chord generator,music,scales,scales,chord,chords,note,notes,mode,modes,harmonization,guitar,fretboard,keyboard,quartertone,microtonal,xenharmonics" name=keywords>
-    <title>Music Toolbox</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <link rel="apple-touch-icon" href="img/G_clef.png">
-    <link rel="icon" href="img/G_clef.png">
-    <link rel="stylesheet" href="css/style.css?version=1.12">
-    <script src="js/notes.js"></script>
-    <script src="js/intervals.js"></script>
-    <script src="js/scales/scala.js"></script>
-    <script src="js/scales/scales_functions.js"></script>
-    <script src="js/scales/scales.js"></script>
-    <script src="js/scales/scales_quartertones.js"></script>
-    <script src="js/scales/scales_xenharmonic.js"></script>
-    <script src="js/scales/negative_harmony.js"></script>
-    <script src="js/chords/chords.js"></script>
-    <script src="js/chords/chords_microtonal.js"></script>
-    <script src="js/chords/chord_finder.js"></script>
-    <script src="js/chords/chord_generator.js"></script>
-    <script src="js/tools/roman_numerals.js"></script>
-    <script src="js/tools/array_tools.js"></script>
-    <script src="js/tools/url_parameters.js"></script>
-    <script src="js/pages/scale_finder.js"></script>
-    <script src="js/pages/scale_explorer.js"></script>
-    <script src="js/pages/chord_explorer.js"></script>
-    <script src="js/pages/chord_tester.js"></script>
-    <script src="js/gui/fretboard.js"></script>
-    <script src="js/gui/keyboard.js"></script>
-    <script src="js/gui/tunings_guitar.js"></script>
-    <script src="js/gui/positions_guitar.js"></script>
-    <script src="js/gui/strings.js"></script>
-    <script src="js/gui/interface.js"></script>
 
-    <!-- //////////////////////////////// MIDI //////////////////////////// -->
+<head>
+  <meta charset="utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1.0"-->
+  <meta
+    content="music toolbox,scale generator,chord generator,music,scales,scales,chord,chords,note,notes,mode,modes,harmonization,guitar,fretboard,keyboard,quartertone,microtonal,xenharmonics"
+    name=keywords>
+  <title>Music Toolbox</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="apple-touch-icon" href="img/G_clef.png">
+  <link rel="icon" href="img/G_clef.png">
+  <link rel="stylesheet" href="css/style.css?version=1.12">
+  <script src="js/notes.js"></script>
+  <script src="js/intervals.js"></script>
+  <script src="js/scales/scala.js"></script>
+  <script src="js/scales/scales_functions.js"></script>
+  <script src="js/scales/scales.js"></script>
+  <script src="js/scales/scales_quartertones.js"></script>
+  <script src="js/scales/scales_xenharmonic.js"></script>
+  <script src="js/scales/negative_harmony.js"></script>
+  <script src="js/chords/chords.js"></script>
+  <script src="js/chords/chords_microtonal.js"></script>
+  <script src="js/chords/chord_finder.js"></script>
+  <script src="js/chords/chord_generator.js"></script>
+  <script src="js/tools/roman_numerals.js"></script>
+  <script src="js/tools/array_tools.js"></script>
+  <script src="js/tools/url_parameters.js"></script>
+  <script src="js/pages/scale_finder.js"></script>
+  <script src="js/pages/scale_explorer.js"></script>
+  <script src="js/pages/chord_explorer.js"></script>
+  <script src="js/pages/chord_tester.js"></script>
+  <script src="js/gui/fretboard.js"></script>
+  <script src="js/gui/keyboard.js"></script>
+  <script src="js/gui/tunings_guitar.js"></script>
+  <script src="js/gui/positions_guitar.js"></script>
+  <script src="js/gui/strings.js"></script>
+  <script src="js/gui/interface.js"></script>
 
-    <!-- shims -->
-    <script src="js/midi/Base64.js"></script>
-    <script src="js/midi/Base64binary.js"></script>
-    <script src="js/midi/WebAudioAPI.js"></script>
-    <!-- midi.js -->
-    <script src="js/midi/audioDetect.js"></script>
-    <script src="js/midi/gm.js"></script>
-    <script src="js/midi/loader.js"></script>
-    <script src="js/midi/plugin.audiotag.js"></script>
-    <script src="js/midi/plugin.webaudio.js"></script>
-    <script src="js/midi/plugin.webmidi.js"></script>
-    <!-- utils -->
-    <script src="js/midi/dom_request_xhr.js"></script>
-    <script src="js/midi/dom_request_script.js"></script>
-    <!-- soundfonts (pre-loaded)-->
-    <script src="js/midi/soundfonts/acoustic_grand_piano-ogg.js"></script>
+  <!-- //////////////////////////////// MIDI //////////////////////////// -->
 
-    <script src="js/functions_play.js"></script>
+  <!-- shims -->
+  <script src="js/midi/Base64.js"></script>
+  <script src="js/midi/Base64binary.js"></script>
+  <script src="js/midi/WebAudioAPI.js"></script>
+  <!-- midi.js -->
+  <script src="js/midi/audioDetect.js"></script>
+  <script src="js/midi/gm.js"></script>
+  <script src="js/midi/loader.js"></script>
+  <script src="js/midi/plugin.audiotag.js"></script>
+  <script src="js/midi/plugin.webaudio.js"></script>
+  <script src="js/midi/plugin.webmidi.js"></script>
+  <!-- utils -->
+  <script src="js/midi/dom_request_xhr.js"></script>
+  <script src="js/midi/dom_request_script.js"></script>
+  <!-- soundfonts (pre-loaded)-->
+  <script src="js/midi/soundfonts/acoustic_grand_piano-ogg.js"></script>
 
-    <!-- song generation -->
-    <script src="js/song_generator/random_tools.js"></script>
-    <script src="js/song_generator/midiHelper.js"></script>
-    <script src="js/song_generator/midiHeader.js"></script>
-    <script src="js/song_generator/midiTrack.js"></script>
-    <script src="js/song_generator/midiTrackEvent.js"></script>
-    <script src="js/song_generator/midiTrackEventType.js"></script>
-    <script src="js/song_generator/midiFile.js"></script>
-    <script src="js/song_generator/melodic_fluency.js"></script>
-    <script src="js/song_generator/chord_progression.js"></script>
-    <script src="js/song_generator/sequence.js"></script>
-    <script src="js/song_generator/counterpoint_1_1.js"></script>
-    <script src="js/song_generator/counterpoint_2_1.js"></script>
-    <script src="js/song_generator/counterpoint_3_1.js"></script>
-    <script src="js/song_generator/counterpoint_4_1.js"></script>
-    <script src="js/song_generator/counterpoint_4th_spec.js"></script>
-    <script src="js/song_generator/song_generator.js"></script>
+  <script src="js/functions_play.js"></script>
 
-    <!-- scale keyboard -->
-    <script src="js/scale_keyboard/instruments.js"></script>
-    <script src="js/scale_keyboard/scale_keyboard.js"></script>
+  <!-- song generation -->
+  <script src="js/song_generator/random_tools.js"></script>
+  <script src="js/song_generator/midiHelper.js"></script>
+  <script src="js/song_generator/midiHeader.js"></script>
+  <script src="js/song_generator/midiTrack.js"></script>
+  <script src="js/song_generator/midiTrackEvent.js"></script>
+  <script src="js/song_generator/midiTrackEventType.js"></script>
+  <script src="js/song_generator/midiFile.js"></script>
+  <script src="js/song_generator/melodic_fluency.js"></script>
+  <script src="js/song_generator/chord_progression.js"></script>
+  <script src="js/song_generator/sequence.js"></script>
+  <script src="js/song_generator/counterpoint_1_1.js"></script>
+  <script src="js/song_generator/counterpoint_2_1.js"></script>
+  <script src="js/song_generator/counterpoint_3_1.js"></script>
+  <script src="js/song_generator/counterpoint_4_1.js"></script>
+  <script src="js/song_generator/counterpoint_4th_spec.js"></script>
+  <script src="js/song_generator/song_generator.js"></script>
 
-    <!-- browser detection -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.5/platform.min.js"></script>
-  </head>
-  <body>
+  <!-- scale keyboard -->
+  <script src="js/scale_keyboard/instruments.js"></script>
+  <script src="js/scale_keyboard/scale_keyboard.js"></script>
 
-    <header>
-      <span style='float: left;'>
-        <a href="https://github.com/Modrigue/WebMusicScaleGenerator" target="_blank" title="Github"><img src="img/GitHub-Mark-24px.png" alt="GitHub"/></a>
-      </span>
-      <button class="button-page" id="button_page_chord_tester" >Test all chords</button>
-      <button class="button-page" id="button_page_chord_explorer" >Find chords</button>
-      <button class="button-page" id="button_page_scale_explorer" >Explore scales</button>
-      <button class="button-page" id="button_page_scale_finder" >Find scales</button>
-      <button class="button-page" id="button_page_song_generator" >Generate a song</button>
-      <span id="checkboxLanguageSpan" style='float: right;'>
-        <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
-        <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR"/></label>
-      </span>
-    </header>
+  <!-- browser detection -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.5/platform.min.js"></script>
+</head>
 
+<body>
+
+  <header>
+    <span style='float: left;'>
+      <a href="https://github.com/Modrigue/WebMusicScaleGenerator" target="_blank" title="Github"><img
+          src="img/GitHub-Mark-24px.png" alt="GitHub" /></a>
+    </span>
+    <button class="button-page" id="button_page_chord_tester">Test all chords</button>
+    <button class="button-page" id="button_page_chord_explorer">Find chords</button>
+    <button class="button-page" id="button_page_scale_explorer">Explore scales</button>
+    <button class="button-page" id="button_page_scale_finder">Find scales</button>
+    <button class="button-page" id="button_page_song_generator">Generate a song</button>
+    <span id="checkboxLanguageSpan" style='float: right;'>
+      <input type="checkbox" id="checkboxLanguage" name="checkboxLanguage" onchange="updateLocales()">
+      <label class="input-label" for="checkboxLanguage"><img src="img/french_flag.png" alt="FR" /></label>
+    </span>
+  </header>
+
+  <br>
+
+  <!-- ############################ WELCOME ############################# -->
+
+  <div id="page_welcome" class="center">
+    <br><br>
+    <h2 id="welcome_title">Welcome</h2>
+    <h3 id="welcome_subtitle" style="font-size: 18px;">Welcome to the Music Toolbox</h3>
     <br>
-
-    <!-- ############################ WELCOME ############################# -->
-
-    <div id="page_welcome" class="center">
-      <br><br>
-      <h2 id="welcome_title">Welcome</h2>
-      <h3 id="welcome_subtitle" style="font-size: 18px;">Welcome to the Music Toolbox</h3>
-      <br>
-      <span id="welcome_message"></span>
-      <br><br><br><br><br><br><br>
-      <!--em><span id="welcome_header" style="color: grey">No instruments loaded</span></em>
+    <span id="welcome_message"></span>
+    <br><br><br><br><br><br><br>
+    <!--em><span id="welcome_header" style="color: grey">No instruments loaded</span></em>
       <br><br>
       <button id="welcome_button_load_instruments"><span class="play">Load instruments</span></button>
       <br><br><br><br-->
-    </div>
-  
-    <!-- ######################### SCALES EXPLORER ######################## -->
+  </div>
 
-    <div id="page_scale_explorer" style="display: none">
+  <!-- ######################### SCALES EXPLORER ######################## -->
 
-      <p id="page_scale_explorer_params" class="center" style="font-family:Arial, Helvetica, sans-serif;">
-        <span id="select_key_text">Key:</span>
-  
-        <!-- NOTES -->
-        <select name="notes" id="note"></select>
-  
-        <!-- SCALES -->
-        <select name="scales" id="scale"></select>
-  
-        <!-- Checkboxes -->
-  
-        <!--input type="checkbox" id="checkboxNotes" name="checkboxNotes" checked onchange="toggleDisplay('scale_result')">
+  <div id="page_scale_explorer" style="display: none">
+
+    <p id="page_scale_explorer_params" class="center" style="font-family:Arial, Helvetica, sans-serif;">
+      <span id="select_key_text">Key:</span>
+
+      <!-- NOTES -->
+      <select name="notes" id="note"></select>
+
+      <!-- SCALES -->
+      <select name="scales" id="scale"></select>
+
+      <!-- Checkboxes -->
+
+      <!--input type="checkbox" id="checkboxNotes" name="checkboxNotes" checked onchange="toggleDisplay('scale_result')">
         <label class="input-label" for="checkboxNotes">Notes</label>
         
         <input type="checkbox" id="checkboxChords3" name="checkboxChords3" checked onchange="toggleDisplay('chords3_result')">
@@ -141,80 +146,83 @@
   
         <input type="checkbox" id="checkboxChords4" name="checkboxChords4" checked onchange="toggleDisplay('chords4_result')">
         <label class="input-label" for="checkboxChords4">4-Chords</label-->
-  
-        <input type="checkbox" id="checkboxChords" name="checkboxChords" checked>
-        <label class="input-label" id="checkboxChordsLabel" for="checkboxChords">Chords</label>
-  
-        <input type="checkbox" id="checkboxGuitar" name="checkboxGuitar" checked>
-        <label class="input-label" id="checkboxGuitarLabel" for="checkboxGuitar">Guitar</label>
-  
-        <input type="checkbox" id="checkboxKeyboard" name="checkboxKeyboard" checked>
-        <label class="input-label" id="checkboxKeyboardLabel" for="checkboxKeyboard">Keyboard</label>
 
-        <input type="checkbox" id="checkboxQuarterTonesScaleExplorer" name="checkboxQuarterTonesScaleExplorer">
-        <label class="input-label" id="checkboxQuarterTonesScaleExplorerLabel" for="checkboxQuarterTonesScaleExplorer">¼ tones</label>
-  
-      </p>
-  
-      <p id='scale_result'>?</p>
+      <input type="checkbox" id="checkboxChords" name="checkboxChords" checked>
+      <label class="input-label" id="checkboxChordsLabel" for="checkboxChords">Chords</label>
 
-      <div id="scale_explorer_scale_keyboard_display">
-        <p class='align-center'>
-          <em><span id="scale_explorer_keyboard_header" style="color: grey">No instruments loaded</span></em>
-          <br>
-          <span id="scale_explorer_start_octave_text">Start from octave:</span>
-          <select name="scale_explorer_start_octave" id="scale_explorer_start_octave"></select>
-          &nbsp;&nbsp;
-          <span id="scale_explorer_select_instrument_text">Instrument:</span>
-          <select name="scale_explorer_instrument" id="scale_explorer_instrument"></select>
-          <br>
-        </p>
-        <canvas id="scale_explorer_canvas_scale_keyboard" width="600" height="200">
-          Your browser does not support the canvas element.
-        </canvas>
+      <input type="checkbox" id="checkboxGuitar" name="checkboxGuitar" checked>
+      <label class="input-label" id="checkboxGuitarLabel" for="checkboxGuitar">Guitar</label>
+
+      <input type="checkbox" id="checkboxKeyboard" name="checkboxKeyboard" checked>
+      <label class="input-label" id="checkboxKeyboardLabel" for="checkboxKeyboard">Keyboard</label>
+
+      <input type="checkbox" id="checkboxQuarterTonesScaleExplorer" name="checkboxQuarterTonesScaleExplorer">
+      <label class="input-label" id="checkboxQuarterTonesScaleExplorerLabel" for="checkboxQuarterTonesScaleExplorer">¼
+        tones</label>
+
+    </p>
+
+    <p id='scale_result'>?</p>
+
+    <div id="scale_explorer_scale_keyboard_display">
+      <p class='align-center'>
+        <em><span id="scale_explorer_keyboard_header" style="color: grey">No instruments loaded</span></em>
         <br>
-      </div>
-      
-      <p id='chords3_result'>?</p>
-      
-      <p id='chords4_result'>?</p>
+        <span id="scale_explorer_start_octave_text">Start from octave:</span>
+        <select name="scale_explorer_start_octave" id="scale_explorer_start_octave"></select>
+        &nbsp;&nbsp;
+        <span id="scale_explorer_select_instrument_text">Instrument:</span>
+        <select name="scale_explorer_instrument" id="scale_explorer_instrument"></select>
+        <br>
+      </p>
+      <canvas id="scale_explorer_canvas_scale_keyboard" width="600" height="200">
+        Your browser does not support the canvas element.
+      </canvas>
+      <br>
+    </div>
 
-      <p id='chordsQ_result'>?</p>
-  
-      <div id="scale_explorer_guitar_display">
-        <p class="center">
-          <span id="scale_explorer_guitar_nb_strings_text">Nb. of strings:</span>
-          <select name="scale_explorer_guitar_nb_strings" id="scale_explorer_guitar_nb_strings"></select>
-          &nbsp;&nbsp;
-          <span id="scale_explorer_guitar_tuning_text">Tuning:</span>
-          <select name="scale_explorer_guitar_tuning" id="scale_explorer_guitar_tuning"></select>
-          &nbsp;&nbsp;
-          <span id="scale_explorer_guitar_position_text">Position:</span>
-          <select name="scale_explorer_guitar_position" id="scale_explorer_guitar_position"></select>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="checkbox" id="checkboxIntervalFretboardScaleExplorer" name="checkboxIntervalFretboardScaleExplorer">
-          <label class="input-label" id="checkboxIntervalFretboardScaleExplorerLabel" for="checkboxIntervalFretboardScaleExplorer">Intervals</label>
-        </p>
-        <canvas id="scale_explorer_canvas_guitar" width="600" height="200">
-          Your browser does not support the canvas element.
-        </canvas>
-      </div>
-  
-      <!--canvas id="scale_explorer_canvas_keyboard" width="600" height="200">
+    <p id='chords3_result'>?</p>
+
+    <p id='chords4_result'>?</p>
+
+    <p id='chordsQ_result'>?</p>
+
+    <div id="scale_explorer_guitar_display">
+      <p class="center">
+        <span id="scale_explorer_guitar_nb_strings_text">Nb. of strings:</span>
+        <select name="scale_explorer_guitar_nb_strings" id="scale_explorer_guitar_nb_strings"></select>
+        &nbsp;&nbsp;
+        <span id="scale_explorer_guitar_tuning_text">Tuning:</span>
+        <select name="scale_explorer_guitar_tuning" id="scale_explorer_guitar_tuning"></select>
+        &nbsp;&nbsp;
+        <span id="scale_explorer_guitar_position_text">Position:</span>
+        <select name="scale_explorer_guitar_position" id="scale_explorer_guitar_position"></select>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="checkbox" id="checkboxIntervalFretboardScaleExplorer"
+          name="checkboxIntervalFretboardScaleExplorer">
+        <label class="input-label" id="checkboxIntervalFretboardScaleExplorerLabel"
+          for="checkboxIntervalFretboardScaleExplorer">Intervals</label>
+      </p>
+      <canvas id="scale_explorer_canvas_guitar" width="600" height="200">
+        Your browser does not support the canvas element.
+      </canvas>
+    </div>
+
+    <!--canvas id="scale_explorer_canvas_keyboard" width="600" height="200">
         Your browser does not support the canvas element.
       </canvas-->
-      
-      <div id='section_found_chords' class='is-grouped'>
-        <p id='found_chords_from_scale'></p>
-        <p id='neap_chord_from_scale'></p>
-        <p id='aug_6th_chords_from_scale'></p>
-      </div>
 
+    <div id='section_found_chords' class='is-grouped'>
+      <p id='found_chords_from_scale'></p>
+      <p id='neap_chord_from_scale'></p>
+      <p id='aug_6th_chords_from_scale'></p>
     </div>
+
+  </div>
 
   <!-- ########################### SCALES FINDER ########################## -->
 
-  <div id ='page_scale_finder' class="center" style="display: none">
+  <div id='page_scale_finder' class="center" style="display: none">
     <p><span id="header_scale_finder">Select your notes and chords:</span></p>
 
     <select name="notes_finder1" id="note_finder1"></select>
@@ -252,9 +260,10 @@
       <button id="reset_scale_finder"><span class="reset">Reset</span></button>
       &nbsp;&nbsp;
       <input type="checkbox" id="checkboxQuarterTonesScaleFinder" name="checkboxQuarterTonesScaleFinder">
-      <label class="input-label" id="checkboxQuarterTonesScaleFinderLabel" for="checkboxQuarterTonesScaleFinder">¼ tones</label>
+      <label class="input-label" id="checkboxQuarterTonesScaleFinderLabel" for="checkboxQuarterTonesScaleFinder">¼
+        tones</label>
     </p>
-    
+
   </div>
 
   <!-- ########################## RELATIVE SCALES ######################### -->
@@ -266,17 +275,19 @@
 
   <!-- ########################## CHORDS EXPLORER ######################### -->
 
-  <div id ='page_chord_explorer' style="display: none">
-    
+  <div id='page_chord_explorer' style="display: none">
+
     <div id='qtones_chord_explorer' class='align-right'>
       <input type="checkbox" id="checkboxQuarterTonesChordExplorer" name="checkboxQuarterTonesChordExplorer">
-      <label class="input-label" id="checkboxQuarterTonesChordExplorerLabel" for="checkboxQuarterTonesChordExplorer">¼ tones</label>
+      <label class="input-label" id="checkboxQuarterTonesChordExplorerLabel" for="checkboxQuarterTonesChordExplorer">¼
+        tones</label>
     </div>
 
     <div class='chord-explorer-container'>
       <!--label class="label" id="radioChordExplorerNameLabel">Name:</label-->
       <div><select name="chord_explorer_fundamental" id="chord_explorer_fundamental"></select></div>
-      <div class='chord-explorer-grid-cell-3'><select name="chord_explorer_chord" id="chord_explorer_chord" width="100%" style="width: 100%;"></select></div>
+      <div class='chord-explorer-grid-cell-3'><select name="chord_explorer_chord" id="chord_explorer_chord" width="100%"
+          style="width: 100%;"></select></div>
       <div class='chord-explorer-grid-cell-2'><label id="chord_explorer_bass_text">/</label></div>
       <div><select name="chord_explorer_bass" id="chord_explorer_bass"></select></div>
 
@@ -301,7 +312,7 @@
 
     <br>
     <div class='align-center'>
-        <span class="chord_explorer_found_chords" id="chord_explorer_found_chords_texts"></span>
+      <span class="chord_explorer_found_chords" id="chord_explorer_found_chords_texts"></span>
     </div>
 
     <div id='options_chord_explorer'>
@@ -340,199 +351,207 @@
 
     <p class='align-center'>
       <input type="checkbox" id="checkboxIntervalFretboardChordExplorer" name="checkboxIntervalFretboardChordExplorer">
-      <label class="input-label" id="checkboxIntervalFretboardChordExplorerLabel" for="checkboxIntervalFretboardChordExplorer">Intervals</label>
+      <label class="input-label" id="checkboxIntervalFretboardChordExplorerLabel"
+        for="checkboxIntervalFretboardChordExplorer">Intervals</label>
     </p>
 
     <div id='section_guitar_chords' class='is-grouped'>
-      <canvas id="chord_explorer_canvas_guitar" width="600" height="200">
+      <canvas id="chord_explorer_canvas_guitar" width="600" height="200"
+        onmousemove="onChordExplorerFretboardMouseMove(event)">
         Your browser does not support the canvas element.
       </canvas>
       <p id='generated_guitar_chords' style="text-align: center;">?</p>
     </div>
   </div>
 
-    <!-- ############################ CHORDS TESTER ########################### -->
+  <!-- ############################ CHORDS TESTER ########################### -->
 
-    <div id ='page_chord_tester' style="display: none">
-      <div id='options_chord_tester'>
-        <p class='align-left'>
-          <input type="radio" id="radioChordTesterChords" name="chord_tester_mode" value="chords" checked>
-          <label class="input-label" id="radioChordTesterChordsLabel" for="radioChordTesterChords">Play chords</label>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" id="radioChordTesterArpeggios" name="chord_tester_mode" value="arpeggios">
-          <label class="input-label" id="radioChordTesterArpeggiosLabel" for="radioChordTesterArpeggios">Play arpeggios</label>
-        </p>
+  <div id='page_chord_tester' style="display: none">
+    <div id='options_chord_tester'>
+      <p class='align-left'>
+        <input type="radio" id="radioChordTesterChords" name="chord_tester_mode" value="chords" checked>
+        <label class="input-label" id="radioChordTesterChordsLabel" for="radioChordTesterChords">Play chords</label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" id="radioChordTesterArpeggios" name="chord_tester_mode" value="arpeggios">
+        <label class="input-label" id="radioChordTesterArpeggiosLabel" for="radioChordTesterArpeggios">Play
+          arpeggios</label>
+      </p>
 
-        <p class='align-center'>
-            <span class="start">Start:</span>
-            <select name="chord_tester_start_note" id="chord_tester_start_note"></select>
-            <select name="chord_tester_start_octave" id="chord_tester_start_octave"></select>
-        </p>
+      <p class='align-center'>
+        <span class="start">Start:</span>
+        <select name="chord_tester_start_note" id="chord_tester_start_note"></select>
+        <select name="chord_tester_start_octave" id="chord_tester_start_octave"></select>
+      </p>
 
-        <p class='align-right'>
-          <input type="checkbox" id="checkboxCommonChords" name="checkboxCommonChords">
-          <label class="input-label" id="checkboxCommonChordsLabel" for="checkboxCommonChords">Common chords only</label>
-        </p>
-      </div>
-
-      <div id='qtones_chord_tester' class='align-center'>
-        <input type="checkbox" id="checkboxQuarterTonesChordTester" name="checkboxQuarterTonesChordTester">
-        <label class="input-label" id="checkboxQuarterTonesChordTesterLabel" for="checkboxQuarterTonesChordTester">¼ tones</label>
-      </div>
-      
-      <div id='note_scale_chord_tester'>
-        <p class='align-center'>
-          <input type="checkbox" id="checkboxChordTesterKey1" name="checkboxChordTesterKey1">
-          <span id="select_key_text_chord_tester1">Key:</span>
-          <select name="chord_tester_tonic1" id="chord_tester_tonic1"></select>
-          <select name="chord_tester_scale1" id="chord_tester_scale1"></select>
-          <br/>
-          <input type="checkbox" id="checkboxChordTesterKey2" name="checkboxChordTesterKey2">
-          <span id="select_key_text_chord_tester2">Key:</span>
-          <select name="chord_tester_tonic2" id="chord_tester_tonic2"></select>
-          <select name="chord_tester_scale2" id="chord_tester_scale2"></select>
-          <br/>
-          <span id="key_notes_chord_tester_text">Notes:</span>
-          <span id="key_notes_chord_tester"></span>
-        </p>
-      </div>
-
-      <p id='chord_tester'>?</p>
+      <p class='align-right'>
+        <input type="checkbox" id="checkboxCommonChords" name="checkboxCommonChords">
+        <label class="input-label" id="checkboxCommonChordsLabel" for="checkboxCommonChords">Common chords only</label>
+      </p>
     </div>
 
-
-    <!-- ################## SONG GENERATOR (EXPERIMENTAL) ################# -->
-
-    <div id ='page_song_generator' style="display: none">
-      <p class='align-center'>
-        <em><span id="song_generator_header" style="color: grey">This page is experimental and under development</span></em>
-        <br/><br/>
-        <span id="song_generator_type_text">Type:</span>
-        <select name="song_generator_type" id="song_generator_type"></select>
-        &nbsp;&nbsp;
-        <span id="song_generator_select_key_text">Key:</span>
-        <select name="song_generator_tonic" id="song_generator_tonic"></select>
-        <select name="song_generator_scale" id="song_generator_scale"></select>
-        <br/><br/>
-        <span id="song_generator_nb_bars_text">Nb. of bars:</span>
-        <input type="number" id="song_generator_nb_bars" min="1" max="21" style="width: 35px;" value="4"/>
-        &nbsp;
-        <span id="song_generator_nb_notes_per_bar_text">Nb. of notes/bar:</span>
-        <input type="number" id="song_generator_nb_notes_per_bar" min="1" max="64" style="width: 35px;" value="8"/>
-        &nbsp;
-        <span id="song_generator_nb_loops_text">Nb. of loops:</span>
-        <input type="number" id="song_generator_nb_loops" min="1" max="99" style="width: 35px;" value="1"/>
-        <br/><br/>
-        <span id="song_generator_tempo_text">Tempo:</span>
-        <input type="number" id="song_generator_tempo" min="20" max="5000" width="10" value="120"/>
-        &nbsp;&nbsp;
-        <span id="song_generator_time_signature_text">Time signature:</span>
-        <input type="number" id="song_generator_time_signature_num" min="1" max="99" style="width: 35px;" value="4"/>
-        <span>/</span>
-        <select name="song_generator_time_signature_den" id="song_generator_time_signature_den"></select>
-        <br/>
-      </p>
-
-      <p class='align-center'>
-        <div class='song-gen-tracks'>
-          <table>
-            <tr>
-              <td>
-                <input type="checkbox" id="song_generator_checkbox_track1" name="song_generator_checkbox_track1" checked>
-                <span id="song_generator_checkbox_track1_text">Track 1</span>
-              </td>
-
-              <td>
-                <select name="song_generator_instrument_track1" id="song_generator_instrument_track1"></select>
-              </td>
-  
-              <td>
-                <span id="song_generator_octave_track1_text">Octave:</span>
-                &nbsp;
-                <input type="number" id="song_generator_octave_track1" min="0" max="6" style="width: 35px;" value="4"/>
-              </td>
-  
-              <td>
-                <span id="song_generator_freq_track1_text">Frequency:</span>
-                &nbsp;
-                <input type="number" id="song_generator_freq_track1" min="0" max="100" style="width: 40px;" value="100"/>
-              </div>
-  
-              <td>
-                <button id="song_generator_generate_track1"><span class="play">Generate</span></button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" id="song_generator_checkbox_track2" name="song_generator_checkbox_track2" checked>
-                <span id="song_generator_checkbox_track2_text">Track 2</span>
-              </td>
-
-              <td>
-                <select name="song_generator_instrument_track2" id="song_generator_instrument_track2"></select>
-              </td>
-  
-              <td>
-                <span id="song_generator_octave_track2_text">Octave:</span>
-                &nbsp;
-                <input type="number" id="song_generator_octave_track2" min="0" max="6" style="width: 35px;" value="2"/>
-              </td>
-  
-              <td>
-                <span id="song_generator_freq_track2_text">Frequency:</span>
-                &nbsp;
-                <input type="number" id="song_generator_freq_track2" min="0" max="100" style="width: 40px;" value="100"/>
-              </div>
-  
-              <td>
-                <button id="song_generator_generate_track2"><span class="play">Generate</span></button>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </p>
-
-      <p class='align-center'>
-        <button id="song_generator_generate"><span class="play">Generate new song</span></button>
-        &nbsp;
-        <button id="song_generator_play" disabled><span class="play">Play ♪</span></button>
-        &nbsp;
-        <button id="song_generator_save" disabled><span class="play">Save</span></button>
-        &nbsp;
-        <button id="song_generator_reset" disabled><span class="reset">Reset</span></button>
-      </p>
-      
+    <div id='qtones_chord_tester' class='align-center'>
+      <input type="checkbox" id="checkboxQuarterTonesChordTester" name="checkboxQuarterTonesChordTester">
+      <label class="input-label" id="checkboxQuarterTonesChordTesterLabel" for="checkboxQuarterTonesChordTester">¼
+        tones</label>
     </div>
 
-    <script>
-      // for test purposes only
-      //testExampleMidiFile(false);
+    <div id='note_scale_chord_tester'>
+      <p class='align-center'>
+        <input type="checkbox" id="checkboxChordTesterKey1" name="checkboxChordTesterKey1">
+        <span id="select_key_text_chord_tester1">Key:</span>
+        <select name="chord_tester_tonic1" id="chord_tester_tonic1"></select>
+        <select name="chord_tester_scale1" id="chord_tester_scale1"></select>
+        <br />
+        <input type="checkbox" id="checkboxChordTesterKey2" name="checkboxChordTesterKey2">
+        <span id="select_key_text_chord_tester2">Key:</span>
+        <select name="chord_tester_tonic2" id="chord_tester_tonic2"></select>
+        <select name="chord_tester_scale2" id="chord_tester_scale2"></select>
+        <br />
+        <span id="key_notes_chord_tester_text">Notes:</span>
+        <span id="key_notes_chord_tester"></span>
+      </p>
+    </div>
 
-      // init: ensure immediate selected page display
-      initLanguage();
-      initShowQuarterTones();
-      updateSelectors();
-      onResize();
-      initPagefromURLParams();
+    <p id='chord_tester'>?</p>
+  </div>
 
-      // display message given detected browser
-      // NOTE: recent audio authorization issue with Firefox
-      //console.log(platform);
-      browserSupportsAudio = (platform.name != "Safari" && platform.name != "Firefox");
-      if (!browserSupportsAudio)
-        updateLocales();
-    </script>
 
-    <br>
-    <footer>
-      <em><span id="midijs_footer" style="color: grey; font-weight: normal">
+  <!-- ################## SONG GENERATOR (EXPERIMENTAL) ################# -->
+
+  <div id='page_song_generator' style="display: none">
+    <p class='align-center'>
+      <em><span id="song_generator_header" style="color: grey">This page is experimental and under
+          development</span></em>
+      <br /><br />
+      <span id="song_generator_type_text">Type:</span>
+      <select name="song_generator_type" id="song_generator_type"></select>
+      &nbsp;&nbsp;
+      <span id="song_generator_select_key_text">Key:</span>
+      <select name="song_generator_tonic" id="song_generator_tonic"></select>
+      <select name="song_generator_scale" id="song_generator_scale"></select>
+      <br /><br />
+      <span id="song_generator_nb_bars_text">Nb. of bars:</span>
+      <input type="number" id="song_generator_nb_bars" min="1" max="21" style="width: 35px;" value="4" />
+      &nbsp;
+      <span id="song_generator_nb_notes_per_bar_text">Nb. of notes/bar:</span>
+      <input type="number" id="song_generator_nb_notes_per_bar" min="1" max="64" style="width: 35px;" value="8" />
+      &nbsp;
+      <span id="song_generator_nb_loops_text">Nb. of loops:</span>
+      <input type="number" id="song_generator_nb_loops" min="1" max="99" style="width: 35px;" value="1" />
+      <br /><br />
+      <span id="song_generator_tempo_text">Tempo:</span>
+      <input type="number" id="song_generator_tempo" min="20" max="5000" width="10" value="120" />
+      &nbsp;&nbsp;
+      <span id="song_generator_time_signature_text">Time signature:</span>
+      <input type="number" id="song_generator_time_signature_num" min="1" max="99" style="width: 35px;" value="4" />
+      <span>/</span>
+      <select name="song_generator_time_signature_den" id="song_generator_time_signature_den"></select>
+      <br />
+    </p>
+
+    <p class='align-center'>
+    <div class='song-gen-tracks'>
+      <table>
+        <tr>
+          <td>
+            <input type="checkbox" id="song_generator_checkbox_track1" name="song_generator_checkbox_track1" checked>
+            <span id="song_generator_checkbox_track1_text">Track 1</span>
+          </td>
+
+          <td>
+            <select name="song_generator_instrument_track1" id="song_generator_instrument_track1"></select>
+          </td>
+
+          <td>
+            <span id="song_generator_octave_track1_text">Octave:</span>
+            &nbsp;
+            <input type="number" id="song_generator_octave_track1" min="0" max="6" style="width: 35px;" value="4" />
+          </td>
+
+          <td>
+            <span id="song_generator_freq_track1_text">Frequency:</span>
+            &nbsp;
+            <input type="number" id="song_generator_freq_track1" min="0" max="100" style="width: 40px;" value="100" />
+    </div>
+
+    <td>
+      <button id="song_generator_generate_track1"><span class="play">Generate</span></button>
+    </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="checkbox" id="song_generator_checkbox_track2" name="song_generator_checkbox_track2" checked>
+        <span id="song_generator_checkbox_track2_text">Track 2</span>
+      </td>
+
+      <td>
+        <select name="song_generator_instrument_track2" id="song_generator_instrument_track2"></select>
+      </td>
+
+      <td>
+        <span id="song_generator_octave_track2_text">Octave:</span>
+        &nbsp;
+        <input type="number" id="song_generator_octave_track2" min="0" max="6" style="width: 35px;" value="2" />
+      </td>
+
+      <td>
+        <span id="song_generator_freq_track2_text">Frequency:</span>
+        &nbsp;
+        <input type="number" id="song_generator_freq_track2" min="0" max="100" style="width: 40px;" value="100" />
+  </div>
+
+  <td>
+    <button id="song_generator_generate_track2"><span class="play">Generate</span></button>
+  </td>
+  </tr>
+  </table>
+  </div>
+  </p>
+
+  <p class='align-center'>
+    <button id="song_generator_generate"><span class="play">Generate new song</span></button>
+    &nbsp;
+    <button id="song_generator_play" disabled><span class="play">Play ♪</span></button>
+    &nbsp;
+    <button id="song_generator_save" disabled><span class="play">Save</span></button>
+    &nbsp;
+    <button id="song_generator_reset" disabled><span class="reset">Reset</span></button>
+  </p>
+
+  </div>
+
+  <script>
+    // for test purposes only
+    //testExampleMidiFile(false);
+
+    // init: ensure immediate selected page display
+    initLanguage();
+    initShowQuarterTones();
+    updateSelectors();
+    onResize();
+    initPagefromURLParams();
+
+    // display message given detected browser
+    // NOTE: recent audio authorization issue with Firefox
+    //console.log(platform);
+    browserSupportsAudio = (platform.name != "Safari" && platform.name != "Firefox");
+    if (!browserSupportsAudio)
+      updateLocales();
+  </script>
+
+  <br>
+  <footer>
+    <em><span id="midijs_footer" style="color: grey; font-weight: normal">
         Uses <a href="https://github.com/mudcube/MIDI.js" title="MIDI.js" target="_blank">MIDI.js</a>
-        and <a href="https://cindyjs.org/dist/v0.8.8/soundfonts/" title="soundfonts" target="_blank">js soundfonts</a> for sound rendering
+        and <a href="https://cindyjs.org/dist/v0.8.8/soundfonts/" title="soundfonts" target="_blank">js soundfonts</a>
+        for sound rendering
       </span></em>
-      <br><br>
-      &copy; 2020-2024 <a href="mailto:thealdobaldo+musictoolbox@gmail.com" title="Mail">Modrigue</a>
-      <br>
-      <a id="compos_footer" href="https://www.youtube.com/playlist?list=PLqf2srRfppHAslEmHBn8QP6d_eoanh0eW" title="My compositions" target="_blank">♪ My compositions ♪</a>
-    </footer>
-  </body>
+    <br><br>
+    &copy; 2020-2024 <a href="mailto:thealdobaldo+musictoolbox@gmail.com" title="Mail">Modrigue</a>
+    <br>
+    <a id="compos_footer" href="https://www.youtube.com/playlist?list=PLqf2srRfppHAslEmHBn8QP6d_eoanh0eW"
+      title="My compositions" target="_blank">♪ My compositions ♪</a>
+  </footer>
+</body>
+
 </html>
