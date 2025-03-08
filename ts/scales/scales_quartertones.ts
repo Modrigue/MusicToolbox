@@ -20,7 +20,7 @@ scaleFamiliesDict.set("7mustaar", [0, 2.5, 3.5, 5.5, 6.5, 8.5, 10.5]);
 scaleFamiliesDict.set("7saba", [0, 1.5, 3, 4, 7, 8, 10]);
 scaleFamiliesDict.set("7sikah_baladi", [0, 1.5, 3.5, 5, 7, 8.5, 10.5]);
 scaleFamiliesDict.set("7nairuzb2", [0, 1, 3.5, 5, 7, 8.5, 10]);
-scaleFamiliesDict.set("7oasis", [0, 1.5, 4, 5, 7, 8.5, 10]);
+scaleFamiliesDict.set("7humayun", [0, 1.5, 4, 5, 7, 8.5, 10]);
 
 // others quartertone
 scaleFamiliesDict.set("5tet_approx", [0, 2.5, 5, 7, 9.5]);
@@ -83,7 +83,7 @@ scalesDict_int.set("7sikah_baladi,6,diff:7major_nat;1", "Neutral (6th mode)");
 scalesDict_int.set("7sikah_baladi,sep", "");
 
 scalesDict_int.set("7nairuzb2,1,diff:7major_nat;6", "Nairuz ♭2");
-scalesDict_int.set("7oasis,1,diff:7minor_harm;5", "Oasis");
+scalesDict_int.set("7humayun,1,diff:7minor_harm;5", "Humayun / Esfahan / Old Hijaz");
 
 scalesDict_int.set("qtones_others", "--------------- OTHERS ¼ TONES ---------------");
 
@@ -114,5 +114,7 @@ scalesDict_fr.set("7rast,7,diff:7major_nat;1", "Iraq (7e mode)");
 scalesDict_fr.set("7bayati,4,diff:7major_nat;6", "Ushaq Masri (4e mode)");
 
 scalesDict_fr.set("7sikah_baladi,6,diff:7major_nat;1", "Neutre (6e mode)");
+
+scalesDict_fr.set("7humayun,1,diff:7minor_harm;5", "Humayun / Esfahan / Hijaz ancien");
 
 scalesDict_fr.set("qtones_others", "----------------- AUTRES ¼ TONS -----------------");
