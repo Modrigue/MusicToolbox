@@ -50,7 +50,7 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
 
             // start algorithm
             addChordNoteOnString(notesValues, noteBass, startString, startString + 1, startPositions, chordsPositions,
-                tuningValues, nbStrings, includeEmptyStrings, qTones);
+                tuningValues, nbStrings, includeEmptyStrings, qTones, hitChordsStrings);
         }
     }
 
@@ -81,7 +81,7 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
     startIndex: number, stringIndex: number,
     positionsCur: Array<number>, chordsPositions: Array<Array<number>>,
     tuningValues: Array<number>, nbStrings: number = 99, includeEmptyStrings = false,
-    qTones = false, chordAddedArray: Array<Array<number>> = []) {
+    qTones = false, hitStrings: Array<boolean> = [], chordAddedArray: Array<Array<number>> = []) {
     // secure
     const nbStringsTotal: number = tuningValues.length;
     if (stringIndex >= nbStringsTotal)
@@ -125,7 +125,7 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
             let chordAddedArrayCurrent: Array<Array<number>> = new Array<Array<number>>();
             if (continueSearch)
                 addChordNoteOnString(notesValues, bass, startIndex, stringIndex + 1, positionsCandidate, chordsPositions,
-                    tuningValues, nbStrings, includeEmptyStrings, qTones, chordAddedArrayCurrent);
+                    tuningValues, nbStrings, includeEmptyStrings, qTones, hitStrings, chordAddedArrayCurrent);
 
             // update added chord positions array
             for (let chordPos of chordAddedArrayCurrent)
@@ -141,7 +141,7 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
 
                 // set defined not hit strings
                 for (let i = 1; i <= nbStringsTotal; i++) {
-                    if (!hitChordsStrings[nbStringsTotal - i]) {
+                    if (hitStrings.length > 0 && !hitStrings[nbStringsTotal - i]) {
                         //console.log(i, nbStringsTotal);
                         positionsCandidateComplete[i - 1] = -1;
                     }
