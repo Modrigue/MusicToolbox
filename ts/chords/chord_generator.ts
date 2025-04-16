@@ -26,7 +26,7 @@ function getNotesPositionsOnString(noteValue: number, stringValue: number,
 }
 
 function generateChords(notesValues: Array<number>, nbStrings: number = 99,
-    includeEmptyStrings = false, noteBass = -1, qTones = false): Array<Array<number>> {
+    includeEmptyStrings = false, noteBass = -1, qTones = false, hitStrings: Array<boolean> = []): Array<Array<number>> {
     if (notesValues == null || notesValues.length < 2)
         return new Array<Array<number>>();
 
@@ -50,7 +50,7 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
 
             // start algorithm
             addChordNoteOnString(notesValues, noteBass, startString, startString + 1, startPositions, chordsPositions,
-                tuningValues, nbStrings, includeEmptyStrings, qTones, hitChordsStrings);
+                tuningValues, nbStrings, includeEmptyStrings, qTones, hitStrings);
         }
     }
 
@@ -701,7 +701,8 @@ function updateGeneratedChordsOnFretboard(showBarres = true, includeEmptyStrings
     const nbStringsSelectedStr = (<HTMLSelectElement>document.getElementById('chord_explorer_nb_strings_max')).value;
     const nbStringsSelected = parseInt(nbStringsSelectedStr);
     //console.log(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass, selectedMode); 
-    const positionsArray: Array<Array<number>> = generateChords(chordNotesValues, nbStringsSelected, includeEmptyStrings, noteBass, showQTones);
+    const positionsArray: Array<Array<number>> = generateChords(chordNotesValues, nbStringsSelected,
+        includeEmptyStrings, noteBass, showQTones, hitChordsStrings);
     if (positionsArray == null || positionsArray.length == 0) {
         generatedGuitarChords.innerHTML = getString("no_result");
         return;
