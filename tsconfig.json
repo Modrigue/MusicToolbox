@@ -9,10 +9,11 @@
         "strict": true,
         "noImplicitAny": true,
         "noImplicitThis": false,
-        "sourceMap": true,      /*for ts debug */
+        "sourceMap": true, /*for ts debug */
         "pretty": true
     },
-    "exclude": ["node-modules"]
+    "exclude": [
+        "node-modules"
+    ]
 }
-
 /* tsc -w */
