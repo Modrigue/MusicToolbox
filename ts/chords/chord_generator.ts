@@ -801,64 +801,64 @@ function updateNbStringsForChordSelector() {
 
 // generate all possible hit strings combinations for a given number of hit strings and total strings
 function getHitStringsCombinations(nbHitStrings: number, nbStringsTotal: number, hitStringsMask: Array<boolean>): Array<Array<boolean>> {
-    const combinations: Array<Array<boolean>> = [];
 
+    const combinations: Array<Array<boolean>> = [];
     const nbHitStringsMin = 2;
 
-    combinations.push(hitStringsMask);
+    if (nbHitStrings > nbStringsTotal) {
 
-    // if (nbHitStrings > nbStringsTotal) {
+        // generate all possible combinations
+        for (let i = 0; i < Math.pow(2, nbStringsTotal); i++) {
+            const combinationCur: Array<boolean> = [];
+            let nbHits = 0;
 
-    //     // TODO: generate all possible combinations
-    //     for (let i = 0; i < Math.pow(2, nbStringsTotal); i++) {
-    //         const combinationCur: Array<boolean> = [];
-    //         let nbHits = 0;
+            for (let j = 0; j < nbStringsTotal; j++) {
+                const hit: boolean = ((i >> j) & 1) === 1;
+                combinationCur.push(hit);
 
-    //         for (let j = 0; j < nbStringsTotal; j++) {
-    //             const hit: boolean = ((i >> j) & 1) === 1;
-    //             combinationCur.push(hit);
+                if (hit)
+                    nbHits++;
+            }
 
-    //             if (hit)
-    //                 nbHits++;
-    //         }
+            // apply mask with hitStringsMask
+            let isCompliant = true;
+            for (let j = 0; j < nbStringsTotal; j++) {
+                if (!hitStringsMask[j] && combinationCur[j]) {
+                    isCompliant = false;
+                    break;
+                }
+            }
 
-    //         // apply mask with hitStringsMask
-    //         let isCompliant = true;
-    //         for (let j = 0; j < nbStringsTotal; j++) {
-    //             if (!hitStringsMask[j] && combinationCur[j]) {
-    //                 isCompliant = false;
-    //                 break;
-    //             }
-    //         }
+            // do not keep combination if not compliant with hitStringsMask
+            if (!isCompliant)
+                continue;
 
-    //         // do not keep combination if not compliant with hitStringsMask
-    //         if (!isCompliant)
-    //             continue;
+            // add to combinations only if numbre of true values is >= nbHitStringsMin
+            if (nbHits >= nbHitStringsMin) {
+                combinations.push(combinationCur);
+            }
+        }
+    }
+    else {
 
-    //         // add to combinations only if numbre of true values is >= nbHitStringsMin
-    //         if (nbHits >= nbHitStringsMin) {
-    //             combinations.push(combinationCur);
-    //         }
-    //     }
-    // }
-    // else {
+        combinations.push(hitStringsMask);
 
-    //     //TODO
-    //     function helper(start: number, chosen: Array<boolean>, count: number) {
-    //         if (count === nbHitStrings) {
-    //             combinations.push([...chosen]);
-    //             return;
-    //         }
-    //         for (let i = start; i < nbStringsTotal; i++) {
-    //             chosen[i] = true;
-    //             helper(i + 1, chosen, count + 1);
-    //             chosen[i] = false;
-    //         }
-    //     }
+        //TODO
+        // function helper(start: number, chosen: Array<boolean>, count: number) {
+        //     if (count === nbHitStrings) {
+        //         combinations.push([...chosen]);
+        //         return;
+        //     }
+        //     for (let i = start; i < nbStringsTotal; i++) {
+        //         chosen[i] = true;
+        //         helper(i + 1, chosen, count + 1);
+        //         chosen[i] = false;
+        //     }
+        // }
 
-    //     const initial: Array<boolean> = new Array(nbStringsTotal).fill(false);
-    //     helper(0, initial, 0);
-    // }
+        // const initial: Array<boolean> = new Array(nbStringsTotal).fill(false);
+        // helper(0, initial, 0);
+    }
 
     return combinations;
 }
