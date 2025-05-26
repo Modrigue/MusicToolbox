@@ -26,18 +26,29 @@ function generateChords(notesValues, nbStrings = 99, includeEmptyStrings = false
     const tuningValues = getSelectedGuitarTuningValue("chord_explorer_guitar_tuning");
     const nbStringsTotal = tuningValues.length;
     const nbNotes = notesValues.length;
+    // generate all chord hit strings (hitStrings) combinations given expected number of strings (nbStrings)
+    let hitStringsCombinations = getHitStringsCombinations(nbStrings, nbStringsTotal, hitStrings);
     // generate all valid chord positions
-    for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++) {
-        const bassNote = (noteBass >= 0) ? noteBass : fundamental;
-        const positionsString0 = getNotesPositionsOnString(bassNote, tuningValues[startString], 0, 11, true, qTones);
-        for (let p0 of positionsString0) {
-            // get start positions
-            let startPositions = [];
-            for (let i = 0; i < startString; i++)
-                startPositions.push(-1);
-            startPositions.push(p0);
-            // start algorithm
-            addChordNoteOnString(notesValues, noteBass, startString, startString + 1, startPositions, chordsPositions, tuningValues, nbStrings, includeEmptyStrings, qTones, hitStrings);
+    for (const hitStringsCur of hitStringsCombinations) {
+        let chordsPositionsCur = new Array();
+        for (let startString = 0; startString <= nbStringsTotal - nbNotes; startString++) {
+            const bassNote = (noteBass >= 0) ? noteBass : fundamental;
+            const positionsString0 = getNotesPositionsOnString(bassNote, tuningValues[startString], 0, 11, true, qTones);
+            for (let p0 of positionsString0) {
+                // get start positions
+                let startPositions = [];
+                for (let i = 0; i < startString; i++)
+                    startPositions.push(-1);
+                startPositions.push(p0);
+                // start algorithm
+                addChordNoteOnString(notesValues, noteBass, startString, startString + 1, startPositions, chordsPositionsCur, tuningValues, nbStrings, includeEmptyStrings, qTones, hitStringsCur);
+            }
+        }
+        // add current chord positions to global list        
+        for (let pos of chordsPositionsCur) {
+            // filter duplicates
+            if (!containsArray(chordsPositions, pos))
+                chordsPositions.push(pos);
         }
     }
     // sort positions
@@ -123,6 +134,9 @@ function addChordNoteOnString(notesValues, bass, startIndex, stringIndex, positi
     }
 }
 function chordPositionsValid(notesValues, bass, positionsCandidate, tuningValues, nbStrings = 99) {
+    // check if chord positions starts with fundamental note
+    if (!chordPositionsFirstNoteValid(notesValues, bass, tuningValues, positionsCandidate))
+        return false;
     // check if all notes are included
     if (!chordPositionsIncludeNotes(notesValues, bass, tuningValues, positionsCandidate))
         return false;
@@ -194,6 +208,29 @@ function chordPositionsIncludeNotes(notesValues, bass, tuningValues, positionsCa
         posIndex++;
     }
     return (notesValuesToFind.length == 0);
+}
+// check if first note (fundamental or bass if specified) of chord positions is valid
+function chordPositionsFirstNoteValid(notesValues, bass, tuningValues, positionsCandidate) {
+    if (notesValues == null || notesValues.length < 2)
+        return false;
+    if (positionsCandidate == null || positionsCandidate.length < 2)
+        return false;
+    if (positionsCandidate.length < notesValues.length)
+        return false;
+    // if specified, take bass note as first chord note to find
+    let firstNoteValueToFind = (bass >= 0) ? bass : notesValues[0];
+    let stringIndex = 0;
+    for (let pos of positionsCandidate) {
+        // string not hit
+        if (pos < 0) {
+            stringIndex++;
+            continue;
+        }
+        const curStringValue = tuningValues[stringIndex];
+        const curNoteValue = (pos + curStringValue) % 12;
+        return (curNoteValue == firstNoteValueToFind % 12);
+    }
+    return false;
 }
 function getSearchRange(positions) {
     // do not count empty strings
@@ -585,7 +622,60 @@ function updateNbStringsForChordSelector() {
         option.selected = true;
     }
 }
+// generate all possible hit strings combinations for a given number of hit strings and total strings
+function getHitStringsCombinations(nbHitStrings, nbStringsTotal, hitStringsMask) {
+    const combinations = [];
+    const nbHitStringsMin = 2;
+    combinations.push(hitStringsMask);
+    // if (nbHitStrings > nbStringsTotal) {
+    //     // TODO: generate all possible combinations
+    //     for (let i = 0; i < Math.pow(2, nbStringsTotal); i++) {
+    //         const combinationCur: Array<boolean> = [];
+    //         let nbHits = 0;
+    //         for (let j = 0; j < nbStringsTotal; j++) {
+    //             const hit: boolean = ((i >> j) & 1) === 1;
+    //             combinationCur.push(hit);
+    //             if (hit)
+    //                 nbHits++;
+    //         }
+    //         // apply mask with hitStringsMask
+    //         let isCompliant = true;
+    //         for (let j = 0; j < nbStringsTotal; j++) {
+    //             if (!hitStringsMask[j] && combinationCur[j]) {
+    //                 isCompliant = false;
+    //                 break;
+    //             }
+    //         }
+    //         // do not keep combination if not compliant with hitStringsMask
+    //         if (!isCompliant)
+    //             continue;
+    //         // add to combinations only if numbre of true values is >= nbHitStringsMin
+    //         if (nbHits >= nbHitStringsMin) {
+    //             combinations.push(combinationCur);
+    //         }
+    //     }
+    // }
+    // else {
+    //     //TODO
+    //     function helper(start: number, chosen: Array<boolean>, count: number) {
+    //         if (count === nbHitStrings) {
+    //             combinations.push([...chosen]);
+    //             return;
+    //         }
+    //         for (let i = start; i < nbStringsTotal; i++) {
+    //             chosen[i] = true;
+    //             helper(i + 1, chosen, count + 1);
+    //             chosen[i] = false;
+    //         }
+    //     }
+    //     const initial: Array<boolean> = new Array(nbStringsTotal).fill(false);
+    //     helper(0, initial, 0);
+    // }
+    return combinations;
+}
 /////////////////////////////// BARRES FUNCIONS ///////////////////////////////
+// compute barres positions
+// barres are defined as a set of 3 or more identical frets on consecutive strings
 function computeBarres(positions) {
     if (positions == null || positions.length == 0)
         return new Map();
