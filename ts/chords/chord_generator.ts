@@ -37,6 +37,10 @@ function generateChords(notesValues: Array<number>, nbStrings: number = 99,
     const nbStringsTotal: number = tuningValues.length;
     const nbNotes: number = notesValues.length;
 
+    // if minimal number is specified, set number of chord notes
+    if (nbStrings <= 0)
+        nbStrings = nbNotes;
+
     // generate all chord hit strings (hitStrings) combinations given expected number of strings (nbStrings)
     let hitStringsCombinations: Array<Array<boolean>> = getHitStringsCombinations(nbStrings, nbStringsTotal, hitStrings);
 
@@ -120,21 +124,20 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
 
             let valid = chordPositionsValid(notesValues, bass, positionsCandidate, tuningValues, nbStrings);
 
-            // fixed number of strings?
-            const fixedNbString = (nbStrings > 0 && nbStrings <= nbStringsTotal);
-
             // continue search condition
             let continueSearch = !isLastString;
-            if (fixedNbString) {
-                let positionsNotHit = [...positionsCandidate];
-                positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
-                if (positionsNotHit != null)
-                    continueSearch = (positionsNotHit.length != nbStrings);
-            }
-            else if (nbStrings <= 0) {
-                if (valid)
-                    continueSearch = false;
-            }
+
+            // disabled: continuous / minimum number of strings
+            // if (nbStrings > 0 && nbStrings <= nbStringsTotal) {
+            //     let positionsNotHit = [...positionsCandidate];
+            //     positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
+            //     if (positionsNotHit != null)
+            //         continueSearch = (positionsNotHit.length != nbStrings);
+            // }
+            // else if (nbStrings <= 0) {
+            //     if (valid)
+            //         continueSearch = false;
+            // }
 
             // find notes on next string
             let chordAddedArrayCurrent: Array<Array<number>> = new Array<Array<number>>();
@@ -162,8 +165,8 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
                     }
                 }
 
-                // check again
-                valid = chordPositionsValid(notesValues, bass, positionsCandidateComplete, tuningValues, nbStrings);
+                // check again, with fixed number of string check
+                valid = chordPositionsValid(notesValues, bass, positionsCandidateComplete, tuningValues, nbStrings, true);
                 if (valid)
                     chordsPositions.push(positionsCandidateComplete);
 
@@ -174,7 +177,8 @@ function addChordNoteOnString(notesValues: Array<number>, bass: number,
 }
 
 function chordPositionsValid(notesValues: Array<number>, bass: number,
-    positionsCandidate: Array<number>, tuningValues: Array<number>, nbStrings: number = 99): boolean {
+    positionsCandidate: Array<number>, tuningValues: Array<number>,
+    nbStrings: number = 99, checkFixedNbStrings: boolean = false): boolean {
 
     // check if chord positions starts with fundamental note
     if (!chordPositionsFirstNoteValid(notesValues, bass, tuningValues, positionsCandidate))
@@ -197,12 +201,15 @@ function chordPositionsValid(notesValues: Array<number>, bass: number,
     if (getNbFretsUsed(positionsCandidate) > 4)
         return false;
 
-    // check number of strings used if specified
-    if (nbStrings > 0 && nbStrings <= tuningValues.length) {
-        let positionsNotHit = [...positionsCandidate];
-        positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
-        if (positionsNotHit.length != nbStrings)
-            return false;
+    // if fixed number of strings enabled, check exact number of hit strings
+    if (checkFixedNbStrings) {
+        if (nbStrings > 0 && nbStrings <= tuningValues.length) {
+            let positionsNotHit = [...positionsCandidate];
+            positionsNotHit = arrayRemoveValue(positionsNotHit, -1); // not hit
+
+            if (positionsNotHit.length != nbStrings)
+                return false;
+        }
     }
 
     // disabled for now: check not hit strings
@@ -805,9 +812,10 @@ function getHitStringsCombinations(nbHitStrings: number, nbStringsTotal: number,
     const combinations: Array<Array<boolean>> = [];
     const nbHitStringsMin = 2;
 
-    if (nbHitStrings > nbStringsTotal) {
+    // generate all possible combinations
+    /*if (nbHitStrings > nbStringsTotal)*/
+    {
 
-        // generate all possible combinations
         for (let i = 0; i < Math.pow(2, nbStringsTotal); i++) {
             const combinationCur: Array<boolean> = [];
             let nbHits = 0;
@@ -833,32 +841,30 @@ function getHitStringsCombinations(nbHitStrings: number, nbStringsTotal: number,
             if (!isCompliant)
                 continue;
 
-            // add to combinations only if numbre of true values is >= nbHitStringsMin
-            if (nbHits >= nbHitStringsMin) {
+            // add to combinations only if number of true values is >= nbHitStringsMin
+            if (nbHits >= nbHitStringsMin)
                 combinations.push(combinationCur);
-            }
         }
     }
-    else {
 
-        combinations.push(hitStringsMask);
+    // disabled
+    // if (nbHitStrings >= nbHitStringsMin && nbHitStrings <= nbStringsTotal) {
 
-        //TODO
-        // function helper(start: number, chosen: Array<boolean>, count: number) {
-        //     if (count === nbHitStrings) {
-        //         combinations.push([...chosen]);
-        //         return;
-        //     }
-        //     for (let i = start; i < nbStringsTotal; i++) {
-        //         chosen[i] = true;
-        //         helper(i + 1, chosen, count + 1);
-        //         chosen[i] = false;
-        //     }
-        // }
+    //     function helper(start: number, chosen: Array<boolean>, count: number) {
+    //         if (count === nbHitStrings) {
+    //             combinations.push([...chosen]);
+    //             return;
+    //         }
+    //         for (let i = start; i < nbStringsTotal; i++) {
+    //             chosen[i] = true;
+    //             helper(i + 1, chosen, count + 1);
+    //             chosen[i] = false;
+    //         }
+    //     }
 
-        // const initial: Array<boolean> = new Array(nbStringsTotal).fill(false);
-        // helper(0, initial, 0);
-    }
+    //     const initial: Array<boolean> = new Array(nbStringsTotal).fill(false);
+    //     helper(0, initial, 0);
+    // }
 
     return combinations;
 }
