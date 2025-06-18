@@ -240,8 +240,8 @@ function getScaleString(id) {
         return scalesDict_int.get(id);
 }
 function getSelectedCulture() {
-    const checkboxLanguage = document.getElementById("checkboxLanguage");
-    const culture = checkboxLanguage.checked ? "fr" : "int";
+    const languageSelect = document.getElementById("languageSelect");
+    const culture = (languageSelect && languageSelect.value === "fr") ? "fr" : "int";
     return culture;
 }
 // from https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript/196991#196991

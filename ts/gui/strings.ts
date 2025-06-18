@@ -185,30 +185,28 @@ stringsDict_fr.set("welcome_subtitle", "Que voulez-vous faire ?");
 stringsDict_fr.set("welcome_title", "Découvrez la Boîte à outils Musicale");
 
 // global dictionary
-const stringsDicts: Map<string, Map<string, string>> = new Map<string,Map<string, string>>();
+const stringsDicts: Map<string, Map<string, string>> = new Map<string, Map<string, string>>();
 stringsDicts.set("int", stringsDict_int);
 stringsDicts.set("fr", stringsDict_fr);
 
-function getString(id: string, param: string = ""): string
-{
-    const lang = getSelectedCulture();
-    const stringsDict = stringsDicts.get(lang) as Map<string, string>;
+function getString(id: string, param: string = ""): string {
+  const lang = getSelectedCulture();
+  const stringsDict = stringsDicts.get(lang) as Map<string, string>;
 
-    let text: string = stringsDict_int.get(id) as string; // fallback
-    if (stringsDict.has(id))
-        text = stringsDict.get(id) as string;
+  let text: string = stringsDict_int.get(id) as string; // fallback
+  if (stringsDict.has(id))
+    text = stringsDict.get(id) as string;
 
-    if (param != null)
-        //text = text.replaceAll("{%1}", param); // not supported yet
-        text = text.replace(/{%1}/g, param);
-    
-    return text;
+  if (param != null)
+    //text = text.replaceAll("{%1}", param); // not supported yet
+    text = text.replace(/{%1}/g, param);
+
+  return text;
 }
 
-function getNoteName(noteValue: number): string
-{
+function getNoteName(noteValue: number): string {
   // get selected culture
-  const lang = getSelectedCulture(); 
+  const lang = getSelectedCulture();
   const notesDict = <Map<number, string>>notesDicts.get(lang);
 
   let noteName = ""
@@ -219,18 +217,16 @@ function getNoteName(noteValue: number): string
   const isXenharmonic = isXenharmonicInterval(noteValue);
   let cents = 0;
   let sign = "+";
-  if (isXenharmonic)
-  {
+  if (isXenharmonic) {
     noteValueToProcess = Math.floor(noteValueToProcess);
     cents = noteValue - noteValueToProcess;
-    if (cents >= 0.5)
-    {
-        cents = noteValueToProcess + 1 - noteValue;
-        noteValueToProcess = (noteValueToProcess + 1) % 12;
-        sign = "-";
+    if (cents >= 0.5) {
+      cents = noteValueToProcess + 1 - noteValue;
+      noteValueToProcess = (noteValueToProcess + 1) % 12;
+      sign = "-";
     }
 
-    cents = Math.round(100*cents);
+    cents = Math.round(100 * cents);
   }
 
   if (notesDict.has(noteValueToProcess))
@@ -244,34 +240,30 @@ function getNoteName(noteValue: number): string
   return noteName;
 }
 
-function getNoteNameWithOctave(noteValue: number): string
-{
+function getNoteNameWithOctave(noteValue: number): string {
   let noteName = getNoteName(noteValue % 12);
   let octave = Math.floor(noteValue / 12) - 2;
 
   return `${noteName}${octave}`;
 }
 
-function getScaleString(id: string): string
-{
-    const lang: string = getSelectedCulture();
-    const scalesDict: Map<string, string> = <Map<string, string>>scalesDicts.get(lang);
+function getScaleString(id: string): string {
+  const lang: string = getSelectedCulture();
+  const scalesDict: Map<string, string> = <Map<string, string>>scalesDicts.get(lang);
 
-    if (scalesDict.has(id))
-        return <string>scalesDict.get(id);
-    else
-        return <string>scalesDict_int.get(id);
+  if (scalesDict.has(id))
+    return <string>scalesDict.get(id);
+  else
+    return <string>scalesDict_int.get(id);
 }
 
-function getSelectedCulture(): string
-{
-    const checkboxLanguage: HTMLInputElement = <HTMLInputElement>document.getElementById("checkboxLanguage");
-    const culture: string = checkboxLanguage.checked ? "fr" : "int";
-    return culture;
+function getSelectedCulture(): string {
+  const languageSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById("languageSelect");
+  const culture: string = (languageSelect && languageSelect.value === "fr") ? "fr" : "int";
+  return culture;
 }
 
 // from https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript/196991#196991
-function toTitleCase(str: string): string
-{
-    return str.replace(/\w\S*/g, (text) => {return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();});
+function toTitleCase(str: string): string {
+  return str.replace(/\w\S*/g, (text) => { return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase(); });
 }

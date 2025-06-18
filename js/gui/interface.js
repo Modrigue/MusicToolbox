@@ -19,8 +19,22 @@ window.onload = function () {
     //document.body.addEventListener("resize", onResize); // not working?
     window.addEventListener("newInstrumentLoaded", onNewInstrumentLoaded, false);
     loadDefaultInstrument();
-    document.getElementById("checkboxLanguage").addEventListener("change", updateLocales);
-    //(<HTMLButtonElement>document.getElementById('welcome_button_load_instruments')).addEventListener("click", loadDefaultInstrument);
+    const languageSelect = document.getElementById("languageSelect");
+    const languageFlag = document.getElementById("languageFlag");
+    if (languageSelect && languageFlag) {
+        languageSelect.addEventListener("change", () => {
+            updateLocales();
+            // Update flag image
+            if (languageSelect.value === "fr") {
+                languageFlag.src = "img/french_flag.png";
+                languageFlag.alt = "FR";
+            }
+            else {
+                languageFlag.src = "img/english_flag.png";
+                languageFlag.alt = "EN";
+            }
+        });
+    }
     // pages
     for (const page of pagesArray)
         document.getElementById(`button_${page}`).addEventListener("click", () => selectPage(page));
@@ -101,8 +115,13 @@ window.onload = function () {
 function initLanguage() {
     languageInitialized = false;
     const defaultLang = parseCultureParameter();
-    const checkboxLanguage = document.getElementById('checkboxLanguage');
-    checkboxLanguage.checked = (defaultLang == "fr");
+    const languageSelect = document.getElementById('languageSelect');
+    const languageFlag = document.getElementById('languageFlag');
+    if (languageSelect && languageFlag) {
+        languageSelect.value = (defaultLang == "fr") ? "fr" : "en";
+        languageFlag.src = (defaultLang == "fr") ? "img/french_flag.png" : "img/english_flag.png";
+        languageFlag.alt = (defaultLang == "fr") ? "FR" : "EN";
+    }
     document.title = getString("title"); // force update
     updateLocales();
     languageInitialized = true;
