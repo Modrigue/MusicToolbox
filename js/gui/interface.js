@@ -111,16 +111,54 @@ window.onload = function () {
         const selectInstrument = document.getElementById(`song_generator_instrument_track${i}`);
         selectInstrument.addEventListener("change", () => { selectInstrument.blur(); onInstrumentSelected(`song_generator_instrument_track${i}`); });
     }
+    // Custom language dropdown logic
+    var customDropdown = document.getElementById("customLanguageDropdown");
+    var selectedDiv = document.getElementById("selectedLanguage");
+    var optionsDiv = document.getElementById("languageOptions");
+    var optionItems = optionsDiv ? optionsDiv.getElementsByClassName("dropdown-option") : [];
+    if (customDropdown && selectedDiv && optionsDiv) {
+        selectedDiv.addEventListener("click", function (e) {
+            e.stopPropagation();
+            optionsDiv.style.display = (optionsDiv.style.display === "block") ? "none" : "block";
+        });
+        for (var i = 0; i < optionItems.length; i++) {
+            optionItems[i].addEventListener("click", function () {
+                var lang = this.getAttribute("data-lang");
+                var img = this.querySelector("img").src;
+                var text = this.querySelector("span").innerText;
+                // Update selected
+                selectedDiv.querySelector("img").src = img;
+                selectedDiv.querySelector("img").alt = (lang === "fr") ? "FR" : "EN";
+                selectedDiv.querySelector("span").innerText = text;
+                optionsDiv.style.display = "none";
+                // Set language and update
+                window.selectedLanguage = lang;
+                updateLocales();
+            });
+        }
+        // Close dropdown on outside click
+        document.addEventListener("click", function () {
+            optionsDiv.style.display = "none";
+        });
+    }
 };
 function initLanguage() {
     languageInitialized = false;
-    const defaultLang = parseCultureParameter();
-    const languageSelect = document.getElementById('languageSelect');
-    const languageFlag = document.getElementById('languageFlag');
-    if (languageSelect && languageFlag) {
-        languageSelect.value = (defaultLang == "fr") ? "fr" : "en";
-        languageFlag.src = (defaultLang == "fr") ? "img/french_flag.png" : "img/english_flag.png";
-        languageFlag.alt = (defaultLang == "fr") ? "FR" : "EN";
+    var defaultLang = parseCultureParameter();
+    var customDropdown = document.getElementById("customLanguageDropdown");
+    var selectedDiv = document.getElementById("selectedLanguage");
+    if (customDropdown && selectedDiv) {
+        if (defaultLang == "fr") {
+            selectedDiv.querySelector("img").src = "img/french_flag.png";
+            selectedDiv.querySelector("img").alt = "FR";
+            selectedDiv.querySelector("span").innerText = "FR";
+            window.selectedLanguage = "fr";
+        } else {
+            selectedDiv.querySelector("img").src = "img/english_flag.png";
+            selectedDiv.querySelector("img").alt = "EN";
+            selectedDiv.querySelector("span").innerText = "EN";
+            window.selectedLanguage = "en";
+        }
     }
     document.title = getString("title"); // force update
     updateLocales();
@@ -695,5 +733,14 @@ function getSelectorIndexFromValue(selector, value) {
             return index;
     }
     return index;
+}
+function getSelectedCulture() {
+    // Use the custom dropdown
+    var lang = window.selectedLanguage;
+    if (!lang) {
+        // fallback to English
+        lang = "en";
+    }
+    return (lang === "fr") ? "fr" : "int";
 }
 //# sourceMappingURL=interface.js.map

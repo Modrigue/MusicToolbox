@@ -1,15 +1,13 @@
 /* Table design from: https://wisdmlabs.com/blog/responsive-tables-using-css-div-tag/*/
 
-body
-{
+body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-weight: 500;
     color: black;
 }
 
-header
-{
+header {
     display: flex;
     align-items: center;
     align-content: center;
@@ -18,8 +16,7 @@ header
 }
 
 /* global color values */
-:root
-{
+:root {
     --color-normal: dimgrey;
     --color-tonic: firebrick;
     --color-char: dodgerblue;
@@ -27,17 +24,25 @@ header
     --color-aug6: darkgreen;
 
     /* colors used for chord explorer */
-    --color-chord-explorer-0: var(--color-tonic);   /* fondamental */
-    --color-chord-explorer-1: hotpink;            /* 2nds */
+    --color-chord-explorer-0: var(--color-tonic);
+    /* fondamental */
+    --color-chord-explorer-1: hotpink;
+    /* 2nds */
     --color-chord-explorer-2: mediumvioletred;
-    --color-chord-explorer-3: mediumseagreen;     /* 3rds */
+    --color-chord-explorer-3: mediumseagreen;
+    /* 3rds */
     --color-chord-explorer-4: darkgreen;
-    --color-chord-explorer-5: teal;               /* 4th */
-    --color-chord-explorer-6: darkslategray;      /* tritone */
-    --color-chord-explorer-7: indigo;             /* 5th */
-    --color-chord-explorer-8: peru;               /* 6ths */
+    --color-chord-explorer-5: teal;
+    /* 4th */
+    --color-chord-explorer-6: darkslategray;
+    /* tritone */
+    --color-chord-explorer-7: indigo;
+    /* 5th */
+    --color-chord-explorer-8: peru;
+    /* 6ths */
     --color-chord-explorer-9: sienna;
-    --color-chord-explorer-10: dodgerblue;        /* 7ths */
+    --color-chord-explorer-10: dodgerblue;
+    /* 7ths */
     --color-chord-explorer-11: RoyalBlue;
 
     --color-normal-disabled: gainsboro;
@@ -56,17 +61,14 @@ header
 }
 
 /* responsive header */
-@media (max-width: 500px)
-{
-    header
-    {
+@media (max-width: 500px) {
+    header {
         flex-direction: column;
         height: auto;
     }
 }
 
-button
-{
+button {
     border: 1;
     border-width: thin;
     color: inherit;
@@ -77,84 +79,77 @@ button
     cursor: pointer;
 }
 
-button:focus
-{
+button:focus {
     outline: 0;
 }
 
-button:hover
-{
+button:hover {
     background-color: gray;
     color: white;
 }
 
-button:active
-{
+button:active {
     background-color: #878c8f;
 }
 
 button:disabled,
-button[disabled]
-{
+button[disabled] {
     border: 1px solid #999999;
     background-color: #cccccc;
     color: #666666;
     cursor: default;
 }
 
-.border-left-radius
-{
+.border-left-radius {
     border-radius: 0;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-.border-right-radius
-{
+.border-right-radius {
     border-radius: 0;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
 /* handles spacing between buttons */
-.is-grouped {   
+.is-grouped {
     display: inline-block;
 }
-.is-grouped > .button:not(:last-child) {
+
+.is-grouped>.button:not(:last-child) {
     margin-right: 10px;
 }
+
 /* does not work for canvases? */
-.is-grouped > .canvas:not(:last-child) {
+.is-grouped>.canvas:not(:last-child) {
     margin-right: 50px;
 }
 
-.center
-{
+.center {
     text-align: center;
 }
 
-.button-page
-{
+.button-page {
     border: 0;
-    border-bottom:1pt solid transparent;
+    border-bottom: 1pt solid transparent;
     border-radius: 0px;
     font-size: 0.6em;
 }
 
-.button-page:hover
-{
+.button-page:hover {
     border: 0;
-    border-bottom:1pt solid lightgray;
+    border-bottom: 1pt solid lightgray;
     border-radius: 0px;
     background-color: white;
     color: black;
-    font-size: 0.6em; 
+    font-size: 0.6em;
 }
 
-.button-page-selected, .button-page-selected:hover
-{
+.button-page-selected,
+.button-page-selected:hover {
     border: 0;
-    border-bottom:1pt solid black;
+    border-bottom: 1pt solid black;
     border-radius: 0px;
     background-color: white;
     color: black;
@@ -162,38 +157,33 @@ button[disabled]
 }
 
 .button-page:disabled,
-.button-page[disabled]
-{
+.button-page[disabled] {
     border: 0;
-    border-bottom:0pt solid transparent;
+    border-bottom: 0pt solid transparent;
     border-radius: 0px;
     background-color: transparent;
     color: #888888;
     cursor: default;
 }
 
-canvas
-{
+canvas {
     cursor: pointer;
 }
 
 .fas,
-.far
-{
+.far {
     padding-right: 5px;
 }
 
-#resp-table
-{
+#resp-table {
     width: 100%;
     display: table;
     table-layout: fixed;
     border: 1px solid black;
     border-collapse: collapse;
 }
-    
-#resp-table-caption
-{
+
+#resp-table-caption {
     display: table-caption;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
@@ -201,17 +191,15 @@ canvas
     font-weight: bold;
 }
 
-#resp-table-header
-{
+#resp-table-header {
     display: table-header-group;
     background-color: gray;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 25px;
 }
-    
-.table-header-cell
-{
+
+.table-header-cell {
     display: table-cell;
     padding: 10px;
     font-family: Arial, Helvetica, sans-serif;
@@ -219,51 +207,55 @@ canvas
     border-bottom: 1px solid black;
 }
 
-#resp-table-body
-{
+#resp-table-body {
     display: table-row-group;
 }
 
-.resp-table-row
-{
+.resp-table-row {
     display: table-row;
 }
-    
-.table-body-cell, .table-body-cell-interactive,
-.table-body-cell-tonic, .table-body-cell-tonic-interactive,
-.table-body-cell-char, .table-body-cell-char-interactive,
-.table-body-cell-neap, .table-body-cell-neap-interactive,
-.table-body-cell-aug6, .table-body-cell-aug6-interactive,
-.table-body-cell-grey, .table-body-cell-grey-interactive,
-.table-body-cell-key1, .table-body-cell-key1-interactive,
-.table-body-cell-key2, .table-body-cell-key2-interactive,
-.table-body-cell-keyc, .table-body-cell-keyc-interactive,
-.table-body-cell-step-1, .table-body-cell-step-3, .table-body-cell-step-4
-{
+
+.table-body-cell,
+.table-body-cell-interactive,
+.table-body-cell-tonic,
+.table-body-cell-tonic-interactive,
+.table-body-cell-char,
+.table-body-cell-char-interactive,
+.table-body-cell-neap,
+.table-body-cell-neap-interactive,
+.table-body-cell-aug6,
+.table-body-cell-aug6-interactive,
+.table-body-cell-grey,
+.table-body-cell-grey-interactive,
+.table-body-cell-key1,
+.table-body-cell-key1-interactive,
+.table-body-cell-key2,
+.table-body-cell-key2-interactive,
+.table-body-cell-keyc,
+.table-body-cell-keyc-interactive,
+.table-body-cell-step-1,
+.table-body-cell-step-3,
+.table-body-cell-step-4 {
     display: table-cell;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     border: 1px solid grey;
 }
 
-.table-body-cell-small
-{
+.table-body-cell-small {
     font-size: 10px;
 }
 
-.table-body-cell-interactive
-{
+.table-body-cell-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-interactive:hover
-{
+.table-body-cell-interactive:hover {
     background-color: grey;
     color: white;
 }
 
-.table-body-cell-listened
-{
+.table-body-cell-listened {
     display: table-cell;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
@@ -272,24 +264,24 @@ canvas
     color: white;
 }
 
-.table-body-cell-tonic, .table-body-cell-tonic-interactive, .button-tonic-interactive, .span-tonic
-{
+.table-body-cell-tonic,
+.table-body-cell-tonic-interactive,
+.button-tonic-interactive,
+.span-tonic {
     color: var(--color-tonic);
 }
 
-.table-body-cell-tonic-interactive
-{
+.table-body-cell-tonic-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-tonic-interactive:hover, .button-tonic-interactive:hover
-{
+.table-body-cell-tonic-interactive:hover,
+.button-tonic-interactive:hover {
     background-color: var(--color-tonic);
     color: white;
 }
 
-.table-body-cell-tonic-listened
-{
+.table-body-cell-tonic-listened {
     display: table-cell;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
@@ -299,24 +291,24 @@ canvas
 }
 
 
-.table-body-cell-char, .table-body-cell-char-interactive, .button-char-interactive, .span-char
-{
+.table-body-cell-char,
+.table-body-cell-char-interactive,
+.button-char-interactive,
+.span-char {
     color: var(--color-char);
 }
 
-.table-body-cell-char-interactive
-{
+.table-body-cell-char-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-char-interactive:hover, .button-char-interactive:hover
-{
+.table-body-cell-char-interactive:hover,
+.button-char-interactive:hover {
     background-color: var(--color-char);
     color: white;
 }
 
-.table-body-cell-char-listened
-{
+.table-body-cell-char-listened {
     display: table-cell;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
@@ -326,215 +318,207 @@ canvas
 }
 
 
-.table-body-cell-neap, .table-body-cell-neap-interactive, .button-neap-interactive, .span-neap
-{
+.table-body-cell-neap,
+.table-body-cell-neap-interactive,
+.button-neap-interactive,
+.span-neap {
     color: var(--color-neap);
 }
 
-.table-body-cell-neap-interactive
-{
+.table-body-cell-neap-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-neap-interactive:hover, .button-neap-interactive:hover
-{
+.table-body-cell-neap-interactive:hover,
+.button-neap-interactive:hover {
     background-color: var(--color-neap);
     color: white;
 }
 
 
-.table-body-cell-aug6, .table-body-cell-aug6-interactive, .button-aug6-interactive, .span-aug6
-{
+.table-body-cell-aug6,
+.table-body-cell-aug6-interactive,
+.button-aug6-interactive,
+.span-aug6 {
     color: var(--color-aug6);
 }
 
-.table-body-cell-aug6-interactive
-{
+.table-body-cell-aug6-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-aug6-interactive:hover, .button-aug6-interactive:hover
-{
+.table-body-cell-aug6-interactive:hover,
+.button-aug6-interactive:hover {
     background-color: var(--color-aug6);
     color: white;
 }
 
 
-.table-body-cell-grey, .table-body-cell-grey-interactive, .button-grey-interactive, .span-grey
-{
+.table-body-cell-grey,
+.table-body-cell-grey-interactive,
+.button-grey-interactive,
+.span-grey {
     color: silver;
 }
 
-.table-body-cell-grey-interactive
-{
+.table-body-cell-grey-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-grey-interactive:hover, .button-grey-interactive:hover
-{
+.table-body-cell-grey-interactive:hover,
+.button-grey-interactive:hover {
     background-color: silver;
     color: white;
 }
 
-.table-body-cell-key1, .table-body-cell-key1-interactive, .button-key1-interactive, .span-key1
-{
+.table-body-cell-key1,
+.table-body-cell-key1-interactive,
+.button-key1-interactive,
+.span-key1 {
     color: var(--color-key1);
 }
 
-.table-body-cell-key1-interactive
-{
+.table-body-cell-key1-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-key1-interactive:hover, .button-key1-interactive:hover
-{
+.table-body-cell-key1-interactive:hover,
+.button-key1-interactive:hover {
     background-color: var(--color-key1);
     color: white;
 }
 
 
-.table-body-cell-key2, .table-body-cell-key2-interactive, .button-key2-interactive, .span-key2
-{
+.table-body-cell-key2,
+.table-body-cell-key2-interactive,
+.button-key2-interactive,
+.span-key2 {
     color: var(--color-key2);
 }
 
-.table-body-cell-key2-interactive
-{
+.table-body-cell-key2-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-key2-interactive:hover, .button-key2-interactive:hover
-{
+.table-body-cell-key2-interactive:hover,
+.button-key2-interactive:hover {
     background-color: var(--color-key2);
     color: white;
 }
 
 
-.table-body-cell-keyc, .table-body-cell-keyc-interactive, .button-keyc-interactive, .span-keyc
-{
+.table-body-cell-keyc,
+.table-body-cell-keyc-interactive,
+.button-keyc-interactive,
+.span-keyc {
     color: var(--color-key-common);
 }
 
-.table-body-cell-keyc-interactive
-{
+.table-body-cell-keyc-interactive {
     cursor: pointer;
 }
 
-.table-body-cell-keyc-interactive:hover, .button-keyc-interactive:hover
-{
+.table-body-cell-keyc-interactive:hover,
+.button-keyc-interactive:hover {
     background-color: var(--color-key-common);
     color: white;
 }
 
 
-.table-body-cell-step-1
-{
+.table-body-cell-step-1 {
     color: var(--color-semi-step1);
 }
 
-.table-body-cell-step-3
-{
+.table-body-cell-step-3 {
     color: var(--color-semi-step3);
 }
 
-.table-body-cell-step-4
-{
+.table-body-cell-step-4 {
     color: var(--color-semi-step4);
 }
 
-.bolden
-{
-    font-family:"Arial Black"
+.bolden {
+    font-family: "Arial Black"
 }
 
-.header-bolden
-{
+.header-bolden {
     text-align: center;
     text-align-last: center;
     -moz-text-align-last: center;
-    font-family:"Arial Black";
+    font-family: "Arial Black";
 }
 
-select
-{
+select {
     cursor: pointer;
 }
 
-input
-{
+input {
     cursor: pointer;
 }
 
-.input-label
-{
+.input-label {
     cursor: pointer;
 }
 
-.input-label:disabled
-{
+.input-label:disabled {
     color: grey;
 }
 
-.chord_explorer_arpeggio, .scale_finder_found_notes
-{
+.chord_explorer_arpeggio,
+.scale_finder_found_notes {
     font-family: Arial, Helvetica, sans-serif;
     color: gray;
-    font-style:italic;
+    font-style: italic;
 }
 
-h3, header
-{
+h3,
+header {
     /*font-family: 'Times New Roman', Times, serif;*/
     text-align: center;
     font-size: 24px;
     margin-top: 0px;
 }
 
-.select-page
-{
+.select-page {
     font-family: 'Times New Roman', Times, serif;
     text-align: center;
     font-size: 24px;
 }
 
-footer
-{
+footer {
     text-align: center;
 }
 
-p
-{
+p {
     word-break: break-all;
     white-space: normal;
 }
 
 .chord-explorer-container {
-	display: grid;
-	grid-template-columns: [col1] 14% [col2] 14% [col3] 14% [col4] 14% [col5] 14% [col6] 14% [col7] 14%;
-	grid-gap: 10px;
-	grid-template-rows: [row1] 30% [row2] 30% [row3] 30%;
-	text-align: center;
+    display: grid;
+    grid-template-columns: [col1] 14% [col2] 14% [col3] 14% [col4] 14% [col5] 14% [col6] 14% [col7] 14%;
+    grid-gap: 10px;
+    grid-template-rows: [row1] 30% [row2] 30% [row3] 30%;
+    text-align: center;
     width: 30%;
     margin: auto;
 }
 
 .chord-explorer-grid-cell-2 {
-	grid-column: 5 / 7;
-	grid-row: 1;
+    grid-column: 5 / 7;
+    grid-row: 1;
 }
 
 .chord-explorer-grid-cell-3 {
-	grid-column: 2 / 5;
-	grid-row: 1;
+    grid-column: 2 / 5;
+    grid-row: 1;
 }
 
-.div-generatedchord
-{
+.div-generatedchord {
     margin-left: 35px;
 }
 
-.button-generatedchord
-{
+.button-generatedchord {
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 30px;
@@ -542,8 +526,8 @@ p
 
 /* from https://stackoverflow.com/questions/13694062/css-left-center-right-align-text-on-same-line */
 
-#options_chord_explorer, #options_chord_tester
-{
+#options_chord_explorer,
+#options_chord_tester {
     display: flex;
 }
 
@@ -551,10 +535,12 @@ p
     flex: 1;
     text-align: left;
 }
+
 .align-center {
     flex: 1;
     text-align: center;
 }
+
 .align-right {
     flex: 1;
     text-align: right;
@@ -562,16 +548,16 @@ p
 
 /* from https://codepen.io/tortoise10h/pen/WKXQVP, https://jsfiddle.net/k7fzdn80/1/ */
 
-.flex-container{
-	display: -webkit-box;
+.flex-container {
+    display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    flex-direction:row;
-    flex-wrap:wrap;
-    justify-content:center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 /* song generator */
@@ -590,7 +576,61 @@ p
     text-align: center;
 }
 
-.song-gen-tracks table, .song-gen-tracks th, .song-gen-tracks td {
+.song-gen-tracks table,
+.song-gen-tracks th,
+.song-gen-tracks td {
     border-collapse: collapse;
-    padding: 5px 15px 5px 15px;;
+    padding: 5px 15px 5px 15px;
+    ;
+}
+
+/* Custom Language Dropdown Styles */
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    min-width: 40px;
+    font-family: inherit;
+    user-select: none;
+}
+
+.custom-dropdown .selected {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 2px 4px 2px 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    min-width: 36px;
+}
+
+.custom-dropdown .dropdown-options {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    min-width: 36px;
+}
+
+.custom-dropdown .dropdown-option {
+    padding: 4px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.custom-dropdown .dropdown-option:hover {
+    background: #f0f0f0;
+}
+
+.custom-dropdown .selected span,
+.custom-dropdown .dropdown-option span {
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
 }

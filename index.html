@@ -101,16 +101,22 @@
     <button class="button-page" id="button_page_scale_finder">Find scales</button>
     <button class="button-page" id="button_page_song_generator">Generate a song</button>
     <span id="checkboxLanguageSpan" style='float: right;'>
-      <select id="languageSelect" name="languageSelect" style="height:28px; border-radius:5px; vertical-align:middle;">
-        <option value="en" data-flag="img/english_flag.png">
-          &#127468;&#127463;
-        </option>
-        <option value="fr" data-flag="img/french_flag.png">
-          &#127467;&#127479;
-        </option>
-      </select>
-      <img id="languageFlag" src="img/english_flag.png" alt="EN"
-        style="height:20px; vertical-align:middle; margin-left:4px;" />
+      <div id="customLanguageDropdown" class="custom-dropdown">
+        <div class="selected" id="selectedLanguage">
+          <img src="img/english_flag.png" alt="EN" style="height:20px; vertical-align:middle; margin-right:4px;" />
+          <span>EN</span>
+        </div>
+        <div class="dropdown-options" id="languageOptions" style="display:none;">
+          <div class="dropdown-option" data-lang="en">
+            <img src="img/english_flag.png" alt="EN" style="height:20px; vertical-align:middle; margin-right:4px;" />
+            <span>EN</span>
+          </div>
+          <div class="dropdown-option" data-lang="fr">
+            <img src="img/french_flag.png" alt="FR" style="height:20px; vertical-align:middle; margin-right:4px;" />
+            <span>FR</span>
+          </div>
+        </div>
+      </div>
     </span>
   </header>
 
