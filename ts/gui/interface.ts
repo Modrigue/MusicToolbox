@@ -130,7 +130,29 @@ window.onload = function () {
         selectInstrument.addEventListener("change", () => { selectInstrument.blur(); onInstrumentSelected(`song_generator_instrument_track${i}`) });
     }
 
-    // Custom language dropdown logic
+    // Generate language dropdown options programmatically
+    const languageOptions = document.getElementById("languageOptions");
+    if (languageOptions) {
+        languageOptions.innerHTML = "";
+        for (const lang of languages) {
+            const optionDiv = document.createElement("div");
+            optionDiv.className = "dropdown-option";
+            optionDiv.setAttribute("data-lang", lang);
+            const img = document.createElement("img");
+            img.src = `img/flags/flag_${lang.toUpperCase()}.png`;
+            img.alt = lang.toUpperCase();
+            img.style.height = "20px";
+            img.style.verticalAlign = "middle";
+            img.style.marginRight = "4px";
+            const span = document.createElement("span");
+            span.innerText = lang.toUpperCase();
+            optionDiv.appendChild(img);
+            optionDiv.appendChild(span);
+            languageOptions.appendChild(optionDiv);
+        }
+    }
+
+    // Custom language dropdown logic (must be after options are generated)
     const customDropdown = document.getElementById("customLanguageDropdown");
     const selectedDiv = document.getElementById("selectedLanguage");
     const optionsDiv = document.getElementById("languageOptions");
