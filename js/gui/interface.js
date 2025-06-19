@@ -1,6 +1,7 @@
 "use strict";
 let pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected = "";
+const languages = ["en", "es", "fr"];
 let hasAudio = false;
 let instrumentsLoaded = [];
 let instrumentsLoading = false;
@@ -25,14 +26,9 @@ window.onload = function () {
         languageSelect.addEventListener("change", () => {
             updateLocales();
             // Update flag image
-            if (languageSelect.value === "fr") {
-                languageFlag.src = "img/french_flag.png";
-                languageFlag.alt = "FR";
-            }
-            else {
-                languageFlag.src = "img/english_flag.png";
-                languageFlag.alt = "EN";
-            }
+            let lang = getLanguageISO(languageSelect.value);
+            languageFlag.src = `img/flags/flag_${lang.toUpperCase()}.png`;
+            languageFlag.alt = lang.toUpperCase();
         });
     }
     // pages
@@ -112,25 +108,30 @@ window.onload = function () {
         selectInstrument.addEventListener("change", () => { selectInstrument.blur(); onInstrumentSelected(`song_generator_instrument_track${i}`); });
     }
     // Custom language dropdown logic
-    var customDropdown = document.getElementById("customLanguageDropdown");
-    var selectedDiv = document.getElementById("selectedLanguage");
-    var optionsDiv = document.getElementById("languageOptions");
-    var optionItems = optionsDiv ? optionsDiv.getElementsByClassName("dropdown-option") : [];
-    if (customDropdown && selectedDiv && optionsDiv) {
+    const customDropdown = document.getElementById("customLanguageDropdown");
+    const selectedDiv = document.getElementById("selectedLanguage");
+    const optionsDiv = document.getElementById("languageOptions");
+    const optionItems = optionsDiv ? optionsDiv.getElementsByClassName("dropdown-option") : [];
+    if (customDropdown && selectedDiv && optionsDiv && optionItems) {
         selectedDiv.addEventListener("click", function (e) {
             e.stopPropagation();
-            optionsDiv.style.display = (optionsDiv.style.display === "block") ? "none" : "block";
+            if (optionsDiv)
+                optionsDiv.style.display = (optionsDiv.style.display === "block") ? "none" : "block";
         });
-        for (var i = 0; i < optionItems.length; i++) {
+        for (let i = 0; i < optionItems.length; i++) {
             optionItems[i].addEventListener("click", function () {
-                var lang = this.getAttribute("data-lang");
-                var img = this.querySelector("img").src;
-                var text = this.querySelector("span").innerText;
+                var _a, _b;
+                const lang = this.getAttribute("data-lang");
+                const img = (_a = this.querySelector("img")) === null || _a === void 0 ? void 0 : _a.src;
+                const text = (_b = this.querySelector("span")) === null || _b === void 0 ? void 0 : _b.innerText;
                 // Update selected
-                selectedDiv.querySelector("img").src = img;
-                selectedDiv.querySelector("img").alt = (lang === "fr") ? "FR" : "EN";
-                selectedDiv.querySelector("span").innerText = text;
-                optionsDiv.style.display = "none";
+                if (selectedDiv && img && text) {
+                    selectedDiv.querySelector("img").src = img;
+                    selectedDiv.querySelector("img").alt = getLanguageISO(lang).toUpperCase();
+                    selectedDiv.querySelector("span").innerText = text;
+                }
+                if (optionsDiv)
+                    optionsDiv.style.display = "none";
                 // Set language and update
                 window.selectedLanguage = lang;
                 updateLocales();
@@ -138,27 +139,22 @@ window.onload = function () {
         }
         // Close dropdown on outside click
         document.addEventListener("click", function () {
-            optionsDiv.style.display = "none";
+            if (optionsDiv)
+                optionsDiv.style.display = "none";
         });
     }
 };
 function initLanguage() {
     languageInitialized = false;
-    var defaultLang = parseCultureParameter();
-    var customDropdown = document.getElementById("customLanguageDropdown");
-    var selectedDiv = document.getElementById("selectedLanguage");
+    const defaultLang = parseCultureParameter();
+    const customDropdown = document.getElementById("customLanguageDropdown");
+    const selectedDiv = document.getElementById("selectedLanguage");
     if (customDropdown && selectedDiv) {
-        if (defaultLang == "fr") {
-            selectedDiv.querySelector("img").src = "img/french_flag.png";
-            selectedDiv.querySelector("img").alt = "FR";
-            selectedDiv.querySelector("span").innerText = "FR";
-            window.selectedLanguage = "fr";
-        } else {
-            selectedDiv.querySelector("img").src = "img/english_flag.png";
-            selectedDiv.querySelector("img").alt = "EN";
-            selectedDiv.querySelector("span").innerText = "EN";
-            window.selectedLanguage = "en";
-        }
+        let lang = getLanguageISO(defaultLang);
+        selectedDiv.querySelector("img").src = `img/flags/flag_${lang.toUpperCase()}.png`;
+        selectedDiv.querySelector("img").alt = lang.toUpperCase();
+        selectedDiv.querySelector("span").innerText = lang.toUpperCase();
+        window.selectedLanguage = lang;
     }
     document.title = getString("title"); // force update
     updateLocales();
@@ -734,13 +730,13 @@ function getSelectorIndexFromValue(selector, value) {
     }
     return index;
 }
-function getSelectedCulture() {
-    // Use the custom dropdown
-    var lang = window.selectedLanguage;
-    if (!lang) {
-        // fallback to English
-        lang = "en";
-    }
-    return (lang === "fr") ? "fr" : "int";
+function getLanguageISO(languageStr) {
+    let defaultLang = "en";
+    if (!languageStr)
+        return defaultLang;
+    let lang = languageStr;
+    if (languages.indexOf(lang) == -1)
+        lang = defaultLang;
+    return lang;
 }
 //# sourceMappingURL=interface.js.map

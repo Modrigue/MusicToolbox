@@ -5,6 +5,12 @@ const keyboardCharacters_int = ["⇧\\", "Z", "X", "C", "V", "B", "N", "M", ",",
     "A", "S", "D", "F", "G", "H", "J", "K", "L", "M", ";", "'",
     "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]",
     "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ")", "="];
+const keyboardCharacters_es = [
+    "<", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "-", // row 1
+    "A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ", "´", "ç", // row 2
+    "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "`", "+", // row 3
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "¡" // row 4
+];
 const keyboardCharacters_fr = ["<", "W", "X", "C", "V", "B", "N", ",", ";", ":", "!",
     "Q", "S", "D", "F", "G", "H", "J", "K", "L", "M", "ù", "*",
     "A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P", "^", "$",
@@ -12,6 +18,7 @@ const keyboardCharacters_fr = ["<", "W", "X", "C", "V", "B", "N", ",", ";", ":",
 // global dictionary
 const keyboardCharactersArrays = new Map();
 keyboardCharactersArrays.set("int", keyboardCharacters_int);
+keyboardCharactersArrays.set("es", keyboardCharacters_es);
 keyboardCharactersArrays.set("fr", keyboardCharacters_fr);
 let wScaleKeyboardKey = 0;
 let hScaleKeyboardKey = 0;

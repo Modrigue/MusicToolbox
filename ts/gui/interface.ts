@@ -2,6 +2,7 @@ let pagesArray: Array<string> =
     ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected: string = "";
 
+const languages: Array<string> = ["en", "es", "fr"];
 
 let hasAudio = false;
 let instrumentsLoaded: Array<number> = [];
@@ -34,14 +35,11 @@ window.onload = function () {
     if (languageSelect && languageFlag) {
         languageSelect.addEventListener("change", () => {
             updateLocales();
+
             // Update flag image
-            if (languageSelect.value === "fr") {
-                languageFlag.src = "img/french_flag.png";
-                languageFlag.alt = "FR";
-            } else {
-                languageFlag.src = "img/english_flag.png";
-                languageFlag.alt = "EN";
-            }
+            let lang = getLanguageISO(languageSelect.value);
+            languageFlag.src = `img/flags/flag_${lang.toUpperCase()}.png`;
+            languageFlag.alt = lang.toUpperCase();
         });
     }
 
@@ -131,17 +129,52 @@ window.onload = function () {
         const selectInstrument = <HTMLSelectElement>document.getElementById(`song_generator_instrument_track${i}`);
         selectInstrument.addEventListener("change", () => { selectInstrument.blur(); onInstrumentSelected(`song_generator_instrument_track${i}`) });
     }
+
+    // Custom language dropdown logic
+    const customDropdown = document.getElementById("customLanguageDropdown");
+    const selectedDiv = document.getElementById("selectedLanguage");
+    const optionsDiv = document.getElementById("languageOptions");
+    const optionItems = optionsDiv ? optionsDiv.getElementsByClassName("dropdown-option") : [];
+    if (customDropdown && selectedDiv && optionsDiv && optionItems) {
+        selectedDiv.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (optionsDiv) optionsDiv.style.display = (optionsDiv.style.display === "block") ? "none" : "block";
+        });
+        for (let i = 0; i < optionItems.length; i++) {
+            optionItems[i].addEventListener("click", function () {
+                const lang = this.getAttribute("data-lang");
+                const img = this.querySelector("img")?.src;
+                const text = this.querySelector("span")?.innerText;
+                // Update selected
+                if (selectedDiv && img && text) {
+                    selectedDiv.querySelector("img")!.src = img;
+                    selectedDiv.querySelector("img")!.alt = getLanguageISO(lang).toUpperCase();
+                    selectedDiv.querySelector("span")!.innerText = text;
+                }
+                if (optionsDiv) optionsDiv.style.display = "none";
+                // Set language and update
+                (window as any).selectedLanguage = lang;
+                updateLocales();
+            });
+        }
+        // Close dropdown on outside click
+        document.addEventListener("click", function () {
+            if (optionsDiv) optionsDiv.style.display = "none";
+        });
+    }
 }
 
 function initLanguage(): void {
     languageInitialized = false;
     const defaultLang: string = <string>parseCultureParameter();
-    const languageSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById('languageSelect');
-    const languageFlag: HTMLImageElement = <HTMLImageElement>document.getElementById('languageFlag');
-    if (languageSelect && languageFlag) {
-        languageSelect.value = (defaultLang == "fr") ? "fr" : "en";
-        languageFlag.src = (defaultLang == "fr") ? "img/french_flag.png" : "img/english_flag.png";
-        languageFlag.alt = (defaultLang == "fr") ? "FR" : "EN";
+    const customDropdown = document.getElementById("customLanguageDropdown");
+    const selectedDiv = document.getElementById("selectedLanguage");
+    if (customDropdown && selectedDiv) {
+        let lang = getLanguageISO(defaultLang);
+        selectedDiv.querySelector("img")!.src = `img/flags/flag_${lang.toUpperCase()}.png`;
+        selectedDiv.querySelector("img")!.alt = lang.toUpperCase();
+        selectedDiv.querySelector("span")!.innerText = lang.toUpperCase();
+        (window as any).selectedLanguage = lang;
     }
     document.title = getString("title"); // force update
     updateLocales();
@@ -867,4 +900,17 @@ function getSelectorIndexFromValue(selector: HTMLSelectElement, value: string): 
     }
 
     return index;
+}
+
+function getLanguageISO(languageStr: string): string {
+    let defaultLang = "en";
+
+    if (!languageStr)
+        return defaultLang;
+
+    let lang = languageStr;
+    if (languages.indexOf(lang) == -1)
+        lang = defaultLang;
+
+    return lang;
 }

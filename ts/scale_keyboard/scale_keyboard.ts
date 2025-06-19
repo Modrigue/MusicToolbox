@@ -1,19 +1,27 @@
 const nbKeysInRowsScaleKeyboard = [11, 12, 12, 12];
-const startRowsScaleKeyboard = [0, 2/3, 1/3, 0];
+const startRowsScaleKeyboard = [0, 2 / 3, 1 / 3, 0];
 
 const keyboardCharacters_int = ["⇧\\", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "\/",
-"A", "S", "D", "F", "G", "H", "J", "K", "L", "M", ";", "'",
-"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]",
-"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ")", "="];
+    "A", "S", "D", "F", "G", "H", "J", "K", "L", "M", ";", "'",
+    "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]",
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ")", "="];
+
+const keyboardCharacters_es = [
+    "<", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "-", // row 1
+    "A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ", "´", "ç", // row 2
+    "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "`", "+", // row 3
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "¡"  // row 4
+];
 
 const keyboardCharacters_fr = ["<", "W", "X", "C", "V", "B", "N", ",", ";", ":", "!",
-"Q", "S", "D", "F", "G", "H", "J", "K", "L", "M", "ù", "*",
-"A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P", "^", "$",
-"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="];
+    "Q", "S", "D", "F", "G", "H", "J", "K", "L", "M", "ù", "*",
+    "A", "Z", "E", "R", "T", "Y", "U", "I", "O", "P", "^", "$",
+    "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="];
 
 // global dictionary
 const keyboardCharactersArrays: Map<string, Array<string>> = new Map<string, Array<string>>();
 keyboardCharactersArrays.set("int", keyboardCharacters_int);
+keyboardCharactersArrays.set("es", keyboardCharacters_es);
 keyboardCharactersArrays.set("fr", keyboardCharacters_fr);
 
 let wScaleKeyboardKey = 0;
@@ -23,8 +31,7 @@ let mouseDownInScaleKeyboard = false;
 let posMouseInScaleKeyboard = -1;
 
 function updateScaleKeyboard(tonicValue: number, scaleValues: Array<number>,
-    startOctave: number, charIntervals: Array<number> = []): void
-{
+    startOctave: number, charIntervals: Array<number> = []): void {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_scale_keyboard");
 
     // keyboard
@@ -53,17 +60,15 @@ function updateScaleKeyboard(tonicValue: number, scaleValues: Array<number>,
     let xRowStartPrev = 0, xRowEndPrev = 0;
     let yRowStart = 0;
     let nbKeysInRow = 0;
-    for (let row = 4; row >= 1; row--)
-    {
+    for (let row = 4; row >= 1; row--) {
         nbKeysInRow = nbKeysInRowsScaleKeyboard[row - 1];
         xRowStart = wScaleKeyboardKey * startRowsScaleKeyboard[row - 1];
-        xRowEnd = xRowStart + nbKeysInRow*wScaleKeyboardKey;
-        yRowStart = hScaleKeyboardKey*(4 - row);
+        xRowEnd = xRowStart + nbKeysInRow * wScaleKeyboardKey;
+        yRowStart = hScaleKeyboardKey * (4 - row);
 
         let xRowStartCur = xRowStart;
         let xRowEndCur = xRowEnd;
-        if (row < 4)
-        {
+        if (row < 4) {
             xRowStartCur = Math.min(xRowStart, xRowStartPrev);
             xRowEndCur = Math.max(xRowEnd, xRowEndPrev);
         }
@@ -76,9 +81,8 @@ function updateScaleKeyboard(tonicValue: number, scaleValues: Array<number>,
         ctx.stroke();
 
         // vertical lines
-        for (let j = 0; j <= nbKeysInRow; j++) 
-        {
-            let x = xRowStart + j*wScaleKeyboardKey;
+        for (let j = 0; j <= nbKeysInRow; j++) {
+            let x = xRowStart + j * wScaleKeyboardKey;
             ctx.beginPath();
             ctx.moveTo(x, yRowStart);
             ctx.lineTo(x, yRowStart + hScaleKeyboardKey);
@@ -93,43 +97,41 @@ function updateScaleKeyboard(tonicValue: number, scaleValues: Array<number>,
     let y = yRowStart + hScaleKeyboardKey;
     ctx.beginPath();
     ctx.moveTo(xRowStart, y);
-    ctx.lineTo(xRowStart + nbKeysInRow*wScaleKeyboardKey, y);
+    ctx.lineTo(xRowStart + nbKeysInRow * wScaleKeyboardKey, y);
     ctx.stroke();
 
     const lang = getSelectedCulture();
     const keyboardCharactersArray = keyboardCharactersArrays.get(lang) as Array<string>;
-  
+
     // fill with selected scale notes
     const scaleNotesValues = getScaleNotesValues(tonicValue, scaleValues);
     const scaleValuesPositions = getScaleValuesPositions(scaleValues);
-    const noteValueMinOctave = 12*startOctave + noteValueMin;
-    for (let pos = 0; pos <= 46; pos++)
-    {
+    const noteValueMinOctave = 12 * startOctave + noteValueMin;
+    for (let pos = 0; pos <= 46; pos++) {
         const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[pos];
 
         // get note color
-        
+
         let colorNote = colorPianoNoteNormal;
         if (noteValue % 12 == tonicValue)
             colorNote = colorPianoNoteTonic;
-        
+
         const indexNote = scaleNotesValues.indexOf(noteValue % 12);
         if (charIntervals.indexOf(indexNote) >= 0)
             colorNote = colorPianoNoteChar; // characteristic note
 
         let pressed = (notesPressed.indexOf(noteValue) >= 0);
-        if (pressed)
-        {
+        if (pressed) {
             fillKey(pos, colorNote);
             colorNote = "white";
         }
-        
+
         // display character on key
         if (pos < keyboardCharactersArray.length)
             displayCharacterOnKey(pos, keyboardCharactersArray[pos], colorNote);
 
         // display note on key
-        if(noteValue <= noteValueMax)
+        if (noteValue <= noteValueMax)
             displayNoteOnKey(pos, getNoteNameWithOctave(noteValue), colorNote);
 
         // highlight characteristic notes keys
@@ -138,8 +140,7 @@ function updateScaleKeyboard(tonicValue: number, scaleValues: Array<number>,
     }
 
     // 2nd pass to highlight tonic notes keys
-    for (let pos = 0; pos <= 46; pos++)
-    {
+    for (let pos = 0; pos <= 46; pos++) {
         const noteValue = noteValueMinOctave + tonicValue + scaleValuesPositions[pos];
         if (noteValue % 12 == tonicValue)
             highlightKeyBorders(pos, colorPianoNoteTonic);
@@ -149,14 +150,13 @@ function updateScaleKeyboard(tonicValue: number, scaleValues: Array<number>,
 
 // key display functions
 
-function displayNoteOnKey(position: number, text: string, color: string): void
-{
+function displayNoteOnKey(position: number, text: string, color: string): void {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_scale_keyboard");
-    if (!canvas.getContext) 
+    if (!canvas.getContext)
         return;
-    
+
     let ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
-    
+
     ctx.fillStyle = color;
     const coords = getKeyCoordinates(position);
 
@@ -164,33 +164,31 @@ function displayNoteOnKey(position: number, text: string, color: string): void
     const lang = getSelectedCulture();
     let xShift = 0;
     let yShift = 0;
-    switch (lang)
-    {
+    switch (lang) {
         case "fr":
             ctx.font = "18px Arial";
-            xShift = -5*text.length;
+            xShift = -5 * text.length;
             yShift = -8;
             break;
 
         case "int":
         default:
             ctx.font = "18px Arial";
-            xShift = -5*text.length;
+            xShift = -5 * text.length;
             yShift = -8;
             break;
     }
-    
+
     ctx.fillText(text, coords[0] + xShift, coords[1] + hScaleKeyboardKey / 2 + yShift);
 }
 
-function displayCharacterOnKey(position: number, text: string, color: string): void
-{
+function displayCharacterOnKey(position: number, text: string, color: string): void {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_scale_keyboard");
-    if (!canvas.getContext) 
+    if (!canvas.getContext)
         return;
-    
+
     let ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
-    
+
     ctx.fillStyle = color;
     const coords = getKeyCoordinates(position);
 
@@ -198,33 +196,31 @@ function displayCharacterOnKey(position: number, text: string, color: string): v
     const lang = getSelectedCulture();
     let xShift = 0;
     let yShift = 0;
-    switch (lang)
-    {
+    switch (lang) {
         case "fr":
             ctx.font = "15px Times New Roman";
-            xShift = -4.5*text.length;
+            xShift = -4.5 * text.length;
             yShift = 16;
             break;
 
         case "int":
         default:
             ctx.font = "15px Times New Roman";
-            xShift = -4.5*text.length;
+            xShift = -4.5 * text.length;
             yShift = 16;
             break;
     }
-    
+
     ctx.fillText(text, coords[0] + xShift, coords[1] - hScaleKeyboardKey / 2 + yShift);
 }
 
-function highlightKeyBorders(position: number, color: string): void
-{
+function highlightKeyBorders(position: number, color: string): void {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_scale_keyboard");
-    if (!canvas.getContext) 
+    if (!canvas.getContext)
         return;
-    
+
     let ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
-    
+
     ctx.strokeStyle = color;
     const coords = getKeyCoordinates(position);
     const xC = coords[0];
@@ -232,64 +228,60 @@ function highlightKeyBorders(position: number, color: string): void
 
     ctx.beginPath();
 
-    ctx.moveTo(xC - wScaleKeyboardKey/2, yC - hScaleKeyboardKey/2);
-    ctx.lineTo(xC + wScaleKeyboardKey/2, yC - hScaleKeyboardKey/2);
+    ctx.moveTo(xC - wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2);
+    ctx.lineTo(xC + wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2);
     ctx.stroke();
 
-    ctx.lineTo(xC + wScaleKeyboardKey/2, yC + hScaleKeyboardKey/2);
+    ctx.lineTo(xC + wScaleKeyboardKey / 2, yC + hScaleKeyboardKey / 2);
     ctx.stroke();
 
-    ctx.lineTo(xC - wScaleKeyboardKey/2, yC + hScaleKeyboardKey/2);
+    ctx.lineTo(xC - wScaleKeyboardKey / 2, yC + hScaleKeyboardKey / 2);
     ctx.stroke();
 
-    ctx.lineTo(xC - wScaleKeyboardKey/2, yC - hScaleKeyboardKey/2);
+    ctx.lineTo(xC - wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2);
     ctx.stroke();
 
     ctx.closePath();
 }
 
-function fillKey(position: number, color: string): void
-{
+function fillKey(position: number, color: string): void {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_scale_keyboard");
-    if (!canvas.getContext) 
+    if (!canvas.getContext)
         return;
-    
+
     let ctx: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext("2d");
-    
+
     ctx.fillStyle = color;
     const coords = getKeyCoordinates(position);
     const xC = coords[0];
     const yC = coords[1];
 
     ctx.beginPath();
-    ctx.fillRect(xC - wScaleKeyboardKey/2, yC - hScaleKeyboardKey/2, wScaleKeyboardKey, hScaleKeyboardKey);
+    ctx.fillRect(xC - wScaleKeyboardKey / 2, yC - hScaleKeyboardKey / 2, wScaleKeyboardKey, hScaleKeyboardKey);
     ctx.closePath();
 }
 
 // get position corresponding key center coordinates
-function getKeyCoordinates(pos: number): [number, number]
-{
-    if(pos < 0)
+function getKeyCoordinates(pos: number): [number, number] {
+    if (pos < 0)
         return [-1, -1];
-    
+
     if (0 <= pos && pos <= 10)
-        return [wScaleKeyboardKey*(pos - 0  + startRowsScaleKeyboard[1 - 1] + 0.5), hScaleKeyboardKey*3.5]; // 1st row
+        return [wScaleKeyboardKey * (pos - 0 + startRowsScaleKeyboard[1 - 1] + 0.5), hScaleKeyboardKey * 3.5]; // 1st row
     else if (11 <= pos && pos <= 22)
-        return [wScaleKeyboardKey*(pos - 11 + startRowsScaleKeyboard[2 - 1] + 0.5), hScaleKeyboardKey*2.5]; // 2nd row
+        return [wScaleKeyboardKey * (pos - 11 + startRowsScaleKeyboard[2 - 1] + 0.5), hScaleKeyboardKey * 2.5]; // 2nd row
     else if (23 <= pos && pos <= 34)
-        return [wScaleKeyboardKey*(pos - 23 + startRowsScaleKeyboard[3 - 1] + 0.5), hScaleKeyboardKey*1.5]; // 3rd row
+        return [wScaleKeyboardKey * (pos - 23 + startRowsScaleKeyboard[3 - 1] + 0.5), hScaleKeyboardKey * 1.5]; // 3rd row
     else if (35 <= pos && pos <= 46)
-        return [wScaleKeyboardKey*(pos - 35 + startRowsScaleKeyboard[4 - 1] + 0.5), hScaleKeyboardKey*0.5]; // 4th row
+        return [wScaleKeyboardKey * (pos - 35 + startRowsScaleKeyboard[4 - 1] + 0.5), hScaleKeyboardKey * 0.5]; // 4th row
 
     return [-1, -1];
 }
 
-function getPositionFromInputKey(e: KeyboardEvent): number
-{    
+function getPositionFromInputKey(e: KeyboardEvent): number {
     let position = -999;
     //console.log(e.code);
-    switch (e.code)
-    {
+    switch (e.code) {
         // 1st row
         case "ShiftLeft":
         case "IntlBackslash":
@@ -362,7 +354,7 @@ function getPositionFromInputKey(e: KeyboardEvent): number
             break;
         case "Backslash":
             position = 22;
-            break;      
+            break;
 
         // 3rd row
         case "KeyQ":
@@ -401,7 +393,7 @@ function getPositionFromInputKey(e: KeyboardEvent): number
         case "BracketRight":
             position = 34;
             break;
-    
+
         // 4th row
         case "Digit1":
         case "Digit2":
@@ -412,10 +404,8 @@ function getPositionFromInputKey(e: KeyboardEvent): number
         case "Digit7":
         case "Digit8":
         case "Digit9":
-            for (let i = 1; i <= 9; i++)
-            {
-                if (e.code == `Digit${i}`)
-                {
+            for (let i = 1; i <= 9; i++) {
+                if (e.code == `Digit${i}`) {
                     position = 34 + i;
                     break;
                 }
@@ -436,8 +426,7 @@ function getPositionFromInputKey(e: KeyboardEvent): number
 }
 
 // build scale intervals positions values array
-function getScaleValuesPositions(scaleValues: Array<number>): Array<number>
-{
+function getScaleValuesPositions(scaleValues: Array<number>): Array<number> {
     let scaleValuesArray: Array<number> = [];
 
     if (scaleValues == null || scaleValues.length == 0)
@@ -448,8 +437,7 @@ function getScaleValuesPositions(scaleValues: Array<number>): Array<number>
 
     // if scale values starts with 0, the scale supports octave.
     // remove and push octave (value 12) at end of array.
-    if (scaleValuesToProcess[0] == 0)
-    {
+    if (scaleValuesToProcess[0] == 0) {
         scaleValuesToProcess.shift();
         scaleValuesToProcess.push(12);
     }
@@ -458,16 +446,13 @@ function getScaleValuesPositions(scaleValues: Array<number>): Array<number>
     scaleValuesArray.push(0);
     let curStartValue = 0;
     const nbValuesMax = 50;
-    for(let i = 1; i <= nbValuesMax; i++)
-    {
+    for (let i = 1; i <= nbValuesMax; i++) {
         // re-loop on scale values
-        if (i % nbValuesInScale == 0)
-        {
+        if (i % nbValuesInScale == 0) {
             curStartValue += scaleValuesToProcess[nbValuesInScale - 1];
             scaleValuesArray.push(curStartValue);
         }
-        else
-        {
+        else {
             const curValue = curStartValue + scaleValuesToProcess[(i - 1) % nbValuesInScale];
             scaleValuesArray.push(curValue);
         }
@@ -480,11 +465,9 @@ function getScaleValuesPositions(scaleValues: Array<number>): Array<number>
 ///////////////////////////////////// MOUSE PLAY //////////////////////////////
 
 
-function initScaleKeyboardMouseCallbacks()
-{
+function initScaleKeyboardMouseCallbacks() {
     let canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("scale_explorer_canvas_scale_keyboard");
-    canvas.addEventListener("mousedown", function(e)
-    {
+    canvas.addEventListener("mousedown", function (e) {
         if (!hasAudio)
             return;
 
@@ -500,10 +483,9 @@ function initScaleKeyboardMouseCallbacks()
         playScaleKeyboardNotePosition(position, true);
         mouseDownInScaleKeyboard = true;
     }, false);
-    
-    
-    canvas.addEventListener("mousemove", function(e)
-    {
+
+
+    canvas.addEventListener("mousemove", function (e) {
         if (!mouseDownInScaleKeyboard)
             return;
         if (!hasAudio)
@@ -516,7 +498,7 @@ function initScaleKeyboardMouseCallbacks()
         const position = getPositionFromMouse(canvas, e);
         if (position < 0 || posMouseInScaleKeyboard < 0)
             return;
-        
+
         let posMouseInScaleKeyboardCur = position;
         if (posMouseInScaleKeyboardCur == posMouseInScaleKeyboard) // nop if previously pressed
             return;
@@ -526,14 +508,13 @@ function initScaleKeyboardMouseCallbacks()
         playScaleKeyboardNotePosition(posMouseInScaleKeyboard, false);
         playScaleKeyboardNotePosition(posMouseInScaleKeyboardCur, true);
         posMouseInScaleKeyboard = posMouseInScaleKeyboardCur;
-        
+
     }, false);
 
-    canvas.addEventListener("mouseup", function(e)
-    {
+    canvas.addEventListener("mouseup", function (e) {
         if (!mouseDownInScaleKeyboard)
             return;
-        
+
         // stop pressed note     
         playScaleKeyboardNotePosition(posMouseInScaleKeyboard, false);
 
@@ -541,12 +522,11 @@ function initScaleKeyboardMouseCallbacks()
         mouseDownInScaleKeyboard = false;
     }, false);
 
-    canvas.addEventListener("mouseout", function(e)
-    {
+    canvas.addEventListener("mouseout", function (e) {
         // warning: duplicated code
         if (!mouseDownInScaleKeyboard)
             return;
-        
+
         // stop pressed note     
         playScaleKeyboardNotePosition(posMouseInScaleKeyboard, false);
 
@@ -555,8 +535,7 @@ function initScaleKeyboardMouseCallbacks()
     }, false);
 }
 
-function getPositionFromMouse(canvas: HTMLCanvasElement, e: MouseEvent): number
-{
+function getPositionFromMouse(canvas: HTMLCanvasElement, e: MouseEvent): number {
     const mouseCoords = getMousePositionInCanvas(canvas, e);
     //console.log("mouse down", mousePos.x, mousePos.y);
 
@@ -565,21 +544,20 @@ function getPositionFromMouse(canvas: HTMLCanvasElement, e: MouseEvent): number
 
     // get position given row
     let pos = -1;
-    switch(row)
-    {
+    switch (row) {
         case 1:
             pos = Math.floor(mouseCoords.x / wScaleKeyboardKey);
             pos = Math.min(pos, nbKeysInRowsScaleKeyboard[row - 1] - 1);
             break;
 
         case 2:
-            pos = Math.floor((mouseCoords.x - startRowsScaleKeyboard[row - 1]*wScaleKeyboardKey)/ wScaleKeyboardKey);
+            pos = Math.floor((mouseCoords.x - startRowsScaleKeyboard[row - 1] * wScaleKeyboardKey) / wScaleKeyboardKey);
             pos = Math.max(Math.min(pos, nbKeysInRowsScaleKeyboard[row - 1] - 1), 0);
             pos += 11;
             break;
 
         case 3:
-            pos = Math.floor((mouseCoords.x - startRowsScaleKeyboard[row - 1]*wScaleKeyboardKey)/ wScaleKeyboardKey);
+            pos = Math.floor((mouseCoords.x - startRowsScaleKeyboard[row - 1] * wScaleKeyboardKey) / wScaleKeyboardKey);
             pos = Math.max(Math.min(pos, nbKeysInRowsScaleKeyboard[row - 1] - 1), 0);
             pos += 23;
             break;
@@ -596,12 +574,11 @@ function getPositionFromMouse(canvas: HTMLCanvasElement, e: MouseEvent): number
 }
 
 // from https://stackoverflow.com/questions/1114465/getting-mouse-location-in-canvas
-function getMousePositionInCanvas(canvas: HTMLCanvasElement, e: any /* type? */)
-{
+function getMousePositionInCanvas(canvas: HTMLCanvasElement, e: any /* type? */) {
     var rect = canvas.getBoundingClientRect();
     return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
     };
 }
 
@@ -609,28 +586,26 @@ function getMousePositionInCanvas(canvas: HTMLCanvasElement, e: any /* type? */)
 ////////////////////////////////// KEYBOARD PLAY //////////////////////////////
 
 
-document.addEventListener('keydown', function(e)
-{
+document.addEventListener('keydown', function (e) {
     if (!hasAudio)
         return;
-  
+
     if (pageSelected != "page_scale_explorer")
         return;
 
     const position = getPositionFromInputKey(e);
     if (position < 0)
         return;
-  
+
     playScaleKeyboardNotePosition(position, true);
 }, false);
 
-document.addEventListener('keyup', function(e)
-{
+document.addEventListener('keyup', function (e) {
     if (!hasAudio)
         return;
     if (pageSelected != "page_scale_explorer")
         return;
-  
+
     const position = getPositionFromInputKey(e);
     if (position < 0)
         return;

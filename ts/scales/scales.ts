@@ -2,55 +2,55 @@
 const scaleFamiliesDict: Map<string, Array<number>> = new Map<string, Array<number>>();
 
 // 8 notes
-scaleFamiliesDict.set("8bebop_dom",      [0, 2, 4, 5, 7, 9, 10, 11]);
-scaleFamiliesDict.set("8bebop_maj",      [0, 2, 4, 5, 7, 8, 9, 11]);
+scaleFamiliesDict.set("8bebop_dom", [0, 2, 4, 5, 7, 9, 10, 11]);
+scaleFamiliesDict.set("8bebop_maj", [0, 2, 4, 5, 7, 8, 9, 11]);
 scaleFamiliesDict.set("8bebop_min_melo", [0, 2, 3, 5, 7, 8, 9, 11]);
-scaleFamiliesDict.set("8spanish",        [0, 1, 3, 4, 5, 6, 8, 10]);
-scaleFamiliesDict.set("8blues_3M7M",     [0, 3, 4, 5, 6, 7, 10, 11]);
-scaleFamiliesDict.set("8dim",            [0, 2, 3, 5, 6, 8, 9, 11]);
+scaleFamiliesDict.set("8spanish", [0, 1, 3, 4, 5, 6, 8, 10]);
+scaleFamiliesDict.set("8blues_3M7M", [0, 3, 4, 5, 6, 7, 10, 11]);
+scaleFamiliesDict.set("8dim", [0, 2, 3, 5, 6, 8, 9, 11]);
 
 // 7 notes
-scaleFamiliesDict.set("7major_nat",   [0, 2, 4, 5, 7, 9, 11]);
-scaleFamiliesDict.set("7minor_harm",  [0, 2, 3, 5, 7, 8, 11]);
-scaleFamiliesDict.set("7minor_melo",  [0, 2, 3, 5, 7, 9, 11]);
-scaleFamiliesDict.set("7major_harm",  [0, 2, 4, 5, 7, 8, 11]);
+scaleFamiliesDict.set("7major_nat", [0, 2, 4, 5, 7, 9, 11]);
+scaleFamiliesDict.set("7minor_harm", [0, 2, 3, 5, 7, 8, 11]);
+scaleFamiliesDict.set("7minor_melo", [0, 2, 3, 5, 7, 9, 11]);
+scaleFamiliesDict.set("7major_harm", [0, 2, 4, 5, 7, 8, 11]);
 scaleFamiliesDict.set("7major_2harm", [0, 1, 4, 5, 7, 8, 11]);
-scaleFamiliesDict.set("7major_neap",  [0, 1, 3, 5, 7, 9, 11]);
-scaleFamiliesDict.set("7minor_neap",  [0, 1, 3, 5, 7, 8, 11]);
-scaleFamiliesDict.set("7major_hung",  [0, 3, 4, 6, 7, 9, 10]);
-scaleFamiliesDict.set("7persian",     [0, 1, 4, 5, 6, 8, 11]);
+scaleFamiliesDict.set("7major_neap", [0, 1, 3, 5, 7, 9, 11]);
+scaleFamiliesDict.set("7minor_neap", [0, 1, 3, 5, 7, 8, 11]);
+scaleFamiliesDict.set("7major_hung", [0, 3, 4, 6, 7, 9, 10]);
+scaleFamiliesDict.set("7persian", [0, 1, 4, 5, 6, 8, 11]);
 scaleFamiliesDict.set("7verdi_enigm", [0, 1, 4, 6, 8, 10, 11]);
 scaleFamiliesDict.set("7theta_purvi", [0, 1, 4, 6, 7, 8, 11]);
-scaleFamiliesDict.set("7blues_3M",    [0, 3, 4, 5, 6, 7, 10]);
-scaleFamiliesDict.set("7blues_6M",    [0, 3, 5, 6, 7, 9, 10]);
+scaleFamiliesDict.set("7blues_3M", [0, 3, 4, 5, 6, 7, 10]);
+scaleFamiliesDict.set("7blues_6M", [0, 3, 5, 6, 7, 9, 10]);
 
 // 6 notes
-scaleFamiliesDict.set("6blues",        [0, 3, 5, 6, 7, 10]);
-scaleFamiliesDict.set("6strange",      [0, 2, 4, 6, 8, 10]);
-scaleFamiliesDict.set("6major_hexa",   [0, 2, 4, 5, 7, 9]);
-scaleFamiliesDict.set("6aug",          [0, 3, 4, 7, 8, 11]);
-scaleFamiliesDict.set("6bb_box",       [0, 2, 3, 5, 7, 9]);
-scaleFamiliesDict.set("6prom",         [0, 2, 4, 6, 9, 10]);
-scaleFamiliesDict.set("6prom_nap",     [0, 1, 4, 6, 9, 10]);
-scaleFamiliesDict.set("6tritone",      [0, 1, 4, 6, 7, 10]);
+scaleFamiliesDict.set("6blues", [0, 3, 5, 6, 7, 10]);
+scaleFamiliesDict.set("6strange", [0, 2, 4, 6, 8, 10]);
+scaleFamiliesDict.set("6major_hexa", [0, 2, 4, 5, 7, 9]);
+scaleFamiliesDict.set("6aug", [0, 3, 4, 7, 8, 11]);
+scaleFamiliesDict.set("6bb_box", [0, 2, 3, 5, 7, 9]);
+scaleFamiliesDict.set("6prom", [0, 2, 4, 6, 9, 10]);
+scaleFamiliesDict.set("6prom_nap", [0, 1, 4, 6, 9, 10]);
+scaleFamiliesDict.set("6tritone", [0, 1, 4, 6, 7, 10]);
 scaleFamiliesDict.set("6tritone_semi", [0, 1, 2, 6, 7, 8]);
-scaleFamiliesDict.set("6istrian",      [0, 1, 3, 4, 6, 7]);
-scaleFamiliesDict.set("6satie",        [0, 2, 3, 6, 7, 9]);
+scaleFamiliesDict.set("6istrian", [0, 1, 3, 4, 6, 7]);
+scaleFamiliesDict.set("6satie", [0, 2, 3, 6, 7, 9]);
 
 // 5 notes
-scaleFamiliesDict.set("5major_penta",     [0, 2, 4, 7, 9]);
-scaleFamiliesDict.set("5javanese",        [0, 4, 5, 7, 11]);
-scaleFamiliesDict.set("5pelog_bem",       [0, 1, 6, 7, 8]);
-scaleFamiliesDict.set("5pelog_barang",    [0, 2, 6, 7, 9]);
-scaleFamiliesDict.set("5jap_in",          [0, 1, 5, 7, 8]);
-scaleFamiliesDict.set("5jap_insen",       [0, 1, 5, 7, 10]);
-scaleFamiliesDict.set("5dom_penta",       [0, 2, 4, 7, 10]);
-scaleFamiliesDict.set("5min_harm_penta",  [0, 3, 5, 7, 11]);
-scaleFamiliesDict.set("5bartok_penta",    [0, 4, 6, 7, 10]);
-scaleFamiliesDict.set("5phryg6_penta",    [0, 1, 3, 7, 9]);
-scaleFamiliesDict.set("5majorb6_penta",   [0, 2, 4, 7, 8]);
+scaleFamiliesDict.set("5major_penta", [0, 2, 4, 7, 9]);
+scaleFamiliesDict.set("5javanese", [0, 4, 5, 7, 11]);
+scaleFamiliesDict.set("5pelog_bem", [0, 1, 6, 7, 8]);
+scaleFamiliesDict.set("5pelog_barang", [0, 2, 6, 7, 9]);
+scaleFamiliesDict.set("5jap_in", [0, 1, 5, 7, 8]);
+scaleFamiliesDict.set("5jap_insen", [0, 1, 5, 7, 10]);
+scaleFamiliesDict.set("5dom_penta", [0, 2, 4, 7, 10]);
+scaleFamiliesDict.set("5min_harm_penta", [0, 3, 5, 7, 11]);
+scaleFamiliesDict.set("5bartok_penta", [0, 4, 6, 7, 10]);
+scaleFamiliesDict.set("5phryg6_penta", [0, 1, 3, 7, 9]);
+scaleFamiliesDict.set("5majorb6_penta", [0, 2, 4, 7, 8]);
 scaleFamiliesDict.set("5blues_no4_penta", [0, 3, 6, 7, 10]);
-scaleFamiliesDict.set("5kepler",          [0, 1, 3, 4, 7]);
+scaleFamiliesDict.set("5kepler", [0, 1, 3, 4, 7]);
 
 // chromatic
 scaleFamiliesDict.set("12tet", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
@@ -105,7 +105,6 @@ scalesDict_int.set("7major_harm,4,diff:7major_nat;4", "Lydian ♭3 / Melodic min
 scalesDict_int.set("7major_harm,5,diff:7major_nat;5", "Zanjaran / Mixolydian ♭2 (5th mode)");
 scalesDict_int.set("7major_harm,6,diff:7major_nat;4", "Lydian augmented #2 (6th mode)");
 scalesDict_int.set("7major_harm,7,diff:7major_nat;7", "Locrian ♭♭7 (7th mode)");
-scalesDict_int.set("7major_harm,sep", "");
 scalesDict_int.set("7major_neap,1,diff:7minor_melo;1", "Neapolitan major");
 scalesDict_int.set("7major_neap,2", "Leading whole tone (2nd mode)");
 scalesDict_int.set("7major_neap,4,diff:7major_nat;4", "Lydian minor (4th mode)");
@@ -325,10 +324,109 @@ scalesDict_fr.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonique majeure 
 scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique phrygien ♮6");
 
 
+/////////////////////////////////// SPANISH ////////////////////////////////////
+
+const scalesDict_es: Map<string, string> = new Map<string, string>();
+scalesDict_es.set("12tet,1", "Cromática");
+scalesDict_es.set("7major_nat,1", "Mayor natural / Jónico");
+scalesDict_es.set("7major_nat,6,diff:7major_nat;1", "Menor natural / Eólico (6º modo)");
+scalesDict_es.set("7major_nat,2,diff:7major_nat;6", "Dórico (2º modo)");
+scalesDict_es.set("7major_nat,3,diff:7major_nat;6", "Frigio (3º modo)");
+scalesDict_es.set("7major_nat,4,diff:7major_nat;1", "Lidio (4º modo)");
+scalesDict_es.set("7major_nat,5,diff:7major_nat;1", "Mixolydio (5º modo)");
+scalesDict_es.set("7major_nat,7,diff:7major_nat;6", "Locrio (7º modo)");
+scalesDict_es.set("7minor_harm,1,diff:7major_nat;6", "Menor armónica");
+scalesDict_es.set("7minor_harm,2,diff:7major_nat;7", "Locrio ♮6 (2º modo)");
+scalesDict_es.set("7minor_harm,3,diff:7major_nat;1", "Jónico aumentado / Jónico #5 (3º modo)");
+scalesDict_es.set("7minor_harm,4,diff:7major_nat;2", "Menor rumano / Dórico ucraniano (4º modo)");
+scalesDict_es.set("7minor_harm,5,diff:7major_nat;3", "Frigio dominante / Frigio mayor (5º modo)");
+scalesDict_es.set("7minor_harm,6,diff:7major_nat;4", "Lidio #2 (6º modo)");
+scalesDict_es.set("7minor_harm,7,diff:7major_nat;7", "Ultra Locrio / Alterada ♭♭7 (7º modo)");
+scalesDict_es.set("7minor_melo,1,diff:7major_nat;6", "Menor melódica");
+scalesDict_es.set("7minor_melo,2,diff:7major_nat;6", "Dórico ♭2 / Frigio ♮6 (2º modo)");
+scalesDict_es.set("7minor_melo,3,diff:7major_nat;4", "Lidio aumentado / Lidio #5 (3º modo)");
+scalesDict_es.set("7minor_melo,4,diff:7major_nat;4", "Bartok / Lidio dominante (4º modo)");
+scalesDict_es.set("7minor_melo,5,diff:7major_nat;5", "Hindú / Mixolidio ♭6 (5º modo)");
+scalesDict_es.set("7minor_melo,6,diff:7major_nat;7", "Semidisminuido / Locrio ♮2 (6º modo)");
+scalesDict_es.set("7minor_melo,7,diff:7major_nat;7", "Super Locrio / Alterada (7º modo)");
+scalesDict_es.set("7major_2harm,1,diff:7major_nat;1", "Doble mayor armónica / Bizantino / Gitano");
+scalesDict_es.set("7major_2harm,2,diff:7major_nat;4", "Lidio #2 #6 (2º modo)");
+scalesDict_es.set("7major_2harm,3,diff:7major_nat;3", "Ultra frigio (3º modo)");
+scalesDict_es.set("7major_2harm,4,diff:7major_nat;6", "Menor húngaro (4º modo)");
+scalesDict_es.set("7major_2harm,5", "Oriental / Asiático (5º modo)");
+scalesDict_es.set("7major_2harm,6,diff:7major_nat;1", "Jónico aumentado #2 (6º modo)");
+scalesDict_es.set("7major_2harm,7,diff:7major_nat;7", "Locrio ♭♭3 ♭♭7 (7º modo)");
+scalesDict_es.set("7major_harm,1,diff:7major_nat;1", "Mayor armónica / Jónico ♭6");
+scalesDict_es.set("7major_harm,2,diff:7major_nat;2", "Nahawand Murassa' / Dórico ♭5 (2º modo)");
+scalesDict_es.set("7major_harm,3,diff:7major_nat;3", "Frigio ♭4 (3º modo)");
+scalesDict_es.set("7major_harm,4,diff:7major_nat;4", "Lidio ♭3 / Menor melódica #4 (4º modo)");
+scalesDict_es.set("7major_harm,5,diff:7major_nat;5", "Zanjaran / Mixolidio ♭2 (5º modo)");
+scalesDict_es.set("7major_harm,6,diff:7major_nat;4", "Lidio aumentado #2 (6º modo)");
+scalesDict_es.set("7major_harm,7,diff:7major_nat;7", "Locrio ♭♭7 (7º modo)");
+scalesDict_es.set("7major_neap,1,diff:7minor_melo;1", "Napolitano mayor");
+scalesDict_es.set("7major_neap,2", "Tonos en cabeza (2º modo)");
+scalesDict_es.set("7major_neap,4,diff:7major_nat;4", "Lidio menor (4º modo)");
+scalesDict_es.set("7major_neap,5,diff:7major_nat;7", "Árabe / Locrio mayor (5º modo)");
+scalesDict_es.set("7minor_neap,1,diff:7major_nat;6", "Napolitano menor");
+scalesDict_es.set("7minor_neap,2,diff:7major_nat;4", "Lidio #6 (2º modo)");
+scalesDict_es.set("7minor_neap,4", "Gitano húngaro (4º modo)");
+scalesDict_es.set("7persian,1,diff:7major_2harm;1", "Persa");
+scalesDict_es.set("7persian,4", "Todi theta (4º modo)");
+scalesDict_es.set("7major_hung,1", "Mayor húngaro");
+scalesDict_es.set("7verdi_enigm,1", "Enigmática de Verdi");
+scalesDict_es.set("8bebop_dom,1,diff:7major_nat;1", "Bebop dominante");
+scalesDict_es.set("8bebop_dom,2,diff:7major_nat;6", "Menor natural + Dórico (2º modo)");
+scalesDict_es.set("8bebop_dom,5,diff:7major_nat;2", "Bebop dórico / Bebop menor (5º modo)");
+scalesDict_es.set("8bebop_maj,1,diff:7major_nat;1", "Bebop majeur");
+scalesDict_es.set("8bebop_maj,2,diff:7major_nat;6", "Dórico + Blue note (2º modo)");
+scalesDict_es.set("8bebop_maj,7,diff:7minor_harm;1", "Bebop menor armónico (7º modo)");
+scalesDict_es.set("8bebop_min_melo,1,diff:7minor_melo;1", "Bebop menor melódico");
+scalesDict_es.set("8spanish,1", "Española");
+scalesDict_es.set("8dim,1", "Disminuida");
+scalesDict_es.set("8dim,2", "Dominante disminuida / Dom-dis (2º modo)");
+scalesDict_es.set("6blues,1,diff:5major_penta;5", "Blues / Penta. menor + Blue note");
+scalesDict_es.set("6strange,1", "Tonos / Extraño / Debussy");
+scalesDict_es.set("6aug,1", "Aumentada / Irlandesa / Escocesa");
+scalesDict_es.set("6aug,2", "6 tonos simétricos (2º modo)");
+scalesDict_es.set("6prom,1", "Prometeo / Místico");
+scalesDict_es.set("6prom,4", "Místico tritono (4º modo)");
+scalesDict_es.set("6major_hexa,1", "Hexatónica mayor");
+scalesDict_es.set("6prom_nap,1", "Prometeo napolitano");
+scalesDict_es.set("6tritone,1", "Triton / Petrouchka");
+scalesDict_es.set("6tritone_semi,1", "2 semitonos tritono");
+scalesDict_es.set("6istrian,1", "Istrio");
+scalesDict_es.set("5major_penta,1", "Pentatónica mayor / Mongol");
+scalesDict_es.set("5major_penta,5", "Pentatónica menor (5º modo)");
+scalesDict_es.set("5major_penta,2", "Egipcia / Suspendida (2º modo)");
+scalesDict_es.set("5major_penta,3", "Blues menor / Man gong (3º modo)");
+scalesDict_es.set("5major_penta,4", "Blues mayor / Yo / Ritsusen (4º modo)");
+scalesDict_es.set("5jap_in,1", "In / Miyako-Bushi");
+scalesDict_es.set("5jap_in,2", "Chino (2º modo)");
+scalesDict_es.set("5jap_in,3", "Hirajoshi / Tezeta (3º modo)");
+scalesDict_es.set("5jap_in,4", "Iwato (4º modo)");
+scalesDict_es.set("5jap_insen,1", "Insen");
+scalesDict_es.set("5jap_insen,4,diff:5major_penta;5", "Pentatónica menor ♭5 (4º modo)");
+scalesDict_es.set("5jap_insen,5", "Kumoi (5º modo)");
+scalesDict_es.set("5javanese,1", "Javanés / Ryu Kyu");
+scalesDict_es.set("5javanese,2", "Balinesa (2º modo)");
+scalesDict_es.set("5javanese,5", "Iwato bis (5º modo)");
+scalesDict_es.set("5pelog_barang,2", "Pentatónica Mixolidia / Hindú (2º modo)");
+scalesDict_es.set("5dom_penta,1,diff:5major_penta;1", "Pentatónica dominante");
+scalesDict_es.set("5dom_penta,4,diff:5major_penta;5", "Pentatónica dórica (4º modo)");
+scalesDict_es.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatónica menor armónica");
+scalesDict_es.set("5bartok_penta,1,diff:5major_penta;5", "Pentatónica Bartok");
+scalesDict_es.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatónica mayor ♭6");
+scalesDict_es.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatónica frigia ♮6");
+scalesDict_es.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
+scalesDict_es.set("5kepler,1", "Kepler");
+scalesDict_es.set("5others,sep", "");
+
+
 // global dictionary
-const scalesDicts: Map<string, Map<string, string>> = new Map<string,Map<string, string>>();
+const scalesDicts: Map<string, Map<string, string>> = new Map<string, Map<string, string>>();
 scalesDicts.set("int", scalesDict_int);
-scalesDicts.set("fr",  scalesDict_fr);
+scalesDicts.set("fr", scalesDict_fr);
+scalesDicts.set("es", scalesDict_es);
 
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
@@ -343,14 +441,12 @@ const scalesToHighlight: Array<string> = ["12tet,1",
     "24tet,1"
 ];
 
-function hightlightScale(id: string): boolean
-{
+function hightlightScale(id: string): boolean {
     if (scalesToHighlight.indexOf(id) != -1)
         return true;
 
     let found: boolean = false;
-    scalesToHighlight.forEach(function (idScale, index)
-    {
+    scalesToHighlight.forEach(function (idScale, index) {
         if (id.startsWith(idScale))
             found = true;
     });

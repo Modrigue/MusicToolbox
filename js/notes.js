@@ -55,6 +55,7 @@ notesDict_fr.set(11.5, "Si‡");
 // global dictionary
 const notesDicts = new Map();
 notesDicts.set("int", notesDict_int);
+notesDicts.set("es", notesDict_fr);
 notesDicts.set("fr", notesDict_fr);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 function GetNoteFromValue(noteValue) {

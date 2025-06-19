@@ -184,10 +184,104 @@ stringsDict_fr.set("welcome_instruments_not_loaded", "Pour activer l'audio, cliq
 stringsDict_fr.set("welcome_subtitle", "Que voulez-vous faire ?");
 stringsDict_fr.set("welcome_title", "Découvrez la Boîte à outils Musicale");
 
+// spanish
+const stringsDict_es: Map<string, string> = new Map<string, string>();
+stringsDict_es.set("arpeggio", "Arpegio");
+stringsDict_es.set("arpeggios", "Arpegios");
+stringsDict_es.set("arpeggios_progression", "Progresión de arpegios");
+stringsDict_es.set("audio_not_supported", "⚠ Las funciones de audio pueden no funcionar en su navegador web ⚠\nPuede usar Chrome, Edge o Brave para habilitar el audio en el sitio");
+stringsDict_es.set("bass", "Bajo");
+stringsDict_es.set("bass_chord_explorer", "Bajo:");
+stringsDict_es.set("bass+melody", "Bajo + melodía");
+stringsDict_es.set("chord", "Acorde");
+stringsDict_es.set("chord_explorer_nb_strings_max_text", "cuerdas tocadas");
+stringsDict_es.set("chord_neapolitan", "Acorde napolitano:");
+stringsDict_es.set("chords_progression", "Progresión de acordes");
+stringsDict_es.set("chords_aug_6th", "Acordes de sexta aumentada:");
+stringsDict_es.set("chords+melody", "Acordes + melodía");
+stringsDict_es.set("chords_N_notes", "Acordes de {%1} notas");
+stringsDict_es.set("chords_N_notes_all", "Todos los acordes de {%1} notas:");
+stringsDict_es.set("chords_quartal", "Acordes cuartales");
+stringsDict_es.set("chords", "Acordes");
+stringsDict_es.set("compositions", "Mis composiciones");
+stringsDict_es.set("counterpoint", "Contrapunto");
+stringsDict_es.set("export_to_scala", "Exportar a .scl");
+stringsDict_es.set("fretboard", "Guitarra");
+stringsDict_es.set("frequency", "Frecuencia:");
+stringsDict_es.set("generate", "Generar");
+stringsDict_es.set("generate_new_song", "Generar una nueva canción");
+stringsDict_es.set("generate_new_track", "Generar la nueva pista");
+stringsDict_es.set("guitar", "Guitarra");
+stringsDict_es.set("header_scale_finder", "Notas y acordes:");
+stringsDict_es.set("header_chord_explorer", "Nota y acorde:");
+stringsDict_es.set("keyboard", "Piano");
+stringsDict_es.set("instrument", "Instrumento:");
+stringsDict_es.set("instruments_load", "Cargar instrumento");
+stringsDict_es.set("instrument_loading", "Por favor espere mientras se carga el instrumento...");
+stringsDict_es.set("instruments_not_loaded", "No hay instrumentos cargados");
+stringsDict_es.set("intervals", "Intervalos");
+stringsDict_es.set("listen", "Escuchar");
+stringsDict_es.set("listen_backwards", "Escuchar al revés");
+stringsDict_es.set("melody", "Melodía");
+stringsDict_es.set("min_2_notes", "Se requieren al menos 2 notas");
+stringsDict_es.set("N_notes", "{%1} notas:");
+stringsDict_es.set("name", "Nombre:");
+stringsDict_es.set("nb_bars", "Compases:");
+stringsDict_es.set("nb_loops", "Bucles:");
+stringsDict_es.set("nb_notes_per_bar", "Notas / compás:");
+stringsDict_es.set("nb_strings", "Nº de cuerdas:");
+stringsDict_es.set("negative_scale", "Escala negativa:");
+stringsDict_es.set("no_result", "Sin resultados");
+stringsDict_es.set("notes", "Notas:");
+stringsDict_es.set("octave", "Octava:");
+stringsDict_es.set("page_chord_explorer", "Buscar acordes");
+stringsDict_es.set("page_chord_tester", "Probar acordes");
+stringsDict_es.set("page_experimental", "⚠ Esta página es experimental y está en desarrollo ⚠");
+stringsDict_es.set("page_scale_explorer", "Explorar escalas");
+stringsDict_es.set("page_scale_finder", "Buscar escalas compatibles");
+stringsDict_es.set("page_song_generator", "Generar una canción");
+stringsDict_es.set("play", "Tocar");
+stringsDict_es.set("play_arpeggio", "Tocar arpegio");
+stringsDict_es.set("play_arpeggios", "Tocar arpegios");
+stringsDict_es.set("play_backwards", "Tocar al revés");
+stringsDict_es.set("play_backwards_with_bass", "Tocar al revés con bajo");
+stringsDict_es.set("play_chords", "Tocar acordes");
+stringsDict_es.set("play_with_bass", "Tocar con bajo");
+stringsDict_es.set("position", "Posición:");
+stringsDict_es.set("positions_all", "Todas");
+stringsDict_es.set("quarter_tones", "¼ tonos");
+stringsDict_es.set("save", "Guardar");
+stringsDict_es.set("scales", "Escalas:");
+stringsDict_es.set("scales_compatible", "Escalas compatibles:");
+stringsDict_es.set("relative_scales", "Escalas relativas:");
+stringsDict_es.set("reset", "Restablecer");
+stringsDict_es.set("scale_explorer_keyboard_header", "Toca dentro de la tonalidad seleccionada con tu teclado");
+stringsDict_es.set("sequence", "Secuencia");
+stringsDict_es.set("select_key", "Tonalidad:");
+stringsDict_es.set("species", "especie");
+stringsDict_es.set("start", "Inicio:");
+stringsDict_es.set("start_from_octave", "Comenzar desde la octava:");
+stringsDict_es.set("show_barres", "Cejuela");
+stringsDict_es.set("show_common_chords_only", "Solo acordes comunes");
+stringsDict_es.set("show_empty_strings", "Cuerdas al aire");
+stringsDict_es.set("tempo", "Tempo:");
+stringsDict_es.set("time_signature", "Compás:");
+stringsDict_es.set("title", "Caja de herramientas musical");
+stringsDict_es.set("th", "º");
+stringsDict_es.set("tonic", "Tónica:");
+stringsDict_es.set("track", "Pista");
+stringsDict_es.set("tuning", "Afinación:");
+stringsDict_es.set("type", "Tipo:");
+stringsDict_es.set("welcome_instruments_loaded", "El audio está ahora activado");
+stringsDict_es.set("welcome_instruments_not_loaded", "Para activar el audio, haga clic en el botón de abajo o en la página 'Tocar'");
+stringsDict_es.set("welcome_subtitle", "¿Qué quieres hacer?");
+stringsDict_es.set("welcome_title", "Bienvenido a la Caja de herramientas musical");
+
 // global dictionary
 const stringsDicts: Map<string, Map<string, string>> = new Map<string, Map<string, string>>();
 stringsDicts.set("int", stringsDict_int);
 stringsDicts.set("fr", stringsDict_fr);
+stringsDicts.set("es", stringsDict_es);
 
 function getString(id: string, param: string = ""): string {
   const lang = getSelectedCulture();
@@ -258,9 +352,13 @@ function getScaleString(id: string): string {
 }
 
 function getSelectedCulture(): string {
-  const languageSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById("languageSelect");
-  const culture: string = (languageSelect && languageSelect.value === "fr") ? "fr" : "int";
-  return culture;
+  // Use the custom dropdown's selected language
+  const lang = getLanguageISO((window as any).selectedLanguage);
+
+  if (lang == "en")
+    return "int";
+
+  return lang;
 }
 
 // from https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript/196991#196991
