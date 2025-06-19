@@ -97,7 +97,7 @@ function displayNoteOnFretboard(id, i, j, text, color, nbStrings, xFretStep = xF
         const lang = getSelectedCulture();
         let xShift = 0;
         let yShift = 0;
-        if (lang == "fr" && !showIntervals) {
+        if (lang != "int" && !showIntervals) {
             ctx.font = "13px Arial";
             xShift = -9 - 2 * (text.length - 2);
             yShift = 4; //6;
