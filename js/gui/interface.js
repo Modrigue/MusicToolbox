@@ -130,10 +130,32 @@ window.onload = function () {
     }
     // Custom language dropdown logic (must be after options are generated)
     const customDropdown = document.getElementById("customLanguageDropdown");
-    const selectedDiv = document.getElementById("selectedLanguage");
-    const optionsDiv = document.getElementById("languageOptions");
-    const optionItems = optionsDiv ? optionsDiv.getElementsByClassName("dropdown-option") : [];
-    if (customDropdown && selectedDiv && optionsDiv && optionItems) {
+    if (customDropdown) {
+        // Remove any existing selected language div
+        const oldSelected = document.getElementById("selectedLanguage");
+        if (oldSelected)
+            oldSelected.remove();
+        // Create new selected language div
+        const selectedDiv = document.createElement("div");
+        selectedDiv.className = "selected";
+        selectedDiv.id = "selectedLanguage";
+        // Use language from URL parameter or fallback
+        const urlLang = getLanguageISO(parseCultureParameter() || 'en');
+        const img = document.createElement("img");
+        img.src = `img/flags/flag_${urlLang.toUpperCase()}.png`;
+        img.alt = urlLang.toUpperCase();
+        img.style.height = "20px";
+        img.style.verticalAlign = "middle";
+        img.style.marginRight = "4px";
+        const span = document.createElement("span");
+        span.innerText = urlLang.toUpperCase();
+        selectedDiv.appendChild(img);
+        selectedDiv.appendChild(span);
+        customDropdown.insertBefore(selectedDiv, customDropdown.firstChild);
+        window.selectedLanguage = urlLang;
+        // Attach event listeners for dropdown
+        const optionsDiv = document.getElementById("languageOptions");
+        const optionItems = optionsDiv ? optionsDiv.getElementsByClassName("dropdown-option") : [];
         selectedDiv.addEventListener("click", function (e) {
             e.stopPropagation();
             if (optionsDiv)
