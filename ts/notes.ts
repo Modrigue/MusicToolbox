@@ -59,6 +59,7 @@ const notesDicts: Map<string, Map<number, string>> = new Map<string, Map<number,
 notesDicts.set("int", notesDict_int);
 notesDicts.set("es", notesDict_fr);
 notesDicts.set("fr", notesDict_fr);
+notesDicts.set("it", notesDict_fr);
 
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////

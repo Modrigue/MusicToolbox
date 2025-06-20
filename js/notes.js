@@ -57,6 +57,7 @@ const notesDicts = new Map();
 notesDicts.set("int", notesDict_int);
 notesDicts.set("es", notesDict_fr);
 notesDicts.set("fr", notesDict_fr);
+notesDicts.set("it", notesDict_fr);
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
 function GetNoteFromValue(noteValue) {
     return (noteValue % 12);

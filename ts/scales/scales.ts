@@ -421,12 +421,59 @@ scalesDict_es.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
 scalesDict_es.set("5kepler,1", "Kepler");
 scalesDict_es.set("5others,sep", "");
 
+// Italian
+const scalesDict_it: Map<string, string> = new Map<string, string>();
+scalesDict_it.set("major", "Maggiore");
+scalesDict_it.set("minor", "Minore");
+scalesDict_it.set("harmonic_minor", "Minore armonica");
+scalesDict_it.set("melodic_minor", "Minore melodica");
+scalesDict_it.set("dorian", "Dorico");
+scalesDict_it.set("phrygian", "Frigio");
+scalesDict_it.set("lydian", "Lidio");
+scalesDict_it.set("mixolydian", "Misolidio");
+scalesDict_it.set("locrian", "Locrio");
+scalesDict_it.set("major_pentatonic", "Pentatonica maggiore");
+scalesDict_it.set("minor_pentatonic", "Pentatonica minore");
+scalesDict_it.set("blues", "Scala blues");
+scalesDict_it.set("chromatic", "Cromatica");
+scalesDict_it.set("whole_tone", "Toni interi");
+scalesDict_it.set("octatonic", "Ottatonica");
+scalesDict_it.set("enigmatic", "Enigmatica");
+scalesDict_it.set("double_harmonic", "Doppia armonica");
+scalesDict_it.set("hungarian_minor", "Minore ungherese");
+scalesDict_it.set("neapolitan_minor", "Minore napoletana");
+scalesDict_it.set("neapolitan_major", "Maggiore napoletana");
+scalesDict_it.set("persian", "Persiana");
+scalesDict_it.set("arabian", "Araba");
+scalesDict_it.set("byzantine", "Bizantina");
+scalesDict_it.set("flamenco", "Flamenco");
+scalesDict_it.set("gypsy", "Zingara");
+scalesDict_it.set("romanian", "Romena");
+scalesDict_it.set("hindu", "Indù");
+scalesDict_it.set("japanese", "Giapponese");
+scalesDict_it.set("oriental", "Orientale");
+scalesDict_it.set("spanish_8", "Spagnola a 8 note");
+scalesDict_it.set("spanish_6", "Spagnola a 6 note");
+scalesDict_it.set("superlocrian", "Superlocria");
+scalesDict_it.set("altered", "Alterata");
+scalesDict_it.set("bebop_major", "Bebop maggiore");
+scalesDict_it.set("bebop_minor", "Bebop minore");
+scalesDict_it.set("bebop_dominant", "Bebop dominante");
+scalesDict_it.set("bebop_dorian", "Bebop dorico");
+scalesDict_it.set("bebop_melodic_minor", "Bebop minore melodica");
+scalesDict_it.set("bebop_harmonic_minor", "Bebop minore armonica");
+scalesDict_it.set("bebop_locrian", "Bebop locria");
+scalesDict_it.set("bebop_lydian", "Bebop lidia");
+scalesDict_it.set("bebop_mixolydian", "Bebop misolidia");
+scalesDict_it.set("bebop_phrygian", "Bebop frigia");
+scalesDict_it.set("bebop_blues", "Bebop blues");
 
 // global dictionary
 const scalesDicts: Map<string, Map<string, string>> = new Map<string, Map<string, string>>();
 scalesDicts.set("int", scalesDict_int);
-scalesDicts.set("fr", scalesDict_fr);
 scalesDicts.set("es", scalesDict_es);
+scalesDicts.set("fr", scalesDict_fr);
+scalesDicts.set("it", scalesDict_it);
 
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
