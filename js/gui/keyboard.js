@@ -74,16 +74,15 @@ function displayNoteOnKeyboard(i, text, color, showQuarterTones = false) {
         let xShift = 0;
         let yShift = 0;
         switch (lang) {
-            case "fr":
-                ctx.font = "13px Arial";
-                xShift = -9 - 2 * (text.length - 2);
-                yShift = 4; //6;
-                break;
             case "int":
-            default:
                 ctx.font = "18px Arial";
                 xShift = (text.length == 2) ? -12 : -6;
                 yShift = 6;
+                break;
+            default:
+                ctx.font = "13px Arial";
+                xShift = -9 - 2 * (text.length - 2);
+                yShift = 4; //6;
                 break;
         }
         ctx.fillStyle = "white";

@@ -132,7 +132,6 @@ instrumentsDict_int.set(119, 'Synth Drum');
 //// global dictionary
 //const instrumentsDicts: Map<string, Map<number, string>> = new Map<string,Map<number, string>>();
 //instrumentsDicts.set("int", instrumentsDict_int);
-//instrumentsDicts.set("fr" , instrumentsDict_fr);
 const volumeRef = 80;
 const instrumentsVolumesDict = new Map();
 for (let i = 1; i <= 128; i++)

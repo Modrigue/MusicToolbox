@@ -129,19 +129,9 @@ function displayNoteOnKey(position, text, color) {
     const lang = getSelectedCulture();
     let xShift = 0;
     let yShift = 0;
-    switch (lang) {
-        case "fr":
-            ctx.font = "18px Arial";
-            xShift = -5 * text.length;
-            yShift = -8;
-            break;
-        case "int":
-        default:
-            ctx.font = "18px Arial";
-            xShift = -5 * text.length;
-            yShift = -8;
-            break;
-    }
+    ctx.font = "18px Arial";
+    xShift = -5 * text.length;
+    yShift = -8;
     ctx.fillText(text, coords[0] + xShift, coords[1] + hScaleKeyboardKey / 2 + yShift);
 }
 function displayCharacterOnKey(position, text, color) {
@@ -155,19 +145,9 @@ function displayCharacterOnKey(position, text, color) {
     const lang = getSelectedCulture();
     let xShift = 0;
     let yShift = 0;
-    switch (lang) {
-        case "fr":
-            ctx.font = "15px Times New Roman";
-            xShift = -4.5 * text.length;
-            yShift = 16;
-            break;
-        case "int":
-        default:
-            ctx.font = "15px Times New Roman";
-            xShift = -4.5 * text.length;
-            yShift = 16;
-            break;
-    }
+    ctx.font = "15px Times New Roman";
+    xShift = -4.5 * text.length;
+    yShift = 16;
     ctx.fillText(text, coords[0] + xShift, coords[1] - hScaleKeyboardKey / 2 + yShift);
 }
 function highlightKeyBorders(position, color) {

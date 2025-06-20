@@ -1,33 +1,33 @@
 const instrumentsDict_int: Map<number, string> = new Map<number, string>();
-instrumentsDict_int.set(  1, 'Acoustic Grand Piano');
-instrumentsDict_int.set(  2, 'Bright Acoustic Piano');
-instrumentsDict_int.set(  3, 'Electric Grand Piano');
-instrumentsDict_int.set(  4, 'HonkyTonk Piano');
+instrumentsDict_int.set(1, 'Acoustic Grand Piano');
+instrumentsDict_int.set(2, 'Bright Acoustic Piano');
+instrumentsDict_int.set(3, 'Electric Grand Piano');
+instrumentsDict_int.set(4, 'HonkyTonk Piano');
 //instrumentsDict_int.set(  5, 'Electric Piano 1');
 //instrumentsDict_int.set(  6, 'Electric Piano 2');
 //instrumentsDict_int.set(  7, 'Harpsichord');
 //instrumentsDict_int.set(  8, 'Clavinet');
 
-instrumentsDict_int.set(  9, 'Celesta');
-instrumentsDict_int.set( 10, 'Glockenspiel');
-instrumentsDict_int.set( 11, 'Music Box');
-instrumentsDict_int.set( 12, 'Vibraphone');
-instrumentsDict_int.set( 13, 'Marimba');
-instrumentsDict_int.set( 14, 'Xylophone');
-instrumentsDict_int.set( 15, 'Tubular Bells');
+instrumentsDict_int.set(9, 'Celesta');
+instrumentsDict_int.set(10, 'Glockenspiel');
+instrumentsDict_int.set(11, 'Music Box');
+instrumentsDict_int.set(12, 'Vibraphone');
+instrumentsDict_int.set(13, 'Marimba');
+instrumentsDict_int.set(14, 'Xylophone');
+instrumentsDict_int.set(15, 'Tubular Bells');
 //instrumentsDict_int.set( 16, 'Dulcimer');
 
 //instrumentsDict_int.set( 17, 'Drawbar Organ');
-instrumentsDict_int.set( 18, 'Percussive Organ');
-instrumentsDict_int.set( 19, 'Rock Organ');
-instrumentsDict_int.set( 20, 'Church Organ');
-instrumentsDict_int.set( 21, 'Reed Organ');
+instrumentsDict_int.set(18, 'Percussive Organ');
+instrumentsDict_int.set(19, 'Rock Organ');
+instrumentsDict_int.set(20, 'Church Organ');
+instrumentsDict_int.set(21, 'Reed Organ');
 //instrumentsDict_int.set( 22, 'Accordion');
 //instrumentsDict_int.set( 23, 'Harmonica');
-instrumentsDict_int.set( 24, 'Tango Accordion');
+instrumentsDict_int.set(24, 'Tango Accordion');
 
 //instrumentsDict_int.set( 25, 'Acoustic Guitar (Nylon)');
-instrumentsDict_int.set( 26, 'Acoustic Guitar (Steel)');
+instrumentsDict_int.set(26, 'Acoustic Guitar (Steel)');
 //instrumentsDict_int.set( 27, 'Electric Guitar (Jazz)');
 //instrumentsDict_int.set( 28, 'Electric Guitar (Clean)');
 //instrumentsDict_int.set( 29, 'Electric Guitar (Muted)');
@@ -35,12 +35,12 @@ instrumentsDict_int.set( 26, 'Acoustic Guitar (Steel)');
 //instrumentsDict_int.set( 31, 'Distortion Guitar');
 //instrumentsDict_int.set( 32, 'Guitar Harmonics');
 
-instrumentsDict_int.set( 33, 'Acoustic Bass');
+instrumentsDict_int.set(33, 'Acoustic Bass');
 //instrumentsDict_int.set( 34, 'Electric Bass (Finger)');
 //instrumentsDict_int.set( 35, 'Electric Bass (Pick)');
 //instrumentsDict_int.set( 36, 'Fretless Bass');
 //instrumentsDict_int.set( 37, 'Slap Bass 1');
-instrumentsDict_int.set( 38, 'Slap Bass 2');
+instrumentsDict_int.set(38, 'Slap Bass 2');
 //instrumentsDict_int.set( 39, 'Synth Bass 1');
 //instrumentsDict_int.set( 40, 'Synth Bass 2');
 
@@ -48,17 +48,17 @@ instrumentsDict_int.set( 38, 'Slap Bass 2');
 //instrumentsDict_int.set( 42, 'Viola');
 //instrumentsDict_int.set( 43, 'Cello');
 //instrumentsDict_int.set( 44, 'Contrabass');
-instrumentsDict_int.set( 45, 'Tremolo Strings');
-instrumentsDict_int.set( 46, 'Pizzicato Strings');
+instrumentsDict_int.set(45, 'Tremolo Strings');
+instrumentsDict_int.set(46, 'Pizzicato Strings');
 //instrumentsDict_int.set( 47, 'Orchestral Harp');
-instrumentsDict_int.set( 48, 'Timpani');
+instrumentsDict_int.set(48, 'Timpani');
 
 //instrumentsDict_int.set( 49, 'String Ensemble 1');
 //instrumentsDict_int.set( 50, 'String Ensemble 2');
-instrumentsDict_int.set( 51, 'Synth Strings 1');
+instrumentsDict_int.set(51, 'Synth Strings 1');
 //instrumentsDict_int.set( 52, 'Synth Strings 2');
-instrumentsDict_int.set( 53, 'Choir Aahs');
-instrumentsDict_int.set( 54, 'Voice Oohs');
+instrumentsDict_int.set(53, 'Choir Aahs');
+instrumentsDict_int.set(54, 'Voice Oohs');
 //instrumentsDict_int.set( 55, 'Synth Choir');
 //instrumentsDict_int.set( 56, 'Orchestra Hit');
 
@@ -95,20 +95,20 @@ instrumentsDict_int.set( 54, 'Voice Oohs');
 //instrumentsDict_int.set( 84, 'Lead 4 (Chiff)');
 //instrumentsDict_int.set( 85, 'Lead 5 (Charang)');
 //instrumentsDict_int.set( 86, 'Lead 6 (Voice)');
-instrumentsDict_int.set( 87, 'Lead 7 (Fifths)');
+instrumentsDict_int.set(87, 'Lead 7 (Fifths)');
 //instrumentsDict_int.set( 88, 'Lead 8 (Bass + Lead)');
 
-instrumentsDict_int.set( 89, 'Pad 1 (New age)');
-instrumentsDict_int.set( 90, 'Pad 2 (Warm)');
+instrumentsDict_int.set(89, 'Pad 1 (New age)');
+instrumentsDict_int.set(90, 'Pad 2 (Warm)');
 //instrumentsDict_int.set( 91, 'Pad 3 (Polysynth)');
 //instrumentsDict_int.set( 92, 'Pad 4 (Choir)');
-instrumentsDict_int.set( 93, 'Pad 5 (Bowed)');
+instrumentsDict_int.set(93, 'Pad 5 (Bowed)');
 //instrumentsDict_int.set( 94, 'Pad 6 (Metallic)');
 //instrumentsDict_int.set( 95, 'Pad 7 (Halo)');
-instrumentsDict_int.set( 96, 'Pad 8 (Sweep)');
+instrumentsDict_int.set(96, 'Pad 8 (Sweep)');
 
 //instrumentsDict_int.set( 97, 'FX 1 (Rain)');
-instrumentsDict_int.set( 98, 'FX 2 (Soundtrack)');
+instrumentsDict_int.set(98, 'FX 2 (Soundtrack)');
 //instrumentsDict_int.set( 99, 'FX 3 (Crystal)');
 //instrumentsDict_int.set(100, 'FX 4 (Atmosphere)');
 instrumentsDict_int.set(101, 'FX 5 (Brightness)');
@@ -150,32 +150,30 @@ instrumentsDict_int.set(119, 'Synth Drum');
 //// global dictionary
 //const instrumentsDicts: Map<string, Map<number, string>> = new Map<string,Map<number, string>>();
 //instrumentsDicts.set("int", instrumentsDict_int);
-//instrumentsDicts.set("fr" , instrumentsDict_fr);
 
 
 const volumeRef = 80;
 const instrumentsVolumesDict: Map<number, number> = new Map<number, number>();
 for (let i = 1; i <= 128; i++)
-    instrumentsVolumesDict.set(i, volumeRef*1.75); // default
+    instrumentsVolumesDict.set(i, volumeRef * 1.75); // default
 
-instrumentsVolumesDict.set(  1, volumeRef*0.9);     // Acoustic Grand Piano
-instrumentsVolumesDict.set( 19, volumeRef*2);       // Rock Organ
-instrumentsVolumesDict.set( 21, volumeRef*1);       // Reed Organ
-instrumentsVolumesDict.set( 46, volumeRef*3);       // Tremolo Strings
-instrumentsVolumesDict.set( 87, volumeRef*2.6);     // Lead 7 (Fifths)
-instrumentsVolumesDict.set( 98, volumeRef*3);       // FX 2 (Soundtrack)
-instrumentsVolumesDict.set(108, volumeRef*0.8);     // Koto
+instrumentsVolumesDict.set(1, volumeRef * 0.9);     // Acoustic Grand Piano
+instrumentsVolumesDict.set(19, volumeRef * 2);       // Rock Organ
+instrumentsVolumesDict.set(21, volumeRef * 1);       // Reed Organ
+instrumentsVolumesDict.set(46, volumeRef * 3);       // Tremolo Strings
+instrumentsVolumesDict.set(87, volumeRef * 2.6);     // Lead 7 (Fifths)
+instrumentsVolumesDict.set(98, volumeRef * 3);       // FX 2 (Soundtrack)
+instrumentsVolumesDict.set(108, volumeRef * 0.8);     // Koto
 
 
-function updateInstrumentSelector(id: string): void
-{
+function updateInstrumentSelector(id: string): void {
     // get selected culture
     const lang = getSelectedCulture();
 
     // get instrument selector
     const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(id);
     const initialized: boolean = (instrSelect.options != null && instrSelect.options.length > 0);
-    const instrDict : Map<number, string> = instrumentsDict_int; //<Map<number, string>>notesDicts.get(lang);
+    const instrDict: Map<number, string> = instrumentsDict_int; //<Map<number, string>>notesDicts.get(lang);
 
     //// if reset option set, remove all options
     //if (reset)
@@ -183,11 +181,9 @@ function updateInstrumentSelector(id: string): void
     //        instrSelect.firstChild.remove();
 
     // fill selector
-    if (!initialized /*|| reset*/)
-    {
+    if (!initialized /*|| reset*/) {
 
-        for (const [key, value] of instrDict)
-        {
+        for (const [key, value] of instrDict) {
 
             let option = document.createElement('option');
             option.value = key.toString();
@@ -195,20 +191,17 @@ function updateInstrumentSelector(id: string): void
             instrSelect.appendChild(option);
         }
     }
-    else
-    {
+    else {
         // update
         let index = 0
-        for (const [key, value] of instrDict)
-        {
+        for (const [key, value] of instrDict) {
             instrSelect.options[index].innerHTML = value;
             index++;
         }
     }
 }
 
-function onInstrumentSelected(selectorId: string)
-{
+function onInstrumentSelected(selectorId: string) {
     const instrSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById(selectorId);
     const instrId: number = parseInt(instrSelect.value);
 
@@ -220,8 +213,7 @@ function onInstrumentSelected(selectorId: string)
         updateSelectedInstrument(instrId, selectorId);
 }
 
-function updateSelectedInstrument(instrumentId: number, selectorId: string)
-{
+function updateSelectedInstrument(instrumentId: number, selectorId: string) {
     // update current instrument and volume
     const channelId = getChannelIdFromSelector(selectorId);
     //console.log(channelId, instrumentId);
@@ -230,15 +222,14 @@ function updateSelectedInstrument(instrumentId: number, selectorId: string)
 
     // update generated song track instrument if existing
     for (let i = 1; i <= 2; i++)
-    if (generatedMidi!= null && instrumentLoadingSelectorId == `song_generator_instrument_track${i}`)
-        generatedMidi.UpdateInstrument(i, instrumentId);
+        if (generatedMidi != null && instrumentLoadingSelectorId == `song_generator_instrument_track${i}`)
+            generatedMidi.UpdateInstrument(i, instrumentId);
 }
 
-function getChannelIdFromSelector(selectorId: string) : number
-{
+function getChannelIdFromSelector(selectorId: string): number {
     for (let i = 1; i <= 2; i++)
         if (selectorId == `song_generator_instrument_track${i}`)
-            return i;    
+            return i;
 
     return channelSE; // default
 }
