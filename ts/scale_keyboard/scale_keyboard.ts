@@ -37,7 +37,13 @@ const keyboardCharactersMap: { [lang: string]: string[] } = {
         "A", "S", "D", "F", "G", "H", "J", "K", "L", "Ö", "Ä", "#", // row 2
         "Q", "W", "E", "R", "T", "Z", "U", "I", "O", "P", "Ü", "+", // row 3
         "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "ß", "´"  // row 4
-    ]
+    ],
+    vn: [
+        "<", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "-", // row 1
+        "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "Đ", // row 2
+        "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ă", "^", // row 3
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", // row 4
+    ],
 };
 
 const keyboardCharactersArrays: Map<string, Array<string>> = new Map<string, Array<string>>();

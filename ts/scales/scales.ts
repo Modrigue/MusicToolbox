@@ -680,6 +680,101 @@ scalesDict_de.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonisch Dur ♭6
 scalesDict_de.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonisch phrygisch ♮6");
 
 
+////////////////////////////////// VIETNAMESE //////////////////////////////////
+
+const scalesDict_vn: Map<string, string> = new Map<string, string>();
+scalesDict_vn.set("12tet,1", "Sắc thái");
+scalesDict_vn.set("7major_nat,1", "Trưởng tự nhiên / Ionian");
+scalesDict_vn.set("7major_nat,6,diff:7major_nat;1", "Thứ tự nhiên / Aeolian (chế độ 6)");
+scalesDict_vn.set("7major_nat,2,diff:7major_nat;6", "Dorian (chế độ 2)");
+scalesDict_vn.set("7major_nat,3,diff:7major_nat;6", "Phrygian (chế độ 3)");
+scalesDict_vn.set("7major_nat,4,diff:7major_nat;1", "Lydian (chế độ 4)");
+scalesDict_vn.set("7major_nat,5,diff:7major_nat;1", "Mixolydian (chế độ 5)");
+scalesDict_vn.set("7major_nat,7,diff:7major_nat;6", "Locrian (chế độ 7)");
+scalesDict_vn.set("7minor_harm,1,diff:7major_nat;6", "Thứ hòa âm");
+scalesDict_vn.set("7minor_harm,2,diff:7major_nat;7", "Locrian ♮6 (chế độ 2)");
+scalesDict_vn.set("7minor_harm,3,diff:7major_nat;1", "Ionian tăng / Ionian #5 (chế độ 3)");
+scalesDict_vn.set("7minor_harm,4,diff:7major_nat;2", "Thứ Rumani / Dorian Ukraina (chế độ 4)");
+scalesDict_vn.set("7minor_harm,5,diff:7major_nat;3", "Phrygian dominant / Phrygian trưởng (chế độ 5)");
+scalesDict_vn.set("7minor_harm,6,diff:7major_nat;4", "Lydian #2 (chế độ 6)");
+scalesDict_vn.set("7minor_harm,7,diff:7major_nat;7", "Ultra Locrian / Altered ♭♭7 (chế độ 7)");
+scalesDict_vn.set("7minor_melo,1,diff:7major_nat;6", "Thứ giai điệu");
+scalesDict_vn.set("7minor_melo,2,diff:7major_nat;6", "Dorian ♭2 / Phrygian ♮6 (chế độ 2)");
+scalesDict_vn.set("7minor_melo,3,diff:7major_nat;4", "Lydian tăng / Lydian #5 (chế độ 3)");
+scalesDict_vn.set("7minor_melo,4,diff:7major_nat;4", "Bartok / Lydian dominant (chế độ 4)");
+scalesDict_vn.set("7minor_melo,5,diff:7major_nat;5", "Hindu / Mixolydian ♭6 (chế độ 5)");
+scalesDict_vn.set("7minor_melo,6,diff:7major_nat;7", "Bán giảm / Locrian ♮2 (chế độ 6)");
+scalesDict_vn.set("7minor_melo,7,diff:7major_nat;7", "Super Locrian / Altered (chế độ 7)");
+scalesDict_vn.set("7major_2harm,1,diff:7major_nat;1", "Trưởng kép hòa âm / Byzantine / Gypsy");
+scalesDict_vn.set("7major_2harm,2,diff:7major_nat;4", "Lydian #2 #6 (chế độ 2)");
+scalesDict_vn.set("7major_2harm,3,diff:7major_nat;3", "Ultra phrygian (chế độ 3)");
+scalesDict_vn.set("7major_2harm,4,diff:7major_nat;6", "Thứ Hungary (chế độ 4)");
+scalesDict_vn.set("7major_2harm,5", "Phương Đông / Châu Á (chế độ 5)");
+scalesDict_vn.set("7major_2harm,6,diff:7major_nat;1", "Ionian tăng #2 (chế độ 6)");
+scalesDict_vn.set("7major_2harm,7,diff:7major_nat;7", "Locrian ♭♭3 ♭♭7 (chế độ 7)");
+scalesDict_vn.set("7major_harm,1,diff:7major_nat;1", "Trưởng hòa âm / Ionian ♭6");
+scalesDict_vn.set("7major_harm,2,diff:7major_nat;2", "Nahawand Murassa' / Dorian ♭5 (chế độ 2)");
+scalesDict_vn.set("7major_harm,3,diff:7major_nat;3", "Phrygian ♭4 (chế độ 3)");
+scalesDict_vn.set("7major_harm,4,diff:7major_nat;4", "Lydian ♭3 / Thứ giai điệu #4 (chế độ 4)");
+scalesDict_vn.set("7major_harm,5,diff:7major_nat;5", "Zanjaran / Mixolydian ♭2 (chế độ 5)");
+scalesDict_vn.set("7major_harm,6,diff:7major_nat;4", "Lydian tăng #2 (chế độ 6)");
+scalesDict_vn.set("7major_harm,7,diff:7major_nat;7", "Locrian ♭♭7 (chế độ 7)");
+scalesDict_vn.set("7major_neap,1,diff:7minor_melo;1", "Trưởng Neapolitan");
+scalesDict_vn.set("7major_neap,2", "Nốt đầu (chế độ 2)");
+scalesDict_vn.set("7major_neap,4,diff:7major_nat;4", "Lydian thứ (chế độ 4)");
+scalesDict_vn.set("7major_neap,5,diff:7major_nat;7", "Ả Rập / Locrian trưởng (chế độ 5)");
+scalesDict_vn.set("7minor_neap,1,diff:7major_nat;6", "Thứ Neapolitan");
+scalesDict_vn.set("7minor_neap,2,diff:7major_nat;4", "Lydian #6 (chế độ 2)");
+scalesDict_vn.set("7minor_neap,4", "Gypsy Hungary (chế độ 4)");
+scalesDict_vn.set("7persian,1,diff:7major_2harm;1", "Ba Tư");
+scalesDict_vn.set("7persian,4", "Todi theta (chế độ 4)");
+scalesDict_vn.set("7major_hung,1", "Trưởng Hungary");
+scalesDict_vn.set("7verdi_enigm,1", "Verdi bí ẩn");
+scalesDict_vn.set("8bebop_dom,1,diff:7major_nat;1", "Bebop dominant");
+scalesDict_vn.set("8bebop_dom,2,diff:7major_nat;6", "Thứ tự nhiên + Dorian (chế độ 2)");
+scalesDict_vn.set("8bebop_dom,5,diff:7major_nat;2", "Bebop Dorian / Bebop thứ (chế độ 5)");
+scalesDict_vn.set("8bebop_maj,1,diff:7major_nat;1", "Bebop trưởng");
+scalesDict_vn.set("8bebop_maj,2,diff:7major_nat;6", "Dorian + Blue note (chế độ 2)");
+scalesDict_vn.set("8bebop_maj,7,diff:7minor_harm;1", "Bebop thứ hòa âm (chế độ 7)");
+scalesDict_vn.set("8bebop_min_melo,1,diff:7minor_melo;1", "Bebop thứ giai điệu");
+scalesDict_vn.set("8spanish,1", "Tây Ban Nha");
+scalesDict_vn.set("8dim,1", "Giảm");
+scalesDict_vn.set("8dim,2", "Dominant giảm / Dom-dim (chế độ 2)");
+scalesDict_vn.set("6blues,1,diff:5major_penta;5", "Blues / Penta. thứ + Blue note");
+scalesDict_vn.set("6strange,1", "Âm sắc / Lạ / Debussy");
+scalesDict_vn.set("6aug,1", "Tăng / Ireland / Scotland");
+scalesDict_vn.set("6aug,2", "6 âm đối xứng (chế độ 2)");
+scalesDict_vn.set("6prom,1", "Prometheus / Huyền bí");
+scalesDict_vn.set("6prom,4", "Huyền bí Tritone (chế độ 4)");
+scalesDict_vn.set("6major_hexa,1", "Hexatonic trưởng");
+scalesDict_vn.set("6prom_nap,1", "Prometheus Neapolitan");
+scalesDict_vn.set("6tritone,1", "Tritone / Petrouchka");
+scalesDict_vn.set("6tritone_semi,1", "2 bán cung Tritone");
+scalesDict_vn.set("6istrian,1", "Istrian");
+scalesDict_vn.set("5major_penta,1", "Ngũ cung trưởng / Mông Cổ");
+scalesDict_vn.set("5major_penta,5", "Ngũ cung thứ (chế độ 5)");
+scalesDict_vn.set("5major_penta,2", "Ai Cập / Treo (chế độ 2)");
+scalesDict_vn.set("5major_penta,3", "Blues thứ / Man gong (chế độ 3)");
+scalesDict_vn.set("5major_penta,4", "Blues trưởng / Yo / Ritsusen (chế độ 4)");
+scalesDict_vn.set("5jap_in,1", "In / Miyako-Bushi");
+scalesDict_vn.set("5jap_in,2", "Trung Quốc (chế độ 2)");
+scalesDict_vn.set("5jap_in,3", "Hirajoshi / Tezeta (chế độ 3)");
+scalesDict_vn.set("5jap_in,4", "Iwato (chế độ 4)");
+scalesDict_vn.set("5jap_insen,1", "Insen");
+scalesDict_vn.set("5jap_insen,4,diff:5major_penta;5", "Ngũ cung thứ ♭5 (chế độ 4)");
+scalesDict_vn.set("5jap_insen,5", "Kumoi (chế độ 5)");
+scalesDict_vn.set("5javanese,1", "Java / Ryu Kyu");
+scalesDict_vn.set("5javanese,2", "Bali (chế độ 2)");
+scalesDict_vn.set("5javanese,5", "Iwato bis (chế độ 5)");
+scalesDict_vn.set("5pelog_barang,2", "Ngũ cung Mixolydian / Hindu (chế độ 2)");
+scalesDict_vn.set("5dom_penta,1,diff:5major_penta;1", "Ngũ cung dominant");
+scalesDict_vn.set("5dom_penta,4,diff:5major_penta;5", "Ngũ cung Dorian (chế độ 4)");
+scalesDict_vn.set("5min_harm_penta,1,diff:5major_penta;5", "Ngũ cung thứ hòa âm");
+scalesDict_vn.set("5bartok_penta,1,diff:5major_penta;5", "Ngũ cung Bartok");
+scalesDict_vn.set("5majorb6_penta,1,diff:5major_penta;1", "Ngũ cung trưởng ♭6");
+scalesDict_vn.set("5phryg6_penta,1,diff:5major_penta;1", "Ngũ cung Phrygian ♮6");
+
+
 // global dictionary
 const scalesDicts: Map<string, Map<string, string>> = new Map<string, Map<string, string>>();
 scalesDicts.set("int", scalesDict_int);
@@ -688,6 +783,7 @@ scalesDicts.set("es", scalesDict_es);
 scalesDicts.set("fr", scalesDict_fr);
 scalesDicts.set("it", scalesDict_it);
 scalesDicts.set("pt", scalesDict_pt);
+scalesDicts.set("vn", scalesDict_vn);
 
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////

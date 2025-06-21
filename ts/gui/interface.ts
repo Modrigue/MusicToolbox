@@ -2,7 +2,7 @@ let pagesArray: Array<string> =
     ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected: string = "";
 
-const languages: Array<string> = ["en", "de", "es", "fr", "it", "pt"];
+const languages: Array<string> = ["en", "de", "es", "fr", "it", "pt", "vn"];
 
 let hasAudio = false;
 let instrumentsLoaded: Array<number> = [];

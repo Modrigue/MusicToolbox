@@ -62,6 +62,7 @@ notesDicts.set("es", notesDict_fr);
 notesDicts.set("fr", notesDict_fr);
 notesDicts.set("it", notesDict_fr);
 notesDicts.set("pt", notesDict_fr);
+notesDicts.set("vn", notesDict_int);
 
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
