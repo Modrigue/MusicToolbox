@@ -491,12 +491,108 @@ scalesDict_it.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonica majeure �
 scalesDict_it.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonica frigia ♮6");
 
 
+////////////////////////////////// PORTUGUESE //////////////////////////////////
+
+const scalesDict_pt: Map<string, string> = new Map<string, string>();
+scalesDict_pt.set("12tet,1", "Cromática");
+scalesDict_pt.set("7major_nat,1", "Maior natural / Jônio");
+scalesDict_pt.set("7major_nat,6,diff:7major_nat;1", "Menor natural / Eólio (6º modo)");
+scalesDict_pt.set("7major_nat,2,diff:7major_nat;6", "Dorico (2º modo)");
+scalesDict_pt.set("7major_nat,3,diff:7major_nat;6", "Frígio (3º modo)");
+scalesDict_pt.set("7major_nat,4,diff:7major_nat;1", "Lídio (4º modo)");
+scalesDict_pt.set("7major_nat,5,diff:7major_nat;1", "Mixolídio (5º modo)");
+scalesDict_pt.set("7major_nat,7,diff:7major_nat;6", "Lócrio (7º modo)");
+scalesDict_pt.set("7minor_harm,1,diff:7major_nat;6", "Menor harmônica");
+scalesDict_pt.set("7minor_harm,2,diff:7major_nat;7", "Lócrio ♮6 (2º modo)");
+scalesDict_pt.set("7minor_harm,3,diff:7major_nat;1", "Jônio aumentado / Jônio #5 (3º modo)");
+scalesDict_pt.set("7minor_harm,4,diff:7major_nat;2", "Menor romeno / Dórico ucraniano (4º modo)");
+scalesDict_pt.set("7minor_harm,5,diff:7major_nat;3", "Frígio dominante / Frígio maior (5º modo)");
+scalesDict_pt.set("7minor_harm,6,diff:7major_nat;4", "Lídio #2 (6º modo)");
+scalesDict_pt.set("7minor_harm,7,diff:7major_nat;7", "Ultra Lócrio / Alterada ♭♭7 (7º modo)");
+scalesDict_pt.set("7minor_melo,1,diff:7major_nat;6", "Menor melódica");
+scalesDict_pt.set("7minor_melo,2,diff:7major_nat;6", "Dorico ♭2 / Frígio ♮6 (2º modo)");
+scalesDict_pt.set("7minor_melo,3,diff:7major_nat;4", "Lídio aumentado / Lídio #5 (3º modo)");
+scalesDict_pt.set("7minor_melo,4,diff:7major_nat;4", "Bartok / Lídio dominante (4º modo)");
+scalesDict_pt.set("7minor_melo,5,diff:7major_nat;5", "Hindu / Mixolídio ♭6 (5º modo)");
+scalesDict_pt.set("7minor_melo,6,diff:7major_nat;7", "Semidiminuto / Lócrio ♮2 (6º modo)");
+scalesDict_pt.set("7minor_melo,7,diff:7major_nat;7", "Super Lócrio / Alterada (7º modo)");
+scalesDict_pt.set("7major_2harm,1,diff:7major_nat;1", "Duplo maior harmônico / Bizantino / Cigano");
+scalesDict_pt.set("7major_2harm,2,diff:7major_nat;4", "Lídio #2 #6 (2º modo)");
+scalesDict_pt.set("7major_2harm,3,diff:7major_nat;3", "Ultra frígio (3º modo)");
+scalesDict_pt.set("7major_2harm,4,diff:7major_nat;6", "Menor húngaro (4º modo)");
+scalesDict_pt.set("7major_2harm,5", "Oriental / Asiático (5º modo)");
+scalesDict_pt.set("7major_2harm,6,diff:7major_nat;1", "Ionico aumentado #2 (6º modo)");
+scalesDict_pt.set("7major_2harm,7,diff:7major_nat;7", "Lócrio ♭♭3 ♭♭7 (7º modo)");
+scalesDict_pt.set("7major_harm,1,diff:7major_nat;1", "Maior harmônico / Jônio ♭6");
+scalesDict_pt.set("7major_harm,2,diff:7major_nat;2", "Nahawand Murassa' / Dórico ♭5 (2º modo)");
+scalesDict_pt.set("7major_harm,3,diff:7major_nat;3", "Frígio ♭4 (3º modo)");
+scalesDict_pt.set("7major_harm,4,diff:7major_nat;4", "Lídio ♭3 / Menor melódica #4 (4º modo)");
+scalesDict_pt.set("7major_harm,5,diff:7major_nat;5", "Zanjaran / Mixolídio ♭2 (5º modo)");
+scalesDict_pt.set("7major_harm,6,diff:7major_nat;4", "Lídio aumentado #2 (6º modo)");
+scalesDict_pt.set("7major_harm,7,diff:7major_nat;7", "Lócrio ♭♭7 (7º modo)");
+scalesDict_pt.set("7major_neap,1,diff:7minor_melo;1", "Napolitano maior");
+scalesDict_pt.set("7major_neap,2", "Tons no topo (2º modo)");
+scalesDict_pt.set("7major_neap,4,diff:7major_nat;4", "Lídio menor (4º modo)");
+scalesDict_pt.set("7major_neap,5,diff:7major_nat;7", "Árabe / Lócrio maior (5º modo)");
+scalesDict_pt.set("7minor_neap,1,diff:7major_nat;6", "Napolitano menor");
+scalesDict_pt.set("7minor_neap,2,diff:7major_nat;4", "Lídio #6 (2º modo)");
+scalesDict_pt.set("7minor_neap,4", "Cigano húngaro (4º modo)");
+scalesDict_pt.set("7persian,1,diff:7major_2harm;1", "Persa");
+scalesDict_pt.set("7persian,4", "Todi theta (4º modo)");
+scalesDict_pt.set("7major_hung,1", "Maior húngaro");
+scalesDict_pt.set("7verdi_enigm,1", "Enigmática de Verdi");
+scalesDict_pt.set("8bebop_dom,1,diff:7major_nat;1", "Bebop dominante");
+scalesDict_pt.set("8bebop_dom,2,diff:7major_nat;6", "Menor natural + Dórico (2º modo)");
+scalesDict_pt.set("8bebop_dom,5,diff:7major_nat;2", "Bebop dórico / Bebop menor (5º modo)");
+scalesDict_pt.set("8bebop_maj,1,diff:7major_nat;1", "Bebop majeur");
+scalesDict_pt.set("8bebop_maj,2,diff:7major_nat;6", "Dorico + Blue note (2º modo)");
+scalesDict_pt.set("8bebop_maj,7,diff:7minor_harm;1", "Bebop menor harmônico (7º modo)");
+scalesDict_pt.set("8bebop_min_melo,1,diff:7minor_melo;1", "Bebop minore melódico");
+scalesDict_pt.set("8spanish,1", "Espanhola");
+scalesDict_pt.set("8dim,1", "Diminuta");
+scalesDict_pt.set("8dim,2", "Dominante diminuta / Dom-dim (2º modo)");
+scalesDict_pt.set("6blues,1,diff:5major_penta;5", "Blues / Penta. minore + Blue note");
+scalesDict_pt.set("6strange,1", "Tonos / Estranha / Debussy");
+scalesDict_pt.set("6aug,1", "Aumentada / Irlandesa / Escocesa");
+scalesDict_pt.set("6aug,2", "6 tons simétricos (2º modo)");
+scalesDict_pt.set("6prom,1", "Prometeu / Mística");
+scalesDict_pt.set("6prom,4", "Mística trítono (4º modo)");
+scalesDict_pt.set("6major_hexa,1", "Hexatônica maior");
+scalesDict_pt.set("6prom_nap,1", "Prometeu napoletano");
+scalesDict_pt.set("6tritone,1", "Trítono / Petrouchka");
+scalesDict_pt.set("6tritone_semi,1", "2 semitons trítono");
+scalesDict_pt.set("6istrian,1", "Istriano");
+scalesDict_pt.set("5major_penta,1", "Pentatônica maior / Mongol");
+scalesDict_pt.set("5major_penta,5", "Pentatônica menor (5º modo)");
+scalesDict_pt.set("5major_penta,2", "Egípcio / Suspensa (2º modo)");
+scalesDict_pt.set("5major_penta,3", "Blues mineur / Man gong (3º modo)");
+scalesDict_pt.set("5major_penta,4", "Blues majeur / Yo / Ritsusen (4º modo)");
+scalesDict_pt.set("5jap_in,1", "In / Miyako-Bushi");
+scalesDict_pt.set("5jap_in,2", "Chinês (2º modo)");
+scalesDict_pt.set("5jap_in,3", "Hirajoshi / Tezeta (3º modo)");
+scalesDict_pt.set("5jap_in,4", "Iwato (4º modo)");
+scalesDict_pt.set("5jap_insen,1", "Insen");
+scalesDict_pt.set("5jap_insen,4,diff:5major_penta;5", "Pentatônica menor ♭5 (4º modo)");
+scalesDict_pt.set("5jap_insen,5", "Kumoi (5º modo)");
+scalesDict_pt.set("5javanese,1", "Javanesa / Ryu Kyu");
+scalesDict_pt.set("5javanese,2", "Balinesa (2º modo)");
+scalesDict_pt.set("5javanese,5", "Iwato bis (5º modo)");
+scalesDict_pt.set("5pelog_barang,2", "Pentatônica mixolídia / Hindu (2º modo)");
+scalesDict_pt.set("5dom_penta,1,diff:5major_penta;1", "Pentatônica dominante");
+scalesDict_pt.set("5dom_penta,4,diff:5major_penta;5", "Pentatônica dórica (4º modo)");
+scalesDict_pt.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatônica menor harmônica");
+scalesDict_pt.set("5bartok_penta,1,diff:5major_penta;5", "Pentatônica Bartok");
+scalesDict_pt.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatônica majeure ♭6");
+scalesDict_pt.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatônica frígia ♮6");
+
+
 // global dictionary
 const scalesDicts: Map<string, Map<string, string>> = new Map<string, Map<string, string>>();
 scalesDicts.set("int", scalesDict_int);
 scalesDicts.set("es", scalesDict_es);
 scalesDicts.set("fr", scalesDict_fr);
 scalesDicts.set("it", scalesDict_it);
+scalesDicts.set("pt", scalesDict_pt);
 
 
 /////////////////////////////////// FUNCTIONS /////////////////////////////////
