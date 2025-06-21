@@ -1,2 +1,8 @@
 /.vscode
 /js_backup
+
+ts/scales/scale_to_translate.ts
+
+js/scales/scale_to_translate.js.map
+
+js/scales/scale_to_translate.js

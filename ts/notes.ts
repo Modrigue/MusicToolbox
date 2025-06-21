@@ -57,6 +57,7 @@ notesDict_fr.set(11.5, "Si‡");
 // global dictionary
 const notesDicts: Map<string, Map<number, string>> = new Map<string, Map<number, string>>();
 notesDicts.set("int", notesDict_int);
+notesDicts.set("de", notesDict_int);
 notesDicts.set("es", notesDict_fr);
 notesDicts.set("fr", notesDict_fr);
 notesDicts.set("it", notesDict_fr);

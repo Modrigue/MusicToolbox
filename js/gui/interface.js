@@ -1,7 +1,7 @@
 "use strict";
 let pagesArray = ["page_scale_explorer", "page_scale_finder", "page_chord_explorer", "page_chord_tester", "page_song_generator"];
 let pageSelected = "";
-const languages = ["en", "es", "fr", "it", "pt"];
+const languages = ["en", "de", "es", "fr", "it", "pt"];
 let hasAudio = false;
 let instrumentsLoaded = [];
 let instrumentsLoading = false;
