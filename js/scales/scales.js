@@ -158,7 +158,7 @@ scalesDict_int.set("5major_penta,3", "Blues minor / Man gong (3rd mode)");
 scalesDict_int.set("5major_penta,4", "Blues major / Yo / Ritsusen (4th mode)");
 scalesDict_int.set("5major_penta,sep", "");
 scalesDict_int.set("5jap_in,1", "In / Miyako-Bushi");
-scalesDict_int.set("5jap_in,2", "Chinese (2nd mode)");
+scalesDict_int.set("5jap_in,2", "Chinese / Lydian pentatonic (2nd mode)");
 scalesDict_int.set("5jap_in,3", "Hirajoshi / Tezeta (3rd mode)");
 scalesDict_int.set("5jap_in,4", "Iwato (4th mode)");
 scalesDict_int.set("5jap_in,sep", "");
@@ -178,8 +178,10 @@ scalesDict_int.set("5pelog_bem_sep", "");
 scalesDict_int.set("5dom_penta,1,diff:5major_penta;1", "Dominant Pentatonic");
 scalesDict_int.set("5dom_penta,4,diff:5major_penta;5", "Dorian Pentatonic (4th mode)");
 scalesDict_int.set("5dom_penta_sep", "");
-scalesDict_int.set("5min_harm_penta,1,diff:5major_penta;5", "Minor Harmonic Pentatonic");
 scalesDict_int.set("5bartok_penta,1,diff:5major_penta;5", "Bartok Pentatonic");
+scalesDict_int.set("5bartok_penta,4,diff:5major_penta;5", "Minor Melodic Pentatonic (4th mode)");
+scalesDict_int.set("5bartok_penta_sep", "");
+scalesDict_int.set("5min_harm_penta,1,diff:5major_penta;5", "Minor Harmonic Pentatonic");
 scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
 scalesDict_int.set("5majorb6_penta,1,diff:5major_penta;1", "Major Pentatonic ♭6");
 scalesDict_int.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
@@ -261,7 +263,7 @@ scalesDict_fr.set("5major_penta,2", "Egyptien / Suspendu (2e mode)");
 scalesDict_fr.set("5major_penta,3", "Blues mineur / Man gong (3e mode)");
 scalesDict_fr.set("5major_penta,4", "Blues majeur / Yo / Ritsusen (4e mode)");
 scalesDict_fr.set("5jap_in,1", "In / Miyako-Bushi");
-scalesDict_fr.set("5jap_in,2", "Chinois (2e mode)");
+scalesDict_fr.set("5jap_in,2", "Chinois / Pentatonique lydienne (2e mode)");
 scalesDict_fr.set("5jap_in,3", "Hirajoshi / Tezeta (3e mode)");
 scalesDict_fr.set("5jap_in,4", "Iwato (4e mode)");
 scalesDict_fr.set("5jap_insen,1", "Insen");
@@ -273,8 +275,9 @@ scalesDict_fr.set("5javanese,5", "Iwato bis (5e mode)");
 scalesDict_fr.set("5pelog_barang,2", "Pentatonique Mixolydien / Hindou (2e mode)");
 scalesDict_fr.set("5dom_penta,1,diff:5major_penta;1", "Pentatonique dominante");
 scalesDict_fr.set("5dom_penta,4,diff:5major_penta;5", "Pentatonique dorienne (4e mode)");
-scalesDict_fr.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonique Mineure Harmonique");
 scalesDict_fr.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonique Bartok");
+scalesDict_fr.set("5bartok_penta,4,diff:5major_penta;5", "Pentatonique Mineure Mélodique (4e mode)");
+scalesDict_fr.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonique Mineure Harmonique");
 scalesDict_fr.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonique majeure ♭6");
 scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique phrygien ♮6");
 /////////////////////////////////// SPANISH ////////////////////////////////////
@@ -365,8 +368,9 @@ scalesDict_es.set("5javanese,5", "Iwato bis (5º modo)");
 scalesDict_es.set("5pelog_barang,2", "Pentatónica Mixolidia / Hindú (2º modo)");
 scalesDict_es.set("5dom_penta,1,diff:5major_penta;1", "Pentatónica dominante");
 scalesDict_es.set("5dom_penta,4,diff:5major_penta;5", "Pentatónica dórica (4º modo)");
-scalesDict_es.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatónica menor armónica");
 scalesDict_es.set("5bartok_penta,1,diff:5major_penta;5", "Pentatónica Bartok");
+scalesDict_es.set("5bartok_penta,4,diff:5major_penta;5", "Pentatónica Menor Melódica (4º modo)");
+scalesDict_es.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatónica menor armónica");
 scalesDict_es.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatónica mayor ♭6");
 scalesDict_es.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatónica frigia ♮6");
 scalesDict_es.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
@@ -448,7 +452,7 @@ scalesDict_it.set("5major_penta,2", "Egiziana / Sospesa (2º modo)");
 scalesDict_it.set("5major_penta,3", "Blues minore / Man gong (3º modo)");
 scalesDict_it.set("5major_penta,4", "Blues maggiore / Yo / Ritsusen (4º modo)");
 scalesDict_it.set("5jap_in,1", "In / Miyako-Bushi");
-scalesDict_it.set("5jap_in,2", "Cinese (2º modo)");
+scalesDict_it.set("5jap_in,2", "Cinese / Pentatonica lidia (2º modo)");
 scalesDict_it.set("5jap_in,3", "Hirajoshi / Tezeta (3º modo)");
 scalesDict_it.set("5jap_in,4", "Iwato (4º modo)");
 scalesDict_it.set("5jap_insen,1", "Insen");
@@ -460,8 +464,9 @@ scalesDict_it.set("5javanese,5", "Iwato bis (5º modo)");
 scalesDict_it.set("5pelog_barang,2", "Pentatonica misolidia / Indù (2º modo)");
 scalesDict_it.set("5dom_penta,1,diff:5major_penta;1", "Pentatonica dominante");
 scalesDict_it.set("5dom_penta,4,diff:5major_penta;5", "Pentatonica dórica (4º modo)");
-scalesDict_it.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonica minore armonica");
 scalesDict_it.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonica Bartok");
+scalesDict_it.set("5bartok_penta,4,diff:5major_penta;5", "Pentatonica Minore Melodica (4º modo)");
+scalesDict_it.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonica minore armonica");
 scalesDict_it.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonica majeure ♭6");
 scalesDict_it.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonica frigia ♮6");
 ////////////////////////////////// PORTUGUESE //////////////////////////////////
@@ -552,8 +557,9 @@ scalesDict_pt.set("5javanese,5", "Iwato bis (5º modo)");
 scalesDict_pt.set("5pelog_barang,2", "Pentatônica mixolídia / Hindu (2º modo)");
 scalesDict_pt.set("5dom_penta,1,diff:5major_penta;1", "Pentatônica dominante");
 scalesDict_pt.set("5dom_penta,4,diff:5major_penta;5", "Pentatônica dórica (4º modo)");
-scalesDict_pt.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatônica menor harmônica");
 scalesDict_pt.set("5bartok_penta,1,diff:5major_penta;5", "Pentatônica Bartok");
+scalesDict_pt.set("5bartok_penta,4,diff:5major_penta;5", "Pentatônica Menor Melódica (4º modo)");
+scalesDict_pt.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatônica menor harmônica");
 scalesDict_pt.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatônica majeure ♭6");
 scalesDict_pt.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatônica frígia ♮6");
 ////////////////////////////////// GERMAN //////////////////////////////////
@@ -644,8 +650,9 @@ scalesDict_de.set("5javanese,5", "Iwato bis (5. Modus)");
 scalesDict_de.set("5pelog_barang,2", "Pentatonisch Mixolydisch / Hindu (2. Modus)");
 scalesDict_de.set("5dom_penta,1,diff:5major_penta;1", "Pentatonisch dominant");
 scalesDict_de.set("5dom_penta,4,diff:5major_penta;5", "Pentatonisch dorisch (4. Modus)");
-scalesDict_de.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonisch harmonisch Moll");
 scalesDict_de.set("5bartok_penta,1,diff:5major_penta;5", "Pentatonisch Bartok");
+scalesDict_de.set("5bartok_penta,4,diff:5major_penta;5", "Pentatonisch Melodisch Moll (4. Modus)");
+scalesDict_de.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonisch harmonisch Moll");
 scalesDict_de.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonisch Dur ♭6");
 scalesDict_de.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonisch phrygisch ♮6");
 ////////////////////////////////// VIETNAMESE //////////////////////////////////
@@ -736,8 +743,9 @@ scalesDict_vn.set("5javanese,5", "Iwato bis (chế độ 5)");
 scalesDict_vn.set("5pelog_barang,2", "Ngũ cung Mixolydian / Hindu (chế độ 2)");
 scalesDict_vn.set("5dom_penta,1,diff:5major_penta;1", "Ngũ cung dominant");
 scalesDict_vn.set("5dom_penta,4,diff:5major_penta;5", "Ngũ cung Dorian (chế độ 4)");
-scalesDict_vn.set("5min_harm_penta,1,diff:5major_penta;5", "Ngũ cung thứ hòa âm");
 scalesDict_vn.set("5bartok_penta,1,diff:5major_penta;5", "Ngũ cung Bartok");
+scalesDict_vn.set("5bartok_penta,4,diff:5major_penta;5", "Ngũ cung Thứ giai điệu (chế độ 4)");
+scalesDict_vn.set("5min_harm_penta,1,diff:5major_penta;5", "Ngũ cung thứ hòa âm");
 scalesDict_vn.set("5majorb6_penta,1,diff:5major_penta;1", "Ngũ cung trưởng ♭6");
 scalesDict_vn.set("5phryg6_penta,1,diff:5major_penta;1", "Ngũ cung Phrygian ♮6");
 // global dictionary
@@ -756,7 +764,7 @@ const scalesToHighlight = ["12tet,1",
     "7bayati,1", "7hardino,1", "7hijaz,1", "7rast,1", "7mahur", "7mustaar", "7saba", "7sikah_baladi,1",
     "8bebop_dom,1", "8bebop_maj,1", "8dim,1", "8harmonic_approx",
     "6blues,1", "6strange,1", "6aug,1", "6prom,1",
-    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1",
+    "5major_penta,1", "5major_penta,5", "5jap_in,1", "5jap_insen,1", "5javanese,1", "5pelog_barang,1", "5dom_penta,1", "5bartok_penta,1", "5min_harm_penta,1", "5majorb6_penta,1", "5phryg6_penta,1",
     "24tet,1"
 ];
 function hightlightScale(id) {
