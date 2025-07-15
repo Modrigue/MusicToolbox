@@ -50,6 +50,7 @@ scaleFamiliesDict.set("5bartok_penta", [0, 4, 6, 7, 10]);
 scaleFamiliesDict.set("5phryg6_penta", [0, 1, 3, 7, 9]);
 scaleFamiliesDict.set("5majorb6_penta", [0, 2, 4, 7, 8]);
 scaleFamiliesDict.set("5blues_no4_penta", [0, 3, 6, 7, 10]);
+scaleFamiliesDict.set("5whole_tone_penta", [0, 4, 6, 8, 10]);
 scaleFamiliesDict.set("5kepler", [0, 1, 3, 4, 7]);
 
 // chromatic
@@ -199,6 +200,7 @@ scalesDict_int.set("5bartok_penta_sep", "");
 scalesDict_int.set("5min_harm_penta,1,diff:5major_penta;5", "Minor Harmonic Pentatonic");
 scalesDict_int.set("5phryg6_penta,1,diff:5major_penta;1", "Phrygian Pentatonic ♮6");
 scalesDict_int.set("5majorb6_penta,1,diff:5major_penta;1", "Major Pentatonic ♭6");
+scalesDict_int.set("5whole_tone_penta,1", "Whole Tone Pentatonic");
 scalesDict_int.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
 scalesDict_int.set("5kepler,1", "Kepler");
 scalesDict_int.set("5others,sep", "");
@@ -298,6 +300,7 @@ scalesDict_fr.set("5bartok_penta,4,diff:5major_penta;5", "Pentatonique Mineure M
 scalesDict_fr.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonique Mineure Harmonique");
 scalesDict_fr.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonique majeure ♭6");
 scalesDict_fr.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonique phrygien ♮6");
+scalesDict_fr.set("5whole_tone_penta,1", "Pentatonique tonique 6 tons");
 
 
 /////////////////////////////////// SPANISH ////////////////////////////////////
@@ -394,6 +397,7 @@ scalesDict_es.set("5bartok_penta,4,diff:5major_penta;5", "Pentatónica menor mel
 scalesDict_es.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatónica menor armónica");
 scalesDict_es.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatónica mayor ♭6");
 scalesDict_es.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatónica frigia ♮6");
+scalesDict_es.set("5whole_tone_penta,1", "Pentatónica 6 tonos");
 scalesDict_es.set("5blues_no4_penta,1,diff:5major_penta;5", "Blues no4");
 scalesDict_es.set("5kepler,1", "Kepler");
 scalesDict_es.set("5others,sep", "");
@@ -493,6 +497,7 @@ scalesDict_it.set("5bartok_penta,4,diff:5major_penta;5", "Pentatonica Minore Mel
 scalesDict_it.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonica minore armonica");
 scalesDict_it.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonica majeure ♭6");
 scalesDict_it.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonica frigia ♮6");
+scalesDict_it.set("5whole_tone_penta,1", "Pentatonica 6 toni");
 
 
 ////////////////////////////////// PORTUGUESE //////////////////////////////////
@@ -589,6 +594,7 @@ scalesDict_pt.set("5bartok_penta,4,diff:5major_penta;5", "Pentatônica Menor Mel
 scalesDict_pt.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatônica menor harmônica");
 scalesDict_pt.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatônica majeure ♭6");
 scalesDict_pt.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatônica frígia ♮6");
+scalesDict_pt.set("5whole_tone_penta,1", "Pentatônica 6 tons");
 
 
 ////////////////////////////////// GERMAN //////////////////////////////////
@@ -685,6 +691,7 @@ scalesDict_de.set("5bartok_penta,4,diff:5major_penta;5", "Pentatonisch melodisch
 scalesDict_de.set("5min_harm_penta,1,diff:5major_penta;5", "Pentatonisch harmonisch moll");
 scalesDict_de.set("5majorb6_penta,1,diff:5major_penta;1", "Pentatonisch dur ♭6");
 scalesDict_de.set("5phryg6_penta,1,diff:5major_penta;1", "Pentatonisch phrygisch ♮6");
+scalesDict_de.set("5whole_tone_penta,1", "Pentatonisch 6 Töne");
 
 
 ////////////////////////////////// VIETNAMESE //////////////////////////////////
@@ -781,6 +788,7 @@ scalesDict_vn.set("5bartok_penta,4,diff:5major_penta;5", "Ngũ cung Thứ giai �
 scalesDict_vn.set("5min_harm_penta,1,diff:5major_penta;5", "Ngũ cung thứ hòa âm");
 scalesDict_vn.set("5majorb6_penta,1,diff:5major_penta;1", "Ngũ cung trưởng ♭6");
 scalesDict_vn.set("5phryg6_penta,1,diff:5major_penta;1", "Ngũ cung Phrygian ♮6");
+scalesDict_vn.set("5whole_tone_penta,1", "Ngũ cung 6 âm đối xứng");
 
 
 // global dictionary
